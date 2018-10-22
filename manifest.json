@@ -5,13 +5,13 @@
   "name": "__MSG_extensionName__",
   "description": "__MSG_extensionDescription__",
   "version": "3.70",
-  "author": "Olivier de Broqueville, Geoffrey De Belie",
+  "author": "Olivier de Broqueville",
   "applications": {
     "gecko": {
         "id": "olivier.debroqueville@gmail.com"
     }
   },
-  "content_security_policy" : "script-src 'self'; object-src 'self'; img-src 'self' https://get-favicons.herokuapp.com/*",
+  "content_security_policy" : "script-src 'self'; object-src 'self'; img-src 'self' https://get-favicons-node.herokuapp.com/*",
 
   "background": {
       "scripts": [
@@ -52,11 +52,8 @@
 
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": [
-        "scripts/selection.js", 
-        "scripts/sort.js"
-      ]
+      "matches": ["*://*/*"],
+      "js": ["scripts/selection.js", "scripts/sort.js"]
     }
   ]
 

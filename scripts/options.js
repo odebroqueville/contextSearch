@@ -1,4 +1,7 @@
 /// Global variables
+// Debugging
+const logToConsole = true;
+
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById("container");
 const divAddSearchEngine = document.getElementById("addSearchEngine");
@@ -52,6 +55,9 @@ const placeHolderKeyword = browser.i18n.getMessage("placeHolderKeyword");
 const notifySearchEngineAdded = browser.i18n.getMessage("notifySearchEngineAdded");
 
 // Typing timer
+var prevouslySavedData;
+var nextSaveTime;
+var saveInterval = 1500;
 var typingTimerSearchEngineName;
 var typingTimerKeyword;
 var typingTimerQueryString;
@@ -200,8 +206,9 @@ function createLineItem(id, searchEngine) {
     chkShowSearchEngine.addEventListener("click", visibleChanged); // when users check or uncheck the checkbox
 
     // Event handlers for search engine name changes
+    /*
     inputSearchEngineName.addEventListener("paste", searchEngineNameChanged); // when users paste text
-    inputSearchEngineName.addEventListener("change", searchEngineNameChanged); // when users leave the input field and content has changed
+    inputSearchEngineName.addEventListener("blur", searchEngineNameChanged); // when users leave the input field and content has changed
     inputSearchEngineName.addEventListener("keyup", function (e) {
 		clearTimeout(typingTimerSearchEngineName);
 		typingTimerSearchEngineName = setTimeout(searchEngineNameChanged, typingInterval);
@@ -209,6 +216,28 @@ function createLineItem(id, searchEngine) {
     inputSearchEngineName.addEventListener("keydown", function(e){
         typingEventSearchEngineName = e;
         clearTimeout(typingTimerSearchEngineName);
+    });
+    inputSearchEngineName.addEventListener("input", function (e) {
+        let timeStamp = Math.floor(Date.now());
+        let data = e.data;
+        if (nextSaveTime === null) nextSaveTime = timeStamp + saveInterval;
+        if (data = previouslySavedData || timeStamp < nextSaveTime ) return;
+        prevouslySavedData = data;
+        nextSaveTime = timeStampe + saveInterval;
+        searchEngineNameChanged();
+    });
+    */
+    inputSearchEngineName.addEventListener("cut", searchEngineNameChanged); // when users paste text
+    inputSearchEngineName.addEventListener("paste", searchEngineNameChanged); // when users paste text
+    inputSearchEngineName.addEventListener("input", function (e) {
+        typingEventSearchEngineName = e;
+        clearTimeout(typingTimerSearchEngineName);
+        typingTimerSearchEngineName = setTimeout(searchEngineNameChanged, typingInterval);
+    });
+    inputSearchEngineName.addEventListener("change", function (e) {
+        typingEventSearchEngineName = e;
+        clearTimeout(typingTimerSearchEngineName);
+        searchEngineNameChanged();
     });
 
     // Event handlers for keyword text changes
@@ -315,22 +344,14 @@ function reset() {
 // Begin of user event handlers
 function swapIndexes(previousItem, nextItem) {
     // Initialise variables
-    let firstObj = null;
-    let secondObj = null;
-    let tmp = null;
-    let newObj = {};
+    let tmp = searchEngines[previousItem]["index"];
 
-    browser.storage.sync.get([previousItem, nextItem]).then(function(data){
-        firstObj = data[previousItem];
-        secondObj = data[nextItem];
-        tmp = firstObj["index"];
-        firstObj["index"] = secondObj["index"];
-        secondObj["index"] = tmp;
-        newObj[previousItem] = firstObj;
-        newObj[nextItem] = secondObj;
-    }, onError).then(function(){
-        sendMessage("saveEngines", newObj);
-    }, onError);
+    searchEngines[previousItem]["index"] = searchEngines[nextItem]["index"];
+    searchEngines[nextItem]["index"] = tmp;
+    if (logToConsole) console.log("PREVIOUS item:" + JSON.stringify(searchEngines[previousItem]));
+    if (logToConsole) console.log("NEXT item:" + JSON.stringify(searchEngines[nextItem]));
+
+    sendMessage("saveEngines", sortByIndex(searchEngines));
 }
 
 function moveSearchEngineUp(e) {
@@ -343,7 +364,6 @@ function moveSearchEngineUp(e) {
 
     // Update indexes in sync storage
     swapIndexes(ps.getAttribute("id"), lineItem.getAttribute("id"));
-
 }
 
 function moveSearchEngineDown(e) {
@@ -364,7 +384,13 @@ function removeSearchEngine(e) {
     let pn = lineItem.parentNode;
         
     pn.removeChild(lineItem);
-    browser.storage.sync.remove(id).then(saveOptions, onError);
+    searchEngines[id] = null;
+    searchEngines = sortByIndex(searchEngines);
+
+    browser.storage.sync.remove(id).then(function (){
+        sendMessage("saveEngines", searchEngines);
+    }, onError);
+
 }
 
 function visibleChanged(e){
@@ -372,58 +398,39 @@ function visibleChanged(e){
 	let id = lineItem.getAttribute("id");
     let visible = e.target.checked;
     
-    // Initialise variables
-    let newObj = {};
+    searchEngines[id]["show"] = visible;
 
-    browser.storage.sync.get([id]).then(function(data){
-        let retrievedSearchEngine = data[id];
-		retrievedSearchEngine.show = visible;
-        newObj[id] = retrievedSearchEngine;
-    }, onError).then(function(){
-        sendMessage("saveEngines", newObj);
-    }, onError);
+    sendMessage("saveEngines", searchEngines);
 }
 
 function searchEngineNameChanged(e) {
     if(e){
 		if(e.target.value == typingEventSearchEngineName.target.value) return;
 	}
-	let event = e || typingEventSearchEngineName;
+    let event = e || typingEventSearchEngineName;
+    if (!event) return;
 	let lineItem = event.target.parentNode;
     let id = lineItem.getAttribute("id");
     let searchEngineName = event.target.value;
     
-    // Initialise variables
-    let newObj = {};
+    searchEngines[id]["name"] = searchEngineName;
 
-    browser.storage.sync.get([id]).then(function(data){
-        let retrievedSearchEngine = data[id];
-		retrievedSearchEngine.name = searchEngineName;
-        newObj[id] = retrievedSearchEngine;
-    }, onError).then(function(){
-        sendMessage("saveEngines", newObj);
-    }, onError);
+    sendMessage("saveEngines", searchEngines);
 }
 
 function keywordChanged(e){
 	if(e){
 		if(e.target.value == typingEventKeyword.target.value) return;
 	}
-	let event = e || typingEventKeyword;
+    let event = e || typingEventKeyword;
+    if (!event) return;
 	let lineItem = event.target.parentNode;
 	let id = lineItem.getAttribute("id");
     let keyword = event.target.value;
 
-    // Initialise variables
-    let newObj = {};
+    searchEngines[id]["keyword"] = keyword;
 
-    browser.storage.sync.get([id]).then(function(data){
-        let retrievedSearchEngine = data[id];
-		retrievedSearchEngine.keyword = keyword;
-        newObj[id] = retrievedSearchEngine;
-    }, onError).then(function(){
-        sendMessage("saveEngines", newObj);
-    }, onError);
+    sendMessage("saveEngines", searchEngines);
 }
 
 function multiTabChanged(e){
@@ -431,37 +438,24 @@ function multiTabChanged(e){
 	let id = lineItem.getAttribute("id");
     let multiTab = e.target.checked;
     
-    // Initialise variables
-    let newObj = {};
-    
-    browser.storage.sync.get([id]).then(function(data){
-        let retrievedSearchEngine = data[id];
-		retrievedSearchEngine.multitab = multiTab;
-        newObj[id] = retrievedSearchEngine;
-    }, onError).then(function(){
-        sendMessage("saveEngines", newObj);
-    }, onError);
+    searchEngines[id]["multitab"] = multiTab;
+
+    sendMessage("saveEngines", searchEngines);
 }
 
 function queryStringChanged(e){
 	if(e){
 		if(e.target.value == typingEventQueryString.target.value) return;
 	}
-	let event = e || typingEventQueryString;
+    let event = e || typingEventQueryString;
+    if (!event) return;
 	let lineItem = event.target.parentNode;
 	let id = lineItem.getAttribute("id");
     let queryString = event.target.value;
     
-    // Initialise variables
-    let newObj = {};
-    
-    browser.storage.sync.get([id]).then(function(data){
-        let retrievedSearchEngine = data[id];
-		retrievedSearchEngine.url = queryString;
-        newObj[id] = retrievedSearchEngine;
-    }, onError).then(function(){
-        sendMessage("saveEngines", newObj);
-    }, onError);
+    searchEngines[id]["url"] = queryString;
+
+    sendMessage("saveEngines", searchEngines);
 }
 // End of user event handlers
 
@@ -482,7 +476,7 @@ function readData() {
             let url = multiTab.nextSibling;
             searchEngines[lineItems[i].id] = {};
             searchEngines[lineItems[i].id]["index"] = i;
-            searchEngines[lineItems[i].id]["name"] = label.textContent;
+            searchEngines[lineItems[i].id]["name"] = label.value;
             searchEngines[lineItems[i].id]["keyword"] = keyword.value;
             searchEngines[lineItems[i].id]["multitab"] = multiTab.checked;
             searchEngines[lineItems[i].id]["url"] = url.value;
@@ -495,7 +489,9 @@ function readData() {
 
 // Save the list of search engines to be displayed in the context menu
 function saveOptions() {
+    if (logToConsole) console.log("Search Engines BEFORE SAVE:\n"+JSON.stringify(searchEngines));
     searchEngines = readData();
+    if (logToConsole) console.log("Search Engines AFTER SAVE:\n"+JSON.stringify(searchEngines));
     sendMessage("saveEngines", searchEngines);
 }
 
@@ -508,7 +504,6 @@ function addSearchEngine() {
     let divSearchEngines = document.getElementById("searchEngines");
     let strUrl = url.value;
     let testUrl = "";
-    let newSearchEngine = {};
 
     // Make certain that query string url starts with "https" to enforce SSL
     if (!strUrl.startsWith("https://")) {
@@ -534,14 +529,14 @@ function addSearchEngine() {
         return;
     }
     
-    newSearchEngine[id] = {"index": storageSyncCount, "name": name.value, "keyword": keyword.value, "multitab": multitab.checked , "url": url.value, "show": show.checked};
-    
-    let lineItem = createLineItem(id, newSearchEngine[id]);
+    searchEngines[id] = {"index": storageSyncCount, "name": name.value, "keyword": keyword.value, "multitab": multitab.checked , "url": url.value, "show": show.checked};
+    if (logToConsole) console.log("New search engine: " + id + "\n" + JSON.stringify(searchEngines[id]));
+
+    let lineItem = createLineItem(id, searchEngines[id]);
     divSearchEngines.appendChild(lineItem);
-    browser.storage.sync.set(newSearchEngine).then(function() {
-        sendMessage("addNewSearchEngine", {"id": id, "searchEngine": newSearchEngine[id]});
-        notify(notifySearchEngineAdded);
-    }, onError);
+    
+    sendMessage("addNewSearchEngine", {"id": id, "searchEngine": searchEngines[id]});
+    notify(notifySearchEngineAdded);
     
     // Clear HTML input fields to add a search engine
     clear();
@@ -669,7 +664,6 @@ function updateGetFavicons() {
 }
 
 function updateGridMode() {
-    console.log("AVANT COUCOU!");
     let gridOff = disableGrid.checked;
     sendMessage("setGridMode", {"gridOff": gridOff});
 }
@@ -693,7 +687,10 @@ function isValidUrl(url) {
 function handleMessages(message) {
     switch (message.action) {
         case "searchEnginesLoaded":
-            listSearchEngines(message.data); // message.data will contain 
+            listSearchEngines(message.data); // message.data will contain search engines
+            break;
+        case "updateSearchEngines":
+            searchEngines = message.data;
             break;
 		default:
 			break;
