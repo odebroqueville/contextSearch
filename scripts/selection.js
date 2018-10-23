@@ -5,8 +5,6 @@ const base64ContextSearchIcon = "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAA
 
 /// Global variables
 var searchEngines = {};
-var altKey = false;
-var range = null;
 
 /// Generic Error Handler
 function onError(error) {
@@ -16,68 +14,57 @@ function onError(error) {
 /// Debugging
 // Current state
 if (logToConsole) console.log(document.readyState);
-
+document.addEventListener('readystatechange', ()=>console.log(document.readyState));
 
 /// Event handlers
-// On web page load get the grid preferences
-document.addEventListener('readystatechange', function(){
-    let rs = document.readyState;
-    if (logToConsole) console.log(rs);
-    if (rs === "complete") getGridSettings();
-});
-
 // Right-click event listener
 document.addEventListener("contextmenu", handleRightClickWithoutGrid);
+
+// Mouse up event listener
+document.addEventListener("mouseup", handleAltClickWithGrid)
 
 /// Handle Incoming Messages
 // Listen for messages from the background script
 browser.runtime.onMessage.addListener(function(message) {
     let action = message.action;
     let data = message.data;
-    if (logToConsole) console.log(JSON.stringify(message));
     switch (action) {
-        case "setGridMode":
-			if (logToConsole) console.log("Grid mode received in selection.js, value is " + data.gridOff);
-            setGrid(data);
+        case "updateSearchEnginesList":
+			if (logToConsole) console.log("Search engines list is being updated with:\n" + JSON.stringify(data));
+            updateSearchEnginesList(data);
             break;
 		default:
 			break;
 	}
 });
 
-function getGridSettings() {
-    browser.storage.sync.get("options").then(function(options){
-        if (logToConsole) console.log("gridOff in selection.js is set to " + options.gridOff);
-        if (options.gridOff === true || options.gridOff === false){
-            setGrid({"gridOff": options.gridOff});
-        } else return;
+function updateSearchEnginesList(data){
+    searchEngines = sortByIndex(data);
+}
+
+function init(){
+    browser.storage.sync.get(null).then(function(data){
+        delete data.options;
+        searchEngines = data;
     }, onError);
 }
 
-function setGrid(data) {
-    let  gridOff = data.gridOff;
-    if (logToConsole) console.log("selection.js says gridOff is: " + gridOff);
-    if (gridOff === false) {
-        document.addEventListener("keydown", onKeyDown);
-        document.addEventListener("keyup", onKeyUp);
-        document.addEventListener("click", handleAltClickWithGrid);
-    } else {
-        document.removeEventListener("keydown", onKeyDown);
-        document.removeEventListener("keyup", onKeyUp);
-        document.removeEventListener("click", handleAltClickWithGrid);
-    }
-}
-
 function handleAltClickWithGrid(e) {
-    // Exit function if Option (alt) key isn't pressed whilst clicking
-    if (!altKey) return;
+    if (logToConsole) console.log("Click event triggered:\n" + e.type);
+
+    // If mouse up is not done with left mouse button then do nothing
+    if (e.button >0) return;
+
+    // If Option (alt) key isn't pressed on mouse up then do nothing
+    if (!e.altKey) return;
 
     let selectedText = getSelectedText();
+    if (logToConsole) console.log("Selected text: " + selectedText);
 
     let x = e.clientX;
     let y = e.clientY;
 
-    if (selectedText !== "") {
+    if (selectedText) {
         if (e.target.tagName == "A") {
             // Do additional safety checks.
             if (e.target.textContent.indexOf(selectedText) === -1 && selectedText.indexOf(e.target.textContent) === -1){
@@ -90,11 +77,7 @@ function handleAltClickWithGrid(e) {
         // Test URL: https://github.com/odebroqueville/contextSearch/
 
         sendToBackgroundScript(selectedText);
-        browser.storage.sync.get(null).then(function(data){
-            searchEngines = sortByIndex(data);
-            buildIconGrid(x, y);
-        }, onError);
-        return false;
+        buildIconGrid(x, y);
     }
 }
 
@@ -107,6 +90,7 @@ function getSelectedText() {
     let selectedText = ""; // Get the current value, not a cached value
 
     if (window.getSelection){ // All modern browsers and IE9+
+        if (logToConsole) console.log("Text has been selected!");
         selectedText = window.getSelection().toString();
     }
     if (document.activeElement != null && (document.activeElement.tagName === "TEXTAREA" || document.activeElement.tagName === "INPUT")){
@@ -114,6 +98,7 @@ function getSelectedText() {
         if (selectedTextInput != "") selectedText = selectedTextInput;
     }
 
+    if (logToConsole) console.log("Selected text:" + selectedText);
     return selectedText.trim();
 }
 
@@ -236,12 +221,22 @@ function buildIconGrid(x, y) {
 }
 
 function onGridClick(e) {
+    if (logToConsole) console.log("Grid icon got clicked:" + e.type);
+    let id = e.target.parentNode.id;
+    if (logToConsole) console.log("Search engine clicked:" + id);
     let nav = document.getElementById("cs-grid");
     nav.style.display = "none";
     nav.removeEventListener("click", onGridClick);
     nav.removeEventListener("mouseleave", onLeave);
     nav = null;
-    sendMessage("doSearch", e.target.parentNode.id);
+
+    // Get the tab position of the active tab in the current window
+    let tabIndex = 0;
+    browser.tabs.query({active:true}).then(function (tab){
+        if (logToConsole) console.log(tab);
+        tabIndex = tab.index;
+        sendMessage("doSearch", {"id": id, "index": tabIndex});
+    }, onError);
 }
 
 function onLeave(e) {
@@ -250,26 +245,6 @@ function onLeave(e) {
     nav.removeEventListener("click", onGridClick);
     nav.removeEventListener("mouseleave", onLeave);
     nav = null;
-}
-
-function onKeyDown(e) {
-    if (logToConsole) console.log(e);
-    // If Escape key is pressed e.keyCode === 27
-    if (e.escKey) {
-        let nav = document.getElementById("cs-grid");
-        nav.style.display = "none";
-    }
-    // If the Option (alt) key is pressed
-    if (e.altKey) {
-        altKey = true;
-        let sel = window.getSelection();
-        range = sel.getRangeAt(0);
-    }
-}
-
-function onKeyUp(e) {
-    altKey = false;
-    range = null;
 }
 
 function addBorder(e) {
@@ -305,3 +280,5 @@ function isEncoded(uri) {
 function sendMessage(action, data){
     browser.runtime.sendMessage({"action": action, "data": data});
 }
+
+init();

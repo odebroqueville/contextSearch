@@ -22,7 +22,6 @@ const tabActive = document.getElementById("tabActive");
 const active = document.getElementById("active");
 const optionsMenuLocation = document.getElementById("optionsMenuLocation");
 const getFavicons = document.getElementById("getFavicons");
-const disableGrid = document.getElementById("disableGrid");
 const cacheFavicons = document.getElementById("cacheFavicons");
 
 // All engine buttons
@@ -75,7 +74,6 @@ document.addEventListener('DOMContentLoaded', restoreOptions);
 // Settings
 cacheFavicons.addEventListener("click", updateCacheFavicons);
 getFavicons.addEventListener("click", updateGetFavicons);
-disableGrid.addEventListener("clcik", updateGridMode);
 tabMode.addEventListener("click", updateTabMode);
 tabActive.addEventListener("click", updateTabMode);
 optionsMenuLocation.addEventListener("click", updateOptionsMenuLocation);
@@ -350,8 +348,9 @@ function swapIndexes(previousItem, nextItem) {
     searchEngines[nextItem]["index"] = tmp;
     if (logToConsole) console.log("PREVIOUS item:" + JSON.stringify(searchEngines[previousItem]));
     if (logToConsole) console.log("NEXT item:" + JSON.stringify(searchEngines[nextItem]));
+    searchEngines = sortByIndex(searchEngines);
 
-    sendMessage("saveEngines", sortByIndex(searchEngines));
+    sendMessage("saveEngines", searchEngines);
 }
 
 function moveSearchEngineUp(e) {
@@ -581,13 +580,6 @@ function onGot(data) {
         tabActive.checked = false;
     }
 
-    if (options.gridOff === true) {
-        disableGrid.checked = true;
-    } else {
-        // By default, the grid of icons is enabled
-        disableGrid.checked = false;
-    }
-
     if (options.optionsMenuLocation === "top" || options.optionsMenuLocation === "bottom" || options.optionsMenuLocation === "none") {
 		optionsMenuLocation.value = options.optionsMenuLocation;
     } else {
@@ -661,11 +653,6 @@ function updateCacheFavicons() {
 function updateGetFavicons() {
     let fav = getFavicons.checked;
 	sendMessage("updateGetFavicons", {"favicons": fav});
-}
-
-function updateGridMode() {
-    let gridOff = disableGrid.checked;
-    sendMessage("setGridMode", {"gridOff": gridOff});
 }
 
 function updateOptionsMenuLocation() {

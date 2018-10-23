@@ -47,8 +47,11 @@ browser.runtime.onMessage.addListener(function(message) {
     let domain = "";
     switch (message.action) {
         case "doSearch":
-            if (logToConsole) console.log("Id: " + message.data);
-            searchUsing(message.data); // message.data will contain search engine id
+            let id = message.data.id;
+            let tabIndex = message.data.index;
+            if (logToConsole) console.log("Search engine id: " + id);
+            if (logToConsole) console.log("tabIndex: " + tabIndex);
+            searchUsing(id, tabIndex); // message.data will contain search engine id
             break;
         case "notify":
             notify(message.data);
@@ -77,6 +80,7 @@ browser.runtime.onMessage.addListener(function(message) {
             domain = getDomain(message.data.searchEngine.url);
             if (logToConsole) console.log(id, domain);
             searchEngines[id] = message.data.searchEngine;
+            searchEngines = sortByIndex(searchEngines);
             addNewFavicon(domain, id).then(function(value){
                 searchEngines[id]["base64"] = value.base64;
                 saveSearchEnginesToStorageSync(false);
@@ -88,9 +92,6 @@ browser.runtime.onMessage.addListener(function(message) {
 			break;
         case "updateGetFavicons":
             setDisplayFavicons(message.data);
-            break;
-        case "setGridMode":
-            setGrid(message.data);
             break;
 		case "updateTabMode":
 			setTabMode(message.data);
@@ -115,7 +116,6 @@ function init() {
             "tabMode": "openNewTab",
             "tabActive": false,
             "optionsMenuLocation": "bottom",
-            "gridOff": false,
             "cacheFavicons": true,
             "favicons": true
         }
@@ -152,7 +152,6 @@ function reset(){
     browser.storage.sync.get(null).then(function(data){
         let options = data.options;
         browser.storage.sync.clear().then(function(){
-            browser.storage.sync.set({"options": options})
             loadDefaultSearchEngines(DEFAULT_JSON).then(function() {
                 setOptions(options);
             }, onError);
@@ -179,13 +178,6 @@ function setOptions(options) {
         options.optionsMenuLocation = "bottom";
     }
     setOptionsMenuLocation(options); // context menu will be rebuilt
-
-    if (logToConsole) console.log("Setting grid of icons preference..");
-    if (!(options.gridOff === false || options.gridOff === true)) {
-        // By default, the grid of icons is enabled
-        options.gridOff = false;
-    }
-    setGrid(options);
 
     if (!(options.cacheFavicons === false || options.cacheFavicons === true)) {
         // By default, favicons should be cached
@@ -245,25 +237,6 @@ function setOptionsMenuLocation(data) {
     saveOptions(data, true);
 }
 
-// Enable or disable the grid of icons
-function setGrid(data) {
-    if (logToConsole) {
-        if (data.gridOff) {
-			console.log("Disabling the grid of icons..");
-		} else {
-			console.log("Enabling the grid of icons..");
-		}
-	}
-    
-    browser.tabs.query({
-        currentWindow: true,
-        url: "*://*/*"
-    }).then((tabs) => {
-		sendMessageToTabs(tabs, {"action": "setGridMode", "data": data});
-    }, onError);
-    saveOptions(data, false);
-}
-
 function setCacheFavicons(data){
     if (logToConsole) console.log("Setting the preference for caching favicons..");
     contextsearch_cacheFavicons = data.cacheFavicons;
@@ -288,13 +261,11 @@ function loadDefaultSearchEngines(jsonFile) {
                 if (this.readyState == 4 && this.status == 200) {
                     searchEngines = JSON.parse(this.responseText);
                     if (logToConsole) console.log("Search engines: \n" + JSON.stringify(searchEngines));
-                    browser.tabs.query({
-                        currentWindow: true,
-                        url: "*://*/options.html"
-                    }).then(function(tabs){
-                        if (tabs.length>0) sendMessageToOptionsScript("searchEnginesLoaded", searchEngines);
-                    }, onError);
-                    getFaviconsAsBase64Strings().then(resolve, reject);
+                    saveSearchEnginesToStorageSync(true);
+                    getFaviconsAsBase64Strings().then(function(){
+                        saveSearchEnginesToStorageSync(true);
+                        resolve();
+                    }, reject);
                 }
             };
             xhr.send();
@@ -321,7 +292,15 @@ function saveSearchEnginesToStorageSync(blnNotify){
             currentWindow: true,
             url: "*://*/options.html"
         }).then(function(){
-            if (tabs.length>0) sendMessageToOptionsScript("updateEnginesLoaded", searchEngines);
+            if (tabs.length>0) {
+                sendMessageToOptionsScript("updateEnginesLoaded", searchEnginesLocal);
+            }
+        }, onError);
+        browser.tabs.query({
+            currentWindow: true,
+            url: "*://*/*"
+        }).then((tabs) => {
+            sendMessageToTabs(tabs, {"action": "updateSearchEnginesList", "data": searchEngines});
         }, onError);
     }, onError);
 }
@@ -578,27 +557,16 @@ function getSearchEngineUrl(searchEngineUrl, sel){
 	}
 }
 
-function searchUsing(id) {
-    browser.storage.sync.get(null).then(function(data){
-        searchEngines = sortByIndex(data);
-        let searchEngineUrl = searchEngines[id].url;
-        targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
-
-        // Get the tab position of the active tab in the current window
-        browser.tabs.query({
-            currentWindow: true, 
-            active: true,
-        }).then(function(tabs){
-            for (let tab of tabs) {
-                tabPosition = tab.index;
-            }
-            displaySearchResults(targetUrl, tabPosition);
-        });
-    });
+function searchUsing(id, tabIndex) {
+    let searchEngineUrl = searchEngines[id].url;
+    targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
+    if (logToConsole) console.log("TargetURL = " + targetUrl);
+    displaySearchResults(targetUrl, tabIndex);
 }
 
 // Display the search results
 function displaySearchResults(targetUrl, tabPosition) {
+    if (logToConsole) console.log("Tab position: " + tabPosition);
     browser.windows.getCurrent({populate: false}).then(function(windowInfo) {
         var currentWindowID = windowInfo.id;
         if (contextsearch_openSearchResultsInNewWindow) {
