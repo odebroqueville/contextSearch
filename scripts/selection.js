@@ -225,18 +225,29 @@ function onGridClick(e) {
     let id = e.target.parentNode.id;
     if (logToConsole) console.log("Search engine clicked:" + id);
     let nav = document.getElementById("cs-grid");
+
+    // Get the tab position of the active tab in the current window
+    /*
+    browser.tabs.query({active: true, currentWindow: true}).then(function (tabs){
+        let tabIndex = 0;
+        for (let tab of tabs) {
+            if (tab.active) {
+                if (logToConsole) console.log("Active tab url: " + tab.url);
+                tabIndex = tab.index;
+            }
+        }
+        sendMessage("doSearch", {"id": id, "index": tabIndex});
+    }, onError);
+    */
+
+    browser.tabs.getCurrent().then(function(tabInfo) {
+        console.log(tabInfo);
+    }, onError);
+
     nav.style.display = "none";
     nav.removeEventListener("click", onGridClick);
     nav.removeEventListener("mouseleave", onLeave);
     nav = null;
-
-    // Get the tab position of the active tab in the current window
-    let tabIndex = 0;
-    browser.tabs.query({active:true}).then(function (tab){
-        if (logToConsole) console.log(tab);
-        tabIndex = tab.index;
-        sendMessage("doSearch", {"id": id, "index": tabIndex});
-    }, onError);
 }
 
 function onLeave(e) {
