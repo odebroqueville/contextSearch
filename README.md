@@ -90,7 +90,3 @@ It is not required to provide the base 64 string representation of any search en
 
 The Firefox add-on may be found here:
 https://addons.mozilla.org/firefox/addon/contextual-search/
-
-## Planned features
-
-* Integration with Firefox search engines, which will be implemented soon.
