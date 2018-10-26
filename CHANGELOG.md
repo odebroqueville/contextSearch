@@ -1,3 +1,10 @@
+3.70
+=========
+* Hold option (Alt) key and click on selected text to launch the grid of icons
+* Option to enable/disable grid of icons has been removed because now both context menu and grid of icons are accessible at all times
+* Use of CORS anywhere API has been removed
+* Updated README file on GitHub
+
 3.69
 =========
 * Changes the sources to fetch favicons from heroku

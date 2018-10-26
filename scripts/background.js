@@ -15,7 +15,6 @@ const DEFAULT_JSON = "defaultSearchEngines.json";
 const getFaviconUrl = "https://get-favicons-node.herokuapp.com/icon?url=";
 const herokuAppUrl = "https://get-besticons.herokuapp.com/icon?url=";
 const herokuAppUrlSuffix = "&size=16..32..128";
-const corsAnywhere = "https://nameless-eyrie-33157.herokuapp.com/";
 const base64ContextSearchIcon = "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";
 
 // Constants for translations
@@ -37,7 +36,6 @@ let contextsearch_openSearchResultsInNewTab = true;
 let contextsearch_makeNewTabOrWindowActive = false;
 let contextsearch_openSearchResultsInNewWindow = false;
 let contextsearch_getFavicons = true;
-let contextsearch_gridMode = false;
 let contextsearch_cacheFavicons = true;
 
 /// Handle Incoming Messages
@@ -48,10 +46,20 @@ browser.runtime.onMessage.addListener(function(message) {
     switch (message.action) {
         case "doSearch":
             let id = message.data.id;
-            let tabIndex = message.data.index;
             if (logToConsole) console.log("Search engine id: " + id);
-            if (logToConsole) console.log("tabIndex: " + tabIndex);
-            searchUsing(id, tabIndex); // message.data will contain search engine id
+            browser.tabs.query({active: true, currentWindow: true}).then(function(tabs) {
+                if (logToConsole) console.log(tabs);
+                let tabIndex = 0;
+                for (let tab of tabs) {
+                    if (tab.active) {
+                        if (logToConsole) console.log("Active tab url: " + tab.url);
+                        tabIndex = tab.index;
+                        if (logToConsole) console.log("tabIndex: " + tabIndex);
+                        break;
+                    }
+                }
+                searchUsing(id, tabIndex);
+            }, onError);
             break;
         case "notify":
             notify(message.data);
@@ -377,7 +385,7 @@ function getDomain(url) {
 function getBase64Image(url) {
     let promise = new Promise(
         function resolver(resolve, reject) {
-            let requestUrl = corsAnywhere + url;
+            let requestUrl = url;
             if (logToConsole) console.log("requestUrl:" + requestUrl);
             var xhr = new XMLHttpRequest();
             xhr.open('GET', requestUrl, true);
@@ -603,15 +611,17 @@ browser.omnibox.setDefaultSuggestion({
 browser.omnibox.onInputChanged.addListener((input, suggest) => {
     if (input.indexOf(" ") > 0) {
         let suggestion = buildSuggestion(input);
+        if (logToConsole) console.log(JSON.stringify(suggestion));
         if (suggestion.length === 1) {
             suggest(suggestion);
-//            browser.omnibox.setDefaultSuggestion({description: suggestion[0].description});
         }
     }
 });
 
 // Open the page based on how the user clicks on a suggestion
-browser.omnibox.onInputEntered.addListener((input) => {
+browser.omnibox.onInputEntered.addListener((input, disposition) => {
+    if (logToConsole) console.log(input);
+    let tabPosition = 0;
     browser.tabs.query({
         currentWindow: true, 
         active: true,
@@ -620,8 +630,12 @@ browser.omnibox.onInputEntered.addListener((input) => {
             tabPosition = tab.index;
         }
 
+        if (logToConsole) console.log(tabPosition);
+        if (logToConsole) console.log(input.indexOf("://"));
+
         // Only display search results when there is a valid link inside of the url variable
         if (input.indexOf("://") > -1) {
+            if (logToConsole) console.log("Processing search...");
 			displaySearchResults(input, tabPosition);
 		} else {
 			try {
@@ -641,15 +655,16 @@ browser.omnibox.onInputEntered.addListener((input) => {
 
 function buildSuggestion(text) {
     let result = [];
+
+    // Only make suggestions available and check for existence of a search engine when there is a space.
+    if (text.indexOf(" ") === -1) {
+        lastAddressBarKeyword = "";
+        return result;
+    }
+
     let keyword = text.split(" ")[0];
     let searchTerms = text.replace(keyword, "").trim();
-    if(logToConsole) console.log(searchTerms);
-
-	// Only make suggestions available and check for existence of a search engine when there is a space.
-	if (text.indexOf(" ") === -1) {
-		lastAddressBarKeyword = "";
-		return result;
-	}
+    if (logToConsole) console.log(searchTerms);
 
 	// Don't notify for the same keyword
 	let showNotification = true;
@@ -669,11 +684,13 @@ function buildSuggestion(text) {
             }
             suggestion["content"] = targetUrl;
             suggestion["description"] = "Search " + searchEngines[id].name + " for " + searchTerms;
+            if (logToConsole) console.log(JSON.stringify(suggestion));
             result.push(suggestion);
             return result;
         }
     }
 
+    // If no known keyword was found
 	if (showNotification) {
 		notify(notifySearchEngineWithKeyword + " " + keyword + " " + notifyUnknown);
 	}

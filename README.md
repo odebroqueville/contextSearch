@@ -5,7 +5,7 @@ Firefox add-on to search selected text in a web page using your favorite search 
 ## How does it work?
 <ul>
 <li>Select some text on a webpage</li>
-<li>Right click (or Shift-click) at the end of the selection</li>
+<li>Right click (or Alt-click) on a selection</li>
 <li>A context menu (or a grid of icons) appears, displaying the list of search engines chosen in the extension's preferences</li>
 <li>Click on the search engine with which you’d like to search for the selected text</li>
 </ul>
@@ -93,4 +93,4 @@ https://addons.mozilla.org/firefox/addon/contextual-search/
 
 ## Planned features
 
-* Integration with Firefox search engines, which will be implemented when it becomes possible. See https://github.com/odebroqueville/contextSearch/issues/60
+* Integration with Firefox search engines, which will be implemented soon.

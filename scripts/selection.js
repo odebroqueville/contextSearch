@@ -13,8 +13,10 @@ function onError(error) {
 
 /// Debugging
 // Current state
-if (logToConsole) console.log(document.readyState);
-document.addEventListener('readystatechange', ()=>console.log(document.readyState));
+if (logToConsole) {
+    console.log(document.readyState);
+    document.addEventListener('readystatechange', () => console.log(document.readyState));
+}
 
 /// Event handlers
 // Right-click event listener
@@ -225,29 +227,12 @@ function onGridClick(e) {
     let id = e.target.parentNode.id;
     if (logToConsole) console.log("Search engine clicked:" + id);
     let nav = document.getElementById("cs-grid");
-
-    // Get the tab position of the active tab in the current window
-    /*
-    browser.tabs.query({active: true, currentWindow: true}).then(function (tabs){
-        let tabIndex = 0;
-        for (let tab of tabs) {
-            if (tab.active) {
-                if (logToConsole) console.log("Active tab url: " + tab.url);
-                tabIndex = tab.index;
-            }
-        }
-        sendMessage("doSearch", {"id": id, "index": tabIndex});
-    }, onError);
-    */
-
-    browser.tabs.getCurrent().then(function(tabInfo) {
-        console.log(tabInfo);
-    }, onError);
-
     nav.style.display = "none";
     nav.removeEventListener("click", onGridClick);
     nav.removeEventListener("mouseleave", onLeave);
     nav = null;
+
+    sendMessage("doSearch", {"id": id});
 }
 
 function onLeave(e) {
