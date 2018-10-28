@@ -58,7 +58,19 @@ function handleAltClickWithGrid(e) {
     if (e.button >0) return;
 
     // If Option (alt) key isn't pressed on mouse up then do nothing
-    if (!e.altKey) return;
+    if (!e.altKey) {
+        if (e.target.tagName === "IMG") {
+            let img = e.target;
+            let imgurl = img.getAttribute("src");
+            console.log(imgurl);
+            EXIF.getData(img, function(){
+                alert(EXIF.pretty(this));
+                let tags = EXIF.getAllTags(this);
+                console.log("Image metadata:\n" + JSON.stringify(tags));
+            });
+        }
+        return;
+    }
 
     let selectedText = getSelectedText();
     if (logToConsole) console.log("Selected text: " + selectedText);

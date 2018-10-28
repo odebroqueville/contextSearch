@@ -54,7 +54,7 @@
   "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js": ["scripts/selection.js", "scripts/sort.js"]
+      "js": ["scripts/selection.js", "scripts/sort.js", "scripts/exif.js"]
     }
   ]
 
