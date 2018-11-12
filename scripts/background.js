@@ -9,12 +9,13 @@ let searchEnginesArray = [];
 let selection = "";
 let targetUrl = "";
 let lastAddressBarKeyword = "";
+let imageUrl = "";
+let imageTags = {};
 
 /// Constants
 const DEFAULT_JSON = "defaultSearchEngines.json";
-const getFaviconUrl = "https://get-favicons-node.herokuapp.com/icon?url=";
-const herokuAppUrl = "https://get-besticons.herokuapp.com/icon?url=";
-const herokuAppUrlSuffix = "&size=16..32..128";
+const besticonAPIUrl = "https://get-besticons.herokuapp.com/icon?url=";
+const besticonAPIUrlSuffix = "&size=16..32..128";
 const base64ContextSearchIcon = "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";
 
 // Constants for translations
@@ -37,6 +38,7 @@ let contextsearch_makeNewTabOrWindowActive = false;
 let contextsearch_openSearchResultsInNewWindow = false;
 let contextsearch_getFavicons = true;
 let contextsearch_cacheFavicons = true;
+let contextsearch_forceIconReload = false;
 
 /// Handle Incoming Messages
 // Listen for messages from the content or options script
@@ -45,7 +47,7 @@ browser.runtime.onMessage.addListener(function(message) {
     let domain = "";
     switch (message.action) {
         case "doSearch":
-            let id = message.data.id;
+            id = message.data.id;
             if (logToConsole) console.log("Search engine id: " + id);
             browser.tabs.query({active: true, currentWindow: true}).then(function(tabs) {
                 if (logToConsole) console.log(tabs);
@@ -64,7 +66,13 @@ browser.runtime.onMessage.addListener(function(message) {
         case "notify":
             notify(message.data);
             break;
-        case "getSelectionText":
+        case "setImageData":
+            imageUrl = message.data.imageUrl;
+            imageTags = message.data.tags;
+            if (logToConsole) console.log("Image URL: " + imageUrl);
+            if (logToConsole) console.log("Image EXIF tags: " + JSON.stringify(imageTags));
+            break;        
+        case "setSelection":
             if (logToConsole) console.log("Selected text: " + message.data)
             selection = message.data;
             break;
@@ -79,9 +87,11 @@ browser.runtime.onMessage.addListener(function(message) {
             break;
         case "saveEngines":
             searchEngines = message.data;
-            if (logToConsole) console.log(JSON.stringify(searchEngines));
-            saveSearchEnginesToStorageSync(false);
-            rebuildContextMenu();
+            if (logToConsole) console.log(searchEngines);
+            getFaviconsAsBase64Strings().then(function(){
+                saveSearchEnginesToStorageSync(true);
+                rebuildContextMenu();
+            }, onError);
 			break;
         case "addNewSearchEngine":
             id = message.data.id;
@@ -269,9 +279,9 @@ function loadDefaultSearchEngines(jsonFile) {
                 if (this.readyState == 4 && this.status == 200) {
                     searchEngines = JSON.parse(this.responseText);
                     if (logToConsole) console.log("Search engines: \n" + JSON.stringify(searchEngines));
-                    saveSearchEnginesToStorageSync(true);
                     getFaviconsAsBase64Strings().then(function(){
                         saveSearchEnginesToStorageSync(true);
+                        rebuildContextMenu();
                         resolve();
                     }, reject);
                 }
@@ -296,19 +306,22 @@ function saveSearchEnginesToStorageSync(blnNotify){
 	
     browser.storage.sync.set(searchEnginesLocal).then(function() {
         if (blnNotify) notify(notifySearchEnginesLoaded);
+        for (let id in searchEngines){
+            if (logToConsole) console.log("Search engine:" + id + "\n" + JSON.stringify(searchEngines[id]) + "\n");
+        }
         browser.tabs.query({
             currentWindow: true,
             url: "*://*/options.html"
-        }).then(function(){
-            if (tabs.length>0) {
-                sendMessageToOptionsScript("updateEnginesLoaded", searchEnginesLocal);
-            }
+        }).then((tabs) => {
+            if (logToConsole) console.log("Options page is open!");
+            sendMessageToOptionsScript("searchEnginesLoaded", searchEngines);
         }, onError);
         browser.tabs.query({
             currentWindow: true,
             url: "*://*/*"
         }).then((tabs) => {
             sendMessageToTabs(tabs, {"action": "updateSearchEnginesList", "data": searchEngines});
+            if (logToConsole) console.log("Update search engines msg has been sent to all tabs!");
         }, onError);
     }, onError);
 }
@@ -325,24 +338,27 @@ function getFaviconsAsBase64Strings() {
                 if (logToConsole) console.log("id: " + id);
                 if (logToConsole) console.log("url: " + seUrl);
                 let domain = getDomain(seUrl);
-                if (searchEngines[id].base64 === null || searchEngines[id].base64 === undefined || searchEngines[id].base64.length == 0) {
+
+                // Fetch a new favicon only if there is no existing favicon or if an icon reload is being forced
+                if (contextsearch_forceIconReload || searchEngines[id].base64 === null || searchEngines[id].base64 === undefined || searchEngines[id].base64.length === 0) {
                     if (logToConsole) console.log("Getting favicon for " + domain);
-                    arrayOfPromises.push(addNewFavicon(domain, id));
+                    arrayOfPromises.push(addNewFavicon(id, domain));
                 }
             }
             
             Promise.all(arrayOfPromises).then(function(values) { // values is an array of {id:, base64:}
-                if (values === undefined) return;
+            if (logToConsole) console.log(`Search engines and their favicons as base64 strings:\n ${values}`);    
+            if (values === undefined) return;
                 for (let value of values) {
-                    if(logToConsole) console.log("================================================");
-                    if(logToConsole) console.log("id is " + value.id);
-                    if(logToConsole) console.log("------------------------------------------------");
-                    if(logToConsole) console.log("base64 string is " + value.base64);
-                    if(logToConsole) console.log("================================================");
+                    if (logToConsole) console.log("================================================");
+                    if (logToConsole) console.log("id is " + value.id);
+                    if (logToConsole) console.log("------------------------------------------------");
+                    if (logToConsole) console.log("base64 string is " + value.base64);
+                    if (logToConsole) console.log("================================================");
                     searchEngines[value.id]["base64"] = value.base64;
                 }
-                if (logToConsole) console.log("We're no longer fetching favicons..");
-                saveSearchEnginesToStorageSync(true);
+                if (logToConsole) console.log("Favicons are no longer being fetched.");
+                if (logToConsole) console.log(searchEngines);
                 resolve();
             }, reject);
         }
@@ -351,91 +367,241 @@ function getFaviconsAsBase64Strings() {
 }
 
 /// Add favicon to newly added search engine
-function addNewFavicon(domain, id) {
-	// This promise resolves always, to the icon of the website, or to the default Context Search icon.
-	let promise = new Promise(
-        function resolver(resolve, reject) {
-            let faviconUrl = getFaviconUrl + domain;
-            if (logToConsole) console.log("faviconUrl: " + faviconUrl);
-			getBase64Image(faviconUrl).then(function (base64str) {
-				//if (logToConsole) console.log("base64 via node is " + base64str);
-				resolve({"id": id, "base64": base64str});
-			}, function(faviconNotFoundError) {
-			    let faviconUrl = herokuAppUrl + domain + herokuAppUrlSuffix;
-				getBase64Image(faviconUrl).then(function (base64str) {
-					//if (logToConsole) console.log("base64 via besticon is " + base64str);
-					resolve({"id": id, "base64": base64str});
-				}, function(bestIconNotFoundError){
-					//if (logToConsole) console.log("base64 via error is " + base64ContextSearchIcon);
-					resolve({"id": id, "base64": base64ContextSearchIcon});
-				});
-			});
-		}
+function addNewFavicon(id, domain) {
+let linksWithIcons = [];
+let headers = new Headers();
+let init = { 
+    method: 'GET',
+    headers: headers,
+    mode: 'cors'
+};
+let req1 = new Request(domain + '/favicon.ico', init);
+fetch(req1)
+    .then(
+        function(response) {
+            if (!response.ok) {
+                console.log(`Looks like there was a problem. Status Code: ${response.status}`);
+                throw new Error('Network response was not ok.');
+            } else {
+                linksWithIcons.push(domain + '/favicon.ico');
+            }
+        }
+    )
+    .catch(
+        function(err) {
+            console.log('Fetch Error :-S', err);
+        }
     );
-    return promise;
+let req2 = new Request(domain, init);
+fetch(req2)
+    .then(
+        function(response) {
+            if (!response.ok) {
+                console.log(`Network response was not ok. Status Code: ${response.status}`);
+                let besticon = getFaviconUsingBestIconAPI(id, domain);
+                return besticon;
+            }
+            response.text().then(
+                function(webPage){
+                    let parser = new DOMParser();
+                    let doc = parser.parseFromString(webPage, "text/html");
+                    let links = doc.getElementsByTagName("link");
+                    let rel = null;
+                    let bestIconUrl = null;
+                    for (let link of links){
+                        rel = link.getAttribute('rel');
+                        if (/icon/.test(rel)){
+                            let absUrl = convertUrl2AbsUrl(link.href, domain);
+                            linksWithIcons.push(absUrl);
+                        }
+                    }
+                    if (logToConsole) console.log(`Domain: ${domain}`);
+                    if (logToConsole) console.log(`Links with favicons: ${linksWithIcons}`);
+                    let tests = ["32x32", "[.]svg", "[.]png", "[.]ico"];
+                    for (let test of tests){
+                        if (logToConsole) console.log(test);
+                        bestIconUrl = getBestIconUrl(linksWithIcons, test);
+                        if (bestIconUrl != null) {
+                            if (logToConsole) console.log(`Best icon url: ${bestIconUrl}`);
+                            let base64str = getBase64Image(bestIconUrl);
+                            return {"id": id, "base64": base64str};
+                        }
+                    }
+                    // Failed to retrieve a favicon, proceeding with besticon API
+                    if (logToConsole) console.log("Fetching favicon using Besticon API");
+                    return getFaviconUsingBestIconAPI(id, domain);
+                }
+            )
+        }
+    )
+    .catch(
+        function(err) {
+            console.log('Fetch Error :-S', err);
+        }
+    );
+}
+
+function getFaviconUsingBestIconAPI(id, domain){
+    let faviconUrl = besticonAPIUrl + domain + besticonAPIUrlSuffix;
+    return {"id": id, "base64": getBase64Image(faviconUrl)};
+//                      return base64ContextSearchIcon;
 }
 
 function getDomain(url) {
+    let protocol = '';
+    if (url.indexOf('://') !== -1) {
+        protocol =  url.split('://')[0] + "://";
+    } else { // By default, set the protocol to 'https://' if it hasn't been set
+        protocol = 'https://';
+    }
+    
 	let urlParts = url.replace('http://','').replace('https://','').split(/\//);
-    let domain = urlParts[0];
+    let domain = protocol + urlParts[0];
+    if (logToConsole) console.log("Domain for url " + url + " is: " + domain);
 	return domain;
 }
 
-/// Generate base64 image string for the favicon with the given url
-function getBase64Image(url) {
-    let promise = new Promise(
-        function resolver(resolve, reject) {
-            let requestUrl = url;
-            if (logToConsole) console.log("requestUrl:" + requestUrl);
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', requestUrl, true);
-            xhr.responseType = "arraybuffer";
-            
-            xhr.onreadystatechange = function() {
-                // Set default base64 string to Context Search extension icon
-                let str = base64ContextSearchIcon;
-                
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    let blob = xhr.response;
-                    str = btoa(String.fromCharCode.apply(null, new Uint8Array(blob)));
-                    resolve(str);
-                }
-                if (xhr.status === 404) {
-					reject(xhr.status);
-				}
-            }
-        
-            xhr.onerror = function(e) {
-                reject(e);
-            }
-        
-            xhr.send();
-        }
-    );
-    return promise;
+function convertUrl2AbsUrl(url, domain){
+    // If the url is absolute, i.e. begins withh either'http' or 'https', there's nothing to do!
+    if (/^(https?\:\/\/)/.test(url)) return url;
+
+    // If url begins with '//'
+    if (/^(\/\/)/.test(url)) {
+        return 'https:' + url;
+    }
+
+    // If url is relative...
+    let absUrl = domain;
+    let urlParts = [];
+    // If url begings with either './' or '/' (excluding './/' or '//')
+    if (/^([.]\/|\/)[^\/]/.test(url)) {
+        urlParts = url.split(/\//);
+        urlParts.shift();
+    } else if (/^[^\/]/.test(url)){ // url does not begin with '/'
+        urlParts = url.split(/\//);
+    }
+    for (let urlPart of urlParts){
+        absUrl += '/' + urlPart;
+    }
+    return absUrl;
 }
 
-/// Build a single context menu item
-function buildContextMenuItem(searchEngine, index, title, base64String, browserVersion){
-	const contexts = ["selection"];
-	let faviconUrl = "data:image/png;base64," + base64String;
+function getBestIconUrl(urls, regex){
+    let regexp = new RegExp(regex);
+    for (let url of urls){
+        if (regexp.test(url)) {
+            return url;
+        }
+    }
+    return null;
+}
 
-	if (!searchEngine.show) return;
+/// Generate base64 image string for the favicon with the given url
+function getBase64Image(faviconUrl) {
+    return new Promise(
+        function(resolve, reject){
+            let l = faviconUrl.length;
+            let fileExt = faviconUrl.slice(l-3, l);
+            if (logToConsole) console.log(`Icon file extension is ${fileExt}`);
+            let contentType = '';
+            let result = null;
+            switch (fileExt){
+                case 'png':
+                    contentType = 'image/png';
+                    result = fetchArrayBuffer(faviconUrl, contentType);
+                    break;
+                case 'svg':
+                    contentType = 'image/svg+xml';
+                    result = fetchSVG(faviconUrl, contentType);
+                    break;
+                case 'ico':
+                    contentType = 'image/x-icon';
+                    result = fetchArrayBuffer(faviconUrl, contentType);
+                    break;
+                default:
+                    contentType = 'application/octet-stream';
+                    result = fetchArrayBuffer(faviconUrl, contentType);
+            }
+            resolve(result);
+        }
+    );
+}
 
-	if (browserVersion > 55 && contextsearch_getFavicons === true){
-		browser.contextMenus.create({
-			id: index,
-			title: title,
-			contexts: contexts,
-			icons: { "20": faviconUrl }
-		});
-	} else {
-		browser.contextMenus.create({
-			id: index,
-			title: title,
-			contexts: contexts
-		});
-	}
+function fetchArrayBuffer(faviconUrl, contentType){
+    try {
+        let headers = new Headers();
+        headers.append('Content-Type', contentType);
+        let init = { 
+            method: 'GET',
+            headers: headers,
+            mode: 'cors'
+        };
+        let req = new Request(faviconUrl, init);
+        fetch(req)
+            .then(
+                function(response) {
+                    if (!response.ok) {
+                        if (logToConsole) console.log("Looks like there was a problem. Status Code: " + response.status);
+                        throw new Error('Network response was not ok.');
+                    }
+                    response.arrayBuffer().then(function(){
+                        let b64 = convertArrayBuffer2Base64(ab, faviconUrl);
+                        return b64;
+                    });
+                }
+            )
+    }
+    catch(err) {
+        console.log('Array Buffer fetch Error :-S', err);
+        return base64ContextSearchIcon;
+    }
+
+}
+
+function convertArrayBuffer2Base64(ab, faviconUrl){
+    let byteArray = new Uint8Array(ab);
+    let str = String.fromCharCode.apply(null, byteArray);
+    let base64String = btoa(str);
+    if (logToConsole) console.log(`Base64 string for ${faviconUrl} is:\n ${base64String}`);
+    return base64String;
+}
+
+function fetchSVG(faviconUrl, contentType){
+    try {
+        let headers = new Headers();
+        headers.append('Content-Type', contentType);
+        let init = { 
+            method: 'GET',
+            headers: headers,
+            mode: 'cors'
+        };
+        let req = new Request(faviconUrl, init);
+        fetch(req)
+            .then(
+                function(response) {
+                    if (!response.ok) {
+                        if (logToConsole) console.log(`Looks like there was a problem fetching ${faviconUrl}. Status Code: ${response.status}`);
+                        throw new Error('Network response was not ok.');
+                    }
+                    response.text().then(function(data){
+                        let b64 = convertSVG2Base64(data, faviconUrl);
+                        return b64;
+                    });
+                }
+            )
+    }
+    catch(err) {
+        console.log('SVG fetch Error :-S', err);
+        return base64ContextSearchIcon;
+    }
+}
+
+function convertSVG2Base64(data, faviconUrl){
+    let str = new XMLSerializer().serializeToString(data);
+    if (logToConsole) console.log(`SVG data:\n ${str}`);
+    let base64String = btoa(str);
+    if (logToConsole) console.log(`Base64 string for ${faviconUrl} is:\n ${base64String}`);
+    return base64String;
 }
 
 /// Rebuild the context menu using the search engines from storage sync
@@ -452,6 +618,8 @@ function rebuildContextMenu() {
             rebuildContextOptionsMenu();
         }
         
+        buildContextMenuForImageExifTags();
+
         searchEnginesArray = [];
         var index = 0;
         for (let id in searchEngines) {
@@ -504,9 +672,44 @@ function rebuildContextOptionsMenu(){
     }
 }
 
+/// Build the context menu for image searches
+function buildContextMenuForImageExifTags(){
+    browser.contextMenus.create({
+		id: "cs-exif-tags",
+		title: "View EXIF tags...",
+		contexts: ["image"]
+    });
+}
+
+/// Build a single context menu item
+function buildContextMenuItem(searchEngine, index, title, base64String, browserVersion){
+	const contexts = ["selection"];
+	let faviconUrl = "data:image/png;base64," + base64String;
+	if (!searchEngine.show) return;
+	if (browserVersion >= 56 && contextsearch_getFavicons === true){
+		browser.contextMenus.create({
+			id: index,
+			title: title,
+			contexts: contexts,
+			icons: { "20": faviconUrl }
+		});
+	} else {
+		browser.contextMenus.create({
+			id: index,
+			title: title,
+			contexts: contexts
+		});
+	}
+}
+
 // Perform search based on selected search engine, i.e. selected context menu item
 function processSearch(info, tab){
     let id = info.menuItemId.replace("cs-", "");
+
+    if (id === "exif-tags" && !isEmpty(imageTags)) {
+        //console.log(JSON.stringify(imageTags));
+        return;
+    }
 
     // Prefer info.selectionText over selection received by content script for these lengths (more reliable)
     if (info.selectionText.length < 150 || info.selectionText.length > 150) {

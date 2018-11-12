@@ -32,8 +32,11 @@ browser.runtime.onMessage.addListener(function(message) {
     let data = message.data;
     switch (action) {
         case "updateSearchEnginesList":
-			if (logToConsole) console.log("Search engines list is being updated with:\n" + JSON.stringify(data));
             updateSearchEnginesList(data);
+            if (logToConsole) console.log("Search engines list has been updated with:\n" + JSON.stringify(searchEngines));
+            for (let id in searchEngines){
+                if (logToConsole) console.log("Search engine:" + id + "\n" + JSON.stringify(searchEngines[id]) + "\n");
+            }
             break;
 		default:
 			break;
@@ -58,19 +61,7 @@ function handleAltClickWithGrid(e) {
     if (e.button >0) return;
 
     // If Option (alt) key isn't pressed on mouse up then do nothing
-    if (!e.altKey) {
-        if (e.target.tagName === "IMG") {
-            let img = e.target;
-            let imgurl = img.getAttribute("src");
-            console.log(imgurl);
-            EXIF.getData(img, function(){
-                alert(EXIF.pretty(this));
-                let tags = EXIF.getAllTags(this);
-                console.log("Image metadata:\n" + JSON.stringify(tags));
-            });
-        }
-        return;
-    }
+    if (!e.altKey) return;
 
     let selectedText = getSelectedText();
     if (logToConsole) console.log("Selected text: " + selectedText);
@@ -96,8 +87,21 @@ function handleAltClickWithGrid(e) {
 }
 
 function handleRightClickWithoutGrid(e) {
-    let selectedText = getSelectedText();
-    sendToBackgroundScript(selectedText);
+    if (e.target.tagName === "IMG") {
+        let img = e.target;
+        let imgurl = img.getAttribute("src");
+        console.log(imgurl);
+        EXIF.getData(img, function(){
+            //alert(EXIF.pretty(this));
+            let tags = EXIF.getAllTags(this);
+            let data = {"imageUrl": imgurl, "tags": tags};
+            console.log("Image metadata:\n" + JSON.stringify(tags));
+            sendImageUrlAndExifTagsToBackgroundScript(data);
+        });
+    } else {
+        let selectedText = getSelectedText();
+        sendSelectionToBackgroundScript(selectedText);
+    }
 }
 
 function getSelectedText() {
@@ -116,9 +120,14 @@ function getSelectedText() {
     return selectedText.trim();
 }
 
-function sendToBackgroundScript(selectedText){
+function sendImageUrlAndExifTagsToBackgroundScript(data){
+    // Send the image EXIF tags to background.js
+    sendMessage("setImageData", data);
+}
+
+function sendSelectionToBackgroundScript(selectedText){
     // Send the selected text to background.js
-    sendMessage("getSelectionText", selectedText);
+    sendMessage("setSelection", selectedText);
 
     // Send url of Google search within current site to background.js
     let url = window.location.href;

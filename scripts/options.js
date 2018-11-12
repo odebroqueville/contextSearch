@@ -551,7 +551,9 @@ function clear() {
 }
 
 function onGot(data) {
+    if (logToConsole) console.log(data);
     let options = data.options;
+    if (logToConsole) console.log(options);
     delete data.options;
     listSearchEngines(data);
     switch (options.tabMode) {
@@ -674,10 +676,8 @@ function isValidUrl(url) {
 function handleMessages(message) {
     switch (message.action) {
         case "searchEnginesLoaded":
-            listSearchEngines(message.data); // message.data will contain search engines
-            break;
-        case "updateSearchEngines":
             searchEngines = message.data;
+            listSearchEngines(searchEngines); // message.data will contain search engines
             break;
 		default:
 			break;
@@ -718,4 +718,3 @@ function translateContent(attribute, type) {
 }
 
 i18n();
-restoreOptions();

@@ -11,12 +11,13 @@
         "id": "olivier.debroqueville@gmail.com"
     }
   },
-  "content_security_policy" : "script-src 'self'; object-src 'self'; img-src 'self' https://get-favicons-node.herokuapp.com/*",
+  "content_security_policy" : "script-src 'self'; object-src 'self'; img-src 'self' https://get-besticons.herokuapp.com/*;",
 
   "background": {
       "scripts": [
-        "scripts/background.js",
-        "scripts/sort.js"
+        "/node_modules/icosjs/dist/ico.js",
+        "/scripts/background.js",
+        "/scripts/sort.js"
       ]
   },
 
