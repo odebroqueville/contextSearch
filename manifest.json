@@ -15,7 +15,7 @@
 
   "background": {
       "scripts": [
-        "/node_modules/icosjs/dist/ico.js",
+        "/scripts/ico.js",
         "/scripts/background.js",
         "/scripts/sort.js"
       ]

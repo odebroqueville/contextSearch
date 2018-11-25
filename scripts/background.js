@@ -347,19 +347,19 @@ function getFaviconsAsBase64Strings() {
             }
             
             Promise.all(arrayOfPromises).then(function(values) { // values is an array of {id:, base64:}
-            if (logToConsole) console.log(`Search engines and their favicons as base64 strings:\n ${values}`);    
-            if (values === undefined) return;
-                for (let value of values) {
-                    if (logToConsole) console.log("================================================");
-                    if (logToConsole) console.log("id is " + value.id);
-                    if (logToConsole) console.log("------------------------------------------------");
-                    if (logToConsole) console.log("base64 string is " + value.base64);
-                    if (logToConsole) console.log("================================================");
-                    searchEngines[value.id]["base64"] = value.base64;
-                }
-                if (logToConsole) console.log("Favicons are no longer being fetched.");
-                if (logToConsole) console.log(searchEngines);
-                resolve();
+                if (logToConsole) console.log(`Search engines and their favicons as base64 strings:\n ${values}`);    
+                if (values === undefined) return;
+                    for (let value of values) {
+                        if (logToConsole) console.log("================================================");
+                        if (logToConsole) console.log("id is " + value.id);
+                        if (logToConsole) console.log("------------------------------------------------");
+                        if (logToConsole) console.log("base64 string is " + value.base64);
+                        if (logToConsole) console.log("================================================");
+                        searchEngines[value.id]["base64"] = value.base64;
+                    }
+                    if (logToConsole) console.log("Favicons are no longer being fetched.");
+                    if (logToConsole) console.log(searchEngines);
+                    resolve();
             }, reject);
         }
     );
@@ -368,83 +368,107 @@ function getFaviconsAsBase64Strings() {
 
 /// Add favicon to newly added search engine
 function addNewFavicon(id, domain) {
-let linksWithIcons = [];
-let headers = new Headers();
-let init = { 
-    method: 'GET',
-    headers: headers,
-    mode: 'cors'
-};
-let req1 = new Request(domain + '/favicon.ico', init);
-fetch(req1)
-    .then(
-        function(response) {
-            if (!response.ok) {
-                console.log(`Looks like there was a problem. Status Code: ${response.status}`);
-                throw new Error('Network response was not ok.');
-            } else {
-                linksWithIcons.push(domain + '/favicon.ico');
-            }
-        }
-    )
-    .catch(
-        function(err) {
-            console.log('Fetch Error :-S', err);
-        }
-    );
-let req2 = new Request(domain, init);
-fetch(req2)
-    .then(
-        function(response) {
-            if (!response.ok) {
-                console.log(`Network response was not ok. Status Code: ${response.status}`);
-                let besticon = getFaviconUsingBestIconAPI(id, domain);
-                return besticon;
-            }
-            response.text().then(
+    return new Promise((resolve) => {
+        let linksWithIcons = [];
+        let headers = new Headers();
+        let init = { 
+            method: 'GET',
+            headers: headers,
+            mode: 'cors'
+        };
+        let req1 = new Request(domain + '/favicon.ico', init);
+        fetch(req1)
+            .then(
+                function(response) {
+                    if (!response.ok) {
+                        console.log(`Looks like there was a problem. Status Code: ${response.status}`);
+                        throw new Error('Network response was not ok.');
+                    } else {
+                        linksWithIcons.push(domain + '/favicon.ico');
+                    }
+                }
+            )
+            .catch(
+                function(err) {
+                    console.log('Fetch Error :-S', err);
+                }
+            );
+        let req2 = new Request(domain, init);
+        fetch(req2)
+            .then(
+                function(response) {
+                    if (!response.ok) {
+                        console.log(`Network response was not ok. Status Code: ${response.status}`);
+                        let besticon = getFaviconUsingBestIconAPI(id, domain);
+                        resolve(besticon);
+                    }
+                    response.text();
+                }
+            )
+            .then(
                 function(webPage){
                     let parser = new DOMParser();
                     let doc = parser.parseFromString(webPage, "text/html");
                     let links = doc.getElementsByTagName("link");
                     let rel = null;
+                    let size = null;
                     let bestIconUrl = null;
+                    let base64str = '';
+                    let optimalSize = "32x32";
+                    let tests = [optimalSize, "[.]svg", "[.]png", "[.]ico"];
+
+                    // Store all links with a possible favicon in an array
                     for (let link of links){
                         rel = link.getAttribute('rel');
+                        size = link.getAttribute('size');
                         if (/icon/.test(rel)){
                             let absUrl = convertUrl2AbsUrl(link.href, domain);
-                            linksWithIcons.push(absUrl);
+                            if (size === optimalSize){
+                                bestIconUrl = absUrl;
+                                base64str = getBase64Image(bestIconUrl);
+                                base64str.then(b64 => {
+                                    resolve({"id": id, "base64": b64});
+                                }, onError);
+                            }
+                            if (!linksWithIcons.includes(absUrl)) linksWithIcons.push(absUrl);
                         }
                     }
+
                     if (logToConsole) console.log(`Domain: ${domain}`);
                     if (logToConsole) console.log(`Links with favicons: ${linksWithIcons}`);
-                    let tests = ["32x32", "[.]svg", "[.]png", "[.]ico"];
+
                     for (let test of tests){
-                        if (logToConsole) console.log(test);
+                        if (logToConsole) console.log(`Checking if url contains: ${test}`);
                         bestIconUrl = getBestIconUrl(linksWithIcons, test);
                         if (bestIconUrl != null) {
                             if (logToConsole) console.log(`Best icon url: ${bestIconUrl}`);
-                            let base64str = getBase64Image(bestIconUrl);
-                            return {"id": id, "base64": base64str};
+                            base64str = getBase64Image(bestIconUrl);
+                            base64str.then(b64 => {
+                                resolve({"id": id, "base64": b64});
+                            }, onError);
+                            break;
                         }
                     }
+
                     // Failed to retrieve a favicon, proceeding with besticon API
-                    if (logToConsole) console.log("Fetching favicon using Besticon API");
-                    return getFaviconUsingBestIconAPI(id, domain);
+                    if (bestIconUrl === null) {
+                        if (logToConsole) console.log("Fetching favicon using Besticon API");
+                        bestIconUrl = besticonAPIUrl + domain + besticonAPIUrlSuffix;
+                        base64str = getBase64Image(bestIconUrl);
+                        base64str.then(b64 => {
+                            resolve({"id": id, "base64": b64});
+                        }, onError);
+                    }
+
                 }
             )
-        }
-    )
-    .catch(
-        function(err) {
-            console.log('Fetch Error :-S', err);
-        }
-    );
-}
-
-function getFaviconUsingBestIconAPI(id, domain){
-    let faviconUrl = besticonAPIUrl + domain + besticonAPIUrlSuffix;
-    return {"id": id, "base64": getBase64Image(faviconUrl)};
-//                      return base64ContextSearchIcon;
+            .catch(
+                function(err) {
+                    console.log('Fetch Error :-S', err);
+                    resolve({"id": id, "base64": base64ContextSearchIcon});
+                }
+            );
+    });
 }
 
 function getDomain(url) {
@@ -461,9 +485,24 @@ function getDomain(url) {
 	return domain;
 }
 
-function convertUrl2AbsUrl(url, domain){
+function convertUrl2AbsUrl(href, domain){
+    let url = href;
+    let absUrl = domain;
+    let urlParts = [];
+
     // If the url is absolute, i.e. begins withh either'http' or 'https', there's nothing to do!
     if (/^(https?\:\/\/)/.test(url)) return url;
+
+    if (url.includes('moz-extension://')) {
+        let i = url.lastIndexOf('moz-extension://') + 16;
+        url = url.substr(i);
+        urlParts = url.split(/\//);
+        urlParts.shift();
+        for (let urlPart of urlParts){
+            absUrl += '/' + urlPart;
+        }
+        return absUrl;
+    }
 
     // If url begins with '//'
     if (/^(\/\/)/.test(url)) {
@@ -471,8 +510,6 @@ function convertUrl2AbsUrl(url, domain){
     }
 
     // If url is relative...
-    let absUrl = domain;
-    let urlParts = [];
     // If url begings with either './' or '/' (excluding './/' or '//')
     if (/^([.]\/|\/)[^\/]/.test(url)) {
         urlParts = url.split(/\//);
@@ -499,9 +536,11 @@ function getBestIconUrl(urls, regex){
 /// Generate base64 image string for the favicon with the given url
 function getBase64Image(faviconUrl) {
     return new Promise(
-        function(resolve, reject){
+        function(resolve){
             let l = faviconUrl.length;
             let fileExt = faviconUrl.slice(l-3, l);
+            // File extension defaults to 'png' when using besticon API
+            if (faviconUrl.startsWith(besticonAPIUrl)) fileExt = 'png';
             if (logToConsole) console.log(`Icon file extension is ${fileExt}`);
             let contentType = '';
             let result = null;
@@ -528,34 +567,33 @@ function getBase64Image(faviconUrl) {
 }
 
 function fetchArrayBuffer(faviconUrl, contentType){
-    try {
-        let headers = new Headers();
-        headers.append('Content-Type', contentType);
-        let init = { 
-            method: 'GET',
-            headers: headers,
-            mode: 'cors'
-        };
-        let req = new Request(faviconUrl, init);
-        fetch(req)
-            .then(
-                function(response) {
-                    if (!response.ok) {
-                        if (logToConsole) console.log("Looks like there was a problem. Status Code: " + response.status);
-                        throw new Error('Network response was not ok.');
-                    }
-                    response.arrayBuffer().then(function(){
-                        let b64 = convertArrayBuffer2Base64(ab, faviconUrl);
-                        return b64;
-                    });
+    let headers = new Headers();
+    headers.append('Content-Type', contentType);
+    let init = { 
+        method: 'GET',
+        headers: headers,
+        mode: 'cors'
+    };
+    let req = new Request(faviconUrl, init);
+    fetch(req)
+        .then(
+            function(response) {
+                if (!response.ok) {
+                    if (logToConsole) console.log("Looks like there was a problem. Status Code: " + response.status);
+                    throw new Error('Network response was not ok.');
                 }
-            )
-    }
-    catch(err) {
-        console.log('Array Buffer fetch Error :-S', err);
-        return base64ContextSearchIcon;
-    }
-
+                if (logToConsole) console.log(response);
+                return response.arrayBuffer();
+            }
+        )
+        .then(ab => {
+            let b64 = convertArrayBuffer2Base64(ab, faviconUrl);
+            return b64;
+        })
+        .catch(err => {
+            console.log('Array Buffer fetch Error :-S', err);
+            return base64ContextSearchIcon;
+        });
 }
 
 function convertArrayBuffer2Base64(ab, faviconUrl){
@@ -567,33 +605,35 @@ function convertArrayBuffer2Base64(ab, faviconUrl){
 }
 
 function fetchSVG(faviconUrl, contentType){
-    try {
-        let headers = new Headers();
-        headers.append('Content-Type', contentType);
-        let init = { 
-            method: 'GET',
-            headers: headers,
-            mode: 'cors'
-        };
-        let req = new Request(faviconUrl, init);
-        fetch(req)
-            .then(
-                function(response) {
-                    if (!response.ok) {
-                        if (logToConsole) console.log(`Looks like there was a problem fetching ${faviconUrl}. Status Code: ${response.status}`);
-                        throw new Error('Network response was not ok.');
+    return new Promise(
+        function(resolve){
+            let headers = new Headers();
+            headers.append('Content-Type', contentType);
+            let init = { 
+                method: 'GET',
+                headers: headers,
+                mode: 'cors'
+            };
+            let req = new Request(faviconUrl, init);
+            fetch(req)
+                .then(
+                    function(response) {
+                        if (!response.ok) {
+                            if (logToConsole) console.log(`Looks like there was a problem fetching ${faviconUrl}. Status Code: ${response.status}`);
+                            throw new Error('Network response was not ok.');
+                        }
+                        response.text().then(function(data){
+                            let b64 = convertSVG2Base64(data, faviconUrl);
+                            resolve(b64);
+                        });
                     }
-                    response.text().then(function(data){
-                        let b64 = convertSVG2Base64(data, faviconUrl);
-                        return b64;
-                    });
-                }
-            )
-    }
-    catch(err) {
-        console.log('SVG fetch Error :-S', err);
-        return base64ContextSearchIcon;
-    }
+                )
+                .catch(err => {
+                    console.log('SVG fetch Error :-S', err);
+                    resolve(base64ContextSearchIcon);
+                });
+        }
+    );
 }
 
 function convertSVG2Base64(data, faviconUrl){
