@@ -15,7 +15,6 @@
 
   "background": {
       "scripts": [
-        "/scripts/ico.js",
         "/scripts/background.js",
         "/scripts/sort.js"
       ]
@@ -55,7 +54,7 @@
   "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js": ["scripts/selection.js", "scripts/sort.js", "scripts/exif.js"]
+      "js": ["/scripts/selection.js", "/scripts/sort.js", "/scripts/exif.js"]
     }
   ]
 

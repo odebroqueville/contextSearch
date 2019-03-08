@@ -72,11 +72,11 @@
     "description": ""
   },
   "header2": {
-    "message": "Zeige Suchmaschinen-Symbole in der Kontextmenüliste an",
+    "message": "Zeige Suchmaschinen-Symbole",
     "description": ""
   },
   "getFavicons": {
-    "message": "Sammle Symbole mit der 'besticon' Programmierschnittstelle",
+    "message": "Zeige Suchmaschinen-Symbole in der Kontextmenüliste an",
     "description": ""
   },
   "note": {

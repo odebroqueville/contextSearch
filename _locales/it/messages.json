@@ -72,11 +72,11 @@
     "description": ""
   },
   "header2": {
-    "message": "Mostra le favicon nel menu contestuale",
+    "message": "Mostra le favicon",
     "description": ""
   },
   "getFavicons": {
-    "message": "Ottieni le favicon usando l'API 'besticon'",
+    "message": "Mostra le favicon nel menu contestuale",
     "description": ""
   },
   "note": {

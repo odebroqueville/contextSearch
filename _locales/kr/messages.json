@@ -72,11 +72,11 @@
     "description": ""
   },
   "header2": {
-    "message": "Display favicons in context menu list",
+    "message": "Display favicons",
     "description": ""
   },
   "getFavicons": {
-    "message": "Fetch favicons using the 'besticon' API",
+    "message": "Display favicons in context menu list",
     "description": ""
   },
   "note": {

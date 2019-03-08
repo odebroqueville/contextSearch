@@ -72,11 +72,11 @@
     "description": ""
   },
   "header2": {
-    "message": "Afficher les icones dans le menu contextuel",
+    "message": "Afficher les icones",
     "description": ""
   },
   "getFavicons": {
-    "message": "Chercher les icones via l'API 'besticon'",
+    "message": "Afficher les icones dans le menu contextuel",
     "description": ""
   },
   "note": {

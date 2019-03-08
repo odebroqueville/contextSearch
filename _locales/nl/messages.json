@@ -72,11 +72,11 @@
     "description": ""
   },
   "header2": {
-    "message": "Toon icoontjes in de contextmenulijst",
+    "message": "Toon icoontjes",
     "description": ""
   },
   "getFavicons": {
-    "message": "Favicons ophalen via de 'besticon' API",
+    "message": "Toon icoontjes in de contextmenulijst",
     "description": ""
   },
   "note": {

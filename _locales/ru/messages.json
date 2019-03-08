@@ -72,11 +72,11 @@
     "description": ""
   },
   "header2": {
-    "message": "Отображение фавиконов в списке контекстного меню",
+    "message": "Отображение фавиконов",
     "description": ""
   },
   "getFavicons": {
-    "message": "Получать фавиконы с помощью 'besticon' API",
+    "message": "Отображение фавиконов в списке контекстного меню",
     "description": ""
   },
   "note": {

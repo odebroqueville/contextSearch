@@ -38,9 +38,9 @@ const btnClear = document.getElementById("clear");
 const btnDownload = document.getElementById("download");
 const btnUpload = document.getElementById("upload");
 
-var divSearchEngines = document.getElementById("searchEngines");
-var storageSyncCount = 0;
-var searchEngines = {};
+let divSearchEngines = document.getElementById("searchEngines");
+let storageSyncCount = 0;
+let searchEngines = {};
 
 // Translation variables
 const move = browser.i18n.getMessage("move");
@@ -65,11 +65,9 @@ var typingEventKeyword;
 var typingEventQueryString;
 var typingInterval = 1500;
 
-/// Message handlers
-browser.runtime.onMessage.addListener(handleMessages);
-
 /// Event handlers
 document.addEventListener('DOMContentLoaded', restoreOptions);
+browser.storage.onChanged.addListener(handleStorageChange);
 
 // Settings
 cacheFavicons.addEventListener("click", updateCacheFavicons);
@@ -596,11 +594,11 @@ function onGot(data) {
         getFavicons.checked = true;
     } 
 
-    if (options.cacheFavicons === true){
-        cacheFavicons.checked = true;
+    if (options.cacheFavicons === false){
+        cacheFavicons.checked = false;
     } else {
         // Default setting is to cache favicons in storage sync
-        cacheFavicons.checked = false;
+        cacheFavicons.checked = true;
     }
     
 }
@@ -648,8 +646,8 @@ function updateTabMode() {
 }
 
 function updateCacheFavicons() {
-	let cacheFav = cacheFavicons.checked;
-	sendMessage("updateCacheFavicons", {"cacheFavicons": cacheFav});
+	let cf = cacheFavicons.checked;
+	sendMessage("updateCacheFavicons", {"cacheFavicons": cf});
 }
 
 function updateGetFavicons() {
@@ -673,15 +671,17 @@ function isValidUrl(url) {
     }
 }
 
-function handleMessages(message) {
-    switch (message.action) {
-        case "searchEnginesLoaded":
-            searchEngines = message.data;
-            listSearchEngines(searchEngines); // message.data will contain search engines
-            break;
-		default:
-			break;
+function handleStorageChange(changes, area) {
+    if (area !== "sync") return;
+    let ids = Object.keys(changes);
+    for (let id of ids) {
+        if (id === "options") {
+            continue;    
+        } else {
+            searchEngines[id] = changes[id].newValue;
+        }
     }
+    listSearchEngines(searchEngines);
 }
 
 function i18n() {

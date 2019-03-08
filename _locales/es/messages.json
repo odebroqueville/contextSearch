@@ -72,11 +72,11 @@
     "description": ""
   },
   "header2": {
-    "message": "Mostrar los iconos de favoritos en el menú contextual",
+    "message": "Mostrar los iconos de favoritos",
     "description": ""
   },
   "getFavicons": {
-    "message": "Obtener iconos de favoritos usando la API 'besticon'",
+    "message": "Mostrar los iconos de favoritos en el menú contextual",
     "description": ""
   },
   "note": {

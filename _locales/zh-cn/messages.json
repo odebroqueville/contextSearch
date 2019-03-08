@@ -76,7 +76,7 @@
     "description": ""
   },
   "getFavicons": {
-    "message": "通过 'besticon' API 获取搜索引擎图标",
+    "message": "在上下文菜单列表中显示搜索引擎图标",
     "description": ""
   },
   "note": {

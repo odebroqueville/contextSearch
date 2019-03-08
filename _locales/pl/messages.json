@@ -72,11 +72,11 @@
     "description": ""
   },
   "header2": {
-    "message": "Pokaż favicons na liście menu kontekstowego",
+    "message": "Pokaż favicons",
     "description": ""
   },
   "getFavicons": {
-    "message": "Pobierz favicons za pomocą API 'besticon'",
+    "message": "Pokaż favicons na liście menu kontekstowego",
     "description": ""
   },
   "note": {
