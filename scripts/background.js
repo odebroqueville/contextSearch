@@ -32,13 +32,25 @@ const notifyUnknown = browser.i18n.getMessage("notifyUnknown");
 const notifySearchEngineUrlRequired = browser.i18n.getMessage("notifySearchEngineUrlRequired");
 
 /// Preferences - Default settings
+let contextsearch_tabMode = "openNewTab";
 let contextsearch_optionsMenuLocation = "bottom";
 let contextsearch_openSearchResultsInNewTab = true;
 let contextsearch_makeNewTabOrWindowActive = false;
 let contextsearch_openSearchResultsInNewWindow = false;
-let contextsearch_getFavicons = true;
+let contextsearch_displayFavicons = true;
 let contextsearch_cacheFavicons = true;
 let contextsearch_forceIconReload = false;
+let contextsearch_forceOptionsReload = false;
+let contextsearch_forceSearchEnginesReload = true;
+const defaultOptions = {
+    "options": {
+        "tabMode": contextsearch_tabMode,
+        "tabActive": contextsearch_makeNewTabOrWindowActive,
+        "optionsMenuLocation": contextsearch_optionsMenuLocation,
+        "cacheFavicons": contextsearch_cacheFavicons,
+        "displayFavicons": contextsearch_displayFavicons
+    }
+};
 
 /// Handle Incoming Messages
 // Listen for messages from the content or options script
@@ -75,7 +87,7 @@ browser.runtime.onMessage.addListener(function(message) {
             selection = message.data;
             break;
         case "reset":
-            reset();
+            init();
             break;
         case "sendCurrentTabUrl":
             if (message.data) targetUrl = message.data;
@@ -87,7 +99,7 @@ browser.runtime.onMessage.addListener(function(message) {
             searchEngines = message.data;
             if (logToConsole) console.log(searchEngines);
             getFaviconsAsBase64Strings().then(function(){
-                saveSearchEnginesToStorageSync(true);
+                saveSearchEnginesToStorageSync(false);
                 rebuildContextMenu();
             }, onError);
 			break;
@@ -104,17 +116,41 @@ browser.runtime.onMessage.addListener(function(message) {
             }, onError);
             break;
         case "updateCacheFavicons":
-			setCacheFavicons(message.data);
+            getOptions().then((settings) => {
+                let options = settings.options;
+                if (logToConsole) console.log(`Preferences retrieved from storage sync: ${JSON.stringify(options)}`);
+                options.cacheFavicons = message.data.cacheFavicons;
+                setCacheFavicons(options);
+                saveOptions(options, false);
+            });
 			break;
         case "updateGetFavicons":
-            setDisplayFavicons(message.data);
+            getOptions().then((settings) => {
+                let options = settings.options;
+                if (logToConsole) console.log(`Preferences retrieved from storage sync: ${JSON.stringify(options)}`);
+                options.displayFavicons = message.data.displayFavicons;
+                setDisplayFavicons(options);
+                saveOptions(options, true);
+            });
             break;
-		case "updateTabMode":
-			setTabMode(message.data);
+        case "updateTabMode":
+            getOptions().then((settings) => {
+                let options = settings.options;
+                if (logToConsole) console.log(`Preferences retrieved from storage sync: ${JSON.stringify(options)}`);
+                options.tabMode = message.data.tabMode;
+                options.tabActive = message.data.tabActive;
+                setTabMode(options);
+                saveOptions(options, false);
+            });
 			break;
         case "updateOptionsMenuLocation":
-            setOptionsMenuLocation(message.data);
-            rebuildContextMenu();
+            getOptions().then((settings) => {
+                let options = settings.options;
+                if (logToConsole) console.log(`Preferences retrieved from storage sync: ${JSON.stringify(options)}`);
+                options.optionsMenuLocation = message.data.optionsMenuLocation;
+                setOptionsMenuLocation(options);
+                saveOptions(options, true);
+            });
 			break;
 		case "save":
 			browser.downloads.download({url: message.data, saveAs: true, filename: "searchEngines.json"});
@@ -125,109 +161,91 @@ browser.runtime.onMessage.addListener(function(message) {
 });
 
 /// Initialisation
+/// By Default: Resets the list of search engines to the default list
+/// By Default: Does not reset the options or force favicons to reload
 function init() {
 
-    let defaultOptions = {
-        "options": {
-            "tabMode": "openNewTab",
-            "tabActive": false,
-            "optionsMenuLocation": "bottom",
-            "cacheFavicons": true,
-            "favicons": true
-        }
-    }
-
     if (logToConsole) console.log("Loading the extension's preferences and search engines from storage sync..");
-    browser.storage.sync.get(null).then(function(data){
+    browser.storage.sync.get(null).then((data) => {
         
         var options = data.options;
-        if (logToConsole) {
-            console.log("The following data was retrieved from storage sync..");
-            if (options != undefined) console.log("Options: \n" + JSON.stringify(options));
-            console.log("Search engines: \n" + JSON.stringify(data));
-        }
-        if (options === undefined) options = defaultOptions.options;
         delete data.options;
-        if (isEmpty(data)) {
-            if (logToConsole) console.log("Storage sync is empty -> loading default list of search engines.");
-            loadDefaultSearchEngines(DEFAULT_JSON).then(function() {
-                setOptions(options);
-            }, onError);
-        } else {
-            if (logToConsole) console.log("Sorting search engines by index..");
-            searchEngines = sortByIndex(data);
+        if (logToConsole) console.log("The following data was retrieved from storage sync..");
+        if (options === undefined || contextsearch_forceOptionsReload) {
+            options = defaultOptions.options;
             setOptions(options);
+        } else {
+            if (logToConsole) console.log("Options: \n" + JSON.stringify(options));
+        }
+        
+        if (isEmpty(data) || contextsearch_forceSearchEnginesReload) {
+            if (logToConsole) console.log("Storage sync is empty -> loading default list of search engines.");
+            loadDefaultSearchEngines(DEFAULT_JSON);
+        } else {
+            searchEngines = sortByIndex(data);
+            if (logToConsole) console.log("Search engines: \n" + JSON.stringify(searchEngines));
         }
 
     }, onError);
 }
 
-// Resets the list of search engines to the default list
-// Does not reset the options
-function reset(){
-    browser.storage.sync.get(null).then(function(data){
-        let options = data.options;
-        browser.storage.sync.clear().then(function(){
-            loadDefaultSearchEngines(DEFAULT_JSON).then(function() {
-                setOptions(options);
-            }, onError);
-        }, onError);
-    }, onError);
+function getOptions(){
+    return new Promise(
+        (resolve, reject) => {
+            browser.storage.sync.get("options")
+                .then((data)=>{
+                    if (logToConsole) console.log(JSON.stringify(data));
+                    resolve(data);
+                })
+                .catch((err)=>{
+                    if (logToConsole) {
+                        console.error(err);
+                        console.log("Failed to retrieve options from storage sync.");
+                    }
+                    reject(err);
+                });
+        }
+    );
 }
 
 // Sets the default options if they haven't already been set in storage sync and saves them
 // The context menu is also rebuilt when required
 function setOptions(options) {
-
-    if (!(options.tabMode === "openNewTab" || options.tabMode === "sameTab" || options.tabMode === "openNewWindow")) {
-        // By default, search results will be presented in a new tab
-        options.tabMode = "openNewTab";
-    }
-    if (!(options.tabActive === true || options.tabActive === false)){
-        // By default the search is performed in the background, i.e. the new tab isn't made active
-        options.tabActive = false;
-    }
     setTabMode(options);
-
-    if (!(options.optionsMenuLocation === "top" || options.optionsMenuLocation === "bottom" || options.optionsMenuLocation === "none")) {
-        // By default, the options menu is located at the bottom of the context menu
-        options.optionsMenuLocation = "bottom";
-    }
-    setOptionsMenuLocation(options); // context menu will be rebuilt
-
-    if (!(options.cacheFavicons === false || options.cacheFavicons === true)) {
-        // By default, favicons should be cached
-        options.cacheFavicons = true;
-    }
+    setOptionsMenuLocation(options); // context menu will have to be rebuilt
     setCacheFavicons(options);
-
-    if (!(options.favicons === false || options.favicons === true)) {
-        // By default, favicons should be displayed
-        options.favicons = true;
-    }
-    setDisplayFavicons(options); // context menu will be rebuilt
-
-    let strOptions = JSON.stringify(options);
-    if (logToConsole) console.log("Options settings:\n" + strOptions);
-
+    setDisplayFavicons(options); // context menu will have to be rebuilt
+    saveOptions(options, true);
 }
 
 function saveOptions(data, blnRebuildContextMenu) {
     return new Promise(
         (resolve, reject) => {
-            browser.storage.sync.set({"options": data}).then(function(){
-                if (blnRebuildContextMenu) rebuildContextMenu();
-                resolve();
-            }, reject);
+            let options = {"options": data};
+            let strOptions = JSON.stringify(data);
+            if (logToConsole) console.log("Options settings:\n" + strOptions);
+            browser.storage.sync.set(options)
+                .then(()=>{
+                    if (blnRebuildContextMenu) rebuildContextMenu();
+                    if (logToConsole) console.log("Successfully saved the options to storage sync!");
+                    resolve();
+                })
+                .catch((err)=>{
+                    if (logToConsole) {
+                        console.error(err);
+                        console.log("Failed to save options to storage sync.");
+                    }
+                    reject(err);
+                });
         }
     );
 }
 
 // Store the default values for tab mode in storage local
-function setTabMode(data) {
+function setTabMode(options) {
     if (logToConsole) console.log("Setting tab mode..");
-    contextsearch_makeNewTabOrWindowActive = data.tabActive;
-    switch (data.tabMode) {
+    contextsearch_makeNewTabOrWindowActive = options.tabActive;
+    switch (options.tabMode) {
         case "openNewTab":
             contextsearch_openSearchResultsInNewTab = true;
             contextsearch_openSearchResultsInNewWindow = false;
@@ -243,27 +261,22 @@ function setTabMode(data) {
         default:
             break;
     }
-    saveOptions(data, false);
 }
 
-function setOptionsMenuLocation(data) {
-    if (logToConsole) console.log("Setting the position of options in the context menu..");
-    contextsearch_optionsMenuLocation = data.optionsMenuLocation;
-    saveOptions(data, true);
+function setOptionsMenuLocation(options) {
+    if (logToConsole) console.log(`Setting the position of options in the context menu to ${options.optionsMenuLocation}`);
+    contextsearch_optionsMenuLocation = options.optionsMenuLocation;
 }
 
-function setCacheFavicons(data){
-    if (logToConsole) console.log("Setting the preference for caching favicons..");
-    contextsearch_cacheFavicons = data.cacheFavicons;
-    saveOptions(data, false).then(() => {
-        saveSearchEnginesToStorageSync(false)
-    }, onError);
+function setCacheFavicons(options){
+    if (logToConsole) console.log(`Setting the preference to cache favicons to ${options.cacheFavicons}`);
+    contextsearch_cacheFavicons = options.cacheFavicons;
+    saveSearchEnginesToStorageSync(false);
 }
 
-function setDisplayFavicons(data) {
+function setDisplayFavicons(options) {
     if (logToConsole) console.log("Setting favicons preference..");
-    contextsearch_getFavicons = data.favicons;
-    saveOptions(data, true);
+    contextsearch_displayFavicons = options.displayFavicons;
 }
 
 /// Load default list of search engines
@@ -276,49 +289,80 @@ function loadDefaultSearchEngines(jsonFile) {
             xhr.overrideMimeType("application/json");
             xhr.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    searchEngines = JSON.parse(this.responseText);
+                    searchEngines = sortByIndex(JSON.parse(this.responseText));
                     if (logToConsole) console.log("Search engines: \n" + JSON.stringify(searchEngines));
-                    getFaviconsAsBase64Strings().then(function(){
-                        saveSearchEnginesToStorageSync(true);
-                        rebuildContextMenu();
-                        resolve();
-                    }, reject);
+                    getFaviconsAsBase64Strings()
+                        .then(()=>{
+                            saveSearchEnginesToStorageSync(true);
+                            rebuildContextMenu();
+                            resolve(console.log("Successfully loaded favicons and saved search engines to storage sync."));
+                        })
+                        .catch((err)=>{
+                            reject(console.error(err));
+                        });
                 }
             };
             xhr.send();
-            xhr.onerror = function(e) {
-                reject(e);
+            xhr.onerror = (err)=>{
+                reject(console.error(err));
             }
         }
     );
 }
 
 function saveSearchEnginesToStorageSync(blnNotify){
-    let searchEnginesLocal = searchEngines;
-	if (!contextsearch_cacheFavicons) {
-		if (logToConsole) console.log("cacheFavicons is disabled, clearing favicons before saving to sync storage..");
-		for (let id in searchEnginesLocal) {
-			searchEnginesLocal[id].base64 = null;
-		}
-	}
-	
-    browser.storage.sync.set(searchEnginesLocal).then(function() {
-        if (blnNotify) notify(notifySearchEnginesLoaded);
-        if (logToConsole) {
-            for (let id in searchEnginesLocal){
-                console.log(`Search engine: ${id} has been saved as follows:\n\n${JSON.stringify(searchEnginesLocal[id])}\n\n`);
+    return new Promise(
+        (resolve, reject)=>{
+            let searchEnginesLocal = JSON.parse(JSON.stringify(searchEngines));
+            if (logToConsole) console.log(JSON.stringify(searchEngines));
+            if (!contextsearch_cacheFavicons) {
+                if (logToConsole) console.log("cacheFavicons is disabled, clearing favicons before saving to sync storage..\n");
+                for (let id in searchEnginesLocal) {
+                    searchEnginesLocal[id].base64 = null;
+                }
             }
+            if (logToConsole) console.log(JSON.stringify(searchEngines));
+            browser.storage.sync.set(searchEnginesLocal)
+                .then(()=>{
+                    if (blnNotify) notify(notifySearchEnginesLoaded);
+                    if (logToConsole) {
+                        for (let id in searchEnginesLocal){
+                            console.log(`Search engine: ${id} has been saved to storage sync as follows:\n\n${JSON.stringify(searchEnginesLocal[id])}\n\n`);
+                        }
+                    }
+                    browser.tabs.query({currentWindow: true, url: "*://*/*"})
+                        .then((tabs) => {
+                            if (!isEmpty(tabs)) {
+                                sendMessageToTabs(tabs, {"action": "updateSearchEnginesList", "data": searchEngines})
+                                    .then(()=>{
+                                        if (logToConsole) console.log("Message to update search engines has been sent to all tabs!\n");
+                                    })
+                                    .catch((err)=>{
+                                        if (logToConsole) {
+                                            console.error(err);
+                                            console.log("Failed to send the 'updateSearchEnginesList' message to the browser tabs.");
+                                        }
+                                    });
+                            }
+                        })
+                        .catch((err)=>{
+                            if (logToConsole) {
+                                console.error(err);
+                                console.log("Failed to find any browser tabs to send the 'updateSearchEnginesList' message to.");
+                            }
+                        });
+                    if (logToConsole) console.log("Search engines have been successfully saved to storage sync.");
+                    resolve();
+                })
+                .catch((err)=>{
+                    if (logToConsole) {
+                        console.error(err);
+                        console.log("Failed to save the search engines to storage sync.");
+                    };
+                    reject();
+                });
         }
-        browser.tabs.query({
-            currentWindow: true,
-            url: "*://*/*"
-        }).then((tabs) => {
-            if (tabs.length > 0) {
-                sendMessageToTabs(tabs, {"action": "updateSearchEnginesList", "data": searchEngines});
-                if (logToConsole) console.log("Message to update search engines has been sent to all tabs!");
-            }
-        }, onError);
-    }, onError);
+    );
 }
 
 /// Get and store favicon urls and base64 images
@@ -341,21 +385,29 @@ function getFaviconsAsBase64Strings() {
                 }
             }
             
-            Promise.all(arrayOfPromises).then((values) => { // values is an array of {id:, base64:}
-                if (logToConsole) console.log("ALL Promises have completed.");
-                if (values === undefined) return;
-                    for (let value of values) {
-                        if (logToConsole) console.log("================================================");
-                        if (logToConsole) console.log("id is " + value.id);
-                        if (logToConsole) console.log("------------------------------------------------");
-                        if (logToConsole) console.log("base64 string is " + value.base64);
-                        if (logToConsole) console.log("================================================");
-                        searchEngines[value.id]["base64"] = value.base64;
-                    }
-                    if (logToConsole) console.log("Favicons are no longer being fetched.");
-                    if (logToConsole) console.log(searchEngines);
-                    resolve();
-            }, reject);
+            Promise.all(arrayOfPromises)
+                .then((values) => { // values is an array of {id:, base64:}
+                    if (logToConsole) console.log("ALL promises have completed.");
+                    if (values === undefined) return;
+                        for (let value of values) {
+                            if (logToConsole) console.log("================================================");
+                            if (logToConsole) console.log("id is " + value.id);
+                            if (logToConsole) console.log("------------------------------------------------");
+                            if (logToConsole) console.log("base64 string is " + value.base64);
+                            if (logToConsole) console.log("================================================");
+                            searchEngines[value.id]["base64"] = value.base64;
+                        }
+                        if (logToConsole) console.log("The favicons have ALL been fetched.");
+                        if (logToConsole) console.log(searchEngines);
+                        resolve();
+                })
+                .catch((err)=>{
+                    if (logToConsole) {
+                        console.error(err);
+                        console.log("Not ALL the favcions could be fetched.");
+                    };
+                    reject();
+                });
         }
     );
 }
@@ -433,7 +485,7 @@ function addNewFavicon(id, domain) {
         }
         xhr.send();
         xhr.onerror = (err) => {
-            console.error(`Failed to fetch favicon. Error: ${err}`)
+            if (logToConsole) console.error(`Failed to fetch favicon for ${id}. Error: ${err}`)
             resolve({"id": id, "base64": base64ContextSearchIcon});
         }
     });
@@ -516,7 +568,7 @@ function getBase64Image(faviconUrl) {
             }
             xhr.send();
             xhr.onerror = (err) => {
-                if (logToConsole) console.log('Array Buffer fetch Error :-S', err);
+                if (logToConsole) console.log('Array buffer fetch error:', err);
                 resolve(base64ContextSearchIcon);
             }
         }
@@ -613,7 +665,7 @@ function buildContextMenuItem(searchEngine, index, title, base64String, browserV
 	const contexts = ["selection"];
 	let faviconUrl = "data:image/png;base64," + base64String;
 	if (!searchEngine.show) return;
-	if (browserVersion >= 56 && contextsearch_getFavicons === true){
+	if (browserVersion >= 56 && contextsearch_displayFavicons === true){
 		browser.contextMenus.create({
 			id: index,
 			title: title,
@@ -634,15 +686,19 @@ function processSearch(info, tab){
     let id = info.menuItemId.replace("cs-", "");
 
     if (id === "exif-tags") {
-        browser.tabs.query({
-            active: true,
-        }).then((tabs) => {
+        browser.tabs.query({active: true})
+        .then((tabs) => {
             if (tabs.length > 0) {
                 sendMessageToTabs(tabs, {"action": "displayExifTags", "data": imageTags});
-                if (logToConsole) console.log(`Image URL: ${imageUrl}`);
-                if (logToConsole) console.log(`Image EXIF tags: \n\n${JSON.stringify(imageTags, null, "\t")}`);
+                if (logToConsole) {
+                    console.log(`Image URL: ${imageUrl}`);
+                    console.log(`Image EXIF tags: \n\n${JSON.stringify(imageTags, null, "\t")}`);
+                }  
             }
-        }, onError);
+        })
+        .catch((err)=>{
+            if (logToConsole) console.error(err);
+        });
         return;
     }
 
@@ -886,11 +942,50 @@ function sendMessageToOptionsScript(action, data) {
 
 /// Send messages to content scripts (selection.js)
 function sendMessageToTabs(tabs, message) {
-    if (logToConsole) console.log(`Tabs array is: \n${tabs}`);
-    for (let tab of tabs) {
-        if (logToConsole) console.log("Sending message to tab: \n" + JSON.stringify(tab));
-        browser.tabs.sendMessage(tab.id, message);
-    }
+    return new Promise(
+        (resolve, reject)=>{
+            let arrayOfPromises = [];
+            if (logToConsole) console.log(`Sending message to tabs..\n\n`);
+            for (let tab of tabs) {
+                arrayOfPromises.push(sendMessageToTab(tab, message));
+            }
+            Promise.all(arrayOfPromises)
+                .then(()=>{
+                    if (logToConsole) console.log("Message has successfully been sent to ALL tabs.");
+                    resolve();
+                })
+                .catch((err)=>{
+                    if (logToConsole) {
+                        console.error(err);
+                        console.log("Failed to send message to ALL tabs.");
+                    }
+                    reject();
+                });
+        }
+    );
+}
+
+function sendMessageToTab(tab, message){
+    return new Promise(
+        (resolve, reject)=>{
+            browser.tabs.sendMessage(tab.id, message)
+                .then(()=>{
+                    if (logToConsole) {
+                        console.log(`Successfully sent message to:\n`);
+                        console.log(`Tab ${tab.index}: ${tab.title}\n`);
+                    }
+                    resolve();
+                })
+                .catch((err)=>{
+                    if (logToConsole) {
+                        console.error(err);
+                        console.log(`Failed to send message to:\n`);
+                        console.log(`Tab ${tab.index}: ${tab.title}\n`);
+                    }
+                    reject();
+                });
+        }
+    );
 }
 
 /// Notifications

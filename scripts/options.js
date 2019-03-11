@@ -202,27 +202,6 @@ function createLineItem(id, searchEngine) {
     chkShowSearchEngine.addEventListener("click", visibleChanged); // when users check or uncheck the checkbox
 
     // Event handlers for search engine name changes
-    /*
-    inputSearchEngineName.addEventListener("paste", searchEngineNameChanged); // when users paste text
-    inputSearchEngineName.addEventListener("blur", searchEngineNameChanged); // when users leave the input field and content has changed
-    inputSearchEngineName.addEventListener("keyup", function (e) {
-		clearTimeout(typingTimerSearchEngineName);
-		typingTimerSearchEngineName = setTimeout(searchEngineNameChanged, typingInterval);
-    });
-    inputSearchEngineName.addEventListener("keydown", function(e){
-        typingEventSearchEngineName = e;
-        clearTimeout(typingTimerSearchEngineName);
-    });
-    inputSearchEngineName.addEventListener("input", function (e) {
-        let timeStamp = Math.floor(Date.now());
-        let data = e.data;
-        if (nextSaveTime === null) nextSaveTime = timeStamp + saveInterval;
-        if (data = previouslySavedData || timeStamp < nextSaveTime ) return;
-        prevouslySavedData = data;
-        nextSaveTime = timeStampe + saveInterval;
-        searchEngineNameChanged();
-    });
-    */
     inputSearchEngineName.addEventListener("cut", searchEngineNameChanged); // when users paste text
     inputSearchEngineName.addEventListener("paste", searchEngineNameChanged); // when users paste text
     inputSearchEngineName.addEventListener("input", function (e) {
@@ -652,7 +631,7 @@ function updateCacheFavicons() {
 
 function updateGetFavicons() {
     let fav = getFavicons.checked;
-	sendMessage("updateGetFavicons", {"favicons": fav});
+	sendMessage("updateGetFavicons", {"displayFavicons": fav});
 }
 
 function updateOptionsMenuLocation() {
