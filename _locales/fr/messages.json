@@ -232,11 +232,27 @@
     "description": ""
   },
   "header7": {
-    "message": "Désactiver la grille d'icônes",
+    "message": "Réinitialiser les préférences",
     "description": ""
   },
-  "disableGrid": {
-    "message": "Désactiver la grille d'icônes",
+  "sidebar": {
+    "message": "Dans la barre de côté",
+    "description": ""
+  },
+  "displayFavicons": {
+    "message": "Afficher les icônes dans le menu contextuel",
+    "description": ""
+  },
+  "resetPreferences": {
+    "message": "Restaurer les préférences par défaut",
+    "description": ""
+  },
+  "forceSearchEnginesReload": {
+    "message": "Forcer le chargement à neuf des moteurs de recherche par défaut",
+    "description": ""
+  },
+  "forceFaviconsReload": {
+    "message": "Forcer le chargement à neuf des icônes",
     "description": ""
   }
 }

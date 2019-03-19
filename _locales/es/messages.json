@@ -232,11 +232,27 @@
     "description": ""
   },
   "header7": {
-    "message": "Disable grid of icons",
+    "message": "Reset options",
     "description": ""
   },
-  "disableGrid": {
-    "message": "Disable grid of icons",
+  "sidebar": {
+    "message": "In the sidebar",
+    "description": ""
+  },
+  "displayFavicons": {
+    "message": "Display favicons in context menu list",
+    "description": ""
+  },
+  "resetPreferences": {
+    "message": "Reset preferences to default settings",
+    "description": ""
+  },
+  "forceSearchEnginesReload": {
+    "message": "Force reload of default search engines list",
+    "description": ""
+  },
+  "forceFaviconsReload": {
+    "message": "Force favicons to be reloaded",
     "description": ""
   }
 }

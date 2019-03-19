@@ -15,14 +15,18 @@ const url = document.getElementById("url"); // String
 
 // Settings
 const openNewTab = document.getElementById("openNewTab");
-const openNewWindow = document.getElementById("openNewWindow");
 const sameTab = document.getElementById("sameTab");
+const openNewWindow = document.getElementById("openNewWindow");
+const openSidebar = document.getElementById("openSidebar");
 const tabMode = document.getElementById("tabMode");
 const tabActive = document.getElementById("tabActive");
 const active = document.getElementById("active");
 const optionsMenuLocation = document.getElementById("optionsMenuLocation");
-const getFavicons = document.getElementById("getFavicons");
+const displayFavicons = document.getElementById("displayFavicons");
 const cacheFavicons = document.getElementById("cacheFavicons");
+const resetPreferences = document.getElementById("resetPreferences");
+const forceSearchEnginesReload = document.getElementById("forceSearchEnginesReload");
+const forceFaviconsReload = document.getElementById("forceFaviconsReload");
 
 // All engine buttons
 const btnClearAll = document.getElementById("clearAll");
@@ -39,7 +43,7 @@ const btnDownload = document.getElementById("download");
 const btnUpload = document.getElementById("upload");
 
 let divSearchEngines = document.getElementById("searchEngines");
-let storageSyncCount = 0;
+let numberOfSearchEngines = 0;
 let searchEngines = {};
 
 // Translation variables
@@ -71,10 +75,13 @@ browser.storage.onChanged.addListener(handleStorageChange);
 
 // Settings
 cacheFavicons.addEventListener("click", updateCacheFavicons);
-getFavicons.addEventListener("click", updateGetFavicons);
+displayFavicons.addEventListener("click", updateDisplayFavicons);
 tabMode.addEventListener("click", updateTabMode);
 tabActive.addEventListener("click", updateTabMode);
 optionsMenuLocation.addEventListener("click", updateOptionsMenuLocation);
+resetPreferences.addEventListener("click", updateResetOptions);
+forceSearchEnginesReload.addEventListener("click", updateResetOptions);
+forceFaviconsReload.addEventListener("click", updateResetOptions);
 
 // All engine buttons
 btnClearAll.addEventListener("click", clearAll);
@@ -165,7 +172,7 @@ function listSearchEngines(list) {
         divSearchEngines.appendChild(lineItem);
     }
     divContainer.appendChild(divSearchEngines);
-    storageSyncCount = divSearchEngines.childNodes.length;
+    numberOfSearchEngines = divSearchEngines.childNodes.length;
 
 }
 
@@ -297,7 +304,7 @@ function clearAll() {
             input.checked = false;
         }
     }
-    saveOptions();
+    saveSearchEngines();
 }
 
 function selectAll() {
@@ -309,11 +316,16 @@ function selectAll() {
             input.checked = true;
         }
     }
-    saveOptions();
+    saveSearchEngines();
 }
 
 function reset() {
-    sendMessage("reset", "");
+    let resetOptions = {
+        "resetPrefernces": resetPreferences.checked,
+        "forceSearchEnginesReload": forceSearchEnginesReload.checked,
+        "forceFaviconsReload": forceFaviconsReload.checked
+    }
+    sendMessage("reset", resetOptions);
 }
 
 // Begin of user event handlers
@@ -327,7 +339,7 @@ function swapIndexes(previousItem, nextItem) {
     if (logToConsole) console.log("NEXT item:" + JSON.stringify(searchEngines[nextItem]));
     searchEngines = sortByIndex(searchEngines);
 
-    sendMessage("saveEngines", searchEngines);
+    sendMessage("saveSearchEngines", searchEngines);
 }
 
 function moveSearchEngineUp(e) {
@@ -360,11 +372,9 @@ function removeSearchEngine(e) {
     let pn = lineItem.parentNode;
         
     pn.removeChild(lineItem);
-    searchEngines[id] = null;
-    searchEngines = sortByIndex(searchEngines);
 
     browser.storage.sync.remove(id).then(function (){
-        sendMessage("saveEngines", searchEngines);
+        saveSearchEngines();
     }, onError);
 
 }
@@ -376,7 +386,7 @@ function visibleChanged(e){
     
     searchEngines[id]["show"] = visible;
 
-    sendMessage("saveEngines", searchEngines);
+    sendMessage("saveSearchEngines", searchEngines);
 }
 
 function searchEngineNameChanged(e) {
@@ -391,7 +401,7 @@ function searchEngineNameChanged(e) {
     
     searchEngines[id]["name"] = searchEngineName;
 
-    sendMessage("saveEngines", searchEngines);
+    sendMessage("saveSearchEngines", searchEngines);
 }
 
 function keywordChanged(e){
@@ -406,7 +416,7 @@ function keywordChanged(e){
 
     searchEngines[id]["keyword"] = keyword;
 
-    sendMessage("saveEngines", searchEngines);
+    sendMessage("saveSearchEngines", searchEngines);
 }
 
 function multiTabChanged(e){
@@ -416,7 +426,7 @@ function multiTabChanged(e){
     
     searchEngines[id]["multitab"] = multiTab;
 
-    sendMessage("saveEngines", searchEngines);
+    sendMessage("saveSearchEngines", searchEngines);
 }
 
 function queryStringChanged(e){
@@ -431,7 +441,7 @@ function queryStringChanged(e){
     
     searchEngines[id]["url"] = queryString;
 
-    sendMessage("saveEngines", searchEngines);
+    sendMessage("saveSearchEngines", searchEngines);
 }
 // End of user event handlers
 
@@ -442,8 +452,8 @@ function readData() {
 
     let divSearchEngines = document.getElementById("searchEngines");
     let lineItems = divSearchEngines.childNodes;
-    storageSyncCount = lineItems.length;
-    for (let i = 0;i < storageSyncCount;i++) {
+    numberOfSearchEngines = lineItems.length;
+    for (let i = 0;i < numberOfSearchEngines;i++) {
         let input = lineItems[i].firstChild;
         if (input != null && input.nodeName === "INPUT" && input.getAttribute("type") === "checkbox") {
             let label = input.nextSibling;
@@ -464,11 +474,11 @@ function readData() {
 }
 
 // Save the list of search engines to be displayed in the context menu
-function saveOptions() {
+function saveSearchEngines() {
     if (logToConsole) console.log("Search Engines BEFORE SAVE:\n"+JSON.stringify(searchEngines));
     searchEngines = readData();
     if (logToConsole) console.log("Search Engines AFTER SAVE:\n"+JSON.stringify(searchEngines));
-    sendMessage("saveEngines", searchEngines);
+    sendMessage("saveSearchEngines", searchEngines);
 }
 
 function testSearchEngine() {
@@ -505,7 +515,7 @@ function addSearchEngine() {
         return;
     }
     
-    searchEngines[id] = {"index": storageSyncCount, "name": name.value, "keyword": keyword.value, "multitab": multitab.checked , "url": url.value, "show": show.checked};
+    searchEngines[id] = {"index": numberOfSearchEngines, "name": name.value, "keyword": keyword.value, "multitab": multitab.checked , "url": url.value, "show": show.checked};
     if (logToConsole) console.log("New search engine: " + id + "\n" + JSON.stringify(searchEngines[id]));
 
     let lineItem = createLineItem(id, searchEngines[id]);
@@ -528,10 +538,10 @@ function clear() {
 }
 
 function onGot(data) {
-    if (logToConsole) console.log(data);
     let options = data.options;
-    if (logToConsole) console.log(options);
+    if (logToConsole) console.log(`Preferences retrieved from storage sync:\n${JSON.stringify(options)}`);
     delete data.options;
+    if (logToConsole) console.log(`Search engines retrieved from storage sync:\n${JSON.stringify(data)}`);
     listSearchEngines(data);
     switch (options.tabMode) {
         case "openNewTab":
@@ -545,6 +555,10 @@ function onGot(data) {
         case "openNewWindow":
             openNewWindow.checked = true;
             active.style.visibility = "visible";
+            break;
+        case "openSidebar":
+            openSidebar.checked = true;
+            active.style.visibility = "hidden";
             break;
         default:
             openNewTab.checked = true;
@@ -567,10 +581,10 @@ function onGot(data) {
     }
 
     if (options.favicons === false) {
-        getFavicons.checked = false;
+        displayFavicons.checked = false;
     } else {
         // Default setting is to fetch favicons for context menu list
-        getFavicons.checked = true;
+        displayFavicons.checked = true;
     } 
 
     if (options.cacheFavicons === false){
@@ -578,6 +592,27 @@ function onGot(data) {
     } else {
         // Default setting is to cache favicons in storage sync
         cacheFavicons.checked = true;
+    }
+
+    if (options.resetPreferences === false){
+        resetPreferences.checked = false;
+    } else {
+        // Default setting is to cache favicons in storage sync
+        resetPreferences.checked = true;
+    }
+
+    if (options.forceSearchEnginesReload === false){
+        forceSearchEnginesReload.checked = false;
+    } else {
+        // Default setting is to cache favicons in storage sync
+        forceSearchEnginesReload.checked = true;
+    }
+
+    if (options.forceFaviconsReload === false){
+        forceFaviconsReload.checked = false;
+    } else {
+        // Default setting is to cache favicons in storage sync
+        forceFaviconsReload.checked = true;
     }
     
 }
@@ -588,13 +623,13 @@ function restoreOptions() {
 }
 
 function saveToLocalDisk() {
-    saveOptions();
+    saveSearchEngines();
     let fileToDownload = new Blob([JSON.stringify(searchEngines, null, 2)], {
         type: "text/json",
         name: "searchEngines.json"
     });
     
-    sendMessage("save", window.URL.createObjectURL(fileToDownload));
+    sendMessage("saveSearchEnginesToDisk", window.URL.createObjectURL(fileToDownload));
 }
 
 function handleFileUpload() {
@@ -605,14 +640,14 @@ function handleFileUpload() {
         reader.onload = function(event) {
             searchEngines = JSON.parse(event.target.result);
             listSearchEngines(searchEngines);
-            saveOptions();
+            saveSearchEngines();
         };
         reader.readAsText(jsonFile);
     }, onError);
 }
 
 function updateTabMode() {
-    if (sameTab.checked) {
+    if (sameTab.checked || openSidebar.checked) {
         active.style.visibility = "hidden";
     } else {
         active.style.visibility = "visible";
@@ -629,14 +664,23 @@ function updateCacheFavicons() {
 	sendMessage("updateCacheFavicons", {"cacheFavicons": cf});
 }
 
-function updateGetFavicons() {
-    let fav = getFavicons.checked;
-	sendMessage("updateGetFavicons", {"displayFavicons": fav});
+function updateDisplayFavicons() {
+    let fav = displayFavicons.checked;
+	sendMessage("updateDisplayFavicons", {"displayFavicons": fav});
 }
 
 function updateOptionsMenuLocation() {
     let omat = optionsMenuLocation.value;
 	sendMessage("updateOptionsMenuLocation", {"optionsMenuLocation": omat});
+}
+
+function updateResetOptions() {
+    let resetOptions = {
+        "forceSearchEnginesReload": forceSearchEnginesReload.checked,
+        "resetPreferences": resetPreferences.checked,
+        "forceFaviconsReload": forceFaviconsReload.checked
+    };
+	sendMessage("updateResetOptions", {"resetOptions": resetOptions});
 }
 
 function isValidUrl(url) {

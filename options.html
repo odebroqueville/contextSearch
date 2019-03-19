@@ -25,6 +25,9 @@
 
 							<input type="radio" id="openNewWindow" name="results" value="openNewWindow">
 							<label for="openNewWindow" data-i18n="newWindow">In a new window</label>
+
+							<input type="radio" id="openSidebar" name="results" value="openSidebar">
+							<label for="openSidebar" data-i18n="sidebar">In the sidebar</label>
 						</div>
 
 						<div id="active">
@@ -35,7 +38,7 @@
 					<fieldset style="display:inline-block">
 						<legend><h4 data-i18n="header2">Display favicons</h4></legend>
 						<div>
-							<input type="checkbox" id="getFavicons"><label for="getFavicons" data-i18n="getFavicons">Display favicons in context menu list</label>
+							<input type="checkbox" id="displayFavicons"><label for="displayFavicons" data-i18n="displayFavicons">Display favicons in context menu list</label>
 							<p><em data-i18n="note">This feature requires Firefox 56 or above.</em></p>
 						</div>
 					</fieldset>
@@ -56,6 +59,19 @@
 								<option value="top" data-i18n="top">At the top</option>
 								<option value="none" data-i18n="hide">Neither - hide the options menu</option>
 							</select>
+						</div>
+					</fieldset>
+
+					<fieldset style="display:inline-block">
+						<legend><h4 data-i18n="header7">Reset options</h4></legend>
+						<div>
+							<input type="checkbox" id="resetPreferences"><label for="resetPreferences" data-i18n="resetPreferences">Reset preferences to default settings</label>
+							<br />
+							<input type="checkbox" id="forceSearchEnginesReload"><label for="forceSearchEnginesReload" data-i18n="forceSearchEnginesReload">Force reload of default search engines list</label>
+							<br />
+							<input type="checkbox" id="forceFaviconsReload"><label for="forceFaviconsReload" data-i18n="forceFaviconsReload">Force favicons to be reloaded</label>
+							<br />
+							<button type="button" id="reset" data-i18n="reset">Reset</button>
 						</div>
 					</fieldset>
 
@@ -84,7 +100,6 @@
 					<div>
 						<button type="button" id="clearAll" data-i18n="clearAll">Clear All</button>
 						<button type="button" id="selectAll" data-i18n="selectAll">Select All</button>
-						<button type="button" id="reset" data-i18n="reset">Reset</button>
 						<br />
             			<p><b>*multi-search</b><span  data-i18n="multisearch"> is a search with multiple search engines simultaneously.</span></p>
 						<br />
