@@ -16,7 +16,7 @@
   "sidebar_action": {
     "default_icon": "/icons/context-search.svg",
     "default_title" : "Search results",
-    "default_panel": "/sidebar/panel.html",
+    "default_panel": "/sidebar/search_results.html",
     "open_at_install": false
   },
 

@@ -12,23 +12,12 @@ function requestImageData(){
 }
 
 function handleResponse(message) {
-    let action = message.action;
-    let imageUrl = message.data.imageUrl;
-    let imageTags = message.data.imageTags;
-    switch (action) {
-        case "displayExifTagsInSidebar":
-            createExifTagsPage(imageUrl, imageTags);
-            break;
-		default:
-			break;
-	}
-}
-
-function createExifTagsPage(imageUrl, imageTags){
+    let imageUrl = message.imageUrl;
+    let imageTags = message.imageTags;
     let content = document.getElementById("content");
     let table = document.createElement("table");
     for (let tag in imageTags) {
-        if (tag === "undefined") continue;
+        if (tag === "undefined" || isEmpty(imageTags[tag])) continue;
         let tr = document.createElement("tr");
         let tdTag = document.createElement("td");
         tdTag.setAttribute("class", "key");
