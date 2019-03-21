@@ -794,7 +794,8 @@ function processSearch(info, tab){
             if (logToConsole) console.log(targetUrl);
             browser.sidebarAction.open()
                 .then(()=>{
-                    browser.sidebarAction.setPanel({panel: null});
+                    let url = browser.runtime.getURL('/sidebar/search_results.html');
+                    browser.sidebarAction.setPanel({panel: url});
                     browser.sidebarAction.setTitle({title: "Search results"});
                 })
                 .catch((err)=>{
@@ -822,7 +823,8 @@ function processSearch(info, tab){
             if (logToConsole) console.log(targetUrl);
             browser.sidebarAction.open()
                 .then(()=>{
-                    browser.sidebarAction.setPanel({panel: null});
+                    let url = browser.runtime.getURL('/sidebar/search_results.html');
+                    browser.sidebarAction.setPanel({panel: url});
                     browser.sidebarAction.setTitle({title: "Search results"});
                 })
                 .catch((err)=>{
