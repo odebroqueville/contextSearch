@@ -1,4 +1,9 @@
-requestImageData();
+const logToConsole = true;
+
+(function(){
+    if (logToConsole) console.log(`Retrieving Exif tags..`);
+    requestImageData();
+}())
 
 function requestImageData(){
     browser.runtime.sendMessage({action: "returnImageData"})
@@ -36,4 +41,13 @@ function handleResponse(message) {
         table.appendChild(tr);
     }
     content.appendChild(table);
+}
+
+// Test if an object is empty
+function isEmpty(obj) {
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
 }

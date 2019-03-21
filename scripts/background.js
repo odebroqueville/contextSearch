@@ -92,7 +92,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             break;      
         case "returnSearchResults":
             if (logToConsole) console.log(`Target url: ${targetUrl}\n`);
-            if (!targetUrl === "") {
+            if (targetUrl != "") {
                 fetchMobileWebPage(targetUrl)
                     .then((response)=>{
                         if (logToConsole) console.log(`Response:\n\n${response}`);
