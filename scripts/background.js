@@ -96,7 +96,9 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 fetchMobileWebPage(targetUrl)
                     .then((response)=>{
                         if (logToConsole) console.log(`Response:\n\n${response}`);
-                        sendResponse(response);
+                        let content = getBody(response);
+                        if (logToConsole) console.log(`Response:\n\n${content}`);
+                        sendResponse({content: content});
                     })
                     .catch((err)=>{
                         if (logToConsole) console.error(err);
@@ -1030,6 +1032,13 @@ function isEmpty(obj) {
             return false;
     }
     return true;
+}
+
+function getBody(html) { 
+    let x = html.indexOf("<body");
+    x = html.indexOf(">", x);    
+    let y = html.lastIndexOf("</body>"); 
+    return html.slice(x + 1, y);
 }
 
 // Test if a search engine performing a search for the keyword 'test' returns valid results

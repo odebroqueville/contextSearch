@@ -16,17 +16,10 @@ function requestSearchResults(){
         });
 }
 
-function getBody(html) { 
-    let x = html.indexOf("<body");
-    x = html.indexOf(">", x);    
-    let y = html.lastIndexOf("</body>"); 
-    return html.slice(x + 1, y);
-}
-
 function handleResponse(response) {
-    if (response === undefined || response === null) return; 
-    let content = getBody(response);
-    let results = document.getElementById("results");
+    let content = response.content;
     if (logToConsole) console.log(content);
+    if (content === undefined || content === null || content === "") return; 
+    let results = document.getElementById("results");
     results.innerHTML =  content;
 }
