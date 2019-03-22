@@ -16,10 +16,13 @@ function requestSearchResults(){
         });
 }
 
-function handleResponse(response) {
-    let content = response.content;
+function handleResponse(content) {
     if (logToConsole) console.log(content);
     if (content === undefined || content === null || content === "") return; 
     let results = document.getElementById("results");
-    results.innerHTML =  content;
+    let doc = results.contentWindow.document;
+    //results.innerHTML =  content;
+    doc.open();
+    doc.write(content);
+    doc.close();
 }

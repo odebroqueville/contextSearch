@@ -11,7 +11,6 @@ let targetUrl = "";
 let lastAddressBarKeyword = "";
 let imageUrl = "";
 let imageTags = {};
-let isPanelSearchResults;
 
 /// Constants
 const DEFAULT_JSON = "defaultSearchEngines.json";
@@ -44,6 +43,7 @@ let contextsearch_cacheFavicons = true;
 let contextsearch_forceFaviconsReload = false;
 let contextsearch_resetPreferences = false;
 let contextsearch_forceSearchEnginesReload = true;
+let contextsearch_userAgent = "Mozilla/5.0 (Windows NT 5.1; rv:28.0; Android; iPhone) Gecko/20100101 Firefox/28.0";
 const defaultOptions = {
     "options": {
         "tabMode": contextsearch_tabMode,
@@ -96,14 +96,17 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 fetchMobileWebPage(targetUrl)
                     .then((response)=>{
                         if (logToConsole) console.log(`Response:\n\n${response}`);
-                        let content = getBody(response);
+                        let content = response;
                         if (logToConsole) console.log(`Response:\n\n${content}`);
-                        sendResponse({content: content});
+                        sendResponse(content);
                     })
                     .catch((err)=>{
                         if (logToConsole) console.error(err);
                     });
+            } else {
+                sendResponse("");
             }
+            return true;
             break;    
         case "setSelection":
             if (logToConsole) console.log(`Selected text: ${message.data}`);
@@ -747,13 +750,7 @@ function buildContextMenuItem(searchEngine, index, title, base64String, browserV
 // Perform search based on selected search engine, i.e. selected context menu item
 function processSearch(info, tab){
     let id = info.menuItemId.replace("cs-", "");
-    // browser.sidebarAction.isOpen({})
-    // .then((isOpen)=>{
-    //     if (isOpen) browser.sidebarAction.close();
-    // })
-    // .catch((err)=>{
-    //     if (logToConsole) console.error(err);
-    // });
+    browser.sidebarAction.close();
 
     if (id === "exif-tags") {
         if (contextsearch_openSearchResultsInSidebar) {
@@ -863,7 +860,7 @@ function fetchMobileWebPage(url) {
             let xhr = new XMLHttpRequest();
             xhr.open("GET", url, true);
             xhr.setRequestHeader("Content-type", "text/html; charset=utf-8");
-            xhr.setRequestHeader("User-Agent", "Mozilla/5.0 (Android 7.0; Mobile; rv:54.0) Gecko/54.0 Firefox/54.0");
+            xhr.setRequestHeader("User-Agent", contextsearch_userAgent);
             xhr.overrideMimeType("text/html");
             xhr.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
