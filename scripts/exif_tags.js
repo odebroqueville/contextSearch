@@ -28,17 +28,44 @@ function handleResponse(message) {
         tdTag.setAttribute("class", "key");
         let tdValue = document.createElement("td");
         tdValue.setAttribute("class", "value");
-        tdTagText = document.createTextNode(tag);
-        if (typeof(imageTags[tag]) === "object") {
-            tdValueText = document.createTextNode(`${JSON.stringify(imageTags[tag])}`);
-        } else {
-            tdValueText = document.createTextNode(`${imageTags[tag]}`);
-        }
+        let tdTagText = document.createTextNode(tag);
         tdTag.appendChild(tdTagText);
-        tdValue.appendChild(tdValueText);
-        tr.appendChild(tdTag);
-        tr.appendChild(tdValue);
-        table.appendChild(tr);
+        let o = imageTags[tag];
+        if (Array.isArray(o)) {
+            let tdValueText = document.createTextNode("Array");
+            tdValue.appendChild(tdValueText);
+            tr.appendChild(tdTag);
+            tr.appendChild(tdValue);
+            table.appendChild(tr);
+            continue;
+        }
+        if (typeof(o) === "object") {
+            if (logToConsole) console.log(JSON.stringify(imageTags[tag]));
+            tr.appendChild(tdTag);
+            table.appendChild(tr);
+            for (let key in o) {
+                if (logToConsole) console.log(`${key}:\n${o[key]}`);
+                if (key === undefined) continue;
+                let row = document.createElement("tr");
+                let tagKey = document.createElement("td");
+                let tagValue = document.createElement("td");
+                tagKey.setAttribute("class", "key increment");
+                tagValue.setAttribute("class", "value");
+                let tagKeyText = document.createTextNode(key.toString());
+                let tagValueText = document.createTextNode(o[key].toString());
+                tagKey.appendChild(tagKeyText);
+                tagValue.appendChild(tagValueText);
+                row.appendChild(tagKey);
+                row.appendChild(tagValue);
+                table.appendChild(row);
+            }
+        } else {
+            let tdValueText = document.createTextNode(`${imageTags[tag]}`);
+            tdValue.appendChild(tdValueText);
+            tr.appendChild(tdTag);
+            tr.appendChild(tdValue);
+            table.appendChild(tr);
+        }        
     }
     content.appendChild(table);
 }

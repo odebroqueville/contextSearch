@@ -18,10 +18,14 @@ function requestSearchResults(){
 
 function handleResponse(content) {
     if (logToConsole) console.log(content);
-    if (content === undefined || content === null || content === "") return; 
+    if (content === undefined || content === null || content === "") return;
     let results = document.getElementById("results");
     let doc = results.contentWindow.document;
-    //results.innerHTML =  content;
+    let h = window.innerHeight + "px";
+    if (logToConsole) console.log(`Height: ${window.innerHeight}`);
+    results.style.height = h;
+    results.style.width = "432px";
+    results.sandbox = "allow-scripts";
     doc.open();
     doc.write(content);
     doc.close();

@@ -1,10 +1,6 @@
-iframe {
-    height:1225px;
-}
-
 body {
     height: 100%;
-    width: 430px;
+    width: 432px;
     margin: 0;
     padding: 0;
     box-sizing: border-box;

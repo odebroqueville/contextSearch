@@ -11,7 +11,7 @@
         "id": "olivier.debroqueville@gmail.com"
     }
   },
-  "content_security_policy" : "script-src 'self'; object-src 'self'; img-src 'self' https://get-besticons.herokuapp.com/*;",
+  "content_security_policy" : "script-src 'self' 'unsafe-inline'; object-src 'self'; img-src 'self' https://get-besticons.herokuapp.com/*;",
 
   "sidebar_action": {
     "default_icon": "/icons/context-search.svg",
