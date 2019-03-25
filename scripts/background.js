@@ -64,6 +64,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     let domain = "";
     switch (message.action) {
         case "doSearch":
+
             id = message.data.id;
             if (logToConsole) console.log("Search engine id: " + id);
             browser.tabs.query({active: true, currentWindow: true}).then(function(tabs) {
@@ -77,7 +78,12 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
                         break;
                     }
                 }
-                searchUsing(id, tabIndex);
+                if (contextsearch_openSearchResultsInSidebar) {
+                    let searchEngineUrl = searchEngines[id].url;
+                    targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
+                } else {
+                    searchUsing(id, tabIndex);
+                }
             }, onError);
             break;
         case "notify":
@@ -136,7 +142,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             if (logToConsole) console.log(id, domain);
             searchEngines[id] = message.data.searchEngine;
             searchEngines = sortByIndex(searchEngines);
-            addNewFavicon(domain, id).then(function(value){
+            addNewFavicon(id, domain).then(function(value){
                 searchEngines[id]["base64"] = value.base64;
                 saveSearchEnginesToStorageSync(false);
                 rebuildContextMenu();
@@ -814,22 +820,7 @@ function processSearch(info, tab){
     
     // At this point, it should be a number
     if(!isNaN(id)){
-        targetUrl = getSearchEngineUrl(searchEngines[searchEnginesArray[id]].url, selection);
-        if (logToConsole) console.log(contextsearch_openSearchResultsInSidebar);
-        if (contextsearch_openSearchResultsInSidebar) {
-            if (logToConsole) console.log(targetUrl);
-            browser.sidebarAction.open()
-                .then(()=>{
-                    let url = browser.runtime.getURL('/sidebar/search_results.html');
-                    browser.sidebarAction.setPanel({panel: url});
-                    browser.sidebarAction.setTitle({title: "Search results"});
-                })
-                .catch((err)=>{
-                    if (logToConsole) console.error(err);
-                });
-            return;
-        }
-        displaySearchResults(targetUrl, tab.index);
+        searchUsing(searchEnginesArray[id], tab.index);
     }
 }
 
@@ -893,7 +884,19 @@ function getSearchEngineUrl(searchEngineUrl, sel){
 function searchUsing(id, tabIndex) {
     let searchEngineUrl = searchEngines[id].url;
     targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
-    if (logToConsole) console.log("TargetURL = " + targetUrl);
+    if (logToConsole) console.log(`Target url: ${targetUrl}`);
+    if (contextsearch_openSearchResultsInSidebar) {
+        browser.sidebarAction.open()
+            .then(()=>{
+                let url = browser.runtime.getURL('/sidebar/search_results.html');
+                browser.sidebarAction.setPanel({panel: url});
+                browser.sidebarAction.setTitle({title: "Search results"});
+            })
+            .catch((err)=>{
+                if (logToConsole) console.error(err);
+            });
+        return;
+    }
     displaySearchResults(targetUrl, tabIndex);
 }
 
@@ -901,7 +904,7 @@ function searchUsing(id, tabIndex) {
 function displaySearchResults(targetUrl, tabPosition) {
     if (logToConsole) console.log("Tab position: " + tabPosition);
     browser.windows.getCurrent({populate: false}).then(function(windowInfo) {
-        var currentWindowID = windowInfo.id;
+        let currentWindowID = windowInfo.id;
         if (contextsearch_openSearchResultsInNewWindow) {
             browser.windows.create({
                 url: targetUrl

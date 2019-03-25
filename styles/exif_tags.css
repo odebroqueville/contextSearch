@@ -15,6 +15,12 @@ html, body {
   white-space: pre-wrap;
 }
 
+#histogram {
+  width: 430px;
+  height: 200px;
+  background-color: black;
+}
+
 table {
   width: 430px;
 }

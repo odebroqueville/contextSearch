@@ -241,12 +241,12 @@ function createLineItem(id, searchEngine) {
     inputQueryString.addEventListener("paste", queryStringChanged); // when users paste text
     inputQueryString.addEventListener("change", queryStringChanged); // when users leave the input field and content has changed
 	inputQueryString.addEventListener("keyup", function (e) {
-		//clearTimeout(typingTimerQueryString);
-		//typingTimerQueryString = setTimeout(queryStringChanged, typingInterval);
+		clearTimeout(typingTimerQueryString);
+		typingTimerQueryString = setTimeout(queryStringChanged, typingInterval);
 	});
 	inputQueryString.addEventListener("keydown", function (e) {
-		//typingEventQueryString = e;
-		//clearTimeout(typingTimerQueryString);
+		typingEventQueryString = e;
+		clearTimeout(typingTimerQueryString);
 	});
 
     // Navigation and deletion buttons event handlers
@@ -343,7 +343,8 @@ function swapIndexes(previousItem, nextItem) {
 }
 
 function moveSearchEngineUp(e) {
-    let lineItem = e.target.parentNode;
+    let lineItem = e.target.parentNode.parentNode;
+    if (logToConsole) console.log(lineItem);
     let ps = lineItem.previousSibling;
     let pn = lineItem.parentNode;
 
@@ -355,7 +356,8 @@ function moveSearchEngineUp(e) {
 }
 
 function moveSearchEngineDown(e) {
-    let lineItem = e.target.parentNode;
+    let lineItem = e.target.parentNode.parentNode;
+    if (logToConsole) console.log(lineItem);
     let ns = lineItem.nextSibling;
     let pn = lineItem.parentNode;
 
@@ -367,7 +369,7 @@ function moveSearchEngineDown(e) {
 }
 
 function removeSearchEngine(e) {
-    let lineItem = e.target.parentNode;
+    let lineItem = e.target.parentNode.parentNode;
     let id = lineItem.getAttribute("id");
     let pn = lineItem.parentNode;
         
@@ -515,7 +517,7 @@ function addSearchEngine() {
         return;
     }
     
-    searchEngines[id] = {"index": numberOfSearchEngines, "name": name.value, "keyword": keyword.value, "multitab": multitab.checked , "url": url.value, "show": show.checked};
+    searchEngines[id] = {"index": numberOfSearchEngines, "name": name.value, "keyword": keyword.value, "multitab": multitab.checked , "url": url.value, "show": show.checked, "base64": null};
     if (logToConsole) console.log("New search engine: " + id + "\n" + JSON.stringify(searchEngines[id]));
 
     let lineItem = createLineItem(id, searchEngines[id]);

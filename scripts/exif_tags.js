@@ -1,5 +1,16 @@
+// Constants
 const logToConsole = true;
+const histogram = document.getElementById("histogram");
+const content = document.getElementById("content");
 
+// Global variables - initialisation
+let imageUrl = "";
+let imageTags = {};
+let redValues = array256(0);
+let greenValues = array256(0);
+let blueValues = array256(0);
+
+// Main
 (function(){
     if (logToConsole) console.log(`Retrieving Exif tags..`);
     requestImageData();
@@ -17,9 +28,101 @@ function requestImageData(){
 }
 
 function handleResponse(message) {
-    let imageUrl = message.imageUrl;
-    let imageTags = message.imageTags;
-    let content = document.getElementById("content");
+    imageUrl = message.imageUrl;
+    if (logToConsole) console.log(imageUrl);
+    imageTags = message.imageTags;
+    loadImageData()
+        .then((data)=>{
+            let canvas = data.canvas;
+            let ctx = data.ctx;
+            extractRGBValues(canvas, ctx);
+            plotHistogram();
+            displayExifTags();
+        })
+        .catch((err) => {
+            if (logToConsole) console.error(err);
+        });
+}
+
+function loadImageData(){
+    return new Promise(
+        (resolve, reject) => {
+            let img = new Image();
+            img.src = imageUrl;
+            let imageCanvas = document.createElement('canvas');
+            let ctxImageCanvas = imageCanvas.getContext('2d');
+            // imageCanvas.style.display = "none";
+            img.onload = function() {
+                ctxImageCanvas.drawImage(img, 0, 0, img.width, img.height);
+                img.style.display = 'none';
+                resolve({canvas: imageCanvas, ctx: ctxImageCanvas});
+            };
+            img.onerror = (err) => {
+                if (logToConsole) console.error(err);
+            }
+        }
+    )
+
+}
+
+function extractRGBValues(canvas, ctx) {
+    let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    for (let y=0; y < canvas.height; y++) {
+        for (let x=0; x < canvas.width; x++) {
+            redValues[getRGBAColorsForCoord(x, y, imageData)[0]]++;
+            greenValues[getRGBAColorsForCoord(x, y, imageData)[1]]++;
+            blueValues[getRGBAColorsForCoord(x, y, imageData)[2]]++;
+        }
+    }
+    if (logToConsole) console.log(redValues);
+}
+
+function getRGBAColorsForCoord(x, y, imageData) {
+    var red = y * (imageData.width * 4) + x * 4;
+    return [imageData.data[red], imageData.data[red + 1], imageData.data[red + 2], imageData.data[red + 3]];
+}
+
+function array256(defaultValue) {
+    let arr = [];
+    for (let i=0; i<256; i++) {
+        arr[i] = defaultValue; 
+    }
+    return arr;
+}
+
+function plotHistogram() {
+    new RGraph.SVG.Line({
+        id: 'histogram',
+        data: [
+            redValues,
+            greenValues,
+            blueValues
+        ],
+        options: {
+            backgroundGridVlines: false,
+            backgroundGridBorder: false,
+            backgroundGridColor: '#666',
+            shadow: false,
+            textColor: 'white',
+            textSize: 12,
+            title: 'Color Histogram',
+            marginBottom: 5,
+            marginLeft: 5,
+            marginRight: 5,
+            marginTop: 5,
+            linewidth: 2,
+            spline: true,
+            filled: true,
+            colors: [
+                'rgba(255,0,0,0.75)',
+                'rgba(0,255,0,0.75)',
+                'rgba(0,0,255,0.75)'
+            ]
+        }
+    }).draw();
+}
+
+function displayExifTags(){
     let table = document.createElement("table");
     for (let tag in imageTags) {
         if (tag === "undefined" || isEmpty(imageTags[tag])) continue;
@@ -40,11 +143,9 @@ function handleResponse(message) {
             continue;
         }
         if (typeof(o) === "object") {
-            if (logToConsole) console.log(JSON.stringify(imageTags[tag]));
             tr.appendChild(tdTag);
             table.appendChild(tr);
             for (let key in o) {
-                if (logToConsole) console.log(`${key}:\n${o[key]}`);
                 if (key === undefined) continue;
                 let row = document.createElement("tr");
                 let tagKey = document.createElement("td");

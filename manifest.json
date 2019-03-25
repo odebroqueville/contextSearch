@@ -11,7 +11,7 @@
         "id": "olivier.debroqueville@gmail.com"
     }
   },
-  "content_security_policy" : "script-src 'self' 'unsafe-inline'; object-src 'self'; img-src 'self' https://get-besticons.herokuapp.com/*;",
+  "content_security_policy" : "script-src 'self'; object-src 'self'; img-src *;",
 
   "sidebar_action": {
     "default_icon": "/icons/context-search.svg",
@@ -22,7 +22,7 @@
 
   "background": {
       "scripts": [
-        "/scripts/background.js",
+        "/scripts/background.js", 
         "/scripts/sort.js"
       ]
   },
@@ -61,7 +61,7 @@
   "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js": ["/scripts/selection.js", "/scripts/sort.js", "/scripts/exif.js", "/scripts/search_results.js", "/scripts/exif_tags.js"]
+      "js": ["/scripts/selection.js", "/scripts/sort.js", "/scripts/exif.js", "/scripts/RGraph.svg.common.core.js", "/scripts/RGraph.svg.line.js", "/scripts/search_results.js", "/scripts/exif_tags.js"]
     }
   ]
 

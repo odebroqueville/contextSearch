@@ -22,7 +22,6 @@ function handleResponse(content) {
     let results = document.getElementById("results");
     let doc = results.contentWindow.document;
     let h = window.innerHeight + "px";
-    if (logToConsole) console.log(`Height: ${window.innerHeight}`);
     results.style.height = h;
     results.style.width = "432px";
     results.sandbox = "allow-scripts";

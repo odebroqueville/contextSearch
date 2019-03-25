@@ -262,7 +262,6 @@ function onGridClick(e) {
     nav.removeEventListener("click", onGridClick);
     nav.removeEventListener("mouseleave", onLeave);
     nav = null;
-
     sendMessage("doSearch", {"id": id});
 }
 
