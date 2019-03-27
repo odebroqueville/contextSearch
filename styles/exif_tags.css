@@ -10,23 +10,29 @@ html, body {
   border-color: #404046;
 }
 
-#content {
-  width: 432px;
-  white-space: pre-wrap;
-}
-
 #histogram {
-  width: 430px;
+  position: fixed;
+  display: block;
+  width: 428px;
   height: 200px;
   background-color: black;
 }
 
+#content {
+  margin-top: 200px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: block;
+  width: 432px;
+  white-space: pre-wrap;
+}
+
 table {
-  width: 430px;
+  width: 428px;
 }
 
 tr {
-  margin: 5px;
+  margin: 2px;
   padding: 0;
 }
 
@@ -35,8 +41,8 @@ tr:nth-child(even) {
 }
 
 td {
-  max-width: 216px;
-  padding: 5px;
+  max-width: 214px;
+  padding: 2px;
 }
 
 .key {
