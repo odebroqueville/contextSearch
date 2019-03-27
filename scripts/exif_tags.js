@@ -31,6 +31,7 @@ function handleResponse(message) {
     imageUrl = message.imageUrl;
     if (logToConsole) console.log(imageUrl);
     imageTags = message.imageTags;
+    if (logToConsole) console.log(imageTags);
     loadImageData()
         .then((data)=>{
             let canvas = data.canvas;
@@ -49,9 +50,9 @@ function loadImageData(){
         (resolve, reject) => {
             let img = new Image();
             img.src = imageUrl;
+            if (logToConsole) console.log(imageUrl);
             let imageCanvas = document.createElement('canvas');
             let ctxImageCanvas = imageCanvas.getContext('2d');
-            // imageCanvas.style.display = "none";
             img.onload = function() {
                 ctxImageCanvas.drawImage(img, 0, 0, img.width, img.height);
                 img.style.display = 'none';
@@ -99,13 +100,12 @@ function plotHistogram() {
             blueValues
         ],
         options: {
-            backgroundGridVlines: false,
-            backgroundGridBorder: false,
-            backgroundGridColor: '#666',
+            backgroundGrid: false,
             shadow: false,
-            textColor: 'white',
-            textSize: 12,
             title: 'Color Histogram',
+            titleFont: 'Arial',
+            titleColor: 'white',
+            titleSize: 10,
             marginBottom: 5,
             marginLeft: 5,
             marginRight: 5,
@@ -114,18 +114,19 @@ function plotHistogram() {
             spline: true,
             filled: true,
             colors: [
-                'rgba(255,0,0,0.75)',
-                'rgba(0,255,0,0.75)',
-                'rgba(0,0,255,0.75)'
+                'rgba(255,0,0,0.6)',
+                'rgba(0,255,0,0.6)',
+                'rgba(0,0,255,0.6)'
             ]
         }
     }).draw();
 }
 
 function displayExifTags(){
+    let h = window.innerHeight + "px";
+    content.style.height = "100%";
     let table = document.createElement("table");
     for (let tag in imageTags) {
-        if (tag === "undefined" || isEmpty(imageTags[tag])) continue;
         let tr = document.createElement("tr");
         let tdTag = document.createElement("td");
         tdTag.setAttribute("class", "key");
