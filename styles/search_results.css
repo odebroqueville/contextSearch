@@ -1,5 +1,4 @@
-body {
-    height: 100%;
+body, iframe {
     width: 432px;
     margin: 0;
     padding: 0;

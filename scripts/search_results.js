@@ -23,7 +23,6 @@ function handleResponse(content) {
     let doc = results.contentWindow.document;
     let h = window.innerHeight + "px";
     results.style.height = h;
-    results.style.width = "432px";
     doc.open();
     doc.write(content);
     doc.close();
