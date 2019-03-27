@@ -24,7 +24,6 @@ function handleResponse(content) {
     let h = window.innerHeight + "px";
     results.style.height = h;
     results.style.width = "432px";
-    results.sandbox = "allow-scripts";
     doc.open();
     doc.write(content);
     doc.close();
