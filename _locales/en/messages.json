@@ -258,5 +258,9 @@
   "forceFaviconsReload": {
     "message": "Force favicons to be reloaded",
     "description": ""
+  },
+  "restriction": {
+    "message": "Please note that it isn't possible to display search results in the sidebar when using the grid of icons.",
+    "description": ""
   }
 }

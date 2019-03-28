@@ -254,5 +254,9 @@
   "forceFaviconsReload": {
     "message": "Forcer le chargement à neuf des icônes",
     "description": ""
+  },
+  "restriction": {
+    "message": "Veuillez noter qu'il n'est pas possible de présenter les résultats d'une recherche dans la barre de côté lorsqu'on utilise la grille d'icônes.",
+    "description": ""
   }
 }
