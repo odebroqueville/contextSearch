@@ -5,6 +5,9 @@ const base64ContextSearchIcon = "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAA
 
 /// Global variables
 let searchEngines = {};
+let tabUrl = "";
+let domain = "";
+let pn = "";
 
 /// Generic Error Handler
 function onError(error) {
@@ -59,6 +62,14 @@ function displayExifTags(tags){
 }
 
 function init(){
+    tabUrl = window.location.href;
+    pn = window.location.pathname;
+    domain = window.location.hostname;
+    if (logToConsole) {
+        console.log(`Tab url: ${tabUrl}`);
+        console.log(`Path name: ${pn}`);
+        console.log(`Domain: ${domain}`);
+    }
     browser.storage.sync.get(null).then(function(data){
         delete data.options;
         searchEngines = data;
@@ -100,13 +111,13 @@ function handleAltClickWithGrid(e) {
 function handleRightClickWithoutGrid(e) {
     if (e.target.tagName === "IMG") {
         let img = e.target;
-        let imgurl = img.getAttribute("src");
-        console.log(imgurl);
+        let imgurl = absoluteUrl(img.getAttribute("src"));
+        if (logToConsole) console.log(`Image url: ${imgurl}`);
         EXIF.getData(img, function(){
             //alert(EXIF.pretty(this));
             let tags = EXIF.getAllTags(this);
-            let data = {"imageUrl": imgurl, "tags": tags};
-            sendImageUrlAndExifTagsToBackgroundScript(data);
+            let data = {"imageUrl": imgurl, "imageTags": tags};
+            sendMessage("setImageData", data);
         });
     } else {
         let selectedText = getSelectedText();
@@ -130,20 +141,12 @@ function getSelectedText() {
     return selectedText.trim();
 }
 
-function sendImageUrlAndExifTagsToBackgroundScript(data){
-    // Send the image EXIF tags to background.js
-    sendMessage("setImageData", data);
-}
-
 function sendSelectionToBackgroundScript(selectedText){
     // Send the selected text to background.js
     sendMessage("setSelection", selectedText);
 
     // Send url of Google search within current site to background.js
-    let url = window.location.href;
-    let urlParts = url.replace('http://','').replace('https://','').split(/[/?#]/);
-    let domain = urlParts[0];
-    let targetUrl = "https://www.google.com/search?q=site" + encodeUrl(":" + domain + " " + selectedText);
+    let targetUrl = "https://www.google.com/search?q=site" + encodeUrl(":https://" + domain + " " + selectedText);
     sendMessage("sendCurrentTabUrl", targetUrl);
 }
 
@@ -314,6 +317,47 @@ function isEmpty(obj) {
 
 function sendMessage(action, data){
     browser.runtime.sendMessage({"action": action, "data": data});
+}
+
+function absoluteUrl(url) {
+    // If the url is absolute, i.e. begins withh either'http' or 'https', there's nothing to do!
+    if (/^(https?\:\/\/)/.test(url)) return url;
+
+    // If url begins with '//'
+    if (/^(\/\/)/.test(url)) {
+        return 'https:' + url;
+    }
+
+    // If url begins with '/' (and not '//' handled above)
+    if (/^\//.test(url)) {
+        let parts = url.split("/");
+        parts.unshift(domain);
+        return "https://" + parts.join("/");
+    }
+
+    // If url begins with an alphanumerical character
+    if (/^([a-zA-Z0-9])/.test(url) && /^(?!file|gopher|ftp\:\/\/).+/.test(url)) {
+        let parts = pn.split("/");
+        parts.pop();
+        return "https://" + domain + parts.join("/") + "/" + url;
+    }
+
+    // If url begins with './' or '../'
+    if (/^(\.\/|\.\.\/)/.test(url)) {
+        let stack = tabUrl.split("/");
+        let parts = url.split("/");
+        stack.pop(); // remove current file name (or empty string)
+                    // (omit if "base" is the current folder without trailing slash)
+        for (let i=0; i<parts.length; i++) {
+            if (parts[i] == ".") continue;
+            if (parts[i] == "..") {
+                stack.pop();
+            } else {
+                stack.push(parts[i]);
+            }
+        }
+        return stack.join("/");
+    }
 }
 
 init();
