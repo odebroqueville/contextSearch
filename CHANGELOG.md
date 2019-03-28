@@ -1,8 +1,13 @@
 3.70
 =========
+* Fixes bugs #2, #10, #11
 * Hold option (Alt) key and click on selected text to launch the grid of icons
 * Option to enable/disable grid of icons has been removed because now both context menu and grid of icons are accessible at all times
 * Use of CORS anywhere API has been removed
+* The JSON file containing the list of search engines now also includes favicons as base64 strings so that the favicons load faster and no longer require to make an HTTP request
+* Search results can now be displayed in the sidebar, but, unfortunately, this feature is not supported for all search engines
+* The extension now also includes an EXIF viewer which equally displays a color histogram
+* Some reset options have been added to the extension's preferences page, namely to force favicons to be reloaded
 * Updated README file on GitHub
 
 3.69
