@@ -61,7 +61,15 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["/scripts/selection.js", "/scripts/sort.js", "/scripts/exif.js", "/scripts/RGraph.svg.common.core.js", "/scripts/RGraph.svg.line.js", "/scripts/search_results.js", "/scripts/exif_tags.js"]
+      "js": [
+        "/scripts/selection.js", 
+        "/scripts/sort.js", 
+        "/scripts/exif.js", 
+        "/scripts/RGraph.svg.common.core.js", 
+        "/scripts/RGraph.svg.line.js", 
+        "/scripts/search_results.js", 
+        "/scripts/exif_tags.js"
+      ]
     }
   ]
 
