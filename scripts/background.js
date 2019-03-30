@@ -107,7 +107,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
                     });
             } else {
                 sendResponse("");
-            }
+            };
             return true;
             break;    
         case "setSelection":
@@ -115,10 +115,11 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             selection = message.data;
             break;
         case "reset":
-            contextsearch_resetPreferences = message.data.resetPreferences;
-            contextsearch_forceSearchEnginesReload = message.data.forceSearchEnginesReload;
-            contextsearch_forceFaviconsReload = message.data.forceFaviconsReload;
-            init();
+            init()
+            .then(()=>{
+                sendResponse("resetCompleted");
+            }, onError);
+            return true;
             break;
         case "sendCurrentTabUrl":
             if (message.data) targetUrl = message.data;
@@ -153,7 +154,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 saveOptions(options, false);
             });
 			break;
-        case "updateGetFavicons":
+        case "updateDisplayFavicons":
             getOptions().then((settings) => {
                 let options = settings.options;
                 if (logToConsole) console.log(`Preferences retrieved from storage sync: ${JSON.stringify(options)}`);
@@ -204,48 +205,100 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 /// By Default: Resets the list of search engines to the default list
 /// By Default: Does not reset the options or force favicons to reload
 function init() {
-    if (logToConsole) console.log("Loading the extension's preferences and search engines from storage sync..");
-    browser.storage.sync.get(null).then((data) => {
-        let options = data.options;
-        let save = true;
-        delete data.options;
-
-        if (logToConsole) console.log("The following data was retrieved from storage sync..");
-
-        // Reset preferences if required or no preferences have been saved to storage sync
-        if (isEmpty(options) || contextsearch_resetPreferences) {
-            if (logToConsole) console.log("No preferences are stored in storage sync -> loading default preferences.");
-            options = defaultOptions.options;
-        } else {
-            save = false;
-            if (logToConsole) console.log("Options: \n" + JSON.stringify(options));
+    return new Promise(
+        (resolve, reject)=>{
+            if (logToConsole) console.log("Loading the extension's preferences and search engines from storage sync..");
+            browser.storage.sync.get(null)
+            .then((data) => {
+                let options = {};
+                let removeOptions = false;
+                if (isEmpty(data.options)) {
+                    options = defaultOptions.options;
+                } else {
+                    options = data.options;
+                    delete data.options;
+                    removeOptions = true;
+                }
+                let forceReload = options.forceSearchEnginesReload;
+                let promise1 = initialiseOptions(options, removeOptions);
+                let promise2 = initialiseSearchEngines(data, forceReload);
+                Promise.all([promise1, promise2]).then(resolve, reject);
+            })
+            .catch((err)=>{
+                if (logToConsole) {
+                    console.error(err);
+                    console.log("Failed to retrieve data from storage sync.");
+                };
+                reject();
+            });
         }
-        setOptions(options, save);
+    );
+}
 
-        // Load default search engines if force reload is set or no search engines are stored in storage sync
-        if (isEmpty(data) || contextsearch_forceSearchEnginesReload) {
-            if (!isEmpty(data)) {
-                let keys = Object.keys(data);
-                browser.storage.sync.remove(keys)
+function initialiseOptions(data, removeOptions){
+    return new Promise(
+        (resolve, reject)=>{
+            let options = data;
+            if (logToConsole) console.log("Options: \n" + JSON.stringify(options));
+            let save = true;
+            let reset = options.resetPreferences;
+            // Reset preferences if requested or no preferences have been saved to storage sync
+            if (reset || !removeOptions) {
+                options = defaultOptions.options;
+                if (logToConsole) console.log("Options: \n" + JSON.stringify(options));
+                if (removeOptions) {
+                    browser.storage.sync.remove("options")
                     .then(()=>{
-                        loadDefaultSearchEngines(DEFAULT_JSON);
+                        setOptions(options, save).then(resolve, reject);
+                    })
+                    .catch((err)=>{
+                        if (logToConsole) {
+                            console.error(err);
+                            console.log("Failed to remove options from storage sync.");
+                        };
+                        reject();
+                    });
+                } else {
+                    setOptions(options, save).then(resolve, reject);
+                }
+            } else {
+                if (logToConsole) console.log("COUCOU!");
+                save = false;
+                setOptions(options, save).then(resolve, reject);
+            }
+        }
+    );
+}
+
+function initialiseSearchEngines(data, forceReload){
+    return new Promise(
+        (resolve, reject)=>{
+            // Load default search engines if force reload is set or no search engines are stored in storage sync
+            if (isEmpty(data) || forceReload) {
+                if (!isEmpty(data)) {
+                    let keys = Object.keys(data);
+                    browser.storage.sync.remove(keys)
+                    .then(()=>{
+                        loadDefaultSearchEngines(DEFAULT_JSON).then(resolve, reject);
                     })
                     .catch((err)=>{
                         if (logToConsole) {
                             console.error(err);
                             console.log("Failed to remove search engines from storage sync.");
-                        }
+                        };
+                        reject();
                     });
+                } else {
+                    if (logToConsole) console.log("No search engines are stored in storage sync -> loading default list of search engines.");
+                    loadDefaultSearchEngines(DEFAULT_JSON).then(resolve, reject);
+                }
             } else {
-                if (logToConsole) console.log("No search engines are stored in storage sync -> loading default list of search engines.");
-                loadDefaultSearchEngines(DEFAULT_JSON);
+                searchEngines = sortByIndex(data);
+                if (logToConsole) console.log("Search engines: \n" + JSON.stringify(searchEngines));
+                resolve();
             }
-        } else {
-            searchEngines = sortByIndex(data);
-            if (logToConsole) console.log("Search engines: \n" + JSON.stringify(searchEngines));
         }
-
-    }, onError);
+    );
 }
 
 function getOptions(){
@@ -270,12 +323,19 @@ function getOptions(){
 // Sets the default options if they haven't already been set in storage sync and saves them
 // The context menu is also rebuilt when required
 function setOptions(options, save) {
-    setTabMode(options);
-    setOptionsMenuLocation(options); // context menu will have to be rebuilt
-    setCacheFavicons(options);
-    setDisplayFavicons(options); // context menu will have to be rebuilt
-    setResetOptions(options);
-    if (save === true) saveOptions(options, true);
+    return new Promise(
+        (resolve, reject)=>{
+            setTabMode(options);
+            setOptionsMenuLocation(options); // context menu will have to be rebuilt
+            setCacheFavicons(options);
+            setDisplayFavicons(options); // context menu will have to be rebuilt
+            setResetOptions(options);
+            if (save === true) {
+                saveOptions(options, true).then(resolve, reject);
+            }
+            resolve();
+        }
+    )
 }
 
 function saveOptions(data, blnRebuildContextMenu) {
@@ -1060,12 +1120,13 @@ function buildSuggestion(text) {
 
 /// Helper functions
 // Test if an object is empty
-function isEmpty(obj) {
-    for (var key in obj) {
-        if (obj.hasOwnProperty(key))
-            return false;
-    }
-    return true;
+function isEmpty(value) {
+    if (typeof value === 'number') return false
+    else if (typeof value === 'string') return value.trim().length === 0
+    else if (Array.isArray(value)) return value.length === 0
+    else if (typeof value === 'object') return value == null || Object.keys(value).length === 0
+    else if (typeof value === 'boolean') return false
+    else return !value
 }
 
 function getBody(html) { 

@@ -70,7 +70,7 @@ var typingEventQueryString;
 var typingInterval = 1500;
 
 /// Event handlers
-document.addEventListener('DOMContentLoaded', restoreOptions);
+document.addEventListener('DOMContentLoaded', restoreOptionsPage);
 browser.storage.onChanged.addListener(handleStorageChange);
 
 // Settings
@@ -99,7 +99,11 @@ btnUpload.addEventListener("change", handleFileUpload);
 
 // Send a message to the background script
 function sendMessage(action, data) {
-    browser.runtime.sendMessage({"action": action, "data": data});
+    return new Promise(
+        (resolve, reject)=>{
+            browser.runtime.sendMessage({"action": action, "data": data}).then(resolve, reject);
+        }
+    );
 }
 
 // Notification
@@ -324,8 +328,17 @@ function reset() {
         "resetPrefernces": resetPreferences.checked,
         "forceSearchEnginesReload": forceSearchEnginesReload.checked,
         "forceFaviconsReload": forceFaviconsReload.checked
-    }
-    sendMessage("reset", resetOptions);
+    };
+    sendMessage("reset", resetOptions)
+    .then((response)=>{
+        if (logToConsole) console.log(response);
+        if (response === "resetCompleted"){
+            restoreOptionsPage();
+        }
+    })
+    .catch((err)=>{
+        if (logToConsole) console.error(err);
+    });
 }
 
 // Begin of user event handlers
@@ -539,12 +552,8 @@ function clear() {
     url.value = null;
 }
 
-function onGot(data) {
-    let options = data.options;
+function setOptions(options) {
     if (logToConsole) console.log(`Preferences retrieved from storage sync:\n${JSON.stringify(options)}`);
-    delete data.options;
-    if (logToConsole) console.log(`Search engines retrieved from storage sync:\n${JSON.stringify(data)}`);
-    listSearchEngines(data);
     switch (options.tabMode) {
         case "openNewTab":
             openNewTab.checked = true;
@@ -619,9 +628,19 @@ function onGot(data) {
     
 }
 
-// Restore the list of search engines to be displayed in the context menu from the local storage
-function restoreOptions() {
-    browser.storage.sync.get(null).then(onGot, onError);
+// Restore the list of search engines and the options to be displayed in the options page
+function restoreOptionsPage() {
+    browser.storage.sync.get(null)
+    .then((data)=>{
+        let options = data.options;
+        delete data.options;
+        if (logToConsole) console.log(`Search engines retrieved from storage sync:\n${JSON.stringify(data)}`);
+        listSearchEngines(data);
+        setOptions(options);
+    })
+    .catch((err)=>{
+        if (logToConsole) console.error(err);
+    });
 }
 
 function saveToLocalDisk() {
@@ -700,9 +719,7 @@ function handleStorageChange(changes, area) {
     if (area !== "sync") return;
     let ids = Object.keys(changes);
     for (let id of ids) {
-        if (id === "options") {
-            continue;    
-        } else {
+        if (id !== "options") {
             searchEngines[id] = changes[id].newValue;
         }
     }
