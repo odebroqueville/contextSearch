@@ -1,27 +1,52 @@
 /// Sort search engines by index
 function sortByIndex(list) {
-    var sortedList = {};
-    var skip = false;
-    
-    // If there are no indexes, then add some arbitrarily
-    for (var i = 0;i < Object.keys(list).length;i++) {
-		var id = Object.keys(list)[i];
-		if (list[id].index != null) {
-			break;
-		} 
-		if (list[id] != null) {
-			sortedList[id] = list[id];
-			sortedList[id]["index"] = i;
-			skip = true;
-		}
-    }
+  const logToConsole = false;
+  let sortedList = {};
+  let listArray = [];
+  let indexArray = [];
+  let minIndex = 999;
+  let count = 1;
 
-    for (var i = 0;i < Object.keys(list).length;i++) {
-      for (let id in list) {
-        if (list[id] != null && list[id].index === i) {
-          sortedList[id] = list[id];
-        }
-      }
+  // Build index and list arrays
+  for (let id in list){
+    let obj = {};
+    obj[id] = list[id];
+    // If index isn't defined then assign an arbitrary value to index
+    if (isEmpty(list[id].index)) {
+      list[id].index = count;
     }
-    return sortedList;
+    indexArray.push(list[id].index);
+    listArray.push(obj);
+    count++;
+  }
+
+  if (logToConsole) {
+    console.log(`Array of indexes:\n${indexArray}`);
+    //console.log(`List of search engines:\n${JSON.stringify(listArray)}`);
+    console.log(indexArray.length);
+  }
+
+  // Sort the list based on index values
+  while (indexArray.length > 0){
+    minIndex = Math.min(...indexArray);
+    let pos = indexArray.indexOf(minIndex);
+    let item = listArray.splice(pos, 1)[0];
+    sortedList[Object.keys(item)[0]] = item[Object.keys(item)[0]];
+    indexArray.splice(pos, 1);
+
+    if (logToConsole) {
+      console.log(`remaining indexes: ${indexArray}`);
+      console.log(`minimum index is ${minIndex}`);
+      console.log(`position of minimum index is ${pos}`);
+      console.log(`search engine at minimum index is:\n${JSON.stringify(item)}`);
+      console.log(Object.keys(item)[0]);
+    }
+  }
+
+  if (logToConsole) {
+    console.log(`Remaining search engines:\n${JSON.stringify(listArray)}`);
+    console.log(`Sorted list of search engines:\n${JSON.stringify(sortedList)}`);
+  }
+
+  return sortedList;
 }
