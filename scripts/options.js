@@ -1,6 +1,6 @@
 /// Global variables
 // Debugging
-const logToConsole = false;
+const logToConsole = true;
 
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById("container");
@@ -411,12 +411,13 @@ function removeSearchEngine(e) {
     let lineItem = e.target.parentNode.parentNode;
     let id = lineItem.getAttribute("id");
     let pn = lineItem.parentNode;
-        
+    if (logToConsole) console.log(id);
+    
     pn.removeChild(lineItem);
+    delete searchEngines[id];
+    if (logToConsole) console.log(JSON.stringify(searchEngines));
 
-    browser.storage.sync.remove(id).then(function (){
-        saveSearchEngines();
-    }, onError);
+    browser.storage.sync.remove(id).then(saveSearchEngines, onError);
 
 }
 
@@ -511,7 +512,7 @@ function readData() {
             searchEngines[lineItems[i].id]["base64"] = oldSearchEngines[lineItems[i].id].base64;
         }
     }
-    return sortByIndex(searchEngines);
+    return searchEngines;
 }
 
 // Save the list of search engines to be displayed in the context menu
@@ -745,7 +746,7 @@ function handleStorageChange(changes, area) {
     if (area !== "sync") return;
     let ids = Object.keys(changes);
     for (let id of ids) {
-        if (id !== "options") {
+        if (id !== "options" && searchEngines[id]) {
             searchEngines[id] = changes[id].newValue;
         }
     }

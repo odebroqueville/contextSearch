@@ -1,7 +1,7 @@
 "use strict";
 
 /// Debug
-const logToConsole = false;
+const logToConsole = true;
 
 /// Global variables
 let searchEngines = {};
