@@ -204,161 +204,129 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 /// Initialisation
 /// By Default: Resets the list of search engines to the default list
 /// By Default: Does not reset the options or force favicons to reload
-function init() {
-    return new Promise(
-        (resolve, reject)=>{
-            if (logToConsole) console.log("Loading the extension's preferences and search engines from storage sync..");
-            browser.storage.sync.get(null)
-            .then((data) => {
-                let options = {};
-                let removeOptions = false;
-                if (isEmpty(data.options)) {
-                    options = defaultOptions.options;
-                } else {
-                    options = data.options;
-                    delete data.options;
-                    removeOptions = true;
-                }
-                let forceReload = options.forceSearchEnginesReload;
-                let promise1 = initialiseOptions(options, removeOptions);
-                let promise2 = initialiseSearchEngines(data, forceReload);
-                Promise.all([promise1, promise2]).then(resolve, reject);
-            })
-            .catch((err)=>{
-                if (logToConsole) {
-                    console.error(err);
-                    console.log("Failed to retrieve data from storage sync.");
-                };
-                reject();
-            });
+async function init() {
+    try {
+        if (logToConsole) console.log("Loading the extension's preferences and search engines from storage sync..");
+        let data = await browser.storage.sync.get(null)
+        let options = {};
+        let removeOptions = false;
+        if (isEmpty(data.options)) {
+            options = defaultOptions.options;
+        } else {
+            options = data.options;
+            delete data.options;
+            removeOptions = true;
         }
-    );
+        let forceReload = options.forceSearchEnginesReload;
+        let promise1 = await initialiseOptions(options, removeOptions);
+        let promise2 = await initialiseSearchEngines(data, forceReload);
+    } catch (err) {
+        if (logToConsole) {
+            console.error(err);
+            console.log("Failed to retrieve data from storage sync.");
+        }
+    }
 }
 
-function initialiseOptions(data, removeOptions){
-    return new Promise(
-        (resolve, reject)=>{
-            let options = data;
-            if (logToConsole) console.log("Options: \n" + JSON.stringify(options));
+async function initialiseOptions(data, removeOptions){
+    try {
+        let options = data;
+            if (logToConsole) console.log(`Options retrieved from storage sync:\n${JSON.stringify(options)}`);
             let save = true;
             let reset = options.resetPreferences;
             // Reset preferences if requested or no preferences have been saved to storage sync
             if (reset || !removeOptions) {
                 options = defaultOptions.options;
-                if (logToConsole) console.log("Options: \n" + JSON.stringify(options));
+                if (logToConsole) console.log(`Options have been reset to default:\n${JSON.stringify(options)}`);
                 if (removeOptions) {
-                    browser.storage.sync.remove("options")
-                    .then(()=>{
-                        setOptions(options, save).then(resolve, reject);
-                    })
-                    .catch((err)=>{
-                        if (logToConsole) {
-                            console.error(err);
-                            console.log("Failed to remove options from storage sync.");
-                        };
-                        reject();
-                    });
+                    await browser.storage.sync.remove("options");
+                    await setOptions(options, save);
                 } else {
-                    setOptions(options, save).then(resolve, reject);
+                    await setOptions(options, save);
                 }
             } else {
-                if (logToConsole) console.log("COUCOU!");
+                if (logToConsole) console.log("Initialising options without saving to storage sync!");
                 save = false;
-                setOptions(options, save).then(resolve, reject);
+                await setOptions(options, save);
             }
+    } catch (err) {
+        if (logToConsole) {
+            console.error(err);
+            console.log("Failed to initialise options.");
         }
-    );
+    }
 }
 
-function initialiseSearchEngines(data, forceReload){
-    return new Promise(
-        (resolve, reject)=>{
-            // Load default search engines if force reload is set or no search engines are stored in storage sync
-            if (isEmpty(data) || forceReload) {
-                if (!isEmpty(data)) {
-                    let keys = Object.keys(data);
-                    browser.storage.sync.remove(keys)
-                    .then(()=>{
-                        loadDefaultSearchEngines(DEFAULT_JSON).then(resolve, reject);
-                    })
-                    .catch((err)=>{
-                        if (logToConsole) {
-                            console.error(err);
-                            console.log("Failed to remove search engines from storage sync.");
-                        };
-                        reject();
-                    });
-                } else {
-                    if (logToConsole) console.log("No search engines are stored in storage sync -> loading default list of search engines.");
-                    loadDefaultSearchEngines(DEFAULT_JSON).then(resolve, reject);
-                }
+async function initialiseSearchEngines(data, forceReload){
+    try {
+        // Load default search engines if force reload is set or no search engines are stored in storage sync
+        if (isEmpty(data) || forceReload) {
+            if (!isEmpty(data)) {
+                let keys = Object.keys(data);
+                await browser.storage.sync.remove(keys);
+                await loadDefaultSearchEngines(DEFAULT_JSON);
             } else {
-                searchEngines = sortByIndex(data);
-                if (logToConsole) console.log("Search engines: \n" + JSON.stringify(searchEngines));
-                resolve();
+                if (logToConsole) console.log("No search engines are stored in storage sync -> loading default list of search engines.");
+                await loadDefaultSearchEngines(DEFAULT_JSON);
             }
+        } else {
+            searchEngines = sortByIndex(data);
+            if (logToConsole) console.log("Search engines: \n" + JSON.stringify(searchEngines));
         }
-    );
+    } catch (err) {
+        if (logToConsole) {
+            console.error(err);
+            console.log("Failed to remove search engines from storage sync.");
+        }
+    }
 }
 
-function getOptions(){
-    return new Promise(
-        (resolve, reject) => {
-            browser.storage.sync.get("options")
-                .then((data)=>{
-                    if (logToConsole) console.log(JSON.stringify(data));
-                    resolve(data);
-                })
-                .catch((err)=>{
-                    if (logToConsole) {
-                        console.error(err);
-                        console.log("Failed to retrieve options from storage sync.");
-                    }
-                    reject(err);
-                });
+async function getOptions(){
+    try {
+        let data = await browser.storage.sync.get("options");
+        if (logToConsole) console.log(JSON.stringify(data));
+    } catch (err) {
+        if (logToConsole) {
+            console.error(err);
+            console.log("Failed to retrieve options from storage sync.");
         }
-    );
+    }
 }
 
 // Sets the default options if they haven't already been set in storage sync and saves them
 // The context menu is also rebuilt when required
-function setOptions(options, save) {
-    return new Promise(
-        (resolve, reject)=>{
-            setTabMode(options);
-            setOptionsMenuLocation(options); // context menu will have to be rebuilt
-            setCacheFavicons(options);
-            setDisplayFavicons(options); // context menu will have to be rebuilt
-            setResetOptions(options);
-            if (save === true) {
-                saveOptions(options, true).then(resolve, reject);
-            }
-            resolve();
+async function setOptions(options, save) {
+    try {
+        setTabMode(options);
+        setOptionsMenuLocation(options); // context menu will have to be rebuilt
+        setCacheFavicons(options);
+        setDisplayFavicons(options); // context menu will have to be rebuilt
+        setResetOptions(options);
+        if (save === true) {
+            await saveOptions(options, true);
         }
-    )
+    } catch {
+        if (logToConsole) {
+            console.error(err);
+            console.log("Failed to set options.");
+        }
+    }
 }
 
-function saveOptions(data, blnRebuildContextMenu) {
-    return new Promise(
-        (resolve, reject) => {
-            let options = {"options": data};
-            let strOptions = JSON.stringify(data);
-            if (logToConsole) console.log("Options settings:\n" + strOptions);
-            browser.storage.sync.set(options)
-                .then(()=>{
-                    if (blnRebuildContextMenu) rebuildContextMenu();
-                    if (logToConsole) console.log("Successfully saved the options to storage sync.");
-                    resolve();
-                })
-                .catch((err)=>{
-                    if (logToConsole) {
-                        console.error(err);
-                        console.log("Failed to save options to storage sync.");
-                    }
-                    reject(err);
-                });
+async function saveOptions(data, blnRebuildContextMenu) {
+    try {
+        let options = {"options": data};
+        let strOptions = JSON.stringify(data);
+        if (logToConsole) console.log(`Options settings:\n${strOptions}`);
+        await browser.storage.sync.set(options);
+        if (blnRebuildContextMenu) await rebuildContextMenu();
+        if (logToConsole) console.log("Successfully saved the options to storage sync.");
+    } catch (err) {
+        if (logToConsole) {
+            console.error(err);
+            console.log("Failed to save options to storage sync.");
         }
-    );
+    }
 }
 
 // Store the default values for tab mode in storage local
@@ -396,10 +364,14 @@ function setOptionsMenuLocation(options) {
     contextsearch_optionsMenuLocation = options.optionsMenuLocation;
 }
 
-function setCacheFavicons(options){
-    if (logToConsole) console.log(`Setting the preference to cache favicons to ${options.cacheFavicons}`);
-    contextsearch_cacheFavicons = options.cacheFavicons;
-    saveSearchEnginesToStorageSync(false, false);
+async function setCacheFavicons(options){
+    try {
+        if (logToConsole) console.log(`Setting the preference to cache favicons to ${options.cacheFavicons}`);
+        contextsearch_cacheFavicons = options.cacheFavicons;
+        await saveSearchEnginesToStorageSync(false, false);
+    } catch (err) {
+        if (logToConsole) console.error(err);
+    }
 }
 
 function setDisplayFavicons(options) {
@@ -454,115 +426,92 @@ function loadDefaultSearchEngines(jsonFile) {
     );
 }
 
-function saveSearchEnginesToStorageSync(blnNotify, blnUpdateContentScripts){
-    return new Promise(
-        (resolve, reject)=>{
-            let searchEnginesLocal = JSON.parse(JSON.stringify(searchEngines));
-            if (logToConsole) console.log(`Search engines:\n\n${JSON.stringify(searchEngines)}`);
-            if (!contextsearch_cacheFavicons) {
-                if (logToConsole) console.log("cacheFavicons is disabled, clearing favicons before saving to sync storage..\n");
-                for (let id in searchEnginesLocal) {
-                    searchEnginesLocal[id].base64 = null;
-                }
+async function saveSearchEnginesToStorageSync(blnNotify, blnUpdateContentScripts){
+    try {
+        let searchEnginesLocal = JSON.parse(JSON.stringify(searchEngines));
+        if (logToConsole) console.log(`Search engines:\n\n${JSON.stringify(searchEngines)}`);
+        if (!contextsearch_cacheFavicons) {
+            if (logToConsole) console.log("cacheFavicons is disabled, clearing favicons before saving to sync storage..\n");
+            for (let id in searchEnginesLocal) {
+                searchEnginesLocal[id].base64 = null;
             }
-            if (logToConsole) console.log(`Search engines:\n\n${JSON.stringify(searchEngines)}`);
-            browser.storage.sync.set(searchEnginesLocal)
-                .then(()=>{
-                    if (blnNotify) notify(notifySearchEnginesLoaded);
-                    if (logToConsole) {
-                        for (let id in searchEnginesLocal){
-                            console.log(`Search engine: ${id} has been saved to storage sync as follows:\n\n${JSON.stringify(searchEnginesLocal[id])}\n\n`);
-                        }
-                    }
-                    if (blnUpdateContentScripts) {
-                        browser.tabs.query({currentWindow: true, url: "<all_urls>"})
-                            .then((tabs) => {
-                                updateSearchEnginesList(tabs);
-                            })
-                            .catch((err)=>{
-                                if (logToConsole) {
-                                    console.error(err);
-                                    console.log("Failed to find any browser tabs to send the 'updateSearchEnginesList' message to.");
-                                }
-                            });
-                    }
-                    if (logToConsole) console.log("Search engines have been successfully saved to storage sync.");
-                    resolve();
-                })
-                .catch((err)=>{
-                    if (logToConsole) {
-                        console.error(err);
-                        console.log("Failed to save the search engines to storage sync.");
-                    };
-                    reject();
-                });
         }
-    );
+        if (logToConsole) console.log(`Search engines:\n\n${JSON.stringify(searchEngines)}`);
+        await browser.storage.sync.set(searchEnginesLocal)
+        if (blnNotify) notify(notifySearchEnginesLoaded);
+        if (logToConsole) {
+            for (let id in searchEnginesLocal){
+                console.log(`Search engine: ${id} has been saved to storage sync as follows:\n\n${JSON.stringify(searchEnginesLocal[id])}\n\n`);
+            }
+        }
+        if (blnUpdateContentScripts) {
+            let tabs= await browser.tabs.query({currentWindow: true, url: "<all_urls>"})
+            await updateSearchEnginesList(tabs);
+        }
+        if (logToConsole) console.log("Search engines have been successfully saved to storage sync.");
+    } catch (err) {
+        if (logToConsole) {
+            console.error(err);
+            console.log("Failed to save the search engines to storage sync.");
+        }
+    }
+
 }
 
-function updateSearchEnginesList(tabs){
-    if (!isEmpty(tabs)) {
-        sendMessageToTabs(tabs, {"action": "updateSearchEnginesList", "data": searchEngines})
-            .then(()=>{
-                if (logToConsole) console.log("Message to update search engines has been sent to all tabs!\n");
-            })
-            .catch((err)=>{
-                if (logToConsole) {
-                    console.error(err);
-                    console.log("Failed to send the 'updateSearchEnginesList' message to the browser tabs.");
-                }
-            });
+async function updateSearchEnginesList(tabs){
+    try {
+        if (!isEmpty(tabs)) {
+            await sendMessageToTabs(tabs, {"action": "updateSearchEnginesList", "data": searchEngines});
+            if (logToConsole) console.log("Message to update search engines has been sent to all tabs!\n");
+        }
+    } catch (err) {
+        if (logToConsole) {
+            console.error(err);
+            console.log("Failed to send the 'updateSearchEnginesList' message to the browser tabs.");
+        }
     }
 }
 
 /// Get and store favicon urls and base64 images
-function getFaviconsAsBase64Strings() {
-    return new Promise(
-        (resolve, reject) => {
-            if (logToConsole) console.log("Fetching favicons..");
-            let arrayOfPromises = new Array();
-            
-            for (let id in searchEngines) {
-                // Fetch a new favicon only if there is no existing favicon or if an icon reload is being forced
-                if (searchEngines[id].base64 === null || searchEngines[id].base64 === undefined || contextsearch_forceFaviconsReload) {
-                    let seUrl = searchEngines[id].url;
-                    if (logToConsole) console.log("id: " + id);
-                    if (logToConsole) console.log("url: " + seUrl);
-                    let domain = getDomain(seUrl);
-                    if (logToConsole) console.log("Getting favicon for " + domain);
-                    arrayOfPromises.push(addNewFavicon(id, domain));
-                }
-            }
-            
-            if (arrayOfPromises.length>0) {
-                Promise.all(arrayOfPromises)
-                    .then((values) => { // values is an array of {id:, base64:}
-                        if (logToConsole) console.log("ALL promises have completed.");
-                        if (values === undefined) return;
-                            for (let value of values) {
-                                if (logToConsole) console.log("================================================");
-                                if (logToConsole) console.log("id is " + value.id);
-                                if (logToConsole) console.log("------------------------------------------------");
-                                if (logToConsole) console.log("base64 string is " + value.base64);
-                                if (logToConsole) console.log("================================================");
-                                searchEngines[value.id]["base64"] = value.base64;
-                            }
-                            if (logToConsole) console.log("The favicons have ALL been fetched.");
-                            if (logToConsole) console.log(searchEngines);
-                            resolve();
-                    })
-                    .catch((err)=>{
-                        if (logToConsole) {
-                            console.error(err);
-                            console.log("Not ALL the favcions could be fetched.");
-                        };
-                        reject();
-                    });
-            } else {
-                resolve();
+async function getFaviconsAsBase64Strings() {
+    try {
+        if (logToConsole) console.log("Fetching favicons..");
+        let arrayOfPromises = new Array();
+        
+        for (let id in searchEngines) {
+            // Fetch a new favicon only if there is no existing favicon or if an icon reload is being forced
+            if (searchEngines[id].base64 === null || searchEngines[id].base64 === undefined || contextsearch_forceFaviconsReload) {
+                let seUrl = searchEngines[id].url;
+                if (logToConsole) console.log("id: " + id);
+                if (logToConsole) console.log("url: " + seUrl);
+                let domain = getDomain(seUrl);
+                if (logToConsole) console.log(`Getting favicon for ${domain}`);
+                arrayOfPromises.push(addNewFavicon(id, domain));
             }
         }
-    );
+        
+        if (arrayOfPromises.length > 0) {
+            // values is an array of {id:, base64:}
+            let values = await Promise.all(arrayOfPromises);
+            if (logToConsole) console.log("ALL promises have completed.");
+            if (values === undefined) return;
+            for (let value of values) {
+                if (logToConsole) console.log("================================================");
+                if (logToConsole) console.log("id is " + value.id);
+                if (logToConsole) console.log("------------------------------------------------");
+                if (logToConsole) console.log("base64 string is " + value.base64);
+                if (logToConsole) console.log("================================================");
+                searchEngines[value.id]["base64"] = value.base64;
+            }
+            if (logToConsole) console.log("The favicons have ALL been fetched.");
+            if (logToConsole) console.log(searchEngines);
+        }
+    } catch (err) {
+        if (logToConsole) {
+            console.error(err);
+            console.log("Not ALL the favcions could be fetched.");
+        }
+    }
 }
 
 /// Add favicon to newly added search engine
