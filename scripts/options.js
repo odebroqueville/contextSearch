@@ -349,22 +349,21 @@ function selectAll() {
     saveSearchEngines();
 }
 
-function reset() {
-    let resetOptions = {
-        "resetPrefernces": resetPreferences.checked,
-        "forceSearchEnginesReload": forceSearchEnginesReload.checked,
-        "forceFaviconsReload": forceFaviconsReload.checked
-    };
-    sendMessage("reset", resetOptions)
-    .then((response)=>{
+async function reset() {
+    try {
+        let resetOptions = {
+            "resetPrefernces": resetPreferences.checked,
+            "forceSearchEnginesReload": forceSearchEnginesReload.checked,
+            "forceFaviconsReload": forceFaviconsReload.checked
+        };
+        let response = await sendMessage("reset", resetOptions);
         if (logToConsole) console.log(response);
         if (response === "resetCompleted"){
-            restoreOptionsPage();
+            await restoreOptionsPage();
         }
-    })
-    .catch((err)=>{
+    } catch (err) {
         if (logToConsole) console.error(err);
-    });
+    }
 }
 
 // Begin of user event handlers
@@ -656,18 +655,17 @@ function setOptions(options) {
 }
 
 // Restore the list of search engines and the options to be displayed in the options page
-function restoreOptionsPage() {
-    browser.storage.sync.get(null)
-    .then((data)=>{
+async function restoreOptionsPage() {
+    try {
+        let data = await browser.storage.sync.get(null)
         let options = data.options;
         delete data.options;
         if (logToConsole) console.log(`Search engines retrieved from storage sync:\n${JSON.stringify(data)}`);
         listSearchEngines(data);
         setOptions(options);
-    })
-    .catch((err)=>{
+    } catch (err) {
         if (logToConsole) console.error(err);
-    });
+    }
 }
 
 function saveToLocalDisk() {
