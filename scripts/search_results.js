@@ -1,4 +1,4 @@
-const logToConsole = true;
+let logToConsole = true;
 
 (function(){
     if (logToConsole) console.log(`Requesting search results..`);

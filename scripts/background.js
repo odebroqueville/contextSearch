@@ -295,6 +295,7 @@ function initialiseSearchEngines(data, forceReload){
             } else {
                 searchEngines = sortByIndex(data);
                 if (logToConsole) console.log("Search engines: \n" + JSON.stringify(searchEngines));
+                rebuildContextMenu();
                 resolve();
             }
         }
