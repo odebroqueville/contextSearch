@@ -359,6 +359,7 @@ async function reset() {
         let response = await sendMessage("reset", resetOptions);
         if (logToConsole) console.log(response);
         if (response === "resetCompleted"){
+            if (logToConsole) console.log(searchEngines);
             await restoreOptionsPage();
         }
     } catch (err) {

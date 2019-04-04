@@ -8,6 +8,9 @@ let searchEngines = {};
 let tabUrl = "";
 let domain = "";
 let pn = "";
+let sel = null;
+let range = null;
+let sameTab = false;
 
 /// Generic Error Handler
 function onError(error) {
@@ -28,19 +31,22 @@ document.addEventListener("contextmenu", handleRightClickWithoutGrid);
 // Mouse up event listener
 document.addEventListener("mouseup", handleAltClickWithGrid)
 
+// Storage change event listener
+browser.storage.onChanged.addListener(handleStorageChange);
+
 /// Handle Incoming Messages
 // Listen for messages from the background script
 browser.runtime.onMessage.addListener(function(message) {
     let action = message.action;
     let data = message.data;
     switch (action) {
-        case "updateSearchEnginesList":
-            updateSearchEnginesList(data);
-            if (logToConsole) console.log("Search engines list has been updated with:\n" + JSON.stringify(searchEngines));
-            for (let id in searchEngines){
-                if (logToConsole) console.log("Search engine:" + id + "\n" + JSON.stringify(searchEngines[id]) + "\n");
-            }
-            break;
+        // case "updateSearchEnginesList":
+        //     updateSearchEnginesList(data);
+        //     if (logToConsole) console.log("Search engines list has been updated with:\n" + JSON.stringify(searchEngines));
+        //     for (let id in searchEngines){
+        //         if (logToConsole) console.log("Search engine:" + id + "\n" + JSON.stringify(searchEngines[id]) + "\n");
+        //     }
+        //     break;
         case "displayExifTags":
             displayExifTags(data);
             break;
@@ -48,6 +54,22 @@ browser.runtime.onMessage.addListener(function(message) {
 			break;
 	}
 });
+
+function handleStorageChange(changes, area) {
+    if (area !== "sync") return;
+    let ids = Object.keys(changes);
+    for (let id of ids) {
+        if (id === "options") {
+            if (changes[id].tabMode === "sameTab") {
+                sameTab = true;
+            } else {
+                sameTab = false;
+            }
+        } else if (searchEngines[id]) {
+            searchEngines[id] = changes[id].newValue;
+        }
+    }
+}
 
 function updateSearchEnginesList(data){
     searchEngines = sortByIndex(data);
@@ -71,6 +93,11 @@ function init(){
         console.log(`Domain: ${domain}`);
     }
     browser.storage.sync.get(null).then(function(data){
+        if (data.options.tabMode === "sameTab") {
+            sameTab = true;
+        } else {
+            sameTab = false;
+        }
         delete data.options;
         searchEngines = data;
     }, onError);
@@ -129,8 +156,9 @@ function getSelectedText() {
     let selectedText = ""; // Get the current value, not a cached value
 
     if (window.getSelection){ // All modern browsers and IE9+
-        if (logToConsole) console.log("Text has been selected!");
-        selectedText = window.getSelection().toString();
+        sel = window.getSelection();
+        range = sel.getRangeAt(0);
+        selectedText = sel.toString().trim();
     }
     if (document.activeElement != null && (document.activeElement.tagName === "TEXTAREA" || document.activeElement.tagName === "INPUT")){
         let selectedTextInput = document.activeElement.value.substring(document.activeElement.selectionStart, document.activeElement.selectionEnd);
@@ -138,7 +166,7 @@ function getSelectedText() {
     }
 
     if (logToConsole) console.log(`Selected text: ${selectedText}`);
-    return selectedText.trim();
+    return selectedText;
 }
 
 function sendSelectionToBackgroundScript(selectedText){
@@ -260,11 +288,15 @@ function onGridClick(e) {
     if (logToConsole) console.log("Grid icon got clicked:" + e.type);
     let id = e.target.parentNode.id;
     if (logToConsole) console.log("Search engine clicked:" + id);
-    let nav = document.getElementById("cs-grid");
-    nav.style.display = "none";
-    nav.removeEventListener("click", onGridClick);
-    nav.removeEventListener("mouseleave", onLeave);
-    nav = null;
+    if (sameTab) {
+        let nav = document.getElementById("cs-grid");
+        nav.style.display = "none";
+        nav.removeEventListener("click", onGridClick);
+        nav.removeEventListener("mouseleave", onLeave);
+        nav = null;
+    } else {
+        sel.addRange(range);
+    }
     sendMessage("doSearch", {"id": id});
 }
 

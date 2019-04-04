@@ -59,32 +59,26 @@ const defaultOptions = {
 
 /// Handle Incoming Messages
 // Listen for messages from the content or options script
-browser.runtime.onMessage.addListener(handleMessages);
-
-async function handleMessages(message, sender, sendResponse) {
+browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     let id = "";
     let domain = "";
-    let settings = {};
-    let options = {};
     switch (message.action) {
         case "doSearch":
             id = message.data.id;
             if (logToConsole) console.log("Search engine id: " + id);
-            let tabs = await browser.tabs.query({
-                active: true, 
-                currentWindow: true
-            });
-            if (logToConsole) console.log(tabs);
-            let tabIndex = 0;
-            for (let tab of tabs) {
-                if (tab.active) {
-                    if (logToConsole) console.log("Active tab url: " + tab.url);
-                    tabIndex = tab.index;
-                    if (logToConsole) console.log("tabIndex: " + tabIndex);
-                    break;
+            browser.tabs.query({active: true, currentWindow: true}).then(function(tabs) {
+                if (logToConsole) console.log(tabs);
+                let tabIndex = 0;
+                for (let tab of tabs) {
+                    if (tab.active) {
+                        if (logToConsole) console.log("Active tab url: " + tab.url);
+                        tabIndex = tab.index;
+                        if (logToConsole) console.log("tabIndex: " + tabIndex);
+                        break;
+                    }
                 }
-            }
-            await searchUsing(id, tabIndex, true);
+                searchUsing(id, tabIndex, true);
+            }, onError);
             break;
         case "notify":
             notify(message.data);
@@ -100,10 +94,20 @@ async function handleMessages(message, sender, sendResponse) {
             break;      
         case "returnSearchResults":
             if (logToConsole) console.log(`Target url: ${targetUrl}\n`);
-            let response = await fetchMobileWebPage(targetUrl);
-            let content = response.text();
-            if (logToConsole) console.log(`Response:\n\n${content}`);
-            sendResponse(content);
+            if (targetUrl != "") {
+                fetchMobileWebPage(targetUrl)
+                    .then((response)=>{
+                        if (logToConsole) console.log(`Response:\n\n${response}`);
+                        let content = response;
+                        if (logToConsole) console.log(`Response:\n\n${content}`);
+                        sendResponse(content);
+                    })
+                    .catch((err)=>{
+                        if (logToConsole) console.error(err);
+                    });
+            } else {
+                sendResponse("");
+            };
             return true;
             break;    
         case "setSelection":
@@ -111,8 +115,10 @@ async function handleMessages(message, sender, sendResponse) {
             selection = message.data;
             break;
         case "reset":
-            await init();
-            sendResponse("resetCompleted");
+            init()
+            .then(()=>{
+                sendResponse("resetCompleted");
+            }, onError);
             return true;
             break;
         case "sendCurrentTabUrl":
@@ -124,8 +130,8 @@ async function handleMessages(message, sender, sendResponse) {
         case "saveSearchEngines":
             searchEngines = message.data;
             if (logToConsole) console.log(searchEngines);
-            await saveSearchEnginesToStorageSync(false, true);
-            await rebuildContextMenu();
+            saveSearchEnginesToStorageSync(false, true);
+            rebuildContextMenu();
 			break;
         case "addNewSearchEngine":
             id = message.data.id;
@@ -133,188 +139,226 @@ async function handleMessages(message, sender, sendResponse) {
             if (logToConsole) console.log(id, domain);
             searchEngines[id] = message.data.searchEngine;
             searchEngines = sortByIndex(searchEngines);
-            let value = await addNewFavicon(id, domain);
-            searchEngines[id]["base64"] = value.base64;
-            await saveSearchEnginesToStorageSync(false, true);
-            await rebuildContextMenu();
+            addNewFavicon(id, domain).then(function(value){
+                searchEngines[id]["base64"] = value.base64;
+                saveSearchEnginesToStorageSync(false, true);
+                rebuildContextMenu();
+            }, onError);
             break;
         case "updateCacheFavicons":
-            settings = await getOptions();
-            options = settings.options;
-            if (logToConsole) console.log(`Preferences retrieved from storage sync: ${JSON.stringify(options)}`);
-            options.cacheFavicons = message.data.cacheFavicons;
-            await setCacheFavicons(options);
-            await saveOptions(options, false);
+            getOptions().then((settings) => {
+                let options = settings.options;
+                if (logToConsole) console.log(`Preferences retrieved from storage sync: ${JSON.stringify(options)}`);
+                options.cacheFavicons = message.data.cacheFavicons;
+                setCacheFavicons(options);
+                saveOptions(options, false);
+            });
 			break;
         case "updateDisplayFavicons":
-            settings = await getOptions();
-            options = settings.options;
-            if (logToConsole) console.log(`Preferences retrieved from storage sync: ${JSON.stringify(options)}`);
-            options.displayFavicons = message.data.displayFavicons;
-            setDisplayFavicons(options);
-            await saveOptions(options, true);
+            getOptions().then((settings) => {
+                let options = settings.options;
+                if (logToConsole) console.log(`Preferences retrieved from storage sync: ${JSON.stringify(options)}`);
+                options.displayFavicons = message.data.displayFavicons;
+                setDisplayFavicons(options);
+                saveOptions(options, true);
+            });
             break;
         case "updateTabMode":
-            settings = await getOptions();
-            options = settings.options;
-            if (logToConsole) console.log(`Preferences retrieved from storage sync: ${JSON.stringify(options)}`);
-            options.tabMode = message.data.tabMode;
-            options.tabActive = message.data.tabActive;
-            setTabMode(options);
-            await saveOptions(options, false);
+            getOptions().then((settings) => {
+                let options = settings.options;
+                if (logToConsole) console.log(`Preferences retrieved from storage sync: ${JSON.stringify(options)}`);
+                options.tabMode = message.data.tabMode;
+                options.tabActive = message.data.tabActive;
+                setTabMode(options);
+                saveOptions(options, false);
+            });
 			break;
         case "updateOptionsMenuLocation":
-            settings = await getOptions();
-            options = settings.options;
-            if (logToConsole) console.log(`Preferences retrieved from storage sync: ${JSON.stringify(options)}`);
-            options.optionsMenuLocation = message.data.optionsMenuLocation;
-            setOptionsMenuLocation(options);
-            await saveOptions(options, true);
+            getOptions().then((settings) => {
+                let options = settings.options;
+                if (logToConsole) console.log(`Preferences retrieved from storage sync: ${JSON.stringify(options)}`);
+                options.optionsMenuLocation = message.data.optionsMenuLocation;
+                setOptionsMenuLocation(options);
+                saveOptions(options, true);
+            });
             break;
         case "updateResetOptions":
-            settings = await getOptions();
-            options = settings.options;
-            if (logToConsole) console.log(`Preferences retrieved from storage sync: ${JSON.stringify(options)}`);
-            options.forceSearchEnginesReload = message.data.resetOptions.forceSearchEnginesReload;
-            options.resetPreferences = message.data.resetOptions.resetPreferences;
-            options.forceFaviconsReload = message.data.resetOptions.forceFaviconsReload;
-            setResetOptions(options);
-            await saveOptions(options, true);
+            getOptions().then((settings) => {
+                let options = settings.options;
+                if (logToConsole) console.log(`Preferences retrieved from storage sync: ${JSON.stringify(options)}`);
+                options.forceSearchEnginesReload = message.data.resetOptions.forceSearchEnginesReload;
+                options.resetPreferences = message.data.resetOptions.resetPreferences;
+                options.forceFaviconsReload = message.data.resetOptions.forceFaviconsReload;
+                setResetOptions(options);
+                saveOptions(options, true);
+            });
 			break;
 		case "saveSearchEnginesToDisk":
-			await browser.downloads.download({url: message.data, saveAs: true, filename: "searchEngines.json"});
+			browser.downloads.download({url: message.data, saveAs: true, filename: "searchEngines.json"});
 			break;
 		default:
 			break;
 	}
-}
+});
 
 /// Initialisation
 /// By Default: Resets the list of search engines to the default list
 /// By Default: Does not reset the options or force favicons to reload
-async function init() {
-    try {
-        if (logToConsole) console.log("Loading the extension's preferences and search engines from storage sync..");
-        let data = await browser.storage.sync.get(null)
-        let options = {};
-        let removeOptions = false;
-        if (isEmpty(data.options)) {
-            options = defaultOptions.options;
-        } else {
-            options = data.options;
-            delete data.options;
-            removeOptions = true;
+function init() {
+    return new Promise(
+        (resolve, reject)=>{
+            if (logToConsole) console.log("Loading the extension's preferences and search engines from storage sync..");
+            browser.storage.sync.get(null)
+            .then((data) => {
+                let options = {};
+                let removeOptions = false;
+                if (isEmpty(data.options)) {
+                    options = defaultOptions.options;
+                } else {
+                    options = data.options;
+                    delete data.options;
+                    removeOptions = true;
+                }
+                let forceReload = options.forceSearchEnginesReload;
+                let promise1 = initialiseOptions(options, removeOptions);
+                let promise2 = initialiseSearchEngines(data, forceReload);
+                Promise.all([promise1, promise2]).then(resolve, reject);
+            })
+            .catch((err)=>{
+                if (logToConsole) {
+                    console.error(err);
+                    console.log("Failed to retrieve data from storage sync.");
+                };
+                reject();
+            });
         }
-        let forceReload = options.forceSearchEnginesReload;
-        let promise1 = await initialiseOptions(options, removeOptions);
-        let promise2 = await initialiseSearchEngines(data, forceReload);
-    } catch (err) {
-        if (logToConsole) {
-            console.error(err);
-            console.log("Failed to retrieve data from storage sync.");
-        }
-    }
+    );
 }
 
-async function initialiseOptions(data, removeOptions){
-    try {
-        let options = data;
-            if (logToConsole) console.log(`Options retrieved from storage sync:\n${JSON.stringify(options)}`);
+function initialiseOptions(data, removeOptions){
+    return new Promise(
+        (resolve, reject)=>{
+            let options = data;
+            if (logToConsole) console.log("Options: \n" + JSON.stringify(options));
             let save = true;
             let reset = options.resetPreferences;
             // Reset preferences if requested or no preferences have been saved to storage sync
             if (reset || !removeOptions) {
                 options = defaultOptions.options;
-                if (logToConsole) console.log(`Options have been reset to default:\n${JSON.stringify(options)}`);
+                if (logToConsole) console.log("Options: \n" + JSON.stringify(options));
                 if (removeOptions) {
-                    await browser.storage.sync.remove("options");
-                    await setOptions(options, save);
+                    browser.storage.sync.remove("options")
+                    .then(()=>{
+                        setOptions(options, save).then(resolve, reject);
+                    })
+                    .catch((err)=>{
+                        if (logToConsole) {
+                            console.error(err);
+                            console.log("Failed to remove options from storage sync.");
+                        };
+                        reject();
+                    });
                 } else {
-                    await setOptions(options, save);
+                    setOptions(options, save).then(resolve, reject);
                 }
             } else {
-                if (logToConsole) console.log("Initialising options without saving to storage sync!");
+                if (logToConsole) console.log("COUCOU!");
                 save = false;
-                await setOptions(options, save);
+                setOptions(options, save).then(resolve, reject);
             }
-    } catch (err) {
-        if (logToConsole) {
-            console.error(err);
-            console.log("Failed to initialise options.");
         }
-    }
+    );
 }
 
-async function initialiseSearchEngines(data, forceReload){
-    try {
-        // Load default search engines if force reload is set or no search engines are stored in storage sync
-        if (isEmpty(data) || forceReload) {
-            if (!isEmpty(data)) {
-                let keys = Object.keys(data);
-                await browser.storage.sync.remove(keys);
-                await loadDefaultSearchEngines(DEFAULT_JSON);
+function initialiseSearchEngines(data, forceReload){
+    return new Promise(
+        (resolve, reject)=>{
+            // Load default search engines if force reload is set or no search engines are stored in storage sync
+            if (isEmpty(data) || forceReload) {
+                if (!isEmpty(data)) {
+                    let keys = Object.keys(data);
+                    browser.storage.sync.remove(keys)
+                    .then(()=>{
+                        loadDefaultSearchEngines(DEFAULT_JSON).then(resolve, reject);
+                    })
+                    .catch((err)=>{
+                        if (logToConsole) {
+                            console.error(err);
+                            console.log("Failed to remove search engines from storage sync.");
+                        };
+                        reject();
+                    });
+                } else {
+                    if (logToConsole) console.log("No search engines are stored in storage sync -> loading default list of search engines.");
+                    loadDefaultSearchEngines(DEFAULT_JSON).then(resolve, reject);
+                }
             } else {
-                if (logToConsole) console.log("No search engines are stored in storage sync -> loading default list of search engines.");
-                await loadDefaultSearchEngines(DEFAULT_JSON);
+                searchEngines = sortByIndex(data);
+                if (logToConsole) console.log("Search engines: \n" + JSON.stringify(searchEngines));
+                resolve();
             }
-        } else {
-            searchEngines = sortByIndex(data);
-            if (logToConsole) console.log("Search engines: \n" + JSON.stringify(searchEngines));
         }
-    } catch (err) {
-        if (logToConsole) {
-            console.error(err);
-            console.log("Failed to remove search engines from storage sync.");
-        }
-    }
+    );
 }
 
-async function getOptions(){
-    try {
-        let data = await browser.storage.sync.get("options");
-        if (logToConsole) console.log(JSON.stringify(data));
-    } catch (err) {
-        if (logToConsole) {
-            console.error(err);
-            console.log("Failed to retrieve options from storage sync.");
+function getOptions(){
+    return new Promise(
+        (resolve, reject) => {
+            browser.storage.sync.get("options")
+                .then((data)=>{
+                    if (logToConsole) console.log(JSON.stringify(data));
+                    resolve(data);
+                })
+                .catch((err)=>{
+                    if (logToConsole) {
+                        console.error(err);
+                        console.log("Failed to retrieve options from storage sync.");
+                    }
+                    reject(err);
+                });
         }
-    }
+    );
 }
 
 // Sets the default options if they haven't already been set in storage sync and saves them
 // The context menu is also rebuilt when required
-async function setOptions(options, save) {
-    try {
-        setTabMode(options);
-        setOptionsMenuLocation(options); // context menu will have to be rebuilt
-        setCacheFavicons(options);
-        setDisplayFavicons(options); // context menu will have to be rebuilt
-        setResetOptions(options);
-        if (save === true) {
-            await saveOptions(options, true);
+function setOptions(options, save) {
+    return new Promise(
+        (resolve, reject)=>{
+            setTabMode(options);
+            setOptionsMenuLocation(options); // context menu will have to be rebuilt
+            setCacheFavicons(options);
+            setDisplayFavicons(options); // context menu will have to be rebuilt
+            setResetOptions(options);
+            if (save === true) {
+                saveOptions(options, true).then(resolve, reject);
+            }
+            resolve();
         }
-    } catch {
-        if (logToConsole) {
-            console.error(err);
-            console.log("Failed to set options.");
-        }
-    }
+    )
 }
 
-async function saveOptions(data, blnRebuildContextMenu) {
-    try {
-        let options = {"options": data};
-        let strOptions = JSON.stringify(data);
-        if (logToConsole) console.log(`Options settings:\n${strOptions}`);
-        await browser.storage.sync.set(options);
-        if (blnRebuildContextMenu) await rebuildContextMenu();
-        if (logToConsole) console.log("Successfully saved the options to storage sync.");
-    } catch (err) {
-        if (logToConsole) {
-            console.error(err);
-            console.log("Failed to save options to storage sync.");
+function saveOptions(data, blnRebuildContextMenu) {
+    return new Promise(
+        (resolve, reject) => {
+            let options = {"options": data};
+            let strOptions = JSON.stringify(data);
+            if (logToConsole) console.log("Options settings:\n" + strOptions);
+            browser.storage.sync.set(options)
+                .then(()=>{
+                    if (blnRebuildContextMenu) rebuildContextMenu();
+                    if (logToConsole) console.log("Successfully saved the options to storage sync.");
+                    resolve();
+                })
+                .catch((err)=>{
+                    if (logToConsole) {
+                        console.error(err);
+                        console.log("Failed to save options to storage sync.");
+                    }
+                    reject(err);
+                });
         }
-    }
+    );
 }
 
 // Store the default values for tab mode in storage local
@@ -352,14 +396,10 @@ function setOptionsMenuLocation(options) {
     contextsearch_optionsMenuLocation = options.optionsMenuLocation;
 }
 
-async function setCacheFavicons(options){
-    try {
-        if (logToConsole) console.log(`Setting the preference to cache favicons to ${options.cacheFavicons}`);
-        contextsearch_cacheFavicons = options.cacheFavicons;
-        await saveSearchEnginesToStorageSync(false, false);
-    } catch (err) {
-        if (logToConsole) console.error(err);
-    }
+function setCacheFavicons(options){
+    if (logToConsole) console.log(`Setting the preference to cache favicons to ${options.cacheFavicons}`);
+    contextsearch_cacheFavicons = options.cacheFavicons;
+    saveSearchEnginesToStorageSync(false, false);
 }
 
 function setDisplayFavicons(options) {
@@ -414,92 +454,115 @@ function loadDefaultSearchEngines(jsonFile) {
     );
 }
 
-async function saveSearchEnginesToStorageSync(blnNotify, blnUpdateContentScripts){
-    try {
-        let searchEnginesLocal = JSON.parse(JSON.stringify(searchEngines));
-        if (logToConsole) console.log(`Search engines:\n\n${JSON.stringify(searchEngines)}`);
-        if (!contextsearch_cacheFavicons) {
-            if (logToConsole) console.log("cacheFavicons is disabled, clearing favicons before saving to sync storage..\n");
-            for (let id in searchEnginesLocal) {
-                searchEnginesLocal[id].base64 = null;
+function saveSearchEnginesToStorageSync(blnNotify, blnUpdateContentScripts){
+    return new Promise(
+        (resolve, reject)=>{
+            let searchEnginesLocal = JSON.parse(JSON.stringify(searchEngines));
+            if (logToConsole) console.log(`Search engines:\n\n${JSON.stringify(searchEngines)}`);
+            if (!contextsearch_cacheFavicons) {
+                if (logToConsole) console.log("cacheFavicons is disabled, clearing favicons before saving to sync storage..\n");
+                for (let id in searchEnginesLocal) {
+                    searchEnginesLocal[id].base64 = null;
+                }
             }
+            if (logToConsole) console.log(`Search engines:\n\n${JSON.stringify(searchEngines)}`);
+            browser.storage.sync.set(searchEnginesLocal)
+                .then(()=>{
+                    if (blnNotify) notify(notifySearchEnginesLoaded);
+                    if (logToConsole) {
+                        for (let id in searchEnginesLocal){
+                            console.log(`Search engine: ${id} has been saved to storage sync as follows:\n\n${JSON.stringify(searchEnginesLocal[id])}\n\n`);
+                        }
+                    }
+                    if (blnUpdateContentScripts) {
+                        browser.tabs.query({currentWindow: true, url: "<all_urls>"})
+                            .then((tabs) => {
+                                updateSearchEnginesList(tabs);
+                            })
+                            .catch((err)=>{
+                                if (logToConsole) {
+                                    console.error(err);
+                                    console.log("Failed to find any browser tabs to send the 'updateSearchEnginesList' message to.");
+                                }
+                            });
+                    }
+                    if (logToConsole) console.log("Search engines have been successfully saved to storage sync.");
+                    resolve();
+                })
+                .catch((err)=>{
+                    if (logToConsole) {
+                        console.error(err);
+                        console.log("Failed to save the search engines to storage sync.");
+                    };
+                    reject();
+                });
         }
-        if (logToConsole) console.log(`Search engines:\n\n${JSON.stringify(searchEngines)}`);
-        await browser.storage.sync.set(searchEnginesLocal);
-        if (blnNotify) notify(notifySearchEnginesLoaded);
-        if (logToConsole) {
-            for (let id in searchEnginesLocal){
-                console.log(`Search engine: ${id} has been saved to storage sync as follows:\n\n${JSON.stringify(searchEnginesLocal[id])}\n\n`);
-            }
-        }
-        if (blnUpdateContentScripts) {
-            let tabs= await browser.tabs.query({currentWindow: true, url: "<all_urls>"})
-            await updateSearchEnginesList(tabs);
-        }
-        if (logToConsole) console.log("Search engines have been successfully saved to storage sync.");
-    } catch (err) {
-        if (logToConsole) {
-            console.error(err);
-            console.log("Failed to save the search engines to storage sync.");
-        }
-    }
-
+    );
 }
 
-async function updateSearchEnginesList(tabs){
-    try {
-        if (!isEmpty(tabs)) {
-            await sendMessageToTabs(tabs, {"action": "updateSearchEnginesList", "data": searchEngines});
-            if (logToConsole) console.log("Message to update search engines has been sent to all tabs!\n");
-        }
-    } catch (err) {
-        if (logToConsole) {
-            console.error(err);
-            console.log("Failed to send the 'updateSearchEnginesList' message to the browser tabs.");
-        }
+function updateSearchEnginesList(tabs){
+    if (!isEmpty(tabs)) {
+        sendMessageToTabs(tabs, {"action": "updateSearchEnginesList", "data": searchEngines})
+            .then(()=>{
+                if (logToConsole) console.log("Message to update search engines has been sent to all tabs!\n");
+            })
+            .catch((err)=>{
+                if (logToConsole) {
+                    console.error(err);
+                    console.log("Failed to send the 'updateSearchEnginesList' message to the browser tabs.");
+                }
+            });
     }
 }
 
 /// Get and store favicon urls and base64 images
-async function getFaviconsAsBase64Strings() {
-    try {
-        if (logToConsole) console.log("Fetching favicons..");
-        let arrayOfPromises = new Array();
-        
-        for (let id in searchEngines) {
-            // Fetch a new favicon only if there is no existing favicon or if an icon reload is being forced
-            if (searchEngines[id].base64 === null || searchEngines[id].base64 === undefined || contextsearch_forceFaviconsReload) {
-                let seUrl = searchEngines[id].url;
-                if (logToConsole) console.log("id: " + id);
-                if (logToConsole) console.log("url: " + seUrl);
-                let domain = getDomain(seUrl);
-                if (logToConsole) console.log(`Getting favicon for ${domain}`);
-                arrayOfPromises.push(addNewFavicon(id, domain));
+function getFaviconsAsBase64Strings() {
+    return new Promise(
+        (resolve, reject) => {
+            if (logToConsole) console.log("Fetching favicons..");
+            let arrayOfPromises = new Array();
+            
+            for (let id in searchEngines) {
+                // Fetch a new favicon only if there is no existing favicon or if an icon reload is being forced
+                if (searchEngines[id].base64 === null || searchEngines[id].base64 === undefined || contextsearch_forceFaviconsReload) {
+                    let seUrl = searchEngines[id].url;
+                    if (logToConsole) console.log("id: " + id);
+                    if (logToConsole) console.log("url: " + seUrl);
+                    let domain = getDomain(seUrl);
+                    if (logToConsole) console.log("Getting favicon for " + domain);
+                    arrayOfPromises.push(addNewFavicon(id, domain));
+                }
+            }
+            
+            if (arrayOfPromises.length>0) {
+                Promise.all(arrayOfPromises)
+                    .then((values) => { // values is an array of {id:, base64:}
+                        if (logToConsole) console.log("ALL promises have completed.");
+                        if (values === undefined) return;
+                            for (let value of values) {
+                                if (logToConsole) console.log("================================================");
+                                if (logToConsole) console.log("id is " + value.id);
+                                if (logToConsole) console.log("------------------------------------------------");
+                                if (logToConsole) console.log("base64 string is " + value.base64);
+                                if (logToConsole) console.log("================================================");
+                                searchEngines[value.id]["base64"] = value.base64;
+                            }
+                            if (logToConsole) console.log("The favicons have ALL been fetched.");
+                            if (logToConsole) console.log(searchEngines);
+                            resolve();
+                    })
+                    .catch((err)=>{
+                        if (logToConsole) {
+                            console.error(err);
+                            console.log("Not ALL the favcions could be fetched.");
+                        };
+                        reject();
+                    });
+            } else {
+                resolve();
             }
         }
-        
-        if (arrayOfPromises.length > 0) {
-            // values is an array of {id:, base64:}
-            let values = await Promise.all(arrayOfPromises);
-            if (logToConsole) console.log("ALL promises have completed.");
-            if (values === undefined) return;
-            for (let value of values) {
-                if (logToConsole) console.log("================================================");
-                if (logToConsole) console.log("id is " + value.id);
-                if (logToConsole) console.log("------------------------------------------------");
-                if (logToConsole) console.log("base64 string is " + value.base64);
-                if (logToConsole) console.log("================================================");
-                searchEngines[value.id]["base64"] = value.base64;
-            }
-            if (logToConsole) console.log("The favicons have ALL been fetched.");
-            if (logToConsole) console.log(searchEngines);
-        }
-    } catch (err) {
-        if (logToConsole) {
-            console.error(err);
-            console.log("Not ALL the favcions could be fetched.");
-        }
-    }
+    );
 }
 
 /// Add favicon to newly added search engine
@@ -674,39 +737,39 @@ function convertArrayBuffer2Base64(ab, faviconUrl){
 }
 
 /// Rebuild the context menu using the search engines from storage sync
-async function rebuildContextMenu() {
-    try {
-        if (logToConsole) console.log("Rebuilding context menu..");
-        let info = await browser.runtime.getBrowserInfo();
+function rebuildContextMenu() {
+	if (logToConsole) console.log("Rebuilding context menu..");
+    browser.runtime.getBrowserInfo().then((info) => {
 		let v = info.version;
         let browserVersion = parseInt(v.slice(0, v.search(".") - 1));
-        await browser.contextMenus.removeAll();
+        
+        browser.contextMenus.removeAll();
 		browser.contextMenus.onClicked.removeListener(processSearch);
+
         if (contextsearch_optionsMenuLocation === "top") {
             rebuildContextOptionsMenu();
         }
+        
         buildContextMenuForImageExifTags();
+
         searchEnginesArray = [];
         var index = 0;
         for (let id in searchEngines) {
             let base64String = searchEngines[id].base64;
             let strIndex = "cs-" + index.toString();
             let strTitle = searchEngines[id].name;
+            
             searchEnginesArray.push(id);
             buildContextMenuItem(searchEngines[id], strIndex, strTitle, base64String, browserVersion);
             index += 1;
         }
+        
         if (contextsearch_optionsMenuLocation === "bottom") {
             rebuildContextOptionsMenu();
         }
-		browser.contextMenus.onClicked.addListener(processSearch);
-    } catch (err) {
-        if (logToConsole) {
-            console.error(err);
-            console.log("Failed to build context menu.");
-        }
-    }
 
+		browser.contextMenus.onClicked.addListener(processSearch);
+	});
 }
 
 function rebuildContextOptionsMenu(){
@@ -842,9 +905,8 @@ function processSearch(info, tab){
     }
 }
 
-async function processMultiTabSearch() {
-    try {
-        let data = browser.storage.sync.get(null);
+function processMultiTabSearch() {
+    browser.storage.sync.get(null).then(function(data){
         searchEngines = sortByIndex(data);
         let multiTabSearchEngineUrls = [];
         for (let id in searchEngines) {
@@ -857,38 +919,36 @@ async function processMultiTabSearch() {
             return;
         }
         if (logToConsole) console.log(multiTabSearchEngineUrls);
-        await browser.windows.create({
+        browser.windows.create({
             titlePreface: windowTitle + '"' + selection + '"',
             url: multiTabSearchEngineUrls
-        });
-    } catch (err) {
-        if (logToConsole) {
-            console.error(err);
-            console.log("Failed to perform multi-search.");
-        }
-    }
+        }).then(null, onError);
+    }, onError);
 }
 
-async function fetchMobileWebPage(url) {
-    try {
-        let headers = new Headers({
-            'Content-type': 'text/html; charset=utf-8',
-            'User-Agent': contextsearch_userAgent,
-        });
-        let init = {
-            method: 'POST',
-            headers: headers,
-            mode: 'cors'
-        };
-        let request = new Request(url, init);
-        let response = await fetch(request);
-        return response.text();
-    } catch (err) {
-        if (logToConsole) {
-            console.error(err);
-            console.log("Failed to load mobile web page with search results.");
+function fetchMobileWebPage(url) {
+    return new Promise(
+        (resolve, reject) => {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", url, true);
+            xhr.setRequestHeader("Content-type", "text/html; charset=utf-8");
+            xhr.setRequestHeader("User-Agent", contextsearch_userAgent);
+            xhr.overrideMimeType("text/html");
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    resolve(this.responseText);
+                }
+            };
+            xhr.send();
+            xhr.onerror = (err)=>{
+                if (logToConsole) {
+                    console.error(err);
+                    console.log("Failed to load mobile web page with search results.");
+                }
+                reject();
+            }
         }
-    }
+    );
 }
 
 // Handle search terms if there are any
@@ -902,46 +962,53 @@ function getSearchEngineUrl(searchEngineUrl, sel){
 	}
 }
 
-async function searchUsing(id, tabIndex, fromGrid) {
-    try {
-        let searchEngineUrl = searchEngines[id].url;
-        targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
-        if (logToConsole) console.log(`Target url: ${targetUrl}`);
-        if (contextsearch_openSearchResultsInSidebar && !fromGrid) {
-            let url = browser.runtime.getURL('/sidebar/search_results.html');
-            browser.sidebarAction.setPanel({panel: url});
-            browser.sidebarAction.setTitle({title: "Search results"});
-            await browser.sidebarAction.open();
+function searchUsing(id, tabIndex, fromGrid) {
+    let searchEngineUrl = searchEngines[id].url;
+    targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
+    if (logToConsole) console.log(`Target url: ${targetUrl}`);
+    if (contextsearch_openSearchResultsInSidebar) {
+        if (fromGrid) {
+            // browser.sidebarAction.open()
+            //     .then(()=>{
+            //         browser.sidebarAction.setPanel({panel: targetUrl});
+            //         browser.sidebarAction.setTitle({title: "Search results"});
+            //     })
+            //     .catch((err)=>{
+            //         if (logToConsole) console.error(err);
+            //     });
         } else {
-            await displaySearchResults(targetUrl, tabIndex);
+            browser.sidebarAction.open()
+                .then(()=>{
+                    let url = browser.runtime.getURL('/sidebar/search_results.html');
+                    browser.sidebarAction.setPanel({panel: url});
+                    browser.sidebarAction.setTitle({title: "Search results"});
+                })
+                .catch((err)=>{
+                    if (logToConsole) console.error(err);
+                });
         }
-    } catch (err) {
-        if (logToConsole) console.error(err);
+        return;
     }
+    displaySearchResults(targetUrl, tabIndex);
 }
 
 // Display the search results
-async function displaySearchResults(targetUrl, tabPosition) {
-    try {
-        if (logToConsole) console.log("Tab position: " + tabPosition);
-        let windowInfo = await browser.windows.getCurrent({
-            populate: false
-        });
+function displaySearchResults(targetUrl, tabPosition) {
+    if (logToConsole) console.log("Tab position: " + tabPosition);
+    browser.windows.getCurrent({populate: false}).then(function(windowInfo) {
         let currentWindowID = windowInfo.id;
         if (contextsearch_openSearchResultsInNewWindow) {
-            // Open search results in new window
-            await browser.windows.create({
+            browser.windows.create({
                 url: targetUrl
-            });
-            if (!contextsearch_makeNewTabOrWindowActive) {
-                // Make new window active
-                await browser.windows.update(currentWindowID, {
-                    focused: true
-                });
-            }
+            }).then(function() {
+                if (!contextsearch_makeNewTabOrWindowActive) {
+                    browser.windows.update(currentWindowID, {
+                        focused: true
+                    }).then(null, onError);    
+                }
+            }, onError);
         } else if (contextsearch_openSearchResultsInNewTab) {
-            // Open search results in new tab
-            await browser.tabs.create({
+            browser.tabs.create({
                 active: contextsearch_makeNewTabOrWindowActive,
                 index: tabPosition + 1,
                 url: targetUrl
@@ -949,11 +1016,9 @@ async function displaySearchResults(targetUrl, tabPosition) {
         } else {
             // Open search results in the same tab
             if (logToConsole) console.log("Opening search results in same tab, url is " + targetUrl);
-            await browser.tabs.update({url: targetUrl});
+            browser.tabs.update({url: targetUrl});
         }
-    } catch (err) {
-        if (logToConsole) console.error(err);
-    }
+    }, onError);
 }
 
 /// OMNIBOX
@@ -1072,21 +1137,21 @@ function getBody(html) {
 }
 
 // Test if a search engine performing a search for the keyword 'test' returns valid results
-async function testSearchEngine(engineData) {
+function testSearchEngine(engineData) {
 	if (engineData.url != "") {
 		let tempTargetUrl = getSearchEngineUrl(engineData.url, "test");
-		await browser.tabs.create({url: tempTargetUrl});
+		browser.tabs.create({url: tempTargetUrl});
 	} else {
-		await notify(notifySearchEngineUrlRequired);
+		notify(notifySearchEngineUrlRequired);
 	}
 }
 
 /// Generic Error Handler
-function onError(err) {
-    if (err.toString().indexOf("Please set webextensions.storage.sync.enabled to true in about:config") > -1) {
+function onError(error) {
+    if (error.toString().indexOf("Please set webextensions.storage.sync.enabled to true in about:config") > -1) {
         notify(notifyEnableStorageSync);
     } else {
-        console.error(`${err}`);
+        console.error(`${error}`);
     }
 }
 
@@ -1105,49 +1170,90 @@ function isEncoded(uri) {
 }
 
 /// Send a message to the option script
-async function sendMessage(action, data){
-    await browser.runtime.sendMessage({"action": action, "data": data});
+function sendMessage(action, data){
+    browser.runtime.sendMessage({"action": action, "data": data});
 }
 
 /// Send messages to content scripts (selection.js)
-async function sendMessageToTabs(tabs, message) {
-    try {
-        if (logToConsole) console.log(`Tabs: ${JSON.stringify(tabs)}`);
-        let arrayOfPromises = [];
-        if (logToConsole) console.log(`Sending message to tabs..\n\n`);
-        for (let tab of tabs) {
-            arrayOfPromises.push(sendMessageToTab(tab, message));
+function sendMessageToTabs(tabs, message) {
+    return new Promise(
+        (resolve, reject)=>{
+            if (logToConsole) console.log(`Tabs: ${JSON.stringify(tabs)}`);
+            let arrayOfPromises = [];
+            if (logToConsole) console.log(`Sending message to tabs..\n\n`);
+            for (let tab of tabs) {
+                arrayOfPromises.push(sendMessageToTab(tab, message));
+            }
+            Promise.all(arrayOfPromises)
+                .then(()=>{
+                    if (logToConsole) console.log("Message has successfully been sent to ALL tabs.");
+                    resolve();
+                })
+                .catch((err)=>{
+                    if (logToConsole) {
+                        console.error(err);
+                        console.log("Failed to send message to ALL tabs.");
+                    }
+                    reject();
+                });
         }
-        await Promise.all(arrayOfPromises);
-        if (logToConsole) console.log("Message has successfully been sent to ALL tabs.");
-    } catch (err) {
-        if (logToConsole) {
-            console.error(err);
-            console.log("Failed to send message to ALL tabs.");
-        }
-    }
+    );
 }
 
-async function sendMessageToTab(tab, message){
-    try {
-        let tabId = tab.id;
-        await browser.tabs.sendMessage(tabId, message);
-        if (logToConsole) {
-            console.log(`Successfully sent message to:\n`);
-            console.log(`Tab ${tab.id}: ${tab.title}\n`);
+function sendMessageToTab(tab, message){
+    return new Promise(
+        (resolve, reject)=>{
+            let tabId = tab.id;
+            browser.tabs.sendMessage(tabId, message)
+                .then(()=>{
+                    if (logToConsole) {
+                        console.log(`Successfully sent message to:\n`);
+                        console.log(`Tab ${tab.id}: ${tab.title}\n`);
+                    }
+                    resolve();
+                })
+                .catch((err)=>{
+                    if (logToConsole) {
+                        console.error(err);
+                        console.log(`Failed to send message ${JSON.stringify(message)} to:\n`);
+                        console.log(`Tab ${tab.id}: ${tab.title}\n`);
+                    }
+                    reject();
+                });
         }
-    } catch (err) {
-        if (logToConsole) {
-            console.error(err);
-            console.log(`Failed to send message ${JSON.stringify(message)} to:\n`);
-            console.log(`Tab ${tab.id}: ${tab.title}\n`);
-        }
+    );
+}
+
+/// Sort search engines by index
+function sortByIndex(list) {
+    var sortedList = {};
+    var skip = false;
+    // If there are no indexes, then add some arbitrarily
+    for (var i = 0;i < Object.keys(list).length;i++) {
+		var id = Object.keys(list)[i];
+		if (list[id].index != null) {
+			break;
+		} 
+		if (list[id] != null) {
+			sortedList[id] = list[id];
+			sortedList[id]["index"] = i;
+			skip = true;
+		}
     }
+    for (var i = 0;i < Object.keys(list).length;i++) {
+      for (let id in list) {
+        if (list[id] != null && list[id].index === i) {
+          sortedList[id] = list[id];
+        }
+      }
+    }
+    return sortedList;
 }
 
 /// Notifications
-async function notify(message){
-    await browser.notifications.create(message.substring(0, 20),{
+function notify(message){
+    browser.notifications.create(message.substring(0, 20),
+    {
         type: "basic",
         iconUrl: browser.extension.getURL("icons/icon_64.png"),
         title: browser.i18n.getMessage("extensionName"),
