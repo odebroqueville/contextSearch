@@ -4,11 +4,11 @@
   "default_locale": "en",
   "name": "__MSG_extensionName__",
   "description": "__MSG_extensionDescription__",
-  "version": "3.72",
+  "version": "1.0",
   "author": "Olivier de Broqueville",
   "applications": {
     "gecko": {
-        "id": "olivier.debroqueville@gmail.com"
+        "id": "context_search_lite"
     }
   },
   "content_security_policy" : "script-src 'self'; object-src 'self'; img-src *;",
@@ -64,11 +64,7 @@
       "js": [
         "/scripts/selection.js", 
         "/scripts/sort.js", 
-        "/scripts/exif.js", 
-        "/scripts/RGraph.svg.common.core.js", 
-        "/scripts/RGraph.svg.line.js", 
-        "/scripts/search_results.js", 
-        "/scripts/exif_tags.js"
+        "/scripts/search_results.js"
       ]
     }
   ]
