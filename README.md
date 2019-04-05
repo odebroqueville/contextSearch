@@ -1,6 +1,6 @@
-# Context Search
+# Context Search Lite
 
-Firefox add-on to search selected text in a web page using your favorite search engines.
+Firefox add-on to search selected text in a web page using your favorite search engines. The Lite version has no Exif Viewer.
 
 ## How does it work?
 <ul>
