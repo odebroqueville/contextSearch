@@ -12,8 +12,6 @@ Firefox add-on to search selected text in a web page using your favorite search 
 
 The search results will appear as defined in the extension's preferences page.
 
-UPDATE 28/03/2019: The extension now also includes an EXIF viewer. To view the EXIF tags associated with an image, right-click on the image and select: "View EXIF tags..". If present, the EXIF tags will appear in the sidebar along with a color histogram.
-
 ## Managing search engines
 To manage your favorite search engines, you can go to the preferences page of Context Search. You can reach this page by opening the extensions page (Addon Manager) where all your add-ons are listed and then clicking on the "Preferences" button.
 
@@ -102,11 +100,4 @@ https://addons.mozilla.org/firefox/addon/contextual-search/
 <li>Krzysztof Galazka for the Polish translation</li>
 <li>Sergio Tombesi for the Italian and Spanish translations</li>
 <li>Fushan Wen for the Chinese translation</li>
-</ul>
-
-## Code made by others used in this extension
-
-<ul>
-<li>exif.js originally by Jacob Seidelin and modified by Bart van der Wal which can be found on Github: https://github.com/exif-js/exif-js</li>
-<li>Rgraph by Richard Heyes, which can be found here: https://www.rgraph.net/</li>
 </ul>
