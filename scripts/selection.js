@@ -34,27 +34,6 @@ document.addEventListener("mouseup", handleAltClickWithGrid)
 // Storage change event listener
 browser.storage.onChanged.addListener(handleStorageChange);
 
-/// Handle Incoming Messages
-// Listen for messages from the background script
-browser.runtime.onMessage.addListener(function(message) {
-    let action = message.action;
-    let data = message.data;
-    switch (action) {
-        // case "updateSearchEnginesList":
-        //     updateSearchEnginesList(data);
-        //     if (logToConsole) console.log("Search engines list has been updated with:\n" + JSON.stringify(searchEngines));
-        //     for (let id in searchEngines){
-        //         if (logToConsole) console.log("Search engine:" + id + "\n" + JSON.stringify(searchEngines[id]) + "\n");
-        //     }
-        //     break;
-        case "displayExifTags":
-            displayExifTags(data);
-            break;
-		default:
-			break;
-	}
-});
-
 function handleStorageChange(changes, area) {
     if (area !== "sync") return;
     let ids = Object.keys(changes);
@@ -73,14 +52,6 @@ function handleStorageChange(changes, area) {
 
 function updateSearchEnginesList(data){
     searchEngines = sortByIndex(data);
-}
-
-function displayExifTags(tags){
-    if (!isEmpty(tags)) {
-        alert(`Image metadata: \n\n${JSON.stringify(tags, null, "\t")}`);
-    } else {
-        alert("No EXIF metadata could be found for this image!");
-    }
 }
 
 function init(){
@@ -136,20 +107,8 @@ function handleAltClickWithGrid(e) {
 }
 
 function handleRightClickWithoutGrid(e) {
-    if (e.target.tagName === "IMG") {
-        let img = e.target;
-        let imgurl = absoluteUrl(img.getAttribute("src"));
-        if (logToConsole) console.log(`Image url: ${imgurl}`);
-        EXIF.getData(img, function(){
-            //alert(EXIF.pretty(this));
-            let tags = EXIF.getAllTags(this);
-            let data = {"imageUrl": imgurl, "imageTags": tags};
-            sendMessage("setImageData", data);
-        });
-    } else {
-        let selectedText = getSelectedText();
-        sendSelectionToBackgroundScript(selectedText);
-    }
+    let selectedText = getSelectedText();
+    sendSelectionToBackgroundScript(selectedText);
 }
 
 function getSelectedText() {
@@ -349,47 +308,6 @@ function isEmpty(obj) {
 
 function sendMessage(action, data){
     browser.runtime.sendMessage({"action": action, "data": data});
-}
-
-function absoluteUrl(url) {
-    // If the url is absolute, i.e. begins withh either'http' or 'https', there's nothing to do!
-    if (/^(https?\:\/\/)/.test(url)) return url;
-
-    // If url begins with '//'
-    if (/^(\/\/)/.test(url)) {
-        return 'https:' + url;
-    }
-
-    // If url begins with '/' (and not '//' handled above)
-    if (/^\//.test(url)) {
-        let parts = url.split("/");
-        parts.unshift(domain);
-        return "https://" + parts.join("/");
-    }
-
-    // If url begins with an alphanumerical character
-    if (/^([a-zA-Z0-9])/.test(url) && /^(?!file|gopher|ftp\:\/\/).+/.test(url)) {
-        let parts = pn.split("/");
-        parts.pop();
-        return "https://" + domain + parts.join("/") + "/" + url;
-    }
-
-    // If url begins with './' or '../'
-    if (/^(\.\/|\.\.\/)/.test(url)) {
-        let stack = tabUrl.split("/");
-        let parts = url.split("/");
-        stack.pop(); // remove current file name (or empty string)
-                    // (omit if "base" is the current folder without trailing slash)
-        for (let i=0; i<parts.length; i++) {
-            if (parts[i] == ".") continue;
-            if (parts[i] == "..") {
-                stack.pop();
-            } else {
-                stack.push(parts[i]);
-            }
-        }
-        return stack.join("/");
-    }
 }
 
 init();

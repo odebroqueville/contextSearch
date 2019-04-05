@@ -750,8 +750,6 @@ function rebuildContextMenu() {
         if (contextsearch_optionsMenuLocation === "top") {
             rebuildContextOptionsMenu();
         }
-        
-        buildContextMenuForImageExifTags();
 
         searchEnginesArray = [];
         var index = 0;
@@ -803,15 +801,6 @@ function rebuildContextOptionsMenu(){
             contexts: ["selection"]
         });
     }
-}
-
-/// Build the context menu for image searches
-function buildContextMenuForImageExifTags(){
-    browser.contextMenus.create({
-		id: "cs-exif-tags",
-		title: "View EXIF tags...",
-		contexts: ["image"]
-    });
 }
 
 /// Build a single context menu item
