@@ -1,6 +1,6 @@
 /// Global variables
 // Debugging
-const logToConsole = true;
+const logToConsole = false;
 
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById("container");
@@ -113,7 +113,7 @@ function notify(message) {
 
 // Generic Error Handler
 function onError(error) {
-  console.log(`${error}`);
+  if (logToConsole) console.log(`${error}`);
 }
 
 // Button event hadlers
@@ -780,7 +780,7 @@ function translateContent(attribute, type) {
                     break;
             }
         } catch(ex) {
-            console.error("i18n id " + IDS[id] + " not found");
+            if (logToConsole) console.error("i18n id " + IDS[id] + " not found");
         }
     }
 }
