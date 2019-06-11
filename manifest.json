@@ -4,7 +4,7 @@
   "default_locale": "en",
   "name": "__MSG_extensionName__",
   "description": "__MSG_extensionDescription__",
-  "version": "3.72",
+  "version": "3.73",
   "author": "Olivier de Broqueville",
   "applications": {
     "gecko": {
