@@ -107,6 +107,6 @@ https://addons.mozilla.org/firefox/addon/contextual-search/
 ## Code made by others used in this extension
 
 <ul>
-<li>exif.js originally by Jacob Seidelin and modified by Bart van der Wal which can be found on Github: https://github.com/exif-js/exif-js</li>
-<li>Rgraph by Richard Heyes, which can be found here: https://www.rgraph.net/</li>
+<li>exif.js v2.3.0 originally by Jacob Seidelin and modified by Bart van der Wal which can be found on Github: https://github.com/exif-js/exif-js</li>
+<li>Rgraph v5.0 by Richard Heyes, which can be found here: https://www.rgraph.net/</li>
 </ul>
