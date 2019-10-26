@@ -232,7 +232,7 @@
     "description": ""
   },
   "notifySearchEngineUrlRequired": {
-    "message": "Please fill in a search engine URL.",
+    "message": "Please fill in a valid search engine URL.",
       "description": ""
   },
   "header7": {
