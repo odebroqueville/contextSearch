@@ -212,6 +212,14 @@ function listSearchEngines(list) {
   }
   divContainer.appendChild(divSearchEngines);
   numberOfSearchEngines = divSearchEngines.childNodes.length;
+
+  // Initialize Sortable list
+  new Sortable(divSearchEngines, {
+    handle: '.sort',
+    animation: 200,
+    // On element drag ended, save search engines
+    onEnd: saveSearchEngines
+  });
 }
 
 // Create a navigation button using icons from ionicon (up arrow, down arrow and bin)
@@ -238,17 +246,10 @@ function createLineItem(id, searchEngine) {
   let chkMultiSearch = document.createElement("input");
   let inputQueryString = document.createElement("input");
 
+  // Create menu target for line item sorting
+  let sortTarget = document.createElement('i');
+
   // Navigation and deletion buttons for each search engine or line item
-  let upButton = createButton(
-    "ion-ios-arrow-up",
-    "up",
-    move + " " + searchEngineName + " " + up
-  );
-  let downButton = createButton(
-    "ion-ios-arrow-down",
-    "down",
-    move + " " + searchEngineName + " " + down
-  );
   let removeButton = createButton(
     "ion-ios-trash",
     "remove",
@@ -303,8 +304,6 @@ function createLineItem(id, searchEngine) {
   });
 
   // Navigation and deletion buttons event handlers
-  upButton.addEventListener("click", upEventHandler);
-  downButton.addEventListener("click", downEventHandler);
   removeButton.addEventListener("click", removeEventHandler);
 
   // Set attributes for all the elements composing a search engine or line item
@@ -334,6 +333,8 @@ function createLineItem(id, searchEngine) {
   inputQueryString.setAttribute("type", "url");
   inputQueryString.setAttribute("value", searchEngine.url);
 
+  sortTarget.classList.add("sort", "icon", "ion-arrow-move");
+
   // Attach all the elements composing a search engine to the line item
   lineItem.appendChild(chkShowSearchEngine);
   lineItem.appendChild(inputSearchEngineName);
@@ -341,8 +342,7 @@ function createLineItem(id, searchEngine) {
   lineItem.appendChild(chkMultiSearch);
   lineItem.appendChild(inputQueryString);
 
-  lineItem.appendChild(upButton);
-  lineItem.appendChild(downButton);
+  lineItem.appendChild(sortTarget);
   lineItem.appendChild(removeButton);
 
   return lineItem;
