@@ -26,9 +26,12 @@
     "search engine"
   ],
   "author": "Olivier de Broqueville <olivier.debroqueville@gmail.com>",
-  "license": "GPL-3.0-only with restrictions pertaining to the commercial use of the software.",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/odebroqueville/contextSearch/issues"
   },
-  "homepage": "https://github.com/odebroqueville/contextSearch#readme"
+  "homepage": "https://github.com/odebroqueville/contextSearch#readme",
+  "dependencies": {
+    "exif-js": "^2.3.0"
+  }
 }
