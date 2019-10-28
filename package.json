@@ -32,6 +32,7 @@
   },
   "homepage": "https://github.com/odebroqueville/contextSearch#readme",
   "dependencies": {
-    "exif-js": "^2.3.0"
+    "exif-js": "^2.3.0",
+    "sortablejs": "^1.10.1"
   }
 }
