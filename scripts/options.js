@@ -48,8 +48,6 @@ let searchEngines = {};
 
 // Translation variables
 const move = browser.i18n.getMessage("move");
-const up = browser.i18n.getMessage("up");
-const down = browser.i18n.getMessage("down");
 const remove = browser.i18n.getMessage("remove");
 const multipleSearchEnginesSearch = browser.i18n.getMessage(
   "multipleSearchEnginesSearch"
@@ -61,8 +59,8 @@ const notifySearchEngineAdded = browser.i18n.getMessage(
   "notifySearchEngineAdded"
 );
 const notifySearchEngineUrlRequired = browser.i18n.getMessage(
-    "notifySearchEngineUrlRequired"
-  );
+  "notifySearchEngineUrlRequired"
+);
 
 // Typing timer
 let typingTimerSearchEngineName;
@@ -118,17 +116,6 @@ function notify(message) {
 // Generic Error Handler
 function onError(error) {
   console.log(`${error}`);
-}
-
-// Button event hadlers
-function upEventHandler(e) {
-  e.stopPropagation();
-  moveSearchEngineUp(e);
-}
-
-function downEventHandler(e) {
-  e.stopPropagation();
-  moveSearchEngineDown(e);
 }
 
 function removeEventHandler(e) {
@@ -215,7 +202,7 @@ function listSearchEngines(list) {
 
   // Initialize Sortable list
   new Sortable(divSearchEngines, {
-    handle: '.sort',
+    handle: ".sort",
     animation: 200,
     // On element drag ended, save search engines
     onEnd: saveSearchEngines
@@ -247,7 +234,7 @@ function createLineItem(id, searchEngine) {
   let inputQueryString = document.createElement("input");
 
   // Create menu target for line item sorting
-  let sortTarget = document.createElement('i');
+  let sortTarget = document.createElement("i");
 
   // Navigation and deletion buttons for each search engine or line item
   let removeButton = createButton(
@@ -399,47 +386,6 @@ async function reset() {
 }
 
 // Begin of user event handlers
-function swapIndexes(previousItem, nextItem) {
-  // Initialise variables
-  let tmp = searchEngines[previousItem]["index"];
-
-  searchEngines[previousItem]["index"] = searchEngines[nextItem]["index"];
-  searchEngines[nextItem]["index"] = tmp;
-  if (logToConsole)
-    console.log("PREVIOUS item:" + JSON.stringify(searchEngines[previousItem]));
-  if (logToConsole)
-    console.log("NEXT item:" + JSON.stringify(searchEngines[nextItem]));
-  searchEngines = sortByIndex(searchEngines);
-
-  sendMessage("saveSearchEngines", searchEngines);
-}
-
-function moveSearchEngineUp(e) {
-  let lineItem = e.target.parentNode.parentNode;
-  if (logToConsole) console.log(lineItem);
-  let ps = lineItem.previousSibling;
-  let pn = lineItem.parentNode;
-
-  pn.removeChild(lineItem);
-  pn.insertBefore(lineItem, ps);
-
-  // Update indexes in sync storage
-  swapIndexes(ps.getAttribute("id"), lineItem.getAttribute("id"));
-}
-
-function moveSearchEngineDown(e) {
-  let lineItem = e.target.parentNode.parentNode;
-  if (logToConsole) console.log(lineItem);
-  let ns = lineItem.nextSibling;
-  let pn = lineItem.parentNode;
-
-  pn.removeChild(ns);
-  pn.insertBefore(ns, lineItem);
-
-  // Update indexes in sync storage
-  swapIndexes(lineItem.getAttribute("id"), ns.getAttribute("id"));
-}
-
 function removeSearchEngine(e) {
   let lineItem = e.target.parentNode.parentNode;
   let id = lineItem.getAttribute("id");
@@ -554,13 +500,9 @@ function readData() {
 
 // Save the list of search engines to be displayed in the context menu
 function saveSearchEngines() {
-  if (logToConsole)
-    console.log(
-      "Search Engines BEFORE SAVE:\n" + JSON.stringify(searchEngines)
-    );
+  if (logToConsole) console.log("Search Engines BEFORE SAVE:\n", searchEngines);
   searchEngines = readData();
-  if (logToConsole)
-    console.log("Search Engines AFTER SAVE:\n" + JSON.stringify(searchEngines));
+  if (logToConsole) console.log("Search Engines AFTER SAVE:\n", searchEngines);
   sendMessage("saveSearchEngines", searchEngines);
 }
 
@@ -609,6 +551,7 @@ function addSearchEngine() {
     show: show.checked,
     base64: null
   };
+
   if (logToConsole)
     console.log(
       "New search engine: " + id + "\n" + JSON.stringify(searchEngines[id])
