@@ -450,7 +450,9 @@ function removeSearchEngine(e) {
   delete searchEngines[id];
   if (logToConsole) console.log(JSON.stringify(searchEngines));
 
-  browser.storage.sync.remove(id).then(saveSearchEngines, onError);
+  browser.storage.sync.remove(id).then(() => {
+    sendMessage("saveSearchEngines", searchEngines);
+  }, onError);
 }
 
 function visibleChanged(e) {
