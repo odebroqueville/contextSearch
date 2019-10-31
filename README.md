@@ -25,7 +25,7 @@ To manage your favorite search engines, you can go to the preferences page of Co
 <li>This keyword is used in the url address bar (or omnibox) after the word “cs “ and before the search terms (e.g. to search for linux using the search engine Wikipedia, you would type: ‘cs w linux’, where w is the keyword assigned to Wikipedia).</li>
 <li>The second checkbox specifies whether you’d like to use the search engine in a “multi-search”. A “multi-search” is a search performed using multiple search engines and can be selected in the context menu.</li>
 <li>The checkbox is followed by the search query string. This is the generic url you would use to perform a search. Search query strings may contain the parameters %s or {searchTerms} where you'd like your search terms to appear, i.e. the selected text.</li>
-<li>The up and down arrows move each search engine up or down in the list.</li>
+<li>Click on and drag the move icon to the left of the trash icon to move each search engine up or down in the list.</li>
 <li>Click on the trash icon to remove a search engine from the list.</li>
 </ol>
 

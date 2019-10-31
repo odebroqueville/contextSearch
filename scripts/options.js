@@ -394,7 +394,7 @@ function removeSearchEngine(e) {
 
   pn.removeChild(lineItem);
   delete searchEngines[id];
-  if (logToConsole) console.log(JSON.stringify(searchEngines));
+  if (logToConsole) console.log(searchEngines);
 
   browser.storage.sync.remove(id).then(() => {
     sendMessage("saveSearchEngines", searchEngines);
@@ -671,7 +671,7 @@ async function restoreOptionsPage() {
     delete data.options;
     if (logToConsole)
       console.log(
-        `Search engines retrieved from storage sync:\n${JSON.stringify(data)}`
+        `Search engines retrieved from storage sync:\n${data}`
       );
     listSearchEngines(data);
     setOptions(options);

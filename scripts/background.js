@@ -341,7 +341,7 @@ function initialiseSearchEngines(data, forceReload) {
     } else {
       searchEngines = sortByIndex(data);
       if (logToConsole)
-        console.log("Search engines: \n" + JSON.stringify(searchEngines));
+        console.log(`Search engines: \n${searchEngines}`);
       rebuildContextMenu();
       resolve();
     }
@@ -353,7 +353,7 @@ function getOptions() {
     browser.storage.sync
       .get("options")
       .then(data => {
-        if (logToConsole) console.log(JSON.stringify(data));
+        if (logToConsole) console.log(data);
         resolve(data);
       })
       .catch(err => {
@@ -509,8 +509,7 @@ function loadDefaultSearchEngines(jsonFile) {
 function saveSearchEnginesToStorageSync(blnNotify, blnUpdateContentScripts) {
   return new Promise((resolve, reject) => {
     let searchEnginesLocal = JSON.parse(JSON.stringify(searchEngines));
-    if (logToConsole)
-      console.log(`Search engines:\n\n${JSON.stringify(searchEngines)}`);
+    if (logToConsole) console.log(`Search engines:\n\n${searchEngines}`);
     if (!contextsearch_cacheFavicons) {
       if (logToConsole)
         console.log(
@@ -520,8 +519,6 @@ function saveSearchEnginesToStorageSync(blnNotify, blnUpdateContentScripts) {
         searchEnginesLocal[id].base64 = null;
       }
     }
-    if (logToConsole)
-      console.log(`Search engines:\n\n${JSON.stringify(searchEngines)}`);
     browser.storage.sync
       .set(searchEnginesLocal)
       .then(() => {
@@ -529,9 +526,7 @@ function saveSearchEnginesToStorageSync(blnNotify, blnUpdateContentScripts) {
         if (logToConsole) {
           for (let id in searchEnginesLocal) {
             console.log(
-              `Search engine: ${id} has been saved to storage sync as follows:\n\n${JSON.stringify(
-                searchEnginesLocal[id]
-              )}\n\n`
+              `Search engine: ${id} has been saved to storage sync as follows:\n\n${searchEnginesLocal[id]}\n\n`
             );
           }
         }
@@ -1152,7 +1147,7 @@ browser.omnibox.onInputChanged.addListener((input, suggest) => {
 });
 
 // Open the page based on how the user clicks on a suggestion
-browser.omnibox.onInputEntered.addListener((input) => {
+browser.omnibox.onInputEntered.addListener(input => {
   if (logToConsole) console.log(input);
   let tabPosition = 0;
   browser.tabs
@@ -1290,7 +1285,7 @@ function isEncoded(uri) {
 /// Send messages to content scripts (selection.js)
 function sendMessageToTabs(tabs, message) {
   return new Promise((resolve, reject) => {
-    if (logToConsole) console.log(`Tabs: ${JSON.stringify(tabs)}`);
+    if (logToConsole) console.log(`Tabs: ${tabs}`);
     let arrayOfPromises = [];
     if (logToConsole) console.log(`Sending message to tabs..\n\n`);
     for (let tab of tabs) {
