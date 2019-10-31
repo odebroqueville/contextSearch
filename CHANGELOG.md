@@ -1,3 +1,21 @@
+3.8.0
+=========
+* Fixes bugs #26, #36
+* Replaces up & down arrows by drag & drop move icon to re-order the search engines list #31
+* Adds multisearch icon to the grid of icons #17
+* Updated README file
+* Changed LICENSE from Mozilla Public License 2.0 to GNU GPLv3
+* Removed console logs for production release
+
+3.72
+=========
+* Fixes bug where context menu would disappear
+* Fixes bug where the options in the context menu would disappear
+
+3.71
+=========
+* Fixes major bugs introduced in version 3.70
+
 3.70
 =========
 * Fixes bugs #2, #10, #11
