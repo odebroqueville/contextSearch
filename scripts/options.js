@@ -387,7 +387,9 @@ async function reset() {
 
 // Begin of user event handlers
 function removeSearchEngine(e) {
-  let lineItem = e.target.parentNode.parentNode;
+  // Find closest <li> parent 
+  let lineItem = e.target.closest("li");
+  if (!lineItem) return;
   let id = lineItem.getAttribute("id");
   let pn = lineItem.parentNode;
   if (logToConsole) console.log(id);
