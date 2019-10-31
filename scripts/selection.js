@@ -2,6 +2,7 @@
 
 const logToConsole = true;
 const base64ContextSearchIcon = "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";
+const ICON32 = "38px"; // icon width is 32px plus 3px margin/padding
 
 /// Global variables
 let searchEngines = {};
@@ -183,16 +184,14 @@ function buildIconGrid(x, y) {
 
     // Grid dimensions
     let n = arrIDs.length; // Number of search engines
+    n += 1; // Add one icon for multi-search
     let m = Math.round(Math.sqrt(n)); // Grid dimension: m x m matrix
     let r = Math.ceil(Math.abs(n-m*m)/m); // Number of rows
-    let item = [];
     if (m * m <= n) {
         r = m + r;
     } else {
         r = m + 1 - r;
     }
-    const ICON32 = 38; // icon width is 32px plus 3px margin/padding
-    let width = ICON32 * m;
 
     // Cleanup
     let navExisting = document.getElementById("cs-grid");
@@ -217,28 +216,38 @@ function buildIconGrid(x, y) {
         liRow.style.listStyleType = "none";
         liRow.style.margin = "0px";
         liRow.style.padding = "0px";
-        liRow.style.height = "38px";
+        liRow.style.height = ICON32;
         let olRow = document.createElement("ol");
         olRow.style.margin = "0px";
         olRow.style.padding = "0px";
-        olRow.style.height = "38px";
+        olRow.style.height = ICON32;
         for (let j=0; j < m ;j++) {
+            let id = "";
+            let src = "";
+            let title = "";
             let liItem = document.createElement("li");
             liItem.style.display = "inline-block";
             liItem.style.listStyleType = "none";
-            liItem.style.width = "38px";
-            liItem.style.height = "38px";
+            liItem.style.width = ICON32;
+            liItem.style.height = ICON32;
             let img = document.createElement("img");
             img.style.display = "inline-block";
-            let id = arrIDs[i * m + j];
-            let src = "data:image/png;base64,";
-            if (searchEngines[id].base64 !== null && searchEngines[id].base64 !== undefined && searchEngines[id].base64 !== "") {
-                src += searchEngines[id].base64;
+            if (i === 0 && j === 0){
+                // Insert multisearch icon in first position
+                id = "multisearch";
+                src = "/icons/multi-search.png";
+                title = "multi-search";
             } else {
-                // Default icon when no favicon could be found
-                src += base64ContextSearchIcon;
+                id = arrIDs[i * m + j - 1];
+                src = "data:image/png;base64,";
+                if (searchEngines[id].base64 !== null && searchEngines[id].base64 !== undefined && searchEngines[id].base64 !== "") {
+                    src += searchEngines[id].base64;
+                } else {
+                    // Default icon when no favicon could be found
+                    src += base64ContextSearchIcon;
+                }
+                title = searchEngines[id].name;
             }
-            let title = searchEngines[id].name;
             liItem.setAttribute("id", id);
             liItem.style.margin = "0px";
             liItem.style.padding = "0px";
@@ -253,7 +262,7 @@ function buildIconGrid(x, y) {
             img.addEventListener("mouseleave", removeBorder);
             liItem.appendChild(img);
             olRow.appendChild(liItem);
-            if (i * m + j === n - 1) break;
+            if (i * m + j === n) break;
         }
         liRow.appendChild(olRow);
         ol.appendChild(liRow);

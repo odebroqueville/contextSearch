@@ -78,6 +78,10 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     case "doSearch":
       id = message.data.id;
       if (logToConsole) console.log("Search engine id: " + id);
+      if (id === "multisearch"){
+        processMultiTabSearch();
+        break;
+      }
       browser.tabs
         .query({ active: true, currentWindow: true })
         .then(function(tabs) {
