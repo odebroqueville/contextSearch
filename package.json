@@ -3,9 +3,7 @@
   "title": "Context Search",
   "version": "3.8.0",
   "description": "Firefox add-on to search selected text in a web page using your favorite search engines.",
-  "devDependencies": {
-    "eslint": "^6.5.1"
-  },
+  "devDependencies": {},
   "browserslist": [
     "Firefox >= 57"
   ],
