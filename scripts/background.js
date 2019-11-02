@@ -482,13 +482,14 @@ function loadDefaultSearchEngines(jsonFile) {
           console.log("Search engines: \n" + JSON.stringify(searchEngines));
         getFaviconsAsBase64Strings()
           .then(() => {
-            saveSearchEnginesToStorageSync(true, true);
-            rebuildContextMenu();
-            if (logToConsole)
-              console.log(
-                "Successfully loaded favicons and saved search engines to storage sync."
-              );
-            resolve();
+            saveSearchEnginesToStorageSync(true, true).then(() => {
+              rebuildContextMenu();
+              if (logToConsole)
+                console.log(
+                  "Successfully loaded favicons and saved search engines to storage sync."
+                );
+              resolve();
+            });
           })
           .catch(err => {
             if (logToConsole) {
@@ -1334,43 +1335,6 @@ function sendMessageToTab(tab, message) {
         reject();
       });
   });
-}
-
-/// Sort search engines by index
-function sortByIndex(list) {
-  let sortedList = {};
-  let n = Object.keys(list).length;
-  let arrayOfIndexes = [];
-  let max = 0;
-  // Determine a max index
-  for (let id in list) {
-    if (list[id].index != null && list[id].index > max) {
-      max = list[id].index + 1;
-    }
-  }
-  // If there are no indexes, then add an index starting from max
-  for (let id in list) {
-    if (list[id].index == null) {
-      list[id].index = max;
-      max += 1;
-    }
-    arrayOfIndexes.push(list[id].index);
-  }
-  // Sort arrayOfIndexes in ascending order
-  arrayOfIndexes.sort(function(a, b) {
-    return a - b;
-  });
-  // Create sorted list by ascending index and re-number the indexes starting from 0
-  for (let i = 0; i < n; i++) {
-    for (let id in list) {
-      if (arrayOfIndexes[i] === list[id].index) {
-        sortedList[id] = list[id];
-        sortedList[id].index = i;
-        continue;
-      }
-    }
-  }
-  return sortedList;
 }
 
 /// Notifications
