@@ -64,8 +64,8 @@
       "js": [
         "/scripts/selection.js", 
         "/scripts/sort.js", 
-        "/node_modules/exif-js/exif.js",
-        "/node_modules/sortablejs/sortable.min.js",
+        "/scripts/exif.js",
+        "/scripts/Sortable.min.js",
         "/scripts/RGraph.svg.common.core.js", 
         "/scripts/RGraph.svg.line.js", 
         "/scripts/search_results.js", 

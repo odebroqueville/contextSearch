@@ -1,6 +1,6 @@
 3.8.0
 =========
-* Fixes bugs #26, #36
+* Fixes bugs #26, #35, #36
 * Replaces up & down arrows by drag & drop move icon to re-order the search engines list #31
 * Adds multisearch icon to the grid of icons #17
 * Updated README file
