@@ -42,13 +42,19 @@ browser.runtime.onMessage.addListener(function(message) {
     let action = message.action;
     let data = message.data;
     switch (action) {
-        // case "updateSearchEnginesList":
-        //     updateSearchEnginesList(data);
-        //     if (logToConsole) console.log("Search engines list has been updated with:\n" + JSON.stringify(searchEngines));
-        //     for (let id in searchEngines){
-        //         if (logToConsole) console.log("Search engine:" + id + "\n" + JSON.stringify(searchEngines[id]) + "\n");
-        //     }
-        //     break;
+        case "updateSearchEnginesList":
+            updateSearchEnginesList(data);
+            if (logToConsole) {
+                console.log("Search engines list has been updated with:\n");
+                console.log(searchEngines);
+            }
+            for (let id in searchEngines){
+                if (logToConsole) {
+                    console.log(`Search engine ${id}:\n`); 
+                    console.log(searchEngines[id]);
+                }
+            }
+            break;
         case "displayExifTags":
             displayExifTags(data);
             break;
@@ -67,8 +73,6 @@ function handleStorageChange(changes, area) {
             } else {
                 sameTab = false;
             }
-        } else if (searchEngines[id]) {
-            searchEngines[id] = changes[id].newValue;
         }
     }
 }
