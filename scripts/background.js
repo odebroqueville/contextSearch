@@ -78,7 +78,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     case "doSearch":
       id = message.data.id;
       if (logToConsole) console.log("Search engine id: " + id);
-      if (id === "multisearch"){
+      if (id === "multisearch") {
         processMultiTabSearch();
         break;
       }
@@ -220,12 +220,10 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     case "updateResetOptions":
       getOptions().then(settings => {
         let options = settings.options;
-        if (logToConsole)
-          console.log(
-            `Preferences retrieved from storage sync: ${JSON.stringify(
-              options
-            )}`
-          );
+        if (logToConsole) {
+          console.log("Preferences retrieved from storage sync:");
+          console.log(options);
+        }
         options.forceSearchEnginesReload =
           message.data.resetOptions.forceSearchEnginesReload;
         options.resetPreferences = message.data.resetOptions.resetPreferences;
@@ -286,7 +284,10 @@ function init() {
 function initialiseOptions(data, removeOptions) {
   return new Promise((resolve, reject) => {
     let options = data;
-    if (logToConsole) console.log("Options: \n" + JSON.stringify(options));
+    if (logToConsole) {
+      console.log("Options:\n");
+      console.log(options);
+    }
     let save = true;
     let reset = options.resetPreferences;
     // Reset preferences if requested or no preferences have been saved to storage sync
@@ -310,7 +311,6 @@ function initialiseOptions(data, removeOptions) {
         setOptions(options, save).then(resolve, reject);
       }
     } else {
-      if (logToConsole) console.log("COUCOU!");
       save = false;
       setOptions(options, save).then(resolve, reject);
     }
@@ -319,6 +319,10 @@ function initialiseOptions(data, removeOptions) {
 
 function initialiseSearchEngines(data, forceReload) {
   return new Promise((resolve, reject) => {
+    if (logToConsole) {
+      console.log("Search engines: \n");
+      console.log(searchEngines);
+    }
     // Load default search engines if force reload is set or no search engines are stored in storage sync
     if (isEmpty(data) || forceReload) {
       if (!isEmpty(data)) {
@@ -344,8 +348,10 @@ function initialiseSearchEngines(data, forceReload) {
       }
     } else {
       searchEngines = sortByIndex(data);
-      if (logToConsole)
-        console.log(`Search engines: \n${searchEngines}`);
+      if (logToConsole) {
+        console.log("Search engines: \n");
+        console.log(searchEngines);
+      }
       rebuildContextMenu();
       resolve();
     }
@@ -450,7 +456,7 @@ function setOptionsMenuLocation(options) {
 function setCacheFavicons(options) {
   if (logToConsole)
     console.log(
-      `Setting the preference to cache favicons to ${options.cacheFavicons}`
+      `Setting the preference to cache (i.e. store in storage sync) favicons to ${options.cacheFavicons}`
     );
   contextsearch_cacheFavicons = options.cacheFavicons;
   saveSearchEnginesToStorageSync(false, false);
@@ -478,8 +484,10 @@ function loadDefaultSearchEngines(jsonFile) {
     xhr.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         searchEngines = sortByIndex(JSON.parse(this.responseText));
-        if (logToConsole)
-          console.log("Search engines: \n" + JSON.stringify(searchEngines));
+        if (logToConsole) {
+          console.log("Search engines:\n");
+          console.log(searchEngines);
+        }
         getFaviconsAsBase64Strings()
           .then(() => {
             saveSearchEnginesToStorageSync(true, true).then(() => {
@@ -514,7 +522,10 @@ function loadDefaultSearchEngines(jsonFile) {
 function saveSearchEnginesToStorageSync(blnNotify, blnUpdateContentScripts) {
   return new Promise((resolve, reject) => {
     let searchEnginesLocal = JSON.parse(JSON.stringify(searchEngines));
-    if (logToConsole) console.log(`Search engines:\n\n${searchEngines}`);
+    if (logToConsole) {
+      console.log("Search engines:\n");
+      console.log(searchEngines);
+    }
     if (!contextsearch_cacheFavicons) {
       if (logToConsole)
         console.log(
@@ -531,8 +542,9 @@ function saveSearchEnginesToStorageSync(blnNotify, blnUpdateContentScripts) {
         if (logToConsole) {
           for (let id in searchEnginesLocal) {
             console.log(
-              `Search engine: ${id} has been saved to storage sync as follows:\n\n${searchEnginesLocal[id]}\n\n`
+              `Search engine: ${id} has been saved to storage sync as follows:\n`
             );
+            console.log(searchEnginesLocal[id]);
           }
         }
         if (blnUpdateContentScripts) {
@@ -1238,7 +1250,7 @@ function buildSuggestion(text) {
 
 /// Helper functions
 // Test if an object is empty
-function isEmpty(value) {
+/* function isEmpty(value) {
   if (typeof value === "number") return false;
   else if (typeof value === "string") return value.trim().length === 0;
   else if (Array.isArray(value)) return value.length === 0;
@@ -1246,7 +1258,7 @@ function isEmpty(value) {
     return value == null || Object.keys(value).length === 0;
   else if (typeof value === "boolean") return false;
   else return !value;
-}
+} */
 
 // Test if a search engine performing a search for the keyword 'test' returns valid results
 function testSearchEngine(engineData) {
@@ -1290,9 +1302,10 @@ function isEncoded(uri) {
 /// Send messages to content scripts (selection.js)
 function sendMessageToTabs(tabs, message) {
   return new Promise((resolve, reject) => {
-    if (logToConsole) console.log(`Tabs: ${tabs}`);
     let arrayOfPromises = [];
-    if (logToConsole) console.log(`Sending message to tabs..\n\n`);
+    if (logToConsole) {
+      console.log(`Sending message to tabs..\n`);
+    }
     for (let tab of tabs) {
       arrayOfPromises.push(sendMessageToTab(tab, message));
     }

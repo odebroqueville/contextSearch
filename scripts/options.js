@@ -123,6 +123,7 @@ function removeEventHandler(e) {
   removeSearchEngine(e);
 }
 
+/*
 // Test if an object is empty
 function isEmpty(value) {
   if (typeof value === "number") return false;
@@ -183,6 +184,7 @@ function sortByIndex(list) {
   }
   return sortedList;
 }
+*/
 
 // Display the list of search engines
 function listSearchEngines(list) {
@@ -369,16 +371,17 @@ function selectAll() {
 
 async function reset() {
   try {
-    let resetOptions = {
-      resetPrefernces: resetPreferences.checked,
-      forceSearchEnginesReload: forceSearchEnginesReload.checked,
-      forceFaviconsReload: forceFaviconsReload.checked
-    };
-    let response = await sendMessage("reset", resetOptions);
+    // let resetOptions = {
+    //   resetPrefernces: resetPreferences.checked,
+    //   forceSearchEnginesReload: forceSearchEnginesReload.checked,
+    //   forceFaviconsReload: forceFaviconsReload.checked
+    // };
+    let response = await sendMessage("reset");
     if (logToConsole) console.log(response);
     if (response === "resetCompleted") {
       if (logToConsole) console.log(searchEngines);
       await restoreOptionsPage();
+      if (logToConsole) console.log("Options page has been restored.");
     }
   } catch (err) {
     if (logToConsole) console.error(err);
@@ -387,7 +390,7 @@ async function reset() {
 
 // Begin of user event handlers
 function removeSearchEngine(e) {
-  // Find closest <li> parent 
+  // Find closest <li> parent
   let lineItem = e.target.closest("li");
   if (!lineItem) return;
   let id = lineItem.getAttribute("id");
@@ -584,10 +587,10 @@ function clear() {
 }
 
 function setOptions(options) {
-  if (logToConsole)
-    console.log(
-      `Preferences retrieved from storage sync:\n${JSON.stringify(options)}`
-    );
+  if (logToConsole) {
+    console.log("Preferences retrieved from storage sync:\n");
+    console.log(options);
+  }
   switch (options.tabMode) {
     case "openNewTab":
       openNewTab.checked = true;
@@ -671,10 +674,10 @@ async function restoreOptionsPage() {
     let data = await browser.storage.sync.get(null);
     let options = data.options;
     delete data.options;
-    if (logToConsole)
-      console.log(
-        `Search engines retrieved from storage sync:\n${data}`
-      );
+    if (logToConsole) {
+      console.log("Search engines retrieved from storage sync:\n");
+      console.log(data);
+    }
     listSearchEngines(data);
     setOptions(options);
   } catch (err) {

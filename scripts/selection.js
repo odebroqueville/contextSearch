@@ -241,11 +241,11 @@ function buildIconGrid(x, y) {
             } else {
                 id = arrIDs[i * m + j - 1];
                 src = "data:image/png;base64,";
-                if (searchEngines[id].base64 !== null && searchEngines[id].base64 !== undefined && searchEngines[id].base64 !== "") {
-                    src += searchEngines[id].base64;
-                } else {
+                if (isEmpty(searchEngines[id]) || isEmpty(searchEngines[id].base64)) {
                     // Default icon when no favicon could be found
                     src += base64ContextSearchIcon;
+                } else {
+                    src += searchEngines[id].base64;
                 }
                 title = searchEngines[id].name;
             }
