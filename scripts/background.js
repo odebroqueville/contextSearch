@@ -547,6 +547,7 @@ function saveSearchEnginesToStorageSync(blnNotify, blnUpdateContentScripts) {
             console.log(searchEnginesLocal[id]);
           }
         }
+        sendMessageToOptionsScript("updateSearchEnginesList", searchEnginesLocal);
         if (blnUpdateContentScripts) {
           browser.tabs
             .query({ currentWindow: true, url: "<all_urls>" })
@@ -1348,6 +1349,14 @@ function sendMessageToTab(tab, message) {
         reject();
       });
   });
+}
+
+function sendMessageToOptionsScript(action, data){
+  let message = {
+    action: action,
+    data: data
+  }
+  browser.runtime.sendMessage(message);
 }
 
 /// Notifications

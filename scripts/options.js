@@ -73,7 +73,8 @@ let typingInterval = 1500;
 
 /// Event handlers
 document.addEventListener("DOMContentLoaded", restoreOptionsPage);
-browser.storage.onChanged.addListener(handleStorageChange);
+//browser.storage.onChanged.addListener(handleStorageChange);
+browser.runtime.onMessage.addListener(handleIncomingMessages);
 
 // Settings
 cacheFavicons.addEventListener("click", updateCacheFavicons);
@@ -106,6 +107,14 @@ function sendMessage(action, data) {
       .sendMessage({ action: action, data: data })
       .then(resolve, reject);
   });
+}
+
+function handleIncomingMessages(message){
+  let action = message.action;
+  let data = message.data;
+  if (action === "updateSearchEnginesList"){
+    listSearchEngines(data);
+  }
 }
 
 // Notification
@@ -401,9 +410,10 @@ function removeSearchEngine(e) {
   delete searchEngines[id];
   if (logToConsole) console.log(searchEngines);
 
-  browser.storage.sync.remove(id).then(() => {
+/*   browser.storage.sync.remove(id).then(() => {
     sendMessage("saveSearchEngines", searchEngines);
-  }, onError);
+  }, onError); */
+  sendMessage("saveSearchEngines", searchEngines);
 }
 
 function visibleChanged(e) {
@@ -761,7 +771,7 @@ function isValidUrl(url) {
   }
 }
 
-function handleStorageChange(changes, area) {
+/* function handleStorageChange(changes, area) {
   if (area !== "sync") return;
   let ids = Object.keys(changes);
   for (let id of ids) {
@@ -770,7 +780,7 @@ function handleStorageChange(changes, area) {
     }
   }
   listSearchEngines(searchEngines);
-}
+} */
 
 function i18n() {
   translateContent("data-i18n", "textContent");
