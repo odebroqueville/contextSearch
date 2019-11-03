@@ -190,13 +190,8 @@ function buildIconGrid(x, y) {
     // Grid dimensions
     let n = arrIDs.length; // Number of search engines
     n += 1; // Add one icon for multi-search
-    let m = Math.round(Math.sqrt(n)); // Grid dimension: m x m matrix
-    let r = Math.ceil(Math.abs(n-m*m)/m); // Number of rows
-    if (m * m <= n) {
-        r = m + r;
-    } else {
-        r = m + 1 - r;
-    }
+    let m = Math.ceil(Math.sqrt(n)); // Grid dimension: m x m matrix
+    let r = m - Math.floor(Math.abs(m*m-n)/m); // Number of rows
 
     // Cleanup
     let navExisting = document.getElementById("cs-grid");
@@ -227,6 +222,7 @@ function buildIconGrid(x, y) {
         olRow.style.padding = "0px";
         olRow.style.height = ICON32;
         for (let j=0; j < m ;j++) {
+            if (i * m + j + 1 > n) break;
             let id = "";
             let src = "";
             let title = "";
