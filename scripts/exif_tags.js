@@ -1,5 +1,5 @@
 // Constants
-const logToConsole = true;
+const logToConsole = false;
 const histogram = document.getElementById("histogram");
 const content = document.getElementById("content");
 

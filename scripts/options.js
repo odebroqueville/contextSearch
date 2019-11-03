@@ -1,6 +1,6 @@
 /// Global variables
 // Debugging
-const logToConsole = true;
+const logToConsole = false;
 
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById("container");
@@ -124,7 +124,7 @@ function notify(message) {
 
 // Generic Error Handler
 function onError(error) {
-  console.log(`${error}`);
+  if (logToConsole) console.log(`${error}`);
 }
 
 function removeEventHandler(e) {
@@ -789,30 +789,30 @@ function i18n() {
 }
 
 function translateContent(attribute, type) {
-  let i18nElements = document.querySelectorAll("[" + attribute + "]");
+    let i18nElements = document.querySelectorAll('[' + attribute + ']');
 
-  for (let i in i18nElements) {
-    try {
-      if (i18nElements[i].getAttribute == null) continue;
-      let i18n_attrib = i18nElements[i].getAttribute(attribute);
-      let message = browser.i18n.getMessage(i18n_attrib);
-      switch (type) {
-        case "textContent":
-          i18nElements[i].textContent = message;
-          break;
-        case "placeholder":
-          i18nElements[i].placeholder = message;
-          break;
-        case "title":
-          i18nElements[i].title = message;
-          break;
-        default:
-          break;
-      }
-    } catch (err) {
-      console.error(err);
+    for (let i in i18nElements) {
+        try {
+            if (i18nElements[i].getAttribute == null) continue;
+            let i18n_attrib = i18nElements[i].getAttribute(attribute);
+            let message = browser.i18n.getMessage(i18n_attrib);
+            switch (type) {
+                case "textContent": 
+                    i18nElements[i].textContent = message; 
+                    break;
+                case "placeholder": 
+                    i18nElements[i].placeholder = message; 
+                    break;
+                case "title": 
+                    i18nElements[i].title = message; 
+                    break;
+                default: 
+                    break;
+            }
+        } catch(ex) {
+            if (logToConsole) console.error("i18n id " + IDS[id] + " not found");
+        }
     }
-  }
 }
 
 i18n();
