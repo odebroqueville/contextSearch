@@ -1,7 +1,7 @@
 "use strict";
 
 /// Debug
-const logToConsole = true;
+const logToConsole = false;
 
 /// Global variables
 let searchEngines = {};
@@ -1273,17 +1273,11 @@ function testSearchEngine(engineData) {
 
 /// Generic Error Handler
 function onError(error) {
-  if (
-    error
-      .toString()
-      .indexOf(
-        "Please set webextensions.storage.sync.enabled to true in about:config"
-      ) > -1
-  ) {
-    notify(notifyEnableStorageSync);
-  } else {
-    console.error(`${error}`);
-  }
+    if (error.toString().indexOf("Please set webextensions.storage.sync.enabled to true in about:config") > -1) {
+        notify(notifyEnableStorageSync);
+    } else {
+        if (logToConsole) console.error(`${error}`);
+    }
 }
 
 /// Encode a url
