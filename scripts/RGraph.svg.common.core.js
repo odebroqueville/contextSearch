@@ -1,14 +1,12 @@
-// version: 2019-05-27
-    /**
-    * o--------------------------------------------------------------------------------o
-    * | This file is part of the RGraph package - you can learn more at:               |
-    * |                                                                                |
-    * |                         https://www.rgraph.net                                 |
-    * |                                                                                |
-    * | RGraph is licensed under the Open Source MIT license. That means that it's     |
-    * | totally free to use and there are no restrictions on what you can do with it!  |
-    * o--------------------------------------------------------------------------------o
-    */
+// version: 2019-10-11
+    // o--------------------------------------------------------------------------------o
+    // | This file is part of the RGraph package - you can learn more at:               |
+    // |                                                                                |
+    // |                         https://www.rgraph.net                                 |
+    // |                                                                                |
+    // | RGraph is licensed under the Open Source MIT license. That means that it's     |
+    // | totally free to use and there are no restrictions on what you can do with it!  |
+    // o--------------------------------------------------------------------------------o
 
     RGraph        = window.RGraph || {isRGraph: true,isRGraphSVG: true};
     RGraph.SVG    = RGraph.SVG    || {};
@@ -18,49 +16,45 @@
 // Module pattern
 (function (win, doc, undefined)
 {
-    var RG  = RGraph,
-        ua  = navigator.userAgent,
-        ma  = Math;
-
-    RG.SVG.REG = {
+    RGraph.SVG.REG = {
         store: []
     };
     
     // ObjectRegistry
-    RG.SVG.OR = {objects: []};
+    RGraph.SVG.OR = {objects: []};
     
     // Used to categorise trigonometery functions
-    RG.SVG.TRIG        = {};
-    RG.SVG.TRIG.HALFPI = ma.PI * .4999;
-    RG.SVG.TRIG.PI     = RG.SVG.TRIG.HALFPI * 2;
-    RG.SVG.TRIG.TWOPI  = RG.SVG.TRIG.PI * 2;
+    RGraph.SVG.TRIG        = {};
+    RGraph.SVG.TRIG.HALFPI = Math.PI * .4999;
+    RGraph.SVG.TRIG.PI     = RGraph.SVG.TRIG.HALFPI * 2;
+    RGraph.SVG.TRIG.TWOPI  = RGraph.SVG.TRIG.PI * 2;
 
-    RG.SVG.ISIE = ua.indexOf('rident') > 0;
-    RG.SVG.ISFF = ua.indexOf('irefox') > 0;
+    RGraph.SVG.ISIE = navigator.userAgent.indexOf('rident') > 0;
+    RGraph.SVG.ISFF = navigator.userAgent.indexOf('irefox') > 0;
     
-    RG.SVG.events = [];
+    RGraph.SVG.events = [];
 
 
     // This allows you to set globalconfiguration values that are copied to
     // all objects automatically.
-    RG.SVG.GLOBALS = {};
+    RGraph.SVG.GLOBALS = {};
 
 
-    RG.SVG.ISFF     = ua.indexOf('Firefox') != -1;
-    RG.SVG.ISOPERA  = ua.indexOf('Opera') != -1;
-    RG.SVG.ISCHROME = ua.indexOf('Chrome') != -1;
-    RG.SVG.ISSAFARI = ua.indexOf('Safari') != -1 && !RG.SVG.ISCHROME;
-    RG.SVG.ISWEBKIT = ua.indexOf('WebKit') != -1;
+    RGraph.SVG.ISFF     = navigator.userAgent.indexOf('Firefox') != -1;
+    RGraph.SVG.ISOPERA  = navigator.userAgent.indexOf('Opera') != -1;
+    RGraph.SVG.ISCHROME = navigator.userAgent.indexOf('Chrome') != -1;
+    RGraph.SVG.ISSAFARI = navigator.userAgent.indexOf('Safari') != -1 && !RGraph.SVG.ISCHROME;
+    RGraph.SVG.ISWEBKIT = navigator.userAgent.indexOf('WebKit') != -1;
 
-    RG.SVG.ISIE     = ua.indexOf('Trident') > 0 || navigator.userAgent.indexOf('MSIE') > 0;
-    RG.SVG.ISIE6    = ua.indexOf('MSIE 6') > 0;
-    RG.SVG.ISIE7    = ua.indexOf('MSIE 7') > 0;
-    RG.SVG.ISIE8    = ua.indexOf('MSIE 8') > 0;
-    RG.SVG.ISIE9    = ua.indexOf('MSIE 9') > 0;
-    RG.SVG.ISIE10   = ua.indexOf('MSIE 10') > 0;
-    RG.SVG.ISIE11UP = ua.indexOf('MSIE') == -1 && ua.indexOf('Trident') > 0;
-    RG.SVG.ISIE10UP = RG.SVG.ISIE10 || RG.SVG.ISIE11UP;
-    RG.SVG.ISIE9UP  = RG.SVG.ISIE9 || RG.SVG.ISIE10UP;
+    RGraph.SVG.ISIE     = navigator.userAgent.indexOf('Trident') > 0 || navigator.userAgent.indexOf('MSIE') > 0;
+    RGraph.SVG.ISIE6    = navigator.userAgent.indexOf('MSIE 6') > 0;
+    RGraph.SVG.ISIE7    = navigator.userAgent.indexOf('MSIE 7') > 0;
+    RGraph.SVG.ISIE8    = navigator.userAgent.indexOf('MSIE 8') > 0;
+    RGraph.SVG.ISIE9    = navigator.userAgent.indexOf('MSIE 9') > 0;
+    RGraph.SVG.ISIE10   = navigator.userAgent.indexOf('MSIE 10') > 0;
+    RGraph.SVG.ISIE11UP = navigator.userAgent.indexOf('MSIE') == -1 && navigator.userAgent.indexOf('Trident') > 0;
+    RGraph.SVG.ISIE10UP = RGraph.SVG.ISIE10 || RGraph.SVG.ISIE11UP;
+    RGraph.SVG.ISIE9UP  = RGraph.SVG.ISIE9 || RGraph.SVG.ISIE10UP;
 
 
 
@@ -72,7 +66,7 @@
     //
     // Create an SVG tag
     //
-    RG.SVG.createSVG = function (opt)
+    RGraph.SVG.createSVG = function (opt)
     {
         var container = opt.container,
             obj       = opt.object;
@@ -106,7 +100,7 @@
 
         for (var i=1; i<=numLayers; ++i) {
             
-            var group = RG.SVG.create({
+            var group = RGraph.SVG.create({
                 svg: svg,
                 type: 'g',
                 attr: {
@@ -120,7 +114,7 @@
         }
         
         // Add the group tag to the SVG that contains all of the elements
-        var group = RG.SVG.create({
+        var group = RGraph.SVG.create({
             svg: svg,
             type: 'g',
             attr: {
@@ -143,11 +137,11 @@
     //
     // Create a defs tag inside the SVG
     //
-    RG.SVG.createDefs = function (obj)
+    RGraph.SVG.createDefs = function (obj)
     {
         if (!obj.svg.defs) {
 
-            var defs = RG.SVG.create({
+            var defs = RGraph.SVG.create({
                 svg: obj.svg,
                 type: 'defs'
             });
@@ -170,7 +164,7 @@
     //
     //@param opt object The options for the function
     //
-    RG.SVG.create = function (opt)
+    RGraph.SVG.create = function (opt)
     {
         var ns  = "http://www.w3.org/2000/svg",
             tag = doc.createElementNS(ns, opt.type);
@@ -187,7 +181,7 @@
                 if ( (opt.type === 'a' || opt.type === 'image') && o === 'xlink:href') {
                     tag.setAttributeNS('http://www.w3.org/1999/xlink', o, String(opt.attr[o]));
                 } else {
-                    if (RG.SVG.isNull(opt.attr[o])) {
+                    if (RGraph.SVG.isNull(opt.attr[o])) {
                         opt.attr[o] = '';
                     }
                     tag.setAttribute(name, String(opt.attr[o]));
@@ -226,7 +220,7 @@
     //@return array   The X/Y coordinate pair representing the mouse
     //                location in relation to the SVG tag.
     //
-    RG.SVG.getMouseXY = function(e)
+    RGraph.SVG.getMouseXY = function(e)
     {
         // This is necessary for IE9
         if (!e.target) {
@@ -266,7 +260,7 @@
     //
     //@param The chart object
     //
-    RG.SVG.drawXAxis = function (obj)
+    RGraph.SVG.drawXAxis = function (obj)
     {
         var prop = obj.properties;
 
@@ -275,7 +269,7 @@
 
             var y = obj.type === 'hbar' ? obj.height - prop.marginBottom : obj.getYCoord(obj.scale.min < 0 && obj.scale.max < 0 ? obj.scale.max : (obj.scale.min > 0 && obj.scale.max > 0 ? obj.scale.min : 0));
 
-            var axis = RG.SVG.create({
+            var axis = RGraph.SVG.create({
                 svg: obj.svg,
                 parent: obj.svg.all,
                 type: 'path',
@@ -318,6 +312,11 @@
                     startY = obj.getYCoord(obj.scale.min);
                     endY   = obj.getYCoord(obj.scale.min) + prop.xaxisTickmarksLength;
                 }
+
+                if (obj.mirrorScale) {
+                    startY = obj.height / 2 -  prop.xaxisTickmarksLength;
+                    endY   = obj.height / 2 + prop.xaxisTickmarksLength;
+                }
             }
 
 
@@ -332,23 +331,40 @@
 
                 // The HBar uses a scale
                 if (prop.xaxisScale) {
+                
+                    var zeroXCoord = obj.getXCoord(0);
 
                     for (var i=0; i<(typeof prop.xaxisLabelsPositionEdgeTickmarksCount === 'number' ? prop.xaxisLabelsPositionEdgeTickmarksCount : (obj.scale.numlabels + (prop.yaxis && prop.xaxisScaleMin === 0 ? 0 : 1))); ++i) {
-                    
+
                         if (obj.type === 'hbar') {
                             var dataPoints = obj.data.length;
                         }
                     
-                        x = prop.marginLeft + ((i+(prop.yaxis && prop.xaxisScaleMin === 0 ? 1 : 0)) * (obj.graphWidth / obj.scale.numlabels));
+                        x = prop.marginLeft + ((i+(prop.yaxis && prop.xaxisScaleMin === 0 && prop.yaxisPosition === 'left' ? 1 : 0)) * (obj.graphWidth / obj.scale.numlabels));
 
                         // Allow Manual specification of number of tickmarks
                         if (typeof prop.xaxisLabelsPositionEdgeTickmarksCount === 'number') {
                             dataPoints = prop.xaxisLabelsPositionEdgeTickmarksCount;
-                            var gap    = (obj.graphWidth / prop.xaxisLabelsPositionEdgeTickmarksCount);
+                            var gap    = (obj.graphWidth / prop.xaxisLabelsPositionEdgeTickmarksCount );
                             x          = (gap * i) + prop.marginLeft + gap;
+                            
+                            // Allow for the Y axis being on the right so the tickmarks
+                            // have to be adjusted
+                            if (prop.yaxisPosition === 'right') {
+                                x -= gap;
+                            }
+                        }
+                        
+                        // Don't draw a tick at the zero position
+                        if (
+                                prop.yaxis
+                            && x < (zeroXCoord + 3)
+                            && x > (zeroXCoord - 3)
+                           ) {
+                            continue;
                         }
 
-                        RG.SVG.create({
+                        RGraph.SVG.create({
                             svg: obj.svg,
                             parent: obj.svg.all,
                             type: 'path',
@@ -364,8 +380,34 @@
                                 'shape-rendering': "crispEdges"
                             }
                         });
+                        
                     }
 
+                    // Draw an extra tickmark in some conditions. This
+                    // is a bit of a edge-case
+                    if (   prop.yaxisPosition === 'right'
+                        && prop.xaxisScaleMin < 0
+                        && prop.xaxisScaleMax > 0
+                       ) {
+
+
+                        RGraph.SVG.create({
+                            svg: obj.svg,
+                            parent: obj.svg.all,
+                            type: 'path',
+                            attr: {
+                                d: 'M{1} {2} L{3} {4}'.format(
+                                    obj.width - prop.marginRight,
+                                    startY,
+                                    obj.width - prop.marginRight,
+                                    endY
+                                ),
+                                stroke: prop.xaxisColor,
+                                'stroke-width': typeof prop.xaxisLinewidth === 'number' ? prop.xaxisLinewidth : 1,
+                                'shape-rendering': "crispEdges"
+                            }
+                        });
+                    }
 
 
 
@@ -389,9 +431,15 @@
 
                         for (var i=0; i<dataPoints; ++i) {
         
-                            x = prop.marginLeft + (prop.marginInnerLeft || 0) + ((i+1) * ( (obj.graphWidth - (prop.marginInnerLeft || 0) - (prop.marginInnerRight || 0) ) / dataPoints));
+                            // Allow for a right hand Y axis so move the tickmarks to the left
+                            if (prop.yaxisPosition === 'right') {
+                                x = prop.marginLeft + (prop.marginInnerLeft || 0) + (i * ( (obj.graphWidth - (prop.marginInnerLeft || 0) - (prop.marginInnerRight || 0) ) / dataPoints));
+                            } else {
+                                x = prop.marginLeft + (prop.marginInnerLeft || 0) + ((i+1) * ( (obj.graphWidth - (prop.marginInnerLeft || 0) - (prop.marginInnerRight || 0) ) / dataPoints));
+                            }
 
-                            RG.SVG.create({
+
+                            RGraph.SVG.create({
                                 svg: obj.svg,
                                 parent: obj.svg.all,
                                 type: 'path',
@@ -400,6 +448,27 @@
                                         x + 0.001,
                                         startY,
                                         x,
+                                        endY
+                                    ),
+                                    stroke: prop.xaxisColor,
+                                    'stroke-width': typeof prop.xaxisLinewidth === 'number' ? prop.xaxisLinewidth : 1,
+                                    'shape-rendering': "crispEdges"
+                                }
+                            });
+                        }
+                        
+                        
+                        // Draw an extra tickmark if the X axis is on the right but not being shown
+                        if (prop.yaxisPosition === 'right' && !prop.yaxis) {
+                            RGraph.SVG.create({
+                                svg: obj.svg,
+                                parent: obj.svg.all,
+                                type: 'path',
+                                attr: {
+                                    d: 'M{1} {2} L{3} {4}'.format(
+                                        obj.width - prop.marginRight  + 0.001,
+                                        startY,
+                                        obj.width - prop.marginRight  + 0.001,
                                         endY
                                     ),
                                     stroke: prop.xaxisColor,
@@ -420,10 +489,21 @@
     
                         for (var i=0; i<len; ++i) {
 
-                            var gap = ( (obj.graphWidth) / (len - 1)),
-                                x   = prop.marginLeft + ((i+1) * gap);
+                            var gap = ( (obj.graphWidth) / (len - 1));
+                            
+                            if (prop.yaxisPosition === 'right') {
+                                x = prop.marginLeft + (i * gap);
+                                
+                                // If the X position is within 3 pizels of the X position of the Y
+                                // axis then skip it
+                                if (prop.yaxis && x > (obj.width - prop.marginRight - 3) && x < (obj.width - prop.marginRight + 3)) {
+                                    continue;
+                                }
+                            } else {
+                                x = prop.marginLeft + ((i+1) * gap);
+                            }
 
-                            RG.SVG.create({
+                            RGraph.SVG.create({
                                 svg: obj.svg,
                                 parent: obj.svg.all,
                                 type: 'path',
@@ -450,7 +530,7 @@
 
                 // Draw an extra tick if the Y axis is not being shown
                 if (prop.yaxis === false || (prop.marginInnerLeft || 0) > 0) {
-                    RG.SVG.create({
+                    RGraph.SVG.create({
                         svg: obj.svg,
                         parent: obj.svg.all,
                         type: 'path',
@@ -486,9 +566,9 @@
         // Draw an X axis scale
         //
         if (prop.xaxisScale) {
-        
+
             if (obj.type === 'scatter') {
-                obj.xscale = RG.SVG.getScale({
+                obj.xscale = RGraph.SVG.getScale({
                     object:    obj,
                     numlabels: prop.xaxisLabelsCount,
                     unitsPre:  prop.xaxisScaleUnitsPre,
@@ -516,7 +596,7 @@
                     var x = prop.marginLeft + (segment * i) + segment + prop.xaxisLabelsOffsetx;
                     var y = (obj.height - prop.marginBottom) + (prop.xaxis ? prop.xaxisTickmarksLength + 6 : 10) + (prop.xaxisLinewidth || 1) + prop.xaxisLabelsOffsety;
                 
-                    RG.SVG.text({
+                    RGraph.SVG.text({
                         object: obj,
                         parent: obj.svg.all,
                         text:   obj.xscale.labels[i],
@@ -540,7 +620,7 @@
                 // Add the minimum label if labels are enabled
                 if (prop.xaxisLabelsCount > 0) {
                     var y   = obj.height - prop.marginBottom + prop.xaxisLabelsOffsety + (prop.xaxis ? prop.xaxisTickmarksLength + 6 : 10),
-                        str = RG.SVG.numberFormat({
+                        str = RGraph.SVG.numberFormat({
                             object:     obj,
                             num:        prop.xaxisScaleMin.toFixed(prop.xaxisScaleDecimals),
                             prepend:    prop.xaxisScaleUnitsPre,
@@ -550,7 +630,7 @@
                             formatter:  prop.xaxisScaleFormatter
                         });
 
-                    var text = RG.SVG.text({
+                    var text = RGraph.SVG.text({
                         object: obj,
                         parent: obj.svg.all,
                         text: typeof prop.xaxisScaleFormatter === 'function' ? (prop.xaxisScaleFormatter)(this, prop.xaxisScaleMin) : str,
@@ -573,21 +653,33 @@
 
                 var segment = obj.graphWidth / prop.xaxisLabelsCount,
                     scale   = obj.scale;
-    
+
                 for (var i=0; i<scale.labels.length; ++i) {
-    
+
                     var x = prop.marginLeft + (segment * i) + segment + prop.xaxisLabelsOffsetx;
                     var y = (obj.height - prop.marginBottom) + (prop.xaxis ? prop.xaxisTickmarksLength + 6 : 10) + (prop.xaxisLinewidth || 1) + prop.xaxisLabelsOffsety;
-    
-                    RG.SVG.text({
+
+                    // If the Y axis is positioned on the RHS then the
+                    // labels should be reversed (HBar)
+                    if (   (obj.type === 'hbar' || (obj.type === 'scatter' && prop.xaxis))
+                        && prop.yaxisPosition === 'right'
+                       ) {
+                        x = obj.width - prop.marginRight - (segment * i) - segment + prop.xaxisLabelsOffsetx;
+                    }
+
+                    RGraph.SVG.text({
+                        
                         object: obj,
                         parent: obj.svg.all,
+                        
                         text:   obj.scale.labels[i],
                         x:      x,
                         y:      y,
                         halign: 'center',
                         valign: 'top',
+                        
                         tag:    'labels.xaxis',
+                        
                         font:   prop.xaxisLabelsFont || prop.textFont,
                         size:   typeof prop.xaxisLabelsSize === 'number' ? prop.xaxisLabelsSize : prop.textSize,
                         bold:   typeof prop.xaxisLabelsBold === 'boolean' ? prop.xaxisLabelsBold : prop.textBold,
@@ -603,7 +695,7 @@
                 // Add the minimum label if labels are enabled
                 if (prop.xaxisLabelsCount > 0) {
                     var y   = obj.height - prop.marginBottom + prop.xaxisLabelsOffsety + (prop.xaxis ? prop.xaxisTickmarksLength + 6 : 10),
-                        str = RG.SVG.numberFormat({
+                        str = RGraph.SVG.numberFormat({
                             object:     obj,
                             num:        prop.xaxisScaleMin.toFixed(prop.xaxisScaleDecimals),
                             prepend:    prop.xaxisScaleUnitsPre,
@@ -612,16 +704,20 @@
                             thousand:   prop.xaxisScaleThousand,
                             formatter:  prop.xaxisScaleFormatter
                         });
-    
-                    var text = RG.SVG.text({
+
+                    var text = RGraph.SVG.text({
+                        
                         object: obj,
                         parent: obj.svg.all,
+                        
                         text: typeof prop.xaxisScaleFormatter === 'function' ? (prop.xaxisScaleFormatter)(this, prop.xaxisScaleMin) : str,
-                        x: prop.marginLeft + prop.xaxisLabelsOffsetx,
+                        x: prop.yaxisPosition === 'right' ? obj.width - prop.marginRight + prop.xaxisLabelsOffsetx : prop.marginLeft + prop.xaxisLabelsOffsetx,
                         y: y,
                         halign: 'center',
                         valign: 'top',
+                        
                         tag:    'labels.xaxis',
+                        
                         font:   prop.xaxisLabelsFont   || prop.textFont,
                         size:   typeof prop.xaxisLabelsSize === 'number' ? prop.xaxisLabelsSize   : prop.textSize,
                         bold:   typeof prop.xaxisLabelsBold === 'boolean' ? prop.xaxisLabelsBold : prop.textBold,
@@ -635,7 +731,7 @@
         // Draw the X axis labels
         //
         } else {
-            if (typeof prop.xaxisLabels === 'object' && !RG.SVG.isNull(prop.xaxisLabels) ) {
+            if (typeof prop.xaxisLabels === 'object' && !RGraph.SVG.isNull(prop.xaxisLabels) ) {
             
                 var angle = prop.xaxisLabelsAngle;
 
@@ -649,14 +745,14 @@
                         var x = prop.marginLeft + (prop.marginInnerLeft || 0) + (segment / 2) + (i * segment);
 
                         if (obj.scale.max <=0 && obj.scale.min < obj.scale.max) {
-                            var y = prop.marginTop - (RG.SVG.ISFF ? 5 : 10)  - (prop.xaxisLinewidth || 1) + prop.xaxisLabelsOffsety;
+                            var y = prop.marginTop - (RGraph.SVG.ISFF ? 5 : 10)  - (prop.xaxisLinewidth || 1) + prop.xaxisLabelsOffsety;
                             var valign = 'bottom';
                         } else {
-                            var y = obj.height - prop.marginBottom + (RG.SVG.ISFF ? 5 : 10) + (prop.xaxisLinewidth || 1) + prop.xaxisLabelsOffsety;
+                            var y = obj.height - prop.marginBottom + (RGraph.SVG.ISFF ? 5 : 10) + (prop.xaxisLinewidth || 1) + prop.xaxisLabelsOffsety;
                             var valign = 'top';
                         }
 
-                        RG.SVG.text({
+                        RGraph.SVG.text({
                             object: obj,
                             parent: obj.svg.all,
                             text: prop.xaxisLabels[i],
@@ -692,13 +788,13 @@
 
                         if (obj.scale.max <= 0 && obj.scale.min < 0) {
                             valign = 'bottom';
-                            y = prop.marginTop - (RG.SVG.ISFF ? 5 : 10) - (prop.xaxisTickmarksLength - 5)  - (prop.xaxisLinewidth || 1) + prop.xaxisLabelsOffsety
+                            y = prop.marginTop - (RGraph.SVG.ISFF ? 5 : 10) - (prop.xaxisTickmarksLength - 5)  - (prop.xaxisLinewidth || 1) + prop.xaxisLabelsOffsety
                         } else {
                             valign = 'top';
-                            y = obj.height - prop.marginBottom + (RG.SVG.ISFF ? 5 : 10) + (prop.xaxisTickmarksLength - 5) + (prop.xaxisLinewidth || 1) + prop.xaxisLabelsOffsety;
+                            y = obj.height - prop.marginBottom + (RGraph.SVG.ISFF ? 5 : 10) + (prop.xaxisTickmarksLength - 5) + (prop.xaxisLinewidth || 1) + prop.xaxisLabelsOffsety;
                         }
                     
-                        RG.SVG.text({
+                        RGraph.SVG.text({
                             object: obj,
                             parent: obj.svg.all,
                             text: prop.xaxisLabels[i],
@@ -732,7 +828,7 @@
     //
     //@param The chart object
     //
-    RG.SVG.drawYAxis = function (obj)
+    RGraph.SVG.drawYAxis = function (obj)
     {
         var prop = obj.properties;
 
@@ -747,11 +843,15 @@
                     x = obj.getXCoord(prop.xaxisScaleMax);
                 }
             } else {
-                var x = prop.marginLeft;
+                if (prop.yaxisPosition === 'right') {
+                    var x = obj.width - prop.marginRight;
+                } else {
+                    var x = prop.marginLeft;
+                }
             }
 
 
-            var axis = RG.SVG.create({
+            var axis = RGraph.SVG.create({
                 svg: obj.svg,
                 parent: obj.svg.all,
                 type: 'path',
@@ -777,12 +877,18 @@
     
 
             if (obj.type === 'hbar') {
-                
+
                 var height = (obj.graphHeight - prop.marginInnerTop - prop.marginInnerBottom) / prop.yaxisLabels.length,
                     y      = prop.marginTop + prop.marginInnerTop,
                     len    = prop.yaxisLabels.length,
                     startX = obj.getXCoord(0) + (prop.xaxisScaleMin < 0 ? prop.yaxisTickmarksLength : 0),
                     endX   = obj.getXCoord(0) - prop.yaxisTickmarksLength;
+
+                // Now change the startX/endX if the Y axisPosition is right
+                if (prop.yaxisPosition == 'right') {
+                    startX = obj.getXCoord(0) + (prop.xaxisScaleMax > 0 && prop.xaxisScaleMin < 0 ? -3 : 0);
+                    endX   = obj.getXCoord(0) + prop.yaxisTickmarksLength;
+                }
 
                 if (prop.xaxisScaleMin < 0 && prop.xaxisScaleMax <=0) {
                     startX = obj.getXCoord(prop.xaxisScaleMax);
@@ -801,7 +907,7 @@
                 if (prop.yaxisTickmarks) {
                     for (var i=0; i<len; ++i) {
                         // Draw the axis
-                        var axis = RG.SVG.create({
+                        var axis = RGraph.SVG.create({
                             svg: obj.svg,
                             parent: obj.svg.all,
                             type: 'path',
@@ -833,19 +939,24 @@
                         } else {
                             var startX = obj.getXCoord(0) - prop.yaxisTickmarksLength;
                             var endX   = obj.getXCoord(0) + (prop.xaxisScaleMin < 0 ? prop.yaxisTickmarksLength : 0);
+
+                            if (prop.yaxisPosition === 'right') {
+                                var startX = obj.getXCoord(0) - (obj.scale.min === 0 && !obj.mirrorScale ? 0 : prop.yaxisTickmarksLength);
+                                var endX   = obj.getXCoord(0) + prop.yaxisTickmarksLength;
+                            }
                         }
 
-                        var axis = RG.SVG.create({
+                        var axis = RGraph.SVG.create({
                             svg: obj.svg,
                             parent: obj.svg.all,
                             type: 'path',
                             attr: {
                                 d: 'M{1} {2} L{3} {4}'.format(
                                     startX,
-                                    ma.round(obj.height - prop.marginBottom - parseFloat(prop.marginInnerBottom)),
+                                    Math.round(obj.height - prop.marginBottom - parseFloat(prop.marginInnerBottom)),
 
                                     endX,
-                                    ma.round(obj.height - prop.marginBottom - parseFloat(prop.marginInnerBottom))
+                                    Math.round(obj.height - prop.marginBottom - parseFloat(prop.marginInnerBottom))
                                 ),
                                 stroke: obj.properties.yaxisColor,
                                 'stroke-width': typeof prop.yaxisLinewidth === 'number' ? prop.yaxisLinewidth : 1,
@@ -865,6 +976,13 @@
                     len    = prop.yaxisLabelsCount,
                     startX = prop.marginLeft,
                     endX   = prop.marginLeft - prop.yaxisTickmarksLength;
+                
+                // Adjust the startX and endX positions for when the Y axis is
+                // on the RHS
+                if (prop.yaxisPosition === 'right') {
+                    startX = obj.width - prop.marginRight;
+                    endX   = startX + prop.yaxisTickmarksLength;
+                }
 
                 // A custom number of tickmarks
                 if (typeof prop.yaxisLabelsPositionEdgeTickmarksCount === 'number') {
@@ -879,7 +997,7 @@
                     for (var i=0; i<len; ++i) {
 
                         // Draw the axis
-                        var axis = RG.SVG.create({
+                        var axis = RGraph.SVG.create({
                             svg: obj.svg,
                             parent: obj.svg.all,
                             type: 'path',
@@ -901,20 +1019,26 @@
     
     
                     // Draw an extra tick if the X axis position is not zero or
-                    //if the xaxis is not being shown
-
+                    // if the xaxis is not being shown
                     if (    (prop.yaxisScaleMin !== 0 || prop.xaxis === false || obj.mirrorScale)
                         && !(obj.scale.min > 0 && obj.scale.max > 0) ) {
+                        
+                        // Adjust the startX and endX positions for when the Y axis is
+                        // on the RHS
+                        if (prop.yaxisPosition === 'right') {
+                            startX = obj.width - prop.marginRight;
+                            endX   = startX + prop.yaxisTickmarksLength;
+                        }
 
-                        var axis = RG.SVG.create({
+                        var axis = RGraph.SVG.create({
                             svg: obj.svg,
                             parent: obj.svg.all,
                             type: 'path',
                             attr: {
                                 d: 'M{1} {2} L{3} {4}'.format(
-                                    prop.marginLeft - prop.yaxisTickmarksLength,
+                                    startX,
                                     obj.height - prop.marginBottom,
-                                    prop.marginLeft,
+                                    endX,
                                     obj.height - prop.marginBottom - 0.001
                                 ),
                                 stroke: prop.yaxisColor,
@@ -943,15 +1067,21 @@
 
                 var y = obj.height - prop.marginBottom - (segment * i) - segment;
 
-                RG.SVG.text({
+                RGraph.SVG.text({
+                    
                     object: obj,
                     parent: obj.svg.all,
+                    
                     text:   obj.scale.labels[i],
-                    x:      prop.marginLeft - 7 - (prop.yaxis ? (prop.yaxisTickmarksLength - 3) : 0) + prop.yaxisLabelsOffsetx,
+                    x:      prop.yaxisPosition === 'right'
+                                ? (obj.width - prop.marginRight + 7 + (prop.yaxis ? (prop.yaxisTickmarksLength - 3) : 0) + prop.yaxisLabelsOffsetx)
+                                : (prop.marginLeft - 7 - (prop.yaxis ? (prop.yaxisTickmarksLength - 3) : 0) + prop.yaxisLabelsOffsetx),
                     y:      y + prop.yaxisLabelsOffsety,
-                    halign: prop.yaxisLabelsHalign || 'right',
+                    halign: prop.yaxisLabelsHalign || (prop.yaxisPosition === 'right' ? 'left' : 'right'),
                     valign: prop.yaxisLabelsValign || 'center',
+                    
                     tag:    'labels.yaxis',
+                    
                     font:   prop.yaxisLabelsFont   || prop.textFont,
                     size:   typeof prop.yaxisLabelsSize === 'number' ? prop.yaxisLabelsSize : prop.textSize,
                     bold:   typeof prop.yaxisLabelsBold === 'boolean' ? prop.yaxisLabelsBold : prop.textBold,
@@ -971,16 +1101,26 @@
                 // on 11/11/18 because mirrored scales had zero as the bottom
                 // value when it should have been a mirror of the top value
                 str = (prop.yaxisScaleUnitsPre + obj.scale.min.toFixed(prop.yaxisScaleDecimals).replace(/\./, prop.yaxisScalePoint) + prop.yaxisScaleUnitsPost);
+                
+            // Fix a bugettte that's showing the - sign after the unitsPre - should
+            // be showing them before
+            str = str.replace(prop.yaxisScaleUnitsPre + '-', '-' + prop.yaxisScaleUnitsPre);
 
-            var text = RG.SVG.text({
+            var text = RGraph.SVG.text({
+                
                 object: obj,
                 parent: obj.svg.all,
+                
                 text: typeof prop.yaxisScaleFormatter === 'function' ? (prop.yaxisScaleFormatter)(this, prop.yaxisScaleMin) : str,
-                x: prop.marginLeft - 7 - (prop.yaxis ? (prop.yaxisTickmarksLength - 3) : 0) + prop.yaxisLabelsOffsetx,
+                x: prop.yaxisPosition === 'right'
+                       ? (obj.width - prop.marginRight + 7 + (prop.yaxis ? (prop.yaxisTickmarksLength - 3) : 0) + prop.yaxisLabelsOffsetx)
+                       : (prop.marginLeft - 7 - (prop.yaxis ? (prop.yaxisTickmarksLength - 3) : 0) + prop.yaxisLabelsOffsetx),
                 y: y + prop.yaxisLabelsOffsety,
-                halign: 'right',
+                halign: (prop.yaxisPosition === 'right' ? 'left' : 'right'),
                 valign: 'center',
+                
                 tag:    'labels.yaxis',
+                
                 font:   prop.yaxisLabelsFont   || prop.textFont,
                 size:   typeof prop.yaxisLabelsSize === 'number' ? prop.yaxisLabelsSize : prop.textSize,
                 bold:   typeof prop.yaxisLabelsBold === 'boolean' ? prop.yaxisLabelsBold : prop.textBold,
@@ -991,7 +1131,7 @@
         
         //
         // Draw Y axis labels (eg when specific labels are defined or
-        //the chart is an HBar
+        // the chart is an HBar
         //
         } else if (prop.yaxisLabels && prop.yaxisLabels.length) {
 
@@ -1001,9 +1141,21 @@
                     y       = prop.marginTop + (prop.marginInnerTop || 0) + (segment * i) + (segment / 2) + prop.yaxisLabelsOffsety,
                     x       = prop.marginLeft - 7 /*- (prop.yaxis ? (prop.yaxisTickmarksLength) : 0)*/ - (prop.yaxisLinewidth || 1) + prop.yaxisLabelsOffsetx,
                     halign  = 'right';
+                
+                if (prop.yaxisPosition === 'right') {
+                    halign = 'left';
+                    x      = obj.width - prop.marginRight + 7 /*- (prop.yaxis ? (prop.yaxisTickmarksLength) : 0)*/ + (prop.yaxisLinewidth || 1) + prop.yaxisLabelsOffsetx;
+                }
 
                 // HBar labels
-                if (obj.type === 'hbar' && obj.scale.min < obj.scale.max && obj.scale.max <= 0) {
+                if (
+                       obj.type === 'hbar'
+                    && (
+                          (obj.scale.min < obj.scale.max && obj.scale.max <= 0)
+                        || prop.yaxisPosition === 'right'
+                       )
+                    ) {
+
                     halign = 'left';
                     x      = obj.width - prop.marginRight + 7 + prop.yaxisLabelsOffsetx;
                 
@@ -1018,15 +1170,18 @@
                     y = obj.height - prop.marginBottom - (segment * i) + prop.yaxisLabelsOffsety;
                 }
 
-                var text = RG.SVG.text({
+                var text = RGraph.SVG.text({
                     object: obj,
                     parent: obj.svg.all,
+                    
                     text:   prop.yaxisLabels[i] ? prop.yaxisLabels[i] : '',
                     x:      x,
                     y:      y,
                     halign: halign,
                     valign: 'center',
+                    
                     tag:    'labels.yaxis',
+                    
                     font:   prop.yaxisLabelsFont || prop.textFont,
                     size:   typeof prop.yaxisLabelsSize === 'number' ? prop.yaxisLabelsSize : prop.textSize,
                     bold:   typeof prop.yaxisLabelsBold === 'boolean' ? prop.yaxisLabelsBold : prop.textBold,
@@ -1049,7 +1204,7 @@
     //
     //@param The chart object
     //
-    RG.SVG.drawBackground = function (obj)
+    RGraph.SVG.drawBackground = function (obj)
     {
         var prop = obj.properties;
 
@@ -1062,7 +1217,7 @@
 
         if (prop.backgroundColor) {
 
-            RG.SVG.create({
+            RGraph.SVG.create({
                 svg:  obj.svg,
                 parent: obj.svg.all,
                 type: 'rect',
@@ -1142,7 +1297,7 @@
 
 
 
-            var img = RG.SVG.create({
+            var img = RGraph.SVG.create({
                 svg:  obj.svg,
                 parent: obj.svg.all,
                 type: 'image',
@@ -1186,7 +1341,7 @@
                 if (typeof prop.backgroundGridHlinesCount === 'number') {
                     var count = prop.backgroundGridHlinesCount;
                 } else if (obj.type === 'hbar' || obj.type === 'bipolar') {
-                    if (typeof prop.yaxisLabels === 'object' && !RG.SVG.isNull(prop.yaxisLabels) && prop.yaxisLabels.length) {
+                    if (typeof prop.yaxisLabels === 'object' && !RGraph.SVG.isNull(prop.yaxisLabels) && prop.yaxisLabels.length) {
                         var count = prop.yaxisLabels.length;
                     } else if (obj.type === 'hbar') {
                         var count = obj.data.length;
@@ -1223,7 +1378,7 @@
             // Add the vertical lines to the path
             if (prop.backgroundGridVlines) {
 
-                if (obj.type === 'line' && RG.SVG.isArray(obj.data[0])) {
+                if (obj.type === 'line' && RGraph.SVG.isArray(obj.data[0])) {
                     var len = obj.data[0].length;
                 } else if (obj.type === 'hbar') {
                     var len = prop.xaxisLabelsCount || 10;
@@ -1292,7 +1447,7 @@
 
 
             // Now draw the path
-            var grid = RG.SVG.create({
+            var grid = RGraph.SVG.create({
                 svg: obj.svg,
                 parent: obj.svg.all,
                 type: 'path',
@@ -1318,7 +1473,7 @@
 
         // Draw the title and subtitle
         if (obj.type !== 'bipolar') {
-            RG.SVG.drawTitle(obj);
+            RGraph.SVG.drawTitle(obj);
         }
     };
 
@@ -1329,12 +1484,12 @@
 
 
 
-    /**
-    * Returns true/false as to whether the given variable is null or not
-    * 
-    * @param mixed arg The argument to check
-    */
-    RG.SVG.isNull = function (arg)
+    //
+    // Returns true/false as to whether the given variable is null or not
+    // 
+    // @param mixed arg The argument to check
+    //
+    RGraph.SVG.isNull = function (arg)
     {
         // must BE DOUBLE EQUALS - NOT TRIPLE
         if (arg == null || typeof arg === 'object' && !arg) {
@@ -1351,17 +1506,17 @@
 
 
 
-    /**
-    * Returns an appropriate scale. The return value is actualy an object consisting of:
-    *  scale.max
-    *  scale.min
-    *  scale.scale
-    * 
-    * @param  obj object  The graph object
-    * @param  prop object An object consisting of configuration properties
-    * @return     object  An object containg scale information
-    */
-    RG.SVG.getScale = function (opt)
+    //
+    // Returns an appropriate scale. The return value is actualy an object consisting of:
+    //  scale.max
+    //  scale.min
+    //  scale.scale
+    // 
+    // @param  obj object  The graph object
+    // @param  prop object An object consisting of configuration properties
+    // @return     object  An object containg scale information
+    //
+    RGraph.SVG.getScale = function (opt)
     {
         var obj          = opt.object,
             prop         = obj.properties,
@@ -1380,11 +1535,11 @@
             formatter    = opt.formatter;
 
 
-        /**
-        * Special case for 0
-        * 
-        * ** Must be first **
-        */
+        //
+        // Special case for 0
+        // 
+        // ** Must be first **
+        //
 
         if (max === 0 && min === 0) {
 
@@ -1398,9 +1553,9 @@
                 scale.values.push(parseFloat(label))
             }
 
-        /**
-        * Manually do decimals
-        */
+        //
+        // Manually do decimals
+        //
         } else if (max <= 1 && !strict) {
 
             var arr = [
@@ -1439,7 +1594,7 @@
                 var value = ((((arr[i] - min) / numlabels) * (j + 1)) + min).toFixed(decimals);
 
                 scale.values.push(value);
-                scale.labels.push(RG.SVG.numberFormat({
+                scale.labels.push(RGraph.SVG.numberFormat({
                     object: obj,
                     num: value,
                     prepend: unitsPre,
@@ -1455,14 +1610,14 @@
 
         } else if (!strict) {
 
-            /**
-            * Now comes the scale handling for integer values
-            */
+            //
+            // Now comes the scale handling for integer values
+            //
 
             // This accommodates decimals by rounding the max up to the next integer
-            max = ma.ceil(max);
+            max = Math.ceil(max);
 
-            var interval = ma.pow(10, ma.max(1, Number(String(Number(max) - Number(min)).length - 1)) );
+            var interval = Math.pow(10, Math.max(1, Number(String(Number(max) - Number(min)).length - 1)) );
             var topValue = interval;
 
             while (topValue < max) {
@@ -1490,7 +1645,7 @@
 
             for (var i=0; i<numlabels; ++i) {
 
-                var label = RG.SVG.numberFormat({
+                var label = RGraph.SVG.numberFormat({
                     object: obj,
                     num: ((((i+1) / numlabels) * (topValue - min)) + min).toFixed(decimals),
                     prepend: unitsPre,
@@ -1506,12 +1661,12 @@
 
         } else if (typeof max === 'number' && strict) {
 
-            /**
-            * ymax is set and also strict
-            */
+            //
+            // ymax is set and also strict
+            //
             for (var i=0; i<numlabels; ++i) {
                 
-                scale.labels.push(RG.SVG.numberFormat({
+                scale.labels.push(RGraph.SVG.numberFormat({
                     object: obj,
                     formatter: formatter,
                     num: ((((i+1) / numlabels) * (max - min)) + min).toFixed(decimals),
@@ -1558,15 +1713,15 @@
 
 
 
-    /**
-    * Pads/fills the array
-    * 
-    * @param  array arr The array
-    * @param  int   len The length to pad the array to
-    * @param  mixed     The value to use to pad the array (optional)
-    */
-    RG.SVG.arrayFill = 
-    RG.SVG.arrayPad  = function (opt)
+    //
+    // Pads/fills the array
+    // 
+    // @param  array arr The array
+    // @param  int   len The length to pad the array to
+    // @param  mixed     The value to use to pad the array (optional)
+    //
+    RGraph.SVG.arrayFill = 
+    RGraph.SVG.arrayPad  = function (opt)
     {
         var arr   = opt.array,
             len   = opt.length,
@@ -1588,13 +1743,13 @@
 
 
 
-    /**
-    * An array sum function
-    * 
-    * @param  array arr The  array to calculate the total of
-    * @return int       The summed total of the arrays elements
-    */
-    RG.SVG.arraySum = function (arr)
+    //
+    // An array sum function
+    // 
+    // @param  array arr The  array to calculate the total of
+    // @return int       The summed total of the arrays elements
+    //
+    RGraph.SVG.arraySum = function (arr)
     {
         // Allow integers
         if (typeof arr === 'number') {
@@ -1602,7 +1757,7 @@
         }
         
         // Account for null
-        if (RG.SVG.isNull(arr)) {
+        if (RGraph.SVG.isNull(arr)) {
             return 0;
         }
 
@@ -1620,15 +1775,15 @@
 
 
 
-    /**
-    * Returns the maximum numeric value which is in an array. This function IS NOT
-    * recursive
-    * 
-    * @param  array arr The array (can also be a number, in which case it's returned as-is)
-    * @param  int       Whether to ignore signs (ie negative/positive)
-    * @return int       The maximum value in the array
-    */
-    RG.SVG.arrayMax = function (arr)
+    //
+    // Returns the maximum numeric value which is in an array. This function IS NOT
+    // recursive
+    // 
+    // @param  array arr The array (can also be a number, in which case it's returned as-is)
+    // @param  int       Whether to ignore signs (ie negative/positive)
+    // @return int       The maximum value in the array
+    //
+    RGraph.SVG.arrayMax = function (arr)
     {
         var max = null
         
@@ -1636,17 +1791,17 @@
             return arr;
         }
         
-        if (RG.SVG.isNull(arr)) {
+        if (RGraph.SVG.isNull(arr)) {
             return 0;
         }
 
         for (var i=0,len=arr.length; i<len; ++i) {
             if (typeof arr[i] === 'number') {
 
-                var val = arguments[1] ? ma.abs(arr[i]) : arr[i];
+                var val = arguments[1] ? Math.abs(arr[i]) : arr[i];
                 
                 if (typeof max === 'number') {
-                    max = ma.max(max, val);
+                    max = Math.max(max, val);
                 } else {
                     max = val;
                 }
@@ -1663,14 +1818,14 @@
 
 
 
-    /**
-    * Returns the minimum numeric value which is in an array
-    * 
-    * @param  array arr The array (can also be a number, in which case it's returned as-is)
-    * @param  int       Whether to ignore signs (ie negative/positive)
-    * @return int       The minimum value in the array
-    */
-    RG.SVG.arrayMin = function (arr)
+    //
+    // Returns the minimum numeric value which is in an array
+    // 
+    // @param  array arr The array (can also be a number, in which case it's returned as-is)
+    // @param  int       Whether to ignore signs (ie negative/positive)
+    // @return int       The minimum value in the array
+    //
+    RGraph.SVG.arrayMin = function (arr)
     {
         var max = null,
             min = null,
@@ -1680,17 +1835,17 @@
             return arr;
         }
         
-        if (RG.SVG.isNull(arr)) {
+        if (RGraph.SVG.isNull(arr)) {
             return 0;
         }
 
         for (var i=0,len=arr.length; i<len; ++i) {
             if (typeof arr[i] === 'number') {
 
-                var val = arguments[1] ? ma.abs(arr[i]) : arr[i];
+                var val = arguments[1] ? Math.abs(arr[i]) : arr[i];
                 
                 if (typeof min === 'number') {
-                    min = ma.min(min, val);
+                    min = Math.min(min, val);
                 } else {
                     min = val;
                 }
@@ -1707,14 +1862,14 @@
 
 
 
-    /**
-    * Returns the maximum value which is in an array
-    * 
-    * @param  array arr The array
-    * @param  int   len The length to pad the array to
-    * @param  mixed     The value to use to pad the array (optional)
-    */
-    RG.SVG.arrayPad = function (arr, len)
+    //
+    // Returns the maximum value which is in an array
+    // 
+    // @param  array arr The array
+    // @param  int   len The length to pad the array to
+    // @param  mixed     The value to use to pad the array (optional)
+    //
+    RGraph.SVG.arrayPad = function (arr, len)
     {
         if (arr.length < len) {
             var val = arguments[2] ? arguments[2] : null;
@@ -1734,13 +1889,13 @@
 
 
 
-    /**
-    * An array sum function
-    * 
-    * @param  array arr The  array to calculate the total of
-    * @return int       The summed total of the arrays elements
-    */
-    RG.SVG.arraySum = function (arr)
+    //
+    // An array sum function
+    // 
+    // @param  array arr The  array to calculate the total of
+    // @return int       The summed total of the arrays elements
+    //
+    RGraph.SVG.arraySum = function (arr)
     {
         // Allow integers
         if (typeof arr === 'number') {
@@ -1748,7 +1903,7 @@
         }
         
         // Account for null
-        if (RG.SVG.isNull(arr)) {
+        if (RGraph.SVG.isNull(arr)) {
             return 0;
         }
 
@@ -1766,13 +1921,13 @@
 
 
 
-    /**
-    * Takes any number of arguments and adds them to one big linear array
-    * which is then returned
-    * 
-    * @param ... mixed The data to linearise. You can strings, booleans, numbers or arrays
-    */
-    RG.SVG.arrayLinearize = function ()
+    //
+    // Takes any number of arguments and adds them to one big linear array
+    // which is then returned
+    // 
+    // @param ... mixed The data to linearise. You can strings, booleans, numbers or arrays
+    //
+    RGraph.SVG.arrayLinearize = function ()
     {
         var arr  = [],
             args = arguments
@@ -1781,7 +1936,7 @@
 
             if (typeof args[i] === 'object' && args[i]) {
                 for (var j=0,len2=args[i].length; j<len2; ++j) {
-                    var sub = RG.SVG.arrayLinearize(args[i][j]);
+                    var sub = RGraph.SVG.arrayLinearize(args[i][j]);
                     
                     for (var k=0,len3=sub.length; k<len3; ++k) {
                         arr.push(sub[k]);
@@ -1802,14 +1957,14 @@
 
 
 
-    /**
-    * Takes one off the front of the given array and returns the new array.
-    * 
-    * @param array arr The array from which to take one off the front of array 
-    * 
-    * @return array The new array
-    */
-    RG.SVG.arrayShift = function(arr)
+    //
+    // Takes one off the front of the given array and returns the new array.
+    // 
+    // @param array arr The array from which to take one off the front of array 
+    // 
+    // @return array The new array
+    //
+    RGraph.SVG.arrayShift = function(arr)
     {
         var ret = [];
         
@@ -1827,12 +1982,12 @@
 
 
 
-    /**
-    * Reverses the order of an array
-    * 
-    * @param array arr The array to reverse
-    */
-    RG.SVG.arrayReverse = function (arr)
+    //
+    // Reverses the order of an array
+    // 
+    // @param array arr The array to reverse
+    //
+    RGraph.SVG.arrayReverse = function (arr)
     {
         if (!arr) {
             return;
@@ -1854,18 +2009,18 @@
 
 
 
-    /**
-    * Makes a clone of an object
-    * 
-    * @param obj val The object to clone
-    */
-    RG.SVG.arrayClone = function (obj)
+    //
+    // Makes a clone of an object
+    // 
+    // @param obj val The object to clone
+    //
+    RGraph.SVG.arrayClone = function (obj)
     {
         if(obj === null || typeof obj !== 'object') {
             return obj;
         }
 
-        if (RG.SVG.isArray(obj)) {
+        if (RGraph.SVG.isArray(obj)) {
 
             var temp = [];
     
@@ -1881,7 +2036,7 @@
                     temp[i] = obj[i];
                 
                 } else {
-                    temp[i] = RG.SVG.arrayClone(obj[i]);
+                    temp[i] = RGraph.SVG.arrayClone(obj[i]);
                 }
             }
         } else if (typeof obj === 'object') {
@@ -1908,7 +2063,7 @@
     //
     // Converts an the truthy values to falsey values and vice-versa
     //
-    RG.SVG.arrayInvert = function (arr)
+    RGraph.SVG.arrayInvert = function (arr)
     {
         for (var i=0,len=arr.length; i<len; ++i) {
             arr[i] = !arr[i];
@@ -1928,7 +2083,7 @@
     // An array_trim function that removes the empty elements off
     //both ends
     //
-    RG.SVG.arrayTrim = function (arr)
+    RGraph.SVG.arrayTrim = function (arr)
     {
         var out = [], content = false;
 
@@ -1945,7 +2100,7 @@
         }
         
         // Reverse the array and trim the start again
-        out = RG.SVG.arrayReverse(out);
+        out = RGraph.SVG.arrayReverse(out);
 
         var out2 = [], content = false ;
         for (var i=0; i<out.length; i++) {
@@ -1960,7 +2115,7 @@
         }
         
         // Now reverse the array and return it
-        out2 = RG.SVG.arrayReverse(out2);
+        out2 = RGraph.SVG.arrayReverse(out2);
 
         return out2;
     };
@@ -1972,12 +2127,12 @@
 
 
 
-    /**
-    * Determines if the given object is an array or not
-    * 
-    * @param mixed obj The variable to test
-    */
-    RG.SVG.isArray = function (obj)
+    //
+    // Determines if the given object is an array or not
+    // 
+    // @param mixed obj The variable to test
+    //
+    RGraph.SVG.isArray = function (obj)
     {
         if (obj && obj.constructor) {
             var pos = obj.constructor.toString().indexOf('Array');
@@ -1998,21 +2153,21 @@
 
 
 
-    /**
-    * Returns the absolute value of a number. You can also pass in an
-    * array and it will run the abs() function on each element. It
-    * operates recursively so sub-arrays are also traversed.
-    * 
-    * @param array arr The number or array to work on
-    */
-    RG.SVG.abs = function (value)
+    //
+    // Returns the absolute value of a number. You can also pass in an
+    // array and it will run the abs() function on each element. It
+    // operates recursively so sub-arrays are also traversed.
+    // 
+    // @param array arr The number or array to work on
+    //
+    RGraph.SVG.abs = function (value)
     {
         if (typeof value === 'string') {
             value = parseFloat(value) || 0;
         }
 
         if (typeof value === 'number') {
-            return ma.abs(value);
+            return Math.abs(value);
         }
 
         if (typeof value === 'object') {
@@ -2021,7 +2176,7 @@
                     || typeof i === 'number'
                     || typeof i === 'object') {
 
-                    value[i] = RG.SVG.abs(value[i]);
+                    value[i] = RGraph.SVG.abs(value[i]);
                 }
             }
             
@@ -2043,7 +2198,7 @@
     //
     // @param opt object The options to the function
     //
-    RG.SVG.numberFormat = function (opt)
+    RGraph.SVG.numberFormat = function (opt)
     {
         var obj                = opt.object,
             prepend            = opt.prepend ? String(opt.prepend) : '',
@@ -2081,9 +2236,9 @@
         //var seperator = arguments[1] ? String(arguments[1]) : ',';
         var seperator = thousand_seperator;
         
-        /**
-        * Work backwards adding the thousand seperators
-        */
+        //
+        // Work backwards adding the thousand seperators
+        //
         var foundPoint;
         for (i=(num.length - 1),j=0; i>=0; j++,i--) {
             var character = num.charAt(i);
@@ -2092,15 +2247,15 @@
                 output += seperator;
             }
             
-            /**
-            * Build the output
-            */
+            //
+            // Build the output
+            //
             output += character;
         }
         
-        /**
-        * Now need to reverse the string
-        */
+        //
+        // Now need to reverse the string
+        //
         var rev = output;
         output = '';
         for (i=(rev.length - 1); i>=0; i--) {
@@ -2147,8 +2302,15 @@
     //
     // A function that adds text to the chart
     //
-    RG.SVG.text = function (opt)
+    RGraph.SVG.text = function (opt)
     {
+        // Get the defaults for the text function from RGraph.text.defaults object
+        for (var i in RGraph.SVG.text.defaults) {
+            if (typeof i === 'string' && typeof opt[i] === 'undefined') {
+                opt[i] = RGraph.SVG.text.defaults[i];
+            }
+        }
+
         var obj               = opt.object,
             parent            = opt.parent || opt.object.svg.all,
             size              = typeof opt.size === 'number' ? opt.size + 'pt' : (typeof opt.size === 'string' ? opt.size.replace(/pt$/,'') : 12) + 'pt',
@@ -2170,6 +2332,8 @@
             angle             = opt.angle;
 
 
+
+
         
         
         //
@@ -2182,7 +2346,7 @@
         //
         // Change null values to an empty string
         //
-        if (RG.SVG.isNull(str)) {
+        if (RGraph.SVG.isNull(str)) {
             str = '';
         }
         
@@ -2235,7 +2399,7 @@
         // Text does not include carriage returns
         //
         if (str && str.indexOf && str.indexOf("\n") === -1) {
-            var text = RG.SVG.create({
+            var text = RGraph.SVG.create({
                 svg: obj.svg,
                 parent: link ? a : opt.parent,
                 type: 'text',
@@ -2268,7 +2432,7 @@
         } else if (str && str.indexOf) {
             
             // Measure the text
-            var dimensions = RG.SVG.measureText({
+            var dimensions = RGraph.SVG.measureText({
                 text: 'My',
                 bold: bold,
                 font: font,
@@ -2299,7 +2463,7 @@
 
 
 
-            var text = RG.SVG.create({
+            var text = RGraph.SVG.create({
                 svg: obj.svg,
                 parent: link ? a : opt.parent,
                 type: 'text',
@@ -2324,7 +2488,7 @@
 
             for (var i=0; i<str.length; ++i) {
 
-                var tspan = RG.SVG.create({
+                var tspan = RGraph.SVG.create({
                     svg: obj.svg,
                     parent: text,
                     type: 'tspan',
@@ -2341,7 +2505,7 @@
                     tspan.style.pointerEvents = 'none';
                 }
 
-                var dimensions = RG.SVG.measureText({
+                var dimensions = RGraph.SVG.measureText({
                     text: str[i],
                     bold: bold,
                     font: font,
@@ -2368,7 +2532,7 @@
             var parent = link ? a : parent;
 
             var bbox = text.getBBox(),
-                rect = RG.SVG.create({
+                rect = RGraph.SVG.create({
                     svg:    obj.svg,
                     parent: parent,
                     type:   'rect',
@@ -2392,22 +2556,24 @@
 
 
 
-        if (RG.SVG.ISIE && (valign === 'hanging') && text) {
+        if (RGraph.SVG.ISIE && (valign === 'hanging') && text) {
             text.setAttribute('y', y + (text.scrollHeight / 2));
 
-        } else if (RG.SVG.ISIE && valign === 'middle') {
+        } else if (RGraph.SVG.ISIE && valign === 'middle') {
             text.setAttribute('y', y + (text.scrollHeight / 3));
         }
 
 
 
 
-        if (RG.SVG.ISFF && text) {
+        if (RGraph.SVG.ISFF && text) {
             Y = y + (text.scrollHeight / 3);
         }
         
         return text;
     };
+    
+    RGraph.SVG.text.defaults = {};
 
 
 
@@ -2419,7 +2585,7 @@
     //
     // Helps you get hold of the SPAN tag nodes that hold the text on the chart
     //
-    RG.SVG.text.find = function (opt)
+    RGraph.SVG.text.find = function (opt)
     {
         // Search criteria should include:
         //  o text (literal string and regex)
@@ -2484,11 +2650,11 @@
     //
     // Creates a UID that is applied to the object
     //
-    RG.SVG.createUID = function ()
+    RGraph.SVG.createUID = function ()
     {
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c)
         {
-            var r = ma.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+            var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
             return v.toString(16);
         });
     };
@@ -2503,7 +2669,7 @@
     //
     // Determines if the SVG DIV container is fixed
     //
-    RG.SVG.isFixed = function (svg)
+    RGraph.SVG.isFixed = function (svg)
     {
         var obj = svg.parentNode,
             i   = 0;
@@ -2527,14 +2693,14 @@
 
 
 
-    /**
-    * Sets an object in the RGraph registry
-    * 
-    * @param string name The name of the value to set
-    */
-    RG.SVG.REG.set = function (name, value)
+    //
+    // Sets an object in the RGraph registry
+    // 
+    // @param string name The name of the value to set
+    //
+    RGraph.SVG.REG.set = function (name, value)
     {
-        RG.SVG.REG.store[name] = value;
+        RGraph.SVG.REG.store[name] = value;
         
         return value;
     };
@@ -2546,14 +2712,14 @@
 
 
 
-    /**
-    * Gets an object from the RGraph registry
-    * 
-    * @param string name The name of the value to fetch
-    */
-    RG.SVG.REG.get = function (name)
+    //
+    // Gets an object from the RGraph registry
+    // 
+    // @param string name The name of the value to fetch
+    //
+    RGraph.SVG.REG.get = function (name)
     {
-        return RG.SVG.REG.store[name];
+        return RGraph.SVG.REG.store[name];
     };
 
 
@@ -2563,14 +2729,14 @@
 
 
 
-    /**
-    * Removes white-space from the start aqnd end of a string
-    * 
-    * @param string str The string to trim
-    */
-    RG.SVG.trim = function (str)
+    //
+    // Removes white-space from the start aqnd end of a string
+    // 
+    // @param string str The string to trim
+    //
+    RGraph.SVG.trim = function (str)
     {
-        return RG.SVG.ltrim(RG.SVG.rtrim(str));
+        return RGraph.SVG.ltrim(RGraph.SVG.rtrim(str));
     };
 
 
@@ -2580,12 +2746,12 @@
 
 
 
-    /**
-    * Trims the white-space from the start of a string
-    * 
-    * @param string str The string to trim
-    */
-    RG.SVG.ltrim = function (str)
+    //
+    // Trims the white-space from the start of a string
+    // 
+    // @param string str The string to trim
+    //
+    RGraph.SVG.ltrim = function (str)
     {
         return str.replace(/^(\s|\0)+/, '');
     };
@@ -2597,12 +2763,12 @@
 
 
 
-    /**
-    * Trims the white-space off of the end of a string
-    * 
-    * @param string str The string to trim
-    */
-    RG.SVG.rtrim = function (str)
+    //
+    // Trims the white-space off of the end of a string
+    // 
+    // @param string str The string to trim
+    //
+    RGraph.SVG.rtrim = function (str)
     {
         return str.replace(/(\s|\0)+$/, '');
     };
@@ -2617,19 +2783,19 @@
     //
     // Hides the currently shown tooltip
     //
-    RG.SVG.hideTooltip = function ()
+    RGraph.SVG.hideTooltip = function ()
     {
-        var tooltip = RG.SVG.REG.get('tooltip');
+        var tooltip = RGraph.SVG.REG.get('tooltip');
 
         if (tooltip && tooltip.parentNode /*&& (!uid || uid == tooltip.__canvas__.uid)*/) {
             tooltip.parentNode.removeChild(tooltip);
             tooltip.style.display = 'none';                
             tooltip.style.visibility = 'hidden';
-            RG.SVG.REG.set('tooltip', null);
+            RGraph.SVG.REG.set('tooltip', null);
         }
 
         if (tooltip && tooltip.__object__) {
-            RG.SVG.removeHighlight(tooltip.__object__);
+            RGraph.SVG.removeHighlight(tooltip.__object__);
         }
     };
 
@@ -2643,7 +2809,7 @@
     //
     // Creates a shadow
     //
-    RG.SVG.setShadow = function (options)
+    RGraph.SVG.setShadow = function (options)
     {
         var obj     = options.object,
             offsetx = options.offsetx  || 0,
@@ -2652,7 +2818,7 @@
             opacity = options.opacity || 0,
             id      = options.id;
 
-        var filter = RG.SVG.create({
+        var filter = RGraph.SVG.create({
             svg: obj.svg,
             parent: obj.svg.defs,
             type: 'filter',
@@ -2663,7 +2829,7 @@
             }
         });
 
-        RG.SVG.create({
+        RGraph.SVG.create({
             svg: obj.svg,
             parent: filter,
             type: 'feOffset',
@@ -2675,7 +2841,7 @@
             }
         });
 
-        RG.SVG.create({
+        RGraph.SVG.create({
             svg: obj.svg,
             parent: filter,
             type: 'feColorMatrix',
@@ -2689,7 +2855,7 @@
             }
         });
 
-        RG.SVG.create({
+        RGraph.SVG.create({
             svg: obj.svg,
             parent: filter,
             type: 'feGaussianBlur',
@@ -2700,7 +2866,7 @@
             }
         });
 
-        RG.SVG.create({
+        RGraph.SVG.create({
             svg: obj.svg,
             parent: filter,
             type: 'feBlend',
@@ -2719,23 +2885,23 @@
 
 
 
-    /**
-    * Takes a sequential index and returns the group/index variation of it. Eg if you have a
-    * sequential index from a grouped bar chart this function can be used to convert that into
-    * an appropriate group/index combination
-    * 
-    * @param nindex number The sequential index
-    * @param data   array  The original data (which is grouped)
-    * @return              The group/index information
-    */
-    RG.SVG.sequentialIndexToGrouped = function (index, data)
+    //
+    // Takes a sequential index and returns the group/index variation of it. Eg if you have a
+    // sequential index from a grouped bar chart this function can be used to convert that into
+    // an appropriate group/index combination
+    // 
+    // @param nindex number The sequential index
+    // @param data   array  The original data (which is grouped)
+    // @return              The group/index information
+    //
+    RGraph.SVG.sequentialIndexToGrouped = function (index, data)
     {
         var group         = 0,
             grouped_index = 0;
 
         while (--index >= 0) {
 
-            if (RG.SVG.isNull(data[group])) {
+            if (RGraph.SVG.isNull(data[group])) {
                 group++;
                 grouped_index = 0;
                 continue;
@@ -2773,7 +2939,7 @@
     //
     // @return number The sequential index
     //
-    RG.SVG.groupedIndexToSequential = function (opt)
+    RGraph.SVG.groupedIndexToSequential = function (opt)
     {
         var dataset = opt.dataset,
             index   = opt.index,
@@ -2805,7 +2971,7 @@
     //
     // @param ... mixed The data to linearise. You can strings, booleans, numbers or arrays
     //
-    RG.SVG.arrayLinearize = function ()
+    RGraph.SVG.arrayLinearize = function ()
     {
         var arr  = [],
             args = arguments
@@ -2814,7 +2980,7 @@
 
             if (typeof args[i] === 'object' && args[i]) {
                 for (var j=0,len2=args[i].length; j<len2; ++j) {
-                    var sub = RG.SVG.arrayLinearize(args[i][j]);
+                    var sub = RGraph.SVG.arrayLinearize(args[i][j]);
                     
                     for (var k=0,len3=sub.length; k<len3; ++k) {
                         arr.push(sub[k]);
@@ -2839,11 +3005,11 @@
     // This function converts coordinates into the type understood by
     // SVG for drawing arcs
     //
-    RG.SVG.TRIG.toCartesian = function (options)
+    RGraph.SVG.TRIG.toCartesian = function (options)
     {
         return {
-            x: options.cx + (options.r * ma.cos(options.angle)),
-            y: options.cy + (options.r * ma.sin(options.angle))
+            x: options.cx + (options.r * Math.cos(options.angle)),
+            y: options.cy + (options.r * Math.sin(options.angle))
         };
     };
 
@@ -2858,7 +3024,7 @@
     // This function, when given the x1,x2,y1,y2 coordinates will return
     //the diagonal length between the two using pythagorous.
     //
-    RG.SVG.TRIG.getHypLength = function (opt)
+    RGraph.SVG.TRIG.getHypLength = function (opt)
     {
         var h = Math.abs(opt.x2 - opt.x1)
             v = Math.abs(opt.y2 - opt.y1),
@@ -2887,23 +3053,23 @@
         // @param  number y   The Y coordinate (eg the mouseY if coming from a click)
         // @return number     The relevant angle (measured in in RADIANS)
         //
-        RG.SVG.TRIG.getAngleByXY = function (opt)
+        RGraph.SVG.TRIG.getAngleByXY = function (opt)
         {
             var cx = opt.cx,
                 cy = opt.cy,
                 x  = opt.x,
                 y  = opt.y;
 
-            var angle = ma.atan((y - cy) / (x - cx));
+            var angle = Math.atan((y - cy) / (x - cx));
 
             if (x >= cx && y >= cy) {
-                angle += RG.SVG.TRIG.HALFPI;
+                angle += RGraph.SVG.TRIG.HALFPI;
             } else if (x >= cx && y < cy) {
-                angle = angle + RG.SVG.TRIG.HALFPI;
+                angle = angle + RGraph.SVG.TRIG.HALFPI;
             } else if (x < cx && y < cy) {
-                angle = angle + RG.SVG.TRIG.PI + RG.SVG.TRIG.HALFPI;
+                angle = angle + RGraph.SVG.TRIG.PI + RGraph.SVG.TRIG.HALFPI;
             } else {
-                angle = angle + RG.SVG.TRIG.PI + RG.SVG.TRIG.HALFPI;
+                angle = angle + RGraph.SVG.TRIG.PI + RGraph.SVG.TRIG.HALFPI;
             }
     
             return angle;
@@ -2923,7 +3089,7 @@
     //
     // NB ** Still used by the Pie chart and the semi-circular Meter **
     //
-    RG.SVG.TRIG.getArcPath = function (options)
+    RGraph.SVG.TRIG.getArcPath = function (options)
     {
         //
         // Make circles start at the top instead of the right hand side
@@ -2931,14 +3097,14 @@
         options.start -= 1.57;
         options.end   -= 1.57;
 
-        var start = RG.SVG.TRIG.toCartesian({
+        var start = RGraph.SVG.TRIG.toCartesian({
             cx:    options.cx,
             cy:    options.cy,
             r:     options.r,
             angle: options.start}
         );
 
-        var end = RG.SVG.TRIG.toCartesian({
+        var end = RGraph.SVG.TRIG.toCartesian({
             cx:    options.cx,
             cy:    options.cy,
             r:     options.r,
@@ -3006,7 +3172,7 @@
     //
     // @patam object options The options/arg to the function
     //
-    RG.SVG.TRIG.getArcPath2 = function (options)
+    RGraph.SVG.TRIG.getArcPath2 = function (options)
     {
         //
         // Make circles start at the top instead of the right hand side
@@ -3014,21 +3180,21 @@
         options.start -= 1.57;
         options.end   -= 1.57;
 
-        var start = RG.SVG.TRIG.toCartesian({
+        var start = RGraph.SVG.TRIG.toCartesian({
             cx:    options.cx,
             cy:    options.cy,
             r:     options.r,
             angle: options.start
         });
 
-        var end = RG.SVG.TRIG.toCartesian({
+        var end = RGraph.SVG.TRIG.toCartesian({
             cx:    options.cx,
             cy:    options.cy,
             r:     options.r,
             angle: options.end
         });
 
-        var diff = ma.abs(options.end - options.start);
+        var diff = Math.abs(options.end - options.start);
         
         // Initial values
         var largeArc = '0';
@@ -3036,7 +3202,7 @@
 
         //TODO Put various options here for the correct combination of flags to use
         if (!options.anticlockwise) {
-            if (diff > RG.SVG.TRIG.PI) {
+            if (diff > RGraph.SVG.TRIG.PI) {
                 largeArc = '1';
                 sweep    = '1';
             } else {
@@ -3044,7 +3210,7 @@
                 sweep    = '1';
             }
         } else {
-            if (diff > RG.SVG.TRIG.PI) {
+            if (diff > RGraph.SVG.TRIG.PI) {
                 largeArc = '1';
                 sweep    = '0';
             } else {
@@ -3085,7 +3251,7 @@
     //
     // @param object options The options/arg to the function
     //
-    RG.SVG.TRIG.getArcPath3 = function (options)
+    RGraph.SVG.TRIG.getArcPath3 = function (options)
     {
         // Make sure the args are numbers
         options.cx     = Number(options.cx);
@@ -3097,24 +3263,24 @@
         //
         // Make circles start at the top instead of the right hand side
         //
-        options.start -= (ma.PI / 2);
-        options.end   -= (ma.PI / 2);
+        options.start -= (Math.PI / 2);
+        options.end   -= (Math.PI / 2);
 
-        var start = RG.SVG.TRIG.toCartesian({
+        var start = RGraph.SVG.TRIG.toCartesian({
             cx:    options.cx,
             cy:    options.cy,
             r:     options.r,
             angle: options.start
         });
 
-        var end = RG.SVG.TRIG.toCartesian({
+        var end = RGraph.SVG.TRIG.toCartesian({
             cx:    options.cx,
             cy:    options.cy,
             r:     options.r,
             angle: options.end
         });
 
-        var diff = ma.abs(options.end - options.start);
+        var diff = Math.abs(options.end - options.start);
 
         // Initial values
         var largeArc = '0';
@@ -3122,7 +3288,7 @@
 
         //TODO Put various options here for the correct combination of flags to use
         if (!options.anticlockwise) {
-            if (diff > RG.SVG.TRIG.PI) {
+            if (diff > RGraph.SVG.TRIG.PI) {
                 largeArc = '1';
                 sweep    = '1';
             } else {
@@ -3130,7 +3296,7 @@
                 sweep    = '1';
             }
         } else {
-            if (diff > RG.SVG.TRIG.PI) {
+            if (diff > RGraph.SVG.TRIG.PI) {
                 largeArc = '1';
                 sweep    = '0';
             } else {
@@ -3165,17 +3331,17 @@
 
 
 
-    /**
-    * This function gets the end point (X/Y coordinates) of a given radius.
-    * You pass it the center X/Y and the radius and this function will return
-    * the endpoint X/Y coordinates.
-    * 
-    * @param number cx    The center X coord
-    * @param number cy    The center Y coord
-    * @param number r     The length of the radius
-    * @param number angle The anle to use
-    */
-    RG.SVG.TRIG.getRadiusEndPoint = function (opt)
+    //
+    // This function gets the end point (X/Y coordinates) of a given radius.
+    // You pass it the center X/Y and the radius and this function will return
+    // the endpoint X/Y coordinates.
+    // 
+    // @param number cx    The center X coord
+    // @param number cy    The center Y coord
+    // @param number r     The length of the radius
+    // @param number angle The anle to use
+    //
+    RGraph.SVG.TRIG.getRadiusEndPoint = function (opt)
     {
         // Allow for two arguments style
         if (arguments.length === 1) {
@@ -3189,8 +3355,8 @@
                 r     = arguments[1];
         }
 
-        var x = ma.cos(angle) * r,
-            y = ma.sin(angle) * r;
+        var x = Math.cos(angle) * r,
+            y = Math.sin(angle) * r;
 
         return [x, y];
     };
@@ -3202,10 +3368,10 @@
 
 
 
-    /**
-    * This function draws the title. This function also draws the subtitle.
-    */
-    RG.SVG.drawTitle = function (obj)
+    //
+    // This function draws the title. This function also draws the subtitle.
+    //
+    RGraph.SVG.drawTitle = function (obj)
     {
         var prop = obj.properties;
 
@@ -3215,7 +3381,7 @@
             valign = 'bottom';
 
         // If theres key defined then move the title up
-        if (!RG.SVG.isNull(obj.properties.key)) {
+        if (!RGraph.SVG.isNull(obj.properties.key)) {
             y -= 20;
         }
 
@@ -3248,9 +3414,9 @@
             y += prop.titleOffsety;
         }
 
-        // Move the Y cood up if thers a subtitle
+        // Move the Y coord up if there's a subtitle
         if (typeof prop.titleSubtitle === 'string' || typeof prop.titleSubtitle === 'number') {
-            var titleSubtitleDim = RG.SVG.measureText({
+            var titleSubtitleDim = RGraph.SVG.measureText({
                 bold:   prop.titleSubtitleBold,
                 italic: prop.titleSubtitleItalic,
                 size:   prop.titleSubtitleSize,
@@ -3265,7 +3431,8 @@
 
         // Draw the title
         if (prop.title) {
-            RG.SVG.text({
+
+            RGraph.SVG.text({
                 object: obj,
                 svg:    obj.svg,
                 parent: obj.svg.all,
@@ -3292,7 +3459,7 @@
             && (typeof prop.titleSubtitle === 'string' || typeof prop.titleSubtitle === 'number')
            ) {
 
-            RG.SVG.text({
+            RGraph.SVG.text({
                 object: obj,
                 svg:    obj.svg,
                 parent: obj.svg.all,
@@ -3318,14 +3485,14 @@
 
 
 
-    /**
-    * Removes white-space from the start and end of a string
-    * 
-    * @param string str The string to trim
-    */
-    RG.SVG.trim = function (str)
+    //
+    // Removes white-space from the start and end of a string
+    // 
+    // @param string str The string to trim
+    //
+    RGraph.SVG.trim = function (str)
     {
-        return RG.SVG.ltrim(RG.SVG.rtrim(str));
+        return RGraph.SVG.ltrim(RGraph.SVG.rtrim(str));
     };
 
 
@@ -3335,12 +3502,12 @@
 
 
 
-    /**
-    * Trims the white-space from the start of a string
-    * 
-    * @param string str The string to trim
-    */
-    RG.SVG.ltrim = function (str)
+    //
+    // Trims the white-space from the start of a string
+    // 
+    // @param string str The string to trim
+    //
+    RGraph.SVG.ltrim = function (str)
     {
         return String(str).replace(/^(\s|\0)+/, '');
     };
@@ -3352,12 +3519,12 @@
 
 
 
-    /**
-    * Trims the white-space off of the end of a string
-    * 
-    * @param string str The string to trim
-    */
-    RG.SVG.rtrim = function (str)
+    //
+    // Trims the white-space off of the end of a string
+    // 
+    // @param string str The string to trim
+    //
+    RGraph.SVG.rtrim = function (str)
     {
         return String(str).replace(/(\s|\0)+$/, '');
     };
@@ -3369,10 +3536,10 @@
 
 
 
-    /**
-    * This parses a single color value
-    */
-    RG.SVG.parseColorLinear = function (opt)
+    //
+    // This parses a single color value
+    //
+    RGraph.SVG.parseColorLinear = function (opt)
     {
         var obj   = opt.object,
             color = opt.color;
@@ -3387,7 +3554,7 @@
                 diff  = 1 / (parts.length - 1);
 
             if (opt && opt.direction && opt.direction === 'horizontal') {
-                var grad = RG.SVG.create({
+                var grad = RGraph.SVG.create({
                     type: 'linearGradient',
                     parent: obj.svg.defs,
                     attr: {
@@ -3402,7 +3569,7 @@
 
             } else {
 
-                var grad = RG.SVG.create({
+                var grad = RGraph.SVG.create({
                     type: 'linearGradient',
                     parent: obj.svg.defs,
                     attr: {
@@ -3417,24 +3584,24 @@
             }
 
             // Add the first color stop
-            var stop = RG.SVG.create({
+            var stop = RGraph.SVG.create({
                 type: 'stop',
                 parent: grad,
                 attr: {
                     offset: '0%',
-                    'stop-color': RG.SVG.trim(parts[0])
+                    'stop-color': RGraph.SVG.trim(parts[0])
                 }
             });
 
             // Add the rest of the color stops
             for (var j=1,len=parts.length; j<len; ++j) {
                 
-                RG.SVG.create({
+                RGraph.SVG.create({
                     type: 'stop',
                     parent: grad,
                     attr: {
                         offset: (j * diff * 100) + '%',
-                        'stop-color': RG.SVG.trim(parts[j])
+                        'stop-color': RGraph.SVG.trim(parts[j])
                     }
                 });
             }
@@ -3452,10 +3619,10 @@
 
 
 
-    /**
-    * This parses a single color value
-    */
-    RG.SVG.parseColorRadial = function (opt)
+    //
+    // This parses a single color value
+    //
+    RGraph.SVG.parseColorRadial = function (opt)
     {
         var obj   = opt.object,
             color = opt.color;
@@ -3470,7 +3637,7 @@
                 diff  = 1 / (parts.length - 1);
 
 
-            var grad = RG.SVG.create({
+            var grad = RGraph.SVG.create({
                 type: 'radialGradient',
                 parent: obj.svg.defs,
                 attr: {
@@ -3485,24 +3652,24 @@
             });
 
             // Add the first color stop
-            var stop = RG.SVG.create({
+            var stop = RGraph.SVG.create({
                 type: 'stop',
                 parent: grad,
                 attr: {
                     offset: '0%',
-                    'stop-color': RG.SVG.trim(parts[0])
+                    'stop-color': RGraph.SVG.trim(parts[0])
                 }
             });
 
             // Add the rest of the color stops
             for (var j=1,len=parts.length; j<len; ++j) {
                 
-                RG.SVG.create({
+                RGraph.SVG.create({
                     type: 'stop',
                     parent: grad,
                     attr: {
                         offset: (j * diff * 100) + '%',
-                        'stop-color': RG.SVG.trim(parts[j])
+                        'stop-color': RGraph.SVG.trim(parts[j])
                     }
                 });
             }
@@ -3520,12 +3687,12 @@
 
 
 
-    /**
-    * Reset all of the color values to their original values
-    * 
-    * @param object
-    */
-    RG.SVG.resetColorsToOriginalValues = function (opt)
+    //
+    // Reset all of the color values to their original values
+    // 
+    // @param object
+    //
+    RGraph.SVG.resetColorsToOriginalValues = function (opt)
     {
         var obj = opt.object;
 
@@ -3533,15 +3700,15 @@
             // Reset the colors to their original values
             for (var j in obj.originalColors) {
                 if (typeof j === 'string') {
-                    obj.properties[j] = RG.SVG.arrayClone(obj.originalColors[j]);
+                    obj.properties[j] = RGraph.SVG.arrayClone(obj.originalColors[j]);
                 }
             }
         }
 
-        /**
-        * If the function is present on the object to reset specific
-        * colors - use that
-        */
+        //
+        // If the function is present on the object to reset specific
+        // colors - use that
+        //
         if (typeof obj.resetColorsToOriginalValues === 'function') {
             obj.resetColorsToOriginalValues();
         }
@@ -3570,11 +3737,33 @@
     // Clear the SVG tag by deleting all of its
     // child nodes
     //
-    // @param object svg The SVG tag (same as what is returned
+    // @param [OPTIONAL] svg The SVG tag (same as what is returned
     //                   by document.getElementById() )
     //
-    RG.SVG.clear = function (svg)
+    RGraph.SVG.clear = function ()
     {
+        // No arguments given - so clear all of the registered
+        // SVG tags.
+        if (arguments.length === 0) {
+            for (var i=0; i<RGraph.SVG.OR.objects.length; i++) {
+                RGraph.SVG.clear(RGraph.SVG.OR.objects[i].svg);
+            }
+            
+            return;
+        
+        // An SVG tag has been given
+        } else {
+            var svg = arguments[0];
+        }
+
+        // Allow the svg to be a string
+        if (typeof svg === 'string') {
+            var div = document.getElementById(svg);
+            var svg = div.__svg__;
+        
+
+        }
+
         // Clear all the layer nodes
         for (var i=1; i<=100; ++i) {
             if (svg['background' + i]) {
@@ -3608,32 +3797,40 @@
 
 
 
-    /**
-    * Adds an event listener
-    * 
-    * @param object obj   The graph object
-    * @param string event The name of the event, eg ontooltip
-    * @param object func  The callback function
-    */
-    RG.SVG.addCustomEventListener = function (obj, name, func)
+    //
+    // The reset function is like the clear function but also clears the
+    // ObjectRegistry for this canvas
+    //
+    RGraph.SVG.reset = function ()
     {
-        // Initialise the events array if necessary
-        if (typeof RG.SVG.events[obj.uid] === 'undefined') {
-            RG.SVG.events[obj.uid] = [];
-        }
-        
-        // Prepend "on" if necessary
-        if (name.substr(0, 2) !== 'on') {
-            name = 'on' + name;
+        // Reset all registered SVG tags
+        if (arguments.length === 0) {
+            for (var i=0; i<RGraph.SVG.OR.objects.length; i++) {
+                RGraph.SVG.reset(RGraph.SVG.OR.objects[i].svg);
+            }
+
+            return;
+
+        // Reset a single SVG tag
+        } else {
+            var svg = arguments[0];
         }
 
-        RG.SVG.events[obj.uid].push({
-            object: obj,
-            event:  name,
-            func:   func
-        });
+        // Allow the svg to be a string
+        if (typeof svg === 'string') {
+            var div = document.getElementById(svg);
+            var svg = div.__svg__;
+        }
 
-        return RG.SVG.events[obj.uid].length - 1;
+        RGraph.SVG.clear(svg);
+
+        // Make sure every element is removed from the SVG tag
+        while (svg.lastChild) {
+            svg.removeChild(svg.lastChild);
+        }
+
+        // Remove the SVG tag from the ObjectRegistry
+        RGraph.SVG.OR.clear(svg);
     };
 
 
@@ -3643,26 +3840,61 @@
 
 
 
-    /**
-    * Used to fire one of the RGraph custom events
-    * 
-    * @param object obj   The graph object that fires the event
-    * @param string event The name of the event to fire
-    */
-    RG.SVG.fireCustomEvent = function (obj, name)
+    //
+    // Adds an event listener
+    // 
+    // @param object obj   The graph object
+    // @param string event The name of the event, eg ontooltip
+    // @param object func  The callback function
+    //
+    RGraph.SVG.addCustomEventListener = function (obj, name, func)
+    {
+        // Initialise the events array if necessary
+        if (typeof RGraph.SVG.events[obj.uid] === 'undefined') {
+            RGraph.SVG.events[obj.uid] = [];
+        }
+        
+        // Prepend "on" if necessary
+        if (name.substr(0, 2) !== 'on') {
+            name = 'on' + name;
+        }
+
+        RGraph.SVG.events[obj.uid].push({
+            object: obj,
+            event:  name,
+            func:   func
+        });
+
+        return RGraph.SVG.events[obj.uid].length - 1;
+    };
+
+
+
+
+
+
+
+
+    //
+    // Used to fire one of the RGraph custom events
+    // 
+    // @param object obj   The graph object that fires the event
+    // @param string event The name of the event to fire
+    //
+    RGraph.SVG.fireCustomEvent = function (obj, name)
     {
         if (obj && obj.isRGraph) {
             
             var uid = obj.uid;
 
             if (   typeof uid === 'string'
-                && typeof RG.SVG.events === 'object'
-                && typeof RG.SVG.events[uid] === 'object'
-                && RG.SVG.events[uid].length > 0) {
+                && typeof RGraph.SVG.events === 'object'
+                && typeof RGraph.SVG.events[uid] === 'object'
+                && RGraph.SVG.events[uid].length > 0) {
 
-                for(var j=0,len=RG.SVG.events[uid].length; j<len; ++j) {
-                    if (RG.SVG.events[uid][j] && RG.SVG.events[uid][j].event === name) {
-                        RG.SVG.events[uid][j].func(obj);
+                for(var j=0,len=RGraph.SVG.events[uid].length; j<len; ++j) {
+                    if (RGraph.SVG.events[uid][j] && RGraph.SVG.events[uid][j].event === name) {
+                        RGraph.SVG.events[uid][j].func(obj);
                     }
                 }
             }
@@ -3676,19 +3908,19 @@
 
 
 
-    /**
-    * Clears all the custom event listeners that have been registered
-    * 
-    * @param string optional Limits the clearing to this object UID
-    */
-    RG.SVG.removeAllCustomEventListeners = function ()
+    //
+    // Clears all the custom event listeners that have been registered
+    // 
+    // @param string optional Limits the clearing to this object UID
+    //
+    RGraph.SVG.removeAllCustomEventListeners = function ()
     {
         var uid = arguments[0];
 
-        if (uid && RG.SVG.events[uid]) {
-            RG.SVG.events[uid] = {};
+        if (uid && RGraph.SVG.events[uid]) {
+            RGraph.SVG.events[uid] = {};
         } else {
-            RG.SVG.events = [];
+            RGraph.SVG.events = [];
         }
     };
 
@@ -3699,19 +3931,19 @@
 
 
 
-    /**
-    * Clears a particular custom event listener
-    * 
-    * @param object obj The graph object
-    * @param number i   This is the index that is return by .addCustomEventListener()
-    */
-    RG.SVG.removeCustomEventListener = function (obj, i)
+    //
+    // Clears a particular custom event listener
+    // 
+    // @param object obj The graph object
+    // @param number i   This is the index that is return by .addCustomEventListener()
+    //
+    RGraph.SVG.removeCustomEventListener = function (obj, i)
     {
-        if (   typeof RG.SVG.events === 'object'
-            && typeof RG.SVG.events[obj.uid] === 'object'
-            && typeof RG.SVG.events[obj.uid][i] === 'object') {
+        if (   typeof RGraph.SVG.events === 'object'
+            && typeof RGraph.SVG.events[obj.uid] === 'object'
+            && typeof RGraph.SVG.events[obj.uid][i] === 'object') {
             
-            RG.SVG.events[obj.uid][i] = null;
+            RGraph.SVG.events[obj.uid][i] = null;
         }
     };
 
@@ -3725,11 +3957,11 @@
     //
     // Removes the highlight from the chart added by tooltips (possibly others too)
     //
-    RG.SVG.removeHighlight = function (obj)
+    RGraph.SVG.removeHighlight = function (obj)
     {
-        var highlight = RG.SVG.REG.get('highlight');
+        var highlight = RGraph.SVG.REG.get('highlight');
 
-        if (highlight && RG.SVG.isArray(highlight) && highlight.length) {
+        if (highlight && RGraph.SVG.isArray(highlight) && highlight.length) {
             for (var i=0,len=highlight.length; i<len; ++i) {
                 if (highlight[i].parentNode) {
                     //obj.svg.removeChild(highlight[i]);
@@ -3738,6 +3970,8 @@
             }
         } else if (highlight && highlight.parentNode) {
             if (obj.type === 'scatter') {
+                highlight.setAttribute('stroke0width', '0');
+                highlight.setAttribute('stroke', 'transparent');
                 highlight.setAttribute('fill', 'transparent');
             } else {
                 highlight.parentNode.removeChild(highlight);
@@ -3755,29 +3989,29 @@
     //
     // Removes the highlight from the chart added by tooltips (possibly others too)
     //
-    RG.SVG.redraw = function ()
+    RGraph.SVG.redraw = function ()
     {
         if (arguments.length === 1) {
 
             var svg = arguments[0];
 
-            RG.SVG.clear(svg);
+            RGraph.SVG.clear(svg);
 
-            var objects = RG.SVG.OR.get('id:' + svg.parentNode.id);
+            var objects = RGraph.SVG.OR.get('id:' + svg.parentNode.id);
 
             for (var i=0,len=objects.length; i<len; ++i) {
 
                 // Reset the colors to the original values
-                RG.SVG.resetColorsToOriginalValues({object: objects[i]});
+                RGraph.SVG.resetColorsToOriginalValues({object: objects[i]});
 
                 objects[i].draw();
             }
         } else {
 
-            var tags = RG.SVG.OR.tags();
+            var tags = RGraph.SVG.OR.tags();
 
             for (var i in tags) {
-                RG.SVG.redraw(tags[i]);
+                RGraph.SVG.redraw(tags[i]);
             }
         }
     };
@@ -3795,7 +4029,7 @@
     //@param  string str The string to parse
     //@return number     A number, as returned by Date.parse()
     //
-    RG.SVG.parseDate = function (str)
+    RGraph.SVG.parseDate = function (str)
     {
         var d = new Date();
 
@@ -3906,9 +4140,9 @@
 
 
     // The ObjectRegistry add function
-    RG.SVG.OR.add = function (obj)
+    RGraph.SVG.OR.add = function (obj)
     {
-        RG.SVG.OR.objects.push(obj);
+        RGraph.SVG.OR.objects.push(obj);
 
         return obj;
     };
@@ -3927,16 +4161,16 @@
     // o id:XXX  All of the objects on that SVG tag are returned
     // o type:XXX All the objects of that type are returned
     //
-    RG.SVG.OR.get = function ()
+    RGraph.SVG.OR.get = function ()
     {
         // Fetch objects that are on a particular SVG tag
         if (typeof arguments[0] === 'string' && arguments[0].substr(0, 3).toLowerCase() === 'id:') {
             
             var ret = [];
 
-            for (var i=0; i<RG.SVG.OR.objects.length; ++i) {
-                if (RG.SVG.OR.objects[i].id === arguments[0].substr(3)) {
-                    ret.push(RG.SVG.OR.objects[i]);
+            for (var i=0; i<RGraph.SVG.OR.objects.length; ++i) {
+                if (RGraph.SVG.OR.objects[i] && RGraph.SVG.OR.objects[i].id === arguments[0].substr(3)) {
+                    ret.push(RGraph.SVG.OR.objects[i]);
                 }
             }
 
@@ -3951,9 +4185,9 @@
             
             var ret = [];
             
-            for (var i=0; i<RG.SVG.OR.objects.length; ++i) {
-                if (RG.SVG.OR.objects[i].type === arguments[0].substr(5)) {
-                    ret.push(RG.SVG.OR.objects[i]);
+            for (var i=0; i<RGraph.SVG.OR.objects.length; ++i) {
+                if (RGraph.SVG.OR.objects[i].type === arguments[0].substr(5)) {
+                    ret.push(RGraph.SVG.OR.objects[i]);
                 }
             }
             
@@ -3966,16 +4200,52 @@
             
             var ret = [];
             
-            for (var i=0; i<RG.SVG.OR.objects.length; ++i) {
-                if (RG.SVG.OR.objects[i].uid === arguments[0].substr(4)) {
-                    ret.push(RG.SVG.OR.objects[i]);
+            for (var i=0; i<RGraph.SVG.OR.objects.length; ++i) {
+                if (RGraph.SVG.OR.objects[i].uid === arguments[0].substr(4)) {
+                    ret.push(RGraph.SVG.OR.objects[i]);
                 }
             }
             
             return ret;
         }
 
-        return RG.SVG.OR.objects;
+        return RGraph.SVG.OR.objects;
+    };
+
+
+
+
+
+
+
+    //
+    // Clear the ObjectRegistry of charts
+    //
+    // @param [OPTIONAL] string You can optionally give an ID so only objects
+    //                          pertaining to that SVG tag are cleared.
+    //
+    RGraph.SVG.OR.clear = function ()
+    {
+        // Clear the ObjectRegistry of objects for a particular ID
+        if (typeof arguments[0] === 'string') {
+            for (var i=0; i<RGraph.SVG.OR.objects.length; ++i) {
+                if (RGraph.SVG.OR.objects[i].id === arguments[0]) {
+                    RGraph.SVG.OR.objects[i] = null;
+                }
+            }
+        
+        // If an RGraph object is given then clear that object
+        } else if (typeof arguments[0] === 'object') {
+            for (var i=0; i<RGraph.SVG.OR.objects.length; ++i) {
+                if (RGraph.SVG.OR.objects[i].uid === arguments[0].uid) {
+                    RGraph.SVG.OR.objects[i] = null;
+                }
+            }
+
+        // Clear the entire ObjectRegistry
+        } else {
+            RGraph.SVG.OR.objects = [];
+        }
     };
 
 
@@ -3987,13 +4257,13 @@
 
     // The ObjectRegistry function that returns all of the registeredt SVG tags
     //
-    RG.SVG.OR.tags = function ()
+    RGraph.SVG.OR.tags = function ()
     {
         var tags = [];
 
-        for (var i=0; i<RG.SVG.OR.objects.length; ++i) {
-            if (!tags[RG.SVG.OR.objects[i].svg.parentNode.id]) {
-                tags[RG.SVG.OR.objects[i].svg.parentNode.id] = RG.SVG.OR.objects[i].svg;
+        for (var i=0; i<RGraph.SVG.OR.objects.length; ++i) {
+            if (RGraph.SVG.OR.objects[i] && !tags[RGraph.SVG.OR.objects[i].svg.parentNode.id]) {
+                tags[RGraph.SVG.OR.objects[i].svg.parentNode.id] = RGraph.SVG.OR.objects[i].svg;
             }
         }
 
@@ -4013,7 +4283,7 @@
     // 
     // @param object svg
     //
-    RG.SVG.getSVGXY = function (svg)
+    RGraph.SVG.getSVGXY = function (svg)
     {
         var x  = 0,
             y  = 0,
@@ -4025,7 +4295,7 @@
             y += el.offsetTop;
 
             // Account for tables in webkit
-            if (el.tagName.toLowerCase() == 'table' && (RG.SVG.ISCHROME || RG.SVG.ISSAFARI)) {
+            if (el.tagName.toLowerCase() == 'table' && (RGraph.SVG.ISCHROME || RGraph.SVG.ISSAFARI)) {
                 x += parseInt(el.border) || 0;
                 y += parseInt(el.border) || 0;
             }
@@ -4062,7 +4332,7 @@
     // @param function func The function to give to the
     //                      requestAnimationFrame function
     //
-    RG.SVG.FX.update = function (func)
+    RGraph.SVG.FX.update = function (func)
     {
         win.requestAnimationFrame =
             win.requestAnimationFrame ||
@@ -4081,16 +4351,16 @@
 
 
 
-    /**
-    * This function returns an easing multiplier for effects so they eas out towards the
-    * end of the effect.
-    * 
-    * @param number frames The total number of frames
-    * @param number frame  The frame number
-    */
-    RG.SVG.FX.getEasingMultiplier = function (frames, frame)
+    //
+    // This function returns an easing multiplier for effects so they eas out towards the
+    // end of the effect.
+    // 
+    // @param number frames The total number of frames
+    // @param number frame  The frame number
+    //
+    RGraph.SVG.FX.getEasingMultiplier = function (frames, frame)
     {
-        var multiplier = ma.pow(ma.sin((frame / frames) * RG.SVG.TRIG.HALFPI), 3);
+        var multiplier = Math.pow(Math.sin((frame / frames) * RGraph.SVG.TRIG.HALFPI), 3);
 
         return multiplier;
     };
@@ -4102,19 +4372,19 @@
 
 
 
-    /**
-    * Measures text by creating a DIV in the document and adding the relevant
-    * text to it, then checking the .offsetWidth and .offsetHeight.
-    * 
-    * @param  object opt An object containing the following:
-    *                        o text( string) The text to measure
-    *                        o bold (bool)   Whether the text is bold or not
-    *                        o font (string) The font to use
-    *                        o size (number) The size of the text (in pts)
-    * 
-    * @return array         A two element array of the width and height of the text
-    */
-    RG.SVG.measureText = function (opt)
+    //
+    // Measures text by creating a DIV in the document and adding the relevant
+    // text to it, then checking the .offsetWidth and .offsetHeight.
+    // 
+    // @param  object opt An object containing the following:
+    //                        o text( string) The text to measure
+    //                        o bold (bool)   Whether the text is bold or not
+    //                        o font (string) The font to use
+    //                        o size (number) The size of the text (in pts)
+    // 
+    // @return array         A two element array of the width and height of the text
+    //
+    RGraph.SVG.measureText = function (opt)
     {
         //text, bold, font, size
         var text   = opt.text   || '',
@@ -4125,15 +4395,16 @@
             str    = text + ':' + italic + ':' + bold + ':' + font + ':' + size;
 
         // Add the sizes to the cache as adding DOM elements is costly and causes slow downs
-        if (typeof RG.SVG.measuretext_cache === 'undefined') {
-            RG.SVG.measuretext_cache = [];
+        if (typeof RGraph.SVG.measuretext_cache === 'undefined') {
+            RGraph.SVG.measuretext_cache = [];
         }
 
-        if (typeof RG.SVG.measuretext_cache == 'object' && RG.SVG.measuretext_cache[str]) {
-            return RG.SVG.measuretext_cache[str];
+        if (opt.cache !== false && typeof RGraph.SVG.measuretext_cache == 'object' && RGraph.SVG.measuretext_cache[str]) {
+            return RGraph.SVG.measuretext_cache[str];
         }
+
         
-        if (!RG.SVG.measuretext_cache['text-span']) {
+        if (!RGraph.SVG.measuretext_cache['text-span'] || opt.cache === false) {
             var span = document.createElement('SPAN');
                 span.style.position = 'absolute';
                 span.style.padding    = 0;
@@ -4144,10 +4415,10 @@
             document.body.appendChild(span);
             
             // Now store the newly created DIV
-            RG.SVG.measuretext_cache['text-span'] = span;
+            RGraph.SVG.measuretext_cache['text-span'] = span;
 
-        } else if (RG.SVG.measuretext_cache['text-span']) {
-            var span = RG.SVG.measuretext_cache['text-span'];
+        } else if (RGraph.SVG.measuretext_cache['text-span']) {
+            var span = RGraph.SVG.measuretext_cache['text-span'];
         }
 
         span.innerHTML        = text.replace(/\r?\n/g, '<br />');
@@ -4159,7 +4430,7 @@
         var sizes = [span.offsetWidth, span.offsetHeight];
 
         //document.body.removeChild(span);
-        RG.SVG.measuretext_cache[str] = sizes;
+        RGraph.SVG.measuretext_cache[str] = sizes;
 
         return sizes;
     };
@@ -4171,19 +4442,19 @@
 
 
 
-    /**
-    * This function converts an array of strings to an array of numbers. Its used by the meter/gauge
-    * style charts so that if you want you can pass in a string. It supports various formats:
-    * 
-    * '45.2'
-    * '-45.2'
-    * ['45.2']
-    * ['-45.2']
-    * '45.2,45.2,45.2' // A CSV style string
-    * 
-    * @param number frames The string or array to parse
-    */
-    RG.SVG.stringsToNumbers = function (str)
+    //
+    // This function converts an array of strings to an array of numbers. Its used by the meter/gauge
+    // style charts so that if you want you can pass in a string. It supports various formats:
+    // 
+    // '45.2'
+    // '-45.2'
+    // ['45.2']
+    // ['-45.2']
+    // '45.2,45.2,45.2' // A CSV style string
+    // 
+    // @param number frames The string or array to parse
+    //
+    RGraph.SVG.stringsToNumbers = function (str)
     {
         // An optional seperator to use intead of a comma
         var sep = arguments[1] || ',';
@@ -4227,7 +4498,7 @@
 
 
     // This function allows for numbers that are given as a +/- adjustment
-    RG.SVG.getAdjustedNumber = function (opt)
+    RGraph.SVG.getAdjustedNumber = function (opt)
     {
         var value = opt.value,
             prop  = opt.prop;
@@ -4251,7 +4522,7 @@
 
 
     // NOT USED ANY MORE
-    RG.SVG.attribution=function(){return;};
+    RGraph.SVG.attribution=function(){return;};
 
 
 
@@ -4260,12 +4531,12 @@
 
 
 
-    /**
-    * Parse a gradient and returns the various parts
-    * 
-    * @param string str The gradient string
-    */
-    RG.SVG.parseGradient = function (str)
+    //
+    // Parse a gradient and returns the various parts
+    // 
+    // @param string str The gradient string
+    //
+    RGraph.SVG.parseGradient = function (str)
     {
     };
 
@@ -4276,19 +4547,19 @@
 
 
 
-    /**
-    * Generates a random number between the minimum and maximum
-    * 
-    * @param number min The minimum value
-    * @param number max The maximum value
-    * @param number     OPTIONAL Number of decimal places
-    */
-    RG.SVG.random = function (opt)
+    //
+    // Generates a random number between the minimum and maximum
+    // 
+    // @param number min The minimum value
+    // @param number max The maximum value
+    // @param number     OPTIONAL Number of decimal places
+    //
+    RGraph.SVG.random = function (opt)
     {
         var min = opt.min,
             max = opt.max,
             dp  = opt.dp || opt.decimals || 0,
-            r   = ma.random();
+            r   = Math.random();
 
         return Number((((max - min) * r) + min).toFixed(dp));
     };
@@ -4300,12 +4571,12 @@
 
 
 
-    /**
-    * Fill an array full of random numbers
-    */
-    RG.SVG.arrayRand    =
-    RG.SVG.arrayRandom  =
-    RG.SVG.random.array = function (opt)
+    //
+    // Fill an array full of random numbers
+    //
+    RGraph.SVG.arrayRand    =
+    RGraph.SVG.arrayRandom  =
+    RGraph.SVG.random.array = function (opt)
     {
         var num = opt.num,
             min = opt.min,
@@ -4313,7 +4584,7 @@
             dp  = opt.dp || opt.decimals || 0;
 
         for(var i=0,arr=[]; i<num; i+=1) {
-            arr.push(RG.SVG.random({min: min, max: max, dp: dp}));
+            arr.push(RGraph.SVG.random({min: min, max: max, dp: dp}));
         }
         
         return arr;
@@ -4335,7 +4606,7 @@
     //                    name:   The name of the config parameter
     //                    value:  The value thats being set
     //
-    RG.SVG.commonSetter = function (opt)
+    RGraph.SVG.commonSetter = function (opt)
     {
         var obj   = opt.object,
             name  = opt.name,
@@ -4366,12 +4637,12 @@
     //                     o num  The number
     //                     o base The base
     //
-    RG.SVG.log = function (opt)
+    RGraph.SVG.log = function (opt)
     {
         var num  = opt.num,
             base = opt.base;
 
-        return ma.log(num) / (base ? ma.log(base) : 1);
+        return Math.log(num) / (base ? Math.log(base) : 1);
     };
 
 
@@ -4381,23 +4652,23 @@
 
 
 
-    RG.SVG.donut = function (opt)
+    RGraph.SVG.donut = function (opt)
     {
-        var arcPath1 = RG.SVG.TRIG.getArcPath3({
+        var arcPath1 = RGraph.SVG.TRIG.getArcPath3({
             cx: opt.cx,
             cy: opt.cy,
             r: opt.outerRadius,
             start: 0,
-            end: RG.SVG.TRIG.TWOPI,
+            end: RGraph.SVG.TRIG.TWOPI,
             anticlockwise: false,
             lineto: false
         });
 
-        var arcPath2 = RG.SVG.TRIG.getArcPath3({
+        var arcPath2 = RGraph.SVG.TRIG.getArcPath3({
             cx: opt.cx,
             cy: opt.cy,
             r: opt.innerRadius,
-            start: RG.SVG.TRIG.TWOPI,
+            start: RGraph.SVG.TRIG.TWOPI,
             end: 0,
             anticlockwise: true,
             lineto: false
@@ -4406,7 +4677,7 @@
         //
         // Create the red circle
         //
-        var path = RG.SVG.create({
+        var path = RGraph.SVG.create({
             svg: opt.svg,
             type: 'path',
             attr: {
@@ -4430,13 +4701,13 @@
     // Copy the globals (if any have been set) from the global object to
     // this instances configuration
     //
-    RG.SVG.getGlobals = function (obj)
+    RGraph.SVG.getGlobals = function (obj)
     {
         var prop = obj.properties;
         
-        for (i in RG.SVG.GLOBALS) {
+        for (var i in RGraph.SVG.GLOBALS) {
             if (typeof i === 'string') {
-                obj.set(i, RG.SVG.arrayClone(RG.SVG.GLOBALS[i]));
+                obj.set(i, RGraph.SVG.arrayClone(RGraph.SVG.GLOBALS[i]));
             }
         }
     };
@@ -4453,7 +4724,7 @@
     //
     // @param object opt The various options to the function
     //
-    RG.SVG.link = function (opt)
+    RGraph.SVG.link = function (opt)
     {
         var a = RGraph.SVG.create({
             svg: bar.svg,
@@ -4492,18 +4763,18 @@
     // @param object opt An object containing the arguments to the function
     //         o object: The chart object
     //         o index:  The index to fetch
-    RG.SVG.getErrorbarsMaxValue = function (opt)
+    RGraph.SVG.getErrorbarsMaxValue = function (opt)
     {
         var obj   = opt.object,
             prop  = obj.properties,
             index = opt.index;
 
-        if (typeof prop.errorbars === 'object' && !RG.SVG.isNull(prop.errorbars) && typeof prop.errorbars[index] === 'number') {
+        if (typeof prop.errorbars === 'object' && !RGraph.SVG.isNull(prop.errorbars) && typeof prop.errorbars[index] === 'number') {
             var value = prop.errorbars[index];
         } else if (   typeof prop.errorbars === 'object'
-                   && !RG.SVG.isNull(prop.errorbars)
+                   && !RGraph.SVG.isNull(prop.errorbars)
                    && typeof prop.errorbars[index] === 'object'
-                   && !RG.SVG.isNull(prop.errorbars[index])
+                   && !RGraph.SVG.isNull(prop.errorbars[index])
                    && typeof prop.errorbars[index].max === 'number'
                   ) {
             var value = prop.errorbars[index].max;
@@ -4527,16 +4798,16 @@
     // @param object opt An object containing the arguments to the function
     //         o object: The chart object
     //         o index:  The index to fetch
-    RG.SVG.getErrorbarsMinValue = function (opt)
+    RGraph.SVG.getErrorbarsMinValue = function (opt)
     {
         var obj   = opt.object,
             prop  = obj.properties,
             index = opt.index;
 
         if (   typeof prop.errorbars === 'object'
-            && !RG.SVG.isNull(prop.errorbars)
+            && !RGraph.SVG.isNull(prop.errorbars)
             && typeof prop.errorbars[index] === 'object'
-            && !RG.SVG.isNull(prop.errorbars[index])
+            && !RGraph.SVG.isNull(prop.errorbars[index])
             && typeof prop.errorbars[index].min === 'number'
            ) {
             var value = prop.errorbars[index].min;
@@ -4560,7 +4831,7 @@
     // @param object opt An object containing the arguments to the function
     //         o object: The chart object
     //         o index:  The index to fetch
-    RG.SVG.getErrorbarsColor = function (opt)
+    RGraph.SVG.getErrorbarsColor = function (opt)
     {
         var obj   = opt.object,
             prop  = obj.properties,
@@ -4568,7 +4839,7 @@
 
         var color = prop.errorbarsColor || 'black';
 
-        if (typeof prop.errorbars === 'object' && !RG.SVG.isNull(prop.errorbars) && typeof prop.errorbars[index] === 'object' && !RG.SVG.isNull(prop.errorbars[index]) && typeof prop.errorbars[index].color === 'string') {
+        if (typeof prop.errorbars === 'object' && !RGraph.SVG.isNull(prop.errorbars) && typeof prop.errorbars[index] === 'object' && !RGraph.SVG.isNull(prop.errorbars[index]) && typeof prop.errorbars[index].color === 'string') {
             color = prop.errorbars[index].color;
         }
         
@@ -4588,7 +4859,7 @@
     // @param object opt An object containing the arguments to the function
     //         o object: The chart object
     //         o index:  The index to fetch
-    RG.SVG.getErrorbarsLinewidth = function (opt)
+    RGraph.SVG.getErrorbarsLinewidth = function (opt)
     {
         var obj   = opt.object,
             prop  = obj.properties,
@@ -4596,7 +4867,7 @@
 
         var linewidth = prop.errorbarsLinewidth || 1
 
-        if (typeof prop.errorbars === 'object' && !RG.SVG.isNull(prop.errorbars) && typeof prop.errorbars[index] === 'object' && !RG.SVG.isNull(prop.errorbars[index]) && typeof prop.errorbars[index].linewidth === 'number') {
+        if (typeof prop.errorbars === 'object' && !RGraph.SVG.isNull(prop.errorbars) && typeof prop.errorbars[index] === 'object' && !RGraph.SVG.isNull(prop.errorbars[index]) && typeof prop.errorbars[index].linewidth === 'number') {
             linewidth = prop.errorbars[index].linewidth;
         }
 
@@ -4616,7 +4887,7 @@
     // @param object opt An object containing the arguments to the function
     //         o object: The chart object
     //         o index:  The index to fetch
-    RG.SVG.getErrorbarsCapWidth = function (opt)
+    RGraph.SVG.getErrorbarsCapWidth = function (opt)
     {
         var obj   = opt.object,
             prop  = obj.properties,
@@ -4625,9 +4896,9 @@
         var capwidth = prop.errorbarsCapwidth || 10
 
         if (   typeof prop.errorbars === 'object'
-            && !RG.SVG.isNull(prop.errorbars)
+            && !RGraph.SVG.isNull(prop.errorbars)
             && typeof prop.errorbars[index] === 'object'
-            && !RG.SVG.isNull(prop.errorbars[index])
+            && !RGraph.SVG.isNull(prop.errorbars[index])
             && typeof prop.errorbars[index].capwidth === 'number'
             ) {
 
@@ -4651,32 +4922,9 @@
     // *** two changes done:
     // ***  o Add the list of aliases as a object variable (eg this.aliases = {}; )
     // ***  o The bit that goes in the setter that calls the
-    // ***    RG.propertyNameAlias() function - copy this from the Bar chart object
+    // ***    RGraph.propertyNameAlias() function - copy this from the Bar chart object
     //
-    RG.SVG.propertyNameAlias = function (opt)
-    {
-        var obj = opt.object;
-
-        if (typeof obj.propertyNameAliases[opt.name] === 'string') {
-            return {
-                name:  obj.propertyNameAliases[opt.name],
-                value: opt.value
-            };
-        } else if (typeof obj.propertyNameAliases[opt.name] === 'function') {
-            var tmp = (obj.propertyNameAliases[opt.name])(opt);
-
-            return {
-                name:  tmp.name,
-                value: tmp.value
-            };
-        }
-        
-        // Default response - return the name/value unchanged
-        return {
-            name:  opt.name,
-            value: opt.value
-        };
-    };
+    RGraph.SVG.propertyNameAlias = function () {};
 
 
 
@@ -4697,12 +4945,181 @@
     // been included, this function will show an alert
     //informing the user
     //
-    if (typeof RG.SVG.tooltip !== 'function') {
-        RG.SVG.tooltip = function ()
+    if (typeof RGraph.SVG.tooltip !== 'function') {
+        RGraph.SVG.tooltip = function ()
         {
             $a('The tooltip library has not been included!');
         };
     }
+
+
+
+
+
+
+
+
+    //
+    // This function can be used to resize the canvas when the screen size changes. You
+    // specify various rules and they're then checked.
+    //
+    RGraph.SVG.responsive = function (conf)
+    {
+        var opt = arguments[1] || {},
+            
+            // This function is added to each object in their constructors so the this
+            // variable is the chart object.
+            obj   = this,
+            
+            // The func variable becomes the function that is fired by the resize event
+            func  = null,
+            
+            // This is the timer reference
+            timer = null;
+        
+        // The resizie function will run This many milliseconds after the
+        // resize has "finished"
+        opt.delay = typeof opt.delay === 'number' ? opt.delay : 200;
+
+        // [TODO] Store defaults that are used if there's no match
+        var func = function ()
+        {
+            // This is set to true if a rule matches
+            var matched = false;
+
+            // Loop through all of the rules
+            for (var i=0; i<conf.length; ++i) {
+
+                //
+                // If a maxWidth is stipulated test that
+                //
+                if (!matched && (document.documentElement.clientWidth <= conf[i].maxWidth || RGraph.SVG.isNull(conf[i].maxWidth))) {
+                
+                    matched = true;
+                    
+                    // If a width is defined for this rule set it
+                    if (typeof conf[i].width === 'number') {                        
+                        obj.svg.setAttribute('width',  conf[i].width);
+                        obj.container.style.width = conf[i].width + 'px';
+                    }
+
+
+
+
+                    //
+                    // If a height is defined for this rule set it
+                    //
+                    if (typeof conf[i].height === 'number') {
+                        obj.svg.setAttribute('height',  conf[i].height);
+                        obj.container.style.height = conf[i].height + 'px';
+                    }
+
+
+
+
+                    //
+                    // Are there any options to be set?
+                    //
+                    if (typeof conf[i].options === 'object' && typeof conf[i].options === 'object') {
+                        for (var j in conf[i].options) {
+                            if (typeof j === 'string') {
+
+                                obj.set(j, conf[i].options[j]);
+                            }
+                        }
+                    }
+
+
+
+
+                    //
+                    // This function simply sets a CSS property on the object.
+                    // It accommodates certain name changes
+                    //
+                    var setCSS = function (el, name, value)
+                    {
+                        var replacements = [
+                            ['float', 'cssFloat']
+                        ];
+                        
+                        // Replace the name if necessary
+                        for (var i=0; i<replacements.length; ++i) {
+                            if (name === replacements[i][0]) {
+                                name = replacements[i][1];
+                            }
+                        }
+
+                        el.style[name] = value;
+                    };
+
+
+
+
+                    //
+                    // Are there any CSS properties to set on the SVG tag?
+                    //
+                    if (typeof conf[i].css === 'object') {
+                        for (var j in conf[i].css) {
+                            if (typeof j === 'string') {
+                                setCSS(obj.svg.parentNode, j, conf[i].css[j])
+                            }
+                        }
+                    }
+
+                    //
+                    // Are there any CSS properties to set on the SVGs PARENT tag?
+                    //
+                    if (typeof conf[i].parentCss === 'object') {
+                        for (var j in conf[i].parentCss) {
+                            if (typeof j === 'string') {
+                                setCSS(obj.svg.parentNode.parentNode, j, conf[i].parentCss[j])
+                            }
+                        }
+                    }
+
+
+
+                    // Redraw the chart with SVG this is done by the redraw() function
+                    RGraph.SVG.redraw();
+
+                    // Run the callback function if it's defined
+                    if (typeof conf[i].callback === 'function') {
+                        (conf[i].callback)(obj);
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
+        // Install the resize event listener
+        window.addEventListener('resize', function ()
+        {
+            // Set a new timer in order to fire the func() function
+            if (opt.delay > 0) {
+                // Clear the timeout
+                clearTimeout(timer);
+                
+                // Start a new timer going
+                timer = setTimeout(func, opt.delay);
+            
+            // If you don't want a delay before the resizing occurs
+            // then set the delay to zero and it will be fired immediately
+            } else {
+                func();
+            }
+        });
+
+        
+        // Call the function initially otherwise it may never run
+        func();
+        
+        // This facilitates chaining
+        return obj;
+    };
 
 
 
@@ -4764,10 +5181,10 @@ window.$p = function (obj)
     }
 
 
-    /**
-    * Finished, now either return if we're in a recursed call, or alert()
-    * if we're not.
-    */
+    //
+    // Finished, now either return if we're in a recursed call, or alert()
+    // if we're not.
+    //
     if (!arguments[1]) {
         alert(str);
     }
@@ -4820,14 +5237,25 @@ window.$cl = function (v)
 * 
 * Outputs: a b c
 */
-if (!String.prototype.format) {
-  String.prototype.format = function()
-  {
-    var args = arguments;
-
-    return this.replace(/{(\d+)}/g, function(str, idx)
+    String.prototype.format = function()
     {
-      return typeof args[idx - 1] !== 'undefined' ? args[idx - 1] : str;
-    });
-  };
-}
+        var args = arguments;
+        
+        var s = this.replace(/{(\d+)}/g, function(str, idx)
+        {
+          return typeof args[idx - 1] !== 'undefined' ? args[idx - 1] : str;
+        });
+        
+        
+        // Save percentage signs that are escaped with either another
+        // percent or a backslash
+        s = s.replace(/(?:%|\\)%(\d)/g,'__PPEERRCCEENNTT__$1');
+        
+        s = s.replace(/%(\d+)/g, function(str, idx)
+        {
+          return typeof args[idx - 1] !== 'undefined' ? args[idx - 1] : str;
+        });
+        
+        // Now replace those saved percentage signs with a percentage sign
+        return s.replace('__PPEERRCCEENNTT__', '%');
+    };
