@@ -388,7 +388,6 @@ function setOptions(options, save) {
     if (save === true) {
       saveOptions(options, true).then(resolve, reject);
     }
-    resolve();
   });
 }
 
