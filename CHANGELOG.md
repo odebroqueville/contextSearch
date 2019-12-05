@@ -1,6 +1,13 @@
+3.8.1
+=========
+* Fixes bugs #42 and #43
+* Updated RGraph to latest version 5.11
+* Updated manifest.json to version 3.8.1 and added strict minimum version 57.0 for Firefox
+* Updated README and CHANGELOG files
+
 3.8.0
 =========
-* Fixes bugs #26, #35, #36
+* Fixes bugs #26, #35, #36, #39, #40
 * Replaces up & down arrows by drag & drop move icon to re-order the search engines list #31
 * Adds multisearch icon to the grid of icons #17
 * Updated README file

@@ -1,6 +1,6 @@
 /// Global variables
 // Debugging
-const logToConsole = true;
+const logToConsole = false;
 
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById("container");
@@ -124,76 +124,13 @@ function notify(message) {
 
 // Generic Error Handler
 function onError(error) {
-  console.log(`${error}`);
+  if (logToConsole) console.log(`${error}`);
 }
 
 function removeEventHandler(e) {
   e.stopPropagation();
   removeSearchEngine(e);
 }
-
-/*
-// Test if an object is empty
-function isEmpty(value) {
-  if (typeof value === "number") return false;
-  else if (typeof value === "string") return value.trim().length === 0;
-  else if (Array.isArray(value)) return value.length === 0;
-  else if (typeof value === "object")
-    return value == null || Object.keys(value).length === 0;
-  else if (typeof value === "boolean") return false;
-  else return !value;
-}
-
-/// Sort search engines by index
-function sortByIndex(list) {
-  let sortedList = {};
-  let listArray = [];
-  let indexArray = [];
-  let minIndex = 999;
-  let count = 1;
-  // Build index and list arrays
-  for (let id in list) {
-    let obj = {};
-    obj[id] = list[id];
-    // If index isn't defined then assign an arbitrary value to index
-    if (isEmpty(list[id].index)) {
-      list[id].index = count;
-    }
-    indexArray.push(list[id].index);
-    listArray.push(obj);
-    count++;
-  }
-  if (logToConsole) {
-    console.log(`Array of indexes:\n${indexArray}`);
-    //console.log(`List of search engines:\n${JSON.stringify(listArray)}`);
-    console.log(indexArray.length);
-  }
-  // Sort the list based on index values
-  while (indexArray.length > 0) {
-    minIndex = Math.min(...indexArray);
-    let pos = indexArray.indexOf(minIndex);
-    let item = listArray.splice(pos, 1)[0];
-    sortedList[Object.keys(item)[0]] = item[Object.keys(item)[0]];
-    indexArray.splice(pos, 1);
-    if (logToConsole) {
-      console.log(`remaining indexes: ${indexArray}`);
-      console.log(`minimum index is ${minIndex}`);
-      console.log(`position of minimum index is ${pos}`);
-      console.log(
-        `search engine at minimum index is:\n${JSON.stringify(item)}`
-      );
-      console.log(Object.keys(item)[0]);
-    }
-  }
-  if (logToConsole) {
-    console.log(`Remaining search engines:\n${JSON.stringify(listArray)}`);
-    console.log(
-      `Sorted list of search engines:\n${JSON.stringify(sortedList)}`
-    );
-  }
-  return sortedList;
-}
-*/
 
 // Display the list of search engines
 function listSearchEngines(list) {
@@ -410,9 +347,6 @@ function removeSearchEngine(e) {
   delete searchEngines[id];
   if (logToConsole) console.log(searchEngines);
 
-/*   browser.storage.sync.remove(id).then(() => {
-    sendMessage("saveSearchEngines", searchEngines);
-  }, onError); */
   sendMessage("saveSearchEngines", searchEngines);
 }
 
@@ -771,17 +705,6 @@ function isValidUrl(url) {
   }
 }
 
-/* function handleStorageChange(changes, area) {
-  if (area !== "sync") return;
-  let ids = Object.keys(changes);
-  for (let id of ids) {
-    if (id !== "options" && searchEngines[id]) {
-      searchEngines[id] = changes[id].newValue;
-    }
-  }
-  listSearchEngines(searchEngines);
-} */
-
 function i18n() {
   translateContent("data-i18n", "textContent");
   translateContent("data-i18n-placeholder", "placeholder");
@@ -789,30 +712,30 @@ function i18n() {
 }
 
 function translateContent(attribute, type) {
-  let i18nElements = document.querySelectorAll("[" + attribute + "]");
+    let i18nElements = document.querySelectorAll('[' + attribute + ']');
 
-  for (let i in i18nElements) {
-    try {
-      if (i18nElements[i].getAttribute == null) continue;
-      let i18n_attrib = i18nElements[i].getAttribute(attribute);
-      let message = browser.i18n.getMessage(i18n_attrib);
-      switch (type) {
-        case "textContent":
-          i18nElements[i].textContent = message;
-          break;
-        case "placeholder":
-          i18nElements[i].placeholder = message;
-          break;
-        case "title":
-          i18nElements[i].title = message;
-          break;
-        default:
-          break;
-      }
-    } catch (err) {
-      console.error(err);
+    for (let i in i18nElements) {
+        try {
+            if (i18nElements[i].getAttribute == null) continue;
+            let i18n_attrib = i18nElements[i].getAttribute(attribute);
+            let message = browser.i18n.getMessage(i18n_attrib);
+            switch (type) {
+                case "textContent": 
+                    i18nElements[i].textContent = message; 
+                    break;
+                case "placeholder": 
+                    i18nElements[i].placeholder = message; 
+                    break;
+                case "title": 
+                    i18nElements[i].title = message; 
+                    break;
+                default: 
+                    break;
+            }
+        } catch(ex) {
+            if (logToConsole) console.error("i18n id " + IDS[id] + " not found");
+        }
     }
-  }
 }
 
 i18n();
