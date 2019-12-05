@@ -1,77 +1,66 @@
 {
+	"manifest_version": 2,
+	"default_locale": "en",
+	"name": "__MSG_extensionName__",
+	"description": "__MSG_extensionDescription__",
+	"version": "3.8.1",
+	"author": "Olivier de Broqueville",
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "olivier.debroqueville@gmail.com",
+			"strict_min_version": "57.0"
+		}
+	},
+	"content_security_policy": "script-src 'self'; object-src 'self'; img-src *;",
 
-  "manifest_version": 2,
-  "default_locale": "en",
-  "name": "__MSG_extensionName__",
-  "description": "__MSG_extensionDescription__",
-  "version": "3.8",
-  "author": "Olivier de Broqueville",
-  "applications": {
-    "gecko": {
-        "id": "olivier.debroqueville@gmail.com"
-    }
-  },
-  "content_security_policy" : "script-src 'self'; object-src 'self'; img-src *;",
+	"sidebar_action": {
+		"default_icon": "/icons/context-search.svg",
+		"default_title": "Search results",
+		"default_panel": "/sidebar/search_results.html",
+		"open_at_install": false
+	},
 
-  "sidebar_action": {
-    "default_icon": "/icons/context-search.svg",
-    "default_title" : "Search results",
-    "default_panel": "/sidebar/search_results.html",
-    "open_at_install": false
-  },
+	"background": {
+		"scripts": [ "/scripts/background.js", "/scripts/sort.js" ]
+	},
 
-  "background": {
-      "scripts": [
-        "/scripts/background.js", 
-        "/scripts/sort.js"
-      ]
-  },
+	"permissions": [ "<all_urls>", "contextMenus", "storage", "tabs", "notifications", "downloads" ],
 
-  "permissions": [
-      "<all_urls>",
-      "contextMenus",
-      "storage",
-      "tabs",
-      "notifications",
-      "downloads"
-  ],
+	"omnibox": {
+		"keyword": "cs"
+	},
 
-  "omnibox": { 
-    "keyword" : "cs" 
-  },
+	"icons": {
+		"16": "icons/icon_16.png",
+		"20": "icons/icon_20.png",
+		"24": "icons/icon_24.png",
+		"32": "icons/icon_32.png",
+		"48": "icons/icon_48.png",
+		"64": "icons/icon_64.png",
+		"128": "icons/icon_128.png",
+		"256": "icons/icon_256.png",
+		"512": "icons/icon_512.png"
+	},
 
-  "icons": {
-    "16": "icons/icon_16.png",
-    "20": "icons/icon_20.png",
-    "24": "icons/icon_24.png",
-    "32": "icons/icon_32.png",
-    "48": "icons/icon_48.png",
-    "64": "icons/icon_64.png",
-    "128": "icons/icon_128.png",
-    "256": "icons/icon_256.png",
-    "512": "icons/icon_512.png"
-  },
+	"options_ui": {
+		"page": "options.html",
+		"open_in_tab": true,
+		"browser_style": true
+	},
 
-  "options_ui": {
-    "page": "options.html",
-    "open_in_tab": true,
-    "browser_style": true
-  },
-
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": [
-        "/scripts/selection.js", 
-        "/scripts/sort.js", 
-        "/scripts/exif.js",
-        "/scripts/Sortable.min.js",
-        "/scripts/RGraph.svg.common.core.js", 
-        "/scripts/RGraph.svg.line.js", 
-        "/scripts/search_results.js", 
-        "/scripts/exif_tags.js"
-      ]
-    }
-  ]
-
+	"content_scripts": [
+		{
+			"matches": [ "<all_urls>" ],
+			"js": [
+				"/scripts/selection.js",
+				"/scripts/sort.js",
+				"/scripts/exif.js",
+				"/scripts/Sortable.min.js",
+				"/scripts/RGraph.svg.common.core.js",
+				"/scripts/RGraph.svg.line.js",
+				"/scripts/search_results.js",
+				"/scripts/exif_tags.js"
+			]
+		}
+	]
 }
