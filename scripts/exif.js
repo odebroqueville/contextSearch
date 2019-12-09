@@ -688,14 +688,14 @@
         var IFD1OffsetPointer = getNextIFDOffset(dataView, tiffStart+firstIFDOffset, bigEnd);
 
         if (!IFD1OffsetPointer) {
-            // console.log('******** IFD1Offset is empty, image thumb not found ********');
+            // if (debug) console.log('******** IFD1Offset is empty, image thumb not found ********');
             return {};
         }
         else if (IFD1OffsetPointer > dataView.byteLength) { // this should not happen
-            // console.log('******** IFD1Offset is outside the bounds of the DataView ********');
+            // if (debug) console.log('******** IFD1Offset is outside the bounds of the DataView ********');
             return {};
         }
-        // console.log('*******  thumbnail IFD offset (IFD1) is: %s', IFD1OffsetPointer);
+        // if (debug) console.log('*******  thumbnail IFD offset (IFD1) is: %s', IFD1OffsetPointer);
 
         var thumbTags = readTags(dataView, tiffStart, tiffStart + IFD1OffsetPointer, IFD1Tags, bigEnd)
 
@@ -708,11 +708,11 @@
         // JPEG format and 160x120pixels of size are recommended thumbnail format for Exif2.1 or later.
 
         if (thumbTags['Compression']) {
-            // console.log('Thumbnail image found!');
+            // if (debug) console.log('Thumbnail image found!');
 
             switch (thumbTags['Compression']) {
                 case 6:
-                    // console.log('Thumbnail image format is JPEG');
+                    // if (debug) console.log('Thumbnail image format is JPEG');
                     if (thumbTags.JpegIFOffset && thumbTags.JpegIFByteCount) {
                     // extract the thumbnail
                         var tOffset = tiffStart + thumbTags.JpegIFOffset;
@@ -724,14 +724,14 @@
                 break;
 
             case 1:
-                console.log("Thumbnail image format is TIFF, which is not implemented.");
+                if (debug) console.log("Thumbnail image format is TIFF, which is not implemented.");
                 break;
             default:
-                console.log("Unknown thumbnail image format '%s'", thumbTags['Compression']);
+                if (debug) console.log("Unknown thumbnail image format '%s'", thumbTags['Compression']);
             }
         }
         else if (thumbTags['PhotometricInterpretation'] == 2) {
-            console.log("Thumbnail image format is RGB, which is not implemented.");
+            if (debug) console.log("Thumbnail image format is RGB, which is not implemented.");
         }
         return thumbTags;
     }
@@ -842,7 +842,7 @@
    function findXMPinJPEG(file) {
 
         if (!('DOMParser' in self)) {
-            // console.warn('XML parsing not supported without DOMParser');
+            // if (debug) console.warn('XML parsing not supported without DOMParser');
             return;
         }
         var dataView = new DataView(file);
@@ -961,7 +961,7 @@
             }
             return obj;
           } catch (e) {
-              console.log(e.message);
+              if (debug) console.log(e.message);
           }
     }
 
@@ -1000,6 +1000,7 @@
     }
 
     EXIF.getAllTags = function(img) {
+        if (debug) console.log("getAllTags was called!")
         if (!imageHasData(img)) return {};
         var a,
             data = img.exifdata,

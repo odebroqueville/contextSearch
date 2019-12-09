@@ -1,14 +1,12 @@
-// version: 2019-05-27
-    /**
-    * o--------------------------------------------------------------------------------o
-    * | This file is part of the RGraph package - you can learn more at:               |
-    * |                                                                                |
-    * |                         https://www.rgraph.net                                 |
-    * |                                                                                |
-    * | RGraph is licensed under the Open Source MIT license. That means that it's     |
-    * | totally free to use and there are no restrictions on what you can do with it!  |
-    * o--------------------------------------------------------------------------------o
-    */
+// version: 2019-10-11
+    // o--------------------------------------------------------------------------------o
+    // | This file is part of the RGraph package - you can learn more at:               |
+    // |                                                                                |
+    // |                         https://www.rgraph.net                                 |
+    // |                                                                                |
+    // | RGraph is licensed under the Open Source MIT license. That means that it's     |
+    // | totally free to use and there are no restrictions on what you can do with it!  |
+    // o--------------------------------------------------------------------------------o
 
     RGraph     = window.RGraph || {isRGraph: true};
     RGraph.SVG = RGraph.SVG || {};
@@ -16,15 +14,7 @@
 // Module pattern
 (function (win, doc, undefined)
 {
-    var RG  = RGraph,
-        ua  = navigator.userAgent,
-        ma  = Math,
-        win = window,
-        doc = document;
-
-
-
-    RG.SVG.Line = function (conf)
+    RGraph.SVG.Line = function (conf)
     {
         //
         // A setter that the constructor uses (at the end)
@@ -47,7 +37,7 @@
                 }
             } else {
                     
-                var ret = RG.SVG.commonSetter({
+                var ret = RGraph.SVG.commonSetter({
                     object: this,
                     name:   name,
                     value:  value
@@ -61,7 +51,7 @@
                 // If setting the colors, update the originalColors
                 // property too
                 if (name === 'colors') {
-                    this.originalColors = RG.SVG.arrayClone(value);
+                    this.originalColors = RGraph.SVG.arrayClone(value);
                     this.colorsParsed = false;
                 }
             }
@@ -76,11 +66,11 @@
 
 
 
-        /**
-        * A getter.
-        * 
-        * @param name  string The name of the property to get
-        */
+        //
+        // A getter.
+        // 
+        // @param name  string The name of the property to get
+        //
         this.get = function (name)
         {
             return this.properties[name];
@@ -94,19 +84,19 @@
 
 
         this.id               = conf.id;
-        this.uid             = RG.SVG.createUID();
+        this.uid             = RGraph.SVG.createUID();
         this.container       = document.getElementById(this.id);
         this.layers          = {}; // MUST be before the SVG tag is created!
-        this.svg             = RG.SVG.createSVG({object: this,container: this.container});
+        this.svg             = RGraph.SVG.createSVG({object: this,container: this.container});
         this.isRGraph        = true;
         this.width           = Number(this.svg.getAttribute('width'));
         this.height          = Number(this.svg.getAttribute('height'));
         
         // Convert single datasets to a multi-dimensional format
-        if (RG.SVG.isArray(conf.data) && RG.SVG.isArray(conf.data[0])) {
-            this.data = RG.SVG.arrayClone(conf.data);
-        } else if (RG.SVG.isArray(conf.data)) {
-            this.data = [RG.SVG.arrayClone(conf.data)];
+        if (RGraph.SVG.isArray(conf.data) && RGraph.SVG.isArray(conf.data[0])) {
+            this.data = RGraph.SVG.arrayClone(conf.data);
+        } else if (RGraph.SVG.isArray(conf.data)) {
+            this.data = [RGraph.SVG.arrayClone(conf.data)];
         } else {
             this.data = [[]];
         }
@@ -119,7 +109,7 @@
         this.colorsParsed    = false;
         this.originalColors  = {};
         this.gradientCounter = 1;
-        this.originalData    = RG.SVG.arrayClone(this.data);
+        this.originalData    = RGraph.SVG.arrayClone(this.data);
         this.filledGroups    = [];
 
 
@@ -128,36 +118,8 @@
 
 
 
-        // This is a list of new property names that are used now in place of
-        // the old names.
-        //
-        // *** When adding this list to a new chart library don't forget ***
-        // *** the bit of code that also goes in the .set() function     ***
-        this.propertyNameAliases = {
-            //marginLeft:          'gutterLeft',
-            //marginRight:         'gutterRight',
-            //marginTop:           'gutterTop',
-            //marginBottom:        'gutterBottom',
-            //colorsBackground:    'backgroundColor',
-            //yaxisScaleUnitsPre:  'yaxisUnitsPre',
-            //yaxisScaleUnitsPost: 'yaxisUnitsPost',
-            //yaxisScaleDecimals:  'yaxisDecimals',
-            //yaxisScalePoint:     'yaxisPoint',
-            //yaxisScaleThousand:  'yaxisThousand',
-            //yaxisScaleRound:     'yaxisRound',
-            //yaxisScaleMax:       'yaxisMax',
-            //yaxisScaleMin:       'yaxisMin',
-            //yaxisScaleFormatter: 'yaxisFormatter',
-            /* [NEW]:[OLD] */
-        };
-
-
-
-
-
-
         // Add this object to the ObjectRegistry
-        RG.SVG.OR.add(this);
+        RGraph.SVG.OR.add(this);
 
         this.container.style.display = 'inline-block';
 
@@ -302,10 +264,6 @@
             titleItalic: null,
             
             titleSubtitle:       null,
-            titleSubtitleX:      null,
-            titleSubtitleY:      null,
-            titleSubtitleHalign: 'center',
-            titleSubtitleValign: null,
             titleSubtitleSize:   null,
             titleSubtitleColor:  '#aaa',
             titleSubtitleFont:   null,
@@ -336,18 +294,25 @@
         //
         // Copy the global object properties to this instance
         //
-        RG.SVG.getGlobals(this);
+        RGraph.SVG.getGlobals(this);
 
 
 
 
 
-        /**
-        * "Decorate" the object with the generic effects if the effects library has been included
-        */
-        if (RG.SVG.FX && typeof RG.SVG.FX.decorate === 'function') {
-            RG.SVG.FX.decorate(this);
+        //
+        // "Decorate" the object with the generic effects if the effects library has been included
+        //
+        if (RGraph.SVG.FX && typeof RGraph.SVG.FX.decorate === 'function') {
+            RGraph.SVG.FX.decorate(this);
         }
+
+
+
+
+
+        // Add the responsive function to the object
+        this.responsive = RGraph.SVG.responsive;
 
 
 
@@ -368,7 +333,7 @@
         {
 
             // Fire the beforedraw event
-            RG.SVG.fireCustomEvent(this, 'onbeforedraw');
+            RGraph.SVG.fireCustomEvent(this, 'onbeforedraw');
 
 
 
@@ -406,7 +371,7 @@
 
 
             // Create the defs tag
-            RG.SVG.createDefs(this);
+            RGraph.SVG.createDefs(this);
 
 
 
@@ -418,7 +383,7 @@
 
 
             // Parse the colors for gradients
-            RG.SVG.resetColorsToOriginalValues({object:this});
+            RGraph.SVG.resetColorsToOriginalValues({object:this});
             this.parseColors();
             
             // Clear the coords arrays
@@ -427,7 +392,7 @@
             this.coordsSpline = [];
             
             // Reset the data back to the original
-            this.data = RG.SVG.arrayClone(this.originalData);
+            this.data = RGraph.SVG.arrayClone(this.originalData);
 
             
             // Set this to zero
@@ -442,7 +407,7 @@
 
 
             // Make the data sequential first
-            this.data_seq = RG.SVG.arrayLinearize(this.data);
+            this.data_seq = RGraph.SVG.arrayLinearize(this.data);
             
             // This allows the errorbars to be a variety of formats and convert
             // them all into an array of objects which have the min and max
@@ -451,7 +416,7 @@
                 // Go through the error bars and convert numbers to objects
                 for (var i=0; i<this.data_seq.length; ++i) {
     
-                    if (typeof prop.errorbars[i] === 'undefined' || RG.SVG.isNull(prop.errorbars[i]) ) {
+                    if (typeof prop.errorbars[i] === 'undefined' || RGraph.SVG.isNull(prop.errorbars[i]) ) {
                         prop.errorbars[i] = {max: null, min: null};
                     
                     } else if (typeof prop.errorbars[i] === 'number') {
@@ -488,12 +453,12 @@
                         
                         // Only add this once (from the last dataset)
                         if (i === (this.data.length - 1) ) {
-                             tmp[j] += (prop.errorbars ? prop.errorbars[RG.SVG.groupedIndexToSequential({object: this, dataset: i, index: j})].max : 0)
+                             tmp[j] += (prop.errorbars ? prop.errorbars[RGraph.SVG.groupedIndexToSequential({object: this, dataset: i, index: j})].max : 0)
                         }
                     } else {
-                        tmp[j] = ma.max(
+                        tmp[j] = Math.max(
                             tmp[j],
-                            this.data[i][j] + (prop.errorbars ? prop.errorbars[RG.SVG.groupedIndexToSequential({object: this, dataset: i, index: j})].max : 0)
+                            this.data[i][j] + (prop.errorbars ? prop.errorbars[RGraph.SVG.groupedIndexToSequential({object: this, dataset: i, index: j})].max : 0)
                         );
                     }
 
@@ -507,10 +472,10 @@
             // Go thru each dataset
             for (var i=0,max=0; i<this.data.length; ++i) {
                 
-                if (RG.SVG.isArray(this.data[i]) && !prop.filledAccumulative) {
-                    values.push(RG.SVG.arrayMax(tmp));
+                if (RGraph.SVG.isArray(this.data[i]) && !prop.filledAccumulative) {
+                    values.push(RGraph.SVG.arrayMax(tmp));
 
-                } else if (RG.SVG.isArray(this.data[i]) && prop.filled && prop.filledAccumulative) {
+                } else if (RGraph.SVG.isArray(this.data[i]) && prop.filled && prop.filledAccumulative) {
                 
                    for (var j=0; j<this.data[i].length; ++j) {
                         values[j] = values[j]  || 0;
@@ -526,9 +491,9 @@
             
             
             if (prop.filled && prop.filledAccumulative) {
-                var max = RG.SVG.arrayMax(tmp)
+                var max = RGraph.SVG.arrayMax(tmp)
             } else {
-                var max = RG.SVG.arrayMax(values);
+                var max = RGraph.SVG.arrayMax(values);
             }
 
 
@@ -553,7 +518,7 @@
 
             // Set the ymin to zero if it's set mirror
             if (prop.yaxisScaleMin === 'mirror') {
-                var mirrorScale = true;
+                this.mirrorScale = true;
                 prop.yaxisScaleMin   = 0;
             }
 
@@ -562,7 +527,7 @@
             // Generate an appropiate scale
             //
 
-            this.scale = RG.SVG.getScale({
+            this.scale = RGraph.SVG.getScale({
                 object:    this,
                 numlabels: prop.yaxisLabelsCount,
                 unitsPre:  prop.yaxisScaleUnitsPre,
@@ -583,8 +548,8 @@
             // Get the scale a second time if the ymin should be mirored
             //
             // Set the ymin to zero if it's szet mirror
-            if (mirrorScale) {
-                this.scale = RG.SVG.getScale({
+            if (this.mirrorScale) {
+                this.scale = RGraph.SVG.getScale({
                     object: this,
                     numlabels: prop.yaxisLabelsCount,
                     unitsPre:  prop.yaxisScaleUnitsPre,
@@ -612,12 +577,12 @@
 
 
             // Draw the background first
-            RG.SVG.drawBackground(this);
+            RGraph.SVG.drawBackground(this);
 
 
             // Draw the axes over the bars
-            RG.SVG.drawXAxis(this);
-            RG.SVG.drawYAxis(this);
+            RGraph.SVG.drawXAxis(this);
+            RGraph.SVG.drawYAxis(this);
 
 
             for (var i=0; i<this.data.length; ++i) {
@@ -637,8 +602,8 @@
             
             
             // Draw the key
-            if (typeof prop.key !== null && RG.SVG.drawKey) {
-                RG.SVG.drawKey(this);
+            if (typeof prop.key !== null && RGraph.SVG.drawKey) {
+                RGraph.SVG.drawKey(this);
             } else if (!RGraph.SVG.isNull(prop.key)) {
                 alert('The drawKey() function does not exist - have you forgotten to include the key library?');
             }
@@ -659,14 +624,14 @@
             var obj = this;
             document.body.addEventListener('mousedown', function (e)
             {
-                RG.SVG.removeHighlight(obj);
+                RGraph.SVG.removeHighlight(obj);
 
             }, false);
 
 
 
             // Fire the draw event
-            RG.SVG.fireCustomEvent(this, 'ondraw');
+            RGraph.SVG.fireCustomEvent(this, 'ondraw');
 
 
 
@@ -702,7 +667,7 @@
             // Go through the coordinates and create the path that draws the line
             for (var i=0; i<coords.length; ++i) {
 
-                if (i === 0 || RG.SVG.isNull(data[i]) || RG.SVG.isNull(data[i - 1])) {
+                if (i === 0 || RGraph.SVG.isNull(data[i]) || RGraph.SVG.isNull(data[i - 1])) {
                     var action = 'M';
 
                 } else {
@@ -718,7 +683,7 @@
 
                 path.push(action + '{1} {2}'.format(
                     coords[i][0],
-                    RG.SVG.isNull(data[i]) ? 0 : coords[i][1]
+                    RGraph.SVG.isNull(data[i]) ? 0 : coords[i][1]
                 ));
             }
 
@@ -737,7 +702,7 @@
 
             for (var k=0; k<coords.length; ++k) {
                 
-                this.coords.push(RG.SVG.arrayClone(coords[k]));
+                this.coords.push(RGraph.SVG.arrayClone(coords[k]));
 
                 this.coords[this.coords.length - 1].x      = coords[k][0];
                 this.coords[this.coords.length - 1].y      = coords[k][1];
@@ -748,12 +713,12 @@
             }
 
             // The coords2 array
-            this.coords2[index] = RG.SVG.arrayClone(coords);
+            this.coords2[index] = RGraph.SVG.arrayClone(coords);
 
             for (var k=0; k<coords.length; ++k) {
                 
                 //Get the sequential index
-                var seq = RG.SVG.groupedIndexToSequential({
+                var seq = RGraph.SVG.groupedIndexToSequential({
                     object:  this,
                     dataset: index,
                     index:   k
@@ -809,7 +774,7 @@
                     }
 
                 } else {
-                    var fillPath = RG.SVG.arrayClone(path);
+                    var fillPath = RGraph.SVG.arrayClone(path);
                 }
 
 
@@ -821,7 +786,7 @@
 
                 if (index > 0 && prop.filledAccumulative) {
                     
-                    var path2 = RG.SVG.arrayClone(path);
+                    var path2 = RGraph.SVG.arrayClone(path);
                     
                     if (index > 0 && prop.filledAccumulative) {
                         if (prop.spline) {
@@ -868,7 +833,7 @@
                 ));
 
                 for (var i=0; i<this.data[index].length; ++i) {
-                    if (!RG.SVG.isNull(this.data[index][i])) {
+                    if (!RGraph.SVG.isNull(this.data[index][i])) {
                         fillPath.push('L{1} {2}'.format(
                             this.coords2[index][i][0],
                             this.getYCoord(0)
@@ -879,7 +844,7 @@
 
                 // Create a group that the fill is added to. Later the line
                 // will also be added to it
-                this.filledGroups[index] = RG.SVG.create({
+                this.filledGroups[index] = RGraph.SVG.create({
                     svg: this.svg,
                     type: 'g',
                     parent: this.svg.all,
@@ -889,7 +854,7 @@
                 });
 
                 // Add the fill path to the scene
-                var fillPathObject = RG.SVG.create({
+                var fillPathObject = RGraph.SVG.create({
                     svg: this.svg,
                     parent: this.filledGroups[index],
                     type: 'path',
@@ -931,7 +896,7 @@
             // Create the drop shadow effect if its required
             //
             if (prop.shadow) {
-                RG.SVG.setShadow({
+                RGraph.SVG.setShadow({
                     object:  this,
                     offsetx: prop.shadowOffsetx,
                     offsety: prop.shadowOffsety,
@@ -972,7 +937,7 @@
                 
                 str = str.join(' ');
 
-                var line = RG.SVG.create({
+                var line = RGraph.SVG.create({
                     svg: this.svg,
                     parent: prop.filled ? this.filledGroups[index] : this.svg.all,
                     type: 'path',
@@ -980,7 +945,7 @@
                         d: str,
                         stroke: prop['colors'][index],
                         'fill':'none',
-                        'stroke-width':  this.hasMultipleDatasets && prop.filled && prop.filledAccumulative ? 0.1 : (RG.SVG.isArray(prop.linewidth) ? prop.linewidth[index] : prop.linewidth + 0.01),
+                        'stroke-width':  this.hasMultipleDatasets && prop.filled && prop.filledAccumulative ? 0.1 : (RGraph.SVG.isArray(prop.linewidth) ? prop.linewidth[index] : prop.linewidth + 0.01),
                         'stroke-linecap': 'round',
                         'stroke-linejoin': 'round',
                         filter: prop.shadow ? 'url(#dropShadow)' : '',
@@ -990,7 +955,7 @@
 
             } else {
 
-                var path2 = RG.SVG.arrayClone(path);
+                var path2 = RGraph.SVG.arrayClone(path);
 
                 if (prop.filled && prop.filledAccumulative && index > 0) {
                     for (var i=this.coords2[index - 1].length-1; i>=0; --i) {
@@ -1003,7 +968,7 @@
 
                 path2 = path2.join(' ');
 
-                var line = RG.SVG.create({
+                var line = RGraph.SVG.create({
                     svg: this.svg,
                     parent: prop.filled ? this.filledGroups[index] : this.svg.all,
                     type: 'path',
@@ -1011,7 +976,7 @@
                         d: path2,
                         stroke: prop.colors[index],
                         'fill':'none',
-                        'stroke-width': this.hasMultipleDatasets && prop.filled && prop.filledAccumulative ? 0.1 : (RG.SVG.isArray(prop.linewidth) ? prop.linewidth[index]: prop.linewidth + 0.01),
+                        'stroke-width': this.hasMultipleDatasets && prop.filled && prop.filledAccumulative ? 0.1 : (RGraph.SVG.isArray(prop.linewidth) ? prop.linewidth[index]: prop.linewidth + 0.01),
                         'stroke-linecap': 'round',
                         'stroke-linejoin': 'round',
                         filter: prop.shadow ? 'url(#dropShadow)' : '',
@@ -1029,7 +994,7 @@
 
                 if (!this.svg.all.line_tooltip_hotspots) {
 
-                    var group = RG.SVG.create({
+                    var group = RGraph.SVG.create({
                         svg: this.svg,
     
                         // Taken out on 11/12/17 so that hotspots can sit in this group
@@ -1055,9 +1020,9 @@
                 //for (var i=0; i<this.coords2[index].length; ++i,++this.tooltipsSequentialIndex) {
                 for (var i=0; i<this.coords2[index].length && this.tooltipsSequentialIndex < prop.tooltips.length; ++i,++this.tooltipsSequentialIndex) {
 
-                    if (!RG.SVG.isNull(this.originalData[index][i]) && prop.tooltips[this.tooltipsSequentialIndex] && this.coords2[index][i][0] && this.coords2[index][i][1]) {
+                    if (!RGraph.SVG.isNull(this.originalData[index][i]) && prop.tooltips[this.tooltipsSequentialIndex] && this.coords2[index][i][0] && this.coords2[index][i][1]) {
 
-                        var hotspot = RG.SVG.create({
+                        var hotspot = RGraph.SVG.create({
                             svg: this.svg,
                             parent: group,
                             type: 'circle',
@@ -1079,25 +1044,28 @@
                         {
                             hotspot.addEventListener(prop.tooltipsEvent, function (e)
                             {
-                                var indexes = RG.SVG.sequentialIndexToGrouped(sequentialIndex, obj.data),
+                                var indexes = RGraph.SVG.sequentialIndexToGrouped(sequentialIndex, obj.data),
                                     index   = indexes[1],
                                     dataset = indexes[0];
 
 
-                                if (RG.SVG.REG.get('tooltip') && RG.SVG.REG.get('tooltip').__index__ === index && RG.SVG.REG.get('tooltip').__dataset__ === dataset) {
+                                if (RGraph.SVG.REG.get('tooltip') &&
+                                    RGraph.SVG.REG.get('tooltip').__index__ === index &&
+                                    RGraph.SVG.REG.get('tooltip').__dataset__ === dataset &&
+                                    RGraph.SVG.REG.get('tooltip').__object__.uid === obj.uid) { // Added on the 27th/6/2019
                                     return;
                                 }
                                 
                                 obj.removeHighlight();
 
-                                RG.SVG.hideTooltip();
+                                RGraph.SVG.hideTooltip();
 
                                 // Show the tooltip
                                 if (prop.tooltips[sequentialIndex]) {
                                     var text = prop.tooltips[sequentialIndex];
                                 }
 
-                                RG.SVG.tooltip({
+                                RGraph.SVG.tooltip({
                                     object: obj,
                                     index: index,
                                     dataset: dataset,
@@ -1108,7 +1076,7 @@
 
 
                                 // Highlight the chart here
-                                var outer_highlight1 = RG.SVG.create({
+                                var outer_highlight1 = RGraph.SVG.create({
                                     svg: obj.svg,
                                     parent: obj.svg.all,
                                     type: 'circle',
@@ -1125,7 +1093,7 @@
                                 });
 
 
-                                var outer_highlight2 = RG.SVG.create({
+                                var outer_highlight2 = RGraph.SVG.create({
                                     svg: obj.svg,
                                     parent: obj.svg.all,
                                     type: 'circle',
@@ -1142,7 +1110,7 @@
                                 });
 
 
-                                var inner_highlight1 = RG.SVG.create({
+                                var inner_highlight1 = RGraph.SVG.create({
                                     svg: obj.svg,
                                     parent: obj.svg.all,
                                     type: 'circle',
@@ -1158,7 +1126,7 @@
                                 });
 
 
-                                var inner_highlight2 = RG.SVG.create({
+                                var inner_highlight2 = RGraph.SVG.create({
                                     svg: obj.svg,
                                     parent: obj.svg.all,
                                     type: 'circle',
@@ -1174,7 +1142,7 @@
                                 });
                                 
                                 // Set the highlight in the registry
-                                RG.SVG.REG.set('highlight', [
+                                RGraph.SVG.REG.set('highlight', [
                                     outer_highlight1,
                                     outer_highlight2,
                                     inner_highlight1,
@@ -1217,7 +1185,7 @@
                         case 'filledcircle':
                         case 'filledendcircle':
                             if (style === 'filledcircle' || (i === 0 || i === data.length - 1) ) {
-                                var circle = RG.SVG.create({
+                                var circle = RGraph.SVG.create({
                                     svg: this.svg,
                                     parent: this.svg.all,
                                     type: 'circle',
@@ -1240,7 +1208,7 @@
 
                             if (style === 'circle' || (style === 'endcircle' && (i === 0 || i === data.length - 1)) ) {
 
-                                var outerCircle = RG.SVG.create({
+                                var outerCircle = RGraph.SVG.create({
                                     svg: this.svg,
                                     parent: this.svg.all,
                                     type: 'circle',
@@ -1254,7 +1222,7 @@
                                     }
                                 });
 
-                                var innerCircle = RG.SVG.create({
+                                var innerCircle = RGraph.SVG.create({
                                     svg: this.svg,
                                     parent: this.svg.all,
                                     type: 'circle',
@@ -1277,7 +1245,7 @@
                             
                                 var fill = typeof fill === 'object'&& typeof fill[index] === 'string' ? fill[index] : fill;
                             
-                                var rect = RG.SVG.create({
+                                var rect = RGraph.SVG.create({
                                     svg: this.svg,
                                     parent: this.svg.all,
                                     type: 'rect',
@@ -1302,7 +1270,7 @@
 
                                 var fill = prop.colors[index];
 
-                                var rect = RG.SVG.create({
+                                var rect = RGraph.SVG.create({
                                     svg: this.svg,
                                     parent: this.svg.all,
                                     type: 'rect',
@@ -1339,7 +1307,7 @@
             if (prop.spline) {
                 for (var i=0; i<this.coordsSpline.length; ++i) {
 
-                    var linewidth = RG.SVG.isArray(prop.linewidth) ? prop.linewidth[i] : prop.linewidth,
+                    var linewidth = RGraph.SVG.isArray(prop.linewidth) ? prop.linewidth[i] : prop.linewidth,
                         color     = prop['colors'][i],
                         path      = '';
                     
@@ -1360,7 +1328,7 @@
 
 
 
-                    RG.SVG.create({
+                    RGraph.SVG.create({
                         svg: this.svg,
                         parent: prop.filled ? this.filledGroups[i] : this.svg.all,
                         type: 'path',
@@ -1392,16 +1360,16 @@
 
                 for (var i=0; i<this.coords2.length; ++i) {
 
-                    var linewidth = RG.SVG.isArray(prop.linewidth) ? prop.linewidth[i] : prop.linewidth,
+                    var linewidth = RGraph.SVG.isArray(prop.linewidth) ? prop.linewidth[i] : prop.linewidth,
                         color     = prop['colors'][i],
                         path      = '';
 
                     // Create the path from the coordinates
                     for (var j=0; j<this.coords2[i].length; ++j) {
-                        if (j === 0 || RG.SVG.isNull(this.data[i][j]) || RG.SVG.isNull(this.data[i][j - 1])) {
+                        if (j === 0 || RGraph.SVG.isNull(this.data[i][j]) || RGraph.SVG.isNull(this.data[i][j - 1])) {
                             path += 'M{1} {2} '.format(
                                 this.coords2[i][j][0],
-                                RG.SVG.isNull(this.data[i][j]) ? 0 : this.coords2[i][j][1]
+                                RGraph.SVG.isNull(this.data[i][j]) ? 0 : this.coords2[i][j][1]
                             );
                         } else {
                             if (prop.stepped) {
@@ -1420,7 +1388,7 @@
 
 
 
-                    RG.SVG.create({
+                    RGraph.SVG.create({
                         svg: this.svg,
                         parent: prop.filled ? this.filledGroups[i] : this.svg.all,
                         type: 'path',
@@ -1456,12 +1424,12 @@
 
 
 
-        /**
-        * This function can be used to retrieve the relevant Y coordinate for a
-        * particular value.
-        * 
-        * @param int value The value to get the Y coordinate for
-        */
+        //
+        // This function can be used to retrieve the relevant Y coordinate for a
+        // particular value.
+        // 
+        // @param int value The value to get the Y coordinate for
+        //
         this.getYCoord = function (value)
         {
             var prop = this.properties, y;
@@ -1489,20 +1457,20 @@
 
 
 
-        /**
-        * This function can be used to highlight a bar on the chart
-        * 
-        * TODO This function looks like its needs updating
-        * 
-        * @param object rect The rectangle to highlight
-        */
+        //
+        // This function can be used to highlight a bar on the chart
+        // 
+        // TODO This function looks like its needs updating
+        // 
+        // @param object rect The rectangle to highlight
+        //
         this.highlight = function (rect)
         {
             var x = rect.getAttribute('x'),
                 y = rect.getAttribute('y');
 
 /*
-            var highlight = RG.SVG.create({
+            var highlight = RGraph.SVG.create({
                 svg: this.svg,
                 type: 'rect',
                 attr: {
@@ -1521,16 +1489,16 @@
                 highlight.addEventListener('mouseout', function (e)
                 {
                     highlight.parentNode.removeChild(highlight);
-                    RG.SVG.hideTooltip();
+                    RGraph.SVG.hideTooltip();
 
-                    RG.SVG.REG.set('highlight', null);
+                    RGraph.SVG.REG.set('highlight', null);
                 }, false);
             }
 
 
             // Store the highlight rect in the rebistry so
             // it can be cleared later
-            RG.SVG.REG.set('highlight', highlight);
+            RGraph.SVG.REG.set('highlight', highlight);
 */
         };
 
@@ -1546,7 +1514,7 @@
         //
         this.removeHighlight = function ()
         {
-            var highlight = RG.SVG.REG.get('highlight');
+            var highlight = RGraph.SVG.REG.get('highlight');
 
             if (highlight && highlight.parentNode) {
                 highlight.parentNode.removeChild(highlight);
@@ -1560,7 +1528,7 @@
                 }
             }
             
-            RG.SVG.REG.set('highlight', null);
+            RGraph.SVG.REG.set('highlight', null);
         };
 
 
@@ -1584,20 +1552,20 @@
                 interval     = (this.graphWidth - (2 * hmargin)) / (coords.length - 1),
                 coordsSpline = [];
 
-            /**
-            * The drawSpline function takes an array of JUST Y coords - not X/Y coords. So the line coords need converting
-            * if we've been given X/Y pairs
-            */
+            //
+            // The drawSpline function takes an array of JUST Y coords - not X/Y coords. So the line coords need converting
+            // if we've been given X/Y pairs
+            //
             for (var i=0,len=coords.length; i<len;i+=1) {
                 if (typeof coords[i] == 'object' && coords[i] && coords[i].length == 2) {
                     coords[i] = Number(coords[i][1]);
                 }
             }
 
-            /**
-            * Get the Points array in the format we want - the first value should
-            * be null along with the lst value
-            */
+            //
+            // Get the Points array in the format we want - the first value should
+            // be null along with the lst value
+            //
             var P = [coords[0]];
             for (var i=0; i<coords.length; ++i) {
                 P.push(coords[i]);
@@ -1664,18 +1632,18 @@
 
 
 
-        /**
-        * This allows for easy specification of gradients
-        */
+        //
+        // This allows for easy specification of gradients
+        //
         this.parseColors = function () 
         {
             if (!Object.keys(this.originalColors).length) {
                 this.originalColors = {
-                    colors:              RG.SVG.arrayClone(prop.colors),
-                    filledColors:        RG.SVG.arrayClone(prop.filledColors),
-                    backgroundGridColor: RG.SVG.arrayClone(prop.backgroundGridColor),
-                    //highlightFill:       RG.SVG.arrayClone(prop.highlightFill),
-                    backgroundColor:     RG.SVG.arrayClone(prop.backgroundColor)
+                    colors:              RGraph.SVG.arrayClone(prop.colors),
+                    filledColors:        RGraph.SVG.arrayClone(prop.filledColors),
+                    backgroundGridColor: RGraph.SVG.arrayClone(prop.backgroundGridColor),
+                    //highlightFill:       RGraph.SVG.arrayClone(prop.highlightFill),
+                    backgroundColor:     RGraph.SVG.arrayClone(prop.backgroundColor)
                 }
             }
 
@@ -1684,7 +1652,7 @@
 
             if (colors) {
                 for (var i=0; i<colors.length; ++i) {
-                    colors[i] = RG.SVG.parseColorLinear({
+                    colors[i] = RGraph.SVG.parseColorLinear({
                         object: this,
                         color: colors[i]
                     });
@@ -1697,16 +1665,16 @@
 
             if (filledColors) {
                 for (var i=0; i<filledColors.length; ++i) {
-                    filledColors[i] = RG.SVG.parseColorLinear({
+                    filledColors[i] = RGraph.SVG.parseColorLinear({
                         object: this,
                         color: filledColors[i]
                     });
                 }
             }
 
-            prop.backgroundGridColor = RG.SVG.parseColorLinear({object: this, color: prop.backgroundGridColor});
-            //prop.highlightFill       = RG.SVG.parseColorLinear({object: this, color: prop.highlightFill});
-            prop.backgroundColor     = RG.SVG.parseColorLinear({object: this, color: prop.backgroundColor});
+            prop.backgroundGridColor = RGraph.SVG.parseColorLinear({object: this, color: prop.backgroundGridColor});
+            //prop.highlightFill       = RGraph.SVG.parseColorLinear({object: this, color: prop.highlightFill});
+            prop.backgroundColor     = RGraph.SVG.parseColorLinear({object: this, color: prop.backgroundColor});
         };
 
 
@@ -1724,13 +1692,13 @@
             // Go through the above labels
             if (prop.labelsAbove) {
             
-                var data_seq = RG.SVG.arrayLinearize(this.data),
+                var data_seq = RGraph.SVG.arrayLinearize(this.data),
                     seq      = 0;
 
                 for (var dataset=0; dataset<this.coords2.length; ++dataset,seq++) {
                     for (var i=0; i<this.coords2[dataset].length; ++i,seq++) {
     
-                        var str = RG.SVG.numberFormat({
+                        var str = RGraph.SVG.numberFormat({
                             object:    this,
                             num:       this.data[dataset][i].toFixed(prop.labelsAboveDecimals ),
                             prepend:   typeof prop.labelsAboveUnitsPre  === 'string'   ? prop.labelsAboveUnitsPre  : null,
@@ -1747,7 +1715,7 @@
                             continue;
                         }
 
-                        RG.SVG.text({
+                        RGraph.SVG.text({
                             object:     this,
                             parent:     this.svg.all,
                             tag:        'labels.above',
@@ -1781,20 +1749,20 @@
 
 
 
-        /**
-        * Using a function to add events makes it easier to facilitate method
-        * chaining
-        * 
-        * @param string   type The type of even to add
-        * @param function func 
-        */
+        //
+        // Using a function to add events makes it easier to facilitate method
+        // chaining
+        // 
+        // @param string   type The type of even to add
+        // @param function func 
+        //
         this.on = function (type, func)
         {
             if (type.substr(0,2) !== 'on') {
                 type = 'on' + type;
             }
             
-            RG.SVG.addCustomEventListener(this, type, func);
+            RGraph.SVG.addCustomEventListener(this, type, func);
     
             return this;
         };
@@ -1830,9 +1798,9 @@
         // file because it's used by multiple chart libraries
         this.drawErrorbar = function (opt)
         {
-            var linewidth = RG.SVG.getErrorbarsLinewidth({object: this, index: opt.index}),
-                color     = RG.SVG.getErrorbarsColor({object: this, index: opt.sequential}),
-                capwidth  = RG.SVG.getErrorbarsCapWidth({object: this, index: opt.index}),
+            var linewidth = RGraph.SVG.getErrorbarsLinewidth({object: this, index: opt.index}),
+                color     = RGraph.SVG.getErrorbarsColor({object: this, index: opt.sequential}),
+                capwidth  = RGraph.SVG.getErrorbarsCapWidth({object: this, index: opt.index}),
                 index     = opt.index,
                 dataset   = opt.dataset,
                 x         = opt.x,
@@ -1846,7 +1814,7 @@
         
         
             // Get the error bar value
-            var max = RG.SVG.getErrorbarsMaxValue({
+            var max = RGraph.SVG.getErrorbarsMaxValue({
                 object: this,
                 index: opt.sequential
             });
@@ -1854,7 +1822,7 @@
             
         
             // Get the error bar value
-            var min = RG.SVG.getErrorbarsMinValue({
+            var min = RGraph.SVG.getErrorbarsMinValue({
                 object: this,
                 index: opt.sequential
             });
@@ -1881,7 +1849,7 @@
             if (max > 0) {
         
                 // Draw the UPPER vertical line
-                var errorbarLine = RG.SVG.create({
+                var errorbarLine = RGraph.SVG.create({
                     svg: this.svg,
                     type: 'line',
                     parent: this.svg.all,
@@ -1897,7 +1865,7 @@
 
 
                 // Draw the cap to the UPPER line
-                var errorbarCap = RG.SVG.create({
+                var errorbarCap = RGraph.SVG.create({
                     svg: this.svg,
                     type: 'line',
                     parent: this.svg.all,
@@ -1926,7 +1894,7 @@
             // Draw the minimum errorbar if necessary
             if (typeof min === 'number') {
         
-                var errorbarLine = RG.SVG.create({
+                var errorbarLine = RGraph.SVG.create({
                     svg: this.svg,
                     type: 'line',
                     parent: this.svg.all,
@@ -1941,7 +1909,7 @@
                 });
         
                 // Draw the cap to the UPPER line
-                var errorbarCap = RG.SVG.create({
+                var errorbarCap = RGraph.SVG.create({
                     svg: this.svg,
                     type: 'line',
                     parent: this.svg.all,
@@ -1984,7 +1952,7 @@
 
 
             // Create the clip area
-            var clippath = RG.SVG.create({
+            var clippath = RGraph.SVG.create({
                 svg: this.svg,
                 parent: this.svg.defs,
                 type: 'clipPath',
@@ -1993,7 +1961,7 @@
                 }
             });
 
-            var clippathrect = RG.SVG.create({
+            var clippathrect = RGraph.SVG.create({
                 svg: this.svg,
                 parent: clippath,
                 type: 'rect',
@@ -2012,7 +1980,7 @@
                 clippathrect.setAttribute("width", width);
 
                 if (frame <= frames) {
-                    RG.SVG.FX.update(iterator);
+                    RGraph.SVG.FX.update(iterator);
                 } else {
                     
                     // Remove the clippath
