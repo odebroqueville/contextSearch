@@ -12,7 +12,7 @@ Firefox add-on to search selected text in a web page using your favorite search 
 
 The search results will appear as defined in the extension's preferences page.
 
-UPDATE 28/03/2019: The extension now also includes an EXIF viewer. To view the EXIF tags associated with an image, right-click on the image and select: "View EXIF tags..". If present, the EXIF tags will appear in the sidebar along with a color histogram.
+The extension includes an EXIF viewer. To view the EXIF tags associated with an image, right-click on the image and select: "View EXIF tags..". If present, the EXIF tags will appear in the sidebar along with a color histogram.
 
 ## Managing search engines
 To manage your favorite search engines, you can go to the preferences page of Context Search. You can reach this page by opening the extensions page (Addon Manager) where all your add-ons are listed and then clicking on the "Preferences" button.
@@ -107,7 +107,7 @@ https://addons.mozilla.org/firefox/addon/contextual-search/
 ## Code made by others used in this extension
 
 <ul>
-<li>exif.js v2.3.0 originally by Jacob Seidelin and modified by Bart van der Wal which can be found on Github: https://github.com/exif-js/exif-js</li>
-<li>Rgraph v5.01 by Richard Heyes, which can be found here: https://www.rgraph.net/</li>
+<li>exif.js v2.3.0 originally by Jacob Seidelin and modified by Bart van der Wal which can be found on Github: https://github.com/exif-js/exif-js/blob/v2.3.0/exif.js</li>
+<li>2 libraries from RGraph v5.20 by Richard Heyes: Rgraph.svg.common.core.js which may be found here: https://www.rgraph.net/libraries/src/RGraph.svg.common.core.js and RGraph.svg.line.js which may be found here: https://www.rgraph.net/libraries/src/RGraph.svg.line.js</li>
 <li>SortableJS v1.10.1 minified with many contributors, which can be found on GitHub here: https://github.com/SortableJS/Sortable/blob/1.10.1/Sortable.min.js and the source code here: https://github.com/SortableJS/Sortable/releases</li>
 </ul>

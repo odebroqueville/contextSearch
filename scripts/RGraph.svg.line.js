@@ -1,4 +1,4 @@
-// version: 2019-10-11
+// version: 2019-12-05
     // o--------------------------------------------------------------------------------o
     // | This file is part of the RGraph package - you can learn more at:               |
     // |                                                                                |
@@ -8,7 +8,7 @@
     // | totally free to use and there are no restrictions on what you can do with it!  |
     // o--------------------------------------------------------------------------------o
 
-    RGraph     = window.RGraph || {isRGraph: true};
+    RGraph     = window.RGraph || {isrgraph:true,isRGraph:true,rgraph:true};
     RGraph.SVG = RGraph.SVG || {};
 
 // Module pattern
@@ -89,6 +89,8 @@
         this.layers          = {}; // MUST be before the SVG tag is created!
         this.svg             = RGraph.SVG.createSVG({object: this,container: this.container});
         this.isRGraph        = true;
+        this.isrgraph        = true;
+        this.rgraph          = true;
         this.width           = Number(this.svg.getAttribute('width'));
         this.height          = Number(this.svg.getAttribute('height'));
         

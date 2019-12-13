@@ -1,3 +1,9 @@
+3.8.2
+=========
+* Updated Rgraph to version 5.20 released December 5th, 2019
+* Changed Firefox minimum version required to 62.0 in manifest
+* Updated README, CHANGELOG and manifest.json files accordingly
+
 3.8.1
 =========
 * Fixes bugs #42 and #43
