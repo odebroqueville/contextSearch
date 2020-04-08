@@ -189,7 +189,6 @@ function sendSelectionToBackgroundScript(selectedText){
 }
 
 function buildIconGrid(x, y) {
-    console.log("build icon grid");
     let arrIDs = Object.keys(searchEngines);
 
     // Grid dimensions
