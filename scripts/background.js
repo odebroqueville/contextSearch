@@ -188,6 +188,20 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
         saveOptions(options, true);
       });
       break;
+    case "updateDisableAltClick":
+      getOptions().then(settings => {
+        let options = settings.options;
+        if (logToConsole)
+          console.log(
+            `Preferences retrieved from storage sync: ${JSON.stringify(
+              options
+            )}`
+          );
+        options.disableAltClick = message.data.disableAltClick;
+        setDisplayFavicons(options);
+        saveOptions(options, true);
+      });
+      break;
     case "updateTabMode":
       getOptions().then(settings => {
         let options = settings.options;

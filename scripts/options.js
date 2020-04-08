@@ -22,6 +22,7 @@ const tabActive = document.getElementById("tabActive");
 const active = document.getElementById("active");
 const optionsMenuLocation = document.getElementById("optionsMenuLocation");
 const displayFavicons = document.getElementById("displayFavicons");
+const disableAltClick = document.getElementById("disableAltClick");
 const cacheFavicons = document.getElementById("cacheFavicons");
 const resetPreferences = document.getElementById("resetPreferences");
 const forceSearchEnginesReload = document.getElementById(
@@ -79,6 +80,7 @@ browser.runtime.onMessage.addListener(handleIncomingMessages);
 // Settings
 cacheFavicons.addEventListener("click", updateCacheFavicons);
 displayFavicons.addEventListener("click", updateDisplayFavicons);
+disableAltClick.addEventListener("click", updateDisableAltClick);
 tabMode.addEventListener("click", updateTabMode);
 tabActive.addEventListener("click", updateTabMode);
 optionsMenuLocation.addEventListener("click", updateOptionsMenuLocation);
@@ -583,6 +585,8 @@ function setOptions(options) {
     displayFavicons.checked = true;
   }
 
+  disableAltClick.checked = options.disableAltClick || false;
+
   if (options.cacheFavicons === false) {
     cacheFavicons.checked = false;
   } else {
@@ -679,6 +683,10 @@ function updateCacheFavicons() {
 function updateDisplayFavicons() {
   let fav = displayFavicons.checked;
   sendMessage("updateDisplayFavicons", { displayFavicons: fav });
+}
+
+function updateDisableAltClick() {
+  sendMessage("updateDisableAltClick", { disableAltClick: disableAltClick.checked });
 }
 
 function updateOptionsMenuLocation() {
