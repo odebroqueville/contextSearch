@@ -1,36 +1,27 @@
 {
-  "name": "contextsearch",
-  "title": "Context Search",
-  "version": "3.8.0",
-  "description": "Firefox add-on to search selected text in a web page using your favorite search engines.",
-  "devDependencies": {},
-  "browserslist": [
-    "Firefox >= 57"
-  ],
-  "scripts": {
-    "test": "eslint .",
-    "lint": "eslint ."
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/odebroqueville/contextSearch.git"
-  },
-  "keywords": [
-    "webextension",
-    "context",
-    "context search",
-    "context menu",
-    "search",
-    "search engine"
-  ],
-  "author": "Olivier de Broqueville <olivier.debroqueville@gmail.com>",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/odebroqueville/contextSearch/issues"
-  },
-  "homepage": "https://github.com/odebroqueville/contextSearch#readme",
-  "dependencies": {
-    "exif-js": "^2.3.0",
-    "sortablejs": "^1.10.1"
-  }
+	"name": "contextsearch",
+	"title": "Context Search",
+	"version": "3.8.3",
+	"description": "Firefox add-on to search selected text in a web page using your favorite search engines.",
+	"devDependencies": {},
+	"browserslist": [ "Firefox >= 57" ],
+	"scripts": {
+		"test": "eslint .",
+		"lint": "eslint ."
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/odebroqueville/contextSearch.git"
+	},
+	"keywords": [ "webextension", "context", "context search", "context menu", "search", "search engine" ],
+	"author": "Olivier de Broqueville <olivier.debroqueville@gmail.com>",
+	"license": "GPL-3.0",
+	"bugs": {
+		"url": "https://github.com/odebroqueville/contextSearch/issues"
+	},
+	"homepage": "https://github.com/odebroqueville/contextSearch#readme",
+	"dependencies": {
+		"exif-js": "^2.3.0",
+		"sortablejs": "^1.10.1"
+	}
 }

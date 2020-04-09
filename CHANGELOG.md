@@ -1,3 +1,7 @@
+3.8.3
+=========
+* Offers the option to disable the icon of grids (Alt + Click)
+
 3.8.2
 =========
 * Updated Rgraph to version 5.20 released December 5th, 2019
