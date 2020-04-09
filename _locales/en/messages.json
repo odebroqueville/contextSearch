@@ -72,7 +72,7 @@
     "description": ""
   },
   "header2": {
-    "message": "Display favicons",
+    "message": "Favicons & Icons",
     "description": ""
   },
   "getFavicons": {
@@ -245,6 +245,10 @@
   },
   "displayFavicons": {
     "message": "Display favicons in context menu list",
+    "description": ""
+  },
+  "disableAltClick": {
+    "message": "Disable icon grid (Alt + Click)",
     "description": ""
   },
   "resetPreferences": {

@@ -109,7 +109,7 @@ function init(){
     }, onError);
 }
 
-function handleAltClickWithGrid(e) {
+async function handleAltClickWithGrid(e) {
     if (logToConsole) console.log("Click event triggered:\n" + e.type, e.button, e.altKey);
 
     // If mouse up is not done with left mouse button then do nothing
@@ -117,7 +117,7 @@ function handleAltClickWithGrid(e) {
 
     // If Option (alt) key isn't pressed on mouse up then do nothing
     if (!e.altKey) return;
-
+  
     let selectedText = getSelectedText();
     if (logToConsole) console.log(`Selected text: ${selectedText}`);
 
@@ -132,6 +132,10 @@ function handleAltClickWithGrid(e) {
                 return;
             }
         }
+
+        // If option is diabled then do nothing. Note: this intentionally comes after selected text is accessed as text can become unselected on click
+        let storage = await browser.storage.sync.get();
+        if (storage.options.disableAltClick) return;
 
         // Test URL: https://bugzilla.mozilla.org/show_bug.cgi?id=1215376
         // Test URL: https://github.com/odebroqueville/contextSearch/
