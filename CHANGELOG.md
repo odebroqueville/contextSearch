@@ -1,26 +1,31 @@
 3.8.4
 =========
+
 * Updates RGraph from version 5.20 to version 5.22
 
 3.8.3
-=========
+---------
+
 * Offers the option to disable the icon of grids (Alt + Click)
 
 3.8.2
-=========
+---------
+
 * Updated Rgraph to version 5.20 released December 5th, 2019
 * Changed Firefox minimum version required to 62.0 in manifest
 * Updated README, CHANGELOG and manifest.json files accordingly
 
 3.8.1
-=========
+---------
+
 * Fixes bugs #42 and #43
 * Updated RGraph to latest version 5.11
 * Updated manifest.json to version 3.8.1 and added strict minimum version 57.0 for Firefox
 * Updated README and CHANGELOG files
 
 3.8.0
-=========
+---------
+
 * Fixes bugs #26, #35, #36, #39, #40
 * Replaces up & down arrows by drag & drop move icon to re-order the search engines list #31
 * Adds multisearch icon to the grid of icons #17
@@ -29,16 +34,19 @@
 * Removed console logs for production release
 
 3.72
-=========
+---------
+
 * Fixes bug where context menu would disappear
 * Fixes bug where the options in the context menu would disappear
 
 3.71
-=========
+---------
+
 * Fixes major bugs introduced in version 3.70
 
 3.70
-=========
+---------
+
 * Fixes bugs #2, #10, #11
 * Hold option (Alt) key and click on selected text to launch the grid of icons
 * Option to enable/disable grid of icons has been removed because now both context menu and grid of icons are accessible at all times
@@ -50,12 +58,14 @@
 * Updated README file on GitHub
 
 3.69
-=========
+---------
+
 * Changes the sources to fetch favicons from heroku
 * Fixes issue #127: Removes console logs triggered on keyboard events
 
 3.68
-=========
+---------
+
 * Fixes bugs #113, #114 and #115 encountered in version 3.66
 * Removes the Save Preferences button, which is no longer required, in the add-on's options page
 * Removes the grid mode in the add-on's options page, as the grid of icons can now be launched using Shift-click
@@ -63,11 +73,13 @@
 * Updated README file on GitHub
 
 3.67
-====
+---------
+
 * Reverts back to version 3.65 due to major bugs with version 3.66.
 
 3.66 (major bugs - should be avoided)
-=========
+---------
+
 * Fix bug #97 again. Just need to set display to inline-block and add some padding to the fieldset container.
 * Improve CSS (set border-box on all elements so we can use 100% reliably)
 * Fix multisearch checkbox checked by default
@@ -87,25 +99,30 @@
 * Add German, Ukrainian and Russian locale
 
 3.65
-====
+---------
+
 * Completed translations in Polish & Italian
 * Fix bug #95
 
 3.64
-====
+---------
+
 * Fix bug #96
 
 3.63
-====
+---------
+
 * Fix bug #94
 * Typo error
 
 3.62
-====
+---------
+
 * Fixes a bug that prevented the icon grid from loading
 
 3.61
-====
+---------
+
 * Add Chinese simplified translation
 * Fixed minor bug: names with dots not allowed in messages.json
 * Added support for translated placeholders and titles
@@ -118,13 +135,16 @@
 * Fixes a small bug! Call i18n()
 
 3.60
-====
+---------
+
 * Added translations in fr, nl and pl
 
 3.59
-====
+---------
+
 * Added Clear button for 'Add new search engine'
 
 3.58
-====
+---------
+
 * Improve privacy by preventing url leaks

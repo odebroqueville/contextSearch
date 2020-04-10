@@ -2,7 +2,8 @@
 
 Firefox add-on to search selected text in a web page using your favorite search engines.
 
-## How does it work?
+## How does it work
+
 <ul>
 <li>Select some text on a webpage</li>
 <li>Right click (or Alt-click) on a selection</li>
@@ -15,6 +16,7 @@ The search results will appear as defined in the extension's preferences page.
 The extension includes an EXIF viewer. To view the EXIF tags associated with an image, right-click on the image and select: "View EXIF tags..". If present, the EXIF tags will appear in the sidebar along with a color histogram.
 
 ## Managing search engines
+
 To manage your favorite search engines, you can go to the preferences page of Context Search. You can reach this page by opening the extensions page (Addon Manager) where all your add-ons are listed and then clicking on the "Preferences" button.
 
 ![How to define a search engine](images/searchEngineDescription.jpg)
@@ -43,6 +45,7 @@ cs w atom
 The above will search for the word 'atom' in Wikipedia.
 
 ## The main structure of a JSON file containing the search engines
+
 ```javascript
 {
   "id": {
@@ -58,6 +61,7 @@ The above will search for the word 'atom' in Wikipedia.
 ```
 
 Here is an example of a JSON file containing 3 search engines:
+
 ```javascript
 {
   "bing": {
