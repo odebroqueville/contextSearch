@@ -1,3 +1,7 @@
+3.8.4
+=========
+* Updates RGraph from version 5.20 to version 5.22
+
 3.8.3
 =========
 * Offers the option to disable the icon of grids (Alt + Click)
