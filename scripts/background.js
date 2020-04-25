@@ -214,7 +214,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 function init() {
 	return new Promise((resolve, reject) => {
 		if (logToConsole) console.log("Loading the extension's preferences and search engines from storage sync..");
-		browser.storage.sync
+		browser.storage.local
 			.get(null)
 			.then((data) => {
 				let options = {};
@@ -255,7 +255,7 @@ function initialiseOptions(data, removeOptions) {
 			options = defaultOptions.options;
 			if (logToConsole) console.log('Options: \n' + JSON.stringify(options));
 			if (removeOptions) {
-				browser.storage.sync
+				browser.storage.local
 					.remove('options')
 					.then(() => {
 						setOptions(options, save).then(resolve, reject);
@@ -287,7 +287,7 @@ function initialiseSearchEngines(data, forceReload) {
 		if (isEmpty(data) || forceReload) {
 			if (!isEmpty(data)) {
 				let keys = Object.keys(data);
-				browser.storage.sync
+				browser.storage.local
 					.remove(keys)
 					.then(() => {
 						loadDefaultSearchEngines(DEFAULT_JSON).then(resolve, reject);
@@ -320,7 +320,7 @@ function initialiseSearchEngines(data, forceReload) {
 
 function getOptions() {
 	return new Promise((resolve, reject) => {
-		browser.storage.sync
+		browser.storage.local
 			.get('options')
 			.then((data) => {
 				if (logToConsole) console.log(data);
@@ -355,7 +355,7 @@ function saveOptions(data, blnRebuildContextMenu) {
 		let options = { options: data };
 		let strOptions = JSON.stringify(data);
 		if (logToConsole) console.log('Options settings:\n' + strOptions);
-		browser.storage.sync
+		browser.storage.local
 			.set(options)
 			.then(() => {
 				if (blnRebuildContextMenu) rebuildContextMenu();
@@ -470,14 +470,8 @@ function saveSearchEnginesToStorageSync(blnNotify, blnUpdateContentScripts) {
 			console.log('Search engines:\n');
 			console.log(searchEngines);
 		}
-		if (!contextsearch_cacheFavicons) {
-			if (logToConsole)
-				console.log('cacheFavicons is disabled, clearing favicons before saving to sync storage..\n');
-			for (let id in searchEnginesLocal) {
-				searchEnginesLocal[id].base64 = null;
-			}
-		}
-		browser.storage.sync
+
+		browser.storage.local
 			.set(searchEnginesLocal)
 			.then(() => {
 				if (blnNotify) notify(notifySearchEnginesLoaded);
@@ -934,7 +928,7 @@ function processSearch(info, tab) {
 }
 
 function processMultiTabSearch() {
-	browser.storage.sync.get(null).then(function(data) {
+	browser.storage.local.get(null).then(function(data) {
 		searchEngines = sortByIndex(data);
 		let multiTabSearchEngineUrls = [];
 		for (let id in searchEngines) {
@@ -1166,11 +1160,7 @@ function testSearchEngine(engineData) {
 
 /// Generic Error Handler
 function onError(error) {
-	if (error.toString().indexOf('Please set webextensions.storage.sync.enabled to true in about:config') > -1) {
-		notify(notifyEnableStorageSync);
-	} else {
-		if (logToConsole) console.error(`${error}`);
-	}
+	if (logToConsole) console.error(`${error}`);
 }
 
 /// Encode a url

@@ -576,7 +576,7 @@ function setOptions(options) {
 // Restore the list of search engines and the options to be displayed in the options page
 async function restoreOptionsPage() {
 	try {
-		let data = await browser.storage.sync.get(null);
+		let data = await browser.storage.local.get(null);
 		let options = data.options;
 		delete data.options;
 		if (logToConsole) {
@@ -601,7 +601,7 @@ function saveToLocalDisk() {
 }
 
 function handleFileUpload() {
-	browser.storage.sync.clear().then(function() {
+	browser.storage.local.clear().then(function() {
 		let upload = document.getElementById('upload');
 		let jsonFile = upload.files[0];
 		let reader = new FileReader();
