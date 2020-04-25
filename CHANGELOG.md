@@ -1,5 +1,11 @@
-3.8.4
+3.8.5
 =========
+
+* Replaces storage.sync with storage.local
+* Removes option to cache favicons to storage.sync
+
+3.8.4
+---------
 
 * Updates RGraph from version 5.20 to version 5.22
 
