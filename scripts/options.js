@@ -1,6 +1,6 @@
 /// Global variables
 // Debugging
-const logToConsole = false;
+const logToConsole = true;
 
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById('container');
@@ -580,7 +580,7 @@ async function restoreOptionsPage() {
 		let options = data.options;
 		delete data.options;
 		if (logToConsole) {
-			console.log('Search engines retrieved from storage sync:\n');
+			console.log('Search engines retrieved from local storage:\n');
 			console.log(data);
 		}
 		listSearchEngines(data);

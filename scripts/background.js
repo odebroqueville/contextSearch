@@ -1,7 +1,7 @@
 'use strict';
 
 /// Debug
-const logToConsole = false;
+const logToConsole = true;
 
 /// Global variables
 let searchEngines = {};
@@ -130,7 +130,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 		case 'saveSearchEngines':
 			searchEngines = message.data;
 			if (logToConsole) console.log(searchEngines);
-			saveSearchEnginesToStorageSync(false, true);
+			saveSearchEnginesToLocalStorage(false, true);
 			rebuildContextMenu();
 			break;
 		case 'addNewSearchEngine':
@@ -141,7 +141,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			searchEngines = sortByIndex(searchEngines);
 			addNewFavicon(id, domain).then(function(value) {
 				searchEngines[id]['base64'] = value.base64;
-				saveSearchEnginesToStorageSync(false, true);
+				saveSearchEnginesToLocalStorage(false, true);
 				rebuildContextMenu();
 			}, onError);
 			break;
@@ -436,7 +436,7 @@ function loadDefaultSearchEngines(jsonFile) {
 				}
 				getFaviconsAsBase64Strings()
 					.then(() => {
-						saveSearchEnginesToStorageSync(true, true).then(() => {
+						saveSearchEnginesToLocalStorage(true, true).then(() => {
 							rebuildContextMenu();
 							if (logToConsole)
 								console.log('Successfully loaded favicons and saved search engines to local storage.');
@@ -463,7 +463,7 @@ function loadDefaultSearchEngines(jsonFile) {
 	});
 }
 
-function saveSearchEnginesToStorageSync(blnNotify, blnUpdateContentScripts) {
+function saveSearchEnginesToLocalStorage(blnNotify, blnUpdateContentScripts) {
 	return new Promise((resolve, reject) => {
 		if (logToConsole) {
 			console.log('Search engines:\n');
