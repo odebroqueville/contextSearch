@@ -175,7 +175,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 		case 'updateDisplayFavicons':
 			getOptions().then((settings) => {
 				let options = settings.options;
-				if (logToConsole) console.log(`Preferences retrieved from local storage: ${JSON.stringify(options)}`);
+				if (logToConsole) console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
 				options.displayFavicons = message.data.displayFavicons;
 				setDisplayFavicons(options);
 				saveOptions(options, true);
@@ -184,7 +184,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 		case 'updateDisableAltClick':
 			getOptions().then((settings) => {
 				let options = settings.options;
-				if (logToConsole) console.log(`Preferences retrieved from local storage: ${JSON.stringify(options)}`);
+				if (logToConsole) console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
 				options.disableAltClick = message.data.disableAltClick;
 				setDisplayFavicons(options);
 				saveOptions(options, true);
@@ -193,7 +193,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 		case 'updateTabMode':
 			getOptions().then((settings) => {
 				let options = settings.options;
-				if (logToConsole) console.log(`Preferences retrieved from local storage: ${JSON.stringify(options)}`);
+				if (logToConsole) console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
 				options.tabMode = message.data.tabMode;
 				options.tabActive = message.data.tabActive;
 				setTabMode(options);
@@ -203,7 +203,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 		case 'updateOptionsMenuLocation':
 			getOptions().then((settings) => {
 				let options = settings.options;
-				if (logToConsole) console.log(`Preferences retrieved from local storage: ${JSON.stringify(options)}`);
+				if (logToConsole) console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
 				options.optionsMenuLocation = message.data.optionsMenuLocation;
 				setOptionsMenuLocation(options);
 				saveOptions(options, true);
@@ -213,7 +213,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			getOptions().then((settings) => {
 				let options = settings.options;
 				if (logToConsole) {
-					console.log('Preferences retrieved from local storage:');
+					console.log('Preferences retrieved from sync storage:');
 					console.log(options);
 				}
 				options.forceSearchEnginesReload = message.data.resetOptions.forceSearchEnginesReload;
@@ -241,113 +241,78 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 function init() {
 	return new Promise((resolve, reject) => {
 		if (logToConsole) console.log("Loading the extension's preferences and search engines from local storage..");
-		browser.storage.local
-			.get(null)
-			.then((data) => {
-				let options = {};
-				let removeOptions = false;
-				if (isEmpty(data.options)) {
+		browser.storage.sync
+			.get('options')
+			.then((options) => {
+				if (isEmpty(options) || options.resetPreferences) {
 					options = defaultOptions.options;
-				} else {
-					options = data.options;
-					delete data.options;
-					removeOptions = true;
+					setOptions(options, true).then(resolve, reject);
 				}
 				let forceReload = options.forceSearchEnginesReload;
-				let promise1 = initialiseOptions(options, removeOptions);
-				let promise2 = initialiseSearchEngines(data, forceReload);
-				Promise.all([ promise1, promise2 ]).then(resolve, reject);
+				initialiseSearchEngines(forceReload);
 			})
 			.catch((err) => {
 				if (logToConsole) {
 					console.error(err);
-					console.log('Failed to retrieve data from local storage.');
+					console.log('Failed to retrieve options from storage sync.');
 				}
 				reject();
 			});
 	});
 }
 
-function initialiseOptions(data, removeOptions) {
+function initialiseSearchEngines(forceReload) {
 	return new Promise((resolve, reject) => {
-		let options = data;
-		if (logToConsole) {
-			console.log('Options:\n');
-			console.log(options);
-		}
-		let save = true;
-		let reset = options.resetPreferences;
-		// Reset preferences if requested or no preferences have been saved to local storage
-		if (reset || !removeOptions) {
-			options = defaultOptions.options;
-			if (logToConsole) console.log('Options: \n' + JSON.stringify(options));
-			if (removeOptions) {
-				browser.storage.local
-					.remove('options')
-					.then(() => {
-						setOptions(options, save).then(resolve, reject);
-					})
-					.catch((err) => {
-						if (logToConsole) {
-							console.error(err);
-							console.log('Failed to remove options from local storage.');
-						}
-						reject();
-					});
-			} else {
-				setOptions(options, save).then(resolve, reject);
-			}
-		} else {
-			save = false;
-			setOptions(options, save).then(resolve, reject);
-		}
-	});
-}
-
-function initialiseSearchEngines(data, forceReload) {
-	return new Promise((resolve, reject) => {
-		if (logToConsole) {
-			console.log('Search engines: \n');
-			console.log(searchEngines);
-		}
-		// Load default search engines if force reload is set or no search engines are stored in local storage
-		if (isEmpty(data) || forceReload) {
-			if (!isEmpty(data)) {
-				let keys = Object.keys(data);
-				browser.storage.local
-					.remove(keys)
-					.then(() => {
+		browser.storage.local
+			.get(null)
+			.then((data) => {
+				searchEngines = data;
+				if (logToConsole) {
+					console.log('Search engines: \n');
+					console.log(searchEngines);
+				}
+				// Load default search engines if force reload is set or if no search engines are stored in local storage
+				if (isEmpty(searchEngines) || forceReload) {
+					if (!isEmpty(searchEngines)) {
+						browser.storage.local
+							.clear()
+							.then(() => {
+								loadDefaultSearchEngines(DEFAULT_JSON).then(resolve, reject);
+							})
+							.catch((err) => {
+								if (logToConsole) {
+									console.error(err);
+									console.log('Failed to remove search engines from local storage.');
+								}
+								reject();
+							});
+					} else {
+						if (logToConsole)
+							console.log(
+								'No search engines are stored in local storage -> loading default list of search engines.'
+							);
 						loadDefaultSearchEngines(DEFAULT_JSON).then(resolve, reject);
-					})
-					.catch((err) => {
-						if (logToConsole) {
-							console.error(err);
-							console.log('Failed to remove search engines from local storage.');
-						}
-						reject();
-					});
-			} else {
-				if (logToConsole)
-					console.log(
-						'No search engines are stored in local storage -> loading default list of search engines.'
-					);
-				loadDefaultSearchEngines(DEFAULT_JSON).then(resolve, reject);
-			}
-		} else {
-			searchEngines = sortByIndex(data);
-			if (logToConsole) {
-				console.log('Search engines: \n');
-				console.log(searchEngines);
-			}
-			rebuildContextMenu();
-			resolve();
-		}
+					}
+				} else {
+					searchEngines = sortByIndex(data);
+					if (logToConsole) {
+						console.log('Search engines: \n');
+						console.log(searchEngines);
+					}
+					rebuildContextMenu();
+					resolve();
+				}
+			})
+			.catch((err) => {
+				console.error(err);
+				console.log('Failed to retrieve search enginees from local storage.');
+			});
 	});
 }
 
 function getOptions() {
 	return new Promise((resolve, reject) => {
-		browser.storage.local
+		browser.storage.sync
 			.get('options')
 			.then((data) => {
 				if (logToConsole) console.log(data);
@@ -356,7 +321,7 @@ function getOptions() {
 			.catch((err) => {
 				if (logToConsole) {
 					console.error(err);
-					console.log('Failed to retrieve options from local storage.');
+					console.log('Failed to retrieve options from sync storage.');
 				}
 				reject(err);
 			});
@@ -382,17 +347,17 @@ function saveOptions(data, blnRebuildContextMenu) {
 		let options = { options: data };
 		let strOptions = JSON.stringify(data);
 		if (logToConsole) console.log('Options settings:\n' + strOptions);
-		browser.storage.local
+		browser.storage.sync
 			.set(options)
 			.then(() => {
 				if (blnRebuildContextMenu) rebuildContextMenu();
-				if (logToConsole) console.log('Successfully saved the options to local storage.');
+				if (logToConsole) console.log('Successfully saved the options to storage sync.');
 				resolve();
 			})
 			.catch((err) => {
 				if (logToConsole) {
 					console.error(err);
-					console.log('Failed to save options to local storage.');
+					console.log('Failed to save options to storage sync.');
 				}
 				reject(err);
 			});
