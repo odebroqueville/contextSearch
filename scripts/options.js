@@ -498,7 +498,7 @@ function clear() {
 
 function setOptions(options) {
 	if (logToConsole) {
-		console.log('Preferences retrieved from local storage:\n');
+		console.log('Preferences retrieved from sync storage:\n');
 		console.log(options);
 	}
 	switch (options.tabMode) {
@@ -576,14 +576,13 @@ function setOptions(options) {
 // Restore the list of search engines and the options to be displayed in the options page
 async function restoreOptionsPage() {
 	try {
-		let data = await browser.storage.local.get(null);
-		let options = data.options;
-		delete data.options;
+		let options = await browser.storage.sync.get('options');
+		searchEngines = await browser.storage.local.get(null);
 		if (logToConsole) {
 			console.log('Search engines retrieved from local storage:\n');
-			console.log(data);
+			console.log(searchEngines);
 		}
-		listSearchEngines(data);
+		listSearchEngines(searchEngines);
 		setOptions(options);
 	} catch (err) {
 		if (logToConsole) console.error(err);

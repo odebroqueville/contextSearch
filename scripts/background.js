@@ -240,7 +240,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 /// By Default: Does not reset the options or force favicons to reload
 function init() {
 	return new Promise((resolve, reject) => {
-		if (logToConsole) console.log("Loading the extension's preferences and search engines from local storage..");
+		if (logToConsole) console.log("Loading the extension's preferences and search engines from storage..");
 		browser.storage.sync
 			.get('options')
 			.then((options) => {
