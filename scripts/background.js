@@ -130,8 +130,18 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 		case 'saveSearchEngines':
 			searchEngines = message.data;
 			if (logToConsole) console.log(searchEngines);
-			saveSearchEnginesToLocalStorage(false, true);
-			rebuildContextMenu();
+			browser.storage.local
+				.clear()
+				.then(() => {
+					saveSearchEnginesToLocalStorage(false, true);
+					rebuildContextMenu();
+				})
+				.catch((err) => {
+					if (logToConsole) {
+						console.error(err);
+						console.log('Failed to clear local storage.');
+					}
+				});
 			break;
 		case 'addNewSearchEngine':
 			id = message.data.id;
@@ -139,11 +149,28 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			if (logToConsole) console.log(id, domain);
 			searchEngines[id] = message.data.searchEngine;
 			searchEngines = sortByIndex(searchEngines);
-			addNewFavicon(id, domain).then(function(value) {
-				searchEngines[id]['base64'] = value.base64;
-				saveSearchEnginesToLocalStorage(false, true);
-				rebuildContextMenu();
-			}, onError);
+			browser.storage.local
+				.clear()
+				.then(() => {
+					addNewFavicon(id, domain)
+						.then((value) => {
+							searchEngines[id]['base64'] = value.base64;
+							saveSearchEnginesToLocalStorage(false, true);
+							rebuildContextMenu();
+						})
+						.catch((err) => {
+							if (logToConsole) {
+								console.error(err);
+								console.log('Failed to add new favicon.');
+							}
+						});
+				})
+				.catch((err) => {
+					if (logToConsole) {
+						console.error(err);
+						console.log('Failed to clear local storage.');
+					}
+				});
 			break;
 		case 'updateDisplayFavicons':
 			getOptions().then((settings) => {
@@ -434,19 +461,32 @@ function loadDefaultSearchEngines(jsonFile) {
 					console.log('Search engines:\n');
 					console.log(searchEngines);
 				}
-				getFaviconsAsBase64Strings()
+				browser.storage.local
+					.clear()
 					.then(() => {
-						saveSearchEnginesToLocalStorage(true, true).then(() => {
-							rebuildContextMenu();
-							if (logToConsole)
-								console.log('Successfully loaded favicons and saved search engines to local storage.');
-							resolve();
-						});
+						getFaviconsAsBase64Strings()
+							.then(() => {
+								saveSearchEnginesToLocalStorage(true, true).then(() => {
+									rebuildContextMenu();
+									if (logToConsole)
+										console.log(
+											'Successfully loaded favicons and saved search engines to local storage.'
+										);
+									resolve();
+								});
+							})
+							.catch((err) => {
+								if (logToConsole) {
+									console.error(err);
+									console.log('Failed to fetch favicons.');
+								}
+								reject();
+							});
 					})
 					.catch((err) => {
 						if (logToConsole) {
 							console.error(err);
-							console.log('Failed to fetch favicons.');
+							console.log('Failed to clear local storage.');
 						}
 						reject();
 					});

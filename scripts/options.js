@@ -498,7 +498,7 @@ function clear() {
 
 function setOptions(options) {
 	if (logToConsole) {
-		console.log('Preferences retrieved from storage sync:\n');
+		console.log('Preferences retrieved from local storage:\n');
 		console.log(options);
 	}
 	switch (options.tabMode) {
