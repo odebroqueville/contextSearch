@@ -100,7 +100,7 @@ function init() {
 		console.log(`Path name: ${pn}`);
 		console.log(`Domain: ${domain}`);
 	}
-	browser.storage.local.get(null).then(function(data) {
+	browser.storage.sync.get(null).then(function(data) {
 		if (data.options.tabMode === 'sameTab') {
 			sameTab = true;
 		} else {
@@ -139,7 +139,7 @@ async function handleAltClickWithGrid(e) {
 		}
 
 		// If option is diabled then do nothing. Note: this intentionally comes after selected text is accessed as text can become unselected on click
-		let storage = await browser.storage.local.get();
+		let storage = await browser.storage.sync.get(null);
 		if (storage.options.disableAltClick) return;
 
 		// Test URL: https://bugzilla.mozilla.org/show_bug.cgi?id=1215376

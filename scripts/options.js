@@ -553,6 +553,7 @@ function setOptions(options) {
 
 	if (options.resetPreferences === false) {
 		resetPreferences.checked = false;
+		console.log('COUCOU');
 	} else {
 		// Default setting is to cache favicons in storage sync
 		resetPreferences.checked = true;

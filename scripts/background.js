@@ -40,6 +40,7 @@ let contextsearch_makeNewTabOrWindowActive = false;
 let contextsearch_openSearchResultsInNewWindow = false;
 let contextsearch_openSearchResultsInSidebar = false;
 let contextsearch_displayFavicons = true;
+let contextsearch_disableAltClick = false;
 let contextsearch_forceFaviconsReload = false;
 let contextsearch_resetPreferences = false;
 let contextsearch_forceSearchEnginesReload = false;
@@ -50,6 +51,7 @@ const defaultOptions = {
 		tabActive: contextsearch_makeNewTabOrWindowActive,
 		optionsMenuLocation: contextsearch_optionsMenuLocation,
 		displayFavicons: contextsearch_displayFavicons,
+		disableAltClick: contextsearch_disableAltClick,
 		forceSearchEnginesReload: contextsearch_forceSearchEnginesReload,
 		resetPreferences: contextsearch_resetPreferences,
 		forceFaviconsReload: contextsearch_forceFaviconsReload
@@ -186,8 +188,8 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				let options = settings.options;
 				if (logToConsole) console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
 				options.disableAltClick = message.data.disableAltClick;
-				setDisplayFavicons(options);
-				saveOptions(options, true);
+				setDisableAltClick(options);
+				saveOptions(options, false);
 			});
 			break;
 		case 'updateTabMode':
@@ -220,7 +222,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				options.resetPreferences = message.data.resetOptions.resetPreferences;
 				options.forceFaviconsReload = message.data.resetOptions.forceFaviconsReload;
 				setResetOptions(options);
-				saveOptions(options, true);
+				saveOptions(options, false);
 			});
 			break;
 		case 'saveSearchEnginesToDisk':
@@ -335,9 +337,12 @@ function setOptions(options, save) {
 		setTabMode(options);
 		setOptionsMenuLocation(options); // context menu will have to be rebuilt
 		setDisplayFavicons(options); // context menu will have to be rebuilt
+		setDisableAltClick(options);
 		setResetOptions(options);
 		if (save === true) {
-			saveOptions(options, true).then(resolve, reject);
+			browser.storage.sync.clear().then(() => {
+				saveOptions(options, true).then(resolve, reject);
+			});
 		}
 	});
 }
@@ -403,6 +408,11 @@ function setOptionsMenuLocation(options) {
 function setDisplayFavicons(options) {
 	if (logToConsole) console.log('Setting favicons preference..');
 	contextsearch_displayFavicons = options.displayFavicons;
+}
+
+function setDisableAltClick(options) {
+	if (logToConsole) console.log('Setting option to disable Alt-Click..');
+	contextsearch_disableAltClick = options.disableAltClick;
 }
 
 function setResetOptions(options) {
