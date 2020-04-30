@@ -500,8 +500,8 @@ function setOptions(options) {
 	if (logToConsole) {
 		console.log('Preferences retrieved from sync storage:\n');
 		console.log(options);
-		console.log(options.tabMode);
-		console.log(resetPreferences);
+		console.log(options.options.tabMode);
+		console.log(options.options.resetPreferences);
 	}
 	switch (options.tabMode) {
 		case 'openNewTab':
