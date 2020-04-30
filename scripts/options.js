@@ -500,8 +500,6 @@ function setOptions(options) {
 	if (logToConsole) {
 		console.log('Preferences retrieved from sync storage:\n');
 		console.log(options);
-		console.log(options.tabMode);
-		console.log(options.resetPreferences);
 	}
 	switch (options.tabMode) {
 		case 'openNewTab':
@@ -552,9 +550,6 @@ function setOptions(options) {
 	}
 
 	disableAltClick.checked = options.disableAltClick || false;
-
-	console.log(options.resetPreferences);
-	console.log(options.resetPreferences === false);
 
 	if (options.resetPreferences === false) {
 		resetPreferences.checked = false;
