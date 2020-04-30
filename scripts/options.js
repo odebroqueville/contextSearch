@@ -579,7 +579,7 @@ function setOptions(options) {
 // Restore the list of search engines and the options to be displayed in the options page
 async function restoreOptionsPage() {
 	try {
-		let options = await browser.storage.sync.get('options');
+		let options = await browser.storage.sync.get(null);
 		searchEngines = await browser.storage.local.get(null);
 		if (logToConsole) {
 			console.log('Search engines retrieved from local storage:\n');
