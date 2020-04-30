@@ -304,7 +304,7 @@ function handleResponse(message) {
 }
 
 function handleError(error) {
-	if (logToConsole) console.error(`Error: ${error}`);
+	if (logToConsole) console.error(error);
 }
 
 // Begin of user event handlers
