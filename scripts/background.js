@@ -339,7 +339,7 @@ function setOptions(options, save) {
 		setDisplayFavicons(options); // context menu will have to be rebuilt
 		setDisableAltClick(options);
 		setResetOptions(options);
-		if (save === true) {
+		if (save) {
 			browser.storage.sync.clear().then(() => {
 				saveOptions(options, true).then(resolve, reject);
 			});
