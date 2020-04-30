@@ -120,7 +120,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			break;
 		case 'reset':
 			init().then(() => {
-				sendResponse('resetCompleted');
+				sendResponse({ response: 'resetCompleted' });
 			}, onError);
 			return true;
 		case 'sendCurrentTabUrl':
