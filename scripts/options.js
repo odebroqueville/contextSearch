@@ -551,9 +551,11 @@ function setOptions(options) {
 
 	disableAltClick.checked = options.disableAltClick || false;
 
+	console.log(options.resetPreferences);
+	console.log(options.resetPreferences === false);
+
 	if (options.resetPreferences === false) {
 		resetPreferences.checked = false;
-		console.log('COUCOU');
 	} else {
 		// Default setting is to cache favicons in storage sync
 		resetPreferences.checked = true;
