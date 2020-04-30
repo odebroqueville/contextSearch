@@ -497,7 +497,14 @@ function saveSearchEnginesToLocalStorage(blnNotify, blnUpdateContentScripts) {
 				}
 
 				// Update the list of search engines in the options.js script
-				sendMessageToOptionsScript('updateSearchEnginesList', searchEngines);
+				try {
+					sendMessageToOptionsScript('updateSearchEnginesList', searchEngines);
+				} catch (err) {
+					if (logToConsole) {
+						console.error(err);
+						console.log('Options page is not accessible.');
+					}
+				}
 
 				// Update the lisst of search engines in the content script selection.js of each and every tab
 				if (blnUpdateContentScripts) {
