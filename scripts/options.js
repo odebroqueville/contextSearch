@@ -290,23 +290,21 @@ function selectAll() {
 	saveSearchEngines();
 }
 
-async function reset() {
-	try {
-		// let resetOptions = {
-		//   resetPrefernces: resetPreferences.checked,
-		//   forceSearchEnginesReload: forceSearchEnginesReload.checked,
-		//   forceFaviconsReload: forceFaviconsReload.checked
-		// };
-		let response = await sendMessage('reset');
-		if (logToConsole) console.log(response);
-		if (response === 'resetCompleted') {
-			if (logToConsole) console.log(searchEngines);
-			await restoreOptionsPage();
-			if (logToConsole) console.log('Options page has been restored.');
-		}
-	} catch (err) {
-		if (logToConsole) console.error(err);
+function reset() {
+	let sending = sendMessage('reset');
+	sending.then(handleResponse, handleError);
+}
+
+function handleResponse(message) {
+	if (logToConsole) console.log(`Response from background script: ${message.response}`);
+	if (message.response === 'resetCompleted') {
+		if (logToConsole) console.log(searchEngines);
+		restoreOptionsPage();
 	}
+}
+
+function handleError(error) {
+	if (logToConsole) console.error(`Error: ${error}`);
 }
 
 // Begin of user event handlers
@@ -584,6 +582,7 @@ async function restoreOptionsPage() {
 		}
 		listSearchEngines(searchEngines);
 		setOptions(data.options);
+		if (logToConsole) console.log('Options have been reset.');
 	} catch (err) {
 		if (logToConsole) console.error(err);
 	}

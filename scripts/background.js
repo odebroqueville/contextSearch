@@ -497,14 +497,7 @@ function saveSearchEnginesToLocalStorage(blnNotify, blnUpdateContentScripts) {
 				}
 
 				// Update the list of search engines in the options.js script
-				try {
-					sendMessageToOptionsScript('updateSearchEnginesList', searchEngines);
-				} catch (err) {
-					if (logToConsole) {
-						console.error(err);
-						console.log('Options page is not accessible.');
-					}
-				}
+				sendMessageToOptionsScript('updateSearchEnginesList', searchEngines);
 
 				// Update the lisst of search engines in the content script selection.js of each and every tab
 				if (blnUpdateContentScripts) {
@@ -1256,7 +1249,15 @@ function sendMessageToOptionsScript(action, data) {
 		action: action,
 		data: data
 	};
-	browser.runtime.sendMessage(message);
+	browser.runtime.sendMessage(message).then(handleResponse, handleError);
+}
+
+function handleResponse(message) {
+	if (logToConsole) console.log(`Response from options script: ${message.response}`);
+}
+
+function handleError(error) {
+	if (logToConsole) console.error(`Error: ${error}`);
 }
 
 /// Notifications
