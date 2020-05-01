@@ -499,7 +499,7 @@ function saveSearchEnginesToLocalStorage(blnNotify, blnUpdateContentScripts) {
 				// Update the list of search engines in the options.js script
 				sendMessageToOptionsScript('updateSearchEnginesList', searchEngines);
 
-				// Update the lisst of search engines in the content script selection.js of each and every tab
+				// Update the list of search engines in the content script selection.js of each and every tab
 				if (blnUpdateContentScripts) {
 					browser.tabs
 						.query({ currentWindow: true, url: '<all_urls>' })
