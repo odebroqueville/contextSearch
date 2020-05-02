@@ -135,7 +135,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			browser.storage.local
 				.clear()
 				.then(() => {
-					saveSearchEnginesToLocalStorage(false, true);
+					saveSearchEnginesToLocalStorage(false);
 					rebuildContextMenu();
 				})
 				.catch((err) => {
@@ -157,7 +157,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 					addNewFavicon(id, domain)
 						.then((value) => {
 							searchEngines[id]['base64'] = value.base64;
-							saveSearchEnginesToLocalStorage(false, true);
+							saveSearchEnginesToLocalStorage(false);
 							rebuildContextMenu();
 						})
 						.catch((err) => {
@@ -332,19 +332,16 @@ function getOptions() {
 
 // Sets the default options if they haven't already been set in local storage and saves them
 // The context menu is also rebuilt when required
-function setOptions(options, save) {
-	return new Promise((resolve, reject) => {
-		setTabMode(options);
-		setOptionsMenuLocation(options); // context menu will have to be rebuilt
-		setDisplayFavicons(options); // context menu will have to be rebuilt
-		setDisableAltClick(options);
-		setResetOptions(options);
-		if (save) {
-			browser.storage.sync.clear().then(() => {
-				saveOptions(options, true).then(resolve, reject);
-			});
-		}
-	});
+async function setOptions(options, save) {
+	setTabMode(options);
+	setOptionsMenuLocation(options); // context menu will have to be rebuilt
+	setDisplayFavicons(options); // context menu will have to be rebuilt
+	setDisableAltClick(options);
+	setResetOptions(options);
+	if (save) {
+		await browser.storage.sync.clear();
+		saveOptions(options, true);
+	}
 }
 
 function saveOptions(data, blnRebuildContextMenu) {
@@ -441,7 +438,7 @@ function loadDefaultSearchEngines(jsonFile) {
 					.then(() => {
 						getFaviconsAsBase64Strings()
 							.then(() => {
-								saveSearchEnginesToLocalStorage(true, true).then(() => {
+								saveSearchEnginesToLocalStorage(true).then(() => {
 									rebuildContextMenu();
 									if (logToConsole)
 										console.log(
@@ -478,7 +475,7 @@ function loadDefaultSearchEngines(jsonFile) {
 	});
 }
 
-function saveSearchEnginesToLocalStorage(blnNotify, blnUpdateContentScripts) {
+function saveSearchEnginesToLocalStorage(blnNotify) {
 	return new Promise((resolve, reject) => {
 		if (logToConsole) {
 			console.log('Search engines:\n');
@@ -500,7 +497,7 @@ function saveSearchEnginesToLocalStorage(blnNotify, blnUpdateContentScripts) {
 				sendMessageToOptionsScript('updateSearchEnginesList', searchEngines);
 
 				// Update the list of search engines in the content script selection.js of each and every tab
-				if (blnUpdateContentScripts) {
+				/* 				if (blnUpdateContentScripts) {
 					browser.tabs
 						.query({ currentWindow: true, url: '<all_urls>' })
 						.then((tabs) => {
@@ -514,7 +511,7 @@ function saveSearchEnginesToLocalStorage(blnNotify, blnUpdateContentScripts) {
 								);
 							}
 						});
-				}
+				} */
 
 				if (logToConsole) console.log('Search engines have been successfully saved to local storage.');
 				resolve();
@@ -529,7 +526,7 @@ function saveSearchEnginesToLocalStorage(blnNotify, blnUpdateContentScripts) {
 	});
 }
 
-function updateSearchEnginesList(tabs) {
+/* function updateSearchEnginesList(tabs) {
 	if (!isEmpty(tabs)) {
 		sendMessageToTabs(tabs, {
 			action: 'updateSearchEnginesList',
@@ -545,7 +542,7 @@ function updateSearchEnginesList(tabs) {
 				}
 			});
 	}
-}
+} */
 
 /// Get and store favicon urls and base64 images
 function getFaviconsAsBase64Strings() {

@@ -44,19 +44,6 @@ browser.runtime.onMessage.addListener(function(message) {
 	let action = message.action;
 	let data = message.data;
 	switch (action) {
-		case 'updateSearchEnginesList':
-			updateSearchEnginesList(data);
-			if (logToConsole) {
-				console.log('Search engines list has been updated with:\n');
-				console.log(searchEngines);
-			}
-			for (let id in searchEngines) {
-				if (logToConsole) {
-					console.log(`Search engine ${id}:\n`);
-					console.log(searchEngines[id]);
-				}
-			}
-			break;
 		case 'displayExifTags':
 			displayExifTags(data);
 			break;
@@ -66,21 +53,35 @@ browser.runtime.onMessage.addListener(function(message) {
 });
 
 function handleStorageChange(changes, area) {
-	if (area !== 'sync') return;
 	let ids = Object.keys(changes);
-	for (let id of ids) {
-		if (id === 'options') {
-			if (changes[id].tabMode === 'sameTab') {
-				sameTab = true;
-			} else {
-				sameTab = false;
+	switch (area) {
+		case 'local':
+			if (logToConsole) {
+				console.log('Search engines list has been updated with:\n');
 			}
-		}
+			for (let id in ids) {
+				searchEngines[id] = changes[id].newValue;
+				if (logToConsole) {
+					console.log(`Search engine ${id}:\n`);
+					console.log(searchEngines[id]);
+				}
+			}
+			break;
+		case 'sync':
+			for (let id of ids) {
+				if (id === 'options') {
+					if (changes[id].tabMode === 'sameTab') {
+						sameTab = true;
+					} else {
+						sameTab = false;
+					}
+				}
+			}
+			break;
+		default:
+			break;
 	}
-}
-
-function updateSearchEnginesList(data) {
-	searchEngines = sortByIndex(data);
+	if (area !== 'sync') return;
 }
 
 function displayExifTags(tags) {
@@ -91,7 +92,7 @@ function displayExifTags(tags) {
 	}
 }
 
-function init() {
+async function init() {
 	tabUrl = window.location.href;
 	pn = window.location.pathname;
 	domain = window.location.hostname;
@@ -100,15 +101,13 @@ function init() {
 		console.log(`Path name: ${pn}`);
 		console.log(`Domain: ${domain}`);
 	}
-	browser.storage.sync.get(null).then(function(data) {
-		if (data.options.tabMode === 'sameTab') {
-			sameTab = true;
-		} else {
-			sameTab = false;
-		}
-		delete data.options;
-		searchEngines = data;
-	}, onError);
+	let data = await browser.storage.sync.get();
+	if (data.options.tabMode === 'sameTab') {
+		sameTab = true;
+	} else {
+		sameTab = false;
+	}
+	searchEngines = await browser.storage.local.get();
 }
 
 async function handleAltClickWithGrid(e) {
