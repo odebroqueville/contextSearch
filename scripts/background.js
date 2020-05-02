@@ -120,9 +120,9 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			break;
 		case 'reset':
 			init().then(() => {
-				sendResponse({ response: 'resetCompleted' });
+				return Promise.resolve({ response: 'resetCompleted' });
 			}, onError);
-			return true;
+			break;
 		case 'sendCurrentTabUrl':
 			if (message.data) targetUrl = message.data;
 			break;
