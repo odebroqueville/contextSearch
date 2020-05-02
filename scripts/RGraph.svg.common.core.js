@@ -329,4 +329,4 @@ return str;};window.$a=function(v)
 {return console.log(v);};String.prototype.format=function()
 {var args=arguments;var s=this.replace(/{(\d+)}/g,function(str,idx)
 {return typeof args[idx-1]!=='undefined'?args[idx-1]:str;});s=s.replace(/(?:%|\\)%(\d)/g,'__PPEERRCCEENNTT__$1');s=s.replace(/%(\d+)/g,function(str,idx)
-{return typeof args[idx-1]!=='undefined'?args[idx-1]:str;});return s.replace('__PPEERRCCEENNTT__','%');};
+{return typeof args[idx-1]!=='undefined'?args[idx-1]:str;});return s.replace('__PPEERRCCEENNTT__','%');};RGraph.SVG.isString=function(obj){return typeof obj==='string';};RGraph.SVG.isNumber=function(obj){return typeof obj==='number';};RGraph.SVG.isObject=function(obj){return typeof obj==='object'&&obj.constructor.toString().toLowerCase().indexOf('object')>0;};RGraph.SVG.isFunction=function(obj){return typeof obj==='function';};RGraph.SVG.isUndefined=function(obj){return typeof obj==='undefined';};

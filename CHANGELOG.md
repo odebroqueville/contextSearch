@@ -1,8 +1,10 @@
 3.8.5
 =========
 
+* Fixes bugs #50, #51, #52, #54, #55
 * Replaces storage.sync with storage.local
 * Removes option to cache favicons to storage.sync
+* Updates RGraph from version 5.22 to version 5.23
 
 3.8.4
 ---------
