@@ -494,7 +494,7 @@ function saveSearchEnginesToLocalStorage(blnNotify) {
 				}
 
 				// Update the list of search engines in the options.js script
-				sendMessageToOptionsScript('updateSearchEnginesList', searchEngines);
+				// sendMessageToOptionsScript('updateSearchEnginesList', searchEngines);
 
 				// Update the list of search engines in the content script selection.js of each and every tab
 				/* 				if (blnUpdateContentScripts) {
@@ -1241,7 +1241,7 @@ function sendMessageToTab(tab, message) {
 	});
 }
 
-function sendMessageToOptionsScript(action, data) {
+/* function sendMessageToOptionsScript(action, data) {
 	let message = {
 		action: action,
 		data: data
@@ -1255,7 +1255,7 @@ function handleResponse(message) {
 
 function handleError(error) {
 	if (logToConsole) console.error(`Error: ${error}`);
-}
+} */
 
 /// Notifications
 function notify(message) {

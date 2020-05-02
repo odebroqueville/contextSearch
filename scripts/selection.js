@@ -81,7 +81,6 @@ function handleStorageChange(changes, area) {
 		default:
 			break;
 	}
-	if (area !== 'sync') return;
 }
 
 function displayExifTags(tags) {

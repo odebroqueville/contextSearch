@@ -65,8 +65,8 @@ let typingInterval = 1500;
 
 /// Event handlers
 document.addEventListener('DOMContentLoaded', restoreOptionsPage);
-//browser.storage.onChanged.addListener(handleStorageChange);
-browser.runtime.onMessage.addListener(handleIncomingMessages);
+browser.storage.onChanged.addListener(handleStorageChange);
+// browser.runtime.onMessage.addListener(handleIncomingMessages);
 
 // Settings
 displayFavicons.addEventListener('click', updateDisplayFavicons);
@@ -99,13 +99,27 @@ function sendMessage(action, data) {
 	});
 }
 
-function handleIncomingMessages(message) {
+function handleStorageChange(changes, area) {
+	if (area === 'local') {
+		let ids = Object.keys(changes);
+		for (let id in ids) {
+			searchEngines[id] = changes[id].newValue;
+			if (logToConsole) {
+				console.log(`Search engine ${id}:\n`);
+				console.log(searchEngines[id]);
+			}
+		}
+		listSearchEngines(searchEngines);
+	}
+}
+
+/* function handleIncomingMessages(message) {
 	let action = message.action;
 	let data = message.data;
 	if (action === 'updateSearchEnginesList') {
 		listSearchEngines(data);
 	}
-}
+} */
 
 // Notification
 function notify(message) {
