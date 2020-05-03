@@ -119,10 +119,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			selection = message.data;
 			break;
 		case 'reset':
-			init().then(() => {
-				return Promise.resolve({ response: 'resetCompleted' });
-			}, onError);
-			break;
+			return init();
 		case 'sendCurrentTabUrl':
 			if (message.data) targetUrl = message.data;
 			break;
@@ -248,10 +245,12 @@ function init() {
 			.then((options) => {
 				if (isEmpty(options) || options.resetPreferences) {
 					options = defaultOptions.options;
-					setOptions(options, true).then(resolve, reject);
+					setOptions(options, true);
 				}
 				let forceReload = options.forceSearchEnginesReload;
-				initialiseSearchEngines(forceReload);
+				initialiseSearchEngines(forceReload).then(() => {
+					resolve({ response: 'resetCompleted' });
+				});
 			})
 			.catch((err) => {
 				if (logToConsole) {
@@ -308,6 +307,7 @@ function initialiseSearchEngines(forceReload) {
 			.catch((err) => {
 				console.error(err);
 				console.log('Failed to retrieve search enginees from local storage.');
+				reject();
 			});
 	});
 }
