@@ -242,10 +242,12 @@ function init() {
 		if (logToConsole) console.log("Loading the extension's preferences and search engines from storage..");
 		browser.storage.sync
 			.get('options')
-			.then((options) => {
+			.then((data) => {
+				let options = data.options;
+				if (logToConsole) console.log(options);
 				if (isEmpty(options) || options.resetPreferences) {
-					options = defaultOptions.options;
-					setOptions(options, true);
+					let newOptions = defaultOptions.options;
+					setOptions(newOptions, true);
 				}
 				let forceReload = options.forceSearchEnginesReload;
 				initialiseSearchEngines(forceReload).then(() => {

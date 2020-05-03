@@ -312,7 +312,6 @@ function reset() {
 function handleResponse(message) {
 	if (logToConsole) console.log(`Response from background script: ${message.response}`);
 	if (message.response === 'resetCompleted') {
-		if (logToConsole) console.log(searchEngines);
 		restoreOptionsPage();
 	}
 }
