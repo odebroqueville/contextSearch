@@ -100,13 +100,13 @@ async function init() {
 		console.log(`Path name: ${pn}`);
 		console.log(`Domain: ${domain}`);
 	}
-	let data = await browser.storage.sync.get();
+	let data = await browser.storage.sync.get('options');
 	if (data.options.tabMode === 'sameTab') {
 		sameTab = true;
 	} else {
 		sameTab = false;
 	}
-	searchEngines = await browser.storage.local.get();
+	searchEngines = await browser.storage.local.get(null);
 }
 
 async function handleAltClickWithGrid(e) {
@@ -137,8 +137,8 @@ async function handleAltClickWithGrid(e) {
 		}
 
 		// If option is diabled then do nothing. Note: this intentionally comes after selected text is accessed as text can become unselected on click
-		let storage = await browser.storage.sync.get(null);
-		if (storage.options.disableAltClick) return;
+		let data = await browser.storage.sync.get('options');
+		if (data.options.disableAltClick) return;
 
 		// Test URL: https://bugzilla.mozilla.org/show_bug.cgi?id=1215376
 		// Test URL: https://github.com/odebroqueville/contextSearch/
