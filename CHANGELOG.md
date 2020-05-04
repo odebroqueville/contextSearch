@@ -1,5 +1,10 @@
-3.8.5
+3.8.6
 =========
+
+* Fixes bugs #40, #56 and #57
+
+3.8.5
+---------
 
 * Fixes bugs #50, #51, #52, #54, #55
 * Replaces storage.sync with storage.local

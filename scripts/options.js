@@ -100,15 +100,27 @@ function sendMessage(action, data) {
 }
 
 function handleStorageChange(changes, area) {
+	let oldSearchEngines = JSON.parse(JSON.stringify(searchEngines));
+	searchEngines = {};
 	if (area === 'local') {
 		let ids = Object.keys(changes);
-		for (let id in ids) {
+		if (logToConsole) {
+			console.log(changes);
+			console.log(ids);
+		}
+		for (let id of ids) {
+			if (changes[id].newValue === undefined) {
+				continue;
+			}
+			if (logToConsole) console.log(id);
 			searchEngines[id] = changes[id].newValue;
 			if (logToConsole) {
 				console.log(`Search engine ${id}:\n`);
 				console.log(searchEngines[id]);
 			}
 		}
+		if (!Object.keys(searchEngines) > 0) searchEngines = oldSearchEngines;
+		if (logToConsole) console.log(searchEngines);
 		listSearchEngines(searchEngines);
 	}
 }
