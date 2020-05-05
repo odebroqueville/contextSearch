@@ -119,7 +119,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			selection = message.data;
 			break;
 		case 'reset':
-			return init();
+			return reset();
 		case 'sendCurrentTabUrl':
 			if (message.data) targetUrl = message.data;
 			break;
@@ -234,20 +234,45 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	}
 });
 
-/// Initialisation
-/// By Default: Resets the list of search engines to the default list
-/// By Default: Does not reset the options or force favicons to reload
+/// Initialize extension
+// Initialize search engines, only setting to default if not previously set
+// Check if options are set in sync storage and set to default if not
 function init() {
 	return new Promise((resolve, reject) => {
-		if (logToConsole) console.log("Loading the extension's preferences and search engines from storage..");
+		// Initialize search engines, do not force reload (if empty, will reload in next fn)
+		initialiseSearchEngines(false);
+
+		// Check if options are stored in browser sync; if not, set to default
+		browser.storage.sync
+			.get('options')
+			.then(data => {
+				if (isEmpty(data)) {
+					setDefaultOptions();
+				}
+			})
+			.catch((err) => {
+				if (logToConsole) {
+					console.error(err);
+					console.log('Failed to retrieve options from storage sync.');
+				}
+				reject();
+			});
+	});
+}
+
+/// Reset extension to default settings
+// Resets the options to the default list if options.resetPreferences is set
+// Resets the list of search engines to the default list if options.forceSearchEnginesReload is set
+function reset() {
+	return new Promise((resolve, reject) => {
+		if (logToConsole) console.log("Resetting extension's preferences and search engines from storage (pending user preferences).");
 		browser.storage.sync
 			.get('options')
 			.then((data) => {
 				let options = data.options;
 				if (logToConsole) console.log(options);
 				if (isEmpty(options) || options.resetPreferences) {
-					let newOptions = defaultOptions.options;
-					setOptions(newOptions, true);
+					setDefaultOptions();
 				}
 				let forceReload = options.forceSearchEnginesReload;
 				initialiseSearchEngines(forceReload).then(() => {
@@ -262,6 +287,11 @@ function init() {
 				reject();
 			});
 	});
+}
+
+// Reset options to default
+function setDefaultOptions() {
+	setOptions(defaultOptions.options, true);
 }
 
 function initialiseSearchEngines(forceReload) {
