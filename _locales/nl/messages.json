@@ -1,258 +1,262 @@
 {
-  "extensionName": {
-    "message": "Context Search",
-    "description": "Name of the extension"
-  },
-  "extensionDescription": {
-    "message": "Zoekt de geselecteerde tekst met een zoekmachine uit een vastgestelde lijst.",
-    "description": "Description of the extension"
-  },
-  "multisearch": {
-    "message": " is a search with multiple search engines simultaneously.",
-    "description": "multi-search - it's a search with multiple search engines simultaneously."
-  },
-  "pageTitle": {
-    "message": "Voorkeuren van Context Search",
-    "description": ""
-  },
-  "header1": {
-    "message": "Waar moeten de resultaten verschijnen?",
-    "description": ""
-  },
-  "newTab": {
-    "message": "In een nieuw tabblad",
-    "description": ""
-  },
-  "sameTab": {
-    "message": "In hetzelfde tabblad",
-    "description": ""
-  },
-  "newWindow": {
-    "message": "In een nieuw venster",
-    "description": ""
-  },
-  "active": {
-    "message": "Maak het nieuwe tabblad of venster actief",
-    "description": ""
-  },
-  "header3": {
-    "message": "Positie van de opties in het contextmenu",
-    "description": ""
-  },
-  "subheader31": {
-    "message": "Waar moet het optiemenu verschijnen in het contextmenu?",
-    "description": ""
-  },
-  "bottom": {
-    "message": "Beneden",
-    "description": ""
-  },
-  "top": {
-    "message": "Bovenaan",
-    "description": ""
-  },
-  "hide": {
-    "message": "Nergens (verberg het optiemenu)",
-    "description": ""
-  },
-  "header5": {
-    "message": "Importeer/exporteer zoekmachines",
-    "description": ""
-  },
-  "import": {
-    "message": "Importeer JSON van schijf",
-    "description": ""
-  },
-  "export": {
-    "message": "Exporteer zoekmachines naar JSON",
-    "description": ""
-  },
-  "download": {
-    "message": "Exporteren naar schijf",
-    "description": ""
-  },
-  "header2": {
-    "message": "Toon icoontjes",
-    "description": ""
-  },
-  "getFavicons": {
-    "message": "Toon icoontjes in de contextmenulijst",
-    "description": ""
-  },
-  "note": {
-    "message": "Deze functie vereist Firefox 56 of hoger.",
-    "description": ""
-  },
-  "header4": {
-    "message": "Cache favicons inside browser sync storage",
-    "description": ""
-  },
-  "cacheFavicons": {
-    "message": "Save favicons to browser sync storage",
-    "description": ""
-  },
-  "gridMode": {
-    "message": "Toon een rooster van icoontjes in plaats van een lijst van zoekmachines",
-    "description": ""
-  },
-  "warning": {
-    "message": "Waarschuwing: het inschakelen van deze functie zorgt ervoor dat contextmenus van andere extensies niet getoond worden.",
-    "description": ""
-  },
-  "savePreferences": {
-    "message": "Voorkeuren opslaan",
-    "description": ""
-  },
-  "header6": {
-    "message": "Welke zoekmachines moeten zichtbaar zijn in het contextmenu of het rooster?",
-    "description": ""
-  },
-  "clearAll": {
-    "message": "Alles deselecteren",
-    "description": ""
-  },
-  "selectAll": {
-    "message": "Alles selecteren",
-    "description": ""
-  },
-  "reset": {
-    "message": "Resetten",
-    "description": ""
-  },
-  "subheader61": {
-    "message": "Een nieuwe zoekmachine toevoegen",
-    "description": ""
-  },
-  "showSearchEngine": {
-    "message": "",
-    "description": ""
-  },
-  "searchEngineName": {
-    "message": "Naam zoekmachine",
-    "description": ""
-  },
-  "placeHolderKeyword": {
-    "message": "Trefwoord",
-    "description": ""
-  },
-  "multipleSearchEngines": {
-    "message": "",
-    "description": ""  
-  },
-  "searchEngineURL": {
-    "message": "Zoekmachine URL",
-    "description": ""
-  },
-  "testSearchEngine": {
-    "message": "Zoekmachine testen",
-    "description": ""
-  },
-  "clear": {
-    "message": "Leegmaken",
-    "description": ""
-  },
-  "move": {
-    "message": "Verplaats",
-    "description": ""
-  },
-  "up": {
-    "message": "naar boven",
-    "description": ""
-  },
-  "down": {
-    "message": "naar beneden",
-    "description": ""
-  },
-  "remove": {
-    "message": "Verwijderen",
-    "description": ""
-  },
-  "multipleSearchEnginesSearch": {
-    "message": "Gebruik deze zoekmachine bij het multi-search",
-    "description": ""
-  },
-  "notifySavedPreferences": {
-    "message": "Voorkeuren opgeslagen.",
-    "description": ""
-  },
-  "notifySearchEngineAdded": {
-    "message": "Zoekmachine toegevoegd.",
-    "description": ""
-  },
-  "notifyEnableStorageSync": {
-    "message": "Gelieve ervoor te zorgen dat de optie 'webextensions.storage.sync.enabled' op true gezet is in 'about:config', anders zal Context Search niet werken.",
-    "description": ""
-  },
-  "notifySearchEnginesLoaded": {
-    "message": "De standaardlijst van zoekmachines werd geladen.",
-    "description": ""
-  },
-  "titleMultipleSearchEngines": {
-    "message": "Zoeken met meerdere zoekmachines",
-    "description": ""
-  },
-  "titleGoogleSearch": {
-    "message": "Zoek op deze site met Google",
-    "description": ""
-  },
-  "titleOptions": {
-    "message": "Opties",
-    "description": ""
-  },
-  "windowTitle": {
-    "message": "Zoekresultaten voor ",
-    "description": ""
-  },
-  "omniboxDescription": {
-    "message": "Zoek met Context Search via kernwoorden. Gebruik: cs [kernwoord] [zoektermen] (bijvoorbeeld 'cs w Linux' zoekt op Wikipedia naar de term 'Linux')",
-    "description": ""
-  },
-  "notifyUsage": {
-    "message": "Gebruik: cs [kernwoord] [zoektermen] (bijvoorbeeld cs w Linux)",
-    "description": ""
-  },
-  "notifySearchEngineWithKeyword": {
-    "message": "Zoekmachine met kernwoord",
-    "description": ""
-  },
-  "notifyUnknown": {
-    "message": "is onbekend.",
-    "description": ""
-  },
-  "notifySearchEngineUrlRequired": {
-    "message": "Please fill in a search engine URL.",
-      "description": ""
-  },
-  "titleShowEngine": {
-    "message": "Show this search engine in the context menu or grid",
-    "description": ""
-  },
-  "header7": {
-    "message": "Reset options",
-    "description": ""
-  },
-  "sidebar": {
-    "message": "In the sidebar",
-    "description": ""
-  },
-  "displayFavicons": {
-    "message": "Display favicons in context menu list",
-    "description": ""
-  },
-  "resetPreferences": {
-    "message": "Reset preferences to default settings",
-    "description": ""
-  },
-  "forceSearchEnginesReload": {
-    "message": "Force reload of default search engines list",
-    "description": ""
-  },
-  "forceFaviconsReload": {
-    "message": "Force favicons to be reloaded",
-    "description": ""
-  },
-  "restriction": {
-    "message": "Please note that it isn't possible to display search results in the sidebar when using the grid of icons.",
-    "description": ""
-  }
+	"extensionName": {
+		"message": "Context Search",
+		"description": "Name of the extension"
+	},
+	"extensionDescription": {
+		"message": "Zoekt de geselecteerde tekst met een zoekmachine uit een vastgestelde lijst.",
+		"description": "Description of the extension"
+	},
+	"multisearch": {
+		"message": " is a search with multiple search engines simultaneously.",
+		"description": "multi-search - it's a search with multiple search engines simultaneously."
+	},
+	"pageTitle": {
+		"message": "Voorkeuren van Context Search",
+		"description": ""
+	},
+	"header1": {
+		"message": "Waar moeten de resultaten verschijnen?",
+		"description": ""
+	},
+	"newTab": {
+		"message": "In een nieuw tabblad",
+		"description": ""
+	},
+	"sameTab": {
+		"message": "In hetzelfde tabblad",
+		"description": ""
+	},
+	"newWindow": {
+		"message": "In een nieuw venster",
+		"description": ""
+	},
+	"active": {
+		"message": "Maak het nieuwe tabblad of venster actief",
+		"description": ""
+	},
+	"position": {
+		"message": "Toon de zoekresultaten na het laatste tabblad",
+		"description": ""
+	},
+	"header3": {
+		"message": "Positie van de opties in het contextmenu",
+		"description": ""
+	},
+	"subheader31": {
+		"message": "Waar moet het optiemenu verschijnen in het contextmenu?",
+		"description": ""
+	},
+	"bottom": {
+		"message": "Beneden",
+		"description": ""
+	},
+	"top": {
+		"message": "Bovenaan",
+		"description": ""
+	},
+	"hide": {
+		"message": "Nergens (verberg het optiemenu)",
+		"description": ""
+	},
+	"header5": {
+		"message": "Importeer/exporteer zoekmachines",
+		"description": ""
+	},
+	"import": {
+		"message": "Importeer JSON van schijf",
+		"description": ""
+	},
+	"export": {
+		"message": "Exporteer zoekmachines naar JSON",
+		"description": ""
+	},
+	"download": {
+		"message": "Exporteren naar schijf",
+		"description": ""
+	},
+	"header2": {
+		"message": "Toon icoontjes",
+		"description": ""
+	},
+	"getFavicons": {
+		"message": "Toon icoontjes in de contextmenulijst",
+		"description": ""
+	},
+	"note": {
+		"message": "Deze functie vereist Firefox 56 of hoger.",
+		"description": ""
+	},
+	"header4": {
+		"message": "Cache favicons inside browser sync storage",
+		"description": ""
+	},
+	"cacheFavicons": {
+		"message": "Save favicons to browser sync storage",
+		"description": ""
+	},
+	"gridMode": {
+		"message": "Toon een rooster van icoontjes in plaats van een lijst van zoekmachines",
+		"description": ""
+	},
+	"warning": {
+		"message": "Waarschuwing: het inschakelen van deze functie zorgt ervoor dat contextmenus van andere extensies niet getoond worden.",
+		"description": ""
+	},
+	"savePreferences": {
+		"message": "Voorkeuren opslaan",
+		"description": ""
+	},
+	"header6": {
+		"message": "Welke zoekmachines moeten zichtbaar zijn in het contextmenu of het rooster?",
+		"description": ""
+	},
+	"clearAll": {
+		"message": "Alles deselecteren",
+		"description": ""
+	},
+	"selectAll": {
+		"message": "Alles selecteren",
+		"description": ""
+	},
+	"reset": {
+		"message": "Resetten",
+		"description": ""
+	},
+	"subheader61": {
+		"message": "Een nieuwe zoekmachine toevoegen",
+		"description": ""
+	},
+	"showSearchEngine": {
+		"message": "",
+		"description": ""
+	},
+	"searchEngineName": {
+		"message": "Naam zoekmachine",
+		"description": ""
+	},
+	"placeHolderKeyword": {
+		"message": "Trefwoord",
+		"description": ""
+	},
+	"multipleSearchEngines": {
+		"message": "",
+		"description": ""
+	},
+	"searchEngineURL": {
+		"message": "Zoekmachine URL",
+		"description": ""
+	},
+	"testSearchEngine": {
+		"message": "Zoekmachine testen",
+		"description": ""
+	},
+	"clear": {
+		"message": "Leegmaken",
+		"description": ""
+	},
+	"move": {
+		"message": "Verplaats",
+		"description": ""
+	},
+	"up": {
+		"message": "naar boven",
+		"description": ""
+	},
+	"down": {
+		"message": "naar beneden",
+		"description": ""
+	},
+	"remove": {
+		"message": "Verwijderen",
+		"description": ""
+	},
+	"multipleSearchEnginesSearch": {
+		"message": "Gebruik deze zoekmachine bij het multi-search",
+		"description": ""
+	},
+	"notifySavedPreferences": {
+		"message": "Voorkeuren opgeslagen.",
+		"description": ""
+	},
+	"notifySearchEngineAdded": {
+		"message": "Zoekmachine toegevoegd.",
+		"description": ""
+	},
+	"notifyEnableStorageSync": {
+		"message": "Gelieve ervoor te zorgen dat de optie 'webextensions.storage.sync.enabled' op true gezet is in 'about:config', anders zal Context Search niet werken.",
+		"description": ""
+	},
+	"notifySearchEnginesLoaded": {
+		"message": "De standaardlijst van zoekmachines werd geladen.",
+		"description": ""
+	},
+	"titleMultipleSearchEngines": {
+		"message": "Zoeken met meerdere zoekmachines",
+		"description": ""
+	},
+	"titleGoogleSearch": {
+		"message": "Zoek op deze site met Google",
+		"description": ""
+	},
+	"titleOptions": {
+		"message": "Opties",
+		"description": ""
+	},
+	"windowTitle": {
+		"message": "Zoekresultaten voor ",
+		"description": ""
+	},
+	"omniboxDescription": {
+		"message": "Zoek met Context Search via kernwoorden. Gebruik: cs [kernwoord] [zoektermen] (bijvoorbeeld 'cs w Linux' zoekt op Wikipedia naar de term 'Linux')",
+		"description": ""
+	},
+	"notifyUsage": {
+		"message": "Gebruik: cs [kernwoord] [zoektermen] (bijvoorbeeld cs w Linux)",
+		"description": ""
+	},
+	"notifySearchEngineWithKeyword": {
+		"message": "Zoekmachine met kernwoord",
+		"description": ""
+	},
+	"notifyUnknown": {
+		"message": "is onbekend.",
+		"description": ""
+	},
+	"notifySearchEngineUrlRequired": {
+		"message": "Please fill in a search engine URL.",
+		"description": ""
+	},
+	"titleShowEngine": {
+		"message": "Show this search engine in the context menu or grid",
+		"description": ""
+	},
+	"header7": {
+		"message": "Reset options",
+		"description": ""
+	},
+	"sidebar": {
+		"message": "In the sidebar",
+		"description": ""
+	},
+	"displayFavicons": {
+		"message": "Display favicons in context menu list",
+		"description": ""
+	},
+	"resetPreferences": {
+		"message": "Reset preferences to default settings",
+		"description": ""
+	},
+	"forceSearchEnginesReload": {
+		"message": "Force reload of default search engines list",
+		"description": ""
+	},
+	"forceFaviconsReload": {
+		"message": "Force favicons to be reloaded",
+		"description": ""
+	},
+	"restriction": {
+		"message": "Please note that it isn't possible to display search results in the sidebar when using the grid of icons.",
+		"description": ""
+	}
 }

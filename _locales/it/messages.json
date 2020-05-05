@@ -1,262 +1,266 @@
 {
-  "extensionName": {
-    "message": "Context Search",
-    "description": "Name of the extension"
-  },
-  "extensionDescription": {
-    "message": "Cerca il testo selezionato utilizzando un motore di ricerca da un elenco predefinito",
-    "description": "Description of the extension"
-  },
-  "multisearch": {
-    "message": " is a search with multiple search engines simultaneously.",
-    "description": "multi-search - it's a search with multiple search engines simultaneously."
-  },
-  "pageTitle": {
-    "message": "Preferenze per Context Search",
-    "description": ""
-  },
-  "header1": {
-    "message": "Dove dovrebbero essere mostrati i risultati della ricerca?",
-    "description": ""
-  },
-  "newTab": {
-    "message": "In una scheda nuova",
-    "description": ""
-  },
-  "sameTab": {
-    "message": "Nella stessa scheda",
-    "description": ""
-  },
-  "newWindow": {
-    "message": "In una finestra nuova",
-    "description": ""
-  },
-  "active": {
-    "message": "Attiva la nuova scheda o finestra",
-    "description": ""
-  },
-  "header3": {
-    "message": "Posizione delle opzioni nel menu contestuale",
-    "description": ""
-  },
-  "subheader31": {
-    "message": "Dove deve essere mostrato il menu delle opzioni dentro del menu contestuale?",
-    "description": ""
-  },
-  "bottom": {
-    "message": "Sotto il menu contestuale",
-    "description": ""
-  },
-  "top": {
-    "message": "Sopra il menu contestuale",
-    "description": ""
-  },
-  "hide": {
-    "message": "Nessuno dei due (nascondi il menu delle opzioni)",
-    "description": ""
-  },
-  "header5": {
-    "message": "Importare/esportare motori di ricerca",
-    "description": ""
-  },
-  "import": {
-    "message": "Importa i motori di ricerca dal disco locale",
-    "description": ""
-  },
-  "export": {
-    "message": "Esporta i motori di ricerca a un file  JSON",
-    "description": ""
-  },
-  "download": {
-    "message": "Salva sul disco locale",
-    "description": ""
-  },
-  "header2": {
-    "message": "Mostra le favicon",
-    "description": ""
-  },
-  "getFavicons": {
-    "message": "Mostra le favicon nel menu contestuale",
-    "description": ""
-  },
-  "note": {
-    "message": "Questa funzione richiede firefox 56 o successivo.",
-    "description": ""
-  },
-  "header4": {
-    "message": "Cache favicons inside browser sync storage",
-    "description": ""
-  },
-  "cacheFavicons": {
-    "message": "Save favicons to browser sync storage",
-    "description": ""
-  },
-  "gridMode": {
-    "message": "Mostra il menu contestuale come una griglia di icone e non come elenco",
-    "description": ""
-  },
-  "warning": {
-    "message": "Avvertenza: l'abilitazione di questa funzione impedirà la visualizzazione dei menu contestuali delle altre estensioni.",
-    "description": ""
-  },
-  "savePreferences": {
-    "message": "Salvare le preferenze",
-    "description": ""
-  },
-  "header6": {
-    "message": "Quali motori di ricerca desideri visualizzare nel menu o griglia contestuale?",
-    "description": ""
-  },
-  "clearAll": {
-    "message": "Cancellare tutto",
-    "description": ""
-  },
-  "selectAll": {
-    "message": "Selezionare tutto",
-    "description": ""
-  },
-  "reset": {
-    "message": "Resettare",
-    "description": ""
-  },
-  "subheader61": {
-    "message": "Aggiungere un nuovo motore di ricerca",
-    "description": ""
-  },
-  "showSearchEngine": {
-    "message": "Mostra il motore di ricerca nella griglia delle icone o nel menu contestuale",
-    "description": ""
-  },
-  "searchEngineName": {
-    "message": "Nome del motore di ricerca",
-    "description": ""
-  },
-  "placeHolderKeyword": {
-    "message": "Parola chiave",
-    "description": ""
-  },
-  "multipleSearchEngines": {
-    "message": "Utilizzare questo motore di ricerca per una multi-search",
-    "description": ""
-  },
-  "searchEngineURL": {
-    "message": "URL del motore di ricerca",
-    "description": ""
-  },
-  "testSearchEngine": {
-    "message": "Provare il motore di ricerca",
-    "description": ""
-  },
-  "addSearchEngine": {
-    "message": "Aggiungere motore di ricerca",
-    "description": ""
-  },
-  "clear": {
-    "message": "Cancellare",
-    "description": ""
-  },
-  "move": {
-    "message": "Muovere",
-    "description": ""
-  },
-  "up": {
-    "message": "sopra",
-    "description": ""
-  },
-  "down": {
-    "message": "sotto",
-    "description": ""
-  },
-  "remove": {
-    "message": "Rimuovere",
-    "description": ""
-  },
-  "multipleSearchEnginesSearch": {
-    "message": "Includi questo motore in una ricerca con con multipli motori di ricerca",
-    "description": ""
-  },
-  "notifySavedPreferences": {
-    "message": "Preferenze salvate.",
-    "description": ""
-  },
-  "notifySearchEngineAdded": {
-    "message": "Motore di ricerca aggiunto.",
-    "description": ""
-  },
-  "notifyEnableStorageSync": {
-    "message": "Assicurati che la preferenza 'webextensions.storage.sync.enabled' in 'about: config' abbia il valore 'true', altrimenti la ricerca contestuale non funzionerà.",
-    "description": ""
-  },
-  "notifySearchEnginesLoaded": {
-    "message": "L'elenco predefinito dei motori di ricerca è stato caricato.",
-    "description": ""
-  },
-  "titleMultipleSearchEngines": {
-    "message": "Ricerca con multipli motori",
-    "description": ""
-  },
-  "titleGoogleSearch": {
-    "message": "Cerca questo sito con Google",
-    "description": ""
-  },
-  "titleOptions": {
-    "message": "Opzioni",
-    "description": ""
-  },
-  "windowTitle": {
-    "message": "Risultati della ricerca di",
-    "description": ""
-  },
-  "omniboxDescription": {
-    "message": "Ricerca utilizzando la ricerca contestuale con parole chiave. Utilizzo: cs [parola chiave] [termini di ricerca] (ad esempio, 'cs w Linux' cerca su Wikipedia il termine 'Linux')",
-    "description": ""
-  },
-  "notifyUsage": {
-    "message": "Utilizzo: cs [parola chiave] [termini di ricerca] (ad esempio: cs w Linux)",
-    "description": ""
-  },
-  "notifySearchEngineWithKeyword": {
-    "message": "Motore di ricerca con parola chiave",
-    "description": ""
-  },
-  "notifyUnknown": {
-    "message": "sconosciuto.",
-    "description": ""
-  },
-  "notifySearchEngineUrlRequired": {
-    "message": "Please fill in a search engine URL.",
-      "description": ""
-  },
-  "titleShowEngine": {
-    "message": "Show this search engine in the context menu or grid",
-    "description": ""
-  },
-  "header7": {
-    "message": "Reset options",
-    "description": ""
-  },
-  "sidebar": {
-    "message": "In the sidebar",
-    "description": ""
-  },
-  "displayFavicons": {
-    "message": "Display favicons in context menu list",
-    "description": ""
-  },
-  "resetPreferences": {
-    "message": "Reset preferences to default settings",
-    "description": ""
-  },
-  "forceSearchEnginesReload": {
-    "message": "Force reload of default search engines list",
-    "description": ""
-  },
-  "forceFaviconsReload": {
-    "message": "Force favicons to be reloaded",
-    "description": ""
-  },
-  "restriction": {
-    "message": "Please note that it isn't possible to display search results in the sidebar when using the grid of icons.",
-    "description": ""
-  }
+	"extensionName": {
+		"message": "Context Search",
+		"description": "Name of the extension"
+	},
+	"extensionDescription": {
+		"message": "Cerca il testo selezionato utilizzando un motore di ricerca da un elenco predefinito",
+		"description": "Description of the extension"
+	},
+	"multisearch": {
+		"message": " is a search with multiple search engines simultaneously.",
+		"description": "multi-search - it's a search with multiple search engines simultaneously."
+	},
+	"pageTitle": {
+		"message": "Preferenze per Context Search",
+		"description": ""
+	},
+	"header1": {
+		"message": "Dove dovrebbero essere mostrati i risultati della ricerca?",
+		"description": ""
+	},
+	"newTab": {
+		"message": "In una scheda nuova",
+		"description": ""
+	},
+	"sameTab": {
+		"message": "Nella stessa scheda",
+		"description": ""
+	},
+	"newWindow": {
+		"message": "In una finestra nuova",
+		"description": ""
+	},
+	"active": {
+		"message": "Attiva la nuova scheda o finestra",
+		"description": ""
+	},
+	"position": {
+		"message": "Visualizza i risultati della ricerca dopo l'ultima scheda",
+		"description": ""
+	},
+	"header3": {
+		"message": "Posizione delle opzioni nel menu contestuale",
+		"description": ""
+	},
+	"subheader31": {
+		"message": "Dove deve essere mostrato il menu delle opzioni dentro del menu contestuale?",
+		"description": ""
+	},
+	"bottom": {
+		"message": "Sotto il menu contestuale",
+		"description": ""
+	},
+	"top": {
+		"message": "Sopra il menu contestuale",
+		"description": ""
+	},
+	"hide": {
+		"message": "Nessuno dei due (nascondi il menu delle opzioni)",
+		"description": ""
+	},
+	"header5": {
+		"message": "Importare/esportare motori di ricerca",
+		"description": ""
+	},
+	"import": {
+		"message": "Importa i motori di ricerca dal disco locale",
+		"description": ""
+	},
+	"export": {
+		"message": "Esporta i motori di ricerca a un file  JSON",
+		"description": ""
+	},
+	"download": {
+		"message": "Salva sul disco locale",
+		"description": ""
+	},
+	"header2": {
+		"message": "Mostra le favicon",
+		"description": ""
+	},
+	"getFavicons": {
+		"message": "Mostra le favicon nel menu contestuale",
+		"description": ""
+	},
+	"note": {
+		"message": "Questa funzione richiede firefox 56 o successivo.",
+		"description": ""
+	},
+	"header4": {
+		"message": "Cache favicons inside browser sync storage",
+		"description": ""
+	},
+	"cacheFavicons": {
+		"message": "Save favicons to browser sync storage",
+		"description": ""
+	},
+	"gridMode": {
+		"message": "Mostra il menu contestuale come una griglia di icone e non come elenco",
+		"description": ""
+	},
+	"warning": {
+		"message": "Avvertenza: l'abilitazione di questa funzione impedirà la visualizzazione dei menu contestuali delle altre estensioni.",
+		"description": ""
+	},
+	"savePreferences": {
+		"message": "Salvare le preferenze",
+		"description": ""
+	},
+	"header6": {
+		"message": "Quali motori di ricerca desideri visualizzare nel menu o griglia contestuale?",
+		"description": ""
+	},
+	"clearAll": {
+		"message": "Cancellare tutto",
+		"description": ""
+	},
+	"selectAll": {
+		"message": "Selezionare tutto",
+		"description": ""
+	},
+	"reset": {
+		"message": "Resettare",
+		"description": ""
+	},
+	"subheader61": {
+		"message": "Aggiungere un nuovo motore di ricerca",
+		"description": ""
+	},
+	"showSearchEngine": {
+		"message": "Mostra il motore di ricerca nella griglia delle icone o nel menu contestuale",
+		"description": ""
+	},
+	"searchEngineName": {
+		"message": "Nome del motore di ricerca",
+		"description": ""
+	},
+	"placeHolderKeyword": {
+		"message": "Parola chiave",
+		"description": ""
+	},
+	"multipleSearchEngines": {
+		"message": "Utilizzare questo motore di ricerca per una multi-search",
+		"description": ""
+	},
+	"searchEngineURL": {
+		"message": "URL del motore di ricerca",
+		"description": ""
+	},
+	"testSearchEngine": {
+		"message": "Provare il motore di ricerca",
+		"description": ""
+	},
+	"addSearchEngine": {
+		"message": "Aggiungere motore di ricerca",
+		"description": ""
+	},
+	"clear": {
+		"message": "Cancellare",
+		"description": ""
+	},
+	"move": {
+		"message": "Muovere",
+		"description": ""
+	},
+	"up": {
+		"message": "sopra",
+		"description": ""
+	},
+	"down": {
+		"message": "sotto",
+		"description": ""
+	},
+	"remove": {
+		"message": "Rimuovere",
+		"description": ""
+	},
+	"multipleSearchEnginesSearch": {
+		"message": "Includi questo motore in una ricerca con con multipli motori di ricerca",
+		"description": ""
+	},
+	"notifySavedPreferences": {
+		"message": "Preferenze salvate.",
+		"description": ""
+	},
+	"notifySearchEngineAdded": {
+		"message": "Motore di ricerca aggiunto.",
+		"description": ""
+	},
+	"notifyEnableStorageSync": {
+		"message": "Assicurati che la preferenza 'webextensions.storage.sync.enabled' in 'about: config' abbia il valore 'true', altrimenti la ricerca contestuale non funzionerà.",
+		"description": ""
+	},
+	"notifySearchEnginesLoaded": {
+		"message": "L'elenco predefinito dei motori di ricerca è stato caricato.",
+		"description": ""
+	},
+	"titleMultipleSearchEngines": {
+		"message": "Ricerca con multipli motori",
+		"description": ""
+	},
+	"titleGoogleSearch": {
+		"message": "Cerca questo sito con Google",
+		"description": ""
+	},
+	"titleOptions": {
+		"message": "Opzioni",
+		"description": ""
+	},
+	"windowTitle": {
+		"message": "Risultati della ricerca di",
+		"description": ""
+	},
+	"omniboxDescription": {
+		"message": "Ricerca utilizzando la ricerca contestuale con parole chiave. Utilizzo: cs [parola chiave] [termini di ricerca] (ad esempio, 'cs w Linux' cerca su Wikipedia il termine 'Linux')",
+		"description": ""
+	},
+	"notifyUsage": {
+		"message": "Utilizzo: cs [parola chiave] [termini di ricerca] (ad esempio: cs w Linux)",
+		"description": ""
+	},
+	"notifySearchEngineWithKeyword": {
+		"message": "Motore di ricerca con parola chiave",
+		"description": ""
+	},
+	"notifyUnknown": {
+		"message": "sconosciuto.",
+		"description": ""
+	},
+	"notifySearchEngineUrlRequired": {
+		"message": "Please fill in a search engine URL.",
+		"description": ""
+	},
+	"titleShowEngine": {
+		"message": "Show this search engine in the context menu or grid",
+		"description": ""
+	},
+	"header7": {
+		"message": "Reset options",
+		"description": ""
+	},
+	"sidebar": {
+		"message": "In the sidebar",
+		"description": ""
+	},
+	"displayFavicons": {
+		"message": "Display favicons in context menu list",
+		"description": ""
+	},
+	"resetPreferences": {
+		"message": "Reset preferences to default settings",
+		"description": ""
+	},
+	"forceSearchEnginesReload": {
+		"message": "Force reload of default search engines list",
+		"description": ""
+	},
+	"forceFaviconsReload": {
+		"message": "Force favicons to be reloaded",
+		"description": ""
+	},
+	"restriction": {
+		"message": "Please note that it isn't possible to display search results in the sidebar when using the grid of icons.",
+		"description": ""
+	}
 }

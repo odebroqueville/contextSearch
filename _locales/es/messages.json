@@ -1,262 +1,266 @@
 {
-  "extensionName": {
-    "message": "Context Search",
-    "description": "Name of the extension"
-  },
-  "extensionDescription": {
-    "message": "Busca el texto seleccionado usando un buscador de una lista predeterminada.",
-    "description": "Description of the extension"
-  },
-  "multisearch": {
-    "message": " is a search with multiple search engines simultaneously.",
-    "description": "multi-search - it's a search with multiple search engines simultaneously."
-  },
-  "pageTitle": {
-    "message": "Preferencias de Context Search",
-    "description": ""
-  },
-  "header1": {
-    "message": "¿Dónde deberían aparecer los resultados de la búsqueda?",
-    "description": ""
-  },
-  "newTab": {
-    "message": "En una nueva pestaña",
-    "description": ""
-  },
-  "sameTab": {
-    "message": "En la misma pestaña",
-    "description": ""
-  },
-  "newWindow": {
-    "message": "En una nueva ventana",
-    "description": ""
-  },
-  "active": {
-    "message": "Activar la pestaña o ventana nueva",
-    "description": ""
-  },
-  "header3": {
-    "message": "Posición de las opciones en el menú contestual",
-    "description": ""
-  },
-  "subheader31": {
-    "message": "¿Dónde quiere que aparezca el menú de opciones dentro del menú contextual?",
-    "description": ""
-  },
-  "bottom": {
-    "message": "De bajo del menú contextual",
-    "description": ""
-  },
-  "top": {
-    "message": "Arriba del menú contextual",
-    "description": ""
-  },
-  "hide": {
-    "message": "Ninguno de los dos (ocultar el menú de opciones)",
-    "description": ""
-  },
-  "header5": {
-    "message": "Importar/Exportar buscadores",
-    "description": ""
-  },
-  "import": {
-    "message": "Importar JSON desde el disco local",
-    "description": ""
-  },
-  "export": {
-    "message": "Exportar buscador a JSON",
-    "description": ""
-  },
-  "download": {
-    "message": "Guardar en el disco local",
-    "description": ""
-  },
-  "header2": {
-    "message": "Mostrar los iconos de favoritos",
-    "description": ""
-  },
-  "getFavicons": {
-    "message": "Mostrar los iconos de favoritos en el menú contextual",
-    "description": ""
-  },
-  "note": {
-    "message": "Esta función requiere Firefox 56 o superior.",
-    "description": ""
-  },
-  "header4": {
-    "message": "Cache favicons inside browser sync storage",
-    "description": ""
-  },
-  "cacheFavicons": {
-    "message": "Save favicons to browser sync storage",
-    "description": ""
-  },
-  "gridMode": {
-    "message": "Mostrar el menú contextual como una cuadrícula de iconos y no como una lista",
-    "description": ""
-  },
-  "warning": {
-    "message": "Advertencia: habilitar esta característica impedirá que se muestren los menús contextuales de otras extensiones.",
-    "description": ""
-  },
-  "savePreferences": {
-    "message": "Guardar preferencias",
-    "description": ""
-  },
-  "header6": {
-    "message": "¿Qué buscadores quiere que aparezcan en el menú o cuadrícula contextual?",
-    "description": ""
-  },
-  "clearAll": {
-    "message": "Limpiar todo",
-    "description": ""
-  },
-  "selectAll": {
-    "message": "Seleccionar todo",
-    "description": ""
-  },
-  "reset": {
-    "message": "Reiniciar",
-    "description": ""
-  },
-  "subheader61": {
-    "message": "Añadir un nuevo buscador",
-    "description": ""
-  },
-  "showSearchEngine": {
-    "message": "Mostrar buscador en la cuadrícula o en el menú contextual",
-    "description": ""
-  },
-  "searchEngineName": {
-    "message": "Nombre del buscador",
-    "description": ""
-  },
-  "placeHolderKeyword": {
-    "message": "Palabra clave",
-    "description": ""
-  },
-  "multipleSearchEngines": {
-    "message": "Utilizar este buscador para una búsqueda múltiple",
-    "description": ""
-  },
-  "searchEngineURL": {
-    "message": "URL del buscador",
-    "description": ""
-  },
-  "testSearchEngine": {
-    "message": "Probar el buscador",
-    "description": ""
-  },
-  "addSearchEngine": {
-    "message": "Añadir buscador",
-    "description": ""
-  },
-  "clear": {
-    "message": "Limpiar",
-    "description": ""
-  },
-  "move": {
-    "message": "Mover",
-    "description": ""
-  },
-  "up": {
-    "message": "arriba",
-    "description": ""
-  },
-  "down": {
-    "message": "abajo",
-    "description": ""
-  },
-  "remove": {
-    "message": "Borrar",
-    "description": ""
-  },
-  "multipleSearchEnginesSearch": {
-    "message": "Incluye este buscador en multi-search",
-    "description": ""
-  },
-  "notifySavedPreferences": {
-    "message": "Preferencias guardadas.",
-    "description": ""
-  },
-  "notifySearchEngineAdded": {
-    "message": "Buscador añadido.",
-    "description": ""
-  },
-  "notifyEnableStorageSync": {
-    "message": "Asegúrese de que la preferencia 'webextensions.storage.sync.enabled' en 'about: config' tenga el valor 'true', de lo contrario, la búsqueda contextual no funcionará.",
-    "description": ""
-  },
-  "notifySearchEnginesLoaded": {
-    "message": "La lista predeterminada de buscadores ha sido cargada.",
-    "description": ""
-  },
-  "titleMultipleSearchEngines": {
-    "message": "Búsqueda con múltiples buscadores",
-    "description": ""
-  },
-  "titleGoogleSearch": {
-    "message": "Buscar este sitio con Google",
-    "description": ""
-  },
-  "titleOptions": {
-    "message": "Opciones",
-    "description": ""
-  },
-  "windowTitle": {
-    "message": "Resultados de la búsqueda para ",
-    "description": ""
-  },
-  "omniboxDescription": {
-    "message": "Buscar utilizando la búsqueda contextual con palabras clave. Uso: cs [palabra clave] [términos de búsqueda] (por ejemplo, 'cs w Linux' busca en Wikipedia el término 'Linux')",
-    "description": ""
-  },
-  "notifyUsage": {
-    "message": "Uso: cs [palabra clave] [términos de búsqueda] (por ejemplo: cs w Linux)",
-    "description": ""
-  },
-  "notifySearchEngineWithKeyword": {
-    "message": "Buscador con palabra clave ",
-    "description": ""
-  },
-  "notifyUnknown": {
-    "message": " desconocido.",
-    "description": ""
-  },
-  "notifySearchEngineUrlRequired": {
-    "message": "Please fill in a search engine URL.",
-      "description": ""
-  },
-  "titleShowEngine": {
-    "message": "Show this search engine in the context menu or grid",
-    "description": ""
-  },
-  "header7": {
-    "message": "Reset options",
-    "description": ""
-  },
-  "sidebar": {
-    "message": "In the sidebar",
-    "description": ""
-  },
-  "displayFavicons": {
-    "message": "Display favicons in context menu list",
-    "description": ""
-  },
-  "resetPreferences": {
-    "message": "Reset preferences to default settings",
-    "description": ""
-  },
-  "forceSearchEnginesReload": {
-    "message": "Force reload of default search engines list",
-    "description": ""
-  },
-  "forceFaviconsReload": {
-    "message": "Force favicons to be reloaded",
-    "description": ""
-  },
-  "restriction": {
-    "message": "Please note that it isn't possible to display search results in the sidebar when using the grid of icons.",
-    "description": ""
-  }
+	"extensionName": {
+		"message": "Context Search",
+		"description": "Name of the extension"
+	},
+	"extensionDescription": {
+		"message": "Busca el texto seleccionado usando un buscador de una lista predeterminada.",
+		"description": "Description of the extension"
+	},
+	"multisearch": {
+		"message": " is a search with multiple search engines simultaneously.",
+		"description": "multi-search - it's a search with multiple search engines simultaneously."
+	},
+	"pageTitle": {
+		"message": "Preferencias de Context Search",
+		"description": ""
+	},
+	"header1": {
+		"message": "¿Dónde deberían aparecer los resultados de la búsqueda?",
+		"description": ""
+	},
+	"newTab": {
+		"message": "En una nueva pestaña",
+		"description": ""
+	},
+	"sameTab": {
+		"message": "En la misma pestaña",
+		"description": ""
+	},
+	"newWindow": {
+		"message": "En una nueva ventana",
+		"description": ""
+	},
+	"active": {
+		"message": "Activar la pestaña o ventana nueva",
+		"description": ""
+	},
+	"position": {
+		"message": "Mostrar los resultados de búsqueda después de la última pestaña",
+		"description": ""
+	},
+	"header3": {
+		"message": "Posición de las opciones en el menú contestual",
+		"description": ""
+	},
+	"subheader31": {
+		"message": "¿Dónde quiere que aparezca el menú de opciones dentro del menú contextual?",
+		"description": ""
+	},
+	"bottom": {
+		"message": "De bajo del menú contextual",
+		"description": ""
+	},
+	"top": {
+		"message": "Arriba del menú contextual",
+		"description": ""
+	},
+	"hide": {
+		"message": "Ninguno de los dos (ocultar el menú de opciones)",
+		"description": ""
+	},
+	"header5": {
+		"message": "Importar/Exportar buscadores",
+		"description": ""
+	},
+	"import": {
+		"message": "Importar JSON desde el disco local",
+		"description": ""
+	},
+	"export": {
+		"message": "Exportar buscador a JSON",
+		"description": ""
+	},
+	"download": {
+		"message": "Guardar en el disco local",
+		"description": ""
+	},
+	"header2": {
+		"message": "Mostrar los iconos de favoritos",
+		"description": ""
+	},
+	"getFavicons": {
+		"message": "Mostrar los iconos de favoritos en el menú contextual",
+		"description": ""
+	},
+	"note": {
+		"message": "Esta función requiere Firefox 56 o superior.",
+		"description": ""
+	},
+	"header4": {
+		"message": "Cache favicons inside browser sync storage",
+		"description": ""
+	},
+	"cacheFavicons": {
+		"message": "Save favicons to browser sync storage",
+		"description": ""
+	},
+	"gridMode": {
+		"message": "Mostrar el menú contextual como una cuadrícula de iconos y no como una lista",
+		"description": ""
+	},
+	"warning": {
+		"message": "Advertencia: habilitar esta característica impedirá que se muestren los menús contextuales de otras extensiones.",
+		"description": ""
+	},
+	"savePreferences": {
+		"message": "Guardar preferencias",
+		"description": ""
+	},
+	"header6": {
+		"message": "¿Qué buscadores quiere que aparezcan en el menú o cuadrícula contextual?",
+		"description": ""
+	},
+	"clearAll": {
+		"message": "Limpiar todo",
+		"description": ""
+	},
+	"selectAll": {
+		"message": "Seleccionar todo",
+		"description": ""
+	},
+	"reset": {
+		"message": "Reiniciar",
+		"description": ""
+	},
+	"subheader61": {
+		"message": "Añadir un nuevo buscador",
+		"description": ""
+	},
+	"showSearchEngine": {
+		"message": "Mostrar buscador en la cuadrícula o en el menú contextual",
+		"description": ""
+	},
+	"searchEngineName": {
+		"message": "Nombre del buscador",
+		"description": ""
+	},
+	"placeHolderKeyword": {
+		"message": "Palabra clave",
+		"description": ""
+	},
+	"multipleSearchEngines": {
+		"message": "Utilizar este buscador para una búsqueda múltiple",
+		"description": ""
+	},
+	"searchEngineURL": {
+		"message": "URL del buscador",
+		"description": ""
+	},
+	"testSearchEngine": {
+		"message": "Probar el buscador",
+		"description": ""
+	},
+	"addSearchEngine": {
+		"message": "Añadir buscador",
+		"description": ""
+	},
+	"clear": {
+		"message": "Limpiar",
+		"description": ""
+	},
+	"move": {
+		"message": "Mover",
+		"description": ""
+	},
+	"up": {
+		"message": "arriba",
+		"description": ""
+	},
+	"down": {
+		"message": "abajo",
+		"description": ""
+	},
+	"remove": {
+		"message": "Borrar",
+		"description": ""
+	},
+	"multipleSearchEnginesSearch": {
+		"message": "Incluye este buscador en multi-search",
+		"description": ""
+	},
+	"notifySavedPreferences": {
+		"message": "Preferencias guardadas.",
+		"description": ""
+	},
+	"notifySearchEngineAdded": {
+		"message": "Buscador añadido.",
+		"description": ""
+	},
+	"notifyEnableStorageSync": {
+		"message": "Asegúrese de que la preferencia 'webextensions.storage.sync.enabled' en 'about: config' tenga el valor 'true', de lo contrario, la búsqueda contextual no funcionará.",
+		"description": ""
+	},
+	"notifySearchEnginesLoaded": {
+		"message": "La lista predeterminada de buscadores ha sido cargada.",
+		"description": ""
+	},
+	"titleMultipleSearchEngines": {
+		"message": "Búsqueda con múltiples buscadores",
+		"description": ""
+	},
+	"titleGoogleSearch": {
+		"message": "Buscar este sitio con Google",
+		"description": ""
+	},
+	"titleOptions": {
+		"message": "Opciones",
+		"description": ""
+	},
+	"windowTitle": {
+		"message": "Resultados de la búsqueda para ",
+		"description": ""
+	},
+	"omniboxDescription": {
+		"message": "Buscar utilizando la búsqueda contextual con palabras clave. Uso: cs [palabra clave] [términos de búsqueda] (por ejemplo, 'cs w Linux' busca en Wikipedia el término 'Linux')",
+		"description": ""
+	},
+	"notifyUsage": {
+		"message": "Uso: cs [palabra clave] [términos de búsqueda] (por ejemplo: cs w Linux)",
+		"description": ""
+	},
+	"notifySearchEngineWithKeyword": {
+		"message": "Buscador con palabra clave ",
+		"description": ""
+	},
+	"notifyUnknown": {
+		"message": " desconocido.",
+		"description": ""
+	},
+	"notifySearchEngineUrlRequired": {
+		"message": "Please fill in a search engine URL.",
+		"description": ""
+	},
+	"titleShowEngine": {
+		"message": "Show this search engine in the context menu or grid",
+		"description": ""
+	},
+	"header7": {
+		"message": "Reset options",
+		"description": ""
+	},
+	"sidebar": {
+		"message": "In the sidebar",
+		"description": ""
+	},
+	"displayFavicons": {
+		"message": "Display favicons in context menu list",
+		"description": ""
+	},
+	"resetPreferences": {
+		"message": "Reset preferences to default settings",
+		"description": ""
+	},
+	"forceSearchEnginesReload": {
+		"message": "Force reload of default search engines list",
+		"description": ""
+	},
+	"forceFaviconsReload": {
+		"message": "Force favicons to be reloaded",
+		"description": ""
+	},
+	"restriction": {
+		"message": "Please note that it isn't possible to display search results in the sidebar when using the grid of icons.",
+		"description": ""
+	}
 }

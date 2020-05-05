@@ -1,262 +1,266 @@
 {
-  "extensionName": {
-    "message": "Context Search",
-    "description": "Name of the extension"
-  },
-  "extensionDescription": {
-    "message": "Przeszukuje wybrany tekst za pomocą wyszukiwarki z wcześniej określonej listy.",
-    "description": "Description of the extension"
-  },
-  "multisearch": {
-    "message": " is a search with multiple search engines simultaneously.",
-    "description": "multi-search - it's a search with multiple search engines simultaneously."
-  },
-  "pageTitle": {
-    "message": "Preferencje wyszukiwania kontekstowego",
-    "description": ""
-  },
-  "header1": {
-    "message": "Gdzie powinny pojawiać się wyniki wyszukiwania?",
-    "description": ""
-  },
-  "newTab": {
-    "message": "W nowej karcie",
-    "description": ""
-  },
-  "sameTab": {
-    "message": "W tej samej karcie",
-    "description": ""
-  },
-  "newWindow": {
-    "message": "W nowym oknie",
-    "description": ""
-  },
-  "active": {
-    "message": "Uaktywnij nową kartę lub okno",
-    "description": ""
-  },
-  "header3": {
-    "message": "Pozycja opcji w menu kontekstowym",
-    "description": ""
-  },
-  "subheader31": {
-    "message": "Gdzie chciałbyś, aby menu opcji pojawiło się w menu kontekstowym?",
-    "description": ""
-  },
-  "bottom": {
-    "message": "Na dole",
-    "description": ""
-  },
-  "top": {
-    "message": "Na górze",
-    "description": ""
-  },
-  "hide": {
-    "message": "Nigdzie (ukryj menu opcji)",
-    "description": ""
-  },
-  "header5": {
-    "message": "Importuj/eksportuj wyszukiwarki",
-    "description": ""
-  },
-  "import": {
-    "message": "Importuj wyszukiwarki z JSON na dysku lokalnym",
-    "description": ""
-  },
-  "export": {
-    "message": "Eksportuj wyszukiwarki do JSON",
-    "description": ""
-  },
-  "download": {
-    "message": "Eksportuj na dysk lokalny",
-    "description": ""
-  },
-  "header2": {
-    "message": "Pokaż favicons",
-    "description": ""
-  },
-  "getFavicons": {
-    "message": "Pokaż favicons na liście menu kontekstowego",
-    "description": ""
-  },
-  "note": {
-    "message": "Ta funkcjonalność wymaga Firefox-a 56 lub nowszego.",
-    "description": ""
-  },
-  "header4": {
-    "message": "Cache favicons inside browser sync storage",
-    "description": ""
-  },
-  "cacheFavicons": {
-    "message": "Save favicons to browser sync storage",
-    "description": ""
-  },
-  "gridMode": {
-    "message": "Wyświetl siatkę ikon zamiast listy wyszukiwarek",
-    "description": ""
-  },
-  "warning": {
-    "message": "Ostrzeżenie: Włączenie tej funkcji uniemożliwi wyświetlanie menu kontekstowych z innych rozszerzeń.",
-    "description": ""
-  },
-  "savePreferences": {
-    "message": "Zapisz Ustawienia",
-    "description": ""
-  },
-  "header6": {
-    "message": "Które wyszukiwarki chcesz wyświetlać w menu kontekstowym lub siatce?",
-    "description": ""
-  },
-  "clearAll": {
-    "message": "Wyczyść wszystko",
-    "description": ""
-  },
-  "selectAll": {
-    "message": "Zaznacz wszystko",
-    "description": ""
-  },
-  "reset": {
-    "message": "Zresetuj",
-    "description": ""
-  },
-  "subheader61": {
-    "message": "Dodaj nową wyszukiwarkę",
-    "description": ""
-  },
-  "showSearchEngine": {
-    "message": "Pokaż wyszukiwarkę w siatce lub menu kontekstowym",
-    "description": ""
-  },
-  "searchEngineName": {
-    "message": "Nazwa wyszukiwarki",
-    "description": ""
-  },
-  "placeHolderKeyword": {
-    "message": "Słowo kluczowe",
-    "description": ""
-  },
-  "multipleSearchEngines": {
-    "message": "Użyj tej wyszukiwarki do multi-search",
-    "description": ""
-  },
-  "searchEngineURL": {
-    "message": "Adres URL wyszukiwarki",
-    "description": ""
-  },
-  "testSearchEngine": {
-    "message": "Przetestuj wyszukiwarkę",
-    "description": ""
-  },
-  "addSearchEngine": {
-    "message": "Dodaj wyszukiwarkę",
-    "description": ""
-  },
-  "clear": {
-    "message": "Wyczyść",
-    "description": ""
-  },
-  "move": {
-    "message": "Przesuń",
-    "description": ""
-  },
-  "up": {
-    "message": "w górę",
-    "description": ""
-  },
-  "down": {
-    "message": "w dół",
-    "description": ""
-  },
-  "remove": {
-    "message": "Usuń",
-    "description": ""
-  },
-  "multipleSearchEnginesSearch": {
-    "message": "Uwzględnij tę wyszukiwarkę w wyszukiwaniu za pomocą wielu wyszukiwarek",
-    "description": ""
-  },
-  "notifySavedPreferences": {
-    "message": "Preferencje zostały zapisane.",
-    "description": ""
-  },
-  "notifySearchEngineAdded": {
-    "message": "Dodano wyszukiwarkę.",
-    "description": ""
-  },
-  "notifyEnableStorageSync": {
-    "message": "Sprawdź czy flaga 'webextensions.storage.sync.enabled' jest ustawiona na 'true' w 'about: config', w przeciwnym razie wyszukiwanie kontekstowe nie będzie działać.",
-    "description": ""
-  },
-  "notifySearchEnginesLoaded": {
-    "message": "Domyślna lista wyszukiwarek została załadowana.",
-    "description": ""
-  },
-  "titleMultipleSearchEngines": {
-    "message": "Wyszukiwanie za pomocą wielu wyszukiwarek",
-    "description": ""
-  },
-  "titleGoogleSearch": {
-    "message": "Przeszukaj tę stonę za pomocą Google",
-    "description": ""
-  },
-  "titleOptions": {
-    "message": "Opcje",
-    "description": ""
-  },
-  "windowTitle": {
-    "message": "Wyniki wyszukiwania dla",
-    "description": ""
-  },
-  "omniboxDescription": {
-    "message": "Wyszukiwanie za pomocą słów kluczowych. Sposób użycia: cs [słowo kluczowe] [kryteria wyszukiwania] (np. 'cs w Linux' wyszukuje 'Linux' na Wikipedii)",
-    "description": ""
-  },
-  "notifyUsage": {
-    "message": "Sposób użycia: cs [keyword] [kryteria wyszukiwania] (na przykład: cs w Linux)",
-    "description": ""
-  },
-  "notifySearchEngineWithKeyword": {
-    "message": "Wyszukiwarka ze słowem kluczowym",
-    "description": ""
-  },
-  "notifyUnknown": {
-    "message": "jest nieznana.",
-    "description": ""
-  },
-  "notifySearchEngineUrlRequired": {
-    "message": "Please fill in a search engine URL.",
-      "description": ""
-  },
-  "titleShowEngine": {
-    "message": "Show this search engine in the context menu or grid",
-    "description": ""
-  },
-  "header7": {
-    "message": "Reset options",
-    "description": ""
-  },
-  "sidebar": {
-    "message": "In the sidebar",
-    "description": ""
-  },
-  "displayFavicons": {
-    "message": "Display favicons in context menu list",
-    "description": ""
-  },
-  "resetPreferences": {
-    "message": "Reset preferences to default settings",
-    "description": ""
-  },
-  "forceSearchEnginesReload": {
-    "message": "Force reload of default search engines list",
-    "description": ""
-  },
-  "forceFaviconsReload": {
-    "message": "Force favicons to be reloaded",
-    "description": ""
-  },
-  "restriction": {
-    "message": "Please note that it isn't possible to display search results in the sidebar when using the grid of icons.",
-    "description": ""
-  }
+	"extensionName": {
+		"message": "Context Search",
+		"description": "Name of the extension"
+	},
+	"extensionDescription": {
+		"message": "Przeszukuje wybrany tekst za pomocą wyszukiwarki z wcześniej określonej listy.",
+		"description": "Description of the extension"
+	},
+	"multisearch": {
+		"message": " is a search with multiple search engines simultaneously.",
+		"description": "multi-search - it's a search with multiple search engines simultaneously."
+	},
+	"pageTitle": {
+		"message": "Preferencje wyszukiwania kontekstowego",
+		"description": ""
+	},
+	"header1": {
+		"message": "Gdzie powinny pojawiać się wyniki wyszukiwania?",
+		"description": ""
+	},
+	"newTab": {
+		"message": "W nowej karcie",
+		"description": ""
+	},
+	"sameTab": {
+		"message": "W tej samej karcie",
+		"description": ""
+	},
+	"newWindow": {
+		"message": "W nowym oknie",
+		"description": ""
+	},
+	"active": {
+		"message": "Uaktywnij nową kartę lub okno",
+		"description": ""
+	},
+	"position": {
+		"message": "Wyświetl wyniki wyszukiwania po ostatniej karcie",
+		"description": ""
+	},
+	"header3": {
+		"message": "Pozycja opcji w menu kontekstowym",
+		"description": ""
+	},
+	"subheader31": {
+		"message": "Gdzie chciałbyś, aby menu opcji pojawiło się w menu kontekstowym?",
+		"description": ""
+	},
+	"bottom": {
+		"message": "Na dole",
+		"description": ""
+	},
+	"top": {
+		"message": "Na górze",
+		"description": ""
+	},
+	"hide": {
+		"message": "Nigdzie (ukryj menu opcji)",
+		"description": ""
+	},
+	"header5": {
+		"message": "Importuj/eksportuj wyszukiwarki",
+		"description": ""
+	},
+	"import": {
+		"message": "Importuj wyszukiwarki z JSON na dysku lokalnym",
+		"description": ""
+	},
+	"export": {
+		"message": "Eksportuj wyszukiwarki do JSON",
+		"description": ""
+	},
+	"download": {
+		"message": "Eksportuj na dysk lokalny",
+		"description": ""
+	},
+	"header2": {
+		"message": "Pokaż favicons",
+		"description": ""
+	},
+	"getFavicons": {
+		"message": "Pokaż favicons na liście menu kontekstowego",
+		"description": ""
+	},
+	"note": {
+		"message": "Ta funkcjonalność wymaga Firefox-a 56 lub nowszego.",
+		"description": ""
+	},
+	"header4": {
+		"message": "Cache favicons inside browser sync storage",
+		"description": ""
+	},
+	"cacheFavicons": {
+		"message": "Save favicons to browser sync storage",
+		"description": ""
+	},
+	"gridMode": {
+		"message": "Wyświetl siatkę ikon zamiast listy wyszukiwarek",
+		"description": ""
+	},
+	"warning": {
+		"message": "Ostrzeżenie: Włączenie tej funkcji uniemożliwi wyświetlanie menu kontekstowych z innych rozszerzeń.",
+		"description": ""
+	},
+	"savePreferences": {
+		"message": "Zapisz Ustawienia",
+		"description": ""
+	},
+	"header6": {
+		"message": "Które wyszukiwarki chcesz wyświetlać w menu kontekstowym lub siatce?",
+		"description": ""
+	},
+	"clearAll": {
+		"message": "Wyczyść wszystko",
+		"description": ""
+	},
+	"selectAll": {
+		"message": "Zaznacz wszystko",
+		"description": ""
+	},
+	"reset": {
+		"message": "Zresetuj",
+		"description": ""
+	},
+	"subheader61": {
+		"message": "Dodaj nową wyszukiwarkę",
+		"description": ""
+	},
+	"showSearchEngine": {
+		"message": "Pokaż wyszukiwarkę w siatce lub menu kontekstowym",
+		"description": ""
+	},
+	"searchEngineName": {
+		"message": "Nazwa wyszukiwarki",
+		"description": ""
+	},
+	"placeHolderKeyword": {
+		"message": "Słowo kluczowe",
+		"description": ""
+	},
+	"multipleSearchEngines": {
+		"message": "Użyj tej wyszukiwarki do multi-search",
+		"description": ""
+	},
+	"searchEngineURL": {
+		"message": "Adres URL wyszukiwarki",
+		"description": ""
+	},
+	"testSearchEngine": {
+		"message": "Przetestuj wyszukiwarkę",
+		"description": ""
+	},
+	"addSearchEngine": {
+		"message": "Dodaj wyszukiwarkę",
+		"description": ""
+	},
+	"clear": {
+		"message": "Wyczyść",
+		"description": ""
+	},
+	"move": {
+		"message": "Przesuń",
+		"description": ""
+	},
+	"up": {
+		"message": "w górę",
+		"description": ""
+	},
+	"down": {
+		"message": "w dół",
+		"description": ""
+	},
+	"remove": {
+		"message": "Usuń",
+		"description": ""
+	},
+	"multipleSearchEnginesSearch": {
+		"message": "Uwzględnij tę wyszukiwarkę w wyszukiwaniu za pomocą wielu wyszukiwarek",
+		"description": ""
+	},
+	"notifySavedPreferences": {
+		"message": "Preferencje zostały zapisane.",
+		"description": ""
+	},
+	"notifySearchEngineAdded": {
+		"message": "Dodano wyszukiwarkę.",
+		"description": ""
+	},
+	"notifyEnableStorageSync": {
+		"message": "Sprawdź czy flaga 'webextensions.storage.sync.enabled' jest ustawiona na 'true' w 'about: config', w przeciwnym razie wyszukiwanie kontekstowe nie będzie działać.",
+		"description": ""
+	},
+	"notifySearchEnginesLoaded": {
+		"message": "Domyślna lista wyszukiwarek została załadowana.",
+		"description": ""
+	},
+	"titleMultipleSearchEngines": {
+		"message": "Wyszukiwanie za pomocą wielu wyszukiwarek",
+		"description": ""
+	},
+	"titleGoogleSearch": {
+		"message": "Przeszukaj tę stonę za pomocą Google",
+		"description": ""
+	},
+	"titleOptions": {
+		"message": "Opcje",
+		"description": ""
+	},
+	"windowTitle": {
+		"message": "Wyniki wyszukiwania dla",
+		"description": ""
+	},
+	"omniboxDescription": {
+		"message": "Wyszukiwanie za pomocą słów kluczowych. Sposób użycia: cs [słowo kluczowe] [kryteria wyszukiwania] (np. 'cs w Linux' wyszukuje 'Linux' na Wikipedii)",
+		"description": ""
+	},
+	"notifyUsage": {
+		"message": "Sposób użycia: cs [keyword] [kryteria wyszukiwania] (na przykład: cs w Linux)",
+		"description": ""
+	},
+	"notifySearchEngineWithKeyword": {
+		"message": "Wyszukiwarka ze słowem kluczowym",
+		"description": ""
+	},
+	"notifyUnknown": {
+		"message": "jest nieznana.",
+		"description": ""
+	},
+	"notifySearchEngineUrlRequired": {
+		"message": "Please fill in a search engine URL.",
+		"description": ""
+	},
+	"titleShowEngine": {
+		"message": "Show this search engine in the context menu or grid",
+		"description": ""
+	},
+	"header7": {
+		"message": "Reset options",
+		"description": ""
+	},
+	"sidebar": {
+		"message": "In the sidebar",
+		"description": ""
+	},
+	"displayFavicons": {
+		"message": "Display favicons in context menu list",
+		"description": ""
+	},
+	"resetPreferences": {
+		"message": "Reset preferences to default settings",
+		"description": ""
+	},
+	"forceSearchEnginesReload": {
+		"message": "Force reload of default search engines list",
+		"description": ""
+	},
+	"forceFaviconsReload": {
+		"message": "Force favicons to be reloaded",
+		"description": ""
+	},
+	"restriction": {
+		"message": "Please note that it isn't possible to display search results in the sidebar when using the grid of icons.",
+		"description": ""
+	}
 }

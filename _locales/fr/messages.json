@@ -1,262 +1,266 @@
 {
-  "extensionName": {
-    "message": "Context Search",
-    "description": "Name of the extension"
-  },
-  "extensionDescription": {
-    "message": "Effectue une recherche du texte sélectionné en utilisant le moteur de recherche choisi dans une liste pré-définie.",
-    "description": "Description of the extension"
-  },
-  "multisearch": {
-    "message": " est une recherche avec plusieurs moteurs de recherche simultanément.",
-    "description": "multi-search - it's a search with multiple search engines simultaneously."
-  },
-  "pageTitle": {
-    "message": "Préférences de Context Search",
-    "description": ""
-  },
-  "header1": {
-    "message": "Où les résultats de recherche doivent-ils apparaître?",
-    "description": ""
-  },
-  "newTab": {
-    "message": "Dans un nouvel onglet",
-    "description": ""
-  },
-  "sameTab": {
-    "message": "Dans le même onglet",
-    "description": ""
-  },
-  "newWindow": {
-    "message": "Dans une nouvelle fenêtre",
-    "description": ""
-  },
-  "active": {
-    "message": "Activer le nouvel onglet ou la nouvelle fenêtre",
-    "description": ""
-  },
-  "header3": {
-    "message": "Position des options dans le menu contextuel",
-    "description": ""
-  },
-  "subheader31": {
-    "message": "Où aimeriez-vous que le menu des options apparaisse dans le menu contextuel?",
-    "description": ""
-  },
-  "bottom": {
-    "message": "Au bas du menu contextuel",
-    "description": ""
-  },
-  "top": {
-    "message": "En haut du menu contextuel",
-    "description": ""
-  },
-  "hide": {
-    "message": "Ni en bas, ni en haut (cacher le menu des options)",
-    "description": ""
-  },
-  "header5": {
-    "message": "Importer/Exporter les moteurs de recherche",
-    "description": ""
-  },
-  "import": {
-    "message": "Importer le fichier JSON du disque local",
-    "description": ""
-  },
-  "export": {
-    "message": "Exporter les moteurs de recherche dans un fichier JSON",
-    "description": ""
-  },
-  "download": {
-    "message": "Sauvegarder sur le disque local",
-    "description": ""
-  },
-  "header2": {
-    "message": "Afficher les icones",
-    "description": ""
-  },
-  "getFavicons": {
-    "message": "Afficher les icones dans le menu contextuel",
-    "description": ""
-  },
-  "note": {
-    "message": "Cette fonctionnalité requiert Firefox 56 ou une version plus récente.",
-    "description": ""
-  },
-  "header4": {
-    "message": "Stocker les icônes des moteurs de recherche",
-    "description": ""
-  },
-  "cacheFavicons": {
-    "message": "Sauvegarder les icônes des moteurs de recherche dans la mémoire synchronisée du navigateur",
-    "description": ""
-  },
-  "gridMode": {
-    "message": "Afficher le menu contextuel sous la form de grille d'icones et non sous la forme de liste",
-    "description": ""
-  },
-  "warning": {
-    "message": "Attention: l'activation de cette fonctionnalité désactive les menus contextuels des autres extensions.",
-    "description": ""
-  },
-  "savePreferences": {
-    "message": "Sauvegarder les préférences",
-    "description": ""
-  },
-  "header6": {
-    "message": "Quels moteurs de recherche aimeriez-vous voir apparaître dans le menu contextuel ou dans la grille d'icones?",
-    "description": ""
-  },
-  "clearAll": {
-    "message": "Tout effacer",
-    "description": ""
-  },
-  "selectAll": {
-    "message": "Tout sélectionner",
-    "description": ""
-  },
-  "reset": {
-    "message": "Ré-initialisation",
-    "description": ""
-  },
-  "subheader61": {
-    "message": "Ajouter un nouveau moteur de recherche",
-    "description": ""
-  },
-  "showSearchEngine": {
-    "message": "Afficher le moteur de recherche dans la grille d'icônes ou dans le menu contextuel",
-    "description": ""
-  },
-  "searchEngineName": {
-    "message": "Nom du moteur de recherche",
-    "description": ""
-  },
-  "placeHolderKeyword": {
-    "message": "Mot clé",
-    "description": ""
-  },
-  "multipleSearchEngines": {
-    "message": "Inclure ce moteur de recherche pour un multi-search",
-    "description": ""  
-  },
-  "searchEngineURL": {
-    "message": "URL du moteur de recherche",
-    "description": ""
-  },
-  "testSearchEngine": {
-    "message": "Tester le moteur de recherche",
-    "description": ""  
-  },
-  "addSearchEngine": {
-    "message": "Ajouter le moteur de recherche",
-    "description": ""
-  },
-  "clear": {
-    "message": "Effacer",
-    "description": ""
-  },
-  "move": {
-    "message": "Déplacer",
-    "description": ""
-  },
-  "up": {
-    "message": "vers le haut",
-    "description": ""
-  },
-  "down": {
-    "message": "vers le bas",
-    "description": ""
-  },
-  "remove": {
-    "message": "Supprimer",
-    "description": ""
-  },
-  "multipleSearchEnginesSearch": {
-    "message": "Inclure ce moteur de recherche pour la recherche multiple",
-    "description": ""
-  },
-  "notifySavedPreferences": {
-    "message": "Préférences sauvegardées.",
-    "description": ""
-  },
-  "notifySearchEngineAdded": {
-    "message": "Moteur de recherche ajouté.",
-    "description": ""
-  },
-  "notifyEnableStorageSync": {
-    "message": "Assurez-vous que le paramètre 'webextension.storage.sync.enabled' a la valeur 'true' dans 'about:config', sinon Context Search ne fonctionnera pas.",
-    "description": ""
-  },
-  "notifySearchEnginesLoaded": {
-    "message": "Les moteurs de recherche par défaut ont été chargés.",
-    "description": ""
-  },
-  "titleMultipleSearchEngines": {
-    "message": "Recherche multiple",
-    "description": ""
-  },
-  "titleGoogleSearch": {
-    "message": "Rechercher dans ce site avec Google",
-    "description": ""
-  },
-  "titleOptions": {
-    "message": "Options",
-    "description": ""
-  },
-  "windowTitle": {
-    "message": "Résultats de recherche pour",
-    "description": ""
-  },
-  "omniboxDescription": {
-    "message": "Effectuer une recherche avec Context Search à l'aide de mots clé. Utilisation: cs [mot clé] [mots à rechercher] (par ex.: 'cs w Linux' recherche le mot 'Linux' dans Wikipedia)",
-    "description": ""
-  },
-  "notifyUsage": {
-    "message": "Utilisation: cs [mot clé] [mots à rechercher] (par ex.: 'cs w Linux')",
-    "description": ""
-  },
-  "notifySearchEngineWithKeyword": {
-    "message": "Le moteur de recherche avec le mot clé",
-    "description": ""
-  },
-  "notifyUnknown": {
-    "message": "est inconnu.",
-    "description": ""
-  },
-  "notifySearchEngineUrlRequired": {
-    "message": "Veuillez introduire l'adresse URL du moteur de recherche.",
-    "description": ""
-  },
-  "titleShowEngine": {
-    "message": "Afficher ce moteur de recherche dans le menu contextuel ou dans la grille d'icônes",
-    "description": ""
-  },
-  "header7": {
-    "message": "Réinitialiser les préférences",
-    "description": ""
-  },
-  "sidebar": {
-    "message": "Dans la barre de côté",
-    "description": ""
-  },
-  "displayFavicons": {
-    "message": "Afficher les icônes dans le menu contextuel",
-    "description": ""
-  },
-  "resetPreferences": {
-    "message": "Restaurer les préférences par défaut",
-    "description": ""
-  },
-  "forceSearchEnginesReload": {
-    "message": "Forcer le chargement à neuf des moteurs de recherche par défaut",
-    "description": ""
-  },
-  "forceFaviconsReload": {
-    "message": "Forcer le chargement à neuf des icônes",
-    "description": ""
-  },
-  "restriction": {
-    "message": "Veuillez noter qu'il n'est pas possible de présenter les résultats d'une recherche dans la barre de côté lorsqu'on utilise la grille d'icônes.",
-    "description": ""
-  }
+	"extensionName": {
+		"message": "Context Search",
+		"description": "Name of the extension"
+	},
+	"extensionDescription": {
+		"message": "Effectue une recherche du texte sélectionné en utilisant le moteur de recherche choisi dans une liste pré-définie.",
+		"description": "Description of the extension"
+	},
+	"multisearch": {
+		"message": " est une recherche avec plusieurs moteurs de recherche simultanément.",
+		"description": "multi-search - it's a search with multiple search engines simultaneously."
+	},
+	"pageTitle": {
+		"message": "Préférences de Context Search",
+		"description": ""
+	},
+	"header1": {
+		"message": "Où les résultats de recherche doivent-ils apparaître?",
+		"description": ""
+	},
+	"newTab": {
+		"message": "Dans un nouvel onglet",
+		"description": ""
+	},
+	"sameTab": {
+		"message": "Dans le même onglet",
+		"description": ""
+	},
+	"newWindow": {
+		"message": "Dans une nouvelle fenêtre",
+		"description": ""
+	},
+	"active": {
+		"message": "Activer le nouvel onglet ou la nouvelle fenêtre",
+		"description": ""
+	},
+	"position": {
+		"message": "Afficher les résultats de la recherche après le dernier onglet",
+		"description": ""
+	},
+	"header3": {
+		"message": "Position des options dans le menu contextuel",
+		"description": ""
+	},
+	"subheader31": {
+		"message": "Où aimeriez-vous que le menu des options apparaisse dans le menu contextuel?",
+		"description": ""
+	},
+	"bottom": {
+		"message": "Au bas du menu contextuel",
+		"description": ""
+	},
+	"top": {
+		"message": "En haut du menu contextuel",
+		"description": ""
+	},
+	"hide": {
+		"message": "Ni en bas, ni en haut (cacher le menu des options)",
+		"description": ""
+	},
+	"header5": {
+		"message": "Importer/Exporter les moteurs de recherche",
+		"description": ""
+	},
+	"import": {
+		"message": "Importer le fichier JSON du disque local",
+		"description": ""
+	},
+	"export": {
+		"message": "Exporter les moteurs de recherche dans un fichier JSON",
+		"description": ""
+	},
+	"download": {
+		"message": "Sauvegarder sur le disque local",
+		"description": ""
+	},
+	"header2": {
+		"message": "Afficher les icones",
+		"description": ""
+	},
+	"getFavicons": {
+		"message": "Afficher les icones dans le menu contextuel",
+		"description": ""
+	},
+	"note": {
+		"message": "Cette fonctionnalité requiert Firefox 56 ou une version plus récente.",
+		"description": ""
+	},
+	"header4": {
+		"message": "Stocker les icônes des moteurs de recherche",
+		"description": ""
+	},
+	"cacheFavicons": {
+		"message": "Sauvegarder les icônes des moteurs de recherche dans la mémoire synchronisée du navigateur",
+		"description": ""
+	},
+	"gridMode": {
+		"message": "Afficher le menu contextuel sous la form de grille d'icones et non sous la forme de liste",
+		"description": ""
+	},
+	"warning": {
+		"message": "Attention: l'activation de cette fonctionnalité désactive les menus contextuels des autres extensions.",
+		"description": ""
+	},
+	"savePreferences": {
+		"message": "Sauvegarder les préférences",
+		"description": ""
+	},
+	"header6": {
+		"message": "Quels moteurs de recherche aimeriez-vous voir apparaître dans le menu contextuel ou dans la grille d'icones?",
+		"description": ""
+	},
+	"clearAll": {
+		"message": "Tout effacer",
+		"description": ""
+	},
+	"selectAll": {
+		"message": "Tout sélectionner",
+		"description": ""
+	},
+	"reset": {
+		"message": "Ré-initialisation",
+		"description": ""
+	},
+	"subheader61": {
+		"message": "Ajouter un nouveau moteur de recherche",
+		"description": ""
+	},
+	"showSearchEngine": {
+		"message": "Afficher le moteur de recherche dans la grille d'icônes ou dans le menu contextuel",
+		"description": ""
+	},
+	"searchEngineName": {
+		"message": "Nom du moteur de recherche",
+		"description": ""
+	},
+	"placeHolderKeyword": {
+		"message": "Mot clé",
+		"description": ""
+	},
+	"multipleSearchEngines": {
+		"message": "Inclure ce moteur de recherche pour un multi-search",
+		"description": ""
+	},
+	"searchEngineURL": {
+		"message": "URL du moteur de recherche",
+		"description": ""
+	},
+	"testSearchEngine": {
+		"message": "Tester le moteur de recherche",
+		"description": ""
+	},
+	"addSearchEngine": {
+		"message": "Ajouter le moteur de recherche",
+		"description": ""
+	},
+	"clear": {
+		"message": "Effacer",
+		"description": ""
+	},
+	"move": {
+		"message": "Déplacer",
+		"description": ""
+	},
+	"up": {
+		"message": "vers le haut",
+		"description": ""
+	},
+	"down": {
+		"message": "vers le bas",
+		"description": ""
+	},
+	"remove": {
+		"message": "Supprimer",
+		"description": ""
+	},
+	"multipleSearchEnginesSearch": {
+		"message": "Inclure ce moteur de recherche pour la recherche multiple",
+		"description": ""
+	},
+	"notifySavedPreferences": {
+		"message": "Préférences sauvegardées.",
+		"description": ""
+	},
+	"notifySearchEngineAdded": {
+		"message": "Moteur de recherche ajouté.",
+		"description": ""
+	},
+	"notifyEnableStorageSync": {
+		"message": "Assurez-vous que le paramètre 'webextension.storage.sync.enabled' a la valeur 'true' dans 'about:config', sinon Context Search ne fonctionnera pas.",
+		"description": ""
+	},
+	"notifySearchEnginesLoaded": {
+		"message": "Les moteurs de recherche par défaut ont été chargés.",
+		"description": ""
+	},
+	"titleMultipleSearchEngines": {
+		"message": "Recherche multiple",
+		"description": ""
+	},
+	"titleGoogleSearch": {
+		"message": "Rechercher dans ce site avec Google",
+		"description": ""
+	},
+	"titleOptions": {
+		"message": "Options",
+		"description": ""
+	},
+	"windowTitle": {
+		"message": "Résultats de recherche pour",
+		"description": ""
+	},
+	"omniboxDescription": {
+		"message": "Effectuer une recherche avec Context Search à l'aide de mots clé. Utilisation: cs [mot clé] [mots à rechercher] (par ex.: 'cs w Linux' recherche le mot 'Linux' dans Wikipedia)",
+		"description": ""
+	},
+	"notifyUsage": {
+		"message": "Utilisation: cs [mot clé] [mots à rechercher] (par ex.: 'cs w Linux')",
+		"description": ""
+	},
+	"notifySearchEngineWithKeyword": {
+		"message": "Le moteur de recherche avec le mot clé",
+		"description": ""
+	},
+	"notifyUnknown": {
+		"message": "est inconnu.",
+		"description": ""
+	},
+	"notifySearchEngineUrlRequired": {
+		"message": "Veuillez introduire l'adresse URL du moteur de recherche.",
+		"description": ""
+	},
+	"titleShowEngine": {
+		"message": "Afficher ce moteur de recherche dans le menu contextuel ou dans la grille d'icônes",
+		"description": ""
+	},
+	"header7": {
+		"message": "Réinitialiser les préférences",
+		"description": ""
+	},
+	"sidebar": {
+		"message": "Dans la barre de côté",
+		"description": ""
+	},
+	"displayFavicons": {
+		"message": "Afficher les icônes dans le menu contextuel",
+		"description": ""
+	},
+	"resetPreferences": {
+		"message": "Restaurer les préférences par défaut",
+		"description": ""
+	},
+	"forceSearchEnginesReload": {
+		"message": "Forcer le chargement à neuf des moteurs de recherche par défaut",
+		"description": ""
+	},
+	"forceFaviconsReload": {
+		"message": "Forcer le chargement à neuf des icônes",
+		"description": ""
+	},
+	"restriction": {
+		"message": "Veuillez noter qu'il n'est pas possible de présenter les résultats d'une recherche dans la barre de côté lorsqu'on utilise la grille d'icônes.",
+		"description": ""
+	}
 }

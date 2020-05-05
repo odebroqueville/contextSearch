@@ -1,262 +1,266 @@
 {
-  "extensionName": {
-    "message": "Context Search",
-    "description": "Name of the extension"
-  },
-  "extensionDescription": {
-    "message": "Поиск выделенного текста с помощью поисковой системы из предварительно указанного списка.",
-    "description": "Description of the extension"
-  },
-  "multisearch": {
-    "message": " это поиск несколькими поисковыми системами одновременно.",
-    "description": "multi-search - it's a search with multiple search engines simultaneously."
-  },
-  "pageTitle": {
-    "message": "Настройки Context Search",
-    "description": ""
-  },
-  "header1": {
-    "message": "Где должны появиться результаты поиска?",
-    "description": ""
-  },
-  "newTab": {
-    "message": "В новой вкладке",
-    "description": ""
-  },
-  "sameTab": {
-    "message": "В текущей вкладке",
-    "description": ""
-  },
-  "newWindow": {
-    "message": "В новом окне",
-    "description": ""
-  },
-  "active": {
-    "message": "Сделать активной новую вкладку / окно",
-    "description": ""
-  },
-  "header3": {
-    "message": "Расположение опций в контекстном меню",
-    "description": ""
-  },
-  "subheader31": {
-    "message": "Где бы вы хотели видеть опции в контекстном меню?",
-    "description": ""
-  },
-  "bottom": {
-    "message": "Внизу",
-    "description": ""
-  },
-  "top": {
-    "message": "Вверху",
-    "description": ""
-  },
-  "hide": {
-    "message": "Нигде (скрыть меню опций)",
-    "description": ""
-  },
-  "header5": {
-    "message": "импорт / экспорт поисковых систем",
-    "description": ""
-  },
-  "import": {
-    "message": "Импорт JSON с локального диска",
-    "description": ""
-  },
-  "export": {
-    "message": "Экспорт поисковых систем в JSON",
-    "description": ""
-  },
-  "download": {
-    "message": "Экспорт на локальный диск",
-    "description": ""
-  },
-  "header2": {
-    "message": "Отображение фавиконов",
-    "description": ""
-  },
-  "getFavicons": {
-    "message": "Отображение фавиконов в списке контекстного меню",
-    "description": ""
-  },
-  "note": {
-    "message": "Эта функция требует firefox 56 или выше.",
-    "description": ""
-  },
-  "header4": {
-    "message": "Cache favicons inside browser sync storage",
-    "description": ""
-  },
-  "cacheFavicons": {
-    "message": "Save favicons to browser sync storage",
-    "description": ""
-  },
-  "gridMode": {
-    "message": "Отображение поисковых систем плиткой вместо списка",
-    "description": ""
-  },
-  "warning": {
-    "message": "Внимание: когда эта опция включена другие контекстные меню не отображаются.",
-    "description": ""
-  },
-  "savePreferences": {
-    "message": "Сохранить настройки",
-    "description": ""
-  },
-  "header6": {
-    "message": "Какие поисковые системы вы хотели бы видеть в контекстном меню / плитках?",
-    "description": ""
-  },
-  "clearAll": {
-    "message": "Очистить всё",
-    "description": ""
-  },
-  "selectAll": {
-    "message": "Выбрать всё",
-    "description": ""
-  },
-  "reset": {
-    "message": "Сброс",
-    "description": ""
-  },
-  "subheader61": {
-    "message": "Добавить новую поисковую систему",
-    "description": ""
-  },
-  "showSearchEngine": {
-    "message": "Показывать поисковую систему плиткой или в контекстном меню",
-    "description": ""
-  },
-  "searchEngineName": {
-    "message": "Название поисковой системы",
-    "description": ""
-  },
-  "placeHolderKeyword": {
-    "message": "Ключевик",
-    "description": ""
-  },
-  "multipleSearchEngines": {
-    "message": "Использовать эту поисковую систему для multi-search",
-    "description": ""
-  },
-  "searchEngineURL": {
-    "message": "URL поисковой системы",
-    "description": ""
-  },
-  "testSearchEngine": {
-    "message": "Тестировать поисковую систему",
-    "description": ""
-  },
-  "addSearchEngine": {
-    "message": "Добавить поисковую систему",
-    "description": ""
-  },
-  "clear": {
-    "message": "Очистить",
-    "description": ""
-  },
-  "move": {
-    "message": "Переместить",
-    "description": ""
-  },
-  "up": {
-    "message": "вверх",
-    "description": ""
-  },
-  "down": {
-    "message": "вниз",
-    "description": ""
-  },
-  "remove": {
-    "message": "Удалить",
-    "description": ""
-  },
-  "multipleSearchEnginesSearch": {
-    "message": "Добавить эту поисковую систему в multi-search",
-    "description": ""
-  },
-  "notifySavedPreferences": {
-    "message": "Настройки сохранены.",
-    "description": ""
-  },
-  "notifySearchEngineAdded": {
-    "message": "Поисковая система добавлена.",
-    "description": ""
-  },
-  "notifyEnableStorageSync": {
-    "message": "Убедитесь, что в 'about:config' строка 'webextensions.storage.sync.enabled' имеет значение 'true', в противном случае Context Search не будет работать.",
-    "description": ""
-  },
-  "notifySearchEnginesLoaded": {
-    "message": "Загружен список поисковых систем по умолчанию.",
-    "description": ""
-  },
-  "titleMultipleSearchEngines": {
-    "message": "Multi-search",
-    "description": ""
-  },
-  "titleGoogleSearch": {
-    "message": "Поиск по сайту с помощью Google",
-    "description": ""
-  },
-  "titleOptions": {
-    "message": "Настройки",
-    "description": ""
-  },
-  "windowTitle": {
-    "message": "Результаты поиска для",
-    "description": ""
-  },
-  "omniboxDescription": {
-    "message": "Контекстный поиск с использованием ключевых слов. Пример: cs [ключевик] [искомое] (например 'cs w Linux' ищет в Википедии по слову 'Linux')",
-    "description": ""
-  },
-  "notifyUsage": {
-    "message": "Пример: cs [ключевик] [искомое] (например: cs w Linux)",
-    "description": ""
-  },
-  "notifySearchEngineWithKeyword": {
-    "message": "Поисковая система с ключевым словом",
-    "description": ""
-  },
-  "notifyUnknown": {
-    "message": "неизвестно.",
-    "description": ""
-  },
-  "notifySearchEngineUrlRequired": {
-    "message": "Please fill in a search engine URL.",
-      "description": ""
-  },
-  "titleShowEngine": {
-    "message": "Show this search engine in the context menu or grid",
-    "description": ""
-  },
-  "header7": {
-    "message": "Reset options",
-    "description": ""
-  },
-  "sidebar": {
-    "message": "In the sidebar",
-    "description": ""
-  },
-  "displayFavicons": {
-    "message": "Display favicons in context menu list",
-    "description": ""
-  },
-  "resetPreferences": {
-    "message": "Reset preferences to default settings",
-    "description": ""
-  },
-  "forceSearchEnginesReload": {
-    "message": "Force reload of default search engines list",
-    "description": ""
-  },
-  "forceFaviconsReload": {
-    "message": "Force favicons to be reloaded",
-    "description": ""
-  },
-  "restriction": {
-    "message": "Please note that it isn't possible to display search results in the sidebar when using the grid of icons.",
-    "description": ""
-  }
+	"extensionName": {
+		"message": "Context Search",
+		"description": "Name of the extension"
+	},
+	"extensionDescription": {
+		"message": "Поиск выделенного текста с помощью поисковой системы из предварительно указанного списка.",
+		"description": "Description of the extension"
+	},
+	"multisearch": {
+		"message": " это поиск несколькими поисковыми системами одновременно.",
+		"description": "multi-search - it's a search with multiple search engines simultaneously."
+	},
+	"pageTitle": {
+		"message": "Настройки Context Search",
+		"description": ""
+	},
+	"header1": {
+		"message": "Где должны появиться результаты поиска?",
+		"description": ""
+	},
+	"newTab": {
+		"message": "В новой вкладке",
+		"description": ""
+	},
+	"sameTab": {
+		"message": "В текущей вкладке",
+		"description": ""
+	},
+	"newWindow": {
+		"message": "В новом окне",
+		"description": ""
+	},
+	"active": {
+		"message": "Сделать активной новую вкладку / окно",
+		"description": ""
+	},
+	"position": {
+		"message": "Отобразите результаты поиска после последней вкладки",
+		"description": ""
+	},
+	"header3": {
+		"message": "Расположение опций в контекстном меню",
+		"description": ""
+	},
+	"subheader31": {
+		"message": "Где бы вы хотели видеть опции в контекстном меню?",
+		"description": ""
+	},
+	"bottom": {
+		"message": "Внизу",
+		"description": ""
+	},
+	"top": {
+		"message": "Вверху",
+		"description": ""
+	},
+	"hide": {
+		"message": "Нигде (скрыть меню опций)",
+		"description": ""
+	},
+	"header5": {
+		"message": "импорт / экспорт поисковых систем",
+		"description": ""
+	},
+	"import": {
+		"message": "Импорт JSON с локального диска",
+		"description": ""
+	},
+	"export": {
+		"message": "Экспорт поисковых систем в JSON",
+		"description": ""
+	},
+	"download": {
+		"message": "Экспорт на локальный диск",
+		"description": ""
+	},
+	"header2": {
+		"message": "Отображение фавиконов",
+		"description": ""
+	},
+	"getFavicons": {
+		"message": "Отображение фавиконов в списке контекстного меню",
+		"description": ""
+	},
+	"note": {
+		"message": "Эта функция требует firefox 56 или выше.",
+		"description": ""
+	},
+	"header4": {
+		"message": "Cache favicons inside browser sync storage",
+		"description": ""
+	},
+	"cacheFavicons": {
+		"message": "Save favicons to browser sync storage",
+		"description": ""
+	},
+	"gridMode": {
+		"message": "Отображение поисковых систем плиткой вместо списка",
+		"description": ""
+	},
+	"warning": {
+		"message": "Внимание: когда эта опция включена другие контекстные меню не отображаются.",
+		"description": ""
+	},
+	"savePreferences": {
+		"message": "Сохранить настройки",
+		"description": ""
+	},
+	"header6": {
+		"message": "Какие поисковые системы вы хотели бы видеть в контекстном меню / плитках?",
+		"description": ""
+	},
+	"clearAll": {
+		"message": "Очистить всё",
+		"description": ""
+	},
+	"selectAll": {
+		"message": "Выбрать всё",
+		"description": ""
+	},
+	"reset": {
+		"message": "Сброс",
+		"description": ""
+	},
+	"subheader61": {
+		"message": "Добавить новую поисковую систему",
+		"description": ""
+	},
+	"showSearchEngine": {
+		"message": "Показывать поисковую систему плиткой или в контекстном меню",
+		"description": ""
+	},
+	"searchEngineName": {
+		"message": "Название поисковой системы",
+		"description": ""
+	},
+	"placeHolderKeyword": {
+		"message": "Ключевик",
+		"description": ""
+	},
+	"multipleSearchEngines": {
+		"message": "Использовать эту поисковую систему для multi-search",
+		"description": ""
+	},
+	"searchEngineURL": {
+		"message": "URL поисковой системы",
+		"description": ""
+	},
+	"testSearchEngine": {
+		"message": "Тестировать поисковую систему",
+		"description": ""
+	},
+	"addSearchEngine": {
+		"message": "Добавить поисковую систему",
+		"description": ""
+	},
+	"clear": {
+		"message": "Очистить",
+		"description": ""
+	},
+	"move": {
+		"message": "Переместить",
+		"description": ""
+	},
+	"up": {
+		"message": "вверх",
+		"description": ""
+	},
+	"down": {
+		"message": "вниз",
+		"description": ""
+	},
+	"remove": {
+		"message": "Удалить",
+		"description": ""
+	},
+	"multipleSearchEnginesSearch": {
+		"message": "Добавить эту поисковую систему в multi-search",
+		"description": ""
+	},
+	"notifySavedPreferences": {
+		"message": "Настройки сохранены.",
+		"description": ""
+	},
+	"notifySearchEngineAdded": {
+		"message": "Поисковая система добавлена.",
+		"description": ""
+	},
+	"notifyEnableStorageSync": {
+		"message": "Убедитесь, что в 'about:config' строка 'webextensions.storage.sync.enabled' имеет значение 'true', в противном случае Context Search не будет работать.",
+		"description": ""
+	},
+	"notifySearchEnginesLoaded": {
+		"message": "Загружен список поисковых систем по умолчанию.",
+		"description": ""
+	},
+	"titleMultipleSearchEngines": {
+		"message": "Multi-search",
+		"description": ""
+	},
+	"titleGoogleSearch": {
+		"message": "Поиск по сайту с помощью Google",
+		"description": ""
+	},
+	"titleOptions": {
+		"message": "Настройки",
+		"description": ""
+	},
+	"windowTitle": {
+		"message": "Результаты поиска для",
+		"description": ""
+	},
+	"omniboxDescription": {
+		"message": "Контекстный поиск с использованием ключевых слов. Пример: cs [ключевик] [искомое] (например 'cs w Linux' ищет в Википедии по слову 'Linux')",
+		"description": ""
+	},
+	"notifyUsage": {
+		"message": "Пример: cs [ключевик] [искомое] (например: cs w Linux)",
+		"description": ""
+	},
+	"notifySearchEngineWithKeyword": {
+		"message": "Поисковая система с ключевым словом",
+		"description": ""
+	},
+	"notifyUnknown": {
+		"message": "неизвестно.",
+		"description": ""
+	},
+	"notifySearchEngineUrlRequired": {
+		"message": "Please fill in a search engine URL.",
+		"description": ""
+	},
+	"titleShowEngine": {
+		"message": "Show this search engine in the context menu or grid",
+		"description": ""
+	},
+	"header7": {
+		"message": "Reset options",
+		"description": ""
+	},
+	"sidebar": {
+		"message": "In the sidebar",
+		"description": ""
+	},
+	"displayFavicons": {
+		"message": "Display favicons in context menu list",
+		"description": ""
+	},
+	"resetPreferences": {
+		"message": "Reset preferences to default settings",
+		"description": ""
+	},
+	"forceSearchEnginesReload": {
+		"message": "Force reload of default search engines list",
+		"description": ""
+	},
+	"forceFaviconsReload": {
+		"message": "Force favicons to be reloaded",
+		"description": ""
+	},
+	"restriction": {
+		"message": "Please note that it isn't possible to display search results in the sidebar when using the grid of icons.",
+		"description": ""
+	}
 }

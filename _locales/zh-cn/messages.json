@@ -1,262 +1,266 @@
 {
-  "extensionName": {
-    "message": "Context Search",
-    "description": "Name of the extension"
-  },
-  "extensionDescription": {
-    "message": "使用预先指定的列表中的搜索引擎搜索选定的文本",
-    "description": "Description of the extension"
-  },
-  "multisearch": {
-    "message": " is a search with multiple search engines simultaneously.",
-    "description": "multi-search - it's a search with multiple search engines simultaneously."
-  },
-  "pageTitle": {
-    "message": "Context Search 偏好设置",
-    "description": ""
-  },
-  "header1": {
-    "message": "在哪里显示搜索结果？",
-    "description": ""
-  },
-  "newTab": {
-    "message": "新标签页",
-    "description": ""
-  },
-  "sameTab": {
-    "message": "当前标签页",
-    "description": ""
-  },
-  "newWindow": {
-    "message": "新窗口",
-    "description": ""
-  },
-  "active": {
-    "message": "使新选项卡或窗口处于活动状态",
-    "description": ""
-  },
-  "header3": {
-    "message": "选项在右键菜单列表中的位置",
-    "description": ""
-  },
-  "subheader31": {
-    "message": "您希望搜索选项菜单项出现在上下文菜单中的哪个位置？",
-    "description": ""
-  },
-  "bottom": {
-    "message": "底部",
-    "description": ""
-  },
-  "top": {
-    "message": "顶部",
-    "description": ""
-  },
-  "hide": {
-    "message": "两者都不（隐藏搜索选项菜单项）",
-    "description": ""
-  },
-  "header5": {
-    "message": "导入/导出搜索引擎",
-    "description": ""
-  },
-  "import": {
-    "message": "从本地硬盘导入 JSON",
-    "description": ""
-  },
-  "export": {
-    "message": "导出搜索引擎到 JSON",
-    "description": ""
-  },
-  "download": {
-    "message": "导出到本地硬盘",
-    "description": ""
-  },
-  "header2": {
-    "message": "在上下文菜单列表中显示搜索引擎图标",
-    "description": ""
-  },
-  "getFavicons": {
-    "message": "在上下文菜单列表中显示搜索引擎图标",
-    "description": ""
-  },
-  "note": {
-    "message": "这个特性需要 Firefox 56 或更高的版本。",
-    "description": ""
-  },
-  "header4": {
-    "message": "Cache favicons inside browser sync storage",
-    "description": ""
-  },
-  "cacheFavicons": {
-    "message": "Save favicons to browser sync storage",
-    "description": ""
-  },
-  "gridMode": {
-    "message": "用网格形式显示搜索引擎图标，而不是列表形式",
-    "description": ""
-  },
-  "warning": {
-    "message": "警告：请注意，启用此特性会隐藏其他扩展的上下文菜单。",
-    "description": ""
-  },
-  "savePreferences": {
-    "message": "保存偏好设置",
-    "description": ""
-  },
-  "header6": {
-    "message": "您想要在上下文菜单或网格中显示哪些搜索引擎？",
-    "description": ""
-  },
-  "clearAll": {
-    "message": "清除所有",
-    "description": ""
-  },
-  "selectAll": {
-    "message": "全选",
-    "description": ""
-  },
-  "reset": {
-    "message": "重置",
-    "description": ""
-  },
-  "subheader61": {
-    "message": "添加一个新的搜索引擎",
-    "description": ""
-  },
-  "showSearchEngine": {
-    "message": "在网格或上下文菜单中显示搜索引擎",
-    "description": ""
-  },
-  "searchEngineName": {
-    "message": "搜索引擎名称",
-    "description": ""
-  },
-  "placeHolderKeyword": {
-    "message": "关键词",
-    "description": ""
-  },
-  "multipleSearchEngines": {
-    "message": "在组合搜索中使用此搜索引擎",
-    "description": ""
-  },
-  "searchEngineURL": {
-    "message": "搜索引擎网址",
-    "description": ""
-  },
-  "testSearchEngine": {
-    "message": "测试搜索引擎",
-    "description": ""
-  },
-  "addSearchEngine": {
-    "message": "添加搜索引擎",
-    "description": ""
-  },
-  "clear": {
-    "message": "清除",
-    "description": ""
-  },
-  "move": {
-    "message": "将",
-    "description": ""
-  },
-  "up": {
-    "message": "向上移动",
-    "description": ""
-  },
-  "down": {
-    "message": "向下移动",
-    "description": ""
-  },
-  "remove": {
-    "message": "移除",
-    "description": ""
-  },
-  "multipleSearchEnginesSearch": {
-    "message": "将此搜索引擎包含在组合搜索引擎中",
-    "description": ""
-  },
-  "notifySavedPreferences": {
-    "message": "偏好设置已保存",
-    "description": ""
-  },
-  "notifySearchEngineAdded": {
-    "message": "搜索引擎已添加",
-    "description": ""
-  },
-  "notifyEnableStorageSync": {
-    "message": "请确保 'about:config' 中的 'webextensions.storage.sync.enabled' 标志设为 'true'，否则 Context Search 将无法正常工作",
-    "description": ""
-  },
-  "notifySearchEnginesLoaded": {
-    "message": "搜索引擎默认列表已加载。",
-    "description": ""
-  },
-  "titleMultipleSearchEngines": {
-    "message": "组合搜索",
-    "description": ""
-  },
-  "titleGoogleSearch": {
-    "message": "用 Google 搜索此站点",
-    "description": ""
-  },
-  "titleOptions": {
-    "message": "选项",
-    "description": ""
-  },
-  "windowTitle": {
-    "message": "搜索结果",
-    "description": ""
-  },
-  "omniboxDescription": {
-    "message": "使用关键词通过 Context Search 进行搜索。用法：cs [关键词] [搜索条件]（例如 'cs w Linux' 表示通过维基百科搜索 'Linux'）",
-    "description": ""
-  },
-  "notifyUsage": {
-    "message": "用法：cs [关键词] [搜索条件]（例如 'cs w Linux'）",
-    "description": ""
-  },
-  "notifySearchEngineWithKeyword": {
-    "message": "关键词对应的搜索引擎",
-    "description": ""
-  },
-  "notifyUnknown": {
-    "message": "是未知的。",
-    "description": ""
-  },
-  "notifySearchEngineUrlRequired": {
-    "message": "Please fill in a search engine URL.",
-      "description": ""
-  },
-  "titleShowEngine": {
-    "message": "Show this search engine in the context menu or grid",
-    "description": ""
-  },
-  "header7": {
-    "message": "Reset options",
-    "description": ""
-  },
-  "sidebar": {
-    "message": "In the sidebar",
-    "description": ""
-  },
-  "displayFavicons": {
-    "message": "Display favicons in context menu list",
-    "description": ""
-  },
-  "resetPreferences": {
-    "message": "Reset preferences to default settings",
-    "description": ""
-  },
-  "forceSearchEnginesReload": {
-    "message": "Force reload of default search engines list",
-    "description": ""
-  },
-  "forceFaviconsReload": {
-    "message": "Force favicons to be reloaded",
-    "description": ""
-  },
-  "restriction": {
-    "message": "Please note that it isn't possible to display search results in the sidebar when using the grid of icons.",
-    "description": ""
-  }
+	"extensionName": {
+		"message": "Context Search",
+		"description": "Name of the extension"
+	},
+	"extensionDescription": {
+		"message": "使用预先指定的列表中的搜索引擎搜索选定的文本",
+		"description": "Description of the extension"
+	},
+	"multisearch": {
+		"message": " is a search with multiple search engines simultaneously.",
+		"description": "multi-search - it's a search with multiple search engines simultaneously."
+	},
+	"pageTitle": {
+		"message": "Context Search 偏好设置",
+		"description": ""
+	},
+	"header1": {
+		"message": "在哪里显示搜索结果？",
+		"description": ""
+	},
+	"newTab": {
+		"message": "新标签页",
+		"description": ""
+	},
+	"sameTab": {
+		"message": "当前标签页",
+		"description": ""
+	},
+	"newWindow": {
+		"message": "新窗口",
+		"description": ""
+	},
+	"active": {
+		"message": "使新选项卡或窗口处于活动状态",
+		"description": ""
+	},
+	"position": {
+		"message": "在最后一个选项卡之后显示搜索结果",
+		"description": ""
+	},
+	"header3": {
+		"message": "选项在右键菜单列表中的位置",
+		"description": ""
+	},
+	"subheader31": {
+		"message": "您希望搜索选项菜单项出现在上下文菜单中的哪个位置？",
+		"description": ""
+	},
+	"bottom": {
+		"message": "底部",
+		"description": ""
+	},
+	"top": {
+		"message": "顶部",
+		"description": ""
+	},
+	"hide": {
+		"message": "两者都不（隐藏搜索选项菜单项）",
+		"description": ""
+	},
+	"header5": {
+		"message": "导入/导出搜索引擎",
+		"description": ""
+	},
+	"import": {
+		"message": "从本地硬盘导入 JSON",
+		"description": ""
+	},
+	"export": {
+		"message": "导出搜索引擎到 JSON",
+		"description": ""
+	},
+	"download": {
+		"message": "导出到本地硬盘",
+		"description": ""
+	},
+	"header2": {
+		"message": "在上下文菜单列表中显示搜索引擎图标",
+		"description": ""
+	},
+	"getFavicons": {
+		"message": "在上下文菜单列表中显示搜索引擎图标",
+		"description": ""
+	},
+	"note": {
+		"message": "这个特性需要 Firefox 56 或更高的版本。",
+		"description": ""
+	},
+	"header4": {
+		"message": "Cache favicons inside browser sync storage",
+		"description": ""
+	},
+	"cacheFavicons": {
+		"message": "Save favicons to browser sync storage",
+		"description": ""
+	},
+	"gridMode": {
+		"message": "用网格形式显示搜索引擎图标，而不是列表形式",
+		"description": ""
+	},
+	"warning": {
+		"message": "警告：请注意，启用此特性会隐藏其他扩展的上下文菜单。",
+		"description": ""
+	},
+	"savePreferences": {
+		"message": "保存偏好设置",
+		"description": ""
+	},
+	"header6": {
+		"message": "您想要在上下文菜单或网格中显示哪些搜索引擎？",
+		"description": ""
+	},
+	"clearAll": {
+		"message": "清除所有",
+		"description": ""
+	},
+	"selectAll": {
+		"message": "全选",
+		"description": ""
+	},
+	"reset": {
+		"message": "重置",
+		"description": ""
+	},
+	"subheader61": {
+		"message": "添加一个新的搜索引擎",
+		"description": ""
+	},
+	"showSearchEngine": {
+		"message": "在网格或上下文菜单中显示搜索引擎",
+		"description": ""
+	},
+	"searchEngineName": {
+		"message": "搜索引擎名称",
+		"description": ""
+	},
+	"placeHolderKeyword": {
+		"message": "关键词",
+		"description": ""
+	},
+	"multipleSearchEngines": {
+		"message": "在组合搜索中使用此搜索引擎",
+		"description": ""
+	},
+	"searchEngineURL": {
+		"message": "搜索引擎网址",
+		"description": ""
+	},
+	"testSearchEngine": {
+		"message": "测试搜索引擎",
+		"description": ""
+	},
+	"addSearchEngine": {
+		"message": "添加搜索引擎",
+		"description": ""
+	},
+	"clear": {
+		"message": "清除",
+		"description": ""
+	},
+	"move": {
+		"message": "将",
+		"description": ""
+	},
+	"up": {
+		"message": "向上移动",
+		"description": ""
+	},
+	"down": {
+		"message": "向下移动",
+		"description": ""
+	},
+	"remove": {
+		"message": "移除",
+		"description": ""
+	},
+	"multipleSearchEnginesSearch": {
+		"message": "将此搜索引擎包含在组合搜索引擎中",
+		"description": ""
+	},
+	"notifySavedPreferences": {
+		"message": "偏好设置已保存",
+		"description": ""
+	},
+	"notifySearchEngineAdded": {
+		"message": "搜索引擎已添加",
+		"description": ""
+	},
+	"notifyEnableStorageSync": {
+		"message": "请确保 'about:config' 中的 'webextensions.storage.sync.enabled' 标志设为 'true'，否则 Context Search 将无法正常工作",
+		"description": ""
+	},
+	"notifySearchEnginesLoaded": {
+		"message": "搜索引擎默认列表已加载。",
+		"description": ""
+	},
+	"titleMultipleSearchEngines": {
+		"message": "组合搜索",
+		"description": ""
+	},
+	"titleGoogleSearch": {
+		"message": "用 Google 搜索此站点",
+		"description": ""
+	},
+	"titleOptions": {
+		"message": "选项",
+		"description": ""
+	},
+	"windowTitle": {
+		"message": "搜索结果",
+		"description": ""
+	},
+	"omniboxDescription": {
+		"message": "使用关键词通过 Context Search 进行搜索。用法：cs [关键词] [搜索条件]（例如 'cs w Linux' 表示通过维基百科搜索 'Linux'）",
+		"description": ""
+	},
+	"notifyUsage": {
+		"message": "用法：cs [关键词] [搜索条件]（例如 'cs w Linux'）",
+		"description": ""
+	},
+	"notifySearchEngineWithKeyword": {
+		"message": "关键词对应的搜索引擎",
+		"description": ""
+	},
+	"notifyUnknown": {
+		"message": "是未知的。",
+		"description": ""
+	},
+	"notifySearchEngineUrlRequired": {
+		"message": "Please fill in a search engine URL.",
+		"description": ""
+	},
+	"titleShowEngine": {
+		"message": "Show this search engine in the context menu or grid",
+		"description": ""
+	},
+	"header7": {
+		"message": "Reset options",
+		"description": ""
+	},
+	"sidebar": {
+		"message": "In the sidebar",
+		"description": ""
+	},
+	"displayFavicons": {
+		"message": "Display favicons in context menu list",
+		"description": ""
+	},
+	"resetPreferences": {
+		"message": "Reset preferences to default settings",
+		"description": ""
+	},
+	"forceSearchEnginesReload": {
+		"message": "Force reload of default search engines list",
+		"description": ""
+	},
+	"forceFaviconsReload": {
+		"message": "Force favicons to be reloaded",
+		"description": ""
+	},
+	"restriction": {
+		"message": "Please note that it isn't possible to display search results in the sidebar when using the grid of icons.",
+		"description": ""
+	}
 }

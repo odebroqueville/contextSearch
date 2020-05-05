@@ -36,6 +36,7 @@ const notifySearchEngineUrlRequired = browser.i18n.getMessage('notifySearchEngin
 let contextsearch_tabMode = 'openNewTab';
 let contextsearch_optionsMenuLocation = 'bottom';
 let contextsearch_openSearchResultsInNewTab = true;
+let contextsearch_openSearchResultsInLastTab = false;
 let contextsearch_makeNewTabOrWindowActive = false;
 let contextsearch_openSearchResultsInNewWindow = false;
 let contextsearch_openSearchResultsInSidebar = false;
@@ -49,6 +50,7 @@ const defaultOptions = {
 	options: {
 		tabMode: contextsearch_tabMode,
 		tabActive: contextsearch_makeNewTabOrWindowActive,
+		lastTab: contextsearch_openSearchResultsInLastTab,
 		optionsMenuLocation: contextsearch_optionsMenuLocation,
 		displayFavicons: contextsearch_displayFavicons,
 		disableAltClick: contextsearch_disableAltClick,
@@ -195,6 +197,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				if (logToConsole) console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
 				options.tabMode = message.data.tabMode;
 				options.tabActive = message.data.tabActive;
+				options.lastTab = message.data.lastTab;
 				setTabMode(options);
 				saveOptions(options, false);
 			});
@@ -372,6 +375,7 @@ function saveOptions(data, blnRebuildContextMenu) {
 function setTabMode(options) {
 	if (logToConsole) console.log('Setting tab mode..');
 	contextsearch_makeNewTabOrWindowActive = options.tabActive;
+	contextsearch_openSearchResultsInLastTab = options.lastTab;
 	switch (options.tabMode) {
 		case 'openNewTab':
 			contextsearch_openSearchResultsInNewTab = true;
@@ -871,6 +875,7 @@ function buildContextMenuItem(searchEngine, index, title, base64String, browserV
 // Perform search based on selected search engine, i.e. selected context menu item
 function processSearch(info, tab) {
 	let id = info.menuItemId.replace('cs-', '');
+	let tabPosition = tab.index;
 	browser.sidebarAction.close();
 
 	if (id === 'exif-tags') {
@@ -927,7 +932,17 @@ function processSearch(info, tab) {
 				});
 			return;
 		}
-		displaySearchResults(targetUrl, tab.index);
+		browser.tabs.query({ currentWindow: true }).then((tabs) => {
+			for (let tab of tabs) {
+				if (logToConsole) {
+					console.log(tab.index);
+					console.log(tab.title);
+					console.log('-------------------------');
+				}
+			}
+			if (contextsearch_openSearchResultsInLastTab) tabPosition = tabs.length;
+			displaySearchResults(targetUrl, tabPosition);
+		}, onError);
 		return;
 	} else if (id === 'options') {
 		browser.runtime.openOptionsPage().then(null, onError);

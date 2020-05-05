@@ -1,270 +1,274 @@
 {
-  "extensionName": {
-    "message": "Context Search",
-    "description": "Name of the extension"
-  },
-  "extensionDescription": {
-    "message": "Searches the selected text using a search engine from a pre-specified list.",
-    "description": "Description of the extension"
-  },
-  "multisearch": {
-    "message": " is a search with multiple search engines simultaneously.",
-    "description": "multi-search - it's a search with multiple search engines simultaneously."
-  },
-  "pageTitle": {
-    "message": "Context Search Preferences",
-    "description": ""
-  },
-  "header1": {
-    "message": "Where should search results appear?",
-    "description": ""
-  },
-  "newTab": {
-    "message": "In a new tab",
-    "description": ""
-  },
-  "sameTab": {
-    "message": "In the same tab",
-    "description": ""
-  },
-  "newWindow": {
-    "message": "In a new window",
-    "description": ""
-  },
-  "active": {
-    "message": "Make the new tab or window active",
-    "description": ""
-  },
-  "header3": {
-    "message": "Position of options in the context menu",
-    "description": ""
-  },
-  "subheader31": {
-    "message": "Where would you like the options menu to appear in the context menu?",
-    "description": ""
-  },
-  "bottom": {
-    "message": "At the bottom",
-    "description": ""
-  },
-  "top": {
-    "message": "At the top",
-    "description": ""
-  },
-  "hide": {
-    "message": "Neither (hide the options menu)",
-    "description": ""
-  },
-  "header5": {
-    "message": "Import/export search engines",
-    "description": ""
-  },
-  "import": {
-    "message": "Import JSON from local disk",
-    "description": ""
-  },
-  "export": {
-    "message": "Export search engines to JSON",
-    "description": ""
-  },
-  "download": {
-    "message": "Export to local disk",
-    "description": ""
-  },
-  "header2": {
-    "message": "Favicons & Icons",
-    "description": ""
-  },
-  "getFavicons": {
-    "message": "Display favicons in context menu list",
-    "description": ""
-  },
-  "note": {
-    "message": "This feature requires Firefox 56 or above.",
-    "description": ""
-  },
-  "header4": {
-    "message": "Cache favicons inside browser sync storage",
-    "description": ""
-  },
-  "cacheFavicons": {
-    "message": "Save favicons to browser sync storage",
-    "description": ""
-  },
-  "gridMode": {
-    "message": "Display a grid of icons instead of a list of search engines",
-    "description": ""
-  },
-  "warning": {
-    "message": "Warning: Please note that enabling this feature will prevent context menus from other extensions to be displayed.",
-    "description": ""
-  },
-  "savePreferences": {
-    "message": "Save preferences",
-    "description": ""
-  },
-  "header6": {
-    "message": "Which search engines would you like to appear in the context menu or grid?",
-    "description": ""
-  },
-  "clearAll": {
-    "message": "Clear All",
-    "description": ""
-  },
-  "selectAll": {
-    "message": "Select All",
-    "description": ""
-  },
-  "reset": {
-    "message": "Reset",
-    "description": ""
-  },
-  "subheader61": {
-    "message": "Add a new search engine",
-    "description": ""
-  },
-  "showSearchEngine": {
-    "message": "Show search engine in grid or context menu",
-    "description": ""
-  },
-  "searchEngineName": {
-    "message": "Search engine name",
-    "description": ""
-  },
-  "placeHolderKeyword": {
-    "message": "Keyword",
-    "description": ""
-  },
-  "multipleSearchEngines": {
-    "message": "Include in multi-search",
-    "description": ""
-  },
-  "searchEngineURL": {
-    "message": "Search engine URL",
-    "description": ""
-  },
-  "testSearchEngine": {
-    "message": "Test search engine",
-    "description": ""
-  },
-  "addSearchEngine": {
-    "message": "Add search engine",
-    "description": ""
-  },
-  "clear": {
-    "message": "Clear",
-    "description": ""
-  },
-  "disableGrid": {
-    "message": "Disable grid of icons",
-    "description": ""
-  },
-  "move": {
-    "message": "Move",
-    "description": ""
-  },
-  "up": {
-    "message": "up",
-    "description": ""
-  },
-  "down": {
-    "message": "down",
-    "description": ""
-  },
-  "remove": {
-    "message": "Remove",
-    "description": ""
-  },
-  "multipleSearchEnginesSearch": {
-    "message": "Include this search engine in a multi-search",
-    "description": ""
-  },
-  "notifySavedPreferences": {
-    "message": "Saved preferences.",
-    "description": ""
-  },
-  "notifySearchEngineAdded": {
-    "message": "Search engine added.",
-    "description": ""
-  },
-  "titleShowEngine": {
-    "message": "Show this search engine in the context menu or grid",
-    "description": ""
-  },
-  "notifyEnableStorageSync": {
-    "message": "Please ensure that the flag 'webextensions.storage.sync.enabled' is set to 'true' in 'about:config', otherwise Context Search won't work.",
-    "description": ""
-  },
-  "notifySearchEnginesLoaded": {
-    "message": "Default list of search engines has been loaded.",
-    "description": ""
-  },
-  "titleMultipleSearchEngines": {
-    "message": "Multiple search engines search",
-    "description": ""
-  },
-  "titleGoogleSearch": {
-    "message": "Search this site with Google",
-    "description": ""
-  },
-  "titleOptions": {
-    "message": "Options",
-    "description": ""
-  },
-  "windowTitle": {
-    "message": "Search results for",
-    "description": ""
-  },
-  "omniboxDescription": {
-    "message": "Search using Context Search with keywords. Usage: cs [keyword] [search terms] (e.g. 'cs w Linux' searches Wikipedia for the term 'Linux')",
-    "description": ""
-  },
-  "notifyUsage": {
-    "message": "Usage: cs [keyword] [search terms] (for example: cs w Linux)",
-    "description": ""
-  },
-  "notifySearchEngineWithKeyword": {
-    "message": "Search engine with keyword",
-    "description": ""
-  },
-  "notifyUnknown": {
-    "message": "is unknown.",
-    "description": ""
-  },
-  "notifySearchEngineUrlRequired": {
-    "message": "Please fill in a valid search engine URL.",
-      "description": ""
-  },
-  "header7": {
-    "message": "Reset options",
-    "description": ""
-  },
-  "sidebar": {
-    "message": "In the sidebar",
-    "description": ""
-  },
-  "displayFavicons": {
-    "message": "Display favicons in context menu list",
-    "description": ""
-  },
-  "disableAltClick": {
-    "message": "Disable icon grid (Alt + Click)",
-    "description": ""
-  },
-  "resetPreferences": {
-    "message": "Reset preferences to default settings",
-    "description": ""
-  },
-  "forceSearchEnginesReload": {
-    "message": "Force reload of default search engines list",
-    "description": ""
-  },
-  "forceFaviconsReload": {
-    "message": "Force favicons to be reloaded",
-    "description": ""
-  },
-  "restriction": {
-    "message": "Please note that it isn't possible to display search results in the sidebar when using the grid of icons.",
-    "description": ""
-  }
+	"extensionName": {
+		"message": "Context Search",
+		"description": "Name of the extension"
+	},
+	"extensionDescription": {
+		"message": "Searches the selected text using a search engine from a pre-specified list.",
+		"description": "Description of the extension"
+	},
+	"multisearch": {
+		"message": " is a search with multiple search engines simultaneously.",
+		"description": "multi-search - it's a search with multiple search engines simultaneously."
+	},
+	"pageTitle": {
+		"message": "Context Search Preferences",
+		"description": ""
+	},
+	"header1": {
+		"message": "Where should search results appear?",
+		"description": ""
+	},
+	"newTab": {
+		"message": "In a new tab",
+		"description": ""
+	},
+	"sameTab": {
+		"message": "In the same tab",
+		"description": ""
+	},
+	"newWindow": {
+		"message": "In a new window",
+		"description": ""
+	},
+	"active": {
+		"message": "Make the new tab or window active",
+		"description": ""
+	},
+	"position": {
+		"message": "Display the search results after the last tab",
+		"description": ""
+	},
+	"header3": {
+		"message": "Position of options in the context menu",
+		"description": ""
+	},
+	"subheader31": {
+		"message": "Where would you like the options menu to appear in the context menu?",
+		"description": ""
+	},
+	"bottom": {
+		"message": "At the bottom",
+		"description": ""
+	},
+	"top": {
+		"message": "At the top",
+		"description": ""
+	},
+	"hide": {
+		"message": "Neither (hide the options menu)",
+		"description": ""
+	},
+	"header5": {
+		"message": "Import/export search engines",
+		"description": ""
+	},
+	"import": {
+		"message": "Import JSON from local disk",
+		"description": ""
+	},
+	"export": {
+		"message": "Export search engines to JSON",
+		"description": ""
+	},
+	"download": {
+		"message": "Export to local disk",
+		"description": ""
+	},
+	"header2": {
+		"message": "Favicons & Icons",
+		"description": ""
+	},
+	"getFavicons": {
+		"message": "Display favicons in context menu list",
+		"description": ""
+	},
+	"note": {
+		"message": "This feature requires Firefox 56 or above.",
+		"description": ""
+	},
+	"header4": {
+		"message": "Cache favicons inside browser sync storage",
+		"description": ""
+	},
+	"cacheFavicons": {
+		"message": "Save favicons to browser sync storage",
+		"description": ""
+	},
+	"gridMode": {
+		"message": "Display a grid of icons instead of a list of search engines",
+		"description": ""
+	},
+	"warning": {
+		"message": "Warning: Please note that enabling this feature will prevent context menus from other extensions to be displayed.",
+		"description": ""
+	},
+	"savePreferences": {
+		"message": "Save preferences",
+		"description": ""
+	},
+	"header6": {
+		"message": "Which search engines would you like to appear in the context menu or grid?",
+		"description": ""
+	},
+	"clearAll": {
+		"message": "Clear All",
+		"description": ""
+	},
+	"selectAll": {
+		"message": "Select All",
+		"description": ""
+	},
+	"reset": {
+		"message": "Reset",
+		"description": ""
+	},
+	"subheader61": {
+		"message": "Add a new search engine",
+		"description": ""
+	},
+	"showSearchEngine": {
+		"message": "Show search engine in grid or context menu",
+		"description": ""
+	},
+	"searchEngineName": {
+		"message": "Search engine name",
+		"description": ""
+	},
+	"placeHolderKeyword": {
+		"message": "Keyword",
+		"description": ""
+	},
+	"multipleSearchEngines": {
+		"message": "Include in multi-search",
+		"description": ""
+	},
+	"searchEngineURL": {
+		"message": "Search engine URL",
+		"description": ""
+	},
+	"testSearchEngine": {
+		"message": "Test search engine",
+		"description": ""
+	},
+	"addSearchEngine": {
+		"message": "Add search engine",
+		"description": ""
+	},
+	"clear": {
+		"message": "Clear",
+		"description": ""
+	},
+	"disableGrid": {
+		"message": "Disable grid of icons",
+		"description": ""
+	},
+	"move": {
+		"message": "Move",
+		"description": ""
+	},
+	"up": {
+		"message": "up",
+		"description": ""
+	},
+	"down": {
+		"message": "down",
+		"description": ""
+	},
+	"remove": {
+		"message": "Remove",
+		"description": ""
+	},
+	"multipleSearchEnginesSearch": {
+		"message": "Include this search engine in a multi-search",
+		"description": ""
+	},
+	"notifySavedPreferences": {
+		"message": "Saved preferences.",
+		"description": ""
+	},
+	"notifySearchEngineAdded": {
+		"message": "Search engine added.",
+		"description": ""
+	},
+	"titleShowEngine": {
+		"message": "Show this search engine in the context menu or grid",
+		"description": ""
+	},
+	"notifyEnableStorageSync": {
+		"message": "Please ensure that the flag 'webextensions.storage.sync.enabled' is set to 'true' in 'about:config', otherwise Context Search won't work.",
+		"description": ""
+	},
+	"notifySearchEnginesLoaded": {
+		"message": "Default list of search engines has been loaded.",
+		"description": ""
+	},
+	"titleMultipleSearchEngines": {
+		"message": "Multiple search engines search",
+		"description": ""
+	},
+	"titleGoogleSearch": {
+		"message": "Search this site with Google",
+		"description": ""
+	},
+	"titleOptions": {
+		"message": "Options",
+		"description": ""
+	},
+	"windowTitle": {
+		"message": "Search results for",
+		"description": ""
+	},
+	"omniboxDescription": {
+		"message": "Search using Context Search with keywords. Usage: cs [keyword] [search terms] (e.g. 'cs w Linux' searches Wikipedia for the term 'Linux')",
+		"description": ""
+	},
+	"notifyUsage": {
+		"message": "Usage: cs [keyword] [search terms] (for example: cs w Linux)",
+		"description": ""
+	},
+	"notifySearchEngineWithKeyword": {
+		"message": "Search engine with keyword",
+		"description": ""
+	},
+	"notifyUnknown": {
+		"message": "is unknown.",
+		"description": ""
+	},
+	"notifySearchEngineUrlRequired": {
+		"message": "Please fill in a valid search engine URL.",
+		"description": ""
+	},
+	"header7": {
+		"message": "Reset options",
+		"description": ""
+	},
+	"sidebar": {
+		"message": "In the sidebar",
+		"description": ""
+	},
+	"displayFavicons": {
+		"message": "Display favicons in context menu list",
+		"description": ""
+	},
+	"disableAltClick": {
+		"message": "Disable icon grid (Alt + Click)",
+		"description": ""
+	},
+	"resetPreferences": {
+		"message": "Reset preferences to default settings",
+		"description": ""
+	},
+	"forceSearchEnginesReload": {
+		"message": "Force reload of default search engines list",
+		"description": ""
+	},
+	"forceFaviconsReload": {
+		"message": "Force favicons to be reloaded",
+		"description": ""
+	},
+	"restriction": {
+		"message": "Please note that it isn't possible to display search results in the sidebar when using the grid of icons.",
+		"description": ""
+	}
 }

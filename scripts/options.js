@@ -20,6 +20,8 @@ const openSidebar = document.getElementById('openSidebar');
 const tabMode = document.getElementById('tabMode');
 const tabActive = document.getElementById('tabActive');
 const active = document.getElementById('active');
+const position = document.getElementById('position');
+const lastTab = document.getElementById('lastTab');
 const optionsMenuLocation = document.getElementById('optionsMenuLocation');
 const displayFavicons = document.getElementById('displayFavicons');
 const disableAltClick = document.getElementById('disableAltClick');
@@ -73,6 +75,7 @@ displayFavicons.addEventListener('click', updateDisplayFavicons);
 disableAltClick.addEventListener('click', updateDisableAltClick);
 tabMode.addEventListener('click', updateTabMode);
 tabActive.addEventListener('click', updateTabMode);
+lastTab.addEventListener('click', updateTabMode);
 optionsMenuLocation.addEventListener('click', updateOptionsMenuLocation);
 resetPreferences.addEventListener('click', updateResetOptions);
 forceSearchEnginesReload.addEventListener('click', updateResetOptions);
@@ -640,13 +643,20 @@ function handleFileUpload() {
 function updateTabMode() {
 	if (sameTab.checked || openSidebar.checked) {
 		active.style.visibility = 'hidden';
+		position.style.visibility = 'hidden';
 	} else {
 		active.style.visibility = 'visible';
+		if (openNewWindow.checked) {
+			position.style.visibility = 'hidden';
+		} else {
+			position.style.visibility = 'visible';
+		}
 	}
 
 	let data = {};
 	data['tabMode'] = document.querySelector('input[name="results"]:checked').value;
 	data['tabActive'] = tabActive.checked;
+	data['lastTab'] = lastTab.checked;
 	sendMessage('updateTabMode', data);
 }
 

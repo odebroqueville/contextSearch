@@ -1,262 +1,266 @@
 {
-  "extensionName": {
-    "message": "Context Search",
-    "description": "Name of the extension"
-  },
-  "extensionDescription": {
-    "message": "Пошук виділеного тексту пошуковою системою з попередньо визначеного списку.",
-    "description": "Description of the extension"
-  },
-  "multisearch": {
-    "message": " це пошук кількома пошуковими системами одночасно.",
-    "description": "multi-search - it's a search with multiple search engines simultaneously."
-  },
-  "pageTitle": {
-    "message": "Налаштування Context Search",
-    "description": ""
-  },
-  "header1": {
-    "message": "Де повинні з'явитися результати пошуку?",
-    "description": ""
-  },
-  "newTab": {
-    "message": "В новій вкладці",
-    "description": ""
-  },
-  "sameTab": {
-    "message": "В поточній вкладці",
-    "description": ""
-  },
-  "newWindow": {
-    "message": "В новому вікні",
-    "description": ""
-  },
-  "active": {
-    "message": "Зробити активною нову вкладку / вікно",
-    "description": ""
-  },
-  "header3": {
-    "message": "Розташування опцій в контекстному меню",
-    "description": ""
-  },
-  "subheader31": {
-    "message": "Де б ви хотіли бачити опції контекстного меню?",
-    "description": ""
-  },
-  "bottom": {
-    "message": "Знизу",
-    "description": ""
-  },
-  "top": {
-    "message": "Зверху",
-    "description": ""
-  },
-  "hide": {
-    "message": "Ніде (приховати меню опцій)",
-    "description": ""
-  },
-  "header5": {
-    "message": "імпорт / експорт пошукових систем",
-    "description": ""
-  },
-  "import": {
-    "message": "Імпорт JSON з локального диска",
-    "description": ""
-  },
-  "export": {
-    "message": "Експорт пошукових систем в JSON",
-    "description": ""
-  },
-  "download": {
-    "message": "Експорт на локальний диск",
-    "description": ""
-  },
-  "header2": {
-    "message": "Відображення фавіконів",
-    "description": ""
-  },
-  "getFavicons": {
-    "message": "Відображення фавіконів в списку контекстного меню",
-    "description": ""
-  },
-  "note": {
-    "message": "Ця функція вимагає firefox 56 або вище.",
-    "description": ""
-  },
-  "header4": {
-    "message": "Cache favicons inside browser sync storage",
-    "description": ""
-  },
-  "cacheFavicons": {
-    "message": "Save favicons to browser sync storage",
-    "description": ""
-  },
-  "gridMode": {
-    "message": "Відображення пошукових систем сіткою іконок замість списку",
-    "description": ""
-  },
-  "warning": {
-    "message": "Увага! Коли цю опцію ввімкнуто інші контекстні меню не відображаються.",
-    "description": ""
-  },
-  "savePreferences": {
-    "message": "Зберегти налаштування",
-    "description": ""
-  },
-  "header6": {
-    "message": "Які пошукові системи ви хотіли б бачити в контекстному меню чи сітці іконок?",
-    "description": ""
-  },
-  "clearAll": {
-    "message": "Очистити все",
-    "description": ""
-  },
-  "selectAll": {
-    "message": "Вибрати все",
-    "description": ""
-  },
-  "reset": {
-    "message": "Скидання",
-    "description": ""
-  },
-  "subheader61": {
-    "message": "Додати нову пошукову систему",
-    "description": ""
-  },
-  "showSearchEngine": {
-    "message": "Показувати пошукову систему в сітці іконок або в контекстному меню",
-    "description": ""
-  },
-  "searchEngineName": {
-    "message": "Назва пошукової системи",
-    "description": ""
-  },
-  "placeHolderKeyword": {
-    "message": "Ключовик",
-    "description": ""
-  },
-  "multipleSearchEngines": {
-    "message": "Використовувати цю пошукову систему для multi-search",
-    "description": ""
-  },
-  "searchEngineURL": {
-    "message": "URL пошукової системи",
-    "description": ""
-  },
-  "testSearchEngine": {
-    "message": "Тестувати пошукову систему",
-    "description": ""
-  },
-  "addSearchEngine": {
-    "message": "Додати пошукову систему",
-    "description": ""
-  },
-  "clear": {
-    "message": "Очистити",
-    "description": ""
-  },
-  "move": {
-    "message": "Перемістити",
-    "description": ""
-  },
-  "up": {
-    "message": "вгору",
-    "description": ""
-  },
-  "down": {
-    "message": "вниз",
-    "description": ""
-  },
-  "remove": {
-    "message": "Видалити",
-    "description": ""
-  },
-  "multipleSearchEnginesSearch": {
-    "message": "Додати цю пошукову систему до multi-search",
-    "description": ""
-  },
-  "notifySavedPreferences": {
-    "message": "Налаштування збережено.",
-    "description": ""
-  },
-  "notifySearchEngineAdded": {
-    "message": "Пошукову систему додано.",
-    "description": ""
-  },
-  "notifyEnableStorageSync": {
-    "message": "Переконайтеся, що в 'about:config' рядок 'webextensions.storage.sync.enabled' має значення 'true', інакше Context Search не працюватиме.",
-    "description": ""
-  },
-  "notifySearchEnginesLoaded": {
-    "message": "Завантажено список пошукових систем за замовчуванням.",
-    "description": ""
-  },
-  "titleMultipleSearchEngines": {
-    "message": "Multi-search",
-    "description": ""
-  },
-  "titleGoogleSearch": {
-    "message": "Пошук по сайту з допомогою Google",
-    "description": ""
-  },
-  "titleOptions": {
-    "message": "Налаштування",
-    "description": ""
-  },
-  "windowTitle": {
-    "message": "Результати пошуку для",
-    "description": ""
-  },
-  "omniboxDescription": {
-    "message": "Контекстний пошук з використанням ключового слова. Приклад: cs [ключовик] [мета пошуку] (наприклад 'cs w Linux' шукає у Вікіпедії по слову 'Linux')",
-    "description": ""
-  },
-  "notifyUsage": {
-    "message": "Приклад: cs [ключовик] [мета пошуку] (наприклад: cs w Linux)",
-    "description": ""
-  },
-  "notifySearchEngineWithKeyword": {
-    "message": "Пошукова система з ключовим словом",
-    "description": ""
-  },
-  "notifyUnknown": {
-    "message": "невідомо.",
-    "description": ""
-  },
-  "notifySearchEngineUrlRequired": {
-    "message": "Please fill in a search engine URL.",
-      "description": ""
-  },
-  "titleShowEngine": {
-    "message": "Show this search engine in the context menu or grid",
-    "description": ""
-  },
-  "header7": {
-    "message": "Reset options",
-    "description": ""
-  },
-  "sidebar": {
-    "message": "In the sidebar",
-    "description": ""
-  },
-  "displayFavicons": {
-    "message": "Display favicons in context menu list",
-    "description": ""
-  },
-  "resetPreferences": {
-    "message": "Reset preferences to default settings",
-    "description": ""
-  },
-  "forceSearchEnginesReload": {
-    "message": "Force reload of default search engines list",
-    "description": ""
-  },
-  "forceFaviconsReload": {
-    "message": "Force favicons to be reloaded",
-    "description": ""
-  },
-  "restriction": {
-    "message": "Please note that it isn't possible to display search results in the sidebar when using the grid of icons.",
-    "description": ""
-  }
+	"extensionName": {
+		"message": "Context Search",
+		"description": "Name of the extension"
+	},
+	"extensionDescription": {
+		"message": "Пошук виділеного тексту пошуковою системою з попередньо визначеного списку.",
+		"description": "Description of the extension"
+	},
+	"multisearch": {
+		"message": " це пошук кількома пошуковими системами одночасно.",
+		"description": "multi-search - it's a search with multiple search engines simultaneously."
+	},
+	"pageTitle": {
+		"message": "Налаштування Context Search",
+		"description": ""
+	},
+	"header1": {
+		"message": "Де повинні з'явитися результати пошуку?",
+		"description": ""
+	},
+	"newTab": {
+		"message": "В новій вкладці",
+		"description": ""
+	},
+	"sameTab": {
+		"message": "В поточній вкладці",
+		"description": ""
+	},
+	"newWindow": {
+		"message": "В новому вікні",
+		"description": ""
+	},
+	"active": {
+		"message": "Зробити активною нову вкладку / вікно",
+		"description": ""
+	},
+	"position": {
+		"message": "Відобразити результати пошуку після останньої вкладки",
+		"description": ""
+	},
+	"header3": {
+		"message": "Розташування опцій в контекстному меню",
+		"description": ""
+	},
+	"subheader31": {
+		"message": "Де б ви хотіли бачити опції контекстного меню?",
+		"description": ""
+	},
+	"bottom": {
+		"message": "Знизу",
+		"description": ""
+	},
+	"top": {
+		"message": "Зверху",
+		"description": ""
+	},
+	"hide": {
+		"message": "Ніде (приховати меню опцій)",
+		"description": ""
+	},
+	"header5": {
+		"message": "імпорт / експорт пошукових систем",
+		"description": ""
+	},
+	"import": {
+		"message": "Імпорт JSON з локального диска",
+		"description": ""
+	},
+	"export": {
+		"message": "Експорт пошукових систем в JSON",
+		"description": ""
+	},
+	"download": {
+		"message": "Експорт на локальний диск",
+		"description": ""
+	},
+	"header2": {
+		"message": "Відображення фавіконів",
+		"description": ""
+	},
+	"getFavicons": {
+		"message": "Відображення фавіконів в списку контекстного меню",
+		"description": ""
+	},
+	"note": {
+		"message": "Ця функція вимагає firefox 56 або вище.",
+		"description": ""
+	},
+	"header4": {
+		"message": "Cache favicons inside browser sync storage",
+		"description": ""
+	},
+	"cacheFavicons": {
+		"message": "Save favicons to browser sync storage",
+		"description": ""
+	},
+	"gridMode": {
+		"message": "Відображення пошукових систем сіткою іконок замість списку",
+		"description": ""
+	},
+	"warning": {
+		"message": "Увага! Коли цю опцію ввімкнуто інші контекстні меню не відображаються.",
+		"description": ""
+	},
+	"savePreferences": {
+		"message": "Зберегти налаштування",
+		"description": ""
+	},
+	"header6": {
+		"message": "Які пошукові системи ви хотіли б бачити в контекстному меню чи сітці іконок?",
+		"description": ""
+	},
+	"clearAll": {
+		"message": "Очистити все",
+		"description": ""
+	},
+	"selectAll": {
+		"message": "Вибрати все",
+		"description": ""
+	},
+	"reset": {
+		"message": "Скидання",
+		"description": ""
+	},
+	"subheader61": {
+		"message": "Додати нову пошукову систему",
+		"description": ""
+	},
+	"showSearchEngine": {
+		"message": "Показувати пошукову систему в сітці іконок або в контекстному меню",
+		"description": ""
+	},
+	"searchEngineName": {
+		"message": "Назва пошукової системи",
+		"description": ""
+	},
+	"placeHolderKeyword": {
+		"message": "Ключовик",
+		"description": ""
+	},
+	"multipleSearchEngines": {
+		"message": "Використовувати цю пошукову систему для multi-search",
+		"description": ""
+	},
+	"searchEngineURL": {
+		"message": "URL пошукової системи",
+		"description": ""
+	},
+	"testSearchEngine": {
+		"message": "Тестувати пошукову систему",
+		"description": ""
+	},
+	"addSearchEngine": {
+		"message": "Додати пошукову систему",
+		"description": ""
+	},
+	"clear": {
+		"message": "Очистити",
+		"description": ""
+	},
+	"move": {
+		"message": "Перемістити",
+		"description": ""
+	},
+	"up": {
+		"message": "вгору",
+		"description": ""
+	},
+	"down": {
+		"message": "вниз",
+		"description": ""
+	},
+	"remove": {
+		"message": "Видалити",
+		"description": ""
+	},
+	"multipleSearchEnginesSearch": {
+		"message": "Додати цю пошукову систему до multi-search",
+		"description": ""
+	},
+	"notifySavedPreferences": {
+		"message": "Налаштування збережено.",
+		"description": ""
+	},
+	"notifySearchEngineAdded": {
+		"message": "Пошукову систему додано.",
+		"description": ""
+	},
+	"notifyEnableStorageSync": {
+		"message": "Переконайтеся, що в 'about:config' рядок 'webextensions.storage.sync.enabled' має значення 'true', інакше Context Search не працюватиме.",
+		"description": ""
+	},
+	"notifySearchEnginesLoaded": {
+		"message": "Завантажено список пошукових систем за замовчуванням.",
+		"description": ""
+	},
+	"titleMultipleSearchEngines": {
+		"message": "Multi-search",
+		"description": ""
+	},
+	"titleGoogleSearch": {
+		"message": "Пошук по сайту з допомогою Google",
+		"description": ""
+	},
+	"titleOptions": {
+		"message": "Налаштування",
+		"description": ""
+	},
+	"windowTitle": {
+		"message": "Результати пошуку для",
+		"description": ""
+	},
+	"omniboxDescription": {
+		"message": "Контекстний пошук з використанням ключового слова. Приклад: cs [ключовик] [мета пошуку] (наприклад 'cs w Linux' шукає у Вікіпедії по слову 'Linux')",
+		"description": ""
+	},
+	"notifyUsage": {
+		"message": "Приклад: cs [ключовик] [мета пошуку] (наприклад: cs w Linux)",
+		"description": ""
+	},
+	"notifySearchEngineWithKeyword": {
+		"message": "Пошукова система з ключовим словом",
+		"description": ""
+	},
+	"notifyUnknown": {
+		"message": "невідомо.",
+		"description": ""
+	},
+	"notifySearchEngineUrlRequired": {
+		"message": "Please fill in a search engine URL.",
+		"description": ""
+	},
+	"titleShowEngine": {
+		"message": "Show this search engine in the context menu or grid",
+		"description": ""
+	},
+	"header7": {
+		"message": "Reset options",
+		"description": ""
+	},
+	"sidebar": {
+		"message": "In the sidebar",
+		"description": ""
+	},
+	"displayFavicons": {
+		"message": "Display favicons in context menu list",
+		"description": ""
+	},
+	"resetPreferences": {
+		"message": "Reset preferences to default settings",
+		"description": ""
+	},
+	"forceSearchEnginesReload": {
+		"message": "Force reload of default search engines list",
+		"description": ""
+	},
+	"forceFaviconsReload": {
+		"message": "Force favicons to be reloaded",
+		"description": ""
+	},
+	"restriction": {
+		"message": "Please note that it isn't possible to display search results in the sidebar when using the grid of icons.",
+		"description": ""
+	}
 }
