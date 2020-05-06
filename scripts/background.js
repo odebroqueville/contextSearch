@@ -1134,6 +1134,8 @@ browser.omnibox.onInputChanged.addListener((input, suggest) => {
 browser.omnibox.onInputEntered.addListener((input) => {
 	if (logToConsole) console.log(input);
 	let tabPosition = 0;
+	let tabId = 0;
+
 	browser.tabs
 		.query({
 			currentWindow: true,
@@ -1142,27 +1144,38 @@ browser.omnibox.onInputEntered.addListener((input) => {
 		.then(function(tabs) {
 			for (let tab of tabs) {
 				tabPosition = tab.index;
+				tabId = tab.id;
 			}
 
-			if (logToConsole) console.log(tabPosition);
-			if (logToConsole) console.log(input.indexOf('://'));
+			browser.tabs
+				.query({
+					currentWindow: true
+				})
+				.then(function(tabs) {
+					if (contextsearch_openSearchResultsInLastTab) tabPosition = tabs.length;
+					if (logToConsole) console.log(tabPosition);
+					if (logToConsole) console.log(input.indexOf('://'));
 
-			// Only display search results when there is a valid link inside of the url variable
-			if (input.indexOf('://') > -1) {
-				if (logToConsole) console.log('Processing search...');
-				displaySearchResults(input, tabPosition);
-			} else {
-				try {
-					let suggestion = buildSuggestion(input);
-					if (suggestion.length === 1) {
-						displaySearchResults(suggestion[0].content, tabPosition);
-					} else if (input.indexOf(' ') === -1) {
-						notify(notifyUsage);
+					// Only display search results when there is a valid link inside of the url variable
+					if (input.indexOf('://') > -1) {
+						if (logToConsole) console.log('Processing search...');
+						displaySearchResults(input, tabPosition);
+					} else {
+						try {
+							let keyword = input.split(' ')[0];
+							let searchTerms = input.replace(keyword, '').trim();
+							let suggestion = buildSuggestion(input);
+							if (suggestion.length === 1) {
+								displaySearchResults(suggestion[0].content, tabPosition);
+							} else {
+								browser.search.search({ query: searchTerms, tabId: tabId });
+								notify(notifyUsage);
+							}
+						} catch (ex) {
+							if (logToConsole) console.log('Failed to process ' + input);
+						}
 					}
-				} catch (ex) {
-					if (logToConsole) console.log('Failed to process ' + input);
-				}
-			}
+				}, onError);
 		}, onError);
 });
 
