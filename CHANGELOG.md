@@ -1,5 +1,10 @@
-3.8.6
+3.8.7
 =========
+
+* When doing an Omnibox search using an unknown keyword, the default search engine will be used (partial fix for #45)
+
+3.8.6
+---------
 
 * Fixes bugs #40, #56
 * Extension updates will no longer replace a user's custom list of search engines with the default list (#57)
