@@ -557,6 +557,13 @@ function setOptions(options) {
 		tabActive.checked = false;
 	}
 
+	if (options.lastTab === true) {
+		lastTab.checked = true;
+	} else {
+		// Default value for lastTab is false
+		lastTab.checked = false;
+	}
+
 	if (
 		options.optionsMenuLocation === 'top' ||
 		options.optionsMenuLocation === 'bottom' ||

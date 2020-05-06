@@ -84,7 +84,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 						break;
 					}
 				}
-				searchUsing(id, tabIndex, true);
+				searchUsing(id, tabIndex);
 			}, onError);
 			break;
 		case 'notify':
@@ -248,7 +248,7 @@ function init() {
 		// Check if options are stored in browser sync; if not, set to default
 		browser.storage.sync
 			.get('options')
-			.then(data => {
+			.then((data) => {
 				if (isEmpty(data)) {
 					setDefaultOptions();
 				}
@@ -268,7 +268,10 @@ function init() {
 // Resets the list of search engines to the default list if options.forceSearchEnginesReload is set
 function reset() {
 	return new Promise((resolve, reject) => {
-		if (logToConsole) console.log("Resetting extension's preferences and search engines from storage (pending user preferences).");
+		if (logToConsole)
+			console.log(
+				"Resetting extension's preferences and search engines from storage (pending user preferences)."
+			);
 		browser.storage.sync
 			.get('options')
 			.then((data) => {
@@ -986,7 +989,17 @@ function processSearch(info, tab) {
 
 	// At this point, it should be a number
 	if (!isNaN(id)) {
-		searchUsing(searchEnginesArray[id], tab.index, false);
+		browser.tabs.query({ currentWindow: true }).then((tabs) => {
+			for (let tab of tabs) {
+				if (logToConsole) {
+					console.log(tab.index);
+					console.log(tab.title);
+					console.log('-------------------------');
+				}
+			}
+			if (contextsearch_openSearchResultsInLastTab) tabPosition = tabs.length;
+			searchUsing(searchEnginesArray[id], tabPosition);
+		}, onError);
 	}
 }
 
@@ -1047,32 +1060,21 @@ function getSearchEngineUrl(searchEngineUrl, sel) {
 	}
 }
 
-function searchUsing(id, tabIndex, fromGrid) {
+function searchUsing(id, tabIndex) {
 	let searchEngineUrl = searchEngines[id].url;
 	targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
 	if (logToConsole) console.log(`Target url: ${targetUrl}`);
 	if (contextsearch_openSearchResultsInSidebar) {
-		if (fromGrid) {
-			// browser.sidebarAction.open()
-			//     .then(()=>{
-			//         browser.sidebarAction.setPanel({panel: targetUrl});
-			//         browser.sidebarAction.setTitle({title: "Search results"});
-			//     })
-			//     .catch((err)=>{
-			//         if (logToConsole) console.error(err);
-			//     });
-		} else {
-			browser.sidebarAction
-				.open()
-				.then(() => {
-					let url = browser.runtime.getURL('/sidebar/search_results.html');
-					browser.sidebarAction.setPanel({ panel: url });
-					browser.sidebarAction.setTitle({ title: 'Search results' });
-				})
-				.catch((err) => {
-					if (logToConsole) console.error(err);
-				});
-		}
+		browser.sidebarAction
+			.open()
+			.then(() => {
+				let url = browser.runtime.getURL('/sidebar/search_results.html');
+				browser.sidebarAction.setPanel({ panel: url });
+				browser.sidebarAction.setTitle({ title: 'Search results' });
+			})
+			.catch((err) => {
+				if (logToConsole) console.error(err);
+			});
 		return;
 	}
 	displaySearchResults(targetUrl, tabIndex);

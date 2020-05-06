@@ -1,13 +1,16 @@
 3.8.6
 =========
 
-* Fixes bugs #40, #56 and #57
+* Fixes bugs #40, #56
+* Extension updates will no longer replace a user's custom list of search engines with the default list (#57)
+* Offers the option to open search results after the last tab (#46)
 
 3.8.5
 ---------
 
 * Fixes bugs #50, #51, #52, #54, #55
-* Replaces storage.sync with storage.local
+* Stores the extension's option in storage.sync
+* Stores the search engines in storage.local
 * Removes option to cache favicons to storage.sync
 * Updates RGraph from version 5.22 to version 5.23
 
