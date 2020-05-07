@@ -1,266 +1,279 @@
 {
 	"extensionName": {
 		"message": "Context Search",
-		"description": "Name of the extension"
+		"description": "Name of the extension",
+		"hash": "dc46af1f918347f13872ba3b1acf5cb5"
 	},
 	"extensionDescription": {
 		"message": "Поиск выделенного текста с помощью поисковой системы из предварительно указанного списка.",
-		"description": "Description of the extension"
+		"description": "Description of the extension",
+		"hash": "b8f612ae1be0699e4ac144ebdd9408b8"
 	},
 	"multisearch": {
 		"message": " это поиск несколькими поисковыми системами одновременно.",
-		"description": "multi-search - it's a search with multiple search engines simultaneously."
+		"description": "multi-search - it's a search with multiple search engines simultaneously.",
+		"hash": "d91d9731eeb51cab08e5db4231c3b539"
 	},
 	"pageTitle": {
 		"message": "Настройки Context Search",
-		"description": ""
+		"hash": "85459cf0f20967bcc8995dd2257f6ba2"
 	},
 	"header1": {
 		"message": "Где должны появиться результаты поиска?",
-		"description": ""
+		"hash": "55b5b2535226c23995d9220e9f01e7c9"
 	},
 	"newTab": {
 		"message": "В новой вкладке",
-		"description": ""
+		"hash": "ed02b96ab3009dd9f8a3329e14c20ecd"
 	},
 	"sameTab": {
 		"message": "В текущей вкладке",
-		"description": ""
+		"hash": "8f83dae466a72a4c1f8c93e2ddc16f89"
 	},
 	"newWindow": {
 		"message": "В новом окне",
-		"description": ""
+		"hash": "dd5cfb4d20eb4b6f9d6e12c02e8f48e3"
 	},
 	"active": {
 		"message": "Сделать активной новую вкладку / окно",
-		"description": ""
+		"hash": "3588f7008b34105c5a590905b489e8ba"
 	},
 	"position": {
 		"message": "Отобразите результаты поиска после последней вкладки",
-		"description": ""
+		"hash": "6f1385f89667221e78b453799755c534"
 	},
 	"header3": {
 		"message": "Расположение опций в контекстном меню",
-		"description": ""
+		"hash": "cc53b51192c00cf073c75573e910c712"
 	},
 	"subheader31": {
 		"message": "Где бы вы хотели видеть опции в контекстном меню?",
-		"description": ""
+		"hash": "97f92ec06abae7047823b89e7cdd35aa"
 	},
 	"bottom": {
 		"message": "Внизу",
-		"description": ""
+		"hash": "dbc939fac3704f3bb5db5534c521a560"
 	},
 	"top": {
 		"message": "Вверху",
-		"description": ""
+		"hash": "7eb84bbe333a29135c13bb749b5a1bdf"
 	},
 	"hide": {
 		"message": "Нигде (скрыть меню опций)",
-		"description": ""
+		"hash": "66545b38432fb9f7cec55f9bd1bcb476"
 	},
 	"header5": {
 		"message": "импорт / экспорт поисковых систем",
-		"description": ""
+		"hash": "aff674b25de54fb6d1a8b94f0992e2e7"
 	},
 	"import": {
 		"message": "Импорт JSON с локального диска",
-		"description": ""
+		"hash": "efa8b5b957c983016114c1687692a917"
 	},
 	"export": {
 		"message": "Экспорт поисковых систем в JSON",
-		"description": ""
+		"hash": "4cbfa9bc7ce7a876967887dc8b3d80bb"
 	},
 	"download": {
 		"message": "Экспорт на локальный диск",
-		"description": ""
+		"hash": "9b7395778b59c67d44fb310a60cbec1f"
 	},
 	"header2": {
 		"message": "Отображение фавиконов",
-		"description": ""
+		"hash": "4c972ef4ffb7e90163b9294509fea65d"
 	},
 	"getFavicons": {
 		"message": "Отображение фавиконов в списке контекстного меню",
-		"description": ""
+		"hash": "7036d3e65d70351c41dfa59e397121b3"
 	},
 	"note": {
 		"message": "Эта функция требует firefox 56 или выше.",
-		"description": ""
+		"hash": "f3bb15e6696904cf038aea689a0a02da"
 	},
 	"header4": {
 		"message": "Cache favicons inside browser sync storage",
-		"description": ""
+		"hash": "664371917246712c024318d224a85716"
 	},
 	"cacheFavicons": {
 		"message": "Save favicons to browser sync storage",
-		"description": ""
+		"hash": "b3007f1045dd58e9a4cafbb5a93bae25"
 	},
 	"gridMode": {
 		"message": "Отображение поисковых систем плиткой вместо списка",
-		"description": ""
+		"hash": "fb28a2f15ee692ae8862f2eed52cdede"
 	},
 	"warning": {
 		"message": "Внимание: когда эта опция включена другие контекстные меню не отображаются.",
-		"description": ""
+		"hash": "b92a893b194575ca0bd0541cd80d4aa6"
 	},
 	"savePreferences": {
 		"message": "Сохранить настройки",
-		"description": ""
+		"hash": "7afab2f751102f4f4154ec70f4a1a0cd"
 	},
 	"header6": {
 		"message": "Какие поисковые системы вы хотели бы видеть в контекстном меню / плитках?",
-		"description": ""
+		"hash": "4bec74f00dd1574f3c4a5229035c3f21"
 	},
 	"clearAll": {
 		"message": "Очистить всё",
-		"description": ""
+		"hash": "cce60e6cbfaee4ec6fac0a16a8bd383d"
 	},
 	"selectAll": {
 		"message": "Выбрать всё",
-		"description": ""
+		"hash": "26561e6b6807c0c48ce2a3ee81adad87"
 	},
 	"reset": {
 		"message": "Сброс",
-		"description": ""
+		"hash": "0d25968a7dfc21f95043a86dd5373b81"
 	},
 	"subheader61": {
 		"message": "Добавить новую поисковую систему",
-		"description": ""
+		"hash": "df8ef6317cccd7767129689b409c7555"
 	},
 	"showSearchEngine": {
 		"message": "Показывать поисковую систему плиткой или в контекстном меню",
-		"description": ""
+		"hash": "fd116637c97d52564b8caab4155b7e14"
 	},
 	"searchEngineName": {
 		"message": "Название поисковой системы",
-		"description": ""
+		"hash": "66a6254e959765667c76a05c3697399d"
 	},
 	"placeHolderKeyword": {
 		"message": "Ключевик",
-		"description": ""
+		"hash": "a715ce8d52a556c7541e52a39273b8e4"
 	},
 	"multipleSearchEngines": {
 		"message": "Использовать эту поисковую систему для multi-search",
-		"description": ""
+		"hash": "795672c778b61e3785aa2fff7dca91ed"
 	},
 	"searchEngineURL": {
 		"message": "URL поисковой системы",
-		"description": ""
+		"hash": "f5b1aa2bdb81d4357409d3ecb87bc1e3"
 	},
 	"testSearchEngine": {
 		"message": "Тестировать поисковую систему",
-		"description": ""
+		"hash": "138ac2e49b86e7dc4a4e71a7f15dd7b6"
 	},
 	"addSearchEngine": {
 		"message": "Добавить поисковую систему",
-		"description": ""
+		"hash": "0f5b60489cf3500e92871eb17e71ce05"
 	},
 	"clear": {
 		"message": "Очистить",
-		"description": ""
+		"hash": "bcf7e7587a412ea36d869d51026dfd6d"
+	},
+	"disableGrid": {
+		"message": "Отключить сетку иконок",
+		"hash": "bb07641e41b320b91b3f1338592ecf4d"
 	},
 	"move": {
 		"message": "Переместить",
-		"description": ""
+		"hash": "fe5500b1b2c360308db25a09f9710ade"
 	},
 	"up": {
 		"message": "вверх",
-		"description": ""
+		"hash": "87437c5e684807c07a63c62d675b63c3"
 	},
 	"down": {
 		"message": "вниз",
-		"description": ""
+		"hash": "d877ad63806f1a96855f3fb1424b5d91"
 	},
 	"remove": {
 		"message": "Удалить",
-		"description": ""
+		"hash": "3908a268c854fe64242e38845dbb7c81"
 	},
 	"multipleSearchEnginesSearch": {
 		"message": "Добавить эту поисковую систему в multi-search",
-		"description": ""
+		"hash": "e54c504cdf841f4308b0140c0361420c"
 	},
 	"notifySavedPreferences": {
 		"message": "Настройки сохранены.",
-		"description": ""
+		"hash": "26ae42e6a7533aa03cf8e162fd4859fd"
 	},
 	"notifySearchEngineAdded": {
 		"message": "Поисковая система добавлена.",
-		"description": ""
+		"hash": "ee1b7a1102ec3b06c1960e84f814b1c6"
+	},
+	"titleShowEngine": {
+		"message": "Показать эту поисковую систему в контекстном меню или сетке",
+		"hash": "5c7ec6b539f06fe17a5e3f9832530eea"
 	},
 	"notifyEnableStorageSync": {
 		"message": "Убедитесь, что в 'about:config' строка 'webextensions.storage.sync.enabled' имеет значение 'true', в противном случае Context Search не будет работать.",
-		"description": ""
+		"hash": "273ab612652228bc54090e98d1ac1b15"
 	},
 	"notifySearchEnginesLoaded": {
 		"message": "Загружен список поисковых систем по умолчанию.",
-		"description": ""
+		"hash": "640d2193c8155e5988fbeb3453a9737d"
 	},
 	"titleMultipleSearchEngines": {
 		"message": "Multi-search",
-		"description": ""
+		"hash": "016e3015d7461d1d0fbf20c60bd9ff0f"
 	},
 	"titleGoogleSearch": {
 		"message": "Поиск по сайту с помощью Google",
-		"description": ""
+		"hash": "5a76bc5c095707f27e2ed235d2f3ccb6"
 	},
 	"titleOptions": {
 		"message": "Настройки",
-		"description": ""
+		"hash": "531dad0078a72193602b18495f0ad4e9"
 	},
 	"windowTitle": {
 		"message": "Результаты поиска для",
-		"description": ""
+		"hash": "0a26dab592394ea9548c1a5588c0cd0d"
 	},
 	"omniboxDescription": {
 		"message": "Контекстный поиск с использованием ключевых слов. Пример: cs [ключевик] [искомое] (например 'cs w Linux' ищет в Википедии по слову 'Linux')",
-		"description": ""
+		"hash": "e2406855d2445278d8becb4e11f772b0"
 	},
 	"notifyUsage": {
 		"message": "Пример: cs [ключевик] [искомое] (например: cs w Linux)",
-		"description": ""
+		"hash": "7ce09b213b936aab58085cc84b20b01c"
 	},
 	"notifySearchEngineWithKeyword": {
 		"message": "Поисковая система с ключевым словом",
-		"description": ""
+		"hash": "bd232fd868eb1bbd65e4977f5577a0a8"
 	},
 	"notifyUnknown": {
 		"message": "неизвестно.",
-		"description": ""
+		"hash": "075e9adb0de4037be7b0989733dd51ab"
 	},
 	"notifySearchEngineUrlRequired": {
-		"message": "Please fill in a search engine URL.",
-		"description": ""
-	},
-	"titleShowEngine": {
-		"message": "Show this search engine in the context menu or grid",
-		"description": ""
+		"message": "Пожалуйста, заполните URL поисковой системы.",
+		"hash": "b4610959ffa640c457a9ae1fbfa7943c"
 	},
 	"header7": {
-		"message": "Reset options",
-		"description": ""
+		"message": "Сбросить параметры",
+		"hash": "5c55526198c8075a1695b98e3cd32e2f"
 	},
 	"sidebar": {
-		"message": "In the sidebar",
-		"description": ""
+		"message": "В боковой панели",
+		"hash": "ea4b3f2f47d5ea8c594036cbdbf6e42b"
 	},
 	"displayFavicons": {
-		"message": "Display favicons in context menu list",
-		"description": ""
+		"message": "Отображать значки в списке контекстного меню",
+		"hash": "7036d3e65d70351c41dfa59e397121b3"
+	},
+	"disableAltClick": {
+		"message": "Отключить сетку иконок",
+		"hash": "05b09381e8d9e3b808cb5fa5c540af91"
 	},
 	"resetPreferences": {
-		"message": "Reset preferences to default settings",
-		"description": ""
+		"message": "Сбросить настройки до настроек по умолчанию",
+		"hash": "5e6bfbeafc20af866246c982de2a1067"
 	},
 	"forceSearchEnginesReload": {
-		"message": "Force reload of default search engines list",
-		"description": ""
+		"message": "Принудительная перезагрузка списка поисковых систем по умолчанию",
+		"hash": "3736dde3828bcec7e5081dc1a450916b"
 	},
 	"forceFaviconsReload": {
-		"message": "Force favicons to be reloaded",
-		"description": ""
+		"message": "Принудительно перезагружать значки",
+		"hash": "1fea5d330fd5c105ce6ba68ade3be299"
 	},
 	"restriction": {
-		"message": "Please note that it isn't possible to display search results in the sidebar when using the grid of icons.",
-		"description": ""
-	}
+		"message": "Обратите внимание, что при использовании сетки значков невозможно отобразить результаты поиска на боковой панели.",
+		"hash": "2aaf6c9de876982ec4fe65b62cdd76b7"
+	},
+
+	"__WET_LOCALE__": { "message": "ru" }
 }
