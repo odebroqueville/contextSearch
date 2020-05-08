@@ -2,6 +2,8 @@
 =========
 
 * When doing an Omnibox search using an unknown keyword, the default search engine will be used (partial fix for #45)
+* Completes missing translations in french, german, italian, spanish, dutch, polish, russian, ukrainian, chinese and japanese
+* Adds buttomn to sort search engines alphabetically
 
 3.8.6
 ---------
