@@ -8,6 +8,7 @@ const base64MultiSearchIcon =
 const ICON32 = '38px'; // icon width is 32px plus 3px margin/padding
 
 /// Global variables
+/* global EXIF, isEmpty */
 let searchEngines = {};
 let tabUrl = '';
 let domain = '';
@@ -15,11 +16,6 @@ let pn = '';
 let sel = null;
 let range = null;
 let sameTab = false;
-
-/// Generic Error Handler
-function onError(error) {
-	if (logToConsole) console.log(`${error}`);
-}
 
 /// Debugging
 // Current state
@@ -40,7 +36,7 @@ browser.storage.onChanged.addListener(handleStorageChange);
 
 /// Handle Incoming Messages
 // Listen for messages from the background script
-browser.runtime.onMessage.addListener(function(message) {
+browser.runtime.onMessage.addListener((message) => {
 	let action = message.action;
 	let data = message.data;
 	switch (action) {
@@ -371,12 +367,12 @@ function isEncoded(uri) {
 }
 
 // Test if an object is empty
-function isEmpty(obj) {
+/* function isEmpty(obj) {
 	for (var key in obj) {
 		if (obj.hasOwnProperty(key)) return false;
 	}
 	return true;
-}
+} */
 
 function sendMessage(action, data) {
 	browser.runtime.sendMessage({ action: action, data: data });
@@ -384,7 +380,7 @@ function sendMessage(action, data) {
 
 function absoluteUrl(url) {
 	// If the url is absolute, i.e. begins withh either'http' or 'https', there's nothing to do!
-	if (/^(https?\:\/\/)/.test(url)) return url;
+	if (/^(https?:\/\/)/.test(url)) return url;
 
 	// If url begins with '//'
 	if (/^(\/\/)/.test(url)) {
@@ -399,7 +395,7 @@ function absoluteUrl(url) {
 	}
 
 	// If url begins with an alphanumerical character
-	if (/^([a-zA-Z0-9])/.test(url) && /^(?!file|gopher|ftp\:\/\/).+/.test(url)) {
+	if (/^([a-zA-Z0-9])/.test(url) && /^(?!file|gopher|ftp:\/\/).+/.test(url)) {
 		let parts = pn.split('/');
 		parts.pop();
 		return 'https://' + domain + parts.join('/') + '/' + url;

@@ -1,6 +1,7 @@
 /// Global variables
+/* global sortByIndex, Sortable */
 // Debugging
-const logToConsole = true;
+const logToConsole = false;
 
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById('container');
@@ -48,7 +49,6 @@ let numberOfSearchEngines = 0;
 let searchEngines = {};
 
 // Translation variables
-const move = browser.i18n.getMessage('move');
 const remove = browser.i18n.getMessage('remove');
 const multipleSearchEnginesSearch = browser.i18n.getMessage('multipleSearchEnginesSearch');
 const titleShowEngine = browser.i18n.getMessage('titleShowEngine');
@@ -130,14 +130,6 @@ function handleStorageChange(changes, area) {
 	}
 }
 
-/* function handleIncomingMessages(message) {
-	let action = message.action;
-	let data = message.data;
-	if (action === 'updateSearchEnginesList') {
-		displaySearchEngines();
-	}
-} */
-
 // Notification
 function notify(message) {
 	sendMessage('notify', message);
@@ -214,12 +206,12 @@ function createLineItem(id, searchEngine) {
 	// Event handlers for search engine name changes
 	inputSearchEngineName.addEventListener('cut', searchEngineNameChanged); // when users paste text
 	inputSearchEngineName.addEventListener('paste', searchEngineNameChanged); // when users paste text
-	inputSearchEngineName.addEventListener('input', function(e) {
+	inputSearchEngineName.addEventListener('input', (e) => {
 		typingEventSearchEngineName = e;
 		clearTimeout(typingTimerSearchEngineName);
 		typingTimerSearchEngineName = setTimeout(searchEngineNameChanged, typingInterval);
 	});
-	inputSearchEngineName.addEventListener('change', function(e) {
+	inputSearchEngineName.addEventListener('change', (e) => {
 		typingEventSearchEngineName = e;
 		clearTimeout(typingTimerSearchEngineName);
 		searchEngineNameChanged();
@@ -228,11 +220,11 @@ function createLineItem(id, searchEngine) {
 	// Event handlers for keyword text changes
 	inputKeyword.addEventListener('paste', keywordChanged); // when users paste text
 	inputKeyword.addEventListener('change', keywordChanged); // when users leave the input field and content has changed
-	inputKeyword.addEventListener('keyup', function() {
+	inputKeyword.addEventListener('keyup', () => {
 		clearTimeout(typingTimerKeyword);
 		typingTimerKeyword = setTimeout(keywordChanged, typingInterval);
 	});
-	inputKeyword.addEventListener('keydown', function(e) {
+	inputKeyword.addEventListener('keydown', (e) => {
 		typingEventKeyword = e;
 		clearTimeout(typingTimerKeyword);
 	});
@@ -243,11 +235,11 @@ function createLineItem(id, searchEngine) {
 	// Event handlers for query string changes
 	inputQueryString.addEventListener('paste', queryStringChanged); // when users paste text
 	inputQueryString.addEventListener('change', queryStringChanged); // when users leave the input field and content has changed
-	inputQueryString.addEventListener('keyup', function() {
+	inputQueryString.addEventListener('keyup', () => {
 		clearTimeout(typingTimerQueryString);
 		typingTimerQueryString = setTimeout(queryStringChanged, typingInterval);
 	});
-	inputQueryString.addEventListener('keydown', function(e) {
+	inputQueryString.addEventListener('keydown', (e) => {
 		typingEventQueryString = e;
 		clearTimeout(typingTimerQueryString);
 	});
@@ -656,7 +648,7 @@ function saveToLocalDisk() {
 }
 
 function handleFileUpload() {
-	browser.storage.local.clear().then(function() {
+	browser.storage.local.clear().then(() => {
 		let upload = document.getElementById('upload');
 		let jsonFile = upload.files[0];
 		let reader = new FileReader();
