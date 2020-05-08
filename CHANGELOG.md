@@ -1,5 +1,10 @@
-3.8.7
+3.8.8
 =========
+
+* Fixes non-working version 3.8.7
+
+3.8.7
+---------
 
 * When doing an Omnibox search using an unknown keyword, the default search engine will be used (partial fix for #45)
 * Completes missing translations in french, german, italian, spanish, dutch, polish, russian, ukrainian, chinese and japanese

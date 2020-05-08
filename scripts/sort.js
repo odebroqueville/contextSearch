@@ -1,5 +1,3 @@
-let logToConsole = false;
-
 /// Sort search engines by index
 function sortByIndex(list) {
 	let sortedList = {};
