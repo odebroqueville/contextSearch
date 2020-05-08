@@ -92,6 +92,9 @@
 	"selectAll": {
 		"message": "Select All"
 	},
+	"sortAlphabetically": {
+		"message": "Sort alphabetically"
+	},
 	"reset": {
 		"message": "Reset"
 	},

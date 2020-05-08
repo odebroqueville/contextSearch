@@ -122,6 +122,10 @@
 		"message": "Alles auswählen",
 		"hash": "26561e6b6807c0c48ce2a3ee81adad87"
 	},
+	"sortAlphabetically": {
+		"message": "Alphabetisch sortieren",
+		"hash": "9dbba2e2d73fbe9d34b492113a47dc86"
+	},
 	"reset": {
 		"message": "Zurücksetzen",
 		"hash": "0d25968a7dfc21f95043a86dd5373b81"
