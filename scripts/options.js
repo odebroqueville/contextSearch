@@ -1,6 +1,6 @@
 /// Global variables
 // Debugging
-const logToConsole = false;
+const logToConsole = true;
 
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById('container');
@@ -32,6 +32,7 @@ const forceFaviconsReload = document.getElementById('forceFaviconsReload');
 // All engine buttons
 const btnClearAll = document.getElementById('clearAll');
 const btnSelectAll = document.getElementById('selectAll');
+const btnSortAlpha = document.getElementById('sortAlphabetically');
 const btnReset = document.getElementById('reset');
 
 // Add new search engine buttons
@@ -84,9 +85,10 @@ forceFaviconsReload.addEventListener('click', updateResetOptions);
 // All engine buttons
 btnClearAll.addEventListener('click', clearAll);
 btnSelectAll.addEventListener('click', selectAll);
+btnSortAlpha.addEventListener('click', sortSearchEnginesAlphabetically);
+btnReset.addEventListener('click', reset);
 
 // Add new engine
-btnReset.addEventListener('click', reset);
 btnTest.addEventListener('click', testSearchEngine);
 btnAdd.addEventListener('click', addSearchEngine);
 btnClear.addEventListener('click', clear);
@@ -124,7 +126,7 @@ function handleStorageChange(changes, area) {
 		}
 		if (!Object.keys(searchEngines) > 0) searchEngines = oldSearchEngines;
 		if (logToConsole) console.log(searchEngines);
-		listSearchEngines(searchEngines);
+		displaySearchEngines();
 	}
 }
 
@@ -132,7 +134,7 @@ function handleStorageChange(changes, area) {
 	let action = message.action;
 	let data = message.data;
 	if (action === 'updateSearchEnginesList') {
-		listSearchEngines(data);
+		displaySearchEngines();
 	}
 } */
 
@@ -152,11 +154,11 @@ function removeEventHandler(e) {
 }
 
 // Display the list of search engines
-function listSearchEngines(list) {
+function displaySearchEngines() {
 	let div = document.getElementById('searchEngines');
 	if (div != null) divContainer.removeChild(div);
 
-	searchEngines = sortByIndex(list);
+	searchEngines = sortByIndex(searchEngines);
 	let divSearchEngines = document.createElement('ol');
 	divSearchEngines.setAttribute('id', 'searchEngines');
 	for (let id in searchEngines) {
@@ -316,6 +318,26 @@ function selectAll() {
 			input.checked = true;
 		}
 	}
+	saveSearchEngines();
+}
+
+function sortSearchEnginesAlphabetically() {
+	let se = [];
+	let counter = 0;
+	for (let id in searchEngines) {
+		se.push(searchEngines[id].name);
+	}
+	se = sortAlphabetically(se);
+	if (logToConsole) console.log(se);
+	for (let name of se) {
+		for (let id in searchEngines) {
+			if (searchEngines[id].name == name) {
+				searchEngines[id].index = counter;
+				counter++;
+			}
+		}
+	}
+	displaySearchEngines();
 	saveSearchEngines();
 }
 
@@ -615,7 +637,7 @@ async function restoreOptionsPage() {
 			console.log('Search engines retrieved from local storage:\n');
 			console.log(searchEngines);
 		}
-		listSearchEngines(searchEngines);
+		displaySearchEngines();
 		setOptions(data.options);
 		if (logToConsole) console.log('Options have been reset.');
 	} catch (err) {
@@ -640,7 +662,7 @@ function handleFileUpload() {
 		let reader = new FileReader();
 		reader.onload = function(event) {
 			searchEngines = JSON.parse(event.target.result);
-			listSearchEngines(searchEngines);
+			displaySearchEngines();
 			saveSearchEngines();
 		};
 		reader.readAsText(jsonFile);
@@ -698,6 +720,29 @@ function isValidUrl(url) {
 		// Malformed URL
 		return false;
 	}
+}
+
+function compareNumbers(a, b) {
+	return a - b;
+}
+
+function compareStrings(a, b) {
+	return a.toLowerCase().localeCompare(b.toLowerCase());
+}
+
+function sortAlphabetically(array) {
+	let numbers = [];
+	let alpha = [];
+	for (let item of array) {
+		if (!isNaN(Number(item))) {
+			numbers.push(Number(item));
+		} else {
+			alpha.push(item);
+		}
+	}
+	numbers = numbers.sort(compareNumbers);
+	alpha = alpha.sort(compareStrings);
+	return numbers.concat(alpha);
 }
 
 function i18n() {
