@@ -33,6 +33,7 @@ const notifyUnknown = browser.i18n.getMessage('notifyUnknown');
 const notifySearchEngineUrlRequired = browser.i18n.getMessage('notifySearchEngineUrlRequired');
 
 /// Preferences - Default settings
+let contextsearch_exactMatch = false;
 let contextsearch_tabMode = 'openNewTab';
 let contextsearch_optionsMenuLocation = 'bottom';
 let contextsearch_openSearchResultsInNewTab = true;
@@ -48,6 +49,7 @@ let contextsearch_forceSearchEnginesReload = false;
 let contextsearch_userAgent = 'Mozilla/5.0 (Windows NT 5.1; rv:28.0; Android; iPhone) Gecko/20100101 Firefox/28.0';
 const defaultOptions = {
 	options: {
+		exactMatch: contextsearch_exactMatch,
 		tabMode: contextsearch_tabMode,
 		tabActive: contextsearch_makeNewTabOrWindowActive,
 		lastTab: contextsearch_openSearchResultsInLastTab,
@@ -172,6 +174,15 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 						console.log('Failed to clear local storage.');
 					}
 				});
+			break;
+		case 'updateSearchOptions':
+			getOptions().then((settings) => {
+				let options = settings.options;
+				if (logToConsole) console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
+				options.exactMatch = message.data.exactMatch;
+				setExactMatch(options);
+				saveOptions(options, true);
+			});
 			break;
 		case 'updateDisplayFavicons':
 			getOptions().then((settings) => {
@@ -372,6 +383,7 @@ function getOptions() {
 // Sets the default options if they haven't already been set in local storage and saves them
 // The context menu is also rebuilt when required
 async function setOptions(options, save) {
+	setExactMatch(options);
 	setTabMode(options);
 	setOptionsMenuLocation(options); // context menu will have to be rebuilt
 	setDisplayFavicons(options); // context menu will have to be rebuilt
@@ -403,6 +415,11 @@ function saveOptions(data, blnRebuildContextMenu) {
 				reject(err);
 			});
 	});
+}
+
+function setExactMatch(options) {
+	if (logToConsole) console.log('Setting search options..');
+	contextsearch_exactMatch = options.exactMatch;
 }
 
 // Store the default values for tab mode in storage local
@@ -1013,12 +1030,14 @@ function fetchMobileWebPage(url) {
 
 // Handle search terms if there are any
 function getSearchEngineUrl(searchEngineUrl, sel) {
+	let quote = '';
+	if (contextsearch_exactMatch) quote = '%22';
 	if (searchEngineUrl.includes('{searchTerms}')) {
 		return searchEngineUrl.replace(/{searchTerms}/g, encodeUrl(sel));
 	} else if (searchEngineUrl.includes('%s')) {
 		return searchEngineUrl.replace(/%s/g, encodeUrl(sel));
 	} else {
-		return searchEngineUrl + encodeUrl(sel);
+		return searchEngineUrl + quote + encodeUrl(sel) + quote;
 	}
 }
 
@@ -1143,6 +1162,9 @@ browser.omnibox.onInputEntered.addListener((input) => {
 
 function buildSuggestion(text) {
 	let result = [];
+	let quote = '';
+
+	if (contextsearch_exactMatch) quote = '%22';
 
 	// Only make suggestions available and check for existence of a search engine when there is a space.
 	if (text.indexOf(' ') === -1) {
@@ -1168,7 +1190,7 @@ function buildSuggestion(text) {
 			} else if (searchEngineUrl.includes('%s')) {
 				targetUrl = searchEngineUrl.replace(/%s/g, encodeUrl(searchTerms));
 			} else {
-				targetUrl = searchEngineUrl + encodeUrl(searchTerms);
+				targetUrl = searchEngineUrl + quote + encodeUrl(searchTerms) + quote;
 			}
 			suggestion['content'] = targetUrl;
 			suggestion['description'] = 'Search ' + searchEngines[id].name + ' for ' + searchTerms;

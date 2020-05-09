@@ -14,6 +14,7 @@ const multitab = document.getElementById('multitab'); // Boolean
 const url = document.getElementById('url'); // String
 
 // Settings
+const exactMatch = document.getElementById('exactMatch');
 const openNewTab = document.getElementById('openNewTab');
 const sameTab = document.getElementById('sameTab');
 const openNewWindow = document.getElementById('openNewWindow');
@@ -72,6 +73,7 @@ browser.storage.onChanged.addListener(handleStorageChange);
 // browser.runtime.onMessage.addListener(handleIncomingMessages);
 
 // Settings
+exactMatch.addEventListener('click', updateSearchOptions);
 displayFavicons.addEventListener('click', updateDisplayFavicons);
 disableAltClick.addEventListener('click', updateDisableAltClick);
 tabMode.addEventListener('click', updateTabMode);
@@ -541,6 +543,13 @@ function setOptions(options) {
 		console.log('Preferences retrieved from sync storage:\n');
 		console.log(options);
 	}
+
+	if (options.exactMatch === true) {
+		exactMatch.checked = true;
+	} else {
+		exactMatch.checked = false;
+	}
+
 	switch (options.tabMode) {
 		case 'openNewTab':
 			openNewTab.checked = true;
@@ -659,6 +668,11 @@ function handleFileUpload() {
 		};
 		reader.readAsText(jsonFile);
 	}, onError);
+}
+
+function updateSearchOptions() {
+	let em = exactMatch.checked;
+	sendMessage('updateSearchOptions', { exactMatch: em });
 }
 
 function updateTabMode() {
