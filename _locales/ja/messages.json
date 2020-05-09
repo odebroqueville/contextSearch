@@ -91,12 +91,12 @@
 		"hash": "f3bb15e6696904cf038aea689a0a02da"
 	},
 	"header4": {
-		"message": "ファビコンをブラウザー同期ストレージ内にキャッシュする",
-		"hash": "664371917246712c024318d224a85716"
+		"message": "検索オプション",
+		"hash": "ce6416d0e13a773a9b6c1b03a43982d4"
 	},
-	"cacheFavicons": {
-		"message": "ファビコンをブラウザーの同期ストレージに保存します",
-		"hash": "b3007f1045dd58e9a4cafbb5a93bae25"
+	"exactMatch": {
+		"message": "完全に一致する文字列を検索する",
+		"hash": "779d6b3e9f3fe9654fe3549a21a06550"
 	},
 	"gridMode": {
 		"message": "検索エンジンのリストの代わりにアイコンのグリッドを表示します",

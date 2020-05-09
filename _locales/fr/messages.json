@@ -91,12 +91,12 @@
 		"hash": "f3bb15e6696904cf038aea689a0a02da"
 	},
 	"header4": {
-		"message": "Stocker les icônes des moteurs de recherche",
+		"message": "Options de recherche",
 		"hash": "664371917246712c024318d224a85716"
 	},
-	"cacheFavicons": {
-		"message": "Sauvegarder les icônes des moteurs de recherche dans la mémoire synchronisée du navigateur",
-		"hash": "b3007f1045dd58e9a4cafbb5a93bae25"
+	"exactMatch": {
+		"message": "Rechercher une correspondance exacte de chaîne",
+		"hash": "779d6b3e9f3fe9654fe3549a21a06550"
 	},
 	"gridMode": {
 		"message": "Afficher le menu contextuel sous la form de grille d'icones et non sous la forme de liste",

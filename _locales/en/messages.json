@@ -69,10 +69,10 @@
 		"message": "This feature requires Firefox 56 or above."
 	},
 	"header4": {
-		"message": "Cache favicons inside browser sync storage"
+		"message": "Search options"
 	},
-	"cacheFavicons": {
-		"message": "Save favicons to browser sync storage"
+	"exactMatch": {
+		"message": "Search for an exact string match"
 	},
 	"gridMode": {
 		"message": "Display a grid of icons instead of a list of search engines"
