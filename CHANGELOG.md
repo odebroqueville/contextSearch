@@ -1,5 +1,10 @@
-3.8.8
+3.8.9
 =========
+
+* Adds search option to match exact search string along with the corresponding translations (#7)
+
+3.8.8
+---------
 
 * Fixes non-working version 3.8.7
 
