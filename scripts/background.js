@@ -24,6 +24,7 @@ const base64ContextSearchIcon =
 const notifySearchEnginesLoaded = browser.i18n.getMessage('notifySearchEnginesLoaded');
 const titleMultipleSearchEngines = browser.i18n.getMessage('titleMultipleSearchEngines');
 const titleGoogleSearch = browser.i18n.getMessage('titleGoogleSearch');
+const titleExactMatch = browser.i18n.getMessage('exactMatch');
 const titleOptions = browser.i18n.getMessage('titleOptions');
 const windowTitle = browser.i18n.getMessage('windowTitle');
 const omniboxDescription = browser.i18n.getMessage('omniboxDescription');
@@ -262,6 +263,8 @@ function init() {
 			.then((data) => {
 				if (isEmpty(data)) {
 					setDefaultOptions();
+				} else {
+					setOptions(data.options, false);
 				}
 				resolve();
 			})
@@ -291,6 +294,8 @@ function reset() {
 				if (logToConsole) console.log(options);
 				if (isEmpty(options) || options.resetPreferences) {
 					setDefaultOptions();
+				} else {
+					setOptions(options);
 				}
 				let forceReload = options.forceSearchEnginesReload;
 				initialiseSearchEngines(forceReload).then(() => {
@@ -831,6 +836,13 @@ function rebuildContextOptionsMenu() {
 		});
 	}
 	browser.contextMenus.create({
+		id: 'cs-match',
+		type: 'checkbox',
+		title: titleExactMatch,
+		contexts: [ 'selection' ],
+		checked: contextsearch_exactMatch
+	});
+	browser.contextMenus.create({
 		id: 'cs-multitab',
 		title: titleMultipleSearchEngines,
 		contexts: [ 'selection' ]
@@ -961,6 +973,15 @@ function processSearch(info, tab) {
 		return;
 	} else if (id === 'multitab') {
 		processMultiTabSearch();
+		return;
+	} else if (id === 'match') {
+		getOptions().then((settings) => {
+			let options = settings.options;
+			if (logToConsole) console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
+			options.exactMatch = !contextsearch_exactMatch;
+			setExactMatch(options);
+			saveOptions(options, true);
+		});
 		return;
 	}
 

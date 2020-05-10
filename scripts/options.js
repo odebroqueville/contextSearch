@@ -1,7 +1,7 @@
 /// Global variables
 /* global sortByIndex, Sortable */
 // Debugging
-const logToConsole = false;
+const logToConsole = true;
 
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById('container');
@@ -129,6 +129,22 @@ function handleStorageChange(changes, area) {
 		if (!Object.keys(searchEngines) > 0) searchEngines = oldSearchEngines;
 		if (logToConsole) console.log(searchEngines);
 		displaySearchEngines();
+	} else if (area === 'sync') {
+		let options = Object.keys(changes);
+		if (logToConsole) {
+			console.log(changes);
+			console.log(options);
+		}
+		for (let option of options) {
+			if (logToConsole) {
+				console.log(option);
+				console.log(changes[option].newValue);
+			}
+			if (option === 'options' && changes[option].newValue !== undefined) {
+				setOptions(changes[option].newValue);
+				break;
+			}
+		}
 	}
 }
 
@@ -539,6 +555,7 @@ function clear() {
 }
 
 function setOptions(options) {
+	if (!options) return;
 	if (logToConsole) {
 		console.log('Preferences retrieved from sync storage:\n');
 		console.log(options);
@@ -632,15 +649,18 @@ function setOptions(options) {
 // Restore the list of search engines and the options to be displayed in the options page
 async function restoreOptionsPage() {
 	try {
-		let data = await browser.storage.sync.get('options');
+		let data = await browser.storage.sync.get(null);
 		searchEngines = await browser.storage.local.get(null);
 		if (logToConsole) {
 			console.log('Search engines retrieved from local storage:\n');
 			console.log(searchEngines);
 		}
 		displaySearchEngines();
-		setOptions(data.options);
-		if (logToConsole) console.log('Options have been reset.');
+		if (data.options) setOptions(data.options);
+		if (logToConsole) {
+			console.log(data.options);
+			console.log('Options have been reset.');
+		}
 	} catch (err) {
 		if (logToConsole) console.error(err);
 	}
