@@ -37,6 +37,43 @@ function sortByIndex(list) {
 	return sortedList;
 }
 
+function getDomain(url) {
+	let protocol = '';
+	if (url.indexOf('://') !== -1) {
+		protocol = url.split('://')[0] + '://';
+	} else {
+		// By default, set the protocol to 'https://' if it hasn't been set
+		protocol = 'https://';
+	}
+
+	let urlParts = url.replace('http://', '').replace('https://', '').split(/[/?#]/);
+	let domain = protocol + urlParts[0];
+	return domain;
+}
+
+function fetchXML(url) {
+	let reqHeader = new Headers();
+	reqHeader.append('Content-Type', 'text/xml');
+
+	let initObject = {
+		method: 'GET',
+		headers: reqHeader
+	};
+
+	let userRequest = new Request(url, initObject);
+
+	fetch(userRequest)
+		.then((response) => response.text())
+		.then((str) => new window.DOMParser().parseFromString(str, 'text/xml'))
+		.then((data) => {
+			if (logToConsole) console.log(data);
+			return data;
+		})
+		.catch((err) => {
+			if (logToConsole) console.log('Something went wrong!', err);
+		});
+}
+
 // Test if an object is empty
 function isEmpty(value) {
 	if (typeof value === 'number') return false;

@@ -4,7 +4,7 @@
 const logToConsole = false;
 
 /// Global variables
-/* global sortByIndex, isEmpty */
+/* global sortByIndex, isEmpty, getDomain */
 let searchEngines = {};
 let searchEnginesArray = [];
 let selection = '';
@@ -697,20 +697,6 @@ function addNewFavicon(id, domain) {
 			resolve({ id: id, base64: base64ContextSearchIcon });
 		};
 	});
-}
-
-function getDomain(url) {
-	let protocol = '';
-	if (url.indexOf('://') !== -1) {
-		protocol = url.split('://')[0] + '://';
-	} else {
-		// By default, set the protocol to 'https://' if it hasn't been set
-		protocol = 'https://';
-	}
-
-	let urlParts = url.replace('http://', '').replace('https://', '').split(/[/?#]/);
-	let domain = protocol + urlParts[0];
-	return domain;
 }
 
 function convertUrl2AbsUrl(href, domain) {
