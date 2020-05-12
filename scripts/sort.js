@@ -52,26 +52,29 @@ function getDomain(url) {
 }
 
 function fetchXML(url) {
-	let reqHeader = new Headers();
-	reqHeader.append('Content-Type', 'text/xml');
+	return new Promise((resolve, reject) => {
+		let reqHeader = new Headers();
+		reqHeader.append('Content-Type', 'text/xml');
 
-	let initObject = {
-		method: 'GET',
-		headers: reqHeader
-	};
+		let initObject = {
+			method: 'GET',
+			headers: reqHeader
+		};
 
-	let userRequest = new Request(url, initObject);
+		let userRequest = new Request(url, initObject);
 
-	fetch(userRequest)
-		.then((response) => response.text())
-		.then((str) => new window.DOMParser().parseFromString(str, 'text/xml'))
-		.then((data) => {
-			if (logToConsole) console.log(data);
-			return data;
-		})
-		.catch((err) => {
-			if (logToConsole) console.log('Something went wrong!', err);
-		});
+		fetch(userRequest)
+			.then((response) => response.text())
+			.then((str) => new window.DOMParser().parseFromString(str, 'text/xml'))
+			.then((xml) => {
+				if (logToConsole) console.log(xml);
+				resolve(xml);
+			})
+			.catch((err) => {
+				if (logToConsole) console.log('Something went wrong!', err);
+				reject(err);
+			});
+	});
 }
 
 // Test if an object is empty

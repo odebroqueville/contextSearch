@@ -153,7 +153,7 @@ async function handleAltClickWithGrid(e) {
 	}
 }
 
-function handleRightClickWithoutGrid(e) {
+async function handleRightClickWithoutGrid(e) {
 	let elementClicked = e.target;
 	let tag = elementClicked.tagName;
 	if (tag === 'IMG') {
@@ -171,17 +171,32 @@ function handleRightClickWithoutGrid(e) {
 		let url = window.location.href;
 		let domain = getDomain(url).replace(/https?:\/\//, '');
 		if (domain === 'mycroftproject.com') {
+			// Prevent context menu from showing
+			e.preventDefault();
+
 			// get pid and name to retrieve open search data
 			let attr = elementClicked.getAttribute('onclick');
 			let pid = getPidAndName(attr).pid;
 			let name = getPidAndName(attr).name;
 			let url = mycroftUrl + pid + '/' + name + '.xml';
 			if (logToConsole) console.log(url);
-			let xml = fetchXML(url);
+
+			// Retrieve open search data
+			let xml = await fetchXML(url);
 			let shortName = getNameAndQueryString(xml).shortName;
 			let queryString = getNameAndQueryString(xml).queryString;
-			let id = defineNewId(shortName);
-			let numberOfSearchEngines = searchEngines.length;
+			let id = shortName.replace(/\s/g, '-').toLowerCase();
+			while (!isIdUnique(id)) {
+				id = defineNewId(shortName);
+			}
+			if (logToConsole) {
+				console.log(id);
+				console.log(shortName);
+				console.log(queryString);
+			}
+			let numberOfSearchEngines = Object.keys(searchEngines).length;
+
+			// Define new search engine to be added along with its default values
 			searchEngines[id] = {
 				index: numberOfSearchEngines,
 				name: shortName,
@@ -191,7 +206,11 @@ function handleRightClickWithoutGrid(e) {
 				show: true,
 				base64: ''
 			};
-			sendMessage('addNewSearchEngine', { id: id, searchEngines: searchEngines });
+			if (logToConsole) console.log(searchEngines[id]);
+
+			// Send msg to background script to get the new search engine added
+			sendMessage('addNewSearchEngine', { id: id, searchEngine: searchEngines[id] });
+			return false;
 		}
 	} else {
 		let selectedText = getSelectedText();
@@ -201,12 +220,10 @@ function handleRightClickWithoutGrid(e) {
 
 // Define a random ID for the new search engine
 function defineNewId(shortName) {
-	let newId = shortName.toLowercase() + '-';
+	let newId = shortName.replace(/\s/g, '-').toLowerCase();
 	let randomNumber = Math.floor(Math.random() * 1000000);
-	newId = newId + randomNumber.toString();
-	while (!isIdUnique(newId)) {
-		defineNewId(shortName);
-	}
+	newId = newId + '-' + randomNumber.toString();
+	if (logToConsole) console.log(newId);
 	return newId;
 }
 
@@ -240,11 +257,7 @@ function getNameAndQueryString(xml) {
 			if (type === 'text/html') url = node.getAttribute('template');
 		}
 	}
-	if (logToConsole) {
-		console.log(txt);
-		console.log(shortName);
-		console.log(url);
-	}
+	if (logToConsole) console.log(txt);
 	return { shortName: shortName, queryString: url };
 }
 
