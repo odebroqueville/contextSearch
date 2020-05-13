@@ -1152,12 +1152,16 @@ browser.omnibox.onInputEntered.addListener((input) => {
 						try {
 							let keyword = input.split(' ')[0];
 							let searchTerms = input.replace(keyword, '').trim();
-							let suggestion = buildSuggestion(input);
-							if (suggestion.length === 1) {
-								displaySearchResults(suggestion[0].content, tabPosition);
+							if (keyword !== 'ms') {
+								let suggestion = buildSuggestion(input);
+								if (suggestion.length === 1) {
+									displaySearchResults(suggestion[0].content, tabPosition);
+								} else {
+									browser.search.search({ query: searchTerms, tabId: tabId });
+									notify(notifyUsage);
+								}
 							} else {
-								browser.search.search({ query: searchTerms, tabId: tabId });
-								notify(notifyUsage);
+								processMultiTabSearch();
 							}
 						} catch (ex) {
 							if (logToConsole) console.log('Failed to process ' + input);
@@ -1187,6 +1191,17 @@ function buildSuggestion(text) {
 	let showNotification = true;
 	if (lastAddressBarKeyword == keyword) showNotification = false;
 	lastAddressBarKeyword = keyword;
+
+	if (keyword === 'ms') {
+		selection = searchTerms;
+		let suggestion = [
+			{
+				content: '',
+				description: 'Perform multisearch for ' + searchTerms
+			}
+		];
+		return suggestion;
+	}
 
 	for (let id in searchEngines) {
 		if (searchEngines[id].keyword === keyword) {

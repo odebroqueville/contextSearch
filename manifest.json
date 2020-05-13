@@ -24,7 +24,7 @@
 		"scripts": [ "/scripts/background.js", "/scripts/sort.js" ]
 	},
 
-	"permissions": [ "<all_urls>", "contextMenus", "storage", "tabs", "notifications", "downloads", "search" ],
+	"permissions": [ "*://*/*", "contextMenus", "storage", "tabs", "notifications", "downloads", "search" ],
 
 	"omnibox": {
 		"keyword": "cs"
@@ -50,7 +50,7 @@
 
 	"content_scripts": [
 		{
-			"matches": [ "<all_urls>" ],
+			"matches": [ "*://*/*" ],
 			"js": [
 				"/scripts/selection.js",
 				"/scripts/sort.js",
