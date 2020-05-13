@@ -210,6 +210,10 @@
 		"message": "La lista predeterminada de buscadores ha sido cargada.",
 		"hash": "640d2193c8155e5988fbeb3453a9737d"
 	},
+	"notifySearchEngineNotFound": {
+		"message": "No se pudo encontrar un motor de búsqueda en la página web actual",
+		"hash": "89a0f7352dea5184b23f367f8c05b079"
+	},
 	"titleMultipleSearchEngines": {
 		"message": "Búsqueda con múltiples buscadores",
 		"hash": "016e3015d7461d1d0fbf20c60bd9ff0f"

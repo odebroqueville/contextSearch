@@ -9,7 +9,7 @@ const base64MultiSearchIcon =
 const ICON32 = '38px'; // icon width is 32px plus 3px margin/padding
 
 /// Global variables
-/* global EXIF, isEmpty, getDomain, fetchXML */
+/* global EXIF, isEmpty, getDomain, getNewSearchEngine */
 let searchEngines = {};
 let tabUrl = '';
 let domain = '';
@@ -181,35 +181,10 @@ async function handleRightClickWithoutGrid(e) {
 			let url = mycroftUrl + pid + '/' + name + '.xml';
 			if (logToConsole) console.log(url);
 
-			// Retrieve open search data
-			let xml = await fetchXML(url);
-			let shortName = getNameAndQueryString(xml).shortName;
-			let queryString = getNameAndQueryString(xml).queryString;
-			let id = shortName.replace(/\s/g, '-').toLowerCase();
-			while (!isIdUnique(id)) {
-				id = defineNewId(shortName);
-			}
-			if (logToConsole) {
-				console.log(id);
-				console.log(shortName);
-				console.log(queryString);
-			}
-			let numberOfSearchEngines = Object.keys(searchEngines).length;
-
-			// Define new search engine to be added along with its default values
-			searchEngines[id] = {
-				index: numberOfSearchEngines,
-				name: shortName,
-				keyword: '',
-				multitab: false,
-				url: queryString,
-				show: true,
-				base64: ''
-			};
-			if (logToConsole) console.log(searchEngines[id]);
+			let data = getNewSearchEngine(url, searchEngines);
 
 			// Send msg to background script to get the new search engine added
-			sendMessage('addNewSearchEngine', { id: id, searchEngine: searchEngines[id] });
+			sendMessage('addNewSearchEngine', data);
 			return false;
 		}
 	} else {
@@ -218,47 +193,10 @@ async function handleRightClickWithoutGrid(e) {
 	}
 }
 
-// Define a random ID for the new search engine
-function defineNewId(shortName) {
-	let newId = shortName.replace(/\s/g, '-').toLowerCase();
-	let randomNumber = Math.floor(Math.random() * 1000000);
-	newId = newId + '-' + randomNumber.toString();
-	if (logToConsole) console.log(newId);
-	return newId;
-}
-
-// Ensure the ID generated is unique
-function isIdUnique(testId) {
-	for (let id in searchEngines) {
-		if (id === testId) {
-			return false;
-		}
-	}
-	return true;
-}
-
 function getPidAndName(string) {
 	let str = string.match(/\(.+\)/).toString().match(/'.+'/g).toString();
 	let array = str.replace(/'/g, '').toString().split(',');
 	return { pid: array[3], name: array[0] };
-}
-
-function getNameAndQueryString(xml) {
-	let x, shortName, url, txt;
-	txt = '';
-	x = xml.documentElement.childNodes;
-	console.log(x);
-	for (let node of x) {
-		let key = node.nodeName;
-		txt += key + '\n';
-		if (key === 'ShortName') shortName = node.textContent;
-		if (key === 'Url') {
-			let type = node.getAttribute('type');
-			if (type === 'text/html') url = node.getAttribute('template');
-		}
-	}
-	if (logToConsole) console.log(txt);
-	return { shortName: shortName, queryString: url };
 }
 
 function getSelectedText() {

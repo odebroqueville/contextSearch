@@ -158,6 +158,9 @@
 	"notifySearchEnginesLoaded": {
 		"message": "Default list of search engines has been loaded."
 	},
+	"notifySearchEngineNotFound": {
+		"message": "A search engine couldn't be found on the current web page"
+	},
 	"titleMultipleSearchEngines": {
 		"message": "Multiple search engines search"
 	},

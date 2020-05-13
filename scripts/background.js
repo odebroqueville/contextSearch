@@ -4,7 +4,7 @@
 const logToConsole = false;
 
 /// Global variables
-/* global sortByIndex, isEmpty, getDomain */
+/* global sortByIndex, isEmpty, getDomain, getNewSearchEngine */
 let searchEngines = {};
 let searchEnginesArray = [];
 let selection = '';
@@ -22,6 +22,7 @@ const base64ContextSearchIcon =
 
 // Constants for translations
 const notifySearchEnginesLoaded = browser.i18n.getMessage('notifySearchEnginesLoaded');
+const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
 const titleMultipleSearchEngines = browser.i18n.getMessage('titleMultipleSearchEngines');
 const titleGoogleSearch = browser.i18n.getMessage('titleGoogleSearch');
 const titleExactMatch = browser.i18n.getMessage('exactMatch');
@@ -62,6 +63,9 @@ const defaultOptions = {
 		forceFaviconsReload: contextsearch_forceFaviconsReload
 	}
 };
+
+/// Handle Page Action click
+browser.pageAction.onClicked.addListener(handlePageAction);
 
 /// Handle Incoming Messages
 // Listen for messages from the content or options script
@@ -153,28 +157,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			if (logToConsole) console.log(id, domain);
 			searchEngines[id] = message.data.searchEngine;
 			searchEngines = sortByIndex(searchEngines);
-			browser.storage.local
-				.clear()
-				.then(() => {
-					addNewFavicon(id, domain)
-						.then((value) => {
-							searchEngines[id]['base64'] = value.base64;
-							saveSearchEnginesToLocalStorage(false);
-							rebuildContextMenu();
-						})
-						.catch((err) => {
-							if (logToConsole) {
-								console.error(err);
-								console.log('Failed to add new favicon.');
-							}
-						});
-				})
-				.catch((err) => {
-					if (logToConsole) {
-						console.error(err);
-						console.log('Failed to clear local storage.');
-					}
-				});
+			addNewSearchEngine(id, domain);
 			break;
 		case 'updateSearchOptions':
 			getOptions().then((settings) => {
@@ -310,6 +293,49 @@ function reset() {
 				reject();
 			});
 	});
+}
+
+function addNewSearchEngine(id, domain) {
+	return new Promise((resolve, reject) => {
+		browser.storage.local
+			.clear()
+			.then(() => {
+				addNewFavicon(id, domain)
+					.then((value) => {
+						searchEngines[id]['base64'] = value.base64;
+						saveSearchEnginesToLocalStorage(false);
+						rebuildContextMenu();
+						resolve();
+					})
+					.catch((err) => {
+						if (logToConsole) {
+							console.error(err);
+							console.log('Failed to add new favicon.');
+						}
+						reject();
+					});
+			})
+			.catch((err) => {
+				if (logToConsole) {
+					console.error(err);
+					console.log('Failed to clear local storage.');
+				}
+				reject();
+			});
+	});
+}
+
+async function handlePageAction() {
+	let url = document.querySelector('link[type="application/opensearchdescription+xml"]').href;
+	if (url === undefined) {
+		notify(notifySearchEngineNotFound);
+	} else {
+		let id = await getNewSearchEngine(url, searchEngines).id;
+		let searchEngine = getNewSearchEngine(url, searchEngines).searchEngine;
+		let domain = getDomain(searchEngine.url);
+		searchEngines[id] = searchEngine;
+		addNewSearchEngine(id, domain);
+	}
 }
 
 // Reset options to default

@@ -210,6 +210,10 @@
 		"message": "Завантажено список пошукових систем за замовчуванням.",
 		"hash": "640d2193c8155e5988fbeb3453a9737d"
 	},
+	"notifySearchEngineNotFound": {
+		"message": "Не вдалося знайти пошукову систему на поточній веб-сторінці",
+		"hash": "89a0f7352dea5184b23f367f8c05b079"
+	},
 	"titleMultipleSearchEngines": {
 		"message": "Multi-search",
 		"hash": "016e3015d7461d1d0fbf20c60bd9ff0f"
