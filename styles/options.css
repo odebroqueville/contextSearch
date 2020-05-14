@@ -140,3 +140,13 @@ hr.ruler {
     margin-left: 10px;
     color: black;
 }
+
+.mw-600 {
+    max-width: 650px;
+}
+
+code {
+    background: #eaeaea;
+    padding: 0px 5px;
+    border-radius: 2px;
+}
