@@ -1,6 +1,6 @@
 /// Global variables functions used by content scripts
 
-/* exported sortByIndex, getDomain, getNewSearchEngine, isEmpty */
+/* exported sortByIndex, getDomain, getNewSearchEngine, isEmpty, logToConsole */
 
 /// Debug
 const logToConsole = true;
