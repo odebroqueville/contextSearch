@@ -44,16 +44,17 @@ browser.runtime.onMessage.addListener((message) => {
 	let url = '';
 	switch (action) {
 		case 'getSearchEngine':
-			url = document.querySelector('link[type="application/opensearchdescription+xml"]').href;
-			console.log(url);
-			if (!url) {
-				sendMessage({ action: 'notify', data: notifySearchEngineNotFound });
-			} else {
+			try {
+				url = document.querySelector('link[type="application/opensearchdescription+xml"]').href;
+				console.log(url);
 				// Fetch search engine data
 				getNewSearchEngine(url, searchEngines).then((result) => {
 					// Send msg to background script to get the new search engine added
 					sendMessage('addNewSearchEngine', result);
 				});
+			} catch (err) {
+				console.log(err);
+				sendMessage('notify', notifySearchEngineNotFound);
 			}
 			break;
 		case 'displayExifTags':
