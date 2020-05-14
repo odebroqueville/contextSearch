@@ -31,7 +31,7 @@
 	},
 
 	"background": {
-		"scripts": [ "/scripts/background.js", "/scripts/sort.js" ]
+		"scripts": [ "/scripts/sort.js", "/scripts/background.js" ]
 	},
 
 	"permissions": [ "*://*/*", "contextMenus", "storage", "tabs", "notifications", "downloads", "search" ],

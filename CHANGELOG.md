@@ -5,7 +5,7 @@
 * Open Options page from omnibox by using the keyword '.' after cs
 * It is now possible to add search engines from mycroftproject.com by right-clicking on the main (first) link of a search engine
 * A page action now allows users to add an open search engine from a web page when available
-* Improved the text definition of a multisearch onn the Options page
+* Improved the text definition of a multisearch on the Options page including the translations
 
 3.8.9
 ---------
