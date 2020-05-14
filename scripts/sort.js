@@ -1,3 +1,10 @@
+/// Global variables and functions used by the background script
+
+/* exported sortByIndex, getDomain, isEmpty */
+
+/// Debug
+const logToConsole = true;
+
 /// Sort search engines by index
 function sortByIndex(list) {
 	let sortedList = {};
@@ -49,99 +56,6 @@ function getDomain(url) {
 	let urlParts = url.replace('http://', '').replace('https://', '').split(/[/?#]/);
 	let domain = protocol + urlParts[0];
 	return domain;
-}
-
-function fetchXML(url) {
-	return new Promise((resolve, reject) => {
-		let reqHeader = new Headers();
-		reqHeader.append('Content-Type', 'text/xml');
-
-		let initObject = {
-			method: 'GET',
-			headers: reqHeader
-		};
-
-		let userRequest = new Request(url, initObject);
-
-		fetch(userRequest)
-			.then((response) => response.text())
-			.then((str) => new window.DOMParser().parseFromString(str, 'text/xml'))
-			.then((xml) => {
-				if (logToConsole) console.log(xml);
-				resolve(xml);
-			})
-			.catch((err) => {
-				if (logToConsole) console.log('Something went wrong!', err);
-				reject(err);
-			});
-	});
-}
-
-// Retrieve the short name and query string from an xml document with the open search specifications
-function getNameAndQueryString(xml) {
-	let x, shortName, url, txt;
-	txt = '';
-	x = xml.documentElement.childNodes;
-	if (logToConsole) console.log(x);
-	for (let node of x) {
-		let key = node.nodeName;
-		txt += key + '\n';
-		if (key === 'ShortName') shortName = node.textContent;
-		if (key === 'Url') {
-			let type = node.getAttribute('type');
-			if (type === 'text/html') url = node.getAttribute('template');
-		}
-	}
-	if (logToConsole) console.log(txt);
-	return { shortName: shortName, queryString: url };
-}
-
-// Define a random ID for the new search engine
-function defineNewId(shortName) {
-	let newId = shortName.replace(/\s/g, '-').toLowerCase();
-	let randomNumber = Math.floor(Math.random() * 1000000);
-	newId = newId + '-' + randomNumber.toString();
-	if (logToConsole) console.log(newId);
-	return newId;
-}
-
-// Ensure the ID generated is unique
-function isIdUnique(testId) {
-	for (let id in searchEngines) {
-		if (id === testId) {
-			return false;
-		}
-	}
-	return true;
-}
-
-async function getNewSearchEngine(url, searchEngines) {
-	let xml = await fetchXML(url);
-	let shortName = getNameAndQueryString(xml).shortName;
-	let queryString = getNameAndQueryString(xml).queryString;
-	let id = shortName.replace(/\s/g, '-').toLowerCase();
-	while (!isIdUnique(id)) {
-		id = defineNewId(shortName);
-	}
-	if (logToConsole) {
-		console.log(id);
-		console.log(shortName);
-		console.log(queryString);
-	}
-	let numberOfSearchEngines = Object.keys(searchEngines).length;
-
-	// Define new search engine to be added along with its default values
-	searchEngines[id] = {
-		index: numberOfSearchEngines,
-		name: shortName,
-		keyword: '',
-		multitab: false,
-		url: queryString,
-		show: true,
-		base64: ''
-	};
-	if (logToConsole) console.log(searchEngines[id]);
-	return { id: id, searchEngine: searchEngines[id] };
 }
 
 // Test if an object is empty

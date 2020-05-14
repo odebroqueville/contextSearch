@@ -1,6 +1,5 @@
 'use strict';
 
-const logToConsole = true;
 const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
 const mycroftUrl = 'https://mycroftproject.com/installos.php/';
 const base64ContextSearchIcon =
@@ -10,7 +9,7 @@ const base64MultiSearchIcon =
 const ICON32 = '38px'; // icon width is 32px plus 3px margin/padding
 
 /// Global variables
-/* global EXIF, isEmpty, getDomain, getNewSearchEngine */
+/* global EXIF, isEmpty, getDomain, getNewSearchEngine, logToConsole */
 let searchEngines = {};
 let tabUrl = '';
 let domain = '';

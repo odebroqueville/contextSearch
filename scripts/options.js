@@ -1,7 +1,5 @@
 /// Global variables
-/* global sortByIndex, Sortable */
-// Debugging
-const logToConsole = true;
+/* global sortByIndex, Sortable, logToConsole */
 
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById('container');

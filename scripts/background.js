@@ -1,8 +1,5 @@
 'use strict';
 
-/// Debug
-const logToConsole = true;
-
 /// Global variables
 /* global sortByIndex, isEmpty, getDomain */
 let searchEngines = {};
