@@ -3,150 +3,155 @@
 }
 
 body {
-    font-family: Calibri, Helvetica, Arial, sans-serif;
-    font-size: 10pt;
-    color:darkslategrey;
+	font-family: Calibri, Helvetica, Arial, sans-serif;
+	font-size: 10pt;
+	color: darkslategrey;
 }
 
 .left fieldset {
-    width: 480px;
-    margin-right: 10px;
+	width: 480px;
+	margin-right: 10px;
 }
 
 .right fieldset {
-    display: inline-block;
+	display: inline-block;
 }
 
 .icon {
-    font-size: 1.5em;
+	font-size: 1.5em;
 }
 
 input[type="checkbox"] {
-    display: inline-block;
-    width: 15px;
+	display: inline-block;
+	width: 15px;
 }
 
 #container {
 	margin-right: 25px;
 }
 
-#container label, #container #name {
-    display: inline-block;
-    width: 210px;
+#container label,
+#container #name {
+	display: inline-block;
+	width: 210px;
 }
 
 #addSearchEngine #name {
-    display: inline-block;
-    width: 195px;
+	display: inline-block;
+	width: 195px;
 }
 
 input[type="radio"] + label {
-    width: 120px;
+	width: 120px;
 }
 
-input#gridMode + label, input#optionsMenuAtTop + label {
-    width: 600px;
+input#gridMode + label,
+input#optionsMenuAtTop + label {
+	width: 600px;
 }
 
-#container input[type="url"], #addSearchEngine #url {
-    display: inline-block;
-    width: 400px;
-    margin-left: 10px;
+#container input[type="url"],
+#addSearchEngine #url {
+	display: inline-block;
+	width: 400px;
+	margin-left: 10px;
 }
 
-#container .keyword, #addSearchEngine #keyword {
-    width: 80px;
-    margin-left: 10px;
+#container .keyword,
+#addSearchEngine #keyword {
+	width: 80px;
+	margin-left: 10px;
 }
 
 h2 {
-    font-size: 12pt;
+	font-size: 12pt;
 }
 
 #container button {
-    margin-left: 10px;
+	margin-left: 10px;
 }
 
 #container li {
-    margin-bottom: 5px;
+	margin-bottom: 5px;
 }
 
 #container li:first-child > button.up {
-    visibility: hidden;
+	visibility: hidden;
 }
 
 #container li:last-child > button.down {
-    visibility: hidden;
+	visibility: hidden;
 }
 
 #upl {
-    margin-top: 10px;
-    margin-bottom: 8px;
+	margin-top: 10px;
+	margin-bottom: 8px;
 }
 
 #addSearchEngine {
-    margin-left: 40px;
+	margin-left: 40px;
 }
 
 #flexbox-container {
-    margin-left: 10px;
+	margin-left: 10px;
 }
 
 #flexbox-container > div.left > div.preferences {
-    display: -ms-flex;
-    display: -webkit-flex;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    align-content: flex-start;
-    margin-right: 10px;
+	display: -ms-flex;
+	display: -webkit-flex;
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	align-content: flex-start;
+	margin-right: 10px;
 }
 
-#flexbox-container > div.right, #flexbox-container > div.left {
-    padding: 10px;
+#flexbox-container > div.right,
+#flexbox-container > div.left {
+	padding: 10px;
 }
 
 hr.ruler {
-    opacity: 0.5;
+	opacity: 0.5;
 }
 
 @media screen and (min-width: 1520px) {
-    #flexbox-container {
-        display: -ms-flex;
-        display: -webkit-flex;
-        display: flex;
-    }
+	#flexbox-container {
+		display: -ms-flex;
+		display: -webkit-flex;
+		display: flex;
+	}
 
-    #flexbox-container .left {
-        width: 30%;
-    }
+	#flexbox-container .left {
+		width: 30%;
+	}
 
-    #flexbox-container .right {
-        width: 70%;
-    }
+	#flexbox-container .right {
+		width: 70%;
+	}
 
-    #flexbox-container > div.left {
-        margin-right: 10px;
-    }
+	#flexbox-container > div.left {
+		margin-right: 10px;
+	}
 }
 
 .buttonrow button {
-    margin-top: 4px;
-    margin-bottom: 4px;
+	margin-top: 4px;
+	margin-bottom: 4px;
 }
 
 .sort {
-    vertical-align: bottom;
-    margin-left: 10px;
-    color: black;
+	vertical-align: bottom;
+	margin-left: 10px;
+	color: black;
 }
 
-.mw-600 {
-    max-width: 650px;
+.ms {
+	max-width: 650px;
 }
 
 code {
-    background: #eaeaea;
-    padding: 0px 5px;
-    border-radius: 2px;
+	background: #eaeaea;
+	padding: 0px 5px;
+	border-radius: 2px;
 }

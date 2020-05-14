@@ -11,6 +11,15 @@
 		"message": " is a search with multiple search engines simultaneously.",
 		"description": "multi-search - it's a search with multiple search engines simultaneously."
 	},
+	"multisearchHowTo": {
+		"message": "Check the middle checkbox to include a search engine in a"
+	},
+	"multisearchLaunch": {
+		"message": "You can launch a"
+	},
+	"multisearchEnd": {
+		"message": "through the context menu or through the omnibox by typing:"
+	},
 	"pageTitle": {
 		"message": "Context Search Preferences"
 	},

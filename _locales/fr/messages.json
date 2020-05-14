@@ -14,6 +14,18 @@
 		"description": "multi-search - it's a search with multiple search engines simultaneously.",
 		"hash": "d91d9731eeb51cab08e5db4231c3b539"
 	},
+	"multisearchHowTo": {
+		"message": "Cochez la case du milieu pour inclure un moteur de recherche dans un",
+		"hash": "45d8a4cc6705ce14bb465c1a603886f7"
+	},
+	"multisearchLaunch": {
+		"message": "Vous pouvez lancer un",
+		"hash": "50aea7f78b7f283fce6309cb046d922b"
+	},
+	"multisearchEnd": {
+		"message": "via le menu contextuel ou via l'omnibox en tapant:",
+		"hash": "93175e4d6a2f2b01a19a17c09ac98750"
+	},
 	"pageTitle": {
 		"message": "Préférences de Context Search",
 		"hash": "85459cf0f20967bcc8995dd2257f6ba2"
