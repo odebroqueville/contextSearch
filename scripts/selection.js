@@ -46,14 +46,14 @@ browser.runtime.onMessage.addListener((message) => {
 		case 'getSearchEngine':
 			try {
 				url = document.querySelector('link[type="application/opensearchdescription+xml"]').href;
-				console.log(url);
+				if (logToConsole) console.log(url);
 				// Fetch search engine data
 				getNewSearchEngine(url, searchEngines).then((result) => {
 					// Send msg to background script to get the new search engine added
 					sendMessage('addNewSearchEngine', result);
 				});
 			} catch (err) {
-				console.log(err);
+				if (logToConsole) console.log(err);
 				sendMessage('notify', notifySearchEngineNotFound);
 			}
 			break;
