@@ -153,13 +153,3 @@ function isEmpty(value) {
 	else if (typeof value === 'boolean') return false;
 	else return !value;
 }
-
-/// Notifications
-function notify(message) {
-	browser.notifications.create(message.substring(0, 20), {
-		type: 'basic',
-		iconUrl: browser.extension.getURL('icons/icon_64.png'),
-		title: browser.i18n.getMessage('extensionName'),
-		message: message
-	});
-}

@@ -10,7 +10,7 @@ const base64MultiSearchIcon =
 const ICON32 = '38px'; // icon width is 32px plus 3px margin/padding
 
 /// Global variables
-/* global EXIF, isEmpty, getDomain, getNewSearchEngine, notify */
+/* global EXIF, isEmpty, getDomain, getNewSearchEngine */
 let searchEngines = {};
 let tabUrl = '';
 let domain = '';

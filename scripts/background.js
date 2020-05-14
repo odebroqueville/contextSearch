@@ -4,7 +4,7 @@
 const logToConsole = true;
 
 /// Global variables
-/* global sortByIndex, isEmpty, getDomain, notify */
+/* global sortByIndex, isEmpty, getDomain */
 let searchEngines = {};
 let searchEnginesArray = [];
 let selection = '';
@@ -1325,6 +1325,16 @@ function sendMessageToTab(tab, message) {
 				}
 				reject();
 			});
+	});
+}
+
+/// Notifications
+function notify(message) {
+	browser.notifications.create(message.substring(0, 20), {
+		type: 'basic',
+		iconUrl: browser.extension.getURL('icons/icon_64.png'),
+		title: browser.i18n.getMessage('extensionName'),
+		message: message
 	});
 }
 
