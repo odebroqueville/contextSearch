@@ -35,14 +35,26 @@ The 'Reset' button will re-load the default list of search engines and their ass
 
 You can also import a JSON file containing your own list of search engines. It is strongly recommended to export your customized list of search engines as a backup in case anything goes wrong.
 
+## How to add a search engine to your custom list
+
+* visit mycroftproject.com and right-click on the main link of a listed search engine
+* use the page action (i.e. Context Search icon in the address bar) to add a search engine if the website supports open search
+* add a search engine manually via the Options page (you can test the query string before adding the search engine)
+
 ## How to perform a search in the omnibox
 
-In the omnibox (or url address bar), type 'cs ' (without the quotes, and where cs stands for Context Search) followed by the keyword you have chosen for your seaarch engine in the extension's preferences, e.g. 'w ' (again without quotes) for Wikipedia, followed by your search term(s).
+In the omnibox (or url address bar), type 'cs ' (without the quotes, and where cs stands for Context Search) followed by the keyword you have chosen for your seaarch engine in the extension's preferences, e.g. 'w ' (again without quotes) for Wikipedia, followed by your search term(s). The dot ('.') and the exclamation mark ('!') are reserved keywords.
 
-Here is an example:
+Here are some examples:
+
 cs w atom
+will search for the word 'atom' in Wikipedia.
 
-The above will search for the word 'atom' in Wikipedia.
+cs .
+will open the Options page
+
+cs ! cold fusion
+will perform a multi-search for the search terms 'cold fusion'
 
 ## The main structure of a JSON file containing the search engines
 
