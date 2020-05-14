@@ -1,7 +1,7 @@
 'use strict';
 
 /// Global variables
-/* global sortByIndex, isEmpty, getDomain */
+/* global sortByIndex, isEmpty, getDomain, logToConsole */
 let searchEngines = {};
 let searchEnginesArray = [];
 let selection = '';
@@ -1168,7 +1168,7 @@ browser.omnibox.onInputEntered.addListener((input) => {
 						try {
 							let keyword = input.split(' ')[0];
 							let searchTerms = input.replace(keyword, '').trim();
-							if (keyword !== 'ms') {
+							if (keyword !== '!' && keyword !== '.') {
 								let suggestion = buildSuggestion(input);
 								if (suggestion.length === 1) {
 									displaySearchResults(suggestion[0].content, tabPosition);
@@ -1176,6 +1176,8 @@ browser.omnibox.onInputEntered.addListener((input) => {
 									browser.search.search({ query: searchTerms, tabId: tabId });
 									notify(notifyUsage);
 								}
+							} else if (keyword === '.') {
+								browser.runtime.openOptionsPage();
 							} else {
 								processMultiTabSearch();
 							}
@@ -1208,12 +1210,20 @@ function buildSuggestion(text) {
 	if (lastAddressBarKeyword == keyword) showNotification = false;
 	lastAddressBarKeyword = keyword;
 
-	if (keyword === 'ms') {
+	if (keyword === '!') {
 		selection = searchTerms;
 		let suggestion = [
 			{
 				content: '',
 				description: 'Perform multisearch for ' + searchTerms
+			}
+		];
+		return suggestion;
+	} else if (keyword === '.') {
+		let suggestion = [
+			{
+				content: '',
+				description: 'Open options page'
 			}
 		];
 		return suggestion;
