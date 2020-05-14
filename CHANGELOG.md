@@ -1,5 +1,12 @@
-3.8.9
+3.9.0
 =========
+
+* Adds multisearch to the omnibox by using the keyword 'ms ' after 'cs '
+* It is now possible to add search engines from mycroftproject.com by right-clicking on the main (first) link of a search engine
+* A page action now allows users to add an open search engine from a web page when available
+
+3.8.9
+---------
 
 * Adds search option to match exact search string along with the corresponding translations (#7)
 
