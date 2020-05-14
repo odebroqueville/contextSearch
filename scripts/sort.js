@@ -82,7 +82,7 @@ function getNameAndQueryString(xml) {
 	let x, shortName, url, txt;
 	txt = '';
 	x = xml.documentElement.childNodes;
-	console.log(x);
+	if (logToConsole) console.log(x);
 	for (let node of x) {
 		let key = node.nodeName;
 		txt += key + '\n';
@@ -152,4 +152,14 @@ function isEmpty(value) {
 	else if (typeof value === 'object') return value == null || Object.keys(value).length === 0;
 	else if (typeof value === 'boolean') return false;
 	else return !value;
+}
+
+/// Notifications
+function notify(message) {
+	browser.notifications.create(message.substring(0, 20), {
+		type: 'basic',
+		iconUrl: browser.extension.getURL('icons/icon_64.png'),
+		title: browser.i18n.getMessage('extensionName'),
+		message: message
+	});
 }
