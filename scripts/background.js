@@ -126,7 +126,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			break;
 		case 'reset':
 			return reset();
-		case 'sendCurrentTabUrl':
+		case 'setTargetUrl':
 			if (message.data) targetUrl = message.data;
 			break;
 		case 'testSearchEngine':
@@ -807,7 +807,7 @@ function rebuildContextMenu() {
 			rebuildContextOptionsMenu();
 		}
 
-		buildContextMenuForImageExifTags();
+		buildContextMenuForImages();
 
 		searchEnginesArray = [];
 		var index = 0;
@@ -869,7 +869,12 @@ function rebuildContextOptionsMenu() {
 }
 
 /// Build the context menu for image searches
-function buildContextMenuForImageExifTags() {
+function buildContextMenuForImages() {
+	browser.contextMenus.create({
+		id: 'cs-reverse-image-search',
+		title: 'Google Reverse Image Search',
+		contexts: [ 'image' ]
+	});
 	browser.contextMenus.create({
 		id: 'cs-exif-tags',
 		title: 'View EXIF tags...',
@@ -935,6 +940,19 @@ function processSearch(info, tab) {
 					if (logToConsole) console.error(err);
 				});
 		}
+		return;
+	} else if (id === 'reverse-image-search') {
+		browser.tabs.query({ currentWindow: true }).then((tabs) => {
+			for (let tab of tabs) {
+				if (logToConsole) {
+					console.log(tab.index);
+					console.log(tab.title);
+					console.log('-------------------------');
+				}
+			}
+			if (contextsearch_openSearchResultsInLastTab) tabPosition = tabs.length;
+			displaySearchResults(targetUrl, tabPosition);
+		}, onError);
 		return;
 	}
 
