@@ -221,6 +221,9 @@
 	"restriction": {
 		"message": "Please note that it isn't possible to display search results in the sidebar when using the grid of icons."
 	},
+	"reverseImage": {
+		"message": "Also, reverse image search results cannot be displayed in the sidebar."
+	},
 
 	"__WET_LOCALE__": { "message": "en" }
 }

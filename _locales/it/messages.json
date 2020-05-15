@@ -294,6 +294,10 @@
 		"message": "Si noti che non è possibile visualizzare i risultati della ricerca nella barra laterale quando si utilizza la griglia delle icone.",
 		"hash": "2aaf6c9de876982ec4fe65b62cdd76b7"
 	},
+	"reverseImage": {
+		"message": "Inoltre, i risultati della ricerca di immagini inverse non possono essere visualizzati nella barra laterale.",
+		"hash": "db880c407ccd59031b92a75b7f7a677e"
+	},
 
 	"__WET_LOCALE__": { "message": "it" }
 }
