@@ -67,10 +67,10 @@ browser.runtime.onMessage.addListener((message) => {
 
 function handleStorageChange(changes, area) {
 	let oldSearchEngines = JSON.parse(JSON.stringify(searchEngines));
-	searchEngines = {};
 	let ids = Object.keys(changes);
 	switch (area) {
 		case 'local':
+			searchEngines = {};
 			if (logToConsole) {
 				console.log(changes);
 				console.log('Search engines list has been updated with:\n');
@@ -85,7 +85,7 @@ function handleStorageChange(changes, area) {
 					console.log(searchEngines[id]);
 				}
 			}
-			if (!Object.keys(searchEngines) > 0) searchEngines = oldSearchEngines;
+			if (!Object.keys(searchEngines).length > 0) searchEngines = oldSearchEngines;
 			if (logToConsole) console.log(searchEngines);
 			break;
 		case 'sync':
@@ -158,7 +158,7 @@ async function handleAltClickWithGrid(e) {
 		}
 
 		// If option is diabled then do nothing. Note: this intentionally comes after selected text is accessed as text can become unselected on click
-		let data = await browser.storage.sync.get('options');
+		let data = await browser.storage.sync.get(null);
 		if (data.options.disableAltClick) return;
 
 		// Test URL: https://bugzilla.mozilla.org/show_bug.cgi?id=1215376
