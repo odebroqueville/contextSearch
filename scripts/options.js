@@ -569,22 +569,27 @@ function setOptions(options) {
 		case 'openNewTab':
 			openNewTab.checked = true;
 			active.style.visibility = 'visible';
+			position.style.visibility = 'visible';
 			break;
 		case 'sameTab':
 			sameTab.checked = true;
 			active.style.visibility = 'hidden';
+			position.style.visibility = 'hidden';
 			break;
 		case 'openNewWindow':
 			openNewWindow.checked = true;
 			active.style.visibility = 'visible';
+			position.style.visibility = 'hidden';
 			break;
 		case 'openSidebar':
 			openSidebar.checked = true;
 			active.style.visibility = 'hidden';
+			position.style.visibility = 'hidden';
 			break;
 		default:
 			openNewTab.checked = true;
 			active.style.visibility = 'visible';
+			position.style.visibility = 'visible';
 			break;
 	}
 
