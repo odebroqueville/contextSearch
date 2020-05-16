@@ -5,6 +5,7 @@
 		<title data-i18n="pageTitle">Context Search Preferences</title>
 		<link rel="icon" sizes="any" type="image/svg+xml" href="/icons/context-search.svg">
 		<link rel="stylesheet" href="/styles/ionicons.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway&display=swap">
 		<link rel="stylesheet" href="/styles/options.css">
 	</head>
 	<body>
@@ -24,19 +25,29 @@
 					<fieldset style="display:inline-block">
 						<legend><h4 data-i18n="header1">Where should search results appear?</h4></legend>
 						<div id="tabMode">
+						<span class="option">
 							<input type="radio" id="openNewTab" name="results" value="openNewTab" checked>
 							<label for="openNewTab" data-i18n="newTab">In a new tab</label>
+						</span>
 
+						<span class="option">
 							<input type="radio" id="sameTab" name="results" value="sameTab">
 							<label for="sameTab" data-i18n="sameTab">In the same tab</label>
+						</span>
 
+						<br />
+						<span class="option">
 							<input type="radio" id="openNewWindow" name="results" value="openNewWindow">
 							<label for="openNewWindow" data-i18n="newWindow">In a new window</label>
+						</span>
 
+						<span class="option">
 							<input type="radio" id="openSidebar" name="results" value="openSidebar">
 							<label for="openSidebar" data-i18n="sidebar">In the sidebar</label>
+						</span>
 						</div>
 
+						<br />
 						<div id="active">
 							<input type="checkbox" id="tabActive"><label for="tabActive" data-i18n="active">Make the new tab or window active</label>
 						</div>

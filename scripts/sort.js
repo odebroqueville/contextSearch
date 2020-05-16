@@ -3,7 +3,7 @@
 /* exported sortByIndex, getDomain, isEmpty */
 
 /// Debug
-const logToConsole = false;
+const logToConsole = true;
 
 /// Sort search engines by index
 function sortByIndex(list) {

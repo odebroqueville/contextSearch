@@ -3,7 +3,7 @@
 }
 
 body {
-	font-family: Calibri, Helvetica, Arial, sans-serif;
+	font-family: 'Raleway', Calibri, Helvetica, Arial, sans-serif;
 	font-size: 10pt;
 	color: darkslategrey;
 }
@@ -15,6 +15,17 @@ body {
 
 .right fieldset {
 	display: inline-block;
+}
+
+span.option {
+	display: inline-block;
+	width: 150px;
+	padding-bottom: 5px;
+}
+
+div#tabMode {
+	max-width: 320px;
+	background-color: lightgray;
 }
 
 .icon {

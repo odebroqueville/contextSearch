@@ -1,6 +1,10 @@
-body, iframe {
-    width: 432px;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+body,
+iframe {
+	width: 432px;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Raleway', Calibri, Helvetica, Arial, sans-serif;
+	font-size: 10pt;
+	color: darkslategrey;
 }

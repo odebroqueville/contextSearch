@@ -1,54 +1,57 @@
-html, body {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  font-size: 10pt;
-  box-sizing: border-box;
-  border-style: solid;
-  border-width: 0 1px 1px 1px;
-  border-color: #404046;
+html,
+body {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	border-style: solid;
+	border-width: 0 1px 1px 1px;
+	border-color: #404046;
+	font-family: 'Roboto Condensed', Calibri, Helvetica, Arial, sans-serif;
+	font-size: 10pt;
+	color: darkslategrey;
 }
 
 #histogram {
-  position: fixed;
-  display: block;
-  width: 428px;
-  height: 200px;
-  background-color: black;
+	position: fixed;
+	display: block;
+	width: 428px;
+	height: 200px;
+	background-color: black;
 }
 
 #content {
-  margin-top: 200px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  display: block;
-  width: 432px;
-  white-space: pre-wrap;
+	margin-top: 200px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	display: block;
+	width: 432px;
+	white-space: pre-wrap;
 }
 
 table {
-  width: 428px;
+	width: 428px;
 }
 
 tr {
-  margin: 2px;
-  padding: 0;
+	margin: 2px;
+	padding: 0;
 }
 
 tr:nth-child(even) {
-  background-color: #c4c4c4;
+	background-color: #c4c4c4;
 }
 
 td {
-  max-width: 214px;
-  padding: 2px;
+	max-width: 214px;
+	padding: 2px;
 }
 
 .key {
-  font-weight: bold;
+	font-weight: bold;
 }
 
 .increment {
-  padding-left: 20px;
+	padding-left: 20px;
 }
