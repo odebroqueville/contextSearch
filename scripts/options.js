@@ -105,9 +105,9 @@ function sendMessage(action, data) {
 }
 
 function handleStorageChange(changes, area) {
-	let oldSearchEngines = JSON.parse(JSON.stringify(searchEngines));
-	searchEngines = {};
 	if (area === 'local') {
+		let oldSearchEngines = JSON.parse(JSON.stringify(searchEngines));
+		searchEngines = {};
 		let ids = Object.keys(changes);
 		if (logToConsole) {
 			console.log(changes);
@@ -124,7 +124,7 @@ function handleStorageChange(changes, area) {
 				console.log(searchEngines[id]);
 			}
 		}
-		if (!Object.keys(searchEngines) > 0) searchEngines = oldSearchEngines;
+		if (!Object.keys(searchEngines).length > 0) searchEngines = oldSearchEngines;
 		if (logToConsole) console.log(searchEngines);
 		displaySearchEngines();
 	} else if (area === 'sync') {
@@ -422,6 +422,8 @@ function keywordChanged(e) {
 }
 
 function multiTabChanged(e) {
+	if (logToConsole) console.log(searchEngines);
+	if (logToConsole) console.log(e.target);
 	let lineItem = e.target.parentNode;
 	let id = lineItem.getAttribute('id');
 	let multiTab = e.target.checked;

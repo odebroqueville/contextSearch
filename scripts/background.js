@@ -386,7 +386,7 @@ function initialiseSearchEngines(forceReload) {
 function getOptions() {
 	return new Promise((resolve, reject) => {
 		browser.storage.sync
-			.get('options')
+			.get(null)
 			.then((data) => {
 				if (logToConsole) console.log(data);
 				resolve(data);
