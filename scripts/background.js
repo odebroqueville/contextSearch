@@ -904,23 +904,21 @@ function buildContextMenuItem(searchEngine, index, title, base64String, browserV
 }
 
 // Perform search based on selected search engine, i.e. selected context menu item
-function processSearch(info, tab) {
+async function processSearch(info, tab) {
 	let id = info.menuItemId.replace('cs-', '');
 	let tabPosition = tab.index;
-	browser.sidebarAction.close();
+	if (contextsearch_openSearchResultsInSidebar) {
+		await browser.sidebarAction.open();
+	} else {
+		await browser.sidebarAction.close();
+	}
 
 	if (id === 'exif-tags') {
 		if (contextsearch_openSearchResultsInSidebar) {
-			browser.sidebarAction
-				.open()
-				.then(() => {
-					let url = browser.runtime.getURL('/sidebar/exif_tags.html');
-					browser.sidebarAction.setPanel({ panel: url });
-					browser.sidebarAction.setTitle({ title: 'EXIF tags' });
-				})
-				.catch((err) => {
-					if (logToConsole) console.error(err);
-				});
+			let url = browser.runtime.getURL('/sidebar/exif_tags.html');
+			browser.sidebarAction.setPanel({ panel: url });
+			browser.sidebarAction.setTitle({ title: 'Search results' });
+			return;
 		} else {
 			browser.tabs
 				.query({ active: true })
@@ -962,18 +960,11 @@ function processSearch(info, tab) {
 	}
 
 	if (id === 'google-site' && targetUrl !== '') {
+		if (logToConsole) console.log(targetUrl);
 		if (contextsearch_openSearchResultsInSidebar) {
-			if (logToConsole) console.log(targetUrl);
-			browser.sidebarAction
-				.open()
-				.then(() => {
-					let url = browser.runtime.getURL('/sidebar/search_results.html');
-					browser.sidebarAction.setPanel({ panel: url });
-					browser.sidebarAction.setTitle({ title: 'Search results' });
-				})
-				.catch((err) => {
-					if (logToConsole) console.error(err);
-				});
+			let url = browser.runtime.getURL('/sidebar/search_results.html');
+			browser.sidebarAction.setPanel({ panel: url });
+			browser.sidebarAction.setTitle({ title: 'Search results' });
 			return;
 		}
 		browser.tabs.query({ currentWindow: true }).then((tabs) => {
@@ -1087,16 +1078,9 @@ function searchUsing(id, tabIndex) {
 	targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
 	if (logToConsole) console.log(`Target url: ${targetUrl}`);
 	if (contextsearch_openSearchResultsInSidebar) {
-		browser.sidebarAction
-			.open()
-			.then(() => {
-				let url = browser.runtime.getURL('/sidebar/search_results.html');
-				browser.sidebarAction.setPanel({ panel: url });
-				browser.sidebarAction.setTitle({ title: 'Search results' });
-			})
-			.catch((err) => {
-				if (logToConsole) console.error(err);
-			});
+		let url = browser.runtime.getURL('/sidebar/search_results.html');
+		browser.sidebarAction.setPanel({ panel: url });
+		browser.sidebarAction.setTitle({ title: 'Search results' });
 		return;
 	}
 	displaySearchResults(targetUrl, tabIndex);
