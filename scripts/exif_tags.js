@@ -1,10 +1,11 @@
 // Constants
+// Debug
 const logToConsole = true;
 
-const histogram = document.getElementById('histogram');
 const content = document.getElementById('content');
 
 // Global variables - initialisation
+/* global RGraph */
 let imageUrl = '';
 let imageTags = {};
 let redValues = array256(0);
@@ -49,6 +50,7 @@ function loadImageData() {
 	return new Promise((resolve, reject) => {
 		let img = new Image();
 		img.src = imageUrl;
+		img.crossOrigin = 'anonymous';
 		if (logToConsole) console.log(imageUrl);
 		let imageCanvas = document.createElement('canvas');
 		let ctxImageCanvas = imageCanvas.getContext('2d');
@@ -90,23 +92,26 @@ function array256(defaultValue) {
 }
 
 function plotHistogram() {
-	//get a reference to the canvas to draw on
-	let ctx = histogram.getContext('2d');
-	let rmax = Math.max(...redValues);
-	let bmax = Math.max(...blueValues);
-	let gmax = Math.max(...greenValues);
-
-	function colorbars(max, vals, color, y) {
-		ctx.fillStyle = color;
-		for (let index of vals) {
-			let pct = Math.round(vals[index] / max * 100);
-			ctx.fillRect(index, y, 1, -pct);
+	new RGraph.SVG.Line({
+		id: 'histogram',
+		data: [ redValues, greenValues, blueValues ],
+		options: {
+			backgroundGrid: false,
+			shadow: false,
+			title: 'Color Histogram',
+			titleFont: 'Arial',
+			titleColor: 'white',
+			titleSize: 10,
+			marginBottom: 5,
+			marginLeft: 5,
+			marginRight: 5,
+			marginTop: 5,
+			linewidth: 2,
+			spline: true,
+			filled: true,
+			colors: [ 'rgba(255,0,0,0.6)', 'rgba(0,255,0,0.6)', 'rgba(0,0,255,0.6)' ]
 		}
-	}
-
-	colorbars(rmax, redValues, 'rgb(255,0,0)', 100);
-	colorbars(gmax, greenValues, 'rgb(0,255,0)', 100);
-	colorbars(bmax, blueValues, 'rgb(0,0,255)', 100);
+	}).draw();
 }
 
 function displayExifTags() {
@@ -157,12 +162,4 @@ function displayExifTags() {
 		}
 	}
 	content.appendChild(table);
-}
-
-// Test if an object is empty
-function isEmpty(obj) {
-	for (var key in obj) {
-		if (obj.hasOwnProperty(key)) return false;
-	}
-	return true;
 }

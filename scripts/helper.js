@@ -130,6 +130,7 @@ async function getNewSearchEngine(url, searchEngines) {
 	while (!isIdUnique(id, searchEngines)) {
 		id = defineNewId(shortName);
 	}
+	id = id.trim();
 	if (logToConsole) {
 		console.log(id);
 		console.log(shortName);

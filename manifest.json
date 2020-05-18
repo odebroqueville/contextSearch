@@ -63,13 +63,14 @@
 			"matches": [ "*://*/*" ],
 			"js": [
 				"/scripts/helper.js",
-				"/scripts/exif.js",
 				"/scripts/selection.js",
+				"/scripts/exif.js",
 				"/scripts/Sortable.min.js",
+				"/scripts/RGraph.svg.common.core.js",
+				"/scripts/RGraph.svg.line.js",
 				"/scripts/search_results.js",
 				"/scripts/exif_tags.js"
-			],
-			"run_at": "document_idle"
+			]
 		}
 	]
 }

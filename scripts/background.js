@@ -11,6 +11,9 @@ let imageUrl = '';
 let imageTags = {};
 
 /// Constants
+const contextsearch_userAgent =
+	'Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/7.0.4 Mobile/16B91 Safari/605.1.15';
+//const contextsearch_userAgent = 'Mozilla/5.0 (Windows NT 5.1; rv:28.0; Android; iPhone) Gecko/20100101 Firefox/28.0';
 const DEFAULT_JSON = 'defaultSearchEngines.json';
 const besticonAPIUrl = 'https://get-besticons.herokuapp.com/icon?url=';
 const besticonAPIUrlSuffix = '&size=16..32..128';
@@ -45,7 +48,7 @@ let contextsearch_disableAltClick = false;
 let contextsearch_forceFaviconsReload = false;
 let contextsearch_resetPreferences = false;
 let contextsearch_forceSearchEnginesReload = false;
-let contextsearch_userAgent = 'Mozilla/5.0 (Windows NT 5.1; rv:28.0; Android; iPhone) Gecko/20100101 Firefox/28.0';
+
 const defaultOptions = {
 	options: {
 		exactMatch: contextsearch_exactMatch,

@@ -1,5 +1,5 @@
 /// Global variables
-/* global sortByIndex, Sortable, logToConsole */
+/* global isEmpty, sortByIndex, Sortable, logToConsole */
 
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById('container');
@@ -164,7 +164,7 @@ function removeEventHandler(e) {
 // Display the list of search engines
 function displaySearchEngines() {
 	let div = document.getElementById('searchEngines');
-	if (div != null) divContainer.removeChild(div);
+	if (!isEmpty(div)) divContainer.removeChild(div);
 
 	searchEngines = sortByIndex(searchEngines);
 	let divSearchEngines = document.createElement('ol');
