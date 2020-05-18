@@ -917,7 +917,7 @@ async function processSearch(info, tab) {
 		if (contextsearch_openSearchResultsInSidebar) {
 			let url = browser.runtime.getURL('/sidebar/exif_tags.html');
 			browser.sidebarAction.setPanel({ panel: url });
-			browser.sidebarAction.setTitle({ title: 'Search results' });
+			browser.sidebarAction.setTitle({ title: 'Exif tags' });
 			return;
 		} else {
 			browser.tabs

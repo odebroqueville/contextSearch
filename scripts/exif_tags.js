@@ -1,5 +1,6 @@
 // Constants
 const logToConsole = true;
+
 const histogram = document.getElementById('histogram');
 const content = document.getElementById('content');
 
@@ -30,6 +31,7 @@ function handleResponse(message) {
 	if (logToConsole) console.log(imageUrl);
 	imageTags = message.imageTags;
 	if (logToConsole) console.log(imageTags);
+	displayExifTags();
 	loadImageData()
 		.then((data) => {
 			let canvas = data.canvas;
@@ -57,6 +59,7 @@ function loadImageData() {
 		};
 		img.onerror = (err) => {
 			if (logToConsole) console.error(err);
+			reject(err);
 		};
 	});
 }
@@ -87,26 +90,23 @@ function array256(defaultValue) {
 }
 
 function plotHistogram() {
-	new RGraph.SVG.Line({
-		id: 'histogram',
-		data: [ redValues, greenValues, blueValues ],
-		options: {
-			backgroundGrid: false,
-			shadow: false,
-			title: 'Color Histogram',
-			titleFont: 'Arial',
-			titleColor: 'white',
-			titleSize: 10,
-			marginBottom: 5,
-			marginLeft: 5,
-			marginRight: 5,
-			marginTop: 5,
-			linewidth: 2,
-			spline: true,
-			filled: true,
-			colors: [ 'rgba(255,0,0,0.6)', 'rgba(0,255,0,0.6)', 'rgba(0,0,255,0.6)' ]
+	//get a reference to the canvas to draw on
+	let ctx = histogram.getContext('2d');
+	let rmax = Math.max(...redValues);
+	let bmax = Math.max(...blueValues);
+	let gmax = Math.max(...greenValues);
+
+	function colorbars(max, vals, color, y) {
+		ctx.fillStyle = color;
+		for (let index of vals) {
+			let pct = Math.round(vals[index] / max * 100);
+			ctx.fillRect(index, y, 1, -pct);
 		}
-	}).draw();
+	}
+
+	colorbars(rmax, redValues, 'rgb(255,0,0)', 100);
+	colorbars(gmax, greenValues, 'rgb(0,255,0)', 100);
+	colorbars(bmax, blueValues, 'rgb(0,0,255)', 100);
 }
 
 function displayExifTags() {
