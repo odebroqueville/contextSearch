@@ -1067,29 +1067,6 @@ function processMultiTabSearch() {
 	}, onError);
 }
 
-function fetchMobileWebPage(url) {
-	return new Promise((resolve, reject) => {
-		let xhr = new XMLHttpRequest();
-		xhr.open('GET', url, true);
-		xhr.setRequestHeader('Content-type', 'text/html; charset=utf-8');
-		xhr.setRequestHeader('User-Agent', contextsearch_userAgent);
-		xhr.overrideMimeType('text/html');
-		xhr.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				resolve(this.responseText);
-			}
-		};
-		xhr.send();
-		xhr.onerror = (err) => {
-			if (logToConsole) {
-				console.error(err);
-				console.log('Failed to load mobile web page with search results.');
-			}
-			reject();
-		};
-	});
-}
-
 // Handle search terms if there are any
 function getSearchEngineUrl(searchEngineUrl, sel) {
 	let quote = '';
