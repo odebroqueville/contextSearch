@@ -1,7 +1,7 @@
 'use strict';
 
 /// Global variables
-/* global sortByIndex, isEmpty, getDomain, logToConsole */
+/* global sortByIndex, isEmpty, getDomain, logToConsole, openUrl */
 let searchEngines = {};
 let searchEnginesArray = [];
 let selection = '';
@@ -11,14 +11,22 @@ let imageUrl = '';
 let imageTags = {};
 
 /// Constants
-const contextsearch_userAgent =
-	'Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/7.0.4 Mobile/16B91 Safari/605.1.15';
-//const contextsearch_userAgent = 'Mozilla/5.0 (Windows NT 5.1; rv:28.0; Android; iPhone) Gecko/20100101 Firefox/28.0';
+const FIREFOX_VERSION = /rv:([0-9.]+)/.exec(navigator.userAgent)[1];
+const contextsearch_userAgent = `Mozilla/5.0 (Android 4.4; Mobile; rv:${FIREFOX_VERSION}) Gecko/${FIREFOX_VERSION} Firefox/${FIREFOX_VERSION}`;
 const DEFAULT_JSON = 'defaultSearchEngines.json';
 const besticonAPIUrl = 'https://get-besticons.herokuapp.com/icon?url=';
 const besticonAPIUrlSuffix = '&size=16..32..128';
 const base64ContextSearchIcon =
 	'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';
+
+// This is a RequestFilter: https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/webRequest/RequestFilter
+// It matches tabs that aren't attached to a normal location (like a sidebar)
+// It only matches embedded iframes
+const requestFilter = {
+	tabId: -1,
+	types: [ 'main_frame' ],
+	urls: [ 'http://*/*', 'https://*/*' ]
+};
 
 // Constants for translations
 const titleMultipleSearchEngines = browser.i18n.getMessage('titleMultipleSearchEngines');
@@ -67,6 +75,26 @@ const defaultOptions = {
 /// Handle Page Action click
 browser.pageAction.onClicked.addListener(handlePageAction);
 
+/// Add a mobile header to outgoing requests
+browser.webRequest.onBeforeSendHeaders.addListener(
+	(info) => {
+		if (!contextsearch_openSearchResultsInSidebar) {
+			return {};
+		}
+		let headers = info.requestHeaders;
+		for (let i = 0; i < headers.length; i++) {
+			let name = headers[i].name.toLowerCase();
+			if (name === 'user-agent') {
+				headers[i].value = contextsearch_userAgent;
+				return { requestHeaders: headers };
+			}
+		}
+		return {};
+	},
+	requestFilter,
+	[ 'blocking', 'requestHeaders' ]
+);
+
 /// Handle Incoming Messages
 // Listen for messages from the content or options script
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -108,8 +136,9 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			break;
 		case 'returnSearchResults':
 			if (logToConsole) console.log(`Target url: ${targetUrl}\n`);
-			if (targetUrl != '') {
-				fetchMobileWebPage(targetUrl)
+			if (!isEmpty(targetUrl)) {
+				openUrl(targetUrl);
+				/* 				fetchMobileWebPage(targetUrl)
 					.then((response) => {
 						if (logToConsole) console.log(`Response:\n\n${response}`);
 						let content = response;
@@ -118,11 +147,9 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 					})
 					.catch((err) => {
 						if (logToConsole) console.error(err);
-					});
-			} else {
-				sendResponse('');
+					}); */
 			}
-			return true;
+			break;
 		case 'setSelection':
 			if (logToConsole) console.log(`Selected text: ${message.data}`);
 			selection = message.data;

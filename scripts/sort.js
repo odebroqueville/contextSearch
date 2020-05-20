@@ -1,6 +1,6 @@
 /// Global variables and functions used by the background script
 
-/* exported sortByIndex, getDomain, isEmpty */
+/* exported sortByIndex, getDomain, isEmpty, openUrl */
 
 /// Debug
 const logToConsole = true;
@@ -53,4 +53,11 @@ function isEmpty(value) {
 	else if (typeof value === 'object') return value == null || Object.keys(value).length === 0;
 	else if (typeof value === 'boolean') return false;
 	else return !value;
+}
+
+function openUrl(url) {
+	// We can't trigger a real reload without changing the URL, so we change it to blank and then
+	// back to the previous URL:
+	browser.sidebarAction.setPanel({ panel: 'about:blank' });
+	browser.sidebarAction.setPanel({ panel: url });
 }

@@ -34,7 +34,17 @@
 		"scripts": [ "/scripts/sort.js", "/scripts/background.js" ]
 	},
 
-	"permissions": [ "*://*/*", "contextMenus", "storage", "tabs", "notifications", "downloads", "search" ],
+	"permissions": [
+		"*://*/*",
+		"contextMenus",
+		"storage",
+		"tabs",
+		"notifications",
+		"downloads",
+		"search",
+		"webRequest",
+		"webRequestBlocking"
+	],
 
 	"omnibox": {
 		"keyword": "cs"
