@@ -1,5 +1,11 @@
-3.9.0
+3.9.1
 =========
+
+* Fixes bugs #66 and #68 whereby search results and exif tags wouldn't show in the sidebar
+* Changed the way search results get displayed in the sidebar
+
+3.9.0
+---------
 
 * Adds multisearch to the omnibox by using the keyword '!' after 'cs '
 * Open Options page from omnibox by using the keyword '.' after cs
