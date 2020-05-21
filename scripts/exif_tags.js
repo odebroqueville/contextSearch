@@ -1,6 +1,6 @@
 // Constants
 // Debug
-//const logToConsole = true;
+const logToConsole = true;
 
 const content = document.getElementById('content');
 

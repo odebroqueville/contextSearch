@@ -12,6 +12,7 @@ let imageTags = {};
 
 /// Constants
 const FIREFOX_VERSION = /rv:([0-9.]+)/.exec(navigator.userAgent)[1];
+//const contextsearch_userAgent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_1 like Mac OS X) AppleWebKit/536.26 (KHTML; like Gecko) Mobile/10B142 iPhone4;1 BingWeb/3.03.1428.20120423';
 const contextsearch_userAgent = `Mozilla/5.0 (Android 4.4; Mobile; rv:${FIREFOX_VERSION}) Gecko/${FIREFOX_VERSION} Firefox/${FIREFOX_VERSION}`;
 const DEFAULT_JSON = 'defaultSearchEngines.json';
 const besticonAPIUrl = 'https://get-besticons.herokuapp.com/icon?url=';
@@ -138,16 +139,6 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			if (logToConsole) console.log(`Target url: ${targetUrl}\n`);
 			if (!isEmpty(targetUrl)) {
 				openUrl(targetUrl);
-				/* 				fetchMobileWebPage(targetUrl)
-					.then((response) => {
-						if (logToConsole) console.log(`Response:\n\n${response}`);
-						let content = response;
-						if (logToConsole) console.log(`Response:\n\n${content}`);
-						sendResponse(content);
-					})
-					.catch((err) => {
-						if (logToConsole) console.error(err);
-					}); */
 			}
 			break;
 		case 'setSelection':
@@ -937,7 +928,7 @@ function buildContextMenuItem(searchEngine, index, title, base64String, browserV
 async function processSearch(info, tab) {
 	let id = info.menuItemId.replace('cs-', '');
 	let tabPosition = tab.index;
-	if (contextsearch_openSearchResultsInSidebar) {
+	if (contextsearch_openSearchResultsInSidebar && id !== 'reverse-image-search') {
 		await browser.sidebarAction.open();
 	} else {
 		await browser.sidebarAction.close();

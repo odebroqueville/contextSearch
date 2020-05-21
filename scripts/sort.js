@@ -56,8 +56,5 @@ function isEmpty(value) {
 }
 
 function openUrl(url) {
-	// We can't trigger a real reload without changing the URL, so we change it to blank and then
-	// back to the previous URL:
-	browser.sidebarAction.setPanel({ panel: 'about:blank' });
 	browser.sidebarAction.setPanel({ panel: url });
 }
