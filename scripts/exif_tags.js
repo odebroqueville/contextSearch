@@ -1,21 +1,56 @@
 // Constants
 // Debug
 const logToConsole = true;
-
+const zoomLevel = 12; // default zoom level for open street map
+const markerSize = 40; // default marker size
 const content = document.getElementById('content');
+const map = document.getElementById('map');
 
 // Global variables - initialisation
-/* global RGraph */
+/* global L, RGraph */
 let imageUrl = '';
 let imageTags = {};
 let redValues = array256(0);
 let greenValues = array256(0);
 let blueValues = array256(0);
+let latitude;
+let longitude;
+let latSign;
+let longSign;
+let heading;
+let center;
+let myMap;
+let myMarker;
+
+Math.radians = (degrees) => degrees * Math.PI / 180;
 
 // Main
 (function() {
 	if (logToConsole) console.log(`Retrieving Exif tags..`);
 	requestImageData();
+	// Save original method before overwriting it below.
+	const _setPosOriginal = L.Marker.prototype._setPos;
+
+	L.Marker.addInitHook(function() {
+		const anchor = this.options.icon.options.iconAnchor;
+		this.options.rotationOrigin = anchor ? `${anchor[0]}px ${anchor[1]}px` : 'center center';
+		// Ensure marker remains rotated during dragging.
+		this.on('drag', (data) => {
+			this._rotate();
+		});
+	});
+
+	L.Marker.include({
+		// _setPos is alled when update() is called, e.g. on setLatLng()
+		_setPos: function(pos) {
+			_setPosOriginal.call(this, pos);
+			if (this.options.rotation) this._rotate();
+		},
+		_rotate: function() {
+			this._icon.style[`${L.DomUtil.TRANSFORM}Origin`] = this.options.rotationOrigin;
+			this._icon.style[L.DomUtil.TRANSFORM] += ` rotate(${this.options.rotation}deg)`;
+		}
+	});
 })();
 
 function requestImageData() {
@@ -27,12 +62,57 @@ function requestImageData() {
 	});
 }
 
+// Test if an object is empty
+function isEmpty(value) {
+	if (typeof value === 'number') return false;
+	else if (typeof value === 'string') return value.trim().length === 0;
+	else if (Array.isArray(value)) return value.length === 0;
+	else if (typeof value === 'object') return value == null || Object.keys(value).length === 0;
+	else if (typeof value === 'boolean') return false;
+	else return !value;
+}
+
+function convertToDecimalDegrees(dms) {
+	return dms[0] + dms[1] / 60 + dms[2] / 3600;
+}
+
 function handleResponse(message) {
+	// let src = '';
 	imageUrl = message.imageUrl;
 	if (logToConsole) console.log(imageUrl);
 	imageTags = message.imageTags;
+	if (!isEmpty(imageTags['ExposureTime'])) {
+		imageTags['ExposureTime'] = '1/' + Math.round(1 / imageTags['ExposureTime']).toString();
+	}
+	if (isEmpty(imageTags['GPSLatitude'])) {
+		map.style.visibility = 'none';
+		map.style.height = 0;
+	} else {
+		map.style.visibility = 'visible';
+		map.style.height = '300px';
+		if (imageTags['GPSLatitudeRef'] === 'S') {
+			latSign = -1;
+		} else {
+			latSign = 1;
+		}
+		if (imageTags['GPSLongitudeRef'] === 'W') {
+			longSign = -1;
+		} else {
+			longSign = 1;
+		}
+		latitude = latSign * convertToDecimalDegrees(imageTags['GPSLatitude']);
+		longitude = longSign * convertToDecimalDegrees(imageTags['GPSLongitude']);
+		heading = Math.round(imageTags['GPSImgDirection']);
+		center = [ latitude, longitude ];
+		myMap = L.map('map').setView(center, zoomLevel);
+		myMarker = L.marker(center, markerOptions(markerSize, heading)).addTo(myMap);
+		myMap.addLayer(
+			L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}@2x.png', {
+				attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contr.'
+			})
+		);
+	}
 	if (logToConsole) console.log(imageTags);
-	displayExifTags();
 	loadImageData()
 		.then((data) => {
 			let canvas = data.canvas;
@@ -116,7 +196,7 @@ function plotHistogram() {
 
 function displayExifTags() {
 	let h = window.innerHeight + 'px';
-	content.style.height = '100%';
+	content.style.height = h;
 	let table = document.createElement('table');
 	for (let tag in imageTags) {
 		let tr = document.createElement('tr');
@@ -163,3 +243,34 @@ function displayExifTags() {
 	}
 	content.appendChild(table);
 }
+
+function markerOptions(size, heading) {
+	const iconOptions = {
+		iconSize: [ size, size ],
+		iconAnchor: [ size / 2, size / 2 ],
+		className: 'mymarker',
+		html:
+			'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M 16 3 C 8.832031 3 3 8.832031 3 16 C 3 23.167969 8.832031 29 16 29 C 23.167969 29 29 23.167969 29 16 C 29 8.832031 23.167969 3 16 3 Z M 16 5 C 22.085938 5 27 9.914063 27 16 C 27 22.085938 22.085938 27 16 27 C 9.914063 27 5 22.085938 5 16 C 5 9.914063 9.914063 5 16 5 Z M 16 8.875 L 9.59375 15.28125 L 11 16.71875 L 15 12.71875 L 15 23 L 17 23 L 17 12.71875 L 21 16.71875 L 22.40625 15.28125 Z"/></svg>'
+	};
+	return {
+		draggable: false,
+		icon: L.divIcon(iconOptions),
+		rotation: heading
+	};
+}
+
+function updateIndicatorPos(marker, heading) {
+	const pos = marker._icon._leaflet_pos;
+	const indicator = marker._icon.nextElementSibling;
+	if (heading) indicator.innerHTML = `🧭 ${heading}°`;
+	indicator.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
+}
+
+myMap.whenReady((_) => {
+	L.DomUtil.create('div', 'indicator', myMarker._icon.parentNode);
+	updateIndicatorPos(myMarker, heading);
+});
+
+myMap.on('zoom', (data) => {
+	updateIndicatorPos(myMarker);
+});

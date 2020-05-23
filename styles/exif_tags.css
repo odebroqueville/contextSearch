@@ -18,7 +18,12 @@ body {
 	display: block;
 	width: 428px;
 	height: 200px;
-	background-color: black;
+	background-color: darkslategrey;
+}
+
+#map {
+	display: block;
+	width: 428px;
 }
 
 #content {

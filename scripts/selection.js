@@ -183,6 +183,7 @@ async function handleRightClickWithoutGrid(e) {
 		EXIF.getData(img, function() {
 			//alert(EXIF.pretty(this));
 			let tags = EXIF.getAllTags(this);
+			if (logToConsole) console.log(tags);
 			let data = { imageUrl: imgurl, imageTags: tags };
 			sendMessage('setImageData', data);
 		});
