@@ -53,6 +53,7 @@ let contextsearch_makeNewTabOrWindowActive = false;
 let contextsearch_openSearchResultsInNewWindow = false;
 let contextsearch_openSearchResultsInSidebar = false;
 let contextsearch_displayFavicons = true;
+let contextsearch_displayExifSummary = true;
 let contextsearch_disableAltClick = false;
 let contextsearch_forceFaviconsReload = false;
 let contextsearch_resetPreferences = false;
@@ -66,6 +67,7 @@ const defaultOptions = {
 		lastTab: contextsearch_openSearchResultsInLastTab,
 		optionsMenuLocation: contextsearch_optionsMenuLocation,
 		displayFavicons: contextsearch_displayFavicons,
+		displayExifSummary: contextsearch_displayExifSummary,
 		disableAltClick: contextsearch_disableAltClick,
 		forceSearchEnginesReload: contextsearch_forceSearchEnginesReload,
 		resetPreferences: contextsearch_resetPreferences,
@@ -193,6 +195,15 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				options.displayFavicons = message.data.displayFavicons;
 				setDisplayFavicons(options);
 				saveOptions(options, true);
+			});
+			break;
+		case 'updateDisplayExifSummary':
+			getOptions().then((settings) => {
+				let options = settings.options;
+				if (logToConsole) console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
+				options.displayExifSummary = message.data.displayExifSummary;
+				setDisplayExifSummary(options);
+				saveOptions(options, false);
 			});
 			break;
 		case 'updateDisableAltClick':
@@ -429,6 +440,7 @@ async function setOptions(options, save) {
 	setTabMode(options);
 	setOptionsMenuLocation(options); // context menu will have to be rebuilt
 	setDisplayFavicons(options); // context menu will have to be rebuilt
+	setDisplayExifSummary(options);
 	setDisableAltClick(options);
 	setResetOptions(options);
 	if (save) {
@@ -504,6 +516,11 @@ function setOptionsMenuLocation(options) {
 function setDisplayFavicons(options) {
 	if (logToConsole) console.log('Setting favicons preference..');
 	contextsearch_displayFavicons = options.displayFavicons;
+}
+
+function setDisplayExifSummary(options) {
+	if (logToConsole) console.log('Setting display EXIF summary preference..');
+	contextsearch_displayExifSummary = options.displayExifSummary;
 }
 
 function setDisableAltClick(options) {

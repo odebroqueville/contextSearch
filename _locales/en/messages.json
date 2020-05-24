@@ -200,11 +200,17 @@
 	"header7": {
 		"message": "Reset options"
 	},
+	"header8": {
+		"message": "Which EXIF tags should be displayed?"
+	},
 	"sidebar": {
 		"message": "In the sidebar"
 	},
 	"displayFavicons": {
 		"message": "Display favicons in context menu list"
+	},
+	"displayExifSummary": {
+		"message": "Summary"
 	},
 	"disableAltClick": {
 		"message": "Disable icon grid (Alt + Click)"

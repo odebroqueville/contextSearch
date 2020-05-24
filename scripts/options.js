@@ -23,6 +23,7 @@ const active = document.getElementById('active');
 const position = document.getElementById('position');
 const lastTab = document.getElementById('lastTab');
 const optionsMenuLocation = document.getElementById('optionsMenuLocation');
+const displayExifSummary = document.getElementById('displayExifSummary');
 const displayFavicons = document.getElementById('displayFavicons');
 const disableAltClick = document.getElementById('disableAltClick');
 const resetPreferences = document.getElementById('resetPreferences');
@@ -78,6 +79,7 @@ tabMode.addEventListener('click', updateTabMode);
 tabActive.addEventListener('click', updateTabMode);
 lastTab.addEventListener('click', updateTabMode);
 optionsMenuLocation.addEventListener('click', updateOptionsMenuLocation);
+displayExifSummary.addEventListener('click', updateDisplayExifSummary);
 resetPreferences.addEventListener('click', updateResetOptions);
 forceSearchEnginesReload.addEventListener('click', updateResetOptions);
 forceFaviconsReload.addEventListener('click', updateResetOptions);
@@ -627,6 +629,13 @@ function setOptions(options) {
 		displayFavicons.checked = true;
 	}
 
+	if (options.displayExifSummary === false) {
+		displayExifSummary.checked = false;
+	} else {
+		// Default setting is to display a summary of Exif tags
+		displayExifSummary.checked = true;
+	}
+
 	disableAltClick.checked = options.disableAltClick || false;
 
 	if (options.resetPreferences === false) {
@@ -723,6 +732,10 @@ function updateTabMode() {
 function updateDisplayFavicons() {
 	let fav = displayFavicons.checked;
 	sendMessage('updateDisplayFavicons', { displayFavicons: fav });
+}
+
+function updateDisplayExifSummary() {
+	sendMessage('updateDisplayExifSummary', { displayaExifSummary: displayExifSummary.checked });
 }
 
 function updateDisableAltClick() {

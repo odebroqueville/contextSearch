@@ -1,13 +1,41 @@
 // Constants
 // Debug
 const logToConsole = true;
+
+// Save original method before overwriting it below.
+const _setPosOriginal = L.Marker.prototype._setPos;
+
+const declinationUrl = 'https://emmcalc.geomag.info?magneticComponent=d&lat1=latitude&lon1=longitude&resultFormat=json';
 const zoomLevel = 12; // default zoom level for open street map
 const markerSize = 40; // default marker size
 const content = document.getElementById('content');
 const map = document.getElementById('map');
+const summary = {
+	Artist: 'Photographer',
+	CameraOwnerName: 'Camera owner',
+	Copyright: 'Copyright',
+	Make: 'Camera make',
+	Model: 'Camera model',
+	DateTimeOriginal: 'Date & time',
+	ExposureTime: 'Shutter speed(s)',
+	FNumber: 'Aperture',
+	ISOSpeedRatings: 'ISO sensitivity',
+	FocalLength: 'Focal length(mm)',
+	WhiteBalance: 'White balance',
+	Flash: 'Flash status',
+	ExposureBias: 'Exposure bias',
+	MeteringMode: 'Metering mode',
+	SceneCaptureType: 'Scene mode',
+	GPSLatitude: 'GPS Latitude',
+	GPSLongitude: 'GPS Longitude',
+	GPSAltitude: 'GPS Altitude(m)',
+	GPSImgDirectionRef: 'GPS Image Direction Reference',
+	GPSImgDirection: 'GPS Image Direction'
+};
 
 // Global variables - initialisation
 /* global L, RGraph */
+let displayExifSummary = true;
 let imageUrl = '';
 let imageTags = {};
 let redValues = array256(0);
@@ -28,8 +56,6 @@ Math.radians = (degrees) => degrees * Math.PI / 180;
 (function() {
 	if (logToConsole) console.log(`Retrieving Exif tags..`);
 	requestImageData();
-	// Save original method before overwriting it below.
-	const _setPosOriginal = L.Marker.prototype._setPos;
 
 	L.Marker.addInitHook(function() {
 		const anchor = this.options.icon.options.iconAnchor;
@@ -62,6 +88,11 @@ function requestImageData() {
 	});
 }
 
+async function getDisplayExifSummary() {
+	let data = await browser.storage.sync.get(null);
+	return data.options.displayExifSummary;
+}
+
 // Test if an object is empty
 function isEmpty(value) {
 	if (typeof value === 'number') return false;
@@ -76,7 +107,7 @@ function convertToDecimalDegrees(dms) {
 	return dms[0] + dms[1] / 60 + dms[2] / 3600;
 }
 
-function handleResponse(message) {
+async function handleResponse(message) {
 	// let src = '';
 	imageUrl = message.imageUrl;
 	if (logToConsole) console.log(imageUrl);
@@ -102,7 +133,18 @@ function handleResponse(message) {
 		}
 		latitude = latSign * convertToDecimalDegrees(imageTags['GPSLatitude']);
 		longitude = longSign * convertToDecimalDegrees(imageTags['GPSLongitude']);
-		heading = Math.round(imageTags['GPSImgDirection']);
+		let magneticDeclination = 0;
+		if (imageTags['GPSImgDirectionRef'] === 'M') {
+			let url = declinationUrl
+				.replace(/latitude/, latitude.toString())
+				.replace(/longitude/, longitude.toString());
+			if (logToConsole) console.log(url);
+			let jsonResponse = await fetchJSON(url);
+			if (logToConsole) console.log(jsonResponse);
+			magneticDeclination = jsonResponse.result[0].declination;
+			if (logToConsole) console.log(magneticDeclination);
+		}
+		heading = Math.round(imageTags['GPSImgDirection'] - magneticDeclination);
 		center = [ latitude, longitude ];
 		myMap = L.map('map').setView(center, zoomLevel);
 		myMarker = L.marker(center, markerOptions(markerSize, heading)).addTo(myMap);
@@ -111,6 +153,13 @@ function handleResponse(message) {
 				attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contr.'
 			})
 		);
+		myMap.whenReady((_) => {
+			L.DomUtil.create('div', 'indicator', myMarker._icon.parentNode);
+			updateIndicatorPos(myMarker, heading);
+		});
+		myMap.on('zoom', (data) => {
+			updateIndicatorPos(myMarker);
+		});
 	}
 	if (logToConsole) console.log(imageTags);
 	loadImageData()
@@ -195,10 +244,19 @@ function plotHistogram() {
 }
 
 function displayExifTags() {
+	displayExifSummary = getDisplayExifSummary();
 	let h = window.innerHeight + 'px';
-	content.style.height = h;
 	let table = document.createElement('table');
+	let exifTags = {};
+	content.style.height = h;
+	if (displayExifSummary) {
+		for (let tag in summary) {
+			if (imageTags[tag]) exifTags[summary[tag]] = imageTags[tag];
+		}
+		imageTags = exifTags;
+	}
 	for (let tag in imageTags) {
+		if (tag === 'thumbnail' || tag === undefined || isEmpty(imageTags[tag])) continue;
 		let tr = document.createElement('tr');
 		let tdTag = document.createElement('td');
 		tdTag.setAttribute('class', 'key');
@@ -206,19 +264,53 @@ function displayExifTags() {
 		tdValue.setAttribute('class', 'value');
 		let tdTagText = document.createTextNode(tag);
 		tdTag.appendChild(tdTagText);
-		let o = imageTags[tag];
-		if (Array.isArray(o)) {
-			let tdValueText = document.createTextNode('Array');
-			tdValue.appendChild(tdValueText);
-			tr.appendChild(tdTag);
-			tr.appendChild(tdValue);
-			table.appendChild(tr);
-			continue;
+		let text = imageTags[tag];
+		if (tag === 'GPS Image Direction Reference') {
+			switch (imageTags[tag]) {
+				case 'M':
+					text = 'Magnetic North';
+					break;
+				case 'T':
+					text = 'True North';
+					break;
+				default:
+			}
 		}
-		if (typeof o === 'object') {
+		if (tag === 'Focal length(mm)' || tag === 'GPS Altitude(m)' || tag === 'GPS Image Direction') {
+			text = Math.round(text);
+		}
+		if (Array.isArray(text)) {
+			switch (tag) {
+				case 'GPSLongitude':
+				case 'GPS Longitude':
+					text =
+						text[0].toString() +
+						'°' +
+						text[1].toString() +
+						"'" +
+						text[2].toString() +
+						'"' +
+						(longSign >= 0 ? 'E' : 'W');
+					break;
+				case 'GPSLatitude':
+				case 'GPS Latitude':
+					text =
+						text[0].toString() +
+						'°' +
+						text[1].toString() +
+						"'" +
+						text[2].toString() +
+						'"' +
+						(latSign >= 0 ? 'N' : 'S');
+					break;
+				default:
+					text = 'Array';
+			}
+		}
+		if (typeof text === 'object') {
 			tr.appendChild(tdTag);
 			table.appendChild(tr);
-			for (let key in o) {
+			for (let key in text) {
 				if (key === undefined) continue;
 				let row = document.createElement('tr');
 				let tagKey = document.createElement('td');
@@ -226,20 +318,20 @@ function displayExifTags() {
 				tagKey.setAttribute('class', 'key increment');
 				tagValue.setAttribute('class', 'value');
 				let tagKeyText = document.createTextNode(key.toString());
-				let tagValueText = document.createTextNode(o[key].toString());
+				let tagValueText = document.createTextNode(text[key].toString());
 				tagKey.appendChild(tagKeyText);
 				tagValue.appendChild(tagValueText);
 				row.appendChild(tagKey);
 				row.appendChild(tagValue);
 				table.appendChild(row);
 			}
-		} else {
-			let tdValueText = document.createTextNode(`${imageTags[tag]}`);
-			tdValue.appendChild(tdValueText);
-			tr.appendChild(tdTag);
-			tr.appendChild(tdValue);
-			table.appendChild(tr);
+			continue;
 		}
+		let tdValueText = document.createTextNode(text);
+		tdValue.appendChild(tdValueText);
+		tr.appendChild(tdTag);
+		tr.appendChild(tdValue);
+		table.appendChild(tr);
 	}
 	content.appendChild(table);
 }
@@ -266,11 +358,30 @@ function updateIndicatorPos(marker, heading) {
 	indicator.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
 }
 
-myMap.whenReady((_) => {
-	L.DomUtil.create('div', 'indicator', myMarker._icon.parentNode);
-	updateIndicatorPos(myMarker, heading);
-});
+function fetchJSON(url) {
+	return new Promise((resolve, reject) => {
+		const reqHeader = new Headers();
+		reqHeader.append('Content-Type', 'application/json');
 
-myMap.on('zoom', (data) => {
-	updateIndicatorPos(myMarker);
-});
+		const initObject = {
+			method: 'GET',
+			headers: reqHeader
+		};
+
+		const userRequest = new Request(url, initObject);
+
+		fetch(userRequest)
+			.then((response) => {
+				if (logToConsole) console.log(response);
+				return response.json();
+			})
+			.then((data) => {
+				if (logToConsole) console.log(data);
+				resolve(data);
+			})
+			.catch((err) => {
+				if (logToConsole) console.error(err);
+				reject(err);
+			});
+	});
+}
