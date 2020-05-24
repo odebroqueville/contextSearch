@@ -1,5 +1,11 @@
-3.9.1
+3.9.2
 =========
+
+* Adds a map to show where an image was taken and in which direction, if the EXIF GPS coordinates are available
+* Gives users the option to show a summary of EXIF meta data or the full list of EXIF tags available
+
+3.9.1
+---------
 
 * Fixes bugs #66 and #68 whereby search results and exif tags wouldn't show in the sidebar
 * Changed the way search results get displayed in the sidebar
