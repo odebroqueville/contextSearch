@@ -735,7 +735,7 @@ function updateDisplayFavicons() {
 }
 
 function updateDisplayExifSummary() {
-	sendMessage('updateDisplayExifSummary', { displayaExifSummary: displayExifSummary.checked });
+	sendMessage('updateDisplayExifSummary', { displayExifSummary: displayExifSummary.checked });
 }
 
 function updateDisableAltClick() {

@@ -90,6 +90,7 @@ function requestImageData() {
 
 async function getDisplayExifSummary() {
 	let data = await browser.storage.sync.get(null);
+	if (logToConsole) console.log(data.options);
 	return data.options.displayExifSummary;
 }
 
@@ -243,8 +244,9 @@ function plotHistogram() {
 	}).draw();
 }
 
-function displayExifTags() {
-	displayExifSummary = getDisplayExifSummary();
+async function displayExifTags() {
+	displayExifSummary = await getDisplayExifSummary();
+	if (logToConsole) console.log(displayExifSummary);
 	let h = window.innerHeight + 'px';
 	let table = document.createElement('table');
 	let exifTags = {};

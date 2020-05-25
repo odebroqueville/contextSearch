@@ -271,9 +271,9 @@ function init() {
 
 		// Check if options are stored in browser sync; if not, set to default
 		browser.storage.sync
-			.get('options')
+			.get(null)
 			.then((data) => {
-				if (isEmpty(data)) {
+				if (isEmpty(data.options)) {
 					setDefaultOptions();
 				} else {
 					setOptions(data.options, false);
