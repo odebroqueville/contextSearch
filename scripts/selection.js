@@ -58,9 +58,9 @@ browser.runtime.onMessage.addListener((message) => {
 				sendMessage('notify', notifySearchEngineNotFound);
 			}
 			break;
-		case 'displayExifTags':
+		/* 		case 'displayExifTags':
 			displayExifTags(data);
-			break;
+			break; */
 		default:
 			break;
 	}

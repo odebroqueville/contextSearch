@@ -945,14 +945,19 @@ function buildContextMenuItem(searchEngine, index, title, base64String, browserV
 async function processSearch(info, tab) {
 	let id = info.menuItemId.replace('cs-', '');
 	let tabPosition = tab.index;
-	if (contextsearch_openSearchResultsInSidebar && id !== 'reverse-image-search') {
+	if ((contextsearch_openSearchResultsInSidebar && id !== 'reverse-image-search') || id === 'exif-tags') {
 		await browser.sidebarAction.open();
+		browser.sidebarAction.setPanel({ panel: 'about:blank' });
 	} else {
 		await browser.sidebarAction.close();
 	}
 
 	if (id === 'exif-tags') {
-		if (contextsearch_openSearchResultsInSidebar) {
+		let url = browser.runtime.getURL('/sidebar/exif_tags.html');
+		browser.sidebarAction.setPanel({ panel: url });
+		browser.sidebarAction.setTitle({ title: 'Exif tags' });
+		return;
+		/* 		if (contextsearch_openSearchResultsInSidebar) {
 			let url = browser.runtime.getURL('/sidebar/exif_tags.html');
 			browser.sidebarAction.setPanel({ panel: url });
 			browser.sidebarAction.setTitle({ title: 'Exif tags' });
@@ -975,8 +980,7 @@ async function processSearch(info, tab) {
 				.catch((err) => {
 					if (logToConsole) console.error(err);
 				});
-		}
-		return;
+		} */
 	} else if (id === 'reverse-image-search') {
 		browser.tabs.query({ currentWindow: true }).then((tabs) => {
 			for (let tab of tabs) {
