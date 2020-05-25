@@ -25,7 +25,7 @@ const summary = {
 	Flash: 'Flash status',
 	ExposureBias: 'Exposure bias',
 	MeteringMode: 'Metering mode',
-	SceneCaptureType: 'Scene mode',
+	ExposureProgram: 'Exposure program',
 	GPSLatitude: 'GPS Latitude',
 	GPSLongitude: 'GPS Longitude',
 	GPSAltitude: 'GPS Altitude(m)',
