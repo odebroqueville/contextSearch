@@ -266,6 +266,10 @@
 		"message": "重置選項",
 		"hash": "5c55526198c8075a1695b98e3cd32e2f"
 	},
+	"header8": {
+		"message": "應該顯示哪些EXIF標籤？",
+		"hash": "dd5fd339289964d309e5020ed1e9610c"
+	},
 	"sidebar": {
 		"message": "在側邊欄中",
 		"hash": "ea4b3f2f47d5ea8c594036cbdbf6e42b"
@@ -273,6 +277,10 @@
 	"displayFavicons": {
 		"message": "在上下文菜單列表中顯示圖標",
 		"hash": "7036d3e65d70351c41dfa59e397121b3"
+	},
+	"displayExifSummary": {
+		"message": "摘要",
+		"hash": "632626a730da62a89a4d124241e77273"
 	},
 	"disableAltClick": {
 		"message": "禁用圖標網格 (Alt + Click)",

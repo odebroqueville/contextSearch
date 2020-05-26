@@ -266,6 +266,10 @@
 		"message": "Reset opties",
 		"hash": "5c55526198c8075a1695b98e3cd32e2f"
 	},
+	"header8": {
+		"message": "Welke EXIF-tags moeten worden weergegeven?",
+		"hash": "dd5fd339289964d309e5020ed1e9610c"
+	},
 	"sidebar": {
 		"message": "In de zijbalk",
 		"hash": "ea4b3f2f47d5ea8c594036cbdbf6e42b"
@@ -273,6 +277,10 @@
 	"displayFavicons": {
 		"message": "Geef favicons weer in de contextmenulijst",
 		"hash": "7036d3e65d70351c41dfa59e397121b3"
+	},
+	"displayExifSummary": {
+		"message": "Overzicht",
+		"hash": "632626a730da62a89a4d124241e77273"
 	},
 	"disableAltClick": {
 		"message": "Schakel het raster met pictogrammen uit",
