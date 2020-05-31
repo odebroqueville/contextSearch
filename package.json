@@ -4,7 +4,7 @@
 	"version": "3.9.2",
 	"description": "Firefox add-on to search selected text in a web page using your favorite search engines.",
 	"devDependencies": {},
-	"browserslist": [ "Firefox >= 57" ],
+	"browserslist": [ "Firefox >= 63" ],
 	"scripts": {
 		"test": "eslint .",
 		"lint": "eslint ."
