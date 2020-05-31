@@ -1,6 +1,6 @@
 // Constants
 // Debug
-const logToConsole = true;
+//const logToConsole = true;
 
 // Save original method before overwriting it below.
 const _setPosOriginal = L.Marker.prototype._setPos;
@@ -34,7 +34,7 @@ const summary = {
 };
 
 // Global variables - initialisation
-/* global L, RGraph */
+/* global L, RGraph, logToConsole */
 let displayExifSummary = true;
 let imageUrl = '';
 let imageTags = {};
@@ -145,7 +145,7 @@ async function handleResponse(message) {
 			magneticDeclination = jsonResponse.result[0].declination;
 			if (logToConsole) console.log(magneticDeclination);
 		}
-		heading = Math.round(imageTags['GPSImgDirection'] - magneticDeclination);
+		heading = Math.round(imageTags['GPSImgDirection'] + magneticDeclination);
 		center = [ latitude, longitude ];
 		myMap = L.map('map').setView(center, zoomLevel);
 		myMarker = L.marker(center, markerOptions(markerSize, heading)).addTo(myMap);
