@@ -11,9 +11,10 @@ let imageUrl = '';
 let imageTags = {};
 
 /// Constants
-const FIREFOX_VERSION = /rv:([0-9.]+)/.exec(navigator.userAgent)[1];
-//const contextsearch_userAgent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_1 like Mac OS X) AppleWebKit/536.26 (KHTML; like Gecko) Mobile/10B142 iPhone4;1 BingWeb/3.03.1428.20120423';
-const contextsearch_userAgent = `Mozilla/5.0 (Android 4.4; Mobile; rv:${FIREFOX_VERSION}) Gecko/${FIREFOX_VERSION} Firefox/${FIREFOX_VERSION}`;
+//const FIREFOX_VERSION = /rv:([0-9.]+)/.exec(navigator.userAgent)[1];
+//const contextsearch_userAgent = `Mozilla/5.0 (Android 4.4; Mobile; rv:${FIREFOX_VERSION}) Gecko/${FIREFOX_VERSION} Firefox/${FIREFOX_VERSION}`;
+const contextsearch_userAgent =
+	'Mozilla/5.0 (iPhone9,3; U; CPU iPhone OS 10_0_1 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/14A403 Safari/602.1';
 const DEFAULT_JSON = 'defaultSearchEngines.json';
 const besticonAPIUrl = 'https://get-besticons.herokuapp.com/icon?url=';
 const besticonAPIUrlSuffix = '&size=16..32..128';
@@ -110,6 +111,11 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			if (id === 'multisearch') {
 				processMultiTabSearch();
 				break;
+			}
+			if (logToConsole) console.log(contextsearch_openSearchResultsInSidebar);
+			if (contextsearch_openSearchResultsInSidebar) {
+				browser.sidebarAction.open();
+				browser.sidebarAction.setPanel({ panel: 'about:blank' });
 			}
 			browser.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
 				if (logToConsole) console.log(tabs);
@@ -1097,8 +1103,7 @@ function searchUsing(id, tabIndex) {
 	targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
 	if (logToConsole) console.log(`Target url: ${targetUrl}`);
 	if (contextsearch_openSearchResultsInSidebar) {
-		let url = browser.runtime.getURL('/sidebar/search_results.html');
-		browser.sidebarAction.setPanel({ panel: url });
+		browser.sidebarAction.setPanel({ panel: targetUrl });
 		browser.sidebarAction.setTitle({ title: 'Search results' });
 		return;
 	}
