@@ -41,7 +41,6 @@ browser.storage.onChanged.addListener(handleStorageChange);
 // Listen for messages from the background script
 browser.runtime.onMessage.addListener((message) => {
 	let action = message.action;
-	let data = message.data;
 	let url = '';
 	switch (action) {
 		case 'getSearchEngine':
@@ -58,9 +57,6 @@ browser.runtime.onMessage.addListener((message) => {
 				sendMessage('notify', notifySearchEngineNotFound);
 			}
 			break;
-		/* 		case 'displayExifTags':
-			displayExifTags(data);
-			break; */
 		default:
 			break;
 	}
@@ -102,14 +98,6 @@ function handleStorageChange(changes, area) {
 			break;
 		default:
 			break;
-	}
-}
-
-function displayExifTags(tags) {
-	if (!isEmpty(tags)) {
-		alert(`Image metadata: \n\n${JSON.stringify(tags, null, '\t')}`);
-	} else {
-		alert('No EXIF metadata could be found for this image!');
 	}
 }
 

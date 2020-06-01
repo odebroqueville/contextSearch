@@ -1,5 +1,8 @@
 html,
 body {
+	scroll-behavior: smooth;
+	overflow-y: scroll;
+	height: 100%;
 	max-width: 432px;
 	margin: 0;
 	padding: 0;
