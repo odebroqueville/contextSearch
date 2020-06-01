@@ -1,6 +1,6 @@
 // Constants
 // Debug
-//const logToConsole = true;
+const logToConsole = false;
 
 // Save original method before overwriting it below.
 const _setPosOriginal = L.Marker.prototype._setPos;
