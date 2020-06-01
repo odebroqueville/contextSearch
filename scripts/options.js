@@ -169,12 +169,17 @@ function displaySearchEngines() {
 	if (!isEmpty(div)) divContainer.removeChild(div);
 
 	searchEngines = sortByIndex(searchEngines);
+	numberOfSearchEngines = Object.keys(searchEngines).length;
 	let divSearchEngines = document.createElement('ol');
 	divSearchEngines.setAttribute('id', 'searchEngines');
-	for (let id in searchEngines) {
-		let searchEngine = searchEngines[id];
-		let lineItem = createLineItem(id, searchEngine);
-		divSearchEngines.appendChild(lineItem);
+	for (let i = 0; i < numberOfSearchEngines + 1; i++) {
+		for (let id in searchEngines) {
+			if (searchEngines[id].index === i) {
+				let searchEngine = searchEngines[id];
+				let lineItem = createLineItem(id, searchEngine);
+				divSearchEngines.appendChild(lineItem);
+			}
+		}
 	}
 	divContainer.appendChild(divSearchEngines);
 	numberOfSearchEngines = divSearchEngines.childNodes.length;
