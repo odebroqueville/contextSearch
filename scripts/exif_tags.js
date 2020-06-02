@@ -1,11 +1,12 @@
 // Constants
 // Debug
-const logToConsole = false;
+const logToConsole = true;
 
 // Save original method before overwriting it below.
 const _setPosOriginal = L.Marker.prototype._setPos;
 
-const declinationUrl = 'https://emmcalc.geomag.info?magneticComponent=d&lat1=latitude&lon1=longitude&resultFormat=json';
+const declinationUrl =
+	'https://emmcalc.geomag.info?magneticComponent=d&lat1=latitude&lon1=longitude&startYear=date&resultFormat=json';
 const zoomLevel = 12; // default zoom level for open street map
 const markerSize = 40; // default marker size
 const content = document.getElementById('content');
@@ -34,7 +35,7 @@ const summary = {
 };
 
 // Global variables - initialisation
-/* global L, RGraph, logToConsole */
+/* global L, RGraph */
 let displayExifSummary = true;
 let imageUrl = '';
 let imageTags = {};
@@ -135,10 +136,13 @@ async function handleResponse(message) {
 		latitude = latSign * convertToDecimalDegrees(imageTags['GPSLatitude']);
 		longitude = longSign * convertToDecimalDegrees(imageTags['GPSLongitude']);
 		let magneticDeclination = 0;
+		let startYear = imageTags['DateTimeOriginal'].substr(0, 4);
+		if (logToConsole) console.log(startYear);
 		if (imageTags['GPSImgDirectionRef'] === 'M') {
 			let url = declinationUrl
 				.replace(/latitude/, latitude.toString())
-				.replace(/longitude/, longitude.toString());
+				.replace(/longitude/, longitude.toString())
+				.replace(/date/, startYear);
 			if (logToConsole) console.log(url);
 			let jsonResponse = await fetchJSON(url);
 			if (logToConsole) console.log(jsonResponse);
@@ -147,13 +151,41 @@ async function handleResponse(message) {
 		}
 		heading = Math.round(imageTags['GPSImgDirection'] + magneticDeclination);
 		center = [ latitude, longitude ];
-		myMap = L.map('map').setView(center, zoomLevel);
+		let osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contr.'
+			}),
+			ggl = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+				maxZoom: 20,
+				subdomains: [ 'mt0', 'mt1', 'mt2', 'mt3' ],
+				attribution: '© 2020 Google, Maxar Technologies'
+			});
+		let baseMaps = {
+			OpenStreetMap: osm,
+			GoogleSatImagery: ggl
+		};
+		let overlays = {
+			//add any overlays here
+		};
+		//myMap = L.map('map').setView(center, zoomLevel);
+		myMap = L.map('map', {
+			center: center,
+			zoom: zoomLevel,
+			layers: [ osm ]
+		});
 		myMarker = L.marker(center, markerOptions(markerSize, heading)).addTo(myMap);
-		myMap.addLayer(
+		L.control.layers(baseMaps, overlays, { position: 'bottomleft' }).addTo(myMap);
+		/* 		myMap.addLayer(
+			L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+				maxZoom: 20,
+				subdomains: [ 'mt0', 'mt1', 'mt2', 'mt3' ],
+				attribution: 'Map data: © Google, Maxar Technologies 2020'
+			})
+		); */
+		/* 		myMap.addLayer(
 			L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}@2x.png', {
 				attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contr.'
 			})
-		);
+		); */
 		myMap.whenReady((_) => {
 			L.DomUtil.create('div', 'indicator', myMarker._icon.parentNode);
 			updateIndicatorPos(myMarker, heading);
@@ -247,10 +279,10 @@ function plotHistogram() {
 async function displayExifTags() {
 	displayExifSummary = await getDisplayExifSummary();
 	if (logToConsole) console.log(displayExifSummary);
-	let h = window.innerHeight + 'px';
+	//let h = window.innerHeight + 'px';
 	let table = document.createElement('table');
 	let exifTags = {};
-	content.style.height = h;
+	//content.style.height = h;
 	if (displayExifSummary) {
 		for (let tag in summary) {
 			if (imageTags[tag]) exifTags[summary[tag]] = imageTags[tag];
