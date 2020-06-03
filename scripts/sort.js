@@ -7,6 +7,7 @@ const logToConsole = false;
 
 /// Sort search engines by index
 function sortByIndex(list) {
+	let sortedList = JSON.parse(JSON.stringify(list));
 	let n = Object.keys(list).length;
 	let arrayOfIndexes = [];
 	let arrayOfIds = [];
@@ -15,7 +16,11 @@ function sortByIndex(list) {
 	// Create the array of indexes and its corresponding array of ids
 	for (let id in list) {
 		if (logToConsole) console.log(`id = ${id}`);
-		if (isEmpty(list[id].index)) list[id].index = n;
+		// If there is no index, then move the search engine to the end of the list
+		if (isEmpty(list[id].index)) {
+			list[id].index = n;
+			n++;
+		}
 		arrayOfIndexes.push(list[id].index);
 		arrayOfIds.push(id);
 	}
@@ -25,10 +30,10 @@ function sortByIndex(list) {
 		let index = arrayOfIndexes.indexOf(min);
 		arrayOfIndexes.splice(index, 1);
 		let id = arrayOfIds.splice(index, 1);
-		list[id].index = i;
+		sortedList[id].index = i;
 	}
 
-	return list;
+	return sortedList;
 }
 
 function getDomain(url) {
