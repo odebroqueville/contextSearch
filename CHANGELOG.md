@@ -1,8 +1,14 @@
-3.9.2
+3.9.3
 =========
 
+* Fixes bug #77 by retaining sort order in the context menu as well
+* Fixes bug #75 by displaying map right after EXIF tags
+
+3.9.2
+---------
+
 * Fixes bugs #70 and #74 by using a different user agent
-* Fixes bug #77 by retaining sort order
+* Partially fixes bug #77 by retaining sort order in the Options page
 * Adds a map to show where an image was taken and in which direction, if the EXIF GPS coordinates are available
 * Gives users the option to show a summary of EXIF meta data or the full list of EXIF tags available
 * Adds Korean and Arabic translations
