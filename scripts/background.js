@@ -854,15 +854,18 @@ function rebuildContextMenu() {
 		buildContextMenuForImages();
 
 		searchEnginesArray = [];
-		var index = 0;
-		for (let id in searchEngines) {
-			let base64String = searchEngines[id].base64;
-			let strIndex = 'cs-' + index.toString();
-			let strTitle = searchEngines[id].name;
+		let n = Object.keys(searchEngines).length;
+		for (let i = 0; i < n; i++) {
+			for (let id in searchEngines) {
+				if (searchEngines[id].index === i) {
+					let base64String = searchEngines[id].base64;
+					let strIndex = 'cs-' + i.toString();
+					let strTitle = searchEngines[id].name;
 
-			searchEnginesArray.push(id);
-			buildContextMenuItem(searchEngines[id], strIndex, strTitle, base64String, browserVersion);
-			index += 1;
+					searchEnginesArray.push(id);
+					buildContextMenuItem(searchEngines[id], strIndex, strTitle, base64String, browserVersion);
+				}
+			}
 		}
 
 		if (contextsearch_optionsMenuLocation === 'bottom') {
