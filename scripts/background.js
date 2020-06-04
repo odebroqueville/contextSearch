@@ -855,7 +855,7 @@ function rebuildContextMenu() {
 
 		searchEnginesArray = [];
 		let n = Object.keys(searchEngines).length;
-		for (let i = 0; i < n; i++) {
+		for (let i = 1; i < n + 1; i++) {
 			for (let id in searchEngines) {
 				if (searchEngines[id].index === i) {
 					let base64String = searchEngines[id].base64;
@@ -1047,10 +1047,10 @@ async function processSearch(info, tab) {
 		return;
 	}
 
-	id = parseInt(id);
+	let intId = parseInt(id);
 
 	// At this point, it should be a number
-	if (!isNaN(id)) {
+	if (!isNaN(intId)) {
 		browser.tabs.query({ currentWindow: true }).then((tabs) => {
 			for (let tab of tabs) {
 				if (logToConsole) {
@@ -1060,7 +1060,7 @@ async function processSearch(info, tab) {
 				}
 			}
 			if (contextsearch_openSearchResultsInLastTab) tabPosition = tabs.length;
-			searchUsing(searchEnginesArray[id], tabPosition);
+			searchUsing(searchEnginesArray[intId - 1], tabPosition);
 		}, onError);
 	}
 }
