@@ -1,5 +1,10 @@
-3.9.3
+3.9.4
 =========
+
+* Fixes bug #79 where the wrong search engine was triggered from context menu when carrying out a search
+
+3.9.3
+---------
 
 * Fixes bug #77 by retaining sort order in the context menu as well
 * Fixes bug #75 by displaying map right after EXIF tags
