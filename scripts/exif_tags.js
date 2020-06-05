@@ -9,6 +9,7 @@ const declinationUrl =
 	'https://emmcalc.geomag.info?magneticComponent=d&lat1=latitude&lon1=longitude&startYear=date&resultFormat=json';
 const zoomLevel = 12; // default zoom level for open street map
 const markerSize = 40; // default marker size
+const palette = document.getElementById('palette');
 const content = document.getElementById('content');
 const map = document.getElementById('map');
 const summary = {
@@ -35,7 +36,7 @@ const summary = {
 };
 
 // Global variables - initialisation
-/* global L, RGraph */
+/* global ColorThief, L, RGraph */
 let displayExifSummary = true;
 let imageUrl = '';
 let imageTags = {};
@@ -199,8 +200,10 @@ async function handleResponse(message) {
 		.then((data) => {
 			let canvas = data.canvas;
 			let ctx = data.ctx;
+			let image = data.image;
 			extractRGBValues(canvas, ctx);
 			plotHistogram();
+			displayColorPalette(image, 6);
 			displayExifTags();
 		})
 		.catch((err) => {
@@ -219,7 +222,7 @@ function loadImageData() {
 		img.onload = function() {
 			ctxImageCanvas.drawImage(img, 0, 0, img.width, img.height);
 			img.style.display = 'none';
-			resolve({ canvas: imageCanvas, ctx: ctxImageCanvas });
+			resolve({ image: img, canvas: imageCanvas, ctx: ctxImageCanvas });
 		};
 		img.onerror = (err) => {
 			if (logToConsole) console.error(err);
@@ -274,6 +277,23 @@ function plotHistogram() {
 			colors: [ 'rgba(255,0,0,0.6)', 'rgba(0,255,0,0.6)', 'rgba(0,0,255,0.6)' ]
 		}
 	}).draw();
+}
+
+async function displayColorPalette(image, numberOfColors) {
+	const colorThief = new ColorThief();
+	const colorPalette = await colorThief.getPalette(image, numberOfColors);
+	let r, g, b, span;
+	for (let rgb of colorPalette) {
+		r = rgb[0];
+		g = rgb[1];
+		b = rgb[2];
+		if (logToConsole) console.log(r, g, b);
+		span = document.createElement('div');
+		span.setAttribute('class', 'color');
+		span.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+		palette.appendChild(span);
+	}
+	if (logToConsole) console.log(colorPalette);
 }
 
 async function displayExifTags() {

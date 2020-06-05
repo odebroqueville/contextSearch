@@ -14,20 +14,41 @@ body {
 }
 
 #histogram {
-	position: fixed;
 	display: block;
 	width: 428px;
 	height: 200px;
 	background-color: darkslategrey;
 }
 
-#map {
+#map,
+#palette {
 	display: block;
 	width: 428px;
 }
 
+#palette {
+	height: 40px;
+	padding: 5px;
+}
+
+span {
+	display: inline-block;
+}
+
+.color {
+	display: inline-block;
+	height: 30px;
+	width: 60px;
+}
+
+h3 {
+	font-family: Helvetica, sans-serif;
+	color: darkolivegreen;
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
 #content {
-	margin-top: 200px;
 	overflow-x: hidden;
 	overflow-y: auto;
 	display: block;

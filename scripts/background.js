@@ -924,7 +924,7 @@ function buildContextMenuForImages() {
 	});
 	browser.contextMenus.create({
 		id: 'cs-exif-tags',
-		title: 'View EXIF tags...',
+		title: 'Image analysis...',
 		contexts: [ 'image' ]
 	});
 }
@@ -964,7 +964,7 @@ async function processSearch(info, tab) {
 	if (id === 'exif-tags') {
 		let url = browser.runtime.getURL('/sidebar/exif_tags.html');
 		browser.sidebarAction.setPanel({ panel: url });
-		browser.sidebarAction.setTitle({ title: 'Exif tags' });
+		browser.sidebarAction.setTitle({ title: 'Image analysis' });
 		return;
 		/* 		if (contextsearch_openSearchResultsInSidebar) {
 			let url = browser.runtime.getURL('/sidebar/exif_tags.html');
