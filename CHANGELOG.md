@@ -1,5 +1,10 @@
-3.9.4
+3.9.5
 =========
+
+* Adds a color palette to the image analysis tool
+
+3.9.4
+---------
 
 * Fixes bug #79 where the wrong search engine was triggered from context menu when carrying out a search
 
