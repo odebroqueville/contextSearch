@@ -13,7 +13,7 @@ Firefox add-on to search selected text in a web page using your favorite search 
 
 The search results will appear as defined in the extension's preferences page.
 
-The extension includes an EXIF viewer. To view the EXIF tags associated with an image, right-click on the image and select: "View EXIF tags..". If present, the EXIF tags will appear in the sidebar along with a color histogram.
+The extension includes an Image analysis tool. To analyse an image, right-click on the image and select: "Image analysis...". If present, the EXIF tags will appear in the sidebar along with a color histogram and color palette. A map will also show where the image was taken and in which direction if the GPS data is available.
 
 ## Managing search engines
 
@@ -126,4 +126,6 @@ https://addons.mozilla.org/firefox/addon/contextual-search/
 <li>exif.js v2.3.0 originally by Jacob Seidelin and modified by Bart van der Wal which can be found on Github: https://github.com/exif-js/exif-js/blob/v2.3.0/exif.js</li>
 <li>2 libraries from RGraph v5.23 by Richard Heyes: Rgraph.svg.common.core.js which may be found here: https://www.rgraph.net/libraries/src/RGraph.svg.common.core.js and RGraph.svg.line.js which may be found here: https://www.rgraph.net/libraries/src/RGraph.svg.line.js</li>
 <li>SortableJS v1.10.1 minified with many contributors, which can be found on GitHub here: https://github.com/SortableJS/Sortable/blob/1.10.1/Sortable.min.js and the source code here: https://github.com/SortableJS/Sortable/releases</li>
+<li>Leaflet v1.6.0 minified downloaded from https://leafletjs.com/download.html</li>
+<li>Color Thief v2.3.0 minified available from https://github.com/lokesh/color-thief/releases/tag/v2.3.0</li>
 </ul>
