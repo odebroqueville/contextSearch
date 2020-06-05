@@ -3,7 +3,7 @@
 	"default_locale": "en",
 	"name": "__MSG_extensionName__",
 	"description": "__MSG_extensionDescription__",
-	"version": "3.9.4",
+	"version": "3.9.5",
 	"author": "Olivier de Broqueville",
 	"browser_specific_settings": {
 		"gecko": {
@@ -72,6 +72,7 @@
 				"/scripts/helper.js",
 				"/scripts/selection.js",
 				"/scripts/exif.js",
+				"/scripts/color-thief.min.js",
 				"/scripts/Sortable.min.js",
 				"/scripts/RGraph.svg.common.core.js",
 				"/scripts/RGraph.svg.line.js",
