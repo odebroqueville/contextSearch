@@ -201,7 +201,6 @@ async function handleResponse(message) {
 			let canvas = data.canvas;
 			let ctx = data.ctx;
 			let image = data.image;
-			extractRGBValues(canvas, ctx);
 			plotHistogram();
 			displayColorPalette(image, 6);
 			displayExifTags();
@@ -213,25 +212,41 @@ async function handleResponse(message) {
 
 function loadImageData() {
 	return new Promise((resolve, reject) => {
-		let img = new Image();
-		img.src = imageUrl;
-		img.crossOrigin = 'anonymous';
+		const img = new Image();
 		if (logToConsole) console.log(imageUrl);
-		let imageCanvas = document.createElement('canvas');
-		let ctxImageCanvas = imageCanvas.getContext('2d');
+		const imageCanvas = document.getElementById('canvas');
+		const ctx = imageCanvas.getContext('2d');
 		img.onload = function() {
-			ctxImageCanvas.drawImage(img, 0, 0, img.width, img.height);
-			img.style.display = 'none';
-			resolve({ image: img, canvas: imageCanvas, ctx: ctxImageCanvas });
+			const ratio = this.height / this.width;
+			const scaledHeight = 428 * ratio;
+			if (logToConsole) console.log(img.width, img.height);
+			ctx.drawImage(this, 0, 0, this.width, this.height, 0, 0, 428, scaledHeight);
+			extractRGBValues(imageCanvas, ctx);
+			resolve({ image: img });
 		};
 		img.onerror = (err) => {
 			if (logToConsole) console.error(err);
 			reject(err);
 		};
+		img.crossOrigin = 'anonymous';
+		img.src = imageUrl;
 	});
 }
 
 function extractRGBValues(canvas, ctx) {
+	const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+	if (logToConsole) console.log(imageData.data);
+	for (let i = 0; i < imageData.data.length; i += 4) {
+		redValues[imageData.data[i]]++;
+		greenValues[imageData.data[i + 1]]++;
+		blueValues[imageData.data[i + 2]]++;
+	}
+	if (logToConsole) console.log(redValues);
+	if (logToConsole) console.log(greenValues);
+	if (logToConsole) console.log(blueValues);
+}
+
+/* function extractRGBValues(canvas, ctx) {
 	let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 	for (let y = 0; y < canvas.height; y++) {
 		for (let x = 0; x < canvas.width; x++) {
@@ -246,7 +261,7 @@ function extractRGBValues(canvas, ctx) {
 function getRGBAColorsForCoord(x, y, imageData) {
 	var red = y * (imageData.width * 4) + x * 4;
 	return [ imageData.data[red], imageData.data[red + 1], imageData.data[red + 2], imageData.data[red + 3] ];
-}
+} */
 
 function array256(defaultValue) {
 	let arr = [];
@@ -263,10 +278,6 @@ function plotHistogram() {
 		options: {
 			backgroundGrid: false,
 			shadow: false,
-			title: 'Color Histogram',
-			titleFont: 'Arial',
-			titleColor: 'white',
-			titleSize: 10,
 			marginBottom: 5,
 			marginLeft: 5,
 			marginRight: 5,
