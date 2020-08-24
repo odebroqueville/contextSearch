@@ -1,5 +1,10 @@
-3.9.5
+4.0.0
 =========
+
+* Fixes #81 : search terms may now include percentage sign
+
+3.9.5
+---------
 
 * Adds a color palette to the image analysis tool
 
