@@ -320,6 +320,29 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 // Check if options are set in sync storage and set to default if not
 function init() {
   return new Promise((resolve, reject) => {
+    if (logToConsole) {
+      // Inform on storage space being used by storage sync
+      browser.storage.sync
+        .getBytesInUse(null)
+        .then((bytesUsed) => {
+          console.log(`Bytes used by storage sync: ${bytesUsed} bytes.`);
+        })
+        .catch((err) => {
+          console.error(err);
+          console.log("Failed to retrieve storage space used by storage sync.");
+        });
+
+      // Inform on storage space being used by local storage
+      browser.storage.local
+        .get((items) => {
+          console.log(
+            `Bytes used by local storage: ${
+              JSON.stringify(items).length
+            } bytes.`,
+          );
+        });
+    }
+
     // Initialize search engines, do not force reload (if empty, will reload in next fn)
     initialiseSearchEngines(false);
 
