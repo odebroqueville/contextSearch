@@ -2,6 +2,7 @@
 =========
 
 * Fixes #81 : search terms may now include percentage sign
+* Fixes #83 : adopting major release update to force update from users stuck at 3.72
 
 3.9.5
 ---------
