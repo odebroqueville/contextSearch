@@ -1,5 +1,10 @@
-4.0.0
+4.0.1
 =========
+
+* Fixes the update process from CS 3.72 to CS 4.0.1 : custom search engines stored in storage sync should now be carried over to local storage
+
+4.0.0
+---------
 
 * Fixes #81 : search terms may now include percentage sign
 * Fixes #83 : adopting major release update to force update from users stuck at 3.72

@@ -455,6 +455,7 @@ function initialiseSearchEngines(forceReload) {
         }
         // Load default search engines if force reload is set or if no search engines are stored in local storage
         if (isEmpty(searchEngines) || forceReload) {
+          // If search engines are present but there is a force reload
           if (!isEmpty(searchEngines)) {
             browser.storage.local
               .clear()
@@ -471,12 +472,43 @@ function initialiseSearchEngines(forceReload) {
                 reject();
               });
           } else {
-            if (logToConsole) {
-              console.log(
-                "No search engines are stored in local storage -> loading default list of search engines.",
-              );
-            }
-            loadDefaultSearchEngines(DEFAULT_JSON).then(resolve, reject);
+            // There are no search engines in local storage
+            // Check if any search engines are stored in storage sync
+            browser.storage.sync
+              .get(null)
+              .then((data) => {
+                let options = data.options;
+                delete data["options"];
+                if (!isEmpty(data) && Object.keys(data).length > 1) {
+                  searchEngines = sortByIndex(data);
+                  browser.storage.sync
+                    .clear()
+                    .then(() => {
+                      browser.storage.sync
+                        .set(options)
+                        .then(() => {
+                          rebuildContextMenu();
+                          resolve();
+                        });
+                    });
+                } else {
+                  if (logToConsole) {
+                    console.log(
+                      "No search engines are stored in local or sync storage -> loading default list of search engines.",
+                    );
+                  }
+                  loadDefaultSearchEngines(DEFAULT_JSON).then(resolve, reject);
+                }
+              })
+              .catch((err) => {
+                if (logToConsole) {
+                  console.error(err);
+                  console.log(
+                    "Failed to retrieve search engines from storage sync.",
+                  );
+                }
+                reject();
+              });
           }
         } else {
           searchEngines = sortByIndex(data);
