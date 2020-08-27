@@ -1,7 +1,8 @@
 4.0.1
 =========
 
-* Fixes the update process from CS 3.72 to CS 4.0.1 : custom search engines stored in storage sync should now be carried over to local storage
+* Updates Rgraph to version 5.25
+* Fixes dependabot security alert by upgrading jpeg-js to version 0.4.0 at least
 
 4.0.0
 ---------
