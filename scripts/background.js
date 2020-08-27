@@ -172,7 +172,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
       testSearchEngine(message.data);
       break;
     case "saveSearchEngines":
-      searchEngines = message.data;
+      searchEngines = sortByIndex(message.data);
       if (logToConsole) console.log(searchEngines);
       browser.storage.local
         .clear()
