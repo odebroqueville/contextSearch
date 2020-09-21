@@ -321,6 +321,14 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 function init() {
   return new Promise((resolve, reject) => {
     if (logToConsole) {
+      browser.storage.sync
+        .get(null)
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
       // Inform on storage space being used by storage sync
       browser.storage.sync
         .getBytesInUse(null)
