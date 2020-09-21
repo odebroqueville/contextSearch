@@ -477,9 +477,11 @@ function initialiseSearchEngines(forceReload) {
             browser.storage.sync
               .get(null)
               .then((data) => {
+                if (logToConsole) console.log(data);
                 let options = data.options;
                 delete data["options"];
                 if (!isEmpty(data)) {
+                  if (logToConsole) console.log(data);
                   searchEngines = sortByIndex(data);
                   browser.storage.sync
                     .clear()
