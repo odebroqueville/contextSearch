@@ -321,14 +321,6 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 function init() {
   return new Promise((resolve, reject) => {
     if (logToConsole) {
-      browser.storage.sync
-        .get(null)
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
       // Inform on storage space being used by storage sync
       browser.storage.sync
         .getBytesInUse(null)
@@ -453,6 +445,14 @@ function setDefaultOptions() {
 
 function initialiseSearchEngines(forceReload) {
   return new Promise((resolve, reject) => {
+    browser.storage.sync
+      .get(null)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
     browser.storage.local
       .get(null)
       .then((data) => {
