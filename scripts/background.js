@@ -479,7 +479,7 @@ function initialiseSearchEngines(forceReload) {
               .then((data) => {
                 let options = data.options;
                 delete data["options"];
-                if (!isEmpty(data) && Object.keys(data).length > 0) {
+                if (!isEmpty(data)) {
                   searchEngines = sortByIndex(data);
                   browser.storage.sync
                     .clear()
