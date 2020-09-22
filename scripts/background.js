@@ -411,18 +411,18 @@ function initialiseSearchEngines(forceReload) {
 				console.log(data);
 				if (data.options) {
 					options = data.options;
+					browser.storage.sync.clear().then(() => {
+						if (!isEmpty(options)) {
+							browser.storage.sync.set(options);
+						}
+					});
 					delete data['options'];
 				}
 				if (!isEmpty(data)) {
 					searchEngines = sortByIndex(data);
-					browser.storage.sync.clear().then(() => {
-						if (options) {
-							browser.storage.sync.set(options).then(() => {
-								rebuildContextMenu();
-								resolve();
-							});
-						}
-						browser.storage.local.set(searchEngines);
+					browser.storage.local.set(searchEngines).then(() => {
+						rebuildContextMenu();
+						resolve();
 					});
 				} else {
 					browser.storage.local
@@ -435,11 +435,6 @@ function initialiseSearchEngines(forceReload) {
 							}
 							// Load default search engines if force reload is set or if no search engines are stored in local storage
 							if (isEmpty(searchEngines) || forceReload) {
-								if (logToConsole) {
-									console.log(
-										'Either no search engines are stored in local or sync storage OR force reload is set -> loading default list of search engines.'
-									);
-								}
 								browser.storage.local
 									.clear()
 									.then(() => {
@@ -466,6 +461,7 @@ function initialiseSearchEngines(forceReload) {
 					console.error(err);
 					console.log('Failed to retrieve search engines from storage sync.');
 				}
+				reject();
 			});
 	});
 }
