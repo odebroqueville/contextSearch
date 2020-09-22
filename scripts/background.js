@@ -420,10 +420,36 @@ function initialiseSearchEngines(forceReload) {
 				}
 				if (!isEmpty(data)) {
 					searchEngines = sortByIndex(data);
-					browser.storage.local.set(searchEngines).then(() => {
-						rebuildContextMenu();
-						resolve();
-					});
+					browser.storage.local
+						.clear()
+						.then(() => {
+							getFaviconsAsBase64Strings()
+								.then(() => {
+									saveSearchEnginesToLocalStorage(false).then(() => {
+										rebuildContextMenu();
+										if (logToConsole) {
+											console.log(
+												'Successfully loaded favicons and saved search engines to local storage.'
+											);
+										}
+										resolve();
+									});
+								})
+								.catch((err) => {
+									if (logToConsole) {
+										console.error(err);
+										console.log('Failed to fetch favicons.');
+									}
+									reject();
+								});
+						})
+						.catch((err) => {
+							if (logToConsole) {
+								console.error(err);
+								console.log('Failed to clear local storage.');
+							}
+							reject();
+						});
 				} else {
 					browser.storage.local
 						.get(null)
