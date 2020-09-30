@@ -303,26 +303,26 @@ function init() {
 		}
 
 		// Initialize search engines, do not force reload (if empty, will reload in next fn)
-		initialiseSearchEngines(false);
-
-		// Check if options are stored in browser sync; if not, set to default
-		browser.storage.sync
-			.get(null)
-			.then((data) => {
-				if (isEmpty(data.options)) {
-					setDefaultOptions();
-				} else {
-					setOptions(data.options, false);
-				}
-				resolve();
-			})
-			.catch((err) => {
-				if (logToConsole) {
-					console.error(err);
-					console.log('Failed to retrieve options from storage sync.');
-				}
-				reject();
-			});
+		initialiseSearchEngines(false).then(() => {
+			// Check if options are stored in browser sync; if not, set to default
+			browser.storage.sync
+				.get(null)
+				.then((data) => {
+					if (isEmpty(data.options)) {
+						setDefaultOptions();
+					} else {
+						setOptions(data.options, false);
+					}
+					resolve();
+				})
+				.catch((err) => {
+					if (logToConsole) {
+						console.error(err);
+						console.log('Failed to retrieve options from storage sync.');
+					}
+					reject();
+				});
+		});
 	});
 }
 
