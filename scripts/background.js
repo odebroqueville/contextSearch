@@ -474,6 +474,9 @@ function initialiseSearchEngines(forceReload) {
 										}
 										reject();
 									});
+							} else {
+								rebuildContextMenu();
+								resolve();
 							}
 						})
 						.catch((err) => {
