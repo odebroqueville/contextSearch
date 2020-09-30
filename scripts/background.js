@@ -408,9 +408,10 @@ function initialiseSearchEngines(forceReload) {
 		browser.storage.sync
 			.get(null)
 			.then((data) => {
-				console.log(data);
+				if (logToConsole) console.log(data);
 				if (data.options) {
 					options = data.options;
+					if (logToConsole) console.log(options);
 					browser.storage.sync.clear().then(() => {
 						if (!isEmpty(options)) {
 							browser.storage.sync.set(options);
