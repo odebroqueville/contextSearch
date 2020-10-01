@@ -27,9 +27,9 @@ function sortByIndex(list) {
 	// Sort the list by index
 	for (let i = 1; i < n + 1; i++) {
 		min = Math.min(...arrayOfIndexes);
-		let index = arrayOfIndexes.indexOf(min);
-		arrayOfIndexes.splice(index, 1);
-		let id = arrayOfIds.splice(index, 1);
+		let ind = arrayOfIndexes.indexOf(min);
+		arrayOfIndexes.splice(ind, 1);
+		let id = arrayOfIds.splice(ind, 1);
 		sortedList[id].index = i;
 	}
 
