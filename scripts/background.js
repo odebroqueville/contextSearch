@@ -455,7 +455,7 @@ function initialiseSearchEngines(forceReload) {
 					browser.storage.local
 						.get(null)
 						.then((data) => {
-							searchEngines = data;
+							searchEngines = sortByIndex(data);
 							if (logToConsole) {
 								console.log('Search engines: \n');
 								console.log(searchEngines);
@@ -678,6 +678,7 @@ function loadDefaultSearchEngines(jsonFile) {
 
 function saveSearchEnginesToLocalStorage(blnNotify) {
 	return new Promise((resolve, reject) => {
+		searchEngines = sortByIndex(searchEngines);
 		if (logToConsole) {
 			console.log('Search engines:\n');
 			console.log(searchEngines);
