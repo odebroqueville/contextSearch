@@ -1,7 +1,7 @@
 4.1.0
 =========
 
-* Fixes issues #82 and #85
+* Fixes issues #82, #85 and #91
 * Updates Rgraph to version 5.25
 * Fixes dependabot security alert by upgrading jpeg-js to version 0.4.0 at least
 
