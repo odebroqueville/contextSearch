@@ -562,7 +562,7 @@ function clear() {
 }
 
 function setOptions(options) {
-	if (!options) return;
+	if (isEmpty(options)) return;
 	if (logToConsole) {
 		console.log('Preferences retrieved from sync storage:\n');
 		console.log(options);
@@ -668,16 +668,16 @@ function setOptions(options) {
 // Restore the list of search engines and the options to be displayed in the options page
 async function restoreOptionsPage() {
 	try {
-		let data = await browser.storage.sync.get(null);
+		let options = await browser.storage.sync.get(null);
 		searchEngines = await browser.storage.local.get(null);
 		if (logToConsole) {
 			console.log('Search engines retrieved from local storage:\n');
 			console.log(searchEngines);
 		}
 		displaySearchEngines();
-		if (data.options) setOptions(data.options);
+		if (!isEmpty(options)) setOptions(options);
 		if (logToConsole) {
-			console.log(data.options);
+			console.log(options);
 			console.log('Options have been reset.');
 		}
 	} catch (err) {

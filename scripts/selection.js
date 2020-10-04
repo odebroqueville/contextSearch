@@ -65,6 +65,10 @@ browser.runtime.onMessage.addListener((message) => {
 function handleStorageChange(changes, area) {
 	let oldSearchEngines = JSON.parse(JSON.stringify(searchEngines));
 	let ids = Object.keys(changes);
+	if (logToConsole) {
+		console.log('The following changes have occured:\n');
+		console.log(ids);
+	}
 	switch (area) {
 		case 'local':
 			searchEngines = {};
@@ -110,8 +114,8 @@ async function init() {
 		console.log(`Path name: ${pn}`);
 		console.log(`Domain: ${domain}`);
 	}
-	let data = await browser.storage.sync.get('options');
-	if (data.options.tabMode === 'sameTab') {
+	let options = await browser.storage.sync.get(null);
+	if (options.tabMode === 'sameTab') {
 		sameTab = true;
 	} else {
 		sameTab = false;
@@ -147,8 +151,8 @@ async function handleAltClickWithGrid(e) {
 		}
 
 		// If option is diabled then do nothing. Note: this intentionally comes after selected text is accessed as text can become unselected on click
-		let data = await browser.storage.sync.get(null);
-		if (data.options.disableAltClick) return;
+		let options = await browser.storage.sync.get(null);
+		if (options.disableAltClick) return;
 
 		// Test URL: https://bugzilla.mozilla.org/show_bug.cgi?id=1215376
 		// Test URL: https://github.com/odebroqueville/contextSearch/

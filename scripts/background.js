@@ -61,19 +61,17 @@ let contextsearch_resetPreferences = false;
 let contextsearch_forceSearchEnginesReload = false;
 
 const defaultOptions = {
-	options: {
-		exactMatch: contextsearch_exactMatch,
-		tabMode: contextsearch_tabMode,
-		tabActive: contextsearch_makeNewTabOrWindowActive,
-		lastTab: contextsearch_openSearchResultsInLastTab,
-		optionsMenuLocation: contextsearch_optionsMenuLocation,
-		displayFavicons: contextsearch_displayFavicons,
-		displayExifSummary: contextsearch_displayExifSummary,
-		disableAltClick: contextsearch_disableAltClick,
-		forceSearchEnginesReload: contextsearch_forceSearchEnginesReload,
-		resetPreferences: contextsearch_resetPreferences,
-		forceFaviconsReload: contextsearch_forceFaviconsReload
-	}
+	exactMatch: contextsearch_exactMatch,
+	tabMode: contextsearch_tabMode,
+	tabActive: contextsearch_makeNewTabOrWindowActive,
+	lastTab: contextsearch_openSearchResultsInLastTab,
+	optionsMenuLocation: contextsearch_optionsMenuLocation,
+	displayFavicons: contextsearch_displayFavicons,
+	displayExifSummary: contextsearch_displayExifSummary,
+	disableAltClick: contextsearch_disableAltClick,
+	forceSearchEnginesReload: contextsearch_forceSearchEnginesReload,
+	resetPreferences: contextsearch_resetPreferences,
+	forceFaviconsReload: contextsearch_forceFaviconsReload
 };
 
 /// Handle Page Action click
@@ -186,8 +184,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			addNewSearchEngine(id, domain);
 			break;
 		case 'updateSearchOptions':
-			getOptions().then((settings) => {
-				let options = settings.options;
+			getOptions().then((options) => {
 				if (logToConsole) {
 					console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
 				}
@@ -197,8 +194,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			});
 			break;
 		case 'updateDisplayFavicons':
-			getOptions().then((settings) => {
-				let options = settings.options;
+			getOptions().then((options) => {
 				if (logToConsole) {
 					console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
 				}
@@ -208,8 +204,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			});
 			break;
 		case 'updateDisplayExifSummary':
-			getOptions().then((settings) => {
-				let options = settings.options;
+			getOptions().then((options) => {
 				if (logToConsole) {
 					console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
 				}
@@ -219,8 +214,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			});
 			break;
 		case 'updateDisableAltClick':
-			getOptions().then((settings) => {
-				let options = settings.options;
+			getOptions().then((options) => {
 				if (logToConsole) {
 					console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
 				}
@@ -230,8 +224,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			});
 			break;
 		case 'updateTabMode':
-			getOptions().then((settings) => {
-				let options = settings.options;
+			getOptions().then((options) => {
 				if (logToConsole) {
 					console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
 				}
@@ -243,8 +236,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			});
 			break;
 		case 'updateOptionsMenuLocation':
-			getOptions().then((settings) => {
-				let options = settings.options;
+			getOptions().then((options) => {
 				if (logToConsole) {
 					console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
 				}
@@ -254,8 +246,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			});
 			break;
 		case 'updateResetOptions':
-			getOptions().then((settings) => {
-				let options = settings.options;
+			getOptions().then((options) => {
 				if (logToConsole) {
 					console.log('Preferences retrieved from sync storage:');
 					console.log(options);
@@ -307,12 +298,17 @@ function init() {
 			// Check if options are stored in browser sync; if not, set to default
 			browser.storage.sync
 				.get(null)
-				.then((data) => {
-					if (isEmpty(data.options)) {
+				.then((options) => {
+					if (isEmpty(options)) {
 						setDefaultOptions();
 					} else {
-						setOptions(data.options, false);
+						if (!isEmpty(options.options)) {
+							setOptions(options.options, true);
+						} else {
+							setOptions(options, false);
+						}
 					}
+					rebuildContextMenu();
 					resolve();
 				})
 				.catch((err) => {
@@ -337,9 +333,8 @@ function reset() {
 			);
 		}
 		browser.storage.sync
-			.get('options')
-			.then((data) => {
-				let options = data.options;
+			.get(null)
+			.then((options) => {
 				if (logToConsole) console.log(options);
 				if (isEmpty(options) || options.resetPreferences) {
 					setDefaultOptions();
@@ -399,7 +394,7 @@ function handlePageAction(tab) {
 
 // Reset options to default
 function setDefaultOptions() {
-	setOptions(defaultOptions.options, true);
+	setOptions(defaultOptions, true);
 }
 
 function initialiseSearchEngines(forceReload) {
@@ -409,7 +404,7 @@ function initialiseSearchEngines(forceReload) {
 			.get(null)
 			.then((data) => {
 				if (logToConsole) console.log(data);
-				if (data.options) {
+				if (!isEmpty(data.options)) {
 					options = data.options;
 					if (logToConsole) console.log(options);
 					browser.storage.sync.clear().then(() => {
@@ -418,39 +413,38 @@ function initialiseSearchEngines(forceReload) {
 						}
 					});
 					delete data['options'];
-				}
-				if (!isEmpty(data)) {
-					searchEngines = sortByIndex(data);
-					browser.storage.local
-						.clear()
-						.then(() => {
-							getFaviconsAsBase64Strings()
-								.then(() => {
-									saveSearchEnginesToLocalStorage(false).then(() => {
-										rebuildContextMenu();
+					if (!isEmpty(data)) {
+						searchEngines = sortByIndex(data);
+						browser.storage.local
+							.clear()
+							.then(() => {
+								getFaviconsAsBase64Strings()
+									.then(() => {
+										saveSearchEnginesToLocalStorage(false).then(() => {
+											if (logToConsole) {
+												console.log(
+													'Successfully loaded favicons and saved search engines to local storage.'
+												);
+											}
+											resolve();
+										});
+									})
+									.catch((err) => {
 										if (logToConsole) {
-											console.log(
-												'Successfully loaded favicons and saved search engines to local storage.'
-											);
+											console.error(err);
+											console.log('Failed to fetch favicons.');
 										}
-										resolve();
+										reject();
 									});
-								})
-								.catch((err) => {
-									if (logToConsole) {
-										console.error(err);
-										console.log('Failed to fetch favicons.');
-									}
-									reject();
-								});
-						})
-						.catch((err) => {
-							if (logToConsole) {
-								console.error(err);
-								console.log('Failed to clear local storage.');
-							}
-							reject();
-						});
+							})
+							.catch((err) => {
+								if (logToConsole) {
+									console.error(err);
+									console.log('Failed to clear local storage.');
+								}
+								reject();
+							});
+					}
 				} else {
 					browser.storage.local
 						.get(null)
@@ -475,7 +469,6 @@ function initialiseSearchEngines(forceReload) {
 										reject();
 									});
 							} else {
-								rebuildContextMenu();
 								resolve();
 							}
 						})
@@ -500,9 +493,9 @@ function getOptions() {
 	return new Promise((resolve, reject) => {
 		browser.storage.sync
 			.get(null)
-			.then((data) => {
-				if (logToConsole) console.log(data);
-				resolve(data);
+			.then((options) => {
+				if (logToConsole) console.log(options);
+				resolve(options);
 			})
 			.catch((err) => {
 				if (logToConsole) {
@@ -530,10 +523,9 @@ async function setOptions(options, save) {
 	}
 }
 
-function saveOptions(data, blnRebuildContextMenu) {
+function saveOptions(options, blnRebuildContextMenu) {
 	return new Promise((resolve, reject) => {
-		let options = { options: data };
-		let strOptions = JSON.stringify(data);
+		let strOptions = JSON.stringify(options);
 		if (logToConsole) console.log('Options settings:\n' + strOptions);
 		browser.storage.sync
 			.set(options)
