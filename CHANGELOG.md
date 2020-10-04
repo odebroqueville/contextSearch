@@ -1,5 +1,10 @@
-4.1.0
+4.1.1
 =========
+
+* Fixes bug #92 as well as bugs introduced in 4.1.0
+
+4.1.0
+---------
 
 * Fixes issues #82, #85 and #91
 * Updates Rgraph to version 5.25
