@@ -115,7 +115,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				browser.sidebarAction.open();
 				browser.sidebarAction.setPanel({ panel: 'about:blank' });
 			}
-			browser.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
+			browser.tabs.query({ currentWindow: true }).then((tabs) => {
 				if (logToConsole) console.log(tabs);
 				let tabIndex = 0;
 				for (let tab of tabs) {
@@ -126,6 +126,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 						break;
 					}
 				}
+				if (contextsearch_openSearchResultsInLastTab) tabIndex = tabs.length;
 				searchUsing(id, tabIndex);
 			}, onError);
 			break;
@@ -413,8 +414,8 @@ function initialiseSearchEngines(forceReload) {
 						}
 					});
 					// Check if there are search engines stored in storage sync (legacy)
-					if (data.options && Object.keys(data).length > 1) { 
-						delete data['options'] 
+					if (data.options && Object.keys(data).length > 1) {
+						delete data['options'];
 						searchEngines = sortByIndex(data);
 						browser.storage.local
 							.clear()
@@ -445,8 +446,7 @@ function initialiseSearchEngines(forceReload) {
 								}
 								reject();
 							});
-					}
-					else {
+					} else {
 						// Check for search engines in local storage
 						browser.storage.local
 							.get(null)
