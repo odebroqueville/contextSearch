@@ -1,5 +1,10 @@
-4.1.1
+4.1.2
 =========
+
+* Fixes bug #94
+
+4.1.1
+---------
 
 * Fixes bug #92 as well as bugs introduced in 4.1.0
 
