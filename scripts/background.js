@@ -301,7 +301,7 @@ function init() {
 				.get(null)
 				.then((options) => {
 					if (isEmpty(options)) {
-						setDefaultOptions();
+						setDefaultOptions(true);
 					} else {
 						if (!isEmpty(options.options)) {
 							setOptions(options.options, true);
@@ -336,16 +336,18 @@ function reset() {
 		browser.storage.sync
 			.get(null)
 			.then((options) => {
+				let forceReload = false;
+				if (options.forceSearchEnginesReload) forceReload = options.forceSearchEnginesReload;
+				if (logToConsole) console.log(forceReload);
 				if (logToConsole) console.log(options);
 				if (isEmpty(options) || options.resetPreferences) {
-					setDefaultOptions();
+					setDefaultOptions(false);
 				} else {
 					setOptions(options);
 				}
-				let forceReload = options.forceSearchEnginesReload;
 				initialiseSearchEngines(forceReload).then(() => {
 					resolve({ response: 'resetCompleted' });
-				});
+				}, onError);
 			})
 			.catch((err) => {
 				if (logToConsole) {
@@ -394,8 +396,8 @@ function handlePageAction(tab) {
 }
 
 // Reset options to default
-function setDefaultOptions() {
-	setOptions(defaultOptions, true);
+function setDefaultOptions(save) {
+	setOptions(defaultOptions, save);
 }
 
 function initialiseSearchEngines(forceReload) {

@@ -130,21 +130,22 @@ function handleStorageChange(changes, area) {
 		if (logToConsole) console.log(searchEngines);
 		displaySearchEngines();
 	} else if (area === 'sync') {
-		let options = Object.keys(changes);
+		let options = {};
+		let optionKeys = Object.keys(changes);
 		if (logToConsole) {
 			console.log(changes);
-			console.log(options);
+			console.log(optionKeys);
 		}
-		for (let option of options) {
+		for (let optionKey of optionKeys) {
+			options[optionKey] = changes[optionKey].newValue;
 			if (logToConsole) {
-				console.log(option);
-				console.log(changes[option].newValue);
-			}
-			if (option === 'options' && changes[option].newValue !== undefined) {
-				setOptions(changes[option].newValue);
-				break;
+				console.log(optionKey);
+				console.log(changes[optionKey].newValue);
+				console.log('---------------------------------------');
 			}
 		}
+		if (logToConsole) console.log(options);
+		setOptions(options);
 	}
 }
 
