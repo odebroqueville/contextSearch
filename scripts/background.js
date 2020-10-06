@@ -340,12 +340,12 @@ function reset() {
 				if (options.forceSearchEnginesReload) forceReload = options.forceSearchEnginesReload;
 				if (logToConsole) console.log(forceReload);
 				if (logToConsole) console.log(options);
-				if (isEmpty(options) || options.resetPreferences) {
-					setDefaultOptions(true);
-				} else {
-					setOptions(options, false);
-				}
 				initialiseSearchEngines(forceReload).then(() => {
+					if (isEmpty(options) || options.resetPreferences) {
+						setDefaultOptions(true);
+					} else {
+						setOptions(options, false);
+					}
 					resolve({ response: 'resetCompleted' });
 				}, onError);
 			})
