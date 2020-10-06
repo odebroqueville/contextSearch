@@ -137,7 +137,7 @@ function handleStorageChange(changes, area) {
 			console.log(optionKeys);
 		}
 		for (let optionKey of optionKeys) {
-			options[optionKey] = changes[optionKey].newValue;
+			if (changes[optionKey].newValue !== undefined) options[optionKey] = changes[optionKey].newValue;
 			if (logToConsole) {
 				console.log(optionKey);
 				console.log(changes[optionKey].newValue);
@@ -145,7 +145,7 @@ function handleStorageChange(changes, area) {
 			}
 		}
 		if (logToConsole) console.log(options);
-		setOptions(options);
+		if (!isEmpty(options)) setOptions(options);
 	}
 }
 

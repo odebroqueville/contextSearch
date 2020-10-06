@@ -341,9 +341,9 @@ function reset() {
 				if (logToConsole) console.log(forceReload);
 				if (logToConsole) console.log(options);
 				if (isEmpty(options) || options.resetPreferences) {
-					setDefaultOptions(false);
+					setDefaultOptions(true);
 				} else {
-					setOptions(options);
+					setOptions(options, false);
 				}
 				initialiseSearchEngines(forceReload).then(() => {
 					resolve({ response: 'resetCompleted' });
