@@ -1,5 +1,10 @@
-4.1.3
+4.1.4
 =========
+
+* Needed to correct changelog in 4.1.3
+
+4.1.3
+---------
 
 * Fixes bugs #96 and #97
 
