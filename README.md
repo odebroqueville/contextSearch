@@ -124,7 +124,7 @@ https://addons.mozilla.org/firefox/addon/contextual-search/
 
 <ul>
 <li>exif.js v2.3.0 originally by Jacob Seidelin and modified by Bart van der Wal which can be found on Github: https://github.com/exif-js/exif-js/blob/v2.3.0/exif.js</li>
-<li>2 libraries from RGraph v5.25 by Richard Heyes: Rgraph.svg.common.core.js which may be found here: https://www.rgraph.net/libraries/src/RGraph.svg.common.core.js and RGraph.svg.line.js which may be found here: https://www.rgraph.net/libraries/src/RGraph.svg.line.js</li>
+<li>2 libraries from RGraph v5.26 by Richard Heyes: Rgraph.svg.common.core.js which may be found here: https://www.rgraph.net/libraries/src/RGraph.svg.common.core.js and RGraph.svg.line.js which may be found here: https://www.rgraph.net/libraries/src/RGraph.svg.line.js</li>
 <li>SortableJS v1.10.1 minified with many contributors, which can be found on GitHub here: https://github.com/SortableJS/Sortable/blob/1.10.1/Sortable.min.js and the source code here: https://github.com/SortableJS/Sortable/releases</li>
 <li>Leaflet v1.6.0 minified downloaded from https://leafletjs.com/download.html</li>
 <li>Color Thief v2.3.0 minified available from https://github.com/lokesh/color-thief/releases/tag/v2.3.0</li>

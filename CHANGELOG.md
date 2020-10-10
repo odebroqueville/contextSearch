@@ -1,5 +1,11 @@
-4.1.4
+4.1.5
 =========
+
+* Implements feature request #93
+* Updates Rgraph to version 5.26
+
+4.1.4
+---------
 
 * Needed to correct changelog in 4.1.3
 
