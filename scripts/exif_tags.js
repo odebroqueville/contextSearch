@@ -91,9 +91,9 @@ function requestImageData() {
 }
 
 async function getDisplayExifSummary() {
-	let data = await browser.storage.sync.get(null);
-	if (logToConsole) console.log(data.options);
-	return data.options.displayExifSummary;
+	let options = await browser.storage.sync.get(null);
+	if (logToConsole) console.log(options);
+	return options.displayExifSummary;
 }
 
 // Test if an object is empty
@@ -196,10 +196,9 @@ async function handleResponse(message) {
 		});
 	}
 	if (logToConsole) console.log(imageTags);
+
 	loadImageData()
 		.then((data) => {
-			let canvas = data.canvas;
-			let ctx = data.ctx;
 			let image = data.image;
 			plotHistogram();
 			displayColorPalette(image, 6);
@@ -214,7 +213,7 @@ function loadImageData() {
 	return new Promise((resolve, reject) => {
 		const img = new Image();
 		if (logToConsole) console.log(imageUrl);
-		const imageCanvas = document.getElementById('canvas');
+		const imageCanvas = document.createElement('canvas');
 		const ctx = imageCanvas.getContext('2d');
 		img.onload = function() {
 			const ratio = this.height / this.width;

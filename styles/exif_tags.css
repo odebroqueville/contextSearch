@@ -10,7 +10,8 @@ body {
 	border-color: #404046;
 	font-family: 'Roboto Condensed', Calibri, Helvetica, Arial, sans-serif;
 	font-size: 10pt;
-	color: darkslategrey;
+	color: white;
+	background-color: rgb(56, 56, 61);
 }
 
 #histogram {
@@ -43,7 +44,7 @@ span {
 
 h3 {
 	font-family: Helvetica, sans-serif;
-	color: darkolivegreen;
+	color: white;
 	font-size: 1.5em;
 	font-weight: bold;
 }
