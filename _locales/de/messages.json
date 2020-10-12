@@ -299,8 +299,8 @@
 		"hash": "1fea5d330fd5c105ce6ba68ade3be299"
 	},
 	"restriction": {
-		"message": "Bitte beachten Sie, dass es nicht möglich ist, Suchergebnisse in der Seitenleiste anzuzeigen, wenn Sie das Symbolraster verwenden.",
-		"hash": "2aaf6c9de876982ec4fe65b62cdd76b7"
+		"message": "Wenn die Seitenleiste noch nicht geöffnet ist, müssen Sie möglicherweise in der Browser-Symbolleiste auf das Symbol \"Seitenleisten anzeigen\" klicken.",
+		"hash": "8687a8640f71498ea62eaa432791443c"
 	},
 	"reverseImage": {
 		"message": "Außerdem können Suchergebnisse für umgekehrte Bilder nicht in der Seitenleiste angezeigt werden.",

@@ -299,8 +299,8 @@
 		"hash": "1fea5d330fd5c105ce6ba68ade3be299"
 	},
 	"restriction": {
-		"message": "Veuillez noter qu'il n'est pas possible de présenter les résultats d'une recherche dans la barre de côté lorsqu'on utilise la grille d'icônes.",
-		"hash": "2aaf6c9de876982ec4fe65b62cdd76b7"
+		"message": "Si la barre latérale n'est pas déjà ouverte, vous devrez peut-être cliquer sur l'icône \"Afficher les barres latérales\" dans la barre d'outils du navigateur.",
+		"hash": "8687a8640f71498ea62eaa432791443c"
 	},
 	"reverseImage": {
 		"message": "De plus, les résultats de recherche par images ne peuvent pas être affichés dans la barre latérale.",

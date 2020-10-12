@@ -225,7 +225,7 @@
 		"message": "Force favicons to be reloaded"
 	},
 	"restriction": {
-		"message": "Please note that it isn't possible to display search results in the sidebar when using the grid of icons."
+		"message": "If the sidebar isn't already open, then you may have to click on the 'Show sidebars' icon from the browser toolbar."
 	},
 	"reverseImage": {
 		"message": "Also, reverse image search results cannot be displayed in the sidebar."

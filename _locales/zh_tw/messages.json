@@ -299,8 +299,8 @@
 		"hash": "1fea5d330fd5c105ce6ba68ade3be299"
 	},
 	"restriction": {
-		"message": "請注意，使用圖標網格時，無法在側欄中顯示搜索結果.",
-		"hash": "2aaf6c9de876982ec4fe65b62cdd76b7"
+		"message": "如果側欄尚未打開，則可能必須單擊瀏覽器工具欄上的“顯示側欄”圖標。",
+		"hash": "8687a8640f71498ea62eaa432791443c"
 	},
 	"reverseImage": {
 		"message": "另外，反向圖像搜索結果無法顯示在側欄中.",

@@ -299,8 +299,8 @@
 		"hash": "1fea5d330fd5c105ce6ba68ade3be299"
 	},
 	"restriction": {
-		"message": "Houd er rekening mee dat het niet mogelijk is om zoekresultaten in de zijbalk weer te geven wanneer u het raster met pictogrammen gebruikt.",
-		"hash": "2aaf6c9de876982ec4fe65b62cdd76b7"
+		"message": "Als de zijbalk nog niet is geopend, moet u mogelijk op het pictogram 'Zijbalken weergeven' in de browserwerkbalk klikken.",
+		"hash": "8687a8640f71498ea62eaa432791443c"
 	},
 	"reverseImage": {
 		"message": "Ook kunnen zoekresultaten van afbeeldingen in spiegelbeeld niet worden weergegeven in de zijbalk.",

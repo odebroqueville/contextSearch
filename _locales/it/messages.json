@@ -299,8 +299,8 @@
 		"hash": "1fea5d330fd5c105ce6ba68ade3be299"
 	},
 	"restriction": {
-		"message": "Si noti che non è possibile visualizzare i risultati della ricerca nella barra laterale quando si utilizza la griglia delle icone.",
-		"hash": "2aaf6c9de876982ec4fe65b62cdd76b7"
+		"message": "Se la barra laterale non è già aperta, potrebbe essere necessario fare clic sull'icona \"Mostra barre laterali\" dalla barra degli strumenti del browser.",
+		"hash": "8687a8640f71498ea62eaa432791443c"
 	},
 	"reverseImage": {
 		"message": "Inoltre, i risultati della ricerca di immagini inverse non possono essere visualizzati nella barra laterale.",

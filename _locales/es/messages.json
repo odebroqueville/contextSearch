@@ -299,8 +299,8 @@
 		"hash": "1fea5d330fd5c105ce6ba68ade3be299"
 	},
 	"restriction": {
-		"message": "Tenga en cuenta que no es posible mostrar los resultados de búsqueda en la barra lateral cuando se utiliza la cuadrícula de iconos.",
-		"hash": "2aaf6c9de876982ec4fe65b62cdd76b7"
+		"message": "Si la barra lateral aún no está abierta, es posible que deba hacer clic en el icono \"Mostrar barras laterales\" de la barra de herramientas del navegador.",
+		"hash": "8687a8640f71498ea62eaa432791443c"
 	},
 	"reverseImage": {
 		"message": "Además, los resultados de búsqueda de imágenes inversas no se pueden mostrar en la barra lateral.",
