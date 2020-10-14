@@ -124,6 +124,7 @@ h2 {
 
 hr.ruler {
 	opacity: 0.5;
+	margin: 1.25em 0.5em;
 }
 
 @media screen and (min-width: 1520px) {
@@ -165,4 +166,8 @@ code {
 	background: #eaeaea;
 	padding: 0px 5px;
 	border-radius: 2px;
+}
+
+.p-sm {
+	padding: 0.5em;
 }

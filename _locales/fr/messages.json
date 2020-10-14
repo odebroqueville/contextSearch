@@ -230,8 +230,8 @@
 		"message": "Recherche multiple",
 		"hash": "016e3015d7461d1d0fbf20c60bd9ff0f"
 	},
-	"titleGoogleSearch": {
-		"message": "Rechercher dans ce site avec Google",
+	"titleSiteSearch": {
+		"message": "Rechercher dans ce site avec",
 		"hash": "5a76bc5c095707f27e2ed235d2f3ccb6"
 	},
 	"titleOptions": {

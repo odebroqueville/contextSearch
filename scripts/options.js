@@ -29,6 +29,7 @@ const disableAltClick = document.getElementById('disableAltClick');
 const resetPreferences = document.getElementById('resetPreferences');
 const forceSearchEnginesReload = document.getElementById('forceSearchEnginesReload');
 const forceFaviconsReload = document.getElementById('forceFaviconsReload');
+const searchEngineSiteSearch = document.getElementById('siteSearch');
 
 // All engine buttons
 const btnClearAll = document.getElementById('clearAll');
@@ -80,6 +81,7 @@ tabActive.addEventListener('click', updateTabMode);
 lastTab.addEventListener('click', updateTabMode);
 optionsMenuLocation.addEventListener('click', updateOptionsMenuLocation);
 displayExifSummary.addEventListener('click', updateDisplayExifSummary);
+searchEngineSiteSearch.addEventListener('change', updateSiteSearchSetting);
 resetPreferences.addEventListener('click', updateResetOptions);
 forceSearchEnginesReload.addEventListener('click', updateResetOptions);
 forceFaviconsReload.addEventListener('click', updateResetOptions);
@@ -664,6 +666,8 @@ function setOptions(options) {
 		// Default setting is to cache favicons in storage sync
 		forceFaviconsReload.checked = true;
 	}
+	
+	searchEngineSiteSearch.value = options.siteSearch || "google";
 }
 
 // Restore the list of search engines and the options to be displayed in the options page
@@ -751,6 +755,13 @@ function updateDisableAltClick() {
 function updateOptionsMenuLocation() {
 	let omat = optionsMenuLocation.value;
 	sendMessage('updateOptionsMenuLocation', { optionsMenuLocation: omat });
+}
+
+function updateSiteSearchSetting() {
+	sendMessage('updateSiteSearchSetting', { 
+		siteSearch: searchEngineSiteSearch.value,
+		siteSearchUrl: searchEngineSiteSearch.selectedOptions[0].dataset.url
+	});
 }
 
 function updateResetOptions() {

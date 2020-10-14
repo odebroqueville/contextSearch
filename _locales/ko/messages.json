@@ -230,8 +230,8 @@
 		"message": "여러 검색 엔진 검색",
 		"hash": "016e3015d7461d1d0fbf20c60bd9ff0f"
 	},
-	"titleGoogleSearch": {
-		"message": "Google에서이 사이트를 검색하십시오",
+	"titleSiteSearch": {
+		"message": "에서이 사이트를 검색하십시오",
 		"hash": "5a76bc5c095707f27e2ed235d2f3ccb6"
 	},
 	"titleOptions": {

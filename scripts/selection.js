@@ -240,9 +240,10 @@ function sendSelectionToBackgroundScript(selectedText) {
 	// Send the selected text to background.js
 	sendMessage('setSelection', selectedText);
 
-	// Send url of Google search within current site to background.js
-	let targetUrl = 'https://www.google.com/search?q=site' + encodeUrl(':https://' + domain + ' ' + selectedText);
-	sendMessage('setTargetUrl', targetUrl);
+	browser.storage.sync.get(null).then(options => {
+		let targetUrl = options.siteSearchUrl + encodeUrl(`site:https://${domain} ${selectedText}`);
+		sendMessage('setTargetUrl', targetUrl);
+	});
 }
 
 function buildIconGrid(x, y) {
