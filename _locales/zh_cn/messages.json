@@ -230,8 +230,8 @@
 		"message": "组合搜索",
 		"hash": "016e3015d7461d1d0fbf20c60bd9ff0f"
 	},
-	"titleGoogleSearch": {
-		"message": "用 Google 搜索此站点",
+	"titleSiteSearch": {
+		"message": "用 搜索此站点",
 		"hash": "5a76bc5c095707f27e2ed235d2f3ccb6"
 	},
 	"titleOptions": {

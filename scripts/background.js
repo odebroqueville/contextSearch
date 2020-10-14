@@ -32,7 +32,7 @@ const requestFilter = {
 
 // Constants for translations
 const titleMultipleSearchEngines = browser.i18n.getMessage('titleMultipleSearchEngines');
-const titleGoogleSearch = browser.i18n.getMessage('titleGoogleSearch');
+const titleSiteSearch = browser.i18n.getMessage('titleSiteSearch');
 const titleExactMatch = browser.i18n.getMessage('exactMatch');
 const titleOptions = browser.i18n.getMessage('titleOptions');
 const windowTitle = browser.i18n.getMessage('windowTitle');
@@ -59,6 +59,8 @@ let contextsearch_disableAltClick = false;
 let contextsearch_forceFaviconsReload = false;
 let contextsearch_resetPreferences = false;
 let contextsearch_forceSearchEnginesReload = false;
+let contextsearch_siteSearch = "Google";
+let contextsearch_siteSearchUrl = "https://www.google.com/search?q=";
 
 const defaultOptions = {
 	exactMatch: contextsearch_exactMatch,
@@ -71,7 +73,9 @@ const defaultOptions = {
 	disableAltClick: contextsearch_disableAltClick,
 	forceSearchEnginesReload: contextsearch_forceSearchEnginesReload,
 	resetPreferences: contextsearch_resetPreferences,
-	forceFaviconsReload: contextsearch_forceFaviconsReload
+	forceFaviconsReload: contextsearch_forceFaviconsReload,
+	siteSearch: contextsearch_siteSearch,
+	siteSearchUrl: contextsearch_siteSearchUrl
 };
 
 /// Handle Page Action click
@@ -243,6 +247,17 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				}
 				options.optionsMenuLocation = message.data.optionsMenuLocation;
 				setOptionsMenuLocation(options);
+				saveOptions(options, true);
+			});
+			break;
+		case 'updateSiteSearchSetting':
+			getOptions().then((options) => {
+				if (logToConsole) {
+					console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
+				}
+				options.siteSearch = message.data.siteSearch;
+				options.siteSearchUrl = message.data.siteSearchUrl;
+				setSiteSearchSetting(options);
 				saveOptions(options, true);
 			});
 			break;
@@ -522,6 +537,7 @@ async function setOptions(options, save) {
 	setDisplayExifSummary(options);
 	setDisableAltClick(options);
 	setResetOptions(options);
+	setSiteSearchSetting(options);
 	if (save) {
 		await browser.storage.sync.clear();
 		saveOptions(options, true);
@@ -607,6 +623,12 @@ function setDisplayExifSummary(options) {
 function setDisableAltClick(options) {
 	if (logToConsole) console.log('Setting option to disable Alt-Click..');
 	contextsearch_disableAltClick = options.disableAltClick;
+}
+
+function setSiteSearchSetting(options) {
+	if (logToConsole) console.log('Setting site search option..');
+	contextsearch_siteSearch = options.siteSearch;
+	contextsearch_siteSearchUrl = options.siteSearchUrl;
 }
 
 function setResetOptions(options) {
@@ -986,8 +1008,8 @@ function rebuildContextOptionsMenu() {
 		contexts: [ 'selection' ]
 	});
 	browser.contextMenus.create({
-		id: 'cs-google-site',
-		title: titleGoogleSearch,
+		id: 'cs-site-search',
+		title: `${titleSiteSearch} ${contextsearch_siteSearch}`,
 		contexts: [ 'selection' ]
 	});
 	browser.contextMenus.create({
@@ -1099,7 +1121,7 @@ async function processSearch(info, tab) {
 		selection = info.selectionText.trim();
 	}
 
-	if (id === 'google-site' && targetUrl !== '') {
+	if (id === 'site-search' && targetUrl !== '') {
 		if (logToConsole) console.log(targetUrl);
 		if (contextsearch_openSearchResultsInSidebar) {
 			let url = browser.runtime.getURL('/sidebar/search_results.html');

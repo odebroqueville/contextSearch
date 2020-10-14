@@ -230,8 +230,8 @@
 		"message": "Multi-search",
 		"hash": "016e3015d7461d1d0fbf20c60bd9ff0f"
 	},
-	"titleGoogleSearch": {
-		"message": "Поиск по сайту с помощью Google",
+	"titleSiteSearch": {
+		"message": "Поиск по сайту с помощью",
 		"hash": "5a76bc5c095707f27e2ed235d2f3ccb6"
 	},
 	"titleOptions": {

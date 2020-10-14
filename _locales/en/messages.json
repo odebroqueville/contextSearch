@@ -173,8 +173,8 @@
 	"titleMultipleSearchEngines": {
 		"message": "Multiple search engines search"
 	},
-	"titleGoogleSearch": {
-		"message": "Search this site with Google"
+	"titleSiteSearch": {
+		"message": "Search this site with"
 	},
 	"titleOptions": {
 		"message": "Options"
@@ -229,6 +229,9 @@
 	},
 	"reverseImage": {
 		"message": "Also, reverse image search results cannot be displayed in the sidebar."
+	},
+	"siteSearch": {
+		"message": "Search engine for searching current site:"
 	},
 
 	"__WET_LOCALE__": { "message": "en" }
