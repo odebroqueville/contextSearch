@@ -1,7 +1,9 @@
 4.1.5
 =========
 
-* Implements feature request #93
+* Implements feature request #93 : users can now search the current site by chosing one of the following search engines: Google, Bing, DuckDuckGo, Ecosia, Lilo, Qwant, Startpage, Swisscows, Yahoo
+* New translations for 'siteSearch' and 'titleSiteSearch' have been added
+* Fixes bug whereby default search engines would fail to load when storage sync was empty
 * Updates Rgraph to version 5.26
 
 4.1.4
