@@ -115,10 +115,10 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				break;
 			}
 			if (logToConsole) console.log(contextsearch_openSearchResultsInSidebar);
-			if (contextsearch_openSearchResultsInSidebar) {
-				browser.sidebarAction.open();
-				browser.sidebarAction.setPanel({ panel: 'about:blank' });
-			}
+			// if (contextsearch_openSearchResultsInSidebar) {
+			// 	browser.sidebarAction.open();
+			// 	browser.sidebarAction.setPanel({ panel: 'about:blank' });
+			// }
 			browser.tabs.query({ currentWindow: true }).then((tabs) => {
 				if (logToConsole) console.log(tabs);
 				let tabIndex = 0;
@@ -1121,7 +1121,7 @@ async function processSearch(info, tab) {
 		selection = info.selectionText.trim();
 	}
 
-	if (id === 'site-search' && targetUrl !== '') {
+	if ((id === 'site-search') && !isEmpty(targetUrl)) {
 		if (logToConsole) console.log(targetUrl);
 		if (contextsearch_openSearchResultsInSidebar) {
 			let url = browser.runtime.getURL('/sidebar/search_results.html');

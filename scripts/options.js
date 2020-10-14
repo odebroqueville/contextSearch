@@ -667,7 +667,7 @@ function setOptions(options) {
 		forceFaviconsReload.checked = true;
 	}
 	
-	searchEngineSiteSearch.value = options.siteSearch || "google";
+	searchEngineSiteSearch.value = options.siteSearch || "Google";
 }
 
 // Restore the list of search engines and the options to be displayed in the options page
