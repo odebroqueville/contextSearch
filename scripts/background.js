@@ -497,6 +497,39 @@ function initialiseSearchEngines(forceReload) {
 								reject();
 							});
 					}
+				} else {
+					// Check for search engines in local storage
+					browser.storage.local
+					.get(null)
+					.then((data) => {
+						searchEngines = sortByIndex(data);
+						if (logToConsole) {
+							console.log('Search engines: \n');
+							console.log(searchEngines);
+						}
+						// Load default search engines if force reload is set or if no search engines are stored in local storage
+						if (isEmpty(searchEngines) || forceReload) {
+							browser.storage.local
+								.clear()
+								.then(() => {
+									loadDefaultSearchEngines(DEFAULT_JSON).then(resolve, reject);
+								})
+								.catch((err) => {
+									if (logToConsole) {
+										console.error(err);
+										console.log('Failed to remove search engines from local storage.');
+									}
+									reject();
+								});
+						} else {
+							resolve();
+						}
+					})
+					.catch((err) => {
+						console.error(err);
+						console.log('Failed to retrieve search enginees from local storage.');
+						reject();
+					});
 				}
 			})
 			.catch((err) => {
