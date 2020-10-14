@@ -306,6 +306,10 @@
 		"message": "Außerdem können Suchergebnisse für umgekehrte Bilder nicht in der Seitenleiste angezeigt werden.",
 		"hash": "db880c407ccd59031b92a75b7f7a677e"
 	},
+	"siteSearch": {
+		"message": "Suchmaschine für die Suche nach aktueller Website:",
+		"hash": "1aef8aa2adcad0a105bc24d0ac87fe4c"
+	},
 
 	"__WET_LOCALE__": { "message": "de" }
 }

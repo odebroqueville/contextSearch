@@ -306,6 +306,10 @@
 		"message": "De plus, les résultats de recherche par images ne peuvent pas être affichés dans la barre latérale.",
 		"hash": "db880c407ccd59031b92a75b7f7a677e"
 	},
+	"siteSearch": {
+		"message": "Moteur de recherche pour rechercher le site actuel:",
+		"hash": "1aef8aa2adcad0a105bc24d0ac87fe4c"
+	},
 
 	"__WET_LOCALE__": { "message": "fr" }
 }

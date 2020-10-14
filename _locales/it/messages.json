@@ -306,6 +306,10 @@
 		"message": "Inoltre, i risultati della ricerca di immagini inverse non possono essere visualizzati nella barra laterale.",
 		"hash": "db880c407ccd59031b92a75b7f7a677e"
 	},
+	"siteSearch": {
+		"message": "Motore di ricerca per la ricerca nel sito corrente:",
+		"hash": "1aef8aa2adcad0a105bc24d0ac87fe4c"
+	},
 
 	"__WET_LOCALE__": { "message": "it" }
 }

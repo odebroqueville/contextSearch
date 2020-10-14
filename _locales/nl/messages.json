@@ -306,6 +306,10 @@
 		"message": "Ook kunnen zoekresultaten van afbeeldingen in spiegelbeeld niet worden weergegeven in de zijbalk.",
 		"hash": "db880c407ccd59031b92a75b7f7a677e"
 	},
+	"siteSearch": {
+		"message": "Zoekmachine voor het doorzoeken van de huidige site:",
+		"hash": "1aef8aa2adcad0a105bc24d0ac87fe4c"
+	},
 
 	"__WET_LOCALE__": { "message": "nl" }
 }

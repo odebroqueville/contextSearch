@@ -306,6 +306,10 @@
 		"message": "また、リバースイメージ検索結果をサイドバーに表示することはできません。",
 		"hash": "db880c407ccd59031b92a75b7f7a677e"
 	},
+	"siteSearch": {
+		"message": "現在のサイトを検索するための検索エンジン：",
+		"hash": "1aef8aa2adcad0a105bc24d0ac87fe4c"
+	},
 
 	"__WET_LOCALE__": { "message": "ja" }
 }

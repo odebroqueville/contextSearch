@@ -306,6 +306,10 @@
 		"message": "另外，反向圖像搜索結果無法顯示在側欄中.",
 		"hash": "db880c407ccd59031b92a75b7f7a677e"
 	},
+	"siteSearch": {
+		"message": "用於搜索當前站點的搜索引擎：",
+		"hash": "1aef8aa2adcad0a105bc24d0ac87fe4c"
+	},
 
 	"__WET_LOCALE__": { "message": "zh-tw" }
 }
