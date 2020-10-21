@@ -19,6 +19,7 @@ let pn = '';
 let sel = null;
 let range = null;
 let sameTab = false;
+let options = '';
 
 /// Debugging
 // Current state
@@ -62,7 +63,7 @@ browser.runtime.onMessage.addListener((message) => {
 	}
 });
 
-function handleStorageChange(changes, area) {
+async function handleStorageChange(changes, area) {
 	let oldSearchEngines = JSON.parse(JSON.stringify(searchEngines));
 	let ids = Object.keys(changes);
 	if (logToConsole) {
@@ -99,6 +100,10 @@ function handleStorageChange(changes, area) {
 					}
 				}
 			}
+
+			// Update options var on change
+			options = await browser.storage.sync.get(null);
+
 			break;
 		default:
 			break;
@@ -114,7 +119,8 @@ async function init() {
 		console.log(`Path name: ${pn}`);
 		console.log(`Domain: ${domain}`);
 	}
-	let options = await browser.storage.sync.get(null);
+	// Retrieve options on initial load
+	options = await browser.storage.sync.get(null);
 	if (options.tabMode === 'sameTab') {
 		sameTab = true;
 	} else {
@@ -151,7 +157,6 @@ async function handleAltClickWithGrid(e) {
 		}
 
 		// If option is diabled then do nothing. Note: this intentionally comes after selected text is accessed as text can become unselected on click
-		let options = await browser.storage.sync.get(null);
 		if (options.disableAltClick) return;
 
 		// Test URL: https://bugzilla.mozilla.org/show_bug.cgi?id=1215376
@@ -240,10 +245,8 @@ function sendSelectionToBackgroundScript(selectedText) {
 	// Send the selected text to background.js
 	sendMessage('setSelection', selectedText);
 
-	browser.storage.sync.get(null).then(options => {
-		let targetUrl = options.siteSearchUrl + encodeUrl(`site:https://${domain} ${selectedText}`);
-		sendMessage('setTargetUrl', targetUrl);
-	});
+	let targetUrl = options.siteSearchUrl + encodeUrl(`site:https://${domain} ${selectedText}`);
+	sendMessage('setTargetUrl', targetUrl);
 }
 
 function buildIconGrid(x, y) {
