@@ -28,6 +28,11 @@ div#tabMode {
 	background-color: lightgray;
 }
 
+#showAdvancedFeatures,
+#hideAdvancedFeatures {
+	float: right;
+}
+
 .icon {
 	font-size: 1.5em;
 }
@@ -35,6 +40,10 @@ div#tabMode {
 input[type="checkbox"] {
 	display: inline-block;
 	width: 15px;
+}
+
+.regex {
+	width: 300px;
 }
 
 #container {

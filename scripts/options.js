@@ -1,6 +1,9 @@
 /// Global variables
 /* global isEmpty, sortByIndex, Sortable, logToConsole */
 
+// Default regular expression to be used when search engine doesn't contain any
+const defaultRegex = /[\s\S]*/;
+
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById('container');
 
@@ -35,6 +38,8 @@ const searchEngineSiteSearch = document.getElementById('siteSearch');
 const btnClearAll = document.getElementById('clearAll');
 const btnSelectAll = document.getElementById('selectAll');
 const btnSortAlpha = document.getElementById('sortAlphabetically');
+const btnShowAdvancedFeatures = document.getElementById('showAdvancedFeatures');
+const btnHideAdvancedFeatures = document.getElementById('hideAdvancedFeatures');
 const btnReset = document.getElementById('reset');
 
 // Add new search engine buttons
@@ -62,9 +67,11 @@ const notifySearchEngineUrlRequired = browser.i18n.getMessage('notifySearchEngin
 let typingTimerSearchEngineName;
 let typingTimerKeyword;
 let typingTimerQueryString;
+let typingTimerRegex;
 let typingEventSearchEngineName;
 let typingEventKeyword;
 let typingEventQueryString;
+let typingEventRegex;
 let typingInterval = 1500;
 
 /// Event handlers
@@ -90,6 +97,8 @@ forceFaviconsReload.addEventListener('click', updateResetOptions);
 btnClearAll.addEventListener('click', clearAll);
 btnSelectAll.addEventListener('click', selectAll);
 btnSortAlpha.addEventListener('click', sortSearchEnginesAlphabetically);
+btnShowAdvancedFeatures.addEventListener('click', toggleAdvancedFeatures);
+btnHideAdvancedFeatures.addEventListener('click', toggleAdvancedFeatures);
 btnReset.addEventListener('click', reset);
 
 // Add new engine
@@ -166,6 +175,19 @@ function removeEventHandler(e) {
 	removeSearchEngine(e);
 }
 
+function toggleAdvancedFeatures() {
+	if (btnShowAdvancedFeatures.style.display === 'block') {
+		btnShowAdvancedFeatures.style.display = 'none';
+		btnHideAdvancedFeatures.style.display = 'block';
+		for (let el of document.querySelectorAll('.regex')) el.style.display = 'block';
+	} else {
+		btnShowAdvancedFeatures.style.display = 'block';
+		btnHideAdvancedFeatures.style.display = 'none';
+		for (let el of document.querySelectorAll('.regex')) el.style.display = 'none';
+	}
+	displaySearchEngines();
+}
+
 // Display the list of search engines
 function displaySearchEngines() {
 	let div = document.getElementById('searchEngines');
@@ -219,6 +241,7 @@ function createLineItem(id, searchEngine) {
 	let inputKeyword = document.createElement('input');
 	let chkMultiSearch = document.createElement('input');
 	let inputQueryString = document.createElement('input');
+	let inputRegex = document.createElement('input');
 
 	// Create menu target for line item sorting
 	let sortTarget = document.createElement('i');
@@ -270,6 +293,18 @@ function createLineItem(id, searchEngine) {
 		clearTimeout(typingTimerQueryString);
 	});
 
+	// Event handlers for regex string changes
+	inputRegex.addEventListener('paste', regexChanged); // when users paste text
+	inputRegex.addEventListener('change', regexChanged); // when users leave the input field and content has changed
+	inputRegex.addEventListener('keyup', () => {
+		clearTimeout(typingTimerRegex);
+		typingTimerRegex = setTimeout(regexChanged, typingInterval);
+	});
+	inputRegex.addEventListener('keydown', (e) => {
+		typingEventRegex = e;
+		clearTimeout(typingTimerRegex);
+	});
+
 	// Navigation and deletion buttons event handlers
 	removeButton.addEventListener('click', removeEventHandler);
 
@@ -299,6 +334,13 @@ function createLineItem(id, searchEngine) {
 
 	inputQueryString.setAttribute('type', 'url');
 	inputQueryString.setAttribute('value', searchEngine.url);
+
+	inputRegex.setAttribute('class', 'regex');
+	if (searchEngine.regex) {
+		inputRegex.setAttribute('value', searchEngine.regex);
+	} else {
+		inputRegex.setAttribute('value', defaultRegex);
+	}
 
 	sortTarget.classList.add('sort', 'icon', 'ion-arrow-move');
 
@@ -457,6 +499,21 @@ function queryStringChanged(e) {
 
 	sendMessage('saveSearchEngines', searchEngines);
 }
+
+function regexChanged(e) {
+	if (e) {
+		if (e.target.value == typingEventRegex.target.value) return;
+	}
+	let event = e || typingEventRegex;
+	if (!event) return;
+	let lineItem = event.target.parentNode;
+	let id = lineItem.getAttribute('id');
+	let regex = event.target.value;
+
+	searchEngines[id]['regex'] = regex;
+
+	sendMessage('saveSearchEngines', searchEngines);
+}
 // End of user event handlers
 
 function readData() {
@@ -474,12 +531,14 @@ function readData() {
 			let keyword = label.nextSibling;
 			let multiTab = keyword.nextSibling;
 			let url = multiTab.nextSibling;
+			let regex = url.nextSibling;
 			searchEngines[lineItems[i].id] = {};
 			searchEngines[lineItems[i].id]['index'] = i;
 			searchEngines[lineItems[i].id]['name'] = label.value;
 			searchEngines[lineItems[i].id]['keyword'] = keyword.value;
 			searchEngines[lineItems[i].id]['multitab'] = multiTab.checked;
 			searchEngines[lineItems[i].id]['url'] = url.value;
+			searchEngines[lineItems[i].id]['regex'] = regex.value;
 			searchEngines[lineItems[i].id]['show'] = input.checked;
 			searchEngines[lineItems[i].id]['base64'] = oldSearchEngines[lineItems[i].id].base64;
 		}
@@ -667,6 +726,16 @@ function setOptions(options) {
 		forceFaviconsReload.checked = true;
 	}
 	
+	if (options.showAdvancedFeatures === true) {
+		btnShowAdvancedFeatures.style.display = 'none';
+		btnHideAdvancedFeatures.style.display = 'block';
+		for (let el of document.querySelectorAll('.regex')) el.style.display = 'block';
+	} else {
+		btnShowAdvancedFeatures.style.display = 'block';
+		btnHideAdvancedFeatures.style.display = 'none';
+		for (let el of document.querySelectorAll('.regex')) el.style.display = 'none';
+	}
+
 	searchEngineSiteSearch.value = options.siteSearch || "Google";
 }
 

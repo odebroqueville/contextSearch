@@ -104,6 +104,12 @@
 	"sortAlphabetically": {
 		"message": "Sort alphabetically"
 	},
+	"showAdvancedFeatures": {
+		"message": "Show advanced features"
+	},
+	"hideAdvancedFeatures": {
+		"message": "Hide advanced features"
+	},
 	"reset": {
 		"message": "Reset"
 	},

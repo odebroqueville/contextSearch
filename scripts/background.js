@@ -59,6 +59,7 @@ let contextsearch_disableAltClick = false;
 let contextsearch_forceFaviconsReload = false;
 let contextsearch_resetPreferences = false;
 let contextsearch_forceSearchEnginesReload = false;
+let contextsearch_showAdvancedFeatures = false; // Advanced features are hidden by default
 let contextsearch_siteSearch = "Google";
 let contextsearch_siteSearchUrl = "https://www.google.com/search?q=";
 
@@ -74,6 +75,7 @@ const defaultOptions = {
 	forceSearchEnginesReload: contextsearch_forceSearchEnginesReload,
 	resetPreferences: contextsearch_resetPreferences,
 	forceFaviconsReload: contextsearch_forceFaviconsReload,
+	showAdvancedFeatures: contextsearch_showAdvancedFeatures,
 	siteSearch: contextsearch_siteSearch,
 	siteSearchUrl: contextsearch_siteSearchUrl
 };
