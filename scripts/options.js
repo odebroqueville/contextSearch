@@ -46,6 +46,7 @@ const btnReset = document.getElementById('reset');
 const btnTest = document.getElementById('test');
 const btnAdd = document.getElementById('add');
 const btnClear = document.getElementById('clear');
+const btnAddFolder = document.getElementById('addFolder');
 
 // Import/export
 const btnDownload = document.getElementById('download');
@@ -105,6 +106,7 @@ btnReset.addEventListener('click', reset);
 btnTest.addEventListener('click', testSearchEngine);
 btnAdd.addEventListener('click', addSearchEngine);
 btnClear.addEventListener('click', clear);
+btnAddFolder.addEventListener('click', addSearchFolder);
 
 // Import/export
 btnDownload.addEventListener('click', saveToLocalDisk);
@@ -113,7 +115,9 @@ btnUpload.addEventListener('change', handleFileUpload);
 // Send a message to the background script
 function sendMessage(action, data) {
 	return new Promise((resolve, reject) => {
-		browser.runtime.sendMessage({ action: action, data: data }).then(resolve, reject);
+		browser.runtime.sendMessage({ action: action, data: JSON.parse(JSON.stringify(data)) })
+			.then(resolve, reject)
+			.catch(e => console.error(e))
 	});
 }
 
@@ -201,8 +205,16 @@ function displaySearchEngines() {
 		for (let id in searchEngines) {
 			if (searchEngines[id].index === i) {
 				let searchEngine = searchEngines[id];
-				let lineItem = createLineItem(id, searchEngine);
+				let lineItem = createLineItem(id, searchEngine, searchEngine.folder);
 				divSearchEngines.appendChild(lineItem);
+
+				// If folder, add search engines within folder
+				if (searchEngine.folder && searchEngine.searchEngines) {
+					searchEngine.searchEngines.forEach(se => {
+						let seItem = createLineItem(se.id, se, false);
+						lineItem.querySelector('.subfolder').appendChild(seItem);
+					})
+				}
 			}
 		}
 	}
@@ -211,8 +223,11 @@ function displaySearchEngines() {
 
 	// Initialize Sortable list
 	new Sortable(divSearchEngines, {
+		group: "nested",
 		handle: '.sort',
 		animation: 200,
+		// Recommended by sortable for nested sortables
+		fallbackOnBody: true,
 		// On element drag ended, save search engines
 		onEnd: saveSearchEngines
 	});
@@ -231,7 +246,9 @@ function createButton(ioniconClass, btnClass, btnTitle) {
 }
 
 // Display a single search engine in a row or line item
-function createLineItem(id, searchEngine) {
+function createLineItem(id, searchEngine, isFolder = false) {
+	if (isFolder) { return createFolderItem(searchEngine.name, searchEngine.keyword); }
+
 	let searchEngineName = searchEngine.name;
 	let lineItem = document.createElement('li');
 
@@ -355,6 +372,32 @@ function createLineItem(id, searchEngine) {
 	lineItem.appendChild(removeButton);
 
 	return lineItem;
+}
+
+function createFolderItem(name, keyword) {
+	let el = document.createElement('li');
+	el.id = name;
+	el.classList.value = "folder";
+	el.innerHTML = `<i class="icon ion-folder" style="margin-left: 3px"></i>
+					<input type="text" placeholder="Search folder name" value="${name}">
+					<input type="text" class="keyword" placeholder="Keyword" value="${keyword}">
+					<div style="float: right">
+						<i class="sort icon ion-arrow-move"></i>
+						<button type="button" class="remove" title="Remove ${name} folder">
+							<i class="icon ion-ios-trash"></i>
+						</button>
+					</div>
+					<div class="subfolder"></div>`;
+
+	// Initialize Sortable subfolder
+	new Sortable(el.querySelector('.subfolder'), {
+		group: 'nested',
+		animation: 200,
+		fallbackOnBody: true,
+		onEnd: saveSearchEngines
+	});
+
+	return el;
 }
 
 function clearAll() {
@@ -542,6 +585,32 @@ function readData() {
 			searchEngines[lineItems[i].id]['show'] = input.checked;
 			searchEngines[lineItems[i].id]['base64'] = oldSearchEngines[lineItems[i].id].base64;
 		}
+		// Add folder
+		else if (lineItems[i].classList.contains('folder')) {	
+			let folder = {
+				index: i, 
+				name: lineItems[i].id,
+				keyword: lineItems[i].querySelector('input.keyword').value,
+				folder: true,
+				searchEngines: []
+			}
+
+			// Add search engines to folder
+			lineItems[i].querySelectorAll('li').forEach(item => {
+				folder.searchEngines.push({
+					index: i,
+					name: item.id,
+					keyword: item.querySelector('input.keyword').value,
+					multitab: item.querySelector('input[id$="-mt"]'),
+					url: item.querySelector('input[type="url"]').value,
+					show: item.firstChild.checked,
+					// TODO - not working; get base64
+					// base64: oldSearchEngines[lineItems[i].id].base64
+				});
+			})
+
+			searchEngines[lineItems[i].id] = folder
+		}
 	}
 	return searchEngines;
 }
@@ -601,7 +670,7 @@ function addSearchEngine() {
 
 	if (logToConsole) console.log('New search engine: ' + id + '\n' + JSON.stringify(searchEngines[id]));
 
-	let lineItem = createLineItem(id, searchEngines[id]);
+	let lineItem = createLineItem(id, searchEngines[id], false);
 	divSearchEngines.appendChild(lineItem);
 
 	sendMessage('addNewSearchEngine', {
@@ -612,6 +681,15 @@ function addSearchEngine() {
 
 	// Clear HTML input fields to add a search engine
 	clear();
+}
+
+function addSearchFolder() {
+	let folderName = document.getElementById('folderName').value;
+	let folderKeyword = document.getElementById('folderKeyword').value;
+
+	// Append folder to search engine list
+	let folderItem = createFolderItem(folderName, folderKeyword);
+	document.getElementById('searchEngines').appendChild(folderItem);
 }
 
 function clear() {
