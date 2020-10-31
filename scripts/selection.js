@@ -242,11 +242,11 @@ function getSelectedText() {
 }
 
 function sendSelectionToBackgroundScript(selectedText) {
-	// Send the selected text to background.js
-	sendMessage('setSelection', selectedText);
-
 	let targetUrl = options.siteSearchUrl + encodeUrl(`site:https://${domain} ${selectedText}`);
 	sendMessage('setTargetUrl', targetUrl);
+
+	// Send the selected text to background.js
+	sendMessage('setSelection', selectedText);
 }
 
 function buildIconGrid(x, y) {

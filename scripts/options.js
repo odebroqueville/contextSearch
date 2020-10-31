@@ -2,7 +2,7 @@
 /* global isEmpty, sortByIndex, Sortable, logToConsole */
 
 // Default regular expression to be used when search engine doesn't contain any
-const defaultRegex = /[\s\S]*/;
+const defaultRegex = /[\s\S]*/i;
 
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById('container');
@@ -33,6 +33,7 @@ const resetPreferences = document.getElementById('resetPreferences');
 const forceSearchEnginesReload = document.getElementById('forceSearchEnginesReload');
 const forceFaviconsReload = document.getElementById('forceFaviconsReload');
 const searchEngineSiteSearch = document.getElementById('siteSearch');
+const useRegex = document.getElementById('useRegex');
 
 // All engine buttons
 const btnClearAll = document.getElementById('clearAll');
@@ -93,6 +94,7 @@ searchEngineSiteSearch.addEventListener('change', updateSiteSearchSetting);
 resetPreferences.addEventListener('click', updateResetOptions);
 forceSearchEnginesReload.addEventListener('click', updateResetOptions);
 forceFaviconsReload.addEventListener('click', updateResetOptions);
+useRegex.addEventListener('click', updateUseRegex);
 
 // All engine buttons
 btnClearAll.addEventListener('click', clearAll);
@@ -180,16 +182,15 @@ function removeEventHandler(e) {
 }
 
 function toggleAdvancedFeatures() {
-	if (btnShowAdvancedFeatures.style.display === 'block') {
+	if (btnShowAdvancedFeatures.style.display != 'none') {
 		btnShowAdvancedFeatures.style.display = 'none';
 		btnHideAdvancedFeatures.style.display = 'block';
-		for (let el of document.querySelectorAll('.regex')) el.style.display = 'block';
+		for (let el of document.querySelectorAll('.regex')) el.style.display = 'inline-block';
 	} else {
 		btnShowAdvancedFeatures.style.display = 'block';
 		btnHideAdvancedFeatures.style.display = 'none';
 		for (let el of document.querySelectorAll('.regex')) el.style.display = 'none';
 	}
-	displaySearchEngines();
 }
 
 // Display the list of search engines
@@ -352,11 +353,12 @@ function createLineItem(id, searchEngine, isFolder = false) {
 	inputQueryString.setAttribute('type', 'url');
 	inputQueryString.setAttribute('value', searchEngine.url);
 
+	inputRegex.setAttribute('type', 'text');
 	inputRegex.setAttribute('class', 'regex');
-	if (searchEngine.regex) {
-		inputRegex.setAttribute('value', searchEngine.regex);
+	if (!isEmpty(searchEngine.regex)) {
+		inputRegex.setAttribute('value', "/" + searchEngine.regex.body + "/" + searchEngine.regex.flags);
 	} else {
-		inputRegex.setAttribute('value', defaultRegex);
+		inputRegex.setAttribute('value', defaultRegex.toString());
 	}
 
 	sortTarget.classList.add('sort', 'icon', 'ion-arrow-move');
@@ -367,6 +369,7 @@ function createLineItem(id, searchEngine, isFolder = false) {
 	lineItem.appendChild(inputKeyword);
 	lineItem.appendChild(chkMultiSearch);
 	lineItem.appendChild(inputQueryString);
+	lineItem.appendChild(inputRegex);
 
 	lineItem.appendChild(sortTarget);
 	lineItem.appendChild(removeButton);
@@ -547,13 +550,18 @@ function regexChanged(e) {
 	if (e) {
 		if (e.target.value == typingEventRegex.target.value) return;
 	}
-	let event = e || typingEventRegex;
+	const event = e || typingEventRegex;
 	if (!event) return;
-	let lineItem = event.target.parentNode;
-	let id = lineItem.getAttribute('id');
-	let regex = event.target.value;
+	const lineItem = event.target.parentNode;
+	const id = lineItem.getAttribute('id');
+	const regexString = event.target.value;
+	const lastSlash = regexString.lastIndexOf("/");
+	const body = regexString.slice(1, lastSlash);
+	const flags = regexString.split('/').pop();
 
-	searchEngines[id]['regex'] = regex;
+	searchEngines[id]['regex'] = {};
+	searchEngines[id]['regex']['body'] = body;
+	searchEngines[id]['regex']['flags'] = flags;
 
 	sendMessage('saveSearchEngines', searchEngines);
 }
@@ -803,15 +811,11 @@ function setOptions(options) {
 		// Default setting is to cache favicons in storage sync
 		forceFaviconsReload.checked = true;
 	}
-	
-	if (options.showAdvancedFeatures === true) {
-		btnShowAdvancedFeatures.style.display = 'none';
-		btnHideAdvancedFeatures.style.display = 'block';
-		for (let el of document.querySelectorAll('.regex')) el.style.display = 'block';
+
+	if (options.useRegex === true) {
+		useRegex.checked = true;
 	} else {
-		btnShowAdvancedFeatures.style.display = 'block';
-		btnHideAdvancedFeatures.style.display = 'none';
-		for (let el of document.querySelectorAll('.regex')) el.style.display = 'none';
+		useRegex.checked = false;
 	}
 
 	searchEngineSiteSearch.value = options.siteSearch || "Google";
@@ -920,6 +924,11 @@ function updateResetOptions() {
 	sendMessage('updateResetOptions', { resetOptions: resetOptions });
 }
 
+function updateUseRegex() {
+	let regex = useRegex.checked;
+	sendMessage('updateUseRegex', { useRegex: regex });
+}
+
 function isValidUrl(url) {
 	try {
 		new URL(url);
@@ -951,6 +960,10 @@ function sortAlphabetically(array) {
 	numbers = numbers.sort(compareNumbers);
 	alpha = alpha.sort(compareStrings);
 	return numbers.concat(alpha);
+}
+
+function init() {
+	i18n();
 }
 
 function i18n() {
@@ -986,4 +999,4 @@ function translateContent(attribute, type) {
 	}
 }
 
-i18n();
+init();

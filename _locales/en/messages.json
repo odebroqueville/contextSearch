@@ -239,6 +239,15 @@
 	"siteSearch": {
 		"message": "Search engine for searching current site:"
 	},
+	"header9": {
+		"message": "Advanced features"
+	},
+	"useRegex": {
+		"message": "Use regular expressions to build the context menu"
+	},
+	"regexNote": {
+		"message": "This feature doesn't apply to the grid of icons."
+	},
 
 	"__WET_LOCALE__": { "message": "en" }
 }

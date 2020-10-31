@@ -16,6 +16,7 @@ let imageTags = {};
 const contextsearch_userAgent =
 	'Mozilla/5.0 (iPhone9,3; U; CPU iPhone OS 10_0_1 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/14A403 Safari/602.1';
 const DEFAULT_JSON = 'defaultSearchEngines.json';
+const defaultRegex = /[\s\S]*/i;
 const besticonAPIUrl = 'https://get-besticons.herokuapp.com/icon?url=';
 const besticonAPIUrlSuffix = '&size=16..32..128';
 const base64ContextSearchIcon =
@@ -59,9 +60,9 @@ let contextsearch_disableAltClick = false;
 let contextsearch_forceFaviconsReload = false;
 let contextsearch_resetPreferences = false;
 let contextsearch_forceSearchEnginesReload = false;
-let contextsearch_showAdvancedFeatures = false; // Advanced features are hidden by default
 let contextsearch_siteSearch = "Google";
 let contextsearch_siteSearchUrl = "https://www.google.com/search?q=";
+let contextsearch_useRegex = false;
 
 const defaultOptions = {
 	exactMatch: contextsearch_exactMatch,
@@ -75,9 +76,9 @@ const defaultOptions = {
 	forceSearchEnginesReload: contextsearch_forceSearchEnginesReload,
 	resetPreferences: contextsearch_resetPreferences,
 	forceFaviconsReload: contextsearch_forceFaviconsReload,
-	showAdvancedFeatures: contextsearch_showAdvancedFeatures,
 	siteSearch: contextsearch_siteSearch,
-	siteSearchUrl: contextsearch_siteSearchUrl
+	siteSearchUrl: contextsearch_siteSearchUrl,
+	useRegex: contextsearch_useRegex
 };
 
 /// Handle Page Action click
@@ -157,6 +158,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 		case 'setSelection':
 			if (logToConsole) console.log(`Selected text: ${message.data}`);
 			selection = message.data;
+			rebuildContextMenu();
 			break;
 		case 'reset':
 			return reset();
@@ -274,6 +276,16 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				options.forceFaviconsReload = message.data.resetOptions.forceFaviconsReload;
 				setResetOptions(options);
 				saveOptions(options, false);
+			});
+			break;
+		case 'updateUseRegex':
+			getOptions().then((options) => {
+				if (logToConsole) {
+					console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
+				}
+				options.useRegex = message.data.useRegex;
+				setUseRegex(options);
+				saveOptions(options, true);
 			});
 			break;
 		case 'saveSearchEnginesToDisk':
@@ -436,6 +448,7 @@ function initialiseSearchEngines(forceReload) {
 					if (data.options && Object.keys(data).length > 1) {
 						delete data['options'];
 						searchEngines = sortByIndex(data);
+						setRegex();
 						browser.storage.local
 							.clear()
 							.then(() => {
@@ -471,6 +484,7 @@ function initialiseSearchEngines(forceReload) {
 							.get(null)
 							.then((data) => {
 								searchEngines = sortByIndex(data);
+								setRegex();
 								if (logToConsole) {
 									console.log('Search engines: \n');
 									console.log(searchEngines);
@@ -505,6 +519,7 @@ function initialiseSearchEngines(forceReload) {
 					.get(null)
 					.then((data) => {
 						searchEngines = sortByIndex(data);
+						setRegex();
 						if (logToConsole) {
 							console.log('Search engines: \n');
 							console.log(searchEngines);
@@ -544,6 +559,17 @@ function initialiseSearchEngines(forceReload) {
 	});
 }
 
+function setRegex() {
+	for (let id in searchEngines) {
+		console.log(searchEngines[id]);
+		if (searchEngines[id].regex !== undefined) continue;
+		searchEngines[id]['regex'] = {};
+		searchEngines[id]['regex']['body'] = defaultRegex.source;
+		searchEngines[id]['regex']['flags'] = defaultRegex.flags;
+		if (logToConsole) console.log(searchEngines[id].regex);
+	}
+}
+
 function getOptions() {
 	return new Promise((resolve, reject) => {
 		browser.storage.sync
@@ -573,6 +599,7 @@ async function setOptions(options, save) {
 	setDisableAltClick(options);
 	setResetOptions(options);
 	setSiteSearchSetting(options);
+	setUseRegex(options);
 	if (save) {
 		await browser.storage.sync.clear();
 		saveOptions(options, true);
@@ -673,6 +700,16 @@ function setResetOptions(options) {
 	contextsearch_forceFaviconsReload = options.forceFaviconsReload;
 }
 
+function setShowAdvancedFeatures(options) {
+	if (logToConsole) console.log(`Setting show advanced features...`);
+	contextsearch_showAdvancedFeatures = options.showAdvancedFeatures;
+}
+
+function setUseRegex(options) {
+	if (logToConsole) console.log(`Setting whether to use regular expressions...`);
+	contextsearch_useRegex = options.useRegex;
+}
+
 /// Load default list of search engines
 function loadDefaultSearchEngines(jsonFile) {
 	return new Promise((resolve, reject) => {
@@ -683,6 +720,7 @@ function loadDefaultSearchEngines(jsonFile) {
 		xhr.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
 				searchEngines = sortByIndex(JSON.parse(this.responseText));
+				setRegex();
 				if (logToConsole) {
 					console.log('Search engines:\n');
 					console.log(searchEngines);
@@ -1078,8 +1116,15 @@ function buildContextMenuForImages() {
 /// Build a single context menu item
 function buildContextMenuItem(searchEngine, index, title, base64String, browserVersion) {
 	const contexts = [ 'selection' ];
-	let faviconUrl = 'data:image/png;base64,' + base64String;
+	const faviconUrl = 'data:image/png;base64,' + base64String;
+	const regexString = searchEngine.regex.body;
+	const regexModifier = searchEngine.regex.flags;
+	const regex = new RegExp(regexString, regexModifier);
 	if (!searchEngine.show) return;
+	console.log(regexString);
+	console.log(regexModifier);
+	console.log(selection.match(regex));
+	if (contextsearch_useRegex && (selection.match(regex) === null)) return;
 	if (browserVersion >= 56 && contextsearch_displayFavicons === true) {
 		browser.contextMenus.create({
 			id: index,

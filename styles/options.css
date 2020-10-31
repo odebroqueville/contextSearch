@@ -9,6 +9,7 @@ body {
 }
 
 .left fieldset {
+	display: inline-block;
 	width: 480px;
 	margin-right: 10px;
 }
@@ -28,8 +29,13 @@ div#tabMode {
 	background-color: lightgray;
 }
 
-#showAdvancedFeatures,
+#showAdvancedFeatures {
+	display: block;
+	float: right;
+}
+
 #hideAdvancedFeatures {
+	display: none;
 	float: right;
 }
 
@@ -43,7 +49,8 @@ input[type="checkbox"] {
 }
 
 .regex {
-	width: 300px;
+	display: none;
+	width: 15%;
 }
 
 #container {
@@ -108,7 +115,8 @@ h2 {
 	margin-bottom: 8px;
 }
 
-#addSearchEngine, #addSearchFolder {
+#addSearchEngine,
+#addSearchFolder {
 	margin-left: 40px;
 }
 
@@ -182,7 +190,7 @@ code {
 }
 
 .subfolder {
-	margin-left: 25px;;
+	margin-left: 25px;
 }
 
 .empty {
