@@ -29,6 +29,9 @@ if (logToConsole) {
 }
 
 /// Event handlers
+// Text seleection change event listener
+document.addEventListener('selectionchange', handleTextSelection);
+
 // Right-click event listener
 document.addEventListener('contextmenu', handleRightClickWithoutGrid);
 
@@ -169,8 +172,8 @@ async function handleAltClickWithGrid(e) {
 
 async function handleRightClickWithoutGrid(e) {
 	if (logToConsole) console.log(e);
-	let elementClicked = e.target;
-	let tag = elementClicked.tagName;
+	const elementClicked = e.target;
+	const tag = elementClicked.tagName;
 	if (tag === 'IMG') {
 		let img = e.target;
 		let imgurl = absoluteUrl(img.getAttribute('src'));
@@ -205,10 +208,12 @@ async function handleRightClickWithoutGrid(e) {
 			});
 			return false;
 		}
-	} else {
-		let selectedText = getSelectedText();
-		sendSelectionToBackgroundScript(selectedText);
 	}
+}
+
+function handleTextSelection() {
+	let selectedText = getSelectedText();
+	sendSelectionToBackgroundScript(selectedText);
 }
 
 function getPidAndName(string) {
@@ -234,7 +239,7 @@ function getSelectedText() {
 			document.activeElement.selectionStart,
 			document.activeElement.selectionEnd
 		);
-		if (selectedTextInput != '') selectedText = selectedTextInput;
+		if (selectedTextInput !== '') selectedText = selectedTextInput;
 	}
 
 	if (logToConsole) console.log(`Selected text: ${selectedText}`);
@@ -242,11 +247,15 @@ function getSelectedText() {
 }
 
 function sendSelectionToBackgroundScript(selectedText) {
-	let targetUrl = options.siteSearchUrl + encodeUrl(`site:https://${domain} ${selectedText}`);
+	const targetUrl = options.siteSearchUrl + encodeUrl(`site:https://${domain} ${selectedText}`);
 	sendMessage('setTargetUrl', targetUrl);
 
 	// Send the selected text to background.js
 	sendMessage('setSelection', selectedText);
+}
+  
+function handleError(error) {
+	console.log(`Error: ${error}`);
 }
 
 function buildIconGrid(x, y) {

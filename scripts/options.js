@@ -382,8 +382,8 @@ function createFolderItem(name, keyword) {
 	el.id = name;
 	el.classList.value = "folder";
 	el.innerHTML = `<i class="icon ion-folder" style="margin-left: 3px"></i>
-					<input type="text" placeholder="Search folder name" value="${name}">
-					<input type="text" class="keyword" placeholder="Keyword" value="${keyword}">
+					<input type="text" data-i18n-placeholder="folderName" value="${name}">
+					<input type="text" class="keyword" data-i18n-placeholder="placeholderKeyword" value="${keyword}">
 					<div style="float: right">
 						<i class="sort icon ion-arrow-move"></i>
 						<button type="button" class="remove" title="Remove ${name} folder">
@@ -685,7 +685,6 @@ function addSearchEngine() {
 		id: id,
 		searchEngine: searchEngines[id]
 	});
-	notify(notifySearchEngineAdded);
 
 	// Clear HTML input fields to add a search engine
 	clear();

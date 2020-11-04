@@ -131,6 +131,9 @@
 	"searchEngineURL": {
 		"message": "Search engine URL"
 	},
+	"regex": {
+		"message": "Regular expression"
+	},
 	"testSearchEngine": {
 		"message": "Test search engine"
 	},
@@ -247,6 +250,12 @@
 	},
 	"regexNote": {
 		"message": "This feature doesn't apply to the grid of icons."
+	},
+	"subheader62": {
+		"message": "Add a new folder"
+	},
+	"folderName": {
+		"message": "Folder name"
 	},
 
 	"__WET_LOCALE__": { "message": "en" }
