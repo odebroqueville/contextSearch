@@ -51,8 +51,9 @@ const btnReset = document.getElementById('reset');
 // Add new search engine buttons
 const btnTest = document.getElementById('test');
 const btnAdd = document.getElementById('addSearchEngine');
-const btnClear = document.getElementById('clear');
+const btnClearAddSearchEngine = document.getElementById('clearAddSearchEngine');
 const btnAddFolder = document.getElementById('addFolder');
+const btnClearAddFolder = document.getElementById('clearAddFolder');
 
 // Import/export
 const btnDownload = document.getElementById('download');
@@ -74,10 +75,14 @@ const notifySearchEngineUrlRequired = browser.i18n.getMessage('notifySearchEngin
 // Typing timer
 let typingTimerSearchEngineName;
 let typingTimerKeyword;
+let typingTimerFolderName;
+let typingTimerFolderKeyword;
 let typingTimerQueryString;
 let typingTimerRegex;
 let typingEventSearchEngineName;
 let typingEventKeyword;
+let typingEventFolderKeyword;
+let typingEventFolderName;
 let typingEventQueryString;
 let typingEventRegex;
 let typingInterval = 1500;
@@ -113,8 +118,9 @@ btnReset.addEventListener('click', reset);
 // Add new engine
 btnTest.addEventListener('click', testSearchEngine);
 btnAdd.addEventListener('click', addSearchEngine);
-btnClear.addEventListener('click', clear);
+btnClearAddSearchEngine.addEventListener('click', clear);
 btnAddFolder.addEventListener('click', addFolder);
+btnClearAddFolder.addEventListener('click', clearAddFolder);
 
 // Import/export
 btnDownload.addEventListener('click', saveToLocalDisk);
@@ -267,17 +273,17 @@ function createLineItem(id, searchEngine, isFolder = false) {
 	const inputQueryString = document.createElement('input');
 	const inputRegex = document.createElement('input');
 
-	// Create menu target for line item sorting
-	const sortTarget = document.createElement('i');
-
 	// Navigation and deletion buttons for each search engine or line item
+	// Create menu target for line item sorting
+	const sortTarget = document.createElement('span');
+	sortTarget.classList.add('sort', 'icon', 'ion-arrow-move');
 	const removeButton = createButton('ion-ios-trash', 'remove', remove + ' ' + searchEngineName);
 
 	// Event handler for 'show search engine' checkbox click event
 	chkShowSearchEngine.addEventListener('click', visibleChanged); // when users check or uncheck the checkbox
 
 	// Event handlers for search engine name changes
-	inputSearchEngineName.addEventListener('cut', searchEngineNameChanged); // when users paste text
+	inputSearchEngineName.addEventListener('cut', searchEngineNameChanged); // when users cut text
 	inputSearchEngineName.addEventListener('paste', searchEngineNameChanged); // when users paste text
 	inputSearchEngineName.addEventListener('input', (e) => {
 		typingEventSearchEngineName = e;
@@ -367,8 +373,6 @@ function createLineItem(id, searchEngine, isFolder = false) {
 		inputRegex.setAttribute('value', defaultRegex.toString());
 	}
 
-	sortTarget.classList.add('sort', 'icon', 'ion-arrow-move');
-
 	// Attach all the elements composing a search engine to the line item
 	lineItem.appendChild(chkShowSearchEngine);
 	lineItem.appendChild(inputSearchEngineName);
@@ -384,19 +388,69 @@ function createLineItem(id, searchEngine, isFolder = false) {
 }
 
 function createFolderItem(name, keyword) {
-	const el = document.createElement('li');
-	el.id = name;
-	el.classList.value = "folder";
-	el.innerHTML = `<span class="icon ion-folder"></span>
-					<input type="text" data-i18n-placeholder="folderName" value="${name}">
-					<input type="text" class="keyword" data-i18n-placeholder="placeholderKeyword" value="${keyword}">
-					<div class="" style="float: right">
-						<span class="sort icon ion-arrow-move"></span>
-						<button type="button" class="remove" title="${remove} ${name} ${folder}">
-							<span class="icon ion-ios-trash"></span>
-						</button>
-					</div>
-					<div class="subfolder"></div>`;
+	const folderItem = document.createElement('li');
+	const icon = document.createElement('span');
+	const inputFolderName = document.createElement('input');
+	const inputFolderKeyword = document.createElement('input');
+	const subFolder = document.createElement('div');
+
+	// Event handlers for search engine name changes
+	inputFolderName.addEventListener('cut', folderNameChanged); // when users cut text
+	inputFolderName.addEventListener('paste', folderNameChanged); // when users paste text
+	inputFolderName.addEventListener('input', (e) => {
+		typingEventFolderName = e;
+		clearTimeout(typingTimerFolderName);
+		typingTimerFolderName = setTimeout(folderNameChanged, typingInterval);
+	});
+	inputFolderName.addEventListener('change', (e) => {
+		typingEventFolderName = e;
+		clearTimeout(typingTimerFolderName);
+		folderNameChanged();
+	});
+
+	// Event handlers for keyword text changes
+	inputFolderKeyword.addEventListener('paste', folderKeywordChanged); // when users paste text
+	inputFolderKeyword.addEventListener('change', folderKeywordChanged); // when users leave the input field and content has changed
+	inputFolderKeyword.addEventListener('keyup', () => {
+		clearTimeout(typingTimerFolderKeyword);
+		typingTimerFolderKeyword = setTimeout(folderKeywordChanged, typingInterval);
+	});
+	inputFolderKeyword.addEventListener('keydown', (e) => {
+		typingEventFolderKeyword = e;
+		clearTimeout(typingTimerFolderKeyword);
+	});
+
+	// Navigation and deletion buttons for each search engine or line item
+	// Create menu target for line item sorting
+	const navDiv = document.createElement('div');
+	navDiv.setAttribute('class', 'nav');
+	const sortTarget = document.createElement('span');
+	sortTarget.classList.add('sort', 'icon', 'ion-arrow-move');
+	const removeButton = createButton('ion-ios-trash', 'remove', `${remove} ${name} ${folder}`);
+	navDiv.appendChild(sortTarget);
+	navDiv.appendChild(removeButton);
+
+	folderItem.setAttribute('id', name);
+	folderItem.setAttribute('class', 'folder');
+
+	icon.setAttribute('class', 'icon ion-folder');
+
+	inputFolderName.setAttribute('type', 'text');
+	inputFolderName.setAttribute('data-i18n-placeholder', 'folderName');
+	inputFolderName.setAttribute('value', name);
+
+	inputFolderKeyword.setAttribute('type', 'text');
+	inputFolderKeyword.setAttribute('class', 'keyword');
+	inputFolderKeyword.setAttribute('data-i18n-placeholder', 'placeholderKeyword');
+	inputFolderKeyword.setAttribute('value', keyword);
+
+	subFolder.setAttribute('class', 'subfolder');
+
+	folderItem.appendChild(icon);
+	folderItem.appendChild(inputFolderName);
+	folderItem.appendChild(inputFolderKeyword);
+	folderItem.appendChild(navDiv);
+	folderItem.appendChild(subFolder);
 
 	// Initialize Sortable subfolder
 	new Sortable(el.querySelector('.subfolder'), {
@@ -406,7 +460,7 @@ function createFolderItem(name, keyword) {
 		onEnd: saveSearchEngines
 	});
 
-	return el;
+	return folderItem;
 }
 
 function clearAll() {
@@ -510,11 +564,41 @@ function searchEngineNameChanged(e) {
 	sendMessage('saveSearchEngines', searchEngines);
 }
 
+function folderNameChanged() {
+	if (e) {
+		if (e.target.value == typingEventFolderName.target.value) return;
+	}
+	let event = e || typingEventFolderName;
+	if (!event) return;
+	let lineItem = event.target.parentNode;
+	let id = lineItem.getAttribute('id');
+	let searchEngineName = event.target.value;
+
+	searchEngines[id]['name'] = searchEngineName;
+
+	sendMessage('saveSearchEngines', searchEngines);
+}
+
 function keywordChanged(e) {
 	if (e) {
 		if (e.target.value == typingEventKeyword.target.value) return;
 	}
 	let event = e || typingEventKeyword;
+	if (!event) return;
+	let lineItem = event.target.parentNode;
+	let id = lineItem.getAttribute('id');
+	let keyword = event.target.value;
+
+	searchEngines[id]['keyword'] = keyword;
+
+	sendMessage('saveSearchEngines', searchEngines);
+}
+
+function folderKeywordChanged() {
+	if (e) {
+		if (e.target.value == typingEventFolderKeyword.target.value) return;
+	}
+	let event = e || typingEventFolderKeyword;
 	if (!event) return;
 	let lineItem = event.target.parentNode;
 	let id = lineItem.getAttribute('id');
@@ -700,8 +784,8 @@ function addSearchEngine() {
 		searchEngine: searchEngines[id]
 	});
 
-	// Clear HTML input fields to add a search engine
-	clear();
+	// Clear HTML input fields to add a new search engine
+	clearAddSearchEngine();
 }
 
 function addFolder() {
@@ -712,16 +796,25 @@ function addFolder() {
 	// Append folder to search engine list
 	const folderItem = createFolderItem(name, keyword);
 	divSearchEngines.appendChild(folderItem);
+
+	// Clear HTML input fields to add a new folder
+	clearAddFolder();
 }
 
-function clear() {
-	// Clear check boxes and text box entries of the line used to add a search engine
+function clearAddSearchEngine() {
+	// Clear check boxes and text box entries of the line used to add a new search engine
 	show.checked = true;
 	sename.value = null;
 	keyword.value = null;
 	multitab.checked = false;
 	url.value = null;
 	regex.value = null;
+}
+
+function clearAddFolder() {
+	// Clear text box entries of the line used to add a new folder
+	folderName.value = null;
+	folderKeyword.value = null;
 }
 
 function setOptions(options) {

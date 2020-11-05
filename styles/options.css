@@ -44,6 +44,10 @@ div#tabMode {
 	margin-left: 3px;
 }
 
+div.nav {
+	float: right;
+}
+
 input[type="checkbox"] {
 	display: inline-block;
 	width: 15px;
