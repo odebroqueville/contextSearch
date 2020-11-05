@@ -7,12 +7,17 @@ const defaultRegex = /[\s\S]*/i;
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById('container');
 
-// Engine
+// Add Search Engine
 const show = document.getElementById('show'); // Boolean
 const sename = document.getElementById('name'); // String
 const keyword = document.getElementById('keyword'); // String
 const multitab = document.getElementById('multitab'); // Boolean
 const url = document.getElementById('url'); // String
+const regex = document.getElementById('regex'); // String
+
+// Add folder
+const folderName = document.getElementById('folderName');
+const folderKeyword = document.getElementById('folderKeyword');
 
 // Settings
 const exactMatch = document.getElementById('exactMatch');
@@ -45,7 +50,7 @@ const btnReset = document.getElementById('reset');
 
 // Add new search engine buttons
 const btnTest = document.getElementById('test');
-const btnAdd = document.getElementById('add');
+const btnAdd = document.getElementById('addSearchEngine');
 const btnClear = document.getElementById('clear');
 const btnAddFolder = document.getElementById('addFolder');
 
@@ -58,6 +63,7 @@ let searchEngines = {};
 
 // Translation variables
 const remove = browser.i18n.getMessage('remove');
+const folder = browser.i18n.getMessage('folder');
 const multipleSearchEnginesSearch = browser.i18n.getMessage('multipleSearchEnginesSearch');
 const titleShowEngine = browser.i18n.getMessage('titleShowEngine');
 const placeHolderName = browser.i18n.getMessage('searchEngineName');
@@ -108,7 +114,7 @@ btnReset.addEventListener('click', reset);
 btnTest.addEventListener('click', testSearchEngine);
 btnAdd.addEventListener('click', addSearchEngine);
 btnClear.addEventListener('click', clear);
-btnAddFolder.addEventListener('click', addSearchFolder);
+btnAddFolder.addEventListener('click', addFolder);
 
 // Import/export
 btnDownload.addEventListener('click', saveToLocalDisk);
@@ -250,22 +256,22 @@ function createButton(ioniconClass, btnClass, btnTitle) {
 function createLineItem(id, searchEngine, isFolder = false) {
 	if (isFolder) { return createFolderItem(searchEngine.name, searchEngine.keyword); }
 
-	let searchEngineName = searchEngine.name;
-	let lineItem = document.createElement('li');
+	const searchEngineName = searchEngine.name;
+	const lineItem = document.createElement('li');
 
 	// Input elements for each search engine composing each line item
-	let chkShowSearchEngine = document.createElement('input');
-	let inputSearchEngineName = document.createElement('input');
-	let inputKeyword = document.createElement('input');
-	let chkMultiSearch = document.createElement('input');
-	let inputQueryString = document.createElement('input');
-	let inputRegex = document.createElement('input');
+	const chkShowSearchEngine = document.createElement('input');
+	const inputSearchEngineName = document.createElement('input');
+	const inputKeyword = document.createElement('input');
+	const chkMultiSearch = document.createElement('input');
+	const inputQueryString = document.createElement('input');
+	const inputRegex = document.createElement('input');
 
 	// Create menu target for line item sorting
-	let sortTarget = document.createElement('i');
+	const sortTarget = document.createElement('i');
 
 	// Navigation and deletion buttons for each search engine or line item
-	let removeButton = createButton('ion-ios-trash', 'remove', remove + ' ' + searchEngineName);
+	const removeButton = createButton('ion-ios-trash', 'remove', remove + ' ' + searchEngineName);
 
 	// Event handler for 'show search engine' checkbox click event
 	chkShowSearchEngine.addEventListener('click', visibleChanged); // when users check or uncheck the checkbox
@@ -378,16 +384,16 @@ function createLineItem(id, searchEngine, isFolder = false) {
 }
 
 function createFolderItem(name, keyword) {
-	let el = document.createElement('li');
+	const el = document.createElement('li');
 	el.id = name;
 	el.classList.value = "folder";
-	el.innerHTML = `<i class="icon ion-folder" style="margin-left: 3px"></i>
+	el.innerHTML = `<span class="icon ion-folder"></span>
 					<input type="text" data-i18n-placeholder="folderName" value="${name}">
 					<input type="text" class="keyword" data-i18n-placeholder="placeholderKeyword" value="${keyword}">
-					<div style="float: right">
-						<i class="sort icon ion-arrow-move"></i>
-						<button type="button" class="remove" title="Remove ${name} folder">
-							<i class="icon ion-ios-trash"></i>
+					<div class="" style="float: right">
+						<span class="sort icon ion-arrow-move"></span>
+						<button type="button" class="remove" title="${remove} ${name} ${folder}">
+							<span class="icon ion-ios-trash"></span>
 						</button>
 					</div>
 					<div class="subfolder"></div>`;
@@ -582,14 +588,16 @@ function readData() {
 			let keyword = label.nextSibling;
 			let multiTab = keyword.nextSibling;
 			let url = multiTab.nextSibling;
-			let regex = url.nextSibling;
+			let strRegex = url.nextSibling;
 			searchEngines[lineItems[i].id] = {};
 			searchEngines[lineItems[i].id]['index'] = i;
 			searchEngines[lineItems[i].id]['name'] = label.value;
 			searchEngines[lineItems[i].id]['keyword'] = keyword.value;
 			searchEngines[lineItems[i].id]['multitab'] = multiTab.checked;
 			searchEngines[lineItems[i].id]['url'] = url.value;
-			searchEngines[lineItems[i].id]['regex'] = regex.value;
+			searchEngines[lineItems[i].id]['regex'] = {};
+			searchEngines[lineItems[i].id]['regex']['body'] = strRegex.value.split('/')[1];
+			searchEngines[lineItems[i].id]['regex']['flags'] = strRegex.value.split('/').pop();
 			searchEngines[lineItems[i].id]['show'] = input.checked;
 			searchEngines[lineItems[i].id]['base64'] = oldSearchEngines[lineItems[i].id].base64;
 		}
@@ -638,8 +646,10 @@ function testSearchEngine() {
 }
 
 function addSearchEngine() {
-	let id = sename.value.replace(' ', '-').toLowerCase();
-	let divSearchEngines = document.getElementById('searchEngines');
+	const id = sename.value.replace(' ', '-').toLowerCase();
+	const divSearchEngines = document.getElementById('searchEngines');
+	const body = regex.value.split('/')[1];
+	const flags = regex.value.split('/').pop();
 	let strUrl = url.value;
 	let testUrl = '';
 
@@ -676,9 +686,13 @@ function addSearchEngine() {
 		show: show.checked
 	};
 
+	searchEngines[id]['regex'] = {};
+	searchEngines[id]['regex']['body'] = body;
+	searchEngines[id]['regex']['flags'] = flags;
+
 	if (logToConsole) console.log('New search engine: ' + id + '\n' + JSON.stringify(searchEngines[id]));
 
-	let lineItem = createLineItem(id, searchEngines[id], false);
+	const lineItem = createLineItem(id, searchEngines[id], false);
 	divSearchEngines.appendChild(lineItem);
 
 	sendMessage('addNewSearchEngine', {
@@ -690,13 +704,14 @@ function addSearchEngine() {
 	clear();
 }
 
-function addSearchFolder() {
-	let folderName = document.getElementById('folderName').value;
-	let folderKeyword = document.getElementById('folderKeyword').value;
+function addFolder() {
+	const divSearchEngines = document.getElementById('searchEngines');
+	const name = folderName.value;
+	const keyword = folderKeyword.value;
 
 	// Append folder to search engine list
-	let folderItem = createFolderItem(folderName, folderKeyword);
-	document.getElementById('searchEngines').appendChild(folderItem);
+	const folderItem = createFolderItem(name, keyword);
+	divSearchEngines.appendChild(folderItem);
 }
 
 function clear() {
@@ -706,6 +721,7 @@ function clear() {
 	keyword.value = null;
 	multitab.checked = false;
 	url.value = null;
+	regex.value = null;
 }
 
 function setOptions(options) {
@@ -924,8 +940,8 @@ function updateResetOptions() {
 }
 
 function updateUseRegex() {
-	let regex = useRegex.checked;
-	sendMessage('updateUseRegex', { useRegex: regex });
+	const chkboxRegex = useRegex.checked;
+	sendMessage('updateUseRegex', { useRegex: chkboxRegex });
 }
 
 function isValidUrl(url) {

@@ -41,6 +41,7 @@ div#tabMode {
 
 .icon {
 	font-size: 1.5em;
+	margin-left: 3px;
 }
 
 input[type="checkbox"] {
@@ -63,7 +64,7 @@ input[type="checkbox"] {
 	width: 210px;
 }
 
-#addSearchEngine #name {
+#addSearchEngineSection #name {
 	display: inline-block;
 	width: 195px;
 }
@@ -78,14 +79,14 @@ input#optionsMenuAtTop + label {
 }
 
 #container input[type="url"],
-#addSearchEngine #url {
+#addSearchEngineSection #url {
 	display: inline-block;
 	width: 400px;
 	margin-left: 10px;
 }
 
 #container .keyword,
-#addSearchEngine #keyword {
+#addSearchEngineSection #keyword {
 	width: 80px;
 	margin-left: 10px;
 }
@@ -115,9 +116,13 @@ h2 {
 	margin-bottom: 8px;
 }
 
-#addSearchEngine,
-#addSearchFolder {
+#addSearchEngineSection,
+#addFolderSection {
 	margin-left: 40px;
+}
+
+h4.subheader {
+	margin: 0;
 }
 
 #flexbox-container {

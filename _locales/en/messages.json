@@ -257,6 +257,12 @@
 	"folderName": {
 		"message": "Folder name"
 	},
+	"folder": {
+		"message": "folder"
+	},
+	"addFolder": {
+		"message": "Add folder"
+	},
 
 	"__WET_LOCALE__": { "message": "en" }
 }
