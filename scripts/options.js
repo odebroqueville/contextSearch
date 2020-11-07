@@ -767,7 +767,8 @@ function addSearchEngine() {
 		keyword: keyword.value,
 		multitab: multitab.checked,
 		url: url.value,
-		show: show.checked
+		show: show.checked,
+		parentFolder: null
 	};
 
 	searchEngines[id]['regex'] = {};
@@ -792,13 +793,31 @@ function addFolder() {
 	const divSearchEngines = document.getElementById('searchEngines');
 	const name = folderName.value;
 	const keyword = folderKeyword.value;
+	const id = name.replace(' ', '-').toLowerCase();
 
 	// Append folder to search engine list
 	const folderItem = createFolderItem(name, keyword);
 	divSearchEngines.appendChild(folderItem);
 
+	// The new folder will be saved as a search engine entry
+	// Folders don't possess all the properties that search engines do
+	// A folder doesn't have a query string url property
+	// A folder may have children; not a search engine
+	searchEngines[id] = {
+		index: numberOfSearchEngines,
+		name: name,
+		keyword: keyword,
+		parentFolder: null, // Points to the id of the parent folder; takes the value null if there is none
+		children: [] // Array of search engine and/or subfolder ids
+	};
+
 	// Clear HTML input fields to add a new folder
 	clearAddFolder();
+
+	sendMessage('addNewSearchEngine', {
+		id: id,
+		searchEngine: searchEngines[id]
+	});
 }
 
 function clearAddSearchEngine() {
