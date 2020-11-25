@@ -1,5 +1,10 @@
-4.1.5
+4.1.6
 =========
+
+* Updated to latest libraries available: Color Thief 2.3.2, RGraph 5.26, SortableJS 1.10.2 and Leaflet 1.7.1
+
+4.1.5
+---------
 
 * Implements feature request #93 : users can now search the current site by chosing one of the following search engines: Google, Bing, DuckDuckGo, Ecosia, Lilo, Qwant, Startpage, Swisscows, Yahoo
 * New translations for 'siteSearch' and 'titleSiteSearch' have been added
