@@ -1,10 +1,18 @@
-4.1.5
+4.2.0
 =========
+
+* Adds Icelandic translation
+* Updates RGraph to v6.05
+* Updates Sortable to v1.14.0
+* Fixes Google Translate search engine
+
+4.1.5
+---------
 
 * Implements feature request #93 : users can now search the current site by chosing one of the following search engines: Google, Bing, DuckDuckGo, Ecosia, Lilo, Qwant, Startpage, Swisscows, Yahoo
 * New translations for 'siteSearch' and 'titleSiteSearch' have been added
 * Fixes bug whereby default search engines would fail to load when storage sync was empty
-* Updates Rgraph to version 5.26
+* Updates RGraph to version 5.26
 
 4.1.4
 ---------
