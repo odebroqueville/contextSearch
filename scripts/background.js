@@ -295,6 +295,9 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				filename: 'searchEngines.json'
 			});
 			break;
+		case 'hidePageAction':
+			browser.pageAction.hide(sender.tab.id);
+			break;
 		default:
 			break;
 	}

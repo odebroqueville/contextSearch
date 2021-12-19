@@ -16,6 +16,7 @@ let searchEngines = {};
 let tabUrl = '';
 let domain = '';
 let pn = '';
+let currentTab = null;
 let sel = null;
 let range = null;
 let sameTab = false;
@@ -122,6 +123,11 @@ async function init() {
 		console.log(`Path name: ${pn}`);
 		console.log(`Domain: ${domain}`);
 	}
+	// If the website doesn't contain an opensearch plugin, then hide the Page action
+	if (document.querySelector('link[type="application/opensearchdescription+xml"]') == null) {
+		sendMessage('hidePageAction',null);
+	} 
+
 	// Retrieve options on initial load
 	options = await browser.storage.sync.get(null);
 	if (options.tabMode === 'sameTab') {
