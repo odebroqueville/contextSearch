@@ -33,5 +33,7 @@
     "leaflet": "^1.7.1",
     "sortablejs": "^1.14.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "eslint": "^8.5.0"
+  }
 }
