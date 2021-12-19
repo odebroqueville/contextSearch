@@ -6,6 +6,11 @@
 * Updates Sortable to v1.14.0
 * Fixes Google Translate search engine
 
+4.1.6
+---------
+
+* Updates to latest libraries available: Color Thief 2.3.2, RGraph 5.26, SortableJS 1.10.2 and Leaflet 1.7.1
+
 4.1.5
 ---------
 
