@@ -1,5 +1,17 @@
-4.2.0
+4.2.1
 =========
+
+* Updates search engine Wikipedia
+* Hides the Page action icon if no opensearch plugin is available
+* Fixes bug [#103](https://github.com/odebroqueville/contextSearch/issues/103)
+* Fixes bug where saving ("Export to local disk") search engines to local disk would fail
+* Fixes bug where a reset to force the reload of default search engines would fail
+* Fixes bug where Alt-click search would fail to search for selected text and selected text would get unselected
+* Fixes bug where new search engine would not be added to context menu after clicking on Page action icon 
+* Updates libraries Leaflet to 1.7.1 and Color Thief to 2.3.2 as these library updates were not correctly propagated to CS 4.2.0
+
+4.2.0
+---------
 
 * Adds Icelandic translation
 * Updates RGraph to v6.05
