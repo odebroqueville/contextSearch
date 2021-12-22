@@ -16,7 +16,6 @@ let searchEngines = {};
 let tabUrl = '';
 let domain = '';
 let pn = '';
-let currentTab = null;
 let sel = null;
 let range = null;
 let sameTab = false;
@@ -140,6 +139,7 @@ async function init() {
 
 async function handleAltClickWithGrid(e) {
 	if (logToConsole) console.log('Click event triggered:\n' + e.type, e.button, e.altKey);
+	e.preventDefault();
 
 	// If mouse up is not done with left mouse button then do nothing
 	if (e.button > 0) return;
@@ -202,11 +202,13 @@ async function handleRightClickWithoutGrid(e) {
 			e.preventDefault();
 
 			// get pid and name to retrieve open search data
-			let attr = elementClicked.getAttribute('onclick');
+			let attr = elementClicked.getAttribute('href');
 			let pid = getPidAndName(attr).pid;
 			let name = getPidAndName(attr).name;
 			let url = mycroftUrl + pid + '/' + name + '.xml';
-			if (logToConsole) console.log(url);
+			if (logToConsole) console.log(`pid: ${pid}`);
+			if (logToConsole) console.log(`name: ${name}`);
+			if (logToConsole) console.log(`url: ${url}`);
 
 			getNewSearchEngine(url, searchEngines).then((result) => {
 				// Send msg to background script to get the new search engine added
@@ -223,9 +225,12 @@ function handleTextSelection() {
 }
 
 function getPidAndName(string) {
-	let str = string.match(/\(.+\)/).toString().match(/'.+'/g).toString();
-	let array = str.replace(/'/g, '').toString().split(',');
-	return { pid: array[3], name: array[0] };
+	const queryString = string.substring(string.indexOf('?'));
+	if (logToConsole) console.log(`query string: ${queryString}`);
+	const urlParams = new URLSearchParams(queryString);
+	const pid = urlParams.get('id');
+	const name = urlParams.get('name');
+	return { pid: pid, name: name };
 }
 
 function getSelectedText() {
@@ -260,9 +265,9 @@ function sendSelectionToBackgroundScript(selectedText) {
 	sendMessage('setSelection', selectedText);
 }
   
-function handleError(error) {
+/* function handleError(error) {
 	console.log(`Error: ${error}`);
-}
+} */
 
 function buildIconGrid(x, y) {
 	let arrIDs = Object.keys(searchEngines);
@@ -431,47 +436,6 @@ function isEncoded(uri) {
 function sendMessage(action, data) {
 	browser.runtime.sendMessage({ action: action, data: data });
 }
-
-/* function absoluteUrl(url) {
-	// If the url is absolute, i.e. begins withh either'http' or 'https', there's nothing to do!
-	if (/^(https?:\/\/)/.test(url)) return url;
-
-	// If url begins with '//'
-	if (/^(\/\/)/.test(url)) {
-		return 'https:' + url;
-	}
-
-	// If url begins with '/' (and not '//' handled above)
-	if (/^\//.test(url)) {
-		let parts = url.split('/');
-		parts.unshift(domain);
-		return 'https://' + parts.join('/');
-	}
-
-	// If url begins with an alphanumerical character
-	if (/^([a-zA-Z0-9])/.test(url) && /^(?!file|gopher|ftp:\/\/).+/.test(url)) {
-		let parts = pn.split('/');
-		parts.pop();
-		return 'https://' + domain + parts.join('/') + '/' + url;
-	}
-
-	// If url begins with './' or '../'
-	if (/^(\.\/|\.\.\/)/.test(url)) {
-		let stack = tabUrl.split('/');
-		let parts = url.split('/');
-		stack.pop(); // remove current file name (or empty string)
-		// (omit if "base" is the current folder without trailing slash)
-		for (let i = 0; i < parts.length; i++) {
-			if (parts[i] == '.') continue;
-			if (parts[i] == '..') {
-				stack.pop();
-			} else {
-				stack.push(parts[i]);
-			}
-		}
-		return stack.join('/');
-	}
-} */
 
 function absoluteUrl(url){
     /* Only accept commonly trusted protocols:

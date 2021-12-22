@@ -69,7 +69,6 @@ const multipleSearchEnginesSearch = browser.i18n.getMessage('multipleSearchEngin
 const titleShowEngine = browser.i18n.getMessage('titleShowEngine');
 const placeHolderName = browser.i18n.getMessage('searchEngineName');
 const placeHolderKeyword = browser.i18n.getMessage('placeHolderKeyword');
-const notifySearchEngineAdded = browser.i18n.getMessage('notifySearchEngineAdded');
 const notifySearchEngineUrlRequired = browser.i18n.getMessage('notifySearchEngineUrlRequired');
 
 // Typing timer
@@ -118,7 +117,7 @@ btnReset.addEventListener('click', reset);
 // Add new engine
 btnTest.addEventListener('click', testSearchEngine);
 btnAdd.addEventListener('click', addSearchEngine);
-btnClearAddSearchEngine.addEventListener('click', clear);
+btnClearAddSearchEngine.addEventListener('click', clearAddSearchEngine);
 btnAddFolder.addEventListener('click', addFolder);
 btnClearAddFolder.addEventListener('click', clearAddFolder);
 
@@ -207,7 +206,7 @@ function toggleAdvancedFeatures() {
 
 // Display the list of search engines
 function displaySearchEngines() {
-	let div = document.getElementById('searchEngines');
+	const div = document.getElementById('searchEngines');
 	if (!isEmpty(div)) divContainer.removeChild(div);
 
 	searchEngines = sortByIndex(searchEngines);
@@ -388,6 +387,7 @@ function createLineItem(id, searchEngine, isFolder = false) {
 }
 
 function createFolderItem(name, keyword) {
+	const el = document.getElementById('ol#searchEngines');
 	const folderItem = document.createElement('li');
 	const icon = document.createElement('span');
 	const inputFolderName = document.createElement('input');
@@ -508,7 +508,7 @@ function sortSearchEnginesAlphabetically() {
 }
 
 function reset() {
-	let sending = sendMessage('reset');
+	let sending = sendMessage('reset', null);
 	sending.then(handleResponse, handleError);
 }
 
@@ -564,7 +564,7 @@ function searchEngineNameChanged(e) {
 	sendMessage('saveSearchEngines', searchEngines);
 }
 
-function folderNameChanged() {
+function folderNameChanged(e) {
 	if (e) {
 		if (e.target.value == typingEventFolderName.target.value) return;
 	}
@@ -594,7 +594,7 @@ function keywordChanged(e) {
 	sendMessage('saveSearchEngines', searchEngines);
 }
 
-function folderKeywordChanged() {
+function folderKeywordChanged(e) {
 	if (e) {
 		if (e.target.value == typingEventFolderKeyword.target.value) return;
 	}
@@ -1121,7 +1121,7 @@ function translateContent(attribute, type) {
 					break;
 			}
 		} catch (ex) {
-			if (logToConsole) console.error('i18n id ' + IDS[id] + ' not found');
+			if (logToConsole) console.error(`Translation for ${i18nElements[i]} could not be found`);
 		}
 	}
 }

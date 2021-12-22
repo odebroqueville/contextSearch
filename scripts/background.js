@@ -78,7 +78,7 @@ const defaultOptions = {
 	forceFaviconsReload: contextsearch_forceFaviconsReload,
 	siteSearch: contextsearch_siteSearch,
 	siteSearchUrl: contextsearch_siteSearchUrl,
-	useRegex: contextsearch_useRegex
+	useRegex: contextsearch_useRegex,
 };
 
 /// Handle Page Action click
@@ -355,9 +355,10 @@ function init() {
 	});
 }
 
-/// Reset extension to default settings
+/// Reset extension
 // Resets the options to the default list if options.resetPreferences is set
 // Resets the list of search engines to the default list if options.forceSearchEnginesReload is set
+// Force favicons to be reloaded if options.forceFaviconsReload is set
 function reset() {
 	return new Promise((resolve, reject) => {
 		if (logToConsole) {
@@ -701,11 +702,6 @@ function setResetOptions(options) {
 	contextsearch_forceSearchEnginesReload = options.forceSearchEnginesReload;
 	contextsearch_resetPreferences = options.resetPreferences;
 	contextsearch_forceFaviconsReload = options.forceFaviconsReload;
-}
-
-function setShowAdvancedFeatures(options) {
-	if (logToConsole) console.log(`Setting show advanced features...`);
-	contextsearch_showAdvancedFeatures = options.showAdvancedFeatures;
 }
 
 function setUseRegex(options) {
@@ -1522,7 +1518,7 @@ function isEncoded(uri) {
 }
 
 /// Send messages to content scripts (selection.js)
-function sendMessageToTabs(tabs, message) {
+/* function sendMessageToTabs(tabs, message) {
 	return new Promise((resolve, reject) => {
 		let arrayOfPromises = [];
 		if (logToConsole) {
@@ -1546,7 +1542,7 @@ function sendMessageToTabs(tabs, message) {
 				reject();
 			});
 	});
-}
+} */
 
 function sendMessageToTab(tab, message) {
 	return new Promise((resolve, reject) => {
@@ -1575,7 +1571,7 @@ function sendMessageToTab(tab, message) {
 function notify(message) {
 	browser.notifications.create(message.substring(0, 20), {
 		type: 'basic',
-		iconUrl: browser.extension.getURL('icons/icon_64.png'),
+		iconUrl: 'icons/icon_64.png',
 		title: browser.i18n.getMessage('extensionName'),
 		message: message
 	});

@@ -3,7 +3,10 @@
 /* exported sortByIndex, getDomain, getNewSearchEngine, isEmpty, logToConsole */
 
 /// Debug
-const logToConsole = false;
+const logToConsole = true;
+
+/// Advanced feature
+const defaultRegex = /[\s\S]*/i;
 
 /// Sort search engines by index
 function sortByIndex(list) {
@@ -146,8 +149,11 @@ async function getNewSearchEngine(url, searchEngines) {
 		multitab: false,
 		url: queryString,
 		show: true,
-		base64: ''
+		base64: '',
 	};
+	searchEngines[id]['regex'] = {};
+	searchEngines[id]['regex']['body'] = defaultRegex.source;
+	searchEngines[id]['regex']['flags'] = defaultRegex.flags;
 	if (logToConsole) console.log(searchEngines[id]);
 	return { id: id, searchEngine: searchEngines[id] };
 }
