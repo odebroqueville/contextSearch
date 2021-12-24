@@ -125,6 +125,9 @@
 	"placeHolderKeyword": {
 		"message": "Keyword"
 	},
+	"placeHolderKeyboardShortcut": {
+		"message": "Keyboard shortcut"
+	},
 	"multipleSearchEngines": {
 		"message": "Include in multi-search"
 	},
@@ -262,6 +265,9 @@
 	},
 	"addFolder": {
 		"message": "Add folder"
+	},
+	"keyboardShortcut": {
+		"message": "Keyboard shortcut"
 	},
 
 	"__WET_LOCALE__": { "message": "en" }

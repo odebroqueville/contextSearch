@@ -1,8 +1,5 @@
 /// Global variables
-/* global isEmpty, sortByIndex, Sortable, logToConsole */
-
-// Default regular expression to be used when search engine doesn't contain any
-const defaultRegex = /[\s\S]*/i;
+/* global defaultRegex, isEmpty, logToConsole, meta, os, Sortable, sortByIndex */
 
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById('container');
@@ -14,6 +11,7 @@ const keyword = document.getElementById('keyword'); // String
 const multitab = document.getElementById('multitab'); // Boolean
 const url = document.getElementById('url'); // String
 const regex = document.getElementById('regex'); // String
+const kbsc = document.getElementById('kb-shortcut'); // String
 
 // Add folder
 const folderName = document.getElementById('folderName');
@@ -69,6 +67,7 @@ const multipleSearchEnginesSearch = browser.i18n.getMessage('multipleSearchEngin
 const titleShowEngine = browser.i18n.getMessage('titleShowEngine');
 const placeHolderName = browser.i18n.getMessage('searchEngineName');
 const placeHolderKeyword = browser.i18n.getMessage('placeHolderKeyword');
+const placeHolderKeyboardShortcut = browser.i18n.getMessage('placeHolderKeyboardShortcut');
 const notifySearchEngineUrlRequired = browser.i18n.getMessage('notifySearchEngineUrlRequired');
 
 // Typing timer
@@ -118,8 +117,8 @@ btnReset.addEventListener('click', reset);
 btnTest.addEventListener('click', testSearchEngine);
 btnAdd.addEventListener('click', addSearchEngine);
 btnClearAddSearchEngine.addEventListener('click', clearAddSearchEngine);
-btnAddFolder.addEventListener('click', addFolder);
-btnClearAddFolder.addEventListener('click', clearAddFolder);
+//btnAddFolder.addEventListener('click', addFolder);
+//btnClearAddFolder.addEventListener('click', clearAddFolder);
 
 // Import/export
 btnDownload.addEventListener('click', saveToLocalDisk);
@@ -268,6 +267,7 @@ function createLineItem(id, searchEngine, isFolder = false) {
 	const chkShowSearchEngine = document.createElement('input');
 	const inputSearchEngineName = document.createElement('input');
 	const inputKeyword = document.createElement('input');
+	const inputKeyboardShortcut = document.createElement('input');
 	const chkMultiSearch = document.createElement('input');
 	const inputQueryString = document.createElement('input');
 	const inputRegex = document.createElement('input');
@@ -306,6 +306,9 @@ function createLineItem(id, searchEngine, isFolder = false) {
 		typingEventKeyword = e;
 		clearTimeout(typingTimerKeyword);
 	});
+
+	// Event handler for adding a keyboard shortcut
+	inputKeyboardShortcut.addEventListener('keyup', handleKeyboardShortcut);
 
 	// Event handler for 'include search engine in multi-search' checkbox click event
 	chkMultiSearch.addEventListener('click', multiTabChanged); // when users check or uncheck the checkbox
@@ -356,6 +359,12 @@ function createLineItem(id, searchEngine, isFolder = false) {
 	inputKeyword.setAttribute('placeholder', placeHolderKeyword);
 	inputKeyword.setAttribute('value', searchEngine.keyword);
 
+	inputKeyboardShortcut.setAttribute('type', 'text');
+	inputKeyboardShortcut.setAttribute('id', id + '-kbsc');
+	inputKeyboardShortcut.setAttribute('class', 'kb-shortcut');
+	inputKeyboardShortcut.setAttribute('placeholder', placeHolderKeyboardShortcut);
+	inputKeyboardShortcut.setAttribute('value', searchEngine.keyboardShortcut);
+
 	chkMultiSearch.setAttribute('type', 'checkbox');
 	chkMultiSearch.setAttribute('id', id + '-mt');
 	chkMultiSearch.setAttribute('title', multipleSearchEnginesSearch);
@@ -376,6 +385,7 @@ function createLineItem(id, searchEngine, isFolder = false) {
 	lineItem.appendChild(chkShowSearchEngine);
 	lineItem.appendChild(inputSearchEngineName);
 	lineItem.appendChild(inputKeyword);
+	lineItem.appendChild(inputKeyboardShortcut);
 	lineItem.appendChild(chkMultiSearch);
 	lineItem.appendChild(inputQueryString);
 	lineItem.appendChild(inputRegex);
@@ -609,6 +619,30 @@ function folderKeywordChanged(e) {
 	sendMessage('saveSearchEngines', searchEngines);
 }
 
+function handleKeyboardShortcut(e) {
+	if ((os === 'macOS' && e.metaKey)||((os === 'Windows' || os === 'Linux') && e.ctrlKey)) return;
+	e.preventDefault(); 
+	if (logToConsole) console.log(os);
+	let lineItem = e.target.parentNode;
+	let id = lineItem.getAttribute('id');
+	let input = document.getElementById(id+'-kbsc');
+	let keyboardShortcut = '';
+	if (logToConsole) console.log(e);
+
+	if (e.target.nodeName === 'INPUT') {
+		if (os === 'macOS' && e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey) {
+			keyboardShortcut = `${e.ctrlKey ? 'ctrl+' : ''}${e.shiftKey ? 'shift+' : ''}${e.altKey ? 'alt+' : ''}${e.metaKey ? meta : ''}${["Control", "Shift", "Alt", "Meta"].includes(e.key) ? "" : e.code.substring(3).toLowerCase()}`;
+		} else {
+			keyboardShortcut = `${e.ctrlKey ? 'ctrl+' : ''}${e.shiftKey ? 'shift+' : ''}${e.altKey ? 'alt+' : ''}${e.metaKey ? meta : ''}${["Control", "Shift", "Alt", "Meta"].includes(e.key) ? "" : e.key.toLowerCase()}`;
+		}
+		input.value = keyboardShortcut;
+	}
+
+	searchEngines[id]['keyboardShortcut'] = keyboardShortcut;
+
+	sendMessage('saveSearchEngines', searchEngines);
+}
+
 function multiTabChanged(e) {
 	if (logToConsole) console.log(searchEngines);
 	if (logToConsole) console.log(e.target);
@@ -670,13 +704,15 @@ function readData() {
 		if (input != null && input.nodeName === 'INPUT' && input.getAttribute('type') === 'checkbox') {
 			let label = input.nextSibling;
 			let keyword = label.nextSibling;
-			let multiTab = keyword.nextSibling;
+			let keyboardShortcut = keyword.nextSibling;
+			let multiTab = keyboardShortcut.nextSibling;
 			let url = multiTab.nextSibling;
 			let strRegex = url.nextSibling;
 			searchEngines[lineItems[i].id] = {};
 			searchEngines[lineItems[i].id]['index'] = i;
 			searchEngines[lineItems[i].id]['name'] = label.value;
 			searchEngines[lineItems[i].id]['keyword'] = keyword.value;
+			searchEngines[lineItems[i].id]['keyboardShortcut'] = keyboardShortcut.value;
 			searchEngines[lineItems[i].id]['multitab'] = multiTab.checked;
 			searchEngines[lineItems[i].id]['url'] = url.value;
 			searchEngines[lineItems[i].id]['regex'] = {};
@@ -765,6 +801,7 @@ function addSearchEngine() {
 		index: numberOfSearchEngines,
 		name: sename.value,
 		keyword: keyword.value,
+		keyboardShortcut: kbsc.value,
 		multitab: multitab.checked,
 		url: url.value,
 		show: show.checked,
@@ -825,6 +862,7 @@ function clearAddSearchEngine() {
 	show.checked = true;
 	sename.value = null;
 	keyword.value = null;
+	kbsc.value = null;
 	multitab.checked = false;
 	url.value = null;
 	regex.value = null;

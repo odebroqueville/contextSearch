@@ -1,7 +1,7 @@
 'use strict';
 
 /// Global variables
-/* global sortByIndex, isEmpty, getDomain, logToConsole, openUrl */
+/* global defaultRegex, sortByIndex, isEmpty, getDomain, logToConsole, openUrl */
 let searchEngines = {};
 let searchEnginesArray = [];
 let selection = '';
@@ -16,7 +16,6 @@ let imageTags = {};
 const contextsearch_userAgent =
 	'Mozilla/5.0 (iPhone9,3; U; CPU iPhone OS 10_0_1 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/14A403 Safari/602.1';
 const DEFAULT_JSON = 'defaultSearchEngines.json';
-const defaultRegex = /[\s\S]*/i;
 const besticonAPIUrl = 'https://get-besticons.herokuapp.com/icon?url=';
 const besticonAPIUrlSuffix = '&size=16..32..128';
 const base64ContextSearchIcon =
@@ -453,6 +452,7 @@ function initialiseSearchEngines(forceReload) {
 						delete data['options'];
 						searchEngines = sortByIndex(data);
 						setRegex();
+						setKeyboardShortcuts();
 						browser.storage.local
 							.clear()
 							.then(() => {
@@ -489,6 +489,7 @@ function initialiseSearchEngines(forceReload) {
 							.then((data) => {
 								searchEngines = sortByIndex(data);
 								setRegex();
+								setKeyboardShortcuts();
 								if (logToConsole) {
 									console.log('Search engines: \n');
 									console.log(searchEngines);
@@ -524,6 +525,7 @@ function initialiseSearchEngines(forceReload) {
 					.then((data) => {
 						searchEngines = sortByIndex(data);
 						setRegex();
+						setKeyboardShortcuts();
 						if (logToConsole) {
 							console.log('Search engines: \n');
 							console.log(searchEngines);
@@ -565,12 +567,21 @@ function initialiseSearchEngines(forceReload) {
 
 function setRegex() {
 	for (let id in searchEngines) {
-		console.log(searchEngines[id]);
+		if (logToConsole) console.log(`id: ${id}`);
 		if (searchEngines[id].regex !== undefined) continue;
 		searchEngines[id]['regex'] = {};
 		searchEngines[id]['regex']['body'] = defaultRegex.source;
 		searchEngines[id]['regex']['flags'] = defaultRegex.flags;
-		if (logToConsole) console.log(searchEngines[id].regex);
+		if (logToConsole) console.log(`regex: ${searchEngines[id].regex}`);
+	}
+}
+
+function setKeyboardShortcuts() {
+	for (let id in searchEngines) {
+		if (logToConsole) console.log(`id: ${id}`);
+		if (searchEngines[id].keyboardShortcut !== undefined) continue;
+		searchEngines[id]['keyboardShortcut'] = "";
+		if (logToConsole) console.log(`keyboard shortcut: ${searchEngines[id].keyboardShortcut}`);
 	}
 }
 
@@ -720,6 +731,7 @@ function loadDefaultSearchEngines(jsonFile) {
 			if (this.readyState == 4 && this.status == 200) {
 				searchEngines = sortByIndex(JSON.parse(this.responseText));
 				setRegex();
+				setKeyboardShortcuts();
 				if (logToConsole) {
 					console.log('Search engines:\n');
 					console.log(searchEngines);

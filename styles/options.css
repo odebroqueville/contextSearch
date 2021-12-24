@@ -89,6 +89,12 @@ input#optionsMenuAtTop + label {
 	margin-left: 10px;
 }
 
+#container .kb-shortcut,
+#addSearchEngineSection #kb-shortcut {
+	width: 130px;
+	margin-left: 10px;
+}
+
 #container .keyword,
 #addSearchEngineSection #keyword {
 	width: 80px;

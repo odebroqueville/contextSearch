@@ -1,7 +1,7 @@
 'use strict';
 
 /// Global variables
-/* global EXIF, isEmpty, getDomain, getNewSearchEngine, logToConsole */
+/* global EXIF, isEmpty, getDomain, getNewSearchEngine, logToConsole, meta, os */
 
 const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
 const googleReverseImageSearchUrl = 'https://images.google.com/searchbyimage?image_url=';
@@ -20,6 +20,7 @@ let sel = null;
 let range = null;
 let sameTab = false;
 let options = '';
+let keysPressed = {};
 
 /// Debugging
 // Current state
@@ -37,6 +38,15 @@ document.addEventListener('contextmenu', handleRightClickWithoutGrid);
 
 // Mouse up event listener
 document.addEventListener('mouseup', handleAltClickWithGrid);
+
+// Key down event listener
+document.addEventListener('keydown', (event) => {
+	keysPressed[event.key] = [true, event.code];
+	if (logToConsole) console.log(keysPressed);
+ });
+
+// Key up event listener
+document.addEventListener('keyup', handleKeyUp);
 
 // Storage change event listener
 browser.storage.onChanged.addListener(handleStorageChange);
@@ -65,6 +75,70 @@ browser.runtime.onMessage.addListener((message) => {
 			break;
 	}
 });
+
+async function init() {
+	tabUrl = window.location.href;
+	pn = window.location.pathname;
+	domain = window.location.hostname;
+	if (logToConsole) {
+		console.log(`Tab url: ${tabUrl}`);
+		console.log(`Path name: ${pn}`);
+		console.log(`Domain: ${domain}`);
+	}
+	// If the website doesn't contain an opensearch plugin, then hide the Page action
+	if (document.querySelector('link[type="application/opensearchdescription+xml"]') == null) {
+		sendMessage('hidePageAction',null);
+	} 
+
+	// Retrieve options on initial load
+	options = await browser.storage.sync.get(null);
+	if (options.tabMode === 'sameTab') {
+		sameTab = true;
+	} else {
+		sameTab = false;
+	}
+	searchEngines = await browser.storage.local.get(null);
+}
+
+function handleKeyUp(e) {
+	if (logToConsole) console.log(keysPressed);
+	if (keysPressed === {}) return;
+	// if (e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey) return;
+	e.preventDefault();
+	if (logToConsole) console.log(e);
+	const modifiers = ["Control", "Shift", "Alt", "Meta"];
+	let input = "";
+	for (let modifier of modifiers) {
+		if (logToConsole) console.log(keysPressed[modifier][0]);
+		if (!(modifier in keysPressed)) continue;
+		if (keysPressed[modifier][0]) {
+			if (modifier === 'Control') input = input + 'ctrl+';
+			if (modifier === 'Shift') input = input + 'shift+';
+			if (modifier === 'Alt') input = input + 'alt+';
+			if (modifier === 'Meta') input = input + meta;
+			delete keysPressed[modifier];
+		}
+		if (logToConsole) console.log(`keys pressed: ${input}`);
+	}
+	if (logToConsole) console.log(`keys pressed: ${keysPressed}`);
+	for (let key in keysPressed) {
+		console.log(key);
+		if (os === 'macOS' && input.includes('alt')) {
+			input += keysPressed[key][1].substring(3).toLowerCase();
+		} else {
+			input += key.toLowerCase();
+		}
+	}
+	if (logToConsole) console.log(`keys pressed: ${input}`);
+	for (let id in searchEngines) {
+		let keyboardShortcut = searchEngines[id].keyboardShortcut;
+		if (keyboardShortcut === input) {
+			sendMessage('doSearch', { id: id });
+			keysPressed = {};
+			break;
+		}
+	}
+}
 
 async function handleStorageChange(changes, area) {
 	let oldSearchEngines = JSON.parse(JSON.stringify(searchEngines));
@@ -111,30 +185,6 @@ async function handleStorageChange(changes, area) {
 		default:
 			break;
 	}
-}
-
-async function init() {
-	tabUrl = window.location.href;
-	pn = window.location.pathname;
-	domain = window.location.hostname;
-	if (logToConsole) {
-		console.log(`Tab url: ${tabUrl}`);
-		console.log(`Path name: ${pn}`);
-		console.log(`Domain: ${domain}`);
-	}
-	// If the website doesn't contain an opensearch plugin, then hide the Page action
-	if (document.querySelector('link[type="application/opensearchdescription+xml"]') == null) {
-		sendMessage('hidePageAction',null);
-	} 
-
-	// Retrieve options on initial load
-	options = await browser.storage.sync.get(null);
-	if (options.tabMode === 'sameTab') {
-		sameTab = true;
-	} else {
-		sameTab = false;
-	}
-	searchEngines = await browser.storage.local.get(null);
 }
 
 async function handleAltClickWithGrid(e) {

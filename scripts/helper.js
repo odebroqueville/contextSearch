@@ -1,9 +1,20 @@
 /// Global variables functions used by content scripts
 
-/* exported sortByIndex, getDomain, getNewSearchEngine, isEmpty, logToConsole */
+/* exported getDomain, getNewSearchEngine, getOS, isEmpty, logToConsole, meta, openUrl, os, sortByIndex */
 
 /// Debug
 const logToConsole = true;
+
+// Operating System and meta key
+const os = getOS();
+let meta = '';
+if (os === 'macOS') {
+	meta = 'cmd+';
+} else if (os === 'Windows') {
+	meta = 'win+';
+} else if (os === 'Linux') {
+	meta = 'super+';
+} else meta = 'meta+';
 
 /// Advanced feature
 const defaultRegex = /[\s\S]*/i;
@@ -168,3 +179,31 @@ function isEmpty(value) {
 	} else if (typeof value === 'boolean') return false;
 	else return !value;
 }
+
+function openUrl(url) {
+	browser.sidebarAction.setPanel({ panel: url });
+}
+
+// Detect the underlying OS
+function getOS() {
+	const userAgent = window.navigator.userAgent;
+	const platform = window.navigator.platform;
+	// if (navigator.userAgentData.platform !== undefined) {
+	// 	platform = navigator.userAgentData.platform;
+	// } else {
+	// 	platform = window.navigator.platform;
+	// }
+  
+	if (platform.toLowerCase().startsWith("mac")) {
+		return 'macOS';
+	} else if (platform.toLowerCase().startsWith("ip")) {
+		return 'iOS';
+	} else if (platform.toLowerCase().startsWith("win")) {
+		return 'Windows';
+	} else if (/Android/.test(userAgent)) {
+		return 'Android';
+	} else if (/Linux/.test(platform)) {
+		return 'Linux';
+	} else return null;
+  
+  }
