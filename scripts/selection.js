@@ -1,7 +1,7 @@
 'use strict';
 
 /// Global variables
-/* global EXIF, isEmpty, getDomain, getNewSearchEngine, logToConsole, meta, os */
+/* global EXIF, isEmpty, getDomain, getNewSearchEngine, logToConsole, meta, modifiers, os */
 
 const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
 const googleReverseImageSearchUrl = 'https://images.google.com/searchbyimage?image_url=';
@@ -21,6 +21,7 @@ let range = null;
 let sameTab = false;
 let options = '';
 let keysPressed = {};
+let selectedText = '';
 
 /// Debugging
 // Current state
@@ -41,6 +42,7 @@ document.addEventListener('mouseup', handleAltClickWithGrid);
 
 // Key down event listener
 document.addEventListener('keydown', (event) => {
+	if (event.target.nodeName === 'INPUT') return;
 	keysPressed[event.key] = [true, event.code];
 	if (logToConsole) console.log(keysPressed);
  });
@@ -102,27 +104,40 @@ async function init() {
 
 function handleKeyUp(e) {
 	if (logToConsole) console.log(keysPressed);
-	if (keysPressed === {}) return;
+	if (!Object.keys(keysPressed).length > 0) return;
+	if (e.target.nodeName === 'INPUT') return;
 	// if (e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey) return;
 	e.preventDefault();
+	selectedText = getSelectedText();
+	sendSelectionToBackgroundScript(selectedText);
 	if (logToConsole) console.log(e);
-	const modifiers = ["Control", "Shift", "Alt", "Meta"];
 	let input = "";
-	for (let modifier of modifiers) {
-		if (logToConsole) console.log(keysPressed[modifier][0]);
+	for (let i=0; i<modifiers.length; i++) {
+		const modifier = modifiers[i];
+		if (logToConsole) console.log(modifier);
 		if (!(modifier in keysPressed)) continue;
-		if (keysPressed[modifier][0]) {
-			if (modifier === 'Control') input = input + 'ctrl+';
-			if (modifier === 'Shift') input = input + 'shift+';
-			if (modifier === 'Alt') input = input + 'alt+';
-			if (modifier === 'Meta') input = input + meta;
-			delete keysPressed[modifier];
+		switch (modifier) {
+			case 'Control':
+				input = input + 'ctrl+';
+				break;
+			case 'Shift':
+				input = input + 'shift+';
+				break;
+			case 'Alt':
+				input = input + 'alt+';
+				break;
+			case 'Meta':
+				input = input + meta;
+				break;
+			default:
 		}
-		if (logToConsole) console.log(`keys pressed: ${input}`);
+		delete keysPressed[modifier];
 	}
-	if (logToConsole) console.log(`keys pressed: ${keysPressed}`);
+	if (logToConsole) console.log(`keys pressed: ${input}`);
+	if (logToConsole) console.log(`remaining keys down: `);
+	if (logToConsole) console.log(keysPressed);
 	for (let key in keysPressed) {
-		console.log(key);
+		if (logToConsole) console.log(key);
 		if (os === 'macOS' && input.includes('alt')) {
 			input += keysPressed[key][1].substring(3).toLowerCase();
 		} else {
@@ -131,7 +146,9 @@ function handleKeyUp(e) {
 	}
 	if (logToConsole) console.log(`keys pressed: ${input}`);
 	for (let id in searchEngines) {
-		let keyboardShortcut = searchEngines[id].keyboardShortcut;
+		if (logToConsole) console.log(id);
+		const keyboardShortcut = searchEngines[id].keyboardShortcut;
+		if (logToConsole) console.log(keyboardShortcut);
 		if (keyboardShortcut === input) {
 			sendMessage('doSearch', { id: id });
 			keysPressed = {};
@@ -189,7 +206,6 @@ async function handleStorageChange(changes, area) {
 
 async function handleAltClickWithGrid(e) {
 	if (logToConsole) console.log('Click event triggered:\n' + e.type, e.button, e.altKey);
-	e.preventDefault();
 
 	// If mouse up is not done with left mouse button then do nothing
 	if (e.button > 0) return;
@@ -197,7 +213,9 @@ async function handleAltClickWithGrid(e) {
 	// If Option (alt) key isn't pressed on mouse up then do nothing
 	if (!e.altKey) return;
 
-	let selectedText = getSelectedText();
+	e.preventDefault();
+
+	selectedText = getSelectedText();
 	if (logToConsole) console.log(`Selected text: ${selectedText}`);
 
 	let x = e.clientX;
@@ -270,7 +288,7 @@ async function handleRightClickWithoutGrid(e) {
 }
 
 function handleTextSelection() {
-	let selectedText = getSelectedText();
+	selectedText = getSelectedText();
 	sendSelectionToBackgroundScript(selectedText);
 }
 
@@ -284,7 +302,7 @@ function getPidAndName(string) {
 }
 
 function getSelectedText() {
-	let selectedText = ''; // Get the current value, not a cached value
+	selectedText = ''; // Get the current value, not a cached value
 
 	if (window.getSelection) {
 		// All modern browsers and IE9+

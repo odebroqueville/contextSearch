@@ -1,11 +1,15 @@
 /// Global variables functions used by content scripts
 
-/* exported getDomain, getNewSearchEngine, getOS, isEmpty, logToConsole, meta, openUrl, os, sortByIndex */
+/* exported defaultRegex, getDomain, getNewSearchEngine, getOS, isEmpty, logToConsole, meta, modifiers, openUrl, os, sortByIndex */
 
 /// Debug
 const logToConsole = true;
 
-// Operating System and meta key
+// Advanced feature
+const defaultRegex = /[\s\S]*/i;
+
+// Other 
+const modifiers = ["Control", "Shift", "Alt", "Meta"];
 const os = getOS();
 let meta = '';
 if (os === 'macOS') {
@@ -15,9 +19,6 @@ if (os === 'macOS') {
 } else if (os === 'Linux') {
 	meta = 'super+';
 } else meta = 'meta+';
-
-/// Advanced feature
-const defaultRegex = /[\s\S]*/i;
 
 /// Sort search engines by index
 function sortByIndex(list) {
@@ -157,6 +158,7 @@ async function getNewSearchEngine(url, searchEngines) {
 		index: numberOfSearchEngines,
 		name: shortName,
 		keyword: '',
+		keyboardShortcut: '',
 		multitab: false,
 		url: queryString,
 		show: true,

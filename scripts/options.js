@@ -1,5 +1,5 @@
 /// Global variables
-/* global defaultRegex, isEmpty, logToConsole, meta, os, Sortable, sortByIndex */
+/* global defaultRegex, isEmpty, logToConsole, meta, modifiers, os, Sortable, sortByIndex */
 
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById('container');
@@ -57,9 +57,6 @@ const btnClearAddFolder = document.getElementById('clearAddFolder');
 const btnDownload = document.getElementById('download');
 const btnUpload = document.getElementById('upload');
 
-let numberOfSearchEngines = 0;
-let searchEngines = {};
-
 // Translation variables
 const remove = browser.i18n.getMessage('remove');
 const folder = browser.i18n.getMessage('folder');
@@ -84,6 +81,11 @@ let typingEventFolderName;
 let typingEventQueryString;
 let typingEventRegex;
 let typingInterval = 1500;
+
+// Other variables
+let numberOfSearchEngines = 0;
+let searchEngines = {};
+let keysPressed = {};
 
 /// Event handlers
 document.addEventListener('DOMContentLoaded', restoreOptionsPage);
@@ -307,8 +309,12 @@ function createLineItem(id, searchEngine, isFolder = false) {
 		clearTimeout(typingTimerKeyword);
 	});
 
-	// Event handler for adding a keyboard shortcut
+	// Event handlers for adding a keyboard shortcut
 	inputKeyboardShortcut.addEventListener('keyup', handleKeyboardShortcut);
+	inputKeyboardShortcut.addEventListener('keydown', (event) => {
+		keysPressed[event.key] = [true, event.code];
+		if (logToConsole) console.log(keysPressed);
+	});
 
 	// Event handler for 'include search engine in multi-search' checkbox click event
 	chkMultiSearch.addEventListener('click', multiTabChanged); // when users check or uncheck the checkbox
@@ -620,24 +626,50 @@ function folderKeywordChanged(e) {
 }
 
 function handleKeyboardShortcut(e) {
+	if (e.target.nodeName !== 'INPUT') return;
 	if ((os === 'macOS' && e.metaKey)||((os === 'Windows' || os === 'Linux') && e.ctrlKey)) return;
 	e.preventDefault(); 
 	if (logToConsole) console.log(os);
+	if (logToConsole) console.log(keysPressed);
 	let lineItem = e.target.parentNode;
 	let id = lineItem.getAttribute('id');
 	let input = document.getElementById(id+'-kbsc');
 	let keyboardShortcut = '';
 	if (logToConsole) console.log(e);
-
-	if (e.target.nodeName === 'INPUT') {
-		if (os === 'macOS' && e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey) {
-			keyboardShortcut = `${e.ctrlKey ? 'ctrl+' : ''}${e.shiftKey ? 'shift+' : ''}${e.altKey ? 'alt+' : ''}${e.metaKey ? meta : ''}${["Control", "Shift", "Alt", "Meta"].includes(e.key) ? "" : e.code.substring(3).toLowerCase()}`;
-		} else {
-			keyboardShortcut = `${e.ctrlKey ? 'ctrl+' : ''}${e.shiftKey ? 'shift+' : ''}${e.altKey ? 'alt+' : ''}${e.metaKey ? meta : ''}${["Control", "Shift", "Alt", "Meta"].includes(e.key) ? "" : e.key.toLowerCase()}`;
+	for (let i=0; i<modifiers.length; i++) {
+		const modifier = modifiers[i];
+		if (logToConsole) console.log(modifier);
+		if (!(modifier in keysPressed)) continue;
+		switch (modifier) {
+			case 'Control':
+				keyboardShortcut = keyboardShortcut + 'ctrl+';
+				break;
+			case 'Shift':
+				keyboardShortcut = keyboardShortcut + 'shift+';
+				break;
+			case 'Alt':
+				keyboardShortcut = keyboardShortcut + 'alt+';
+				break;
+			case 'Meta':
+				keyboardShortcut = keyboardShortcut + meta;
+				break;
+			default:
 		}
-		input.value = keyboardShortcut;
+		delete keysPressed[modifier];
 	}
-
+	if (logToConsole) console.log(`keys pressed: ${keyboardShortcut}`);
+	if (logToConsole) console.log(`remaining keys down: `);
+	if (logToConsole) console.log(keysPressed);
+	for (let key in keysPressed) {
+		if (logToConsole) console.log(key);
+		if (os === 'macOS' && keyboardShortcut.includes('alt')) {
+			keyboardShortcut += keysPressed[key][1].substring(3).toLowerCase();
+		} else {
+			keyboardShortcut += key.toLowerCase();
+		}
+	}
+	input.value = keyboardShortcut;
+	keysPressed = {};
 	searchEngines[id]['keyboardShortcut'] = keyboardShortcut;
 
 	sendMessage('saveSearchEngines', searchEngines);

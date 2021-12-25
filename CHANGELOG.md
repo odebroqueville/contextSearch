@@ -1,5 +1,11 @@
-4.2.1
+4.2.2
 =========
+
+* Fixes bug [#116](https://github.com/odebroqueville/contextSearch/issues/116)
+* Adds keyboard shortcuts to search engines
+
+4.2.1
+---------
 
 * Updates search engine Wikipedia
 * Hides the Page action icon if no opensearch plugin is available
