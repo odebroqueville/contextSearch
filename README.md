@@ -129,5 +129,4 @@ https://addons.mozilla.org/firefox/addon/contextual-search/
 <li>SortableJS v1.14.0 minified with many contributors, which can be found on GitHub here: https://github.com/SortableJS/Sortable/blob/1.14.0/Sortable.min.js</li>
 <li>Leaflet v1.7.1 minified by Vladimir Agafonkin downloaded from https://leafletjs.com/download.html</li>
 <li>Color Thief v2.3.2 minified by Lokesh Dhakar available from https://github.com/lokesh/color-thief/blob/master/dist/color-thief.min.js</li>
-<li>hotkeys-js v3.8.7 minified by Kenny Wong available from https://github.com/jaywcjlove/hotkeys/blob/master/dist/hotkeys.min.js</li>
 </ul>

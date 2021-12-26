@@ -1,5 +1,10 @@
-4.2.2
+4.2.3
 =========
+
+* Updates Arabic, Dutch, French, German, Italian, Japanese, Russian, Spanish
+
+4.2.2
+---------
 
 * Fixes bug [#116](https://github.com/odebroqueville/contextSearch/issues/116)
 * Adds keyboard shortcuts to search engines

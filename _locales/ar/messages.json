@@ -138,6 +138,14 @@
 		"message": "ترتيب أبجدي",
 		"hash": "9dbba2e2d73fbe9d34b492113a47dc86"
 	},
+	"showAdvancedFeatures": {
+		"message": "عرض الميزات المتقدمة",
+		"hash": "adab8345d6d3749a2687addeb95aa6a0"
+	},
+	"hideAdvancedFeatures": {
+		"message": "إخفاء الميزات المتقدمة",
+		"hash": "6d0f963850902a32f1e4cde900271ec3"
+	},
 	"reset": {
 		"message": "إعادة الضبط",
 		"hash": "0d25968a7dfc21f95043a86dd5373b81"
@@ -158,6 +166,18 @@
 		"message": "الكلمة الرئيسية",
 		"hash": "a715ce8d52a556c7541e52a39273b8e4"
 	},
+	"warningText": {
+		"message": "تحذير",
+		"hash": "d02ba8f1a5b9fd49d892558d83e71d59"
+	},
+	"keyboardShortcutWarning": {
+		"message": "لن تعمل جميع مجموعات المفاتيح. قد لا تبدأ اختصارات لوحة المفاتيح بـ CMD على macOS أو CTRL على نظامي التشغيل Windows أو Linux ، حيث يتم حجزها عادةً لأوامر Firefox.",
+		"hash": "a87da357c72be4e165534f8a068a00a4"
+	},
+	"placeHolderKeyboardShortcut": {
+		"message": "اختصار لوحة المفاتيح",
+		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
+	},
 	"multipleSearchEngines": {
 		"message": "تضمين في البحث المتعدد",
 		"hash": "795672c778b61e3785aa2fff7dca91ed"
@@ -165,6 +185,10 @@
 	"searchEngineURL": {
 		"message": "عنوان URL لمحرك البحث",
 		"hash": "f5b1aa2bdb81d4357409d3ecb87bc1e3"
+	},
+	"regex": {
+		"message": "تعبير عادي",
+		"hash": "836b4e8f189b0435476c917699858782"
 	},
 	"testSearchEngine": {
 		"message": "اختبار محرك البحث",
@@ -231,8 +255,8 @@
 		"hash": "016e3015d7461d1d0fbf20c60bd9ff0f"
 	},
 	"titleSiteSearch": {
-		"message": "ابحث في هذا الموقع باستخدام Google",
-		"hash": "5a76bc5c095707f27e2ed235d2f3ccb6"
+		"message": "بحث في هذا الموقع مع",
+		"hash": "84e89c97ed21d0499012b414415470e6"
 	},
 	"titleOptions": {
 		"message": "الخيارات",
@@ -309,6 +333,38 @@
 	"siteSearch": {
 		"message": "محرك بحث للبحث في الموقع الحالي:",
 		"hash": "1aef8aa2adcad0a105bc24d0ac87fe4c"
+	},
+	"header9": {
+		"message": "الخيارات المتقدمة",
+		"hash": "64bdb129ceb0e431268d7c8199542e11"
+	},
+	"useRegex": {
+		"message": "استخدم التعبيرات العادية لبناء قائمة السياق",
+		"hash": "9d48895eae1e8a92e6a0b2a2bd0e0fa0"
+	},
+	"regexNote": {
+		"message": "لا تنطبق هذه الميزة على شبكة الرموز.",
+		"hash": "2d301abb7cffcf3a4f41cc59dc52e828"
+	},
+	"subheader62": {
+		"message": "أضف مجلدًا جديدًا",
+		"hash": "3a46fe63f172c9cf1e4cf9753dc935f9"
+	},
+	"folderName": {
+		"message": "إسم الملف",
+		"hash": "66c685078184b7f5123e83f4b94097fe"
+	},
+	"folder": {
+		"message": "مجلد",
+		"hash": "6fa625e07a474959d219b2abdaa8c39e"
+	},
+	"addFolder": {
+		"message": "أضف المجلد",
+		"hash": "f6668a06fb140909b3f286d742c848c8"
+	},
+	"keyboardShortcut": {
+		"message": "اختصار لوحة المفاتيح",
+		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
 	},
 
 	"__WET_LOCALE__": { "message": "ar" }

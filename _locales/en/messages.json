@@ -125,6 +125,12 @@
 	"placeHolderKeyword": {
 		"message": "Keyword"
 	},
+	"warningText": {
+		"message": "Warning"
+	},
+	"keyboardShortcutWarning": {
+		"message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
+	},
 	"placeHolderKeyboardShortcut": {
 		"message": "Keyboard shortcut"
 	},
