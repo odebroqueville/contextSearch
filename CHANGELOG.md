@@ -1,7 +1,8 @@
 4.2.3
 =========
 
-* Updates Arabic, Dutch, French, German, Italian, Japanese, Russian, Spanish
+* Fixes bug [#117](https://github.com/odebroqueville/contextSearch/issues/117)
+* Updates Arabic, Dutch, French, German, Italian, Japanese, Russian, Spanish translations
 
 4.2.2
 ---------

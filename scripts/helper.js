@@ -22,40 +22,32 @@ if (os === 'macOS') {
 
 /// Sort search engines by index
 function sortByIndex(list) {
-	let sortedList = {};
+	let sortedList = JSON.parse(JSON.stringify(list));
 	let n = Object.keys(list).length;
 	let arrayOfIndexes = [];
-	let max = 0;
+	let arrayOfIds = [];
+	let min = 0;
 	if (logToConsole) console.log(list);
-	// Determine a max index
+	// Create the array of indexes and its corresponding array of ids
 	for (let id in list) {
 		if (logToConsole) console.log(`id = ${id}`);
-		if (list[id].index != null && list[id].index > max) {
-			max = list[id].index + 1;
-		}
-	}
-	// If there are no indexes, then add an index starting from max
-	for (let id in list) {
-		if (list[id].index == null) {
-			list[id].index = max;
-			max += 1;
+		// If there is no index, then move the search engine to the end of the list
+		if (isEmpty(list[id].index)) {
+			list[id].index = n + 1;
+			n++;
 		}
 		arrayOfIndexes.push(list[id].index);
+		arrayOfIds.push(id);
 	}
-	// Sort arrayOfIndexes in ascending order
-	arrayOfIndexes.sort((a, b) => {
-		return a - b;
-	});
-	// Create sorted list by ascending index and re-number the indexes starting from 0
-	for (let i = 0; i < n; i++) {
-		for (let id in list) {
-			if (arrayOfIndexes[i] === list[id].index) {
-				sortedList[id] = list[id];
-				sortedList[id].index = i;
-				continue;
-			}
-		}
+	// Sort the list by index
+	for (let i = 1; i < n + 1; i++) {
+		min = Math.min(...arrayOfIndexes);
+		let ind = arrayOfIndexes.indexOf(min);
+		arrayOfIndexes.splice(ind, 1);
+		let id = arrayOfIds.splice(ind, 1);
+		sortedList[id].index = i;
 	}
+
 	return sortedList;
 }
 
