@@ -1,5 +1,11 @@
-4.2.3
+4.2.4
 =========
+
+* Fixes bugs #110, #118, #119 and #120
+* Includes features enhancements: it is now possible to select text and carry out searches from within the sidebar
+
+4.2.3
+---------
 
 * Fixes bug [#117](https://github.com/odebroqueville/contextSearch/issues/117)
 * Updates Arabic, Dutch, French, German, Italian, Japanese, Russian, Spanish translations

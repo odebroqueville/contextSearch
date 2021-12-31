@@ -114,13 +114,13 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			if (logToConsole) console.log('Search engine id: ' + id);
 			if (id === 'multisearch') {
 				processMultiTabSearch();
-				break;
+				return;
 			}
 			if (logToConsole) console.log(contextsearch_openSearchResultsInSidebar);
-			// if (contextsearch_openSearchResultsInSidebar) {
-			// 	browser.sidebarAction.open();
-			// 	browser.sidebarAction.setPanel({ panel: 'about:blank' });
-			// }
+			if (contextsearch_openSearchResultsInSidebar) {
+				searchUsing(id, null);
+				return;
+			}
 			browser.tabs.query({ currentWindow: true }).then((tabs) => {
 				if (logToConsole) console.log(tabs);
 				let tabIndex = 0;
@@ -147,12 +147,6 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			break;
 		case 'returnImageData':
 			sendResponse({ imageUrl: imageUrl, imageTags: imageTags });
-			break;
-		case 'returnSearchResults':
-			if (logToConsole) console.log(`Target url: ${targetUrl}\n`);
-			if (!isEmpty(targetUrl)) {
-				openUrl(targetUrl);
-			}
 			break;
 		case 'setSelection':
 			if (logToConsole) console.log(`Selected text: ${message.data}`);
@@ -1155,12 +1149,13 @@ function buildContextMenuItem(searchEngine, index, title, base64String, browserV
 // Perform search based on selected search engine, i.e. selected context menu item
 async function processSearch(info, tab) {
 	let id = info.menuItemId.replace('cs-', '');
-	let tabPosition = tab.index;
+	let tabPosition;
 	if ((contextsearch_openSearchResultsInSidebar && id !== 'reverse-image-search') || id === 'exif-tags') {
 		await browser.sidebarAction.open();
-		browser.sidebarAction.setPanel({ panel: 'about:blank' });
+		browser.sidebarAction.setPanel({panel: "about:blank"});
 	} else {
 		await browser.sidebarAction.close();
+		tabPosition = tab.index;
 	}
 
 	if (id === 'exif-tags') {
@@ -1168,30 +1163,6 @@ async function processSearch(info, tab) {
 		browser.sidebarAction.setPanel({ panel: url });
 		browser.sidebarAction.setTitle({ title: 'Image analysis' });
 		return;
-		/* 		if (contextsearch_openSearchResultsInSidebar) {
-			let url = browser.runtime.getURL('/sidebar/exif_tags.html');
-			browser.sidebarAction.setPanel({ panel: url });
-			browser.sidebarAction.setTitle({ title: 'Exif tags' });
-			return;
-		} else {
-			browser.tabs
-				.query({ active: true })
-				.then((tabs) => {
-					if (tabs.length > 0) {
-						sendMessageToTabs(tabs, {
-							action: 'displayExifTags',
-							data: imageTags
-						});
-						if (logToConsole) {
-							console.log(`Image URL: ${imageUrl}`);
-							console.log(`Image EXIF tags: \n\n${JSON.stringify(imageTags, null, '\t')}`);
-						}
-					}
-				})
-				.catch((err) => {
-					if (logToConsole) console.error(err);
-				});
-		} */
 	} else if (id === 'reverse-image-search') {
 		browser.tabs.query({ currentWindow: true }).then((tabs) => {
 			for (let tab of tabs) {
@@ -1215,8 +1186,10 @@ async function processSearch(info, tab) {
 	if ((id === 'site-search') && !isEmpty(targetUrl)) {
 		if (logToConsole) console.log(targetUrl);
 		if (contextsearch_openSearchResultsInSidebar) {
-			let url = browser.runtime.getURL('/sidebar/search_results.html');
-			browser.sidebarAction.setPanel({ panel: url });
+			const domain = getDomain(tab.url).replace(/https?:\/\//, '');
+			const options = await getOptions();
+			targetUrl = options.siteSearchUrl + encodeUrl(`site:https://${domain} ${selection}`);
+			openUrl(targetUrl);
 			browser.sidebarAction.setTitle({ title: 'Search results' });
 			return;
 		}
@@ -1310,7 +1283,7 @@ function searchUsing(id, tabIndex) {
 	targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
 	if (logToConsole) console.log(`Target url: ${targetUrl}`);
 	if (contextsearch_openSearchResultsInSidebar) {
-		browser.sidebarAction.setPanel({ panel: targetUrl });
+		openUrl(targetUrl);
 		browser.sidebarAction.setTitle({ title: 'Search results' });
 		return;
 	}

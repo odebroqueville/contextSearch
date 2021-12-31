@@ -3,7 +3,7 @@
 	"default_locale": "en",
 	"name": "__MSG_extensionName__",
 	"description": "__MSG_extensionDescription__",
-	"version": "4.2.3",
+	"version": "4.2.4",
 	"author": "Olivier de Broqueville",
 	"browser_specific_settings": {
 		"gecko": {
@@ -21,6 +21,7 @@
 	},
 
 	"sidebar_action": {
+		"browser_style": false,
 		"default_icon": "/icons/context-search.svg",
 		"default_title": "Search results",
 		"default_panel": "/sidebar/search_results.html",
@@ -76,7 +77,6 @@
 				"/scripts/Sortable.min.js",
 				"/scripts/RGraph.svg.common.core.js",
 				"/scripts/RGraph.svg.line.js",
-				"/scripts/search_results.js",
 				"/scripts/exif_tags.js"
 			]
 		}

@@ -263,17 +263,17 @@ async function handleRightClickWithoutGrid(e) {
 		});
 	} else if (tag === 'A') {
 		// Check that domain of current web page is mycroftproject.com
-		let url = window.location.href;
-		let domain = getDomain(url).replace(/https?:\/\//, '');
+		const fullUrl = window.location.href;
+		const domain = getDomain(fullUrl).replace(/https?:\/\//, '');
 		if (domain === 'mycroftproject.com') {
 			// Prevent context menu from showing
 			e.preventDefault();
 
 			// get pid and name to retrieve open search data
-			let attr = elementClicked.getAttribute('href');
-			let pid = getPidAndName(attr).pid;
-			let name = getPidAndName(attr).name;
-			let url = mycroftUrl + pid + '/' + name + '.xml';
+			const attr = elementClicked.getAttribute('href');
+			const pid = getPidAndName(attr).pid;
+			const name = getPidAndName(attr).name;
+			const url = mycroftUrl + pid + '/' + name + '.xml';
 			if (logToConsole) console.log(`pid: ${pid}`);
 			if (logToConsole) console.log(`name: ${name}`);
 			if (logToConsole) console.log(`url: ${url}`);
