@@ -356,24 +356,26 @@ function buildIconGrid(x, y) {
 	nav.setAttribute('id', 'cs-grid');
 	nav.style.display = 'block';
 	nav.style.backgroundColor = 'white';
-	nav.style.border = '2px solid #999';
+	nav.style.border = '3px solid #999';
+	nav.style.padding = '5px';
+	nav.style.borderRadius = '20px';
 	nav.style.zIndex = 999;
 	nav.style.position = 'fixed';
 	nav.style.setProperty('top', y.toString() + 'px');
 	nav.style.setProperty('left', x.toString() + 'px');
-	let ol = document.createElement('ol');
-	ol.style.margin = '0px';
-	ol.style.padding = '0px';
+	let ul = document.createElement('ul');
+	ul.style.margin = '0px';
+	ul.style.padding = '0px';
 	for (let i = 0; i < r; i++) {
 		let liRow = document.createElement('li');
 		liRow.style.listStyleType = 'none';
 		liRow.style.margin = '0px';
 		liRow.style.padding = '0px';
 		liRow.style.height = ICON32;
-		let olRow = document.createElement('ol');
-		olRow.style.margin = '0px';
-		olRow.style.padding = '0px';
-		olRow.style.height = ICON32;
+		let ulRow = document.createElement('ul');
+		ulRow.style.margin = '0px';
+		ulRow.style.padding = '0px';
+		ulRow.style.height = ICON32;
 		for (let j = 0; j < m; j++) {
 			if (i * m + j + 1 > n) break;
 			let id = '';
@@ -410,18 +412,19 @@ function buildIconGrid(x, y) {
 			img.style.margin = '0px';
 			img.style.padding = '0px';
 			img.style.border = '3px solid #fff';
+			img.style.borderRadius = '10px';
 			img.style.width = '32px';
 			img.style.height = '32px';
 			img.addEventListener('mouseover', addBorder);
 			img.addEventListener('mouseleave', removeBorder);
 			liItem.appendChild(img);
-			olRow.appendChild(liItem);
+			ulRow.appendChild(liItem);
 			if (i * m + j === n) break;
 		}
-		liRow.appendChild(olRow);
-		ol.appendChild(liRow);
+		liRow.appendChild(ulRow);
+		ul.appendChild(liRow);
 	}
-	nav.appendChild(ol);
+	nav.appendChild(ul);
 	nav.addEventListener('click', onGridClick);
 	nav.addEventListener('mouseleave', onLeave);
 
@@ -431,9 +434,9 @@ function buildIconGrid(x, y) {
 	// Position icon grid contained in nav element
 	nav.style.left = 0;
 	nav.style.top = 0;
-	let viewportWidth = window.innerWidth;
+	let viewportWidth = document.body.clientWidth;
 	let viewportHeight = window.innerHeight;
-	let navWidth = nav.offsetWidth;
+	let navWidth = nav.offsetWidth + 16;
 	let navHeight = nav.offsetHeight;
 	if (x > viewportWidth - navWidth) {
 		nav.style.left = viewportWidth - navWidth + 'px';
@@ -448,6 +451,7 @@ function buildIconGrid(x, y) {
 }
 
 function onGridClick(e) {
+	e.preventDefault();
 	if (logToConsole) console.log('Grid icon got clicked:' + e.type);
 	let id = e.target.parentNode.id;
 	if (logToConsole) console.log('Search engine clicked:' + id);
