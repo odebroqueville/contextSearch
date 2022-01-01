@@ -1283,6 +1283,7 @@ function searchUsing(id, tabIndex) {
 	targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
 	if (logToConsole) console.log(`Target url: ${targetUrl}`);
 	if (contextsearch_openSearchResultsInSidebar) {
+		browser.sidebarAction.setPanel({panel: "about:blank"});
 		openUrl(targetUrl);
 		browser.sidebarAction.setTitle({ title: 'Search results' });
 		return;
