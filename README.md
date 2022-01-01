@@ -21,12 +21,15 @@ To manage your favorite search engines, you can go to the preferences page of Co
 
 ![How to define a search engine](images/searchEngineDescription.jpg)
 
+Please refer to the 3rd screenshot above.
+
 <ol>
 <li>The checkbox at the start of a line determines whether the search engine should appear in the context menu.</li>
 <li>The next item on the line contains the name of the search engine and is followed by a keyword.</li>
 <li>This keyword is used in the url address bar (or omnibox) after the word “cs “ and before the search terms (e.g. to search for linux using the search engine Wikipedia, you would type: ‘cs w linux’, where w is the keyword assigned to Wikipedia).</li>
-<li>The second checkbox specifies whether you’d like to use the search engine in a “multi-search”. A “multi-search” is a search performed using multiple search engines and can be selected in the context menu.</li>
-<li>The checkbox is followed by the search query string. This is the generic url you would use to perform a search. Search query strings may contain the parameters %s or {searchTerms} where you'd like your search terms to appear, i.e. the selected text.</li>
+<li>Next, you can assign a keyboard shortcut to a search engine to perform a quick search. Please note that not all key combinations will work as some may be reserved by the browser or your system.</li>
+<li>The second checkbox specifies whether you’d like to use the search engine in a “multi-search”. A “multi-search” is a search performed using multiple search engines and can be selected in the context menu of in the grid of icons.</li>
+<li>The checkbox is followed by the search query string. This is the generic url you would use to perform a search. Search query strings may contain the parameters %s or {searchTerms} where you'd like your search terms, i.e. the selected text, to appear.</li>
 <li>Click on and drag the move icon to the left of the trash icon to move each search engine up or down in the list.</li>
 <li>Click on the trash icon to remove a search engine from the list.</li>
 </ol>
@@ -111,9 +114,10 @@ It is not required to provide the base 64 string representation of any search en
 The Firefox add-on may be found here:
 https://addons.mozilla.org/firefox/addon/contextual-search/
 
-## Special thanks to the following contributors for the translations
+## Special thanks to the following contributors
 
 <ul>
+<li>Carl Scheller for implementing the drag & drop feature to move search engines in the Options page</li>
 <li>Geoffrey De Belie for the Dutch translation</li>
 <li>Krzysztof Galazka for the Polish translation</li>
 <li>Sergio Tombesi for the Italian and Spanish translations</li>

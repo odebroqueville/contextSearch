@@ -1,5 +1,10 @@
-4.2.4
+4.2.5
 =========
+
+* Fixes bugs #122, #123 and #124 
+
+4.2.4
+---------
 
 * Fixes bugs #110, #118, #119 and #120
 * Includes features enhancements: it is now possible to select text and carry out searches from within the sidebar
