@@ -21,7 +21,7 @@ To manage your favorite search engines, you can go to the preferences page of Co
 
 ![How to define a search engine](images/searchEngineDescription.jpg)
 
-Please refer to the 3rd screenshot above.
+Please refer to the 4th screenshot above.
 
 <ol>
 <li>The checkbox at the start of a line determines whether the search engine should appear in the context menu.</li>
