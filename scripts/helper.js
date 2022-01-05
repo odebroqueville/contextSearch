@@ -3,7 +3,7 @@
 /* exported defaultRegex, getDomain, getNewSearchEngine, getOS, isEmpty, logToConsole, meta, modifiers, openUrl, os, sortByIndex */
 
 /// Debug
-const logToConsole = true;
+const logToConsole = false;
 
 // Advanced feature
 const defaultRegex = /[\s\S]*/i;
