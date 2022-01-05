@@ -299,7 +299,7 @@
 		"hash": "ea4b3f2f47d5ea8c594036cbdbf6e42b"
 	},
 	"displayFavicons": {
-		"message": "Anzeigen von Favoriten in der Kontextmenüliste",
+		"message": "Anzeige der Favicons in der Kontextmenüliste",
 		"hash": "7036d3e65d70351c41dfa59e397121b3"
 	},
 	"displayExifSummary": {
@@ -319,7 +319,7 @@
 		"hash": "3736dde3828bcec7e5081dc1a450916b"
 	},
 	"forceFaviconsReload": {
-		"message": "Erzwinge das Nachladen von Favoriten",
+		"message": "Erzwinge das Nachladen der Favicons",
 		"hash": "1fea5d330fd5c105ce6ba68ade3be299"
 	},
 	"restriction": {
