@@ -19,7 +19,7 @@ The extension includes an Image analysis tool. To analyse an image, right-click 
 
 To manage your favorite search engines, you can go to the preferences page of Context Search. You can reach this page by opening the extensions page (Addon Manager) where all your add-ons are listed and then clicking on the "Preferences" button.
 
-![How to define a search engine](images/searchEngineDescription.jpg)
+![How to define a search engine](images/searchEngineDescription.png)
 
 Please refer to the 4th screenshot above.
 
@@ -58,6 +58,10 @@ will open the Options page
 
 cs ! cold fusion
 will perform a multi-search for the search terms 'cold fusion'
+
+## Advanced feature
+
+You can add a regular expression to each search engine. If the selected text matches the regex, then the search engine will appear in the context menu. As an example, imagine you had a search engine for booking.com and another for tripadvisor.com and you would like these search engines to appear in the context menu when a selection contains the word 'hotel'. Then, for those search engines, you'd enter the regex /hotel/. If you then make any other selection that doesn't contain the word "hotel" in it, those search engines won't appear in the context menu. There's a very useful website for building a regex: https://regex101.com. Another example is, if you select an IP address, then you might want the search engine corresponding to whatismyipaddress.com to appear. The regex here is a little more complicated to establish, but Google can help: search Google for "regex for ip address".
 
 ## The main structure of a JSON file containing the search engines
 
