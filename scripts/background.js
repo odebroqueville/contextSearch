@@ -878,33 +878,17 @@ function addNewFavicon(id, domain) {
 				let doc = parser.parseFromString(webPage, 'text/html');
 				let links = doc.getElementsByTagName('link');
 				let rel = null;
-				let size = null;
 				let bestIconUrl = null;
 				let base64str = '';
 				let optimalSize = '32x32';
 				let tests = [ optimalSize, '[.]png', '[.]ico' ];
 
-				// 1st Pass: store all links with a possible favicon of size 32x32 in an array
+				// Store all links with a possible favicon
 				for (let link of links) {
 					rel = link.getAttribute('rel');
-					size = link.getAttribute('size');
-					if (/icon/.test(rel)) {
+					if (/icon/i.test(rel)) {
 						let absUrl = convertUrl2AbsUrl(link.href, domain);
-						if (size === optimalSize) {
-							if (!linksWithIcons.includes(absUrl)) linksWithIcons.push(absUrl);
-						}
-					}
-				}
-
-				// 2nd Pass: store all remaining links with a possible favicon of any size different to 32x32 in the same array
-				for (let link of links) {
-					rel = link.getAttribute('rel');
-					size = link.getAttribute('size');
-					if (/icon/.test(rel)) {
-						let absUrl = convertUrl2AbsUrl(link.href, domain);
-						if (size !== optimalSize) {
-							if (!linksWithIcons.includes(absUrl)) linksWithIcons.push(absUrl);
-						}
+						if (!linksWithIcons.includes(absUrl)) linksWithIcons.push(absUrl);
 					}
 				}
 
@@ -912,8 +896,7 @@ function addNewFavicon(id, domain) {
 				if (logToConsole) console.log(`Links with favicons: ${linksWithIcons}`);
 
 				// Check if the links containing icons contain 32x32 in their name, then
-				// check if they are of type png, then
-				// finally check if they are of type ico
+				// check if they are of type png. Finally check if they are of type ico.
 				for (let test of tests) {
 					if (logToConsole) console.log(`Checking if url contains: ${test}`);
 					bestIconUrl = getBestIconUrl(linksWithIcons, test);
@@ -921,8 +904,9 @@ function addNewFavicon(id, domain) {
 						if (logToConsole) console.log(`Best icon url: ${bestIconUrl}`);
 						base64str = getBase64Image(bestIconUrl);
 						base64str.then((b64) => {
-							return resolve({ id: id, base64: b64 });
+							resolve({ id: id, base64: b64 });
 						});
+						break;
 					}
 				}
 				// Failed to retrieve a favicon, proceeding with besticon API
@@ -986,7 +970,7 @@ function convertUrl2AbsUrl(href, domain) {
 }
 
 function getBestIconUrl(urls, regex) {
-	let regexp = new RegExp(regex);
+	let regexp = new RegExp(regex, 'i');
 	for (let url of urls) {
 		if (regexp.test(url)) {
 			return url;
@@ -1126,9 +1110,6 @@ function buildContextMenuItem(searchEngine, index, title, base64String, browserV
 	const regexModifier = searchEngine.regex.flags;
 	const regex = new RegExp(regexString, regexModifier);
 	if (!searchEngine.show) return;
-	console.log(regexString);
-	console.log(regexModifier);
-	console.log(selection.match(regex));
 	if (contextsearch_useRegex && (selection.match(regex) === null)) return;
 	if (browserVersion >= 56 && contextsearch_displayFavicons === true) {
 		browser.contextMenus.create({
