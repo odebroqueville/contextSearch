@@ -1,5 +1,12 @@
-4.2.5
+4.2.6
 =========
+
+* Minor corrections to German translations
+* Fix [#129](https://github.com/odebroqueville/contextSearch/issues/129) missing documentation for advanced features
+* Fix bug [#130](https://github.com/odebroqueville/contextSearch/issues/130)
+
+4.2.5
+---------
 
 * Fixes bugs #122, #123 and #124 
 
