@@ -1,7 +1,7 @@
 'use strict';
 
 /// Global variables
-/* global defaultRegex, sortByIndex, isEmpty, getDomain, logToConsole, openUrl */
+/* global  */
 let searchEngines = {};
 let searchEnginesArray = [];
 let selection = '';
@@ -11,15 +11,18 @@ let imageUrl = '';
 let imageTags = {};
 
 /// Constants
+// Debug
+const logToConsole = true;
+
 //const FIREFOX_VERSION = /rv:([0-9.]+)/.exec(navigator.userAgent)[1];
 //const contextsearch_userAgent = `Mozilla/5.0 (Android 4.4; Mobile; rv:${FIREFOX_VERSION}) Gecko/${FIREFOX_VERSION} Firefox/${FIREFOX_VERSION}`;
-const contextsearch_userAgent =
+const contextsearch_userAgent = 
 	'Mozilla/5.0 (iPhone9,3; U; CPU iPhone OS 10_0_1 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/14A403 Safari/602.1';
-const DEFAULT_JSON = 'defaultSearchEngines.json';
-const besticonAPIUrl = 'https://get-besticons.herokuapp.com/icon?url=';
-const besticonAPIUrlSuffix = '&size=16..32..128';
+const DEFAULT_SEARCH_ENGINES = 'defaultSearchEngines.json';
 const base64ContextSearchIcon =
 	'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';
+// Advanced feature
+const defaultRegex = /[\s\S]*/i;
 
 // This is a RequestFilter: https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/webRequest/RequestFilter
 // It matches tabs that aren't attached to a normal location (like a sidebar)
@@ -299,121 +302,65 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 /// Initialize extension
 // Initialize search engines, only setting to default if not previously set
 // Check if options are set in sync storage and set to default if not
-function init() {
-	return new Promise((resolve, reject) => {
-		if (logToConsole) {
-			// Inform on storage space being used by storage sync
-			browser.storage.sync
-				.getBytesInUse(null)
-				.then((bytesUsed) => {
-					console.log(`Bytes used by storage sync: ${bytesUsed} bytes.`);
-				})
-				.catch((err) => {
+async function init() {
+	// Debug: verify that storage space occupied is within limits
+	if (logToConsole) {
+		// Inform on storage space being used by storage sync
+		const bytesUsed = await browser.storage.sync.getBytesInUse(null)
+			.catch((err) => {
 					console.error(err);
 					console.log('Failed to retrieve storage space used by storage sync.');
-				});
-
-			// Inform on storage space being used by local storage
-			browser.storage.local.get((items) => {
-				console.log(`Bytes used by local storage: ${JSON.stringify(items).length} bytes.`);
 			});
-		}
+		console.log(`Bytes used by storage sync: ${bytesUsed} bytes.`);
 
-		// Initialize search engines, do not force reload (if empty, will reload in next fn)
-		initialiseSearchEngines(false).then(() => {
-			// Check if options are stored in browser sync; if not, set to default
-			browser.storage.sync
-				.get(null)
-				.then((options) => {
-					if (isEmpty(options)) {
-						setDefaultOptions(true);
-					} else {
-						if (!isEmpty(options.options)) {
-							setOptions(options.options, true);
-						} else {
-							setOptions(options, false);
-						}
-					}
-					rebuildContextMenu();
-					resolve();
-				})
-				.catch((err) => {
-					if (logToConsole) {
-						console.error(err);
-						console.log('Failed to retrieve options from storage sync.');
-					}
-					reject();
-				});
-		});
-	});
+		// Inform on storage space being used by local storage
+		const items = await browser.storage.local.get(null);
+		console.log(`Bytes used by local storage: ${JSON.stringify(items).length} bytes.`);
+	}
+
+	// Initialize options and search engines
+	await initialiseOptionsAndSearchEngines(false);
+	rebuildContextMenu();
 }
 
 /// Reset extension
 // Resets the options to the default list if options.resetPreferences is set
 // Resets the list of search engines to the default list if options.forceSearchEnginesReload is set
 // Force favicons to be reloaded if options.forceFaviconsReload is set
-function reset() {
-	return new Promise((resolve, reject) => {
+async function reset() {
+	if (logToConsole) {
+		console.log(
+			"Resetting extension's preferences and search engines as per user reset preferences."
+		);
+	}
+	const options = browser.storage.sync.get(null);
+	options.catch((err) => {
 		if (logToConsole) {
-			console.log(
-				"Resetting extension's preferences and search engines from storage (pending user preferences)."
-			);
+			console.error(err);
+			console.log('Failed to retrieve options from storage sync.');
 		}
-		browser.storage.sync
-			.get(null)
-			.then((options) => {
-				let forceReload = false;
-				if (options.forceSearchEnginesReload) forceReload = options.forceSearchEnginesReload;
-				if (logToConsole) console.log(forceReload);
-				if (logToConsole) console.log(options);
-				initialiseSearchEngines(forceReload).then(() => {
-					if (isEmpty(options) || options.resetPreferences) {
-						setDefaultOptions(true);
-					} else {
-						setOptions(options, false);
-					}
-					resolve({ response: 'resetCompleted' });
-				}, onError);
-			})
-			.catch((err) => {
-				if (logToConsole) {
-					console.error(err);
-					console.log('Failed to retrieve options from storage sync.');
-				}
-				reject();
-			});
+		return;
 	});
+	const forceReload = options.forceSearchEnginesReload;
+	if (logToConsole) console.log(`Options:`);
+	if (logToConsole) console.log(options);
+	await initialiseOptionsAndSearchEngines(forceReload);
 }
 
-function addNewSearchEngine(id, domain) {
-	return new Promise((resolve, reject) => {
-		browser.storage.local
-			.clear()
-			.then(() => {
-				addNewFavicon(id, domain)
-					.then((value) => {
-						searchEngines[id]['base64'] = value.base64;
-						saveSearchEnginesToLocalStorage(false);
-						rebuildContextMenu();
-						notify(notifySearchEngineAdded);
-						resolve();
-					})
-					.catch((err) => {
-						if (logToConsole) {
-							console.error(err);
-							console.log('Failed to add new favicon.');
-						}
-						reject();
-					});
-			})
-			.catch((err) => {
+async function addNewSearchEngine(id, domain) {
+		await browser.storage.local.clear()
+			.catch(err => {
 				if (logToConsole) {
 					console.error(err);
 					console.log('Failed to clear local storage.');
 				}
-				reject();
+				return;
 			});
-	});
+		const value = await getNewFavicon(id, domain);
+		searchEngines[id]['base64'] = value.base64;
+		await saveSearchEnginesToLocalStorage(false);
+		rebuildContextMenu();
+		notify(notifySearchEngineAdded);
 }
 
 function handlePageAction(tab) {
@@ -421,180 +368,100 @@ function handlePageAction(tab) {
 	sendMessageToTab(tab, message);
 }
 
-// Reset options to default
-function setDefaultOptions(save) {
-	setOptions(defaultOptions, save);
-}
+async function initialiseOptionsAndSearchEngines(forceReload) {
+	/// Initialise options
+	let options = {};
+	let data = await browser.storage.sync.get(null)
+		.catch(err => {
+			if (logToConsole) {
+				console.error(err);
+				console.log('Failed to retrieve data from storage sync.');
+			}
+		});
+	options = data.options;
+	if (logToConsole) console.log(options);
+	if (data.options) delete data['options'];
 
-function initialiseSearchEngines(forceReload) {
-	return new Promise((resolve, reject) => {
-		let options = {};
-		browser.storage.sync
-			.get(null)
-			.then(async (data) => {
-				if (logToConsole) console.log(data);
-				if (!isEmpty(data)) {
-					options = data.options || data;
-					if (logToConsole) console.log(options);
-					await browser.storage.sync.clear().then(() => {
-						if (!isEmpty(options)) {
-							browser.storage.sync.set(options);
-						}
-					});
-					// Check if there are search engines stored in storage sync (legacy)
-					if (data.options && Object.keys(data).length > 1) {
-						delete data['options'];
-						searchEngines = sortByIndex(data);
-						setRegex();
-						setKeyboardShortcuts();
-						browser.storage.local
-							.clear()
-							.then(() => {
-								getFaviconsAsBase64Strings()
-									.then(() => {
-										saveSearchEnginesToLocalStorage(false).then(() => {
-											if (logToConsole) {
-												console.log(
-													'Successfully loaded favicons and saved search engines to local storage.'
-												);
-											}
-											resolve();
-										});
-									})
-									.catch((err) => {
-										if (logToConsole) {
-											console.error(err);
-											console.log('Failed to fetch favicons.');
-										}
-										reject();
-									});
-							})
-							.catch((err) => {
-								if (logToConsole) {
-									console.error(err);
-									console.log('Failed to clear local storage.');
-								}
-								reject();
-							});
-					} else {
-						// Check for search engines in local storage
-						browser.storage.local
-							.get(null)
-							.then((data) => {
-								searchEngines = sortByIndex(data);
-								setRegex();
-								setKeyboardShortcuts();
-								if (logToConsole) {
-									console.log('Search engines: \n');
-									console.log(searchEngines);
-								}
-								// Load default search engines if force reload is set or if no search engines are stored in local storage
-								if (isEmpty(searchEngines) || forceReload) {
-									browser.storage.local
-										.clear()
-										.then(() => {
-											loadDefaultSearchEngines(DEFAULT_JSON).then(resolve, reject);
-										})
-										.catch((err) => {
-											if (logToConsole) {
-												console.error(err);
-												console.log('Failed to remove search engines from local storage.');
-											}
-											reject();
-										});
-								} else {
-									resolve();
-								}
-							})
-							.catch((err) => {
-								console.error(err);
-								console.log('Failed to retrieve search enginees from local storage.');
-								reject();
-							});
-					}
-				} else {
-					// Check for search engines in local storage
-					browser.storage.local
-					.get(null)
-					.then((data) => {
-						searchEngines = sortByIndex(data);
-						setRegex();
-						setKeyboardShortcuts();
-						if (logToConsole) {
-							console.log('Search engines: \n');
-							console.log(searchEngines);
-						}
-						// Load default search engines if force reload is set or if no search engines are stored in local storage
-						if (isEmpty(searchEngines) || forceReload) {
-							browser.storage.local
-								.clear()
-								.then(() => {
-									loadDefaultSearchEngines(DEFAULT_JSON).then(resolve, reject);
-								})
-								.catch((err) => {
-									if (logToConsole) {
-										console.error(err);
-										console.log('Failed to remove search engines from local storage.');
-									}
-									reject();
-								});
-						} else {
-							resolve();
-						}
-					})
-					.catch((err) => {
-						console.error(err);
-						console.log('Failed to retrieve search enginees from local storage.');
-						reject();
-					});
-				}
-			})
-			.catch((err) => {
-				if (logToConsole) {
+	// If there are no options stored in storage sync or reset preferences is set, then use default options
+	// Otherwise clear storage sync and only save options in storage sync
+	if (isEmpty(options) || options.resetPreferences) {
+		options = defaultOptions;
+	} else {
+		await browser.storage.sync.clear();
+	}
+	if (logToConsole) console.log(options);
+	setOptions(options, true);
+	console.log(data);
+
+	/// Initialise search engines
+	// If there were search engines stored in storage sync (legacy), move them to storage local
+	if (!isEmpty(data) && Object.keys(data).length > 1) {
+		searchEngines = sortByIndex(data);
+		setRegex();
+		setKeyboardShortcuts();
+		if (logToConsole) {
+			console.log('Search engines: \n');
+			console.log(searchEngines);
+		}
+		await browser.storage.local.clear();
+		await getFaviconsAsBase64Strings();
+		await saveSearchEnginesToLocalStorage(false);
+	} else {
+		// Check for search engines in local storage
+		const se = await browser.storage.local.get(null);
+		if (se === undefined || isEmpty(se) || forceReload) {
+			console.log("PAR ICI!");
+			// Load default search engines if force reload is set or if no search engines are stored in local storage
+			await browser.storage.local.clear();
+			await loadDefaultSearchEngines(DEFAULT_SEARCH_ENGINES)
+				.catch((err) => {
 					console.error(err);
-					console.log('Failed to retrieve search engines from storage sync.');
-				}
-				reject();
-			});
-	});
+					console.log('Failed to retrieve search enginees from local storage.');
+					return;
+				});
+		} else {
+			searchEngines = sortByIndex(se);
+			setRegex();
+			setKeyboardShortcuts();
+			if (logToConsole) {
+				console.log('Search engines: \n');
+				console.log(searchEngines);
+			}
+		}
+	}
 }
 
 function setRegex() {
 	for (let id in searchEngines) {
-		if (logToConsole) console.log(`id: ${id}`);
 		if (searchEngines[id].regex !== undefined) continue;
+		if (logToConsole) console.log(`id: ${id}`);
 		searchEngines[id]['regex'] = {};
 		searchEngines[id]['regex']['body'] = defaultRegex.source;
 		searchEngines[id]['regex']['flags'] = defaultRegex.flags;
-		if (logToConsole) console.log(`regex: ${searchEngines[id].regex}`);
+		if (logToConsole) console.log(searchEngines[id].regex);
 	}
 }
 
 function setKeyboardShortcuts() {
 	for (let id in searchEngines) {
-		if (logToConsole) console.log(`id: ${id}`);
 		if (searchEngines[id].keyboardShortcut !== undefined) continue;
+		if (logToConsole) console.log(`id: ${id}`);
 		searchEngines[id]['keyboardShortcut'] = "";
 		if (logToConsole) console.log(`keyboard shortcut: ${searchEngines[id].keyboardShortcut}`);
 	}
 }
 
-function getOptions() {
-	return new Promise((resolve, reject) => {
-		browser.storage.sync
-			.get(null)
-			.then((options) => {
-				if (logToConsole) console.log(options);
-				resolve(options);
-			})
-			.catch((err) => {
-				if (logToConsole) {
-					console.error(err);
-					console.log('Failed to retrieve options from sync storage.');
-				}
-				reject(err);
-			});
+async function getOptions() {
+	const options = await browser.storage.sync.get(null);
+	options.catch(err => {
+		if (logToConsole) {
+			console.error(err);
+			console.log('Failed to retrieve options from sync storage.');
+		}
+		return err;
 	});
+	if (logToConsole) console.log(options);
+	return(options);
 }
 
 // Sets the default options if they haven't already been set in local storage and saves them
@@ -611,35 +478,30 @@ async function setOptions(options, save) {
 	setUseRegex(options);
 	if (save) {
 		await browser.storage.sync.clear();
-		saveOptions(options, true);
+		await saveOptions(options, true);
 	}
 }
 
-function saveOptions(options, blnRebuildContextMenu) {
-	return new Promise((resolve, reject) => {
-		let strOptions = JSON.stringify(options);
-		if (logToConsole) console.log('Options settings:\n' + strOptions);
-		browser.storage.sync
-			.set(options)
-			.then(() => {
-				if (blnRebuildContextMenu) rebuildContextMenu();
-				if (logToConsole) {
-					console.log('Successfully saved the options to storage sync.');
-				}
-				resolve();
-			})
-			.catch((err) => {
-				if (logToConsole) {
-					console.error(err);
-					console.log('Failed to save options to storage sync.');
-				}
-				reject(err);
-			});
-	});
+async function saveOptions(options, blnRebuildContextMenu) {
+	if (logToConsole) {
+		const strOptions = JSON.stringify(options);
+		console.log(`Options settings:\n${strOptions}`);
+	}
+	await browser.storage.sync.set({"options": options})
+		.catch((err) => {
+			if (logToConsole) {
+				console.error(err);
+				console.log('Failed to save options to storage sync.');
+			}
+		});
+	if (blnRebuildContextMenu) rebuildContextMenu();
+	if (logToConsole) {
+		console.log('Successfully saved the options to storage sync.');
+	}
 }
 
 function setExactMatch(options) {
-	if (logToConsole) console.log('Setting search options..');
+	if (logToConsole) console.log(`Setting exact match to ${options.exactMatch}`);
 	contextsearch_exactMatch = options.exactMatch;
 }
 
@@ -715,219 +577,161 @@ function setUseRegex(options) {
 }
 
 /// Load default list of search engines
-function loadDefaultSearchEngines(jsonFile) {
-	return new Promise((resolve, reject) => {
-		let xhr = new XMLHttpRequest();
-		xhr.open('GET', jsonFile, true);
-		xhr.setRequestHeader('Content-type', 'application/json');
-		xhr.overrideMimeType('application/json');
-		xhr.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				searchEngines = sortByIndex(JSON.parse(this.responseText));
-				setRegex();
-				setKeyboardShortcuts();
-				if (logToConsole) {
-					console.log('Search engines:\n');
-					console.log(searchEngines);
-				}
-				browser.storage.local
-					.clear()
-					.then(() => {
-						getFaviconsAsBase64Strings()
-							.then(() => {
-								saveSearchEnginesToLocalStorage(true).then(() => {
-									rebuildContextMenu();
-									if (logToConsole) {
-										console.log(
-											'Successfully loaded favicons and saved search engines to local storage.'
-										);
-									}
-									resolve();
-								});
-							})
-							.catch((err) => {
-								if (logToConsole) {
-									console.error(err);
-									console.log('Failed to fetch favicons.');
-								}
-								reject();
-							});
-					})
-					.catch((err) => {
-						if (logToConsole) {
-							console.error(err);
-							console.log('Failed to clear local storage.');
-						}
-						reject();
-					});
-			}
-		};
-		xhr.send();
-		xhr.onerror = (err) => {
-			if (logToConsole) {
-				console.error(err);
-				console.log('Failed to load default list of search engines.');
-			}
-			reject();
-		};
-	});
-}
-
-function saveSearchEnginesToLocalStorage(blnNotify) {
-	return new Promise((resolve, reject) => {
-		searchEngines = sortByIndex(searchEngines);
+async function loadDefaultSearchEngines(jsonFile) {
+	let reqHeader = new Headers();
+	reqHeader.append('Content-Type', 'application/json');
+	const initObject = {
+		method: 'GET',
+		headers: reqHeader
+	};
+	let userRequest = new Request(jsonFile, initObject);
+	try {
+		const response = await fetch(userRequest);
+		if (!response.ok) {
+			const message = `The search engines could not be loaded. An error has occured: ${response.status}`;
+			throw new Error(message);
+		}
+		const json = await response.json();
+		searchEngines = sortByIndex(json);
+		setRegex();
+		setKeyboardShortcuts();
 		if (logToConsole) {
 			console.log('Search engines:\n');
 			console.log(searchEngines);
 		}
+		await browser.storage.local.clear();
+		await getFaviconsAsBase64Strings();
+		await saveSearchEnginesToLocalStorage(true);
+		rebuildContextMenu();
+	} catch (error) {
+		if (logToConsole) console.error(error.message);
+	}
+}
 
-		browser.storage.local
-			.set(searchEngines) // save list of search engines to local storage
-			.then(() => {
-				if (blnNotify) notify(notifySearchEnginesLoaded);
-				if (logToConsole) {
-					for (let id in searchEngines) {
-						console.log(`Search engine: ${id} has been saved to local storage as follows:\n`);
-						console.log(searchEngines[id]);
-					}
-				}
-				if (logToConsole) {
-					console.log('Search engines have been successfully saved to local storage.');
-				}
-				resolve();
-			})
-			.catch((err) => {
-				if (logToConsole) {
-					console.error(err);
-					console.log('Failed to save the search engines to local storage.');
-				}
-				reject();
-			});
-	});
+async function saveSearchEnginesToLocalStorage(blnNotify) {
+	searchEngines = sortByIndex(searchEngines);
+	if (logToConsole) {
+		console.log('Search engines:\n');
+		console.log(searchEngines);
+	}
+
+	// save list of search engines to local storage
+	await browser.storage.local.set(searchEngines)
+		.catch(error => {
+			if (logToConsole) {
+				console.error(error.message);
+				console.log('Failed to save the search engines to local storage.');
+			}
+			return;
+		});
+	if (blnNotify) notify(notifySearchEnginesLoaded);
+	if (logToConsole) {
+		console.log('Search engines have been successfully saved to local storage.');
+	}
 }
 
 /// Get and store favicon urls and base64 images
-function getFaviconsAsBase64Strings() {
-	return new Promise((resolve, reject) => {
-		if (logToConsole) console.log('Fetching favicons..');
-		let arrayOfPromises = new Array();
+async function getFaviconsAsBase64Strings() {
+	if (logToConsole) console.log('Fetching favicons..');
+	let arrayOfPromises = [];
 
-		for (let id in searchEngines) {
-			// Fetch a new favicon only if there is no existing favicon or if an icon reload is being forced
-			if (
-				searchEngines[id].base64 === null ||
-				searchEngines[id].base64 === undefined ||
-				contextsearch_forceFaviconsReload
-			) {
-				let seUrl = searchEngines[id].url;
-				if (logToConsole) console.log('id: ' + id);
-				if (logToConsole) console.log('url: ' + seUrl);
-				let domain = getDomain(seUrl);
-				if (logToConsole) console.log('Getting favicon for ' + domain);
-				arrayOfPromises.push(addNewFavicon(id, domain));
+	for (let id in searchEngines) {
+		// Fetch a new favicon only if there is no existing favicon or if an icon reload is being forced
+		if (
+			searchEngines[id].base64 === null ||
+			searchEngines[id].base64 === undefined ||
+			contextsearch_forceFaviconsReload
+		) {
+			let seUrl = searchEngines[id].url;
+			if (logToConsole) console.log('id: ' + id);
+			if (logToConsole) console.log('url: ' + seUrl);
+			let domain = getDomain(seUrl);
+			if (logToConsole) console.log('Getting favicon for ' + domain);
+			arrayOfPromises.push(await getNewFavicon(id, domain));
+		}
+	}
+
+	if (arrayOfPromises.length > 0) {
+		// values is an array of {id:, base64:}
+		const values = await Promise.all(arrayOfPromises);
+		values.catch((err) => {
+			if (logToConsole) {
+				console.error(err);
+				console.log('Not ALL the favcions could be fetched.');
 			}
+			return;
+		});
+		if (logToConsole) console.log('ALL promises have completed.');
+		if (values === undefined) return;
+		for (let value of values) {
+			if (logToConsole) {
+				console.log('================================================');
+				console.log('id is ' + value.id);
+				console.log('------------------------------------------------');
+				console.log('base64 string is ' + value.base64);
+				console.log('================================================');
+			}
+			searchEngines[value.id]['base64'] = value.base64;
 		}
-
-		if (arrayOfPromises.length > 0) {
-			Promise.all(arrayOfPromises)
-				.then((values) => {
-					// values is an array of {id:, base64:}
-					if (logToConsole) console.log('ALL promises have completed.');
-					if (values === undefined) return;
-					for (let value of values) {
-						if (logToConsole) {
-							console.log('================================================');
-						}
-						if (logToConsole) console.log('id is ' + value.id);
-						if (logToConsole) {
-							console.log('------------------------------------------------');
-						}
-						if (logToConsole) console.log('base64 string is ' + value.base64);
-						if (logToConsole) {
-							console.log('================================================');
-						}
-						searchEngines[value.id]['base64'] = value.base64;
-					}
-					if (logToConsole) console.log('The favicons have ALL been fetched.');
-					if (logToConsole) console.log(searchEngines);
-					resolve();
-				})
-				.catch((err) => {
-					if (logToConsole) {
-						console.error(err);
-						console.log('Not ALL the favcions could be fetched.');
-					}
-					reject();
-				});
-		} else {
-			resolve();
-		}
-	});
+		if (logToConsole) console.log('The favicons have ALL been fetched.');
+	}
 }
 
-/// Add favicon to newly added search engine
-function addNewFavicon(id, domain) {
-	return new Promise((resolve) => {
-		let linksWithIcons = [];
-		let xhr = new XMLHttpRequest();
-		xhr.open('GET', domain, true);
-		xhr.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				let webPage = this.responseText;
-				let parser = new DOMParser();
-				let doc = parser.parseFromString(webPage, 'text/html');
-				let links = doc.getElementsByTagName('link');
-				let rel = null;
-				let bestIconUrl = null;
-				let base64str = '';
-				let optimalSize = '32x32';
-				let tests = [ optimalSize, '[.]png', '[.]ico' ];
-
-				// Store all links with a possible favicon
-				for (let link of links) {
-					rel = link.getAttribute('rel');
-					if (/icon/i.test(rel)) {
-						let absUrl = convertUrl2AbsUrl(link.href, domain);
-						if (!linksWithIcons.includes(absUrl)) linksWithIcons.push(absUrl);
-					}
-				}
-
-				if (logToConsole) console.log(`Domain: ${domain}`);
-				if (logToConsole) console.log(`Links with favicons: ${linksWithIcons}`);
-
-				// Check if the links containing icons contain 32x32 in their name, then
-				// check if they are of type png. Finally check if they are of type ico.
-				for (let test of tests) {
-					if (logToConsole) console.log(`Checking if url contains: ${test}`);
-					bestIconUrl = getBestIconUrl(linksWithIcons, test);
-					if (bestIconUrl !== null) {
-						if (logToConsole) console.log(`Best icon url: ${bestIconUrl}`);
-						base64str = getBase64Image(bestIconUrl);
-						base64str.then((b64) => {
-							resolve({ id: id, base64: b64 });
-						});
-						break;
-					}
-				}
-				// Failed to retrieve a favicon, proceeding with besticon API
-				if (bestIconUrl === null) {
-					if (logToConsole) console.log('Fetching favicon using Besticon API');
-					bestIconUrl = besticonAPIUrl + domain + besticonAPIUrlSuffix;
-					base64str = getBase64Image(bestIconUrl);
-					base64str.then((b64) => {
-						resolve({ id: id, base64: b64 });
-					});
-				}
+async function getNewFavicon(id, domain) {
+	const optimalSize = '32x32';
+	const tests = [ optimalSize, '[.]png', '[.]ico' ];
+	let linksWithIcons = [];
+	let parser = new DOMParser();
+	let bestIconUrl = null;
+	let reqHeader = new Headers();
+	reqHeader.append('Content-Type', 'text/html; charset=UTF-8');
+	const initObject = {
+		method: 'GET',
+		headers: reqHeader
+	};
+	const userRequest = new Request(domain, initObject);
+	try {
+		const response = await fetch(userRequest);
+		if (!response.ok) {
+			const message = `Failed to domain of search engine. An error has occured: ${response.status}`;
+			throw new Error(message);
+		}
+		const webPage = await response.text();
+		const doc = parser.parseFromString(webPage, 'text/html');
+		const links = doc.getElementsByTagName('link');
+	
+		// Store all links with a possible favicon in an array
+		for (let link of links) {
+			const rel = link.getAttribute('rel');
+			if (/icon/i.test(rel)) {
+				const absUrl = convertUrl2AbsUrl(link.href, domain);
+				linksWithIcons.push(absUrl);
 			}
-		};
-		xhr.send();
-		xhr.onerror = (err) => {
-			if (logToConsole) {
-				console.error(`Failed to fetch favicon for ${id}. Error: ${err}`);
+		}
+	
+		if (logToConsole) console.log(`Domain: ${domain}`);
+		if (logToConsole) console.log(`Links with favicons: ${linksWithIcons}`);
+	
+		// Check if the links containing icons contain 32x32 in their name, then
+		// check if they are of type png. Finally, check if they are of type ico.
+		for (let test of tests) {
+			if (logToConsole) console.log(`Checking if url contains: ${test}`);
+			bestIconUrl = getBestIconUrl(linksWithIcons, test);
+			// If an icon is found convert it to a base64 image
+			if (bestIconUrl !== null) {
+				if (logToConsole) console.log(`Best icon url: ${bestIconUrl}`);
+				const base64str = await getBase64Image(bestIconUrl);
+				return { id: id, base64: base64str };
 			}
-			resolve({ id: id, base64: base64ContextSearchIcon });
-		};
-	});
+		}
+	
+		// Failed to retrieve a favicon, proceeding with default CS icon
+		return { id: id, base64: base64ContextSearchIcon };
+	} catch (error) {
+		if (logToConsole) console.error(error.message);
+		if (logToConsole) console.log('Failed to retrieve new favicon.');
+		return { id: id, base64: base64ContextSearchIcon };
+	}
 }
 
 function convertUrl2AbsUrl(href, domain) {
@@ -980,24 +784,25 @@ function getBestIconUrl(urls, regex) {
 }
 
 /// Generate base64 image string for the favicon with the given url
-function getBase64Image(faviconUrl) {
-	return new Promise((resolve) => {
-		let xhr = new XMLHttpRequest();
-		xhr.open('GET', faviconUrl, true);
-		xhr.responseType = 'arraybuffer';
-		xhr.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				let ab = this.response;
-				let b64 = convertArrayBuffer2Base64(ab, faviconUrl);
-				return resolve(b64);
-			}
-		};
-		xhr.send();
-		xhr.onerror = (err) => {
-			if (logToConsole) console.log('Array buffer fetch error:', err);
-			resolve(base64ContextSearchIcon);
-		};
-	});
+async function getBase64Image(url) {
+	const initObject = {
+		method: 'GET',
+		responseType: "arraybuffer"
+	};
+	const userRequest = new Request(url, initObject);
+	try {
+		const response = await fetch(userRequest)
+		if (!response.ok) {
+			const message = `Failed to fetch the favicon image. An error has occured: ${response.status}`;
+			throw new Error(message);
+		}
+		const ab = await response.arrayBuffer();
+		const b64 = convertArrayBuffer2Base64(ab, url);
+		return b64;
+	} catch (error) {
+		if (logToConsole) console.log(error.message);
+		return base64ContextSearchIcon;
+	}
 }
 
 function convertArrayBuffer2Base64(ab, faviconUrl) {
@@ -1110,6 +915,11 @@ function buildContextMenuItem(searchEngine, index, title, base64String, browserV
 	const regexModifier = searchEngine.regex.flags;
 	const regex = new RegExp(regexString, regexModifier);
 	if (!searchEngine.show) return;
+	// if (logToConsole){
+	// 	console.log(regexString);
+	// 	console.log(regexModifier);
+	// 	console.log(selection.match(regex));
+	// }
 	if (contextsearch_useRegex && (selection.match(regex) === null)) return;
 	if (browserVersion >= 56 && contextsearch_displayFavicons === true) {
 		browser.contextMenus.create({
@@ -1484,54 +1294,22 @@ function isEncoded(uri) {
 	}
 }
 
-/// Send messages to content scripts (selection.js)
-/* function sendMessageToTabs(tabs, message) {
-	return new Promise((resolve, reject) => {
-		let arrayOfPromises = [];
-		if (logToConsole) {
-			console.log(`Sending message to tabs..\n`);
-		}
-		for (let tab of tabs) {
-			arrayOfPromises.push(sendMessageToTab(tab, message));
-		}
-		Promise.all(arrayOfPromises)
-			.then(() => {
-				if (logToConsole) {
-					console.log('Message has successfully been sent to ALL tabs.');
-				}
-				resolve();
-			})
-			.catch((err) => {
-				if (logToConsole) {
-					console.error(err);
-					console.log('Failed to send message to ALL tabs.');
-				}
-				reject();
-			});
-	});
-} */
-
-function sendMessageToTab(tab, message) {
-	return new Promise((resolve, reject) => {
-		let tabId = tab.id;
-		browser.tabs
-			.sendMessage(tabId, message)
-			.then(() => {
-				if (logToConsole) {
-					console.log(`Successfully sent message to:\n`);
-					console.log(`Tab ${tab.id}: ${tab.title}\n`);
-				}
-				resolve();
-			})
-			.catch((err) => {
-				if (logToConsole) {
-					console.error(err);
-					console.log(`Failed to send message ${JSON.stringify(message)} to:\n`);
-					console.log(`Tab ${tab.id}: ${tab.title}\n`);
-				}
-				reject();
-			});
-	});
+/// Send message
+async function sendMessageToTab(tab, message) {
+	const tabId = tab.id;
+	await browser.tabs.sendMessage(tabId, message)
+		.catch((err) => {
+			if (logToConsole) {
+				console.error(err);
+				console.log(`Failed to send message ${JSON.stringify(message)} to:\n`);
+				console.log(`Tab ${tab.id}: ${tab.title}\n`);
+			}
+			return;
+		});
+	if (logToConsole) {
+		console.log(`Successfully sent message to:\n`);
+		console.log(`Tab ${tab.id}: ${tab.title}\n`);
+	}
 }
 
 /// Notifications
@@ -1542,6 +1320,66 @@ function notify(message) {
 		title: browser.i18n.getMessage('extensionName'),
 		message: message
 	});
+}
+
+function getDomain(url) {
+	let protocol = '';
+	if (url.indexOf('://') !== -1) {
+		protocol = url.split('://')[0] + '://';
+	} else {
+		// By default, set the protocol to 'https://' if it hasn't been set
+		protocol = 'https://';
+	}
+
+	let urlParts = url.replace('http://', '').replace('https://', '').split(/[/?#]/);
+	let domain = protocol + urlParts[0];
+	return domain;
+}
+
+/// Sort search engines by index
+function sortByIndex(list) {
+	let sortedList = JSON.parse(JSON.stringify(list));
+	let n = Object.keys(list).length;
+	let arrayOfIndexes = [];
+	let arrayOfIds = [];
+	let min = 0;
+	if (logToConsole) console.log(list);
+	// Create the array of indexes and its corresponding array of ids
+	for (let id in list) {
+		if (logToConsole) console.log(`id = ${id}`);
+		// If there is no index, then move the search engine to the end of the list
+		if (isEmpty(list[id].index)) {
+			list[id].index = n + 1;
+			n++;
+		}
+		arrayOfIndexes.push(list[id].index);
+		arrayOfIds.push(id);
+	}
+	// Sort the list by index
+	for (let i = 1; i < n + 1; i++) {
+		min = Math.min(...arrayOfIndexes);
+		let ind = arrayOfIndexes.indexOf(min);
+		arrayOfIndexes.splice(ind, 1);
+		let id = arrayOfIds.splice(ind, 1);
+		sortedList[id].index = i;
+	}
+
+	return sortedList;
+}
+
+// Test if an object is empty
+function isEmpty(value) {
+	if (typeof value === 'number') return false;
+	else if (typeof value === 'string') return value.trim().length === 0;
+	else if (Array.isArray(value)) return value.length === 0;
+	else if (typeof value === 'object') {
+		return value === null || Object.keys(value).length === 0;
+	} else if (typeof value === 'boolean') return false;
+	else return !value;
+}
+
+function openUrl(url) {
+	browser.sidebarAction.setPanel({ panel: url });
 }
 
 init();

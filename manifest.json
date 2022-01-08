@@ -29,7 +29,7 @@
 	},
 
 	"background": {
-		"scripts": [ "/scripts/helper.js", "/scripts/background.js" ]
+		"scripts": [ "/scripts/background.js" ]
 	},
 
 	"permissions": [
@@ -70,7 +70,6 @@
 		{
 			"matches": [ "*://*/*" ],
 			"js": [
-				"/scripts/helper.js",
 				"/scripts/selection.js",
 				"/scripts/exif.js",
 				"/scripts/color-thief.min.js",

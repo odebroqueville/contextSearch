@@ -1,8 +1,11 @@
 'use strict';
 
 /// Global variables
-/* global EXIF, isEmpty, getDomain, getNewSearchEngine, logToConsole, meta, modifiers, os */
+/* global EXIF */
 
+const logToConsole = true; // Debug
+const os = getOS();
+const modifiers = ["Control", "Shift", "Alt", "Meta"];
 const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
 const googleReverseImageSearchUrl = 'https://images.google.com/searchbyimage?image_url=';
 const mycroftUrl = 'https://mycroftproject.com/installos.php/';
@@ -11,7 +14,16 @@ const base64ContextSearchIcon =
 const base64MultiSearchIcon =
 	'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBtZWV0IiB2aWV3Qm94PSIwIDAgNjQwIDY0MCIgd2lkdGg9IjY0MCIgaGVpZ2h0PSI2NDAiPjxkZWZzPjxwYXRoIGQ9Ik0xMDQuODQgNTMzLjU3QzI3LjYzIDQ1OC4wNiAyNy42MyAxODEuOTQgMTA0Ljg0IDEwNi40M0MxODIuMDUgMzAuOTIgNDcyLjk3IDIzLjM3IDU0MS42IDEwNi40M0M2MTAuMjIgMTg5LjQ5IDYxMC4yMiA0NTAuNTEgNTQxLjYgNTMzLjU3QzQ3Mi45NyA2MTYuNjMgMTgyLjA1IDYwOS4wOCAxMDQuODQgNTMzLjU3WiIgaWQ9ImE5WUNBTG1FOSI+PC9wYXRoPjxwYXRoIGQ9Ik00NjguNzMgMzg4LjUyQzQ2OC43MyAzOTcuNiA0NjEuMzggNDA0Ljk1IDQ1Mi4zIDQwNC45NUM0MjUuODQgNDA0Ljk1IDIxNC4xNiA0MDQuOTUgMTg3LjcgNDA0Ljk1QzE3OC42MiA0MDQuOTUgMTcxLjI3IDM5Ny42IDE3MS4yNyAzODguNTJDMTcxLjI3IDM2Ni40OSAxNzEuMjcgMTkwLjI1IDE3MS4yNyAxNjguMjJDMTcxLjI3IDE2My42NiAxNzQuOTIgMTYwIDE3OS40OCAxNjBDMTg1LjY0IDE2MCAyMzQuOTEgMTYwIDI0MS4wNyAxNjBDMjQzLjM3IDE2MCAzMTMuMTggMTU4LjI3IDMxNC43NCAxNjBDMzE2Ljg1IDE2Mi4zMyAzMzcuMjEgMTgzLjcyIDMzOS4zMiAxODYuMDVDMzQwLjg4IDE4Ny43OCAzNDAuMTcgMTg4Ljc2IDM0Mi41MSAxODguNzZDMzYxLjEyIDE4OC43NiA0NDEuOSAxODguNzYgNDYwLjUyIDE4OC43NkM0NjUuMDQgMTg4Ljc2IDQ2OC43MyAxOTIuNDIgNDY4LjczIDE5Ni45OEM0NjguNzMgMjM1LjI5IDQ2OC43MyAzNjkuMzYgNDY4LjczIDM4OC41MloiIGlkPSJiMjNGdHkzcUxsIj48L3BhdGg+PHBhdGggZD0iTTQ2OC43MyAzODguNTJDNDY4LjczIDM5Ny42IDQ2MS4zOCA0MDQuOTUgNDUyLjMgNDA0Ljk1QzQyNS44NCA0MDQuOTUgMjE0LjE2IDQwNC45NSAxODcuNyA0MDQuOTVDMTc4LjYyIDQwNC45NSAxNzEuMjcgMzk3LjYgMTcxLjI3IDM4OC41MkMxNzEuMjcgMzY2LjQ5IDE3MS4yNyAxOTAuMjUgMTcxLjI3IDE2OC4yMkMxNzEuMjcgMTYzLjY2IDE3NC45MiAxNjAgMTc5LjQ4IDE2MEMxODUuNjQgMTYwIDIzNC45MSAxNjAgMjQxLjA3IDE2MEMyNDMuMzcgMTYwIDI0NS41OSAxNjAuOTkgMjQ3LjE1IDE2Mi43MUMyNDkuMjYgMTY1LjA1IDI2Ni4xMiAxODMuNzIgMjY4LjIzIDE4Ni4wNUMyNjkuNzkgMTg3Ljc4IDI3Mi4wMSAxODguNzYgMjc0LjM1IDE4OC43NkMyOTIuOTcgMTg4Ljc2IDQ0MS45IDE4OC43NiA0NjAuNTIgMTg4Ljc2QzQ2NS4wNCAxODguNzYgNDY4LjczIDE5Mi40MiA0NjguNzMgMTk2Ljk4QzQ2OC43MyAyMzUuMjkgNDY4LjczIDM2OS4zNiA0NjguNzMgMzg4LjUyWiIgaWQ9ImIxeWlRN0RaZlgiPjwvcGF0aD48cGF0aCBkPSJNMTcxLjI3IDM4OC41MkMxNzEuMjcgMzk3LjYgMTc4LjYyIDQwNC45NSAxODcuNyA0MDQuOTVDMjE0LjE2IDQwNC45NSA0MjUuODQgNDA0Ljk1IDQ1Mi4zIDQwNC45NUM0NjEuMzggNDA0Ljk1IDQ2OC43MyAzOTcuNiA0NjguNzMgMzg4LjUyQzQ2OC43MyAzODcuODMgNDY4LjczIDM4NC4zOSA0NjguNzMgMzc4LjJMMTcxLjI3IDM3OC4yQzE3MS4yNyAzODQuMzkgMTcxLjI3IDM4Ny44MyAxNzEuMjcgMzg4LjUyWiIgaWQ9ImJUazNsUzdZdSI+PC9wYXRoPjxwYXRoIGQ9Ik00NjguNzMgMjM1LjJDNDY4LjczIDIzNS4yIDQ2OC43MyAyMzUuMiA0NjguNzMgMjM1LjJDNDY4LjczIDI0NS4zMyA0NjguNzMgMjUwLjk2IDQ2OC43MyAyNTIuMDlDNDY4LjczIDI1Mi4wOSA0NjguNzMgMjUyLjA5IDQ2OC43MyAyNTIuMDlDMjkwLjI1IDI1Mi4wOSAxOTEuMSAyNTIuMDkgMTcxLjI3IDI1Mi4wOUMxNzEuMjcgMjUyLjA5IDE3MS4yNyAyNTIuMDkgMTcxLjI3IDI1Mi4wOUMxNzEuMjcgMjQxLjk1IDE3MS4yNyAyMzYuMzIgMTcxLjI3IDIzNS4yQzE3MS4yNyAyMzUuMiAxNzEuMjcgMjM1LjIgMTcxLjI3IDIzNS4yQzM0OS43NSAyMzUuMiA0NDguOSAyMzUuMiA0NjguNzMgMjM1LjJaIiBpZD0ibHJvTTdzSGZLIj48L3BhdGg+PHBhdGggZD0iTTQ2MS4yMyA0NTEuNzRDNDY3Ljc2IDQ1OC4wNiA0NjcuOTMgNDY4LjQ2IDQ2MS42MiA0NzQuOTlDNDU1LjMxIDQ4MS41MSA0NDQuOTEgNDgxLjY5IDQzOC4zOCA0NzUuMzhDNDMzLjgzIDQ3MC45OCA0MTEuMDcgNDQ4Ljk4IDM3MC4xIDQwOS4zN0wzOTIuOTUgMzg1Ljc0QzQzMy45MiA0MjUuMzQgNDU2LjY3IDQ0Ny4zNCA0NjEuMjMgNDUxLjc0WiIgaWQ9ImExSmVLeHNoYiI+PC9wYXRoPjxwYXRoIGQ9Ik0zODguOTIgMjk0Ljg5QzQyMC4zOCAzMjUuMDcgNDIxLjQyIDM3NS4wNSAzOTEuMjMgNDA2LjUxQzM2MS4wNSA0MzcuOTggMzExLjA3IDQzOS4wMSAyNzkuNjEgNDA4LjgzQzI0OC4xNCAzNzguNjUgMjQ3LjExIDMyOC42NyAyNzcuMjkgMjk3LjIxQzMwNy40OCAyNjUuNzQgMzU3LjQ1IDI2NC43IDM4OC45MiAyOTQuODlaIiBpZD0iZUhsaUJzZTh6Ij48L3BhdGg+PHBhdGggZD0iTTM3OS43OCAzMDQuNDFDNDA1Ljk4IDMyOS41NSA0MDYuODQgMzcxLjE3IDM4MS43MSAzOTcuMzhDMzU2LjU3IDQyMy41OCAzMTQuOTUgNDI0LjQ0IDI4OC43NCAzOTkuM0MyNjIuNTQgMzc0LjE3IDI2MS42OCAzMzIuNTUgMjg2LjgyIDMwNi4zNEMzMTEuOTUgMjgwLjE0IDM1My41NyAyNzkuMjggMzc5Ljc4IDMwNC40MVoiIGlkPSJhMTdycHZGTEgyIj48L3BhdGg+PHBhdGggZD0iTTM3NC4xNyAzMjMuNjhDMzczLjggMzI2LjY0IDM2MS4yNSAzMTQuMjEgMzQwLjc4IDMxMS42N0MzMjAuMzEgMzA5LjEzIDI5OS42NyAzMTcuNDQgMzAwLjA0IDMxNC40OEMzMDAuNDEgMzExLjUzIDMxOC4zOCAyOTkuMTkgMzM4Ljg1IDMwMS43M0MzNTkuMzIgMzA0LjI3IDM3NC41MyAzMjAuNzIgMzc0LjE3IDMyMy42OFoiIGlkPSJhUk9DeWh3dkQiPjwvcGF0aD48cGF0aCBkPSJNNDQ4LjQ2IDQzOS40MUM0NDguNDYgNDM5LjQxIDQ0OC40NiA0MzkuNDEgNDQ4LjQ2IDQzOS40MUM0NTIuMDEgNDQyLjgzIDQ1My45OCA0NDQuNzQgNDU0LjM3IDQ0NS4xMkM0NTQuMzcgNDQ1LjEyIDQ1NC4zNyA0NDUuMTIgNDU0LjM3IDQ0NS4xMkM0NDAuNjYgNDU5LjMgNDMzLjA1IDQ2Ny4xOCA0MzEuNTIgNDY4Ljc1QzQzMS41MiA0NjguNzUgNDMxLjUyIDQ2OC43NSA0MzEuNTIgNDY4Ljc1QzQyNy45OCA0NjUuMzMgNDI2LjAxIDQ2My40MiA0MjUuNjEgNDYzLjA0QzQyNS42MSA0NjMuMDQgNDI1LjYxIDQ2My4wNCA0MjUuNjEgNDYzLjA0QzQzOS4zMiA0NDguODYgNDQ2Ljk0IDQ0MC45OCA0NDguNDYgNDM5LjQxWiIgaWQ9ImFNUGNnNWJZbCI+PC9wYXRoPjxwYXRoIGQ9Ik00MzMuNjkgNDI1LjEyQzQzMy42OSA0MjUuMTIgNDMzLjY5IDQyNS4xMiA0MzMuNjkgNDI1LjEyQzQzNy4yNCA0MjguNTUgNDM5LjIxIDQzMC40NiA0MzkuNiA0MzAuODRDNDM5LjYgNDMwLjg0IDQzOS42IDQzMC44NCA0MzkuNiA0MzAuODRDNDI1Ljg5IDQ0NS4wMiA0MTguMjcgNDUyLjkgNDE2Ljc1IDQ1NC40N0M0MTYuNzUgNDU0LjQ3IDQxNi43NSA0NTQuNDcgNDE2Ljc1IDQ1NC40N0M0MTMuMjEgNDUxLjA1IDQxMS4yNCA0NDkuMTQgNDEwLjg0IDQ0OC43NkM0MTAuODQgNDQ4Ljc2IDQxMC44NCA0NDguNzYgNDEwLjg0IDQ0OC43NkM0MjQuNTUgNDM0LjU4IDQzMi4xNyA0MjYuNyA0MzMuNjkgNDI1LjEyWiIgaWQ9Imk0aEZYWXhoOWkiPjwvcGF0aD48L2RlZnM+PGc+PGc+PGc+PHVzZSB4bGluazpocmVmPSIjYTlZQ0FMbUU5IiBvcGFjaXR5PSIxIiBmaWxsPSIjMzM0ZDVjIiBmaWxsLW9wYWNpdHk9IjEiPjwvdXNlPjxnPjx1c2UgeGxpbms6aHJlZj0iI2E5WUNBTG1FOSIgb3BhY2l0eT0iMSIgZmlsbC1vcGFjaXR5PSIwIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLW9wYWNpdHk9IjAiPjwvdXNlPjwvZz48L2c+PGc+PHVzZSB4bGluazpocmVmPSIjYjIzRnR5M3FMbCIgb3BhY2l0eT0iMSIgZmlsbD0iI2Y2YzM1OCIgZmlsbC1vcGFjaXR5PSIxIj48L3VzZT48Zz48dXNlIHhsaW5rOmhyZWY9IiNiMjNGdHkzcUxsIiBvcGFjaXR5PSIxIiBmaWxsLW9wYWNpdHk9IjAiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2Utb3BhY2l0eT0iMCI+PC91c2U+PC9nPjwvZz48Zz48dXNlIHhsaW5rOmhyZWY9IiNiMXlpUTdEWmZYIiBvcGFjaXR5PSIxIiBmaWxsPSIjZmNkNDYyIiBmaWxsLW9wYWNpdHk9IjEiPjwvdXNlPjxnPjx1c2UgeGxpbms6aHJlZj0iI2IxeWlRN0RaZlgiIG9wYWNpdHk9IjEiIGZpbGwtb3BhY2l0eT0iMCIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1vcGFjaXR5PSIwIj48L3VzZT48L2c+PC9nPjxnPjx1c2UgeGxpbms6aHJlZj0iI2JUazNsUzdZdSIgb3BhY2l0eT0iMSIgZmlsbD0iI2Y2YzM1OCIgZmlsbC1vcGFjaXR5PSIxIj48L3VzZT48Zz48dXNlIHhsaW5rOmhyZWY9IiNiVGszbFM3WXUiIG9wYWNpdHk9IjEiIGZpbGwtb3BhY2l0eT0iMCIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1vcGFjaXR5PSIwIj48L3VzZT48L2c+PC9nPjxnPjx1c2UgeGxpbms6aHJlZj0iI2xyb003c0hmSyIgb3BhY2l0eT0iMSIgZmlsbD0iI2Y2YzM1OCIgZmlsbC1vcGFjaXR5PSIxIj48L3VzZT48Zz48dXNlIHhsaW5rOmhyZWY9IiNscm9NN3NIZksiIG9wYWNpdHk9IjEiIGZpbGwtb3BhY2l0eT0iMCIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1vcGFjaXR5PSIwIj48L3VzZT48L2c+PC9nPjxnPjx1c2UgeGxpbms6aHJlZj0iI2ExSmVLeHNoYiIgb3BhY2l0eT0iMSIgZmlsbD0iI2RjODc0NCIgZmlsbC1vcGFjaXR5PSIxIj48L3VzZT48Zz48dXNlIHhsaW5rOmhyZWY9IiNhMUplS3hzaGIiIG9wYWNpdHk9IjEiIGZpbGwtb3BhY2l0eT0iMCIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1vcGFjaXR5PSIwIj48L3VzZT48L2c+PC9nPjxnPjx1c2UgeGxpbms6aHJlZj0iI2VIbGlCc2U4eiIgb3BhY2l0eT0iMSIgZmlsbD0iI2U1NjM1MyIgZmlsbC1vcGFjaXR5PSIxIj48L3VzZT48Zz48dXNlIHhsaW5rOmhyZWY9IiNlSGxpQnNlOHoiIG9wYWNpdHk9IjEiIGZpbGwtb3BhY2l0eT0iMCIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1vcGFjaXR5PSIwIj48L3VzZT48L2c+PC9nPjxnPjx1c2UgeGxpbms6aHJlZj0iI2ExN3JwdkZMSDIiIG9wYWNpdHk9IjEiIGZpbGw9IiNlMWU2ZTkiIGZpbGwtb3BhY2l0eT0iMSI+PC91c2U+PGc+PHVzZSB4bGluazpocmVmPSIjYTE3cnB2RkxIMiIgb3BhY2l0eT0iMSIgZmlsbC1vcGFjaXR5PSIwIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLW9wYWNpdHk9IjAiPjwvdXNlPjwvZz48L2c+PGc+PHVzZSB4bGluazpocmVmPSIjYVJPQ3lod3ZEIiBvcGFjaXR5PSIxIiBmaWxsPSIjZWJmMGYzIiBmaWxsLW9wYWNpdHk9IjEiPjwvdXNlPjxnPjx1c2UgeGxpbms6aHJlZj0iI2FST0N5aHd2RCIgb3BhY2l0eT0iMSIgZmlsbC1vcGFjaXR5PSIwIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLW9wYWNpdHk9IjAiPjwvdXNlPjwvZz48L2c+PGc+PHVzZSB4bGluazpocmVmPSIjYU1QY2c1YllsIiBvcGFjaXR5PSIxIiBmaWxsPSIjZTFlNmU5IiBmaWxsLW9wYWNpdHk9IjEiPjwvdXNlPjxnPjx1c2UgeGxpbms6aHJlZj0iI2FNUGNnNWJZbCIgb3BhY2l0eT0iMSIgZmlsbC1vcGFjaXR5PSIwIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLW9wYWNpdHk9IjAiPjwvdXNlPjwvZz48L2c+PGc+PHVzZSB4bGluazpocmVmPSIjaTRoRlhZeGg5aSIgb3BhY2l0eT0iMSIgZmlsbD0iI2UxZTZlOSIgZmlsbC1vcGFjaXR5PSIxIj48L3VzZT48Zz48dXNlIHhsaW5rOmhyZWY9IiNpNGhGWFl4aDlpIiBvcGFjaXR5PSIxIiBmaWxsLW9wYWNpdHk9IjAiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2Utb3BhY2l0eT0iMCI+PC91c2U+PC9nPjwvZz48L2c+PC9nPjwvc3ZnPg==';
 const ICON32 = '38px'; // icon width is 32px plus 3px margin/padding
+const defaultRegex = /[\s\S]*/i; // Advanced feature
 
+let meta = '';
+if (os === 'macOS') {
+	meta = 'cmd+';
+} else if (os === 'Windows') {
+	meta = 'win+';
+} else if (os === 'Linux') {
+	meta = 'super+';
+} else meta = 'meta+';
 let searchEngines = {};
 let tabUrl = '';
 let domain = '';
@@ -100,6 +112,30 @@ async function init() {
 		sameTab = false;
 	}
 	searchEngines = await browser.storage.local.get(null);
+}
+
+// Detect the underlying OS
+function getOS() {
+	const userAgent = window.navigator.userAgent;
+	const platform = window.navigator.platform;
+	// if (navigator.userAgentData.platform !== undefined) {
+	// 	platform = navigator.userAgentData.platform;
+	// } else {
+	// 	platform = window.navigator.platform;
+	// }
+  
+	if (platform.toLowerCase().startsWith("mac")) {
+		return 'macOS';
+	} else if (platform.toLowerCase().startsWith("ip")) {
+		return 'iOS';
+	} else if (platform.toLowerCase().startsWith("win")) {
+		return 'Windows';
+	} else if (/Android/.test(userAgent)) {
+		return 'Android';
+	} else if (/Linux/.test(platform)) {
+		return 'Linux';
+	} else return null;
+  
 }
 
 function handleKeyUp(e) {
@@ -535,6 +571,129 @@ function absoluteUrl(url){
     url = url.replace(/\.$/,"").replace(/\/\./g,"").replace(/"/g,"%22")
             .replace(/'/g,"%27").replace(/</g,"%3C").replace(/>/g,"%3E");
     return url;
+}
+
+async function getNewSearchEngine(url, searchEngines) {
+	let xml = await fetchXML(url);
+	let shortName = getNameAndQueryString(xml).shortName;
+	let queryString = getNameAndQueryString(xml).queryString;
+	let id = shortName.replace(/\s/g, '-').toLowerCase();
+	while (!isIdUnique(id, searchEngines)) {
+		id = defineNewId(shortName);
+	}
+	id = id.trim();
+	if (logToConsole) {
+		console.log(id);
+		console.log(shortName);
+		console.log(queryString);
+	}
+	let numberOfSearchEngines = Object.keys(searchEngines).length;
+
+	// Define new search engine to be added along with its default values
+	searchEngines[id] = {
+		index: numberOfSearchEngines,
+		name: shortName,
+		keyword: '',
+		keyboardShortcut: '',
+		multitab: false,
+		url: queryString,
+		show: true,
+		base64: '',
+	};
+	searchEngines[id]['regex'] = {};
+	searchEngines[id]['regex']['body'] = defaultRegex.source;
+	searchEngines[id]['regex']['flags'] = defaultRegex.flags;
+	if (logToConsole) console.log(searchEngines[id]);
+	return { id: id, searchEngine: searchEngines[id] };
+}
+
+function fetchXML(url) {
+	return new Promise((resolve, reject) => {
+		let reqHeader = new Headers();
+		reqHeader.append('Content-Type', 'text/xml');
+
+		let initObject = {
+			method: 'GET',
+			headers: reqHeader
+		};
+
+		let userRequest = new Request(url, initObject);
+
+		fetch(userRequest)
+			.then((response) => response.text())
+			.then((str) => new window.DOMParser().parseFromString(str, 'text/xml'))
+			.then((xml) => {
+				if (logToConsole) console.log(xml);
+				resolve(xml);
+			})
+			.catch((err) => {
+				if (logToConsole) console.log('Something went wrong!', err);
+				reject(err);
+			});
+	});
+}
+
+// Retrieve the short name and query string from an xml document with the open search specifications
+function getNameAndQueryString(xml) {
+	let x, shortName, url, txt;
+	txt = '';
+	x = xml.documentElement.childNodes;
+	if (logToConsole) console.log(x);
+	for (let node of x) {
+		let key = node.nodeName;
+		txt += key + '\n';
+		if (key === 'ShortName') shortName = node.textContent;
+		if (key === 'Url') {
+			let type = node.getAttribute('type');
+			if (type === 'text/html') url = node.getAttribute('template');
+		}
+	}
+	if (logToConsole) console.log(txt);
+	return { shortName: shortName, queryString: url };
+}
+
+// Define a random ID for the new search engine
+function defineNewId(shortName) {
+	let newId = shortName.replace(/\s/g, '-').toLowerCase();
+	let randomNumber = Math.floor(Math.random() * 1000000);
+	newId = newId + '-' + randomNumber.toString();
+	if (logToConsole) console.log(newId);
+	return newId;
+}
+
+// Ensure the ID generated is unique
+function isIdUnique(testId, searchEngines) {
+	for (let id in searchEngines) {
+		if (id === testId) {
+			return false;
+		}
+	}
+	return true;
+}
+
+function getDomain(url) {
+	let protocol = '';
+	if (url.indexOf('://') !== -1) {
+		protocol = url.split('://')[0] + '://';
+	} else {
+		// By default, set the protocol to 'https://' if it hasn't been set
+		protocol = 'https://';
+	}
+
+	let urlParts = url.replace('http://', '').replace('https://', '').split(/[/?#]/);
+	let domain = protocol + urlParts[0];
+	return domain;
+}
+
+// Test if an object is empty
+function isEmpty(value) {
+	if (typeof value === 'number') return false;
+	else if (typeof value === 'string') return value.trim().length === 0;
+	else if (Array.isArray(value)) return value.length === 0;
+	else if (typeof value === 'object') {
+		return value === null || Object.keys(value).length === 0;
+	} else if (typeof value === 'boolean') return false;
+	else return !value;
 }
 
 init();

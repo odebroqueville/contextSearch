@@ -1,5 +1,23 @@
 /// Global variables
-/* global defaultRegex, isEmpty, logToConsole, meta, modifiers, os, Sortable, sortByIndex */
+/* global Sortable */
+
+// Debug
+const logToConsole = true;
+
+// Advanced feature
+const defaultRegex = /[\s\S]*/i;
+
+// Other 
+const os = getOS();
+const modifiers = ["Control", "Shift", "Alt", "Meta"];
+let meta = '';
+if (os === 'macOS') {
+	meta = 'cmd+';
+} else if (os === 'Windows') {
+	meta = 'win+';
+} else if (os === 'Linux') {
+	meta = 'super+';
+} else meta = 'meta+';
 
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById('container');
@@ -125,6 +143,30 @@ btnClearAddSearchEngine.addEventListener('click', clearAddSearchEngine);
 // Import/export
 btnDownload.addEventListener('click', saveToLocalDisk);
 btnUpload.addEventListener('change', handleFileUpload);
+
+// Detect the underlying OS
+function getOS() {
+	const userAgent = window.navigator.userAgent;
+	const platform = window.navigator.platform;
+	// if (navigator.userAgentData.platform !== undefined) {
+	// 	platform = navigator.userAgentData.platform;
+	// } else {
+	// 	platform = window.navigator.platform;
+	// }
+  
+	if (platform.toLowerCase().startsWith("mac")) {
+		return 'macOS';
+	} else if (platform.toLowerCase().startsWith("ip")) {
+		return 'iOS';
+	} else if (platform.toLowerCase().startsWith("win")) {
+		return 'Windows';
+	} else if (/Android/.test(userAgent)) {
+		return 'Android';
+	} else if (/Linux/.test(platform)) {
+		return 'Linux';
+	} else return null;
+  
+}
 
 // Send a message to the background script
 function sendMessage(action, data) {
@@ -1194,6 +1236,48 @@ function translateContent(attribute, type) {
 			if (logToConsole) console.error(`Translation for ${i18nElements[i]} could not be found`);
 		}
 	}
+}
+
+/// Sort search engines by index
+function sortByIndex(list) {
+	let sortedList = JSON.parse(JSON.stringify(list));
+	let n = Object.keys(list).length;
+	let arrayOfIndexes = [];
+	let arrayOfIds = [];
+	let min = 0;
+	if (logToConsole) console.log(list);
+	// Create the array of indexes and its corresponding array of ids
+	for (let id in list) {
+		if (logToConsole) console.log(`id = ${id}`);
+		// If there is no index, then move the search engine to the end of the list
+		if (isEmpty(list[id].index)) {
+			list[id].index = n + 1;
+			n++;
+		}
+		arrayOfIndexes.push(list[id].index);
+		arrayOfIds.push(id);
+	}
+	// Sort the list by index
+	for (let i = 1; i < n + 1; i++) {
+		min = Math.min(...arrayOfIndexes);
+		let ind = arrayOfIndexes.indexOf(min);
+		arrayOfIndexes.splice(ind, 1);
+		let id = arrayOfIds.splice(ind, 1);
+		sortedList[id].index = i;
+	}
+
+	return sortedList;
+}
+
+// Test if an object is empty
+function isEmpty(value) {
+	if (typeof value === 'number') return false;
+	else if (typeof value === 'string') return value.trim().length === 0;
+	else if (Array.isArray(value)) return value.length === 0;
+	else if (typeof value === 'object') {
+		return value === null || Object.keys(value).length === 0;
+	} else if (typeof value === 'boolean') return false;
+	else return !value;
 }
 
 init();
