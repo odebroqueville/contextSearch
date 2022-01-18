@@ -24,7 +24,7 @@ span.option {
 	padding-bottom: 5px;
 }
 
-div#tabMode {
+div#tabMode, div#multiMode {
 	max-width: 320px;
 	background-color: lightgray;
 }
@@ -51,6 +51,10 @@ div.nav {
 input[type="checkbox"] {
 	display: inline-block;
 	width: 15px;
+}
+
+li > input[type="checkbox"] {
+	margin-left: 10px;
 }
 
 .regex {
@@ -131,8 +135,16 @@ h2 {
 	margin-left: 40px;
 }
 
-h4.subheader {
-	margin: 0;
+h4 {
+	margin-left: 0;
+	margin-right: 0;
+	margin-top: 5px;
+	margin-bottom: 3px;
+}
+
+p, button, select {
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 #flexbox-container {
@@ -185,7 +197,6 @@ hr.ruler {
 }
 
 .sort {
-	vertical-align: bottom;
 	margin-left: 10px;
 	color: black;
 }

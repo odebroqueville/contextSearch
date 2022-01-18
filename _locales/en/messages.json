@@ -275,6 +275,22 @@
 	"keyboardShortcut": {
 		"message": "Keyboard shortcut"
 	},
-
-	"__WET_LOCALE__": { "message": "en" }
+	"header10": {
+		"message": "Multisearch options"
+	},
+	"multisearchIntro": {
+		"message": "Open multiple search results/tabs"
+	},
+	"multiNewWindow": {
+		"message": "In a new window"
+	},
+	"multiAfterLastTab": {
+		"message": "After the last tab in the current window"
+	},
+	"multiActiveTab": {
+		"message": "Right after the active tab in the current window"
+	},
+	"__WET_LOCALE__": {
+		"message": "en"
+	}
 }

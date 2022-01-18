@@ -55,6 +55,7 @@ const forceSearchEnginesReload = document.getElementById('forceSearchEnginesRelo
 const forceFaviconsReload = document.getElementById('forceFaviconsReload');
 const searchEngineSiteSearch = document.getElementById('siteSearch');
 const useRegex = document.getElementById('useRegex');
+const multiMode = document.getElementById('multiMode');
 
 // All engine buttons
 const btnClearAll = document.getElementById('clearAll');
@@ -124,6 +125,7 @@ resetPreferences.addEventListener('click', updateResetOptions);
 forceSearchEnginesReload.addEventListener('click', updateResetOptions);
 forceFaviconsReload.addEventListener('click', updateResetOptions);
 useRegex.addEventListener('click', updateUseRegex);
+multiMode.addEventListener('click', updateMultiMode);
 
 // All engine buttons
 btnClearAll.addEventListener('click', clearAll);
@@ -153,7 +155,7 @@ function getOS() {
 	// } else {
 	// 	platform = window.navigator.platform;
 	// }
-  
+
 	if (platform.toLowerCase().startsWith("mac")) {
 		return 'macOS';
 	} else if (platform.toLowerCase().startsWith("ip")) {
@@ -165,7 +167,7 @@ function getOS() {
 	} else if (/Linux/.test(platform)) {
 		return 'Linux';
 	} else return null;
-  
+
 }
 
 // Send a message to the background script
@@ -318,7 +320,7 @@ function createLineItem(id, searchEngine, isFolder = false) {
 
 	// Navigation and deletion buttons for each search engine or line item
 	// Create menu target for line item sorting
-	const sortTarget = document.createElement('span');
+	const sortTarget = document.createElement('i');
 	sortTarget.classList.add('sort', 'icon', 'ion-arrow-move');
 	const removeButton = createButton('ion-ios-trash', 'remove', remove + ' ' + searchEngineName);
 
@@ -437,7 +439,6 @@ function createLineItem(id, searchEngine, isFolder = false) {
 	lineItem.appendChild(chkMultiSearch);
 	lineItem.appendChild(inputQueryString);
 	lineItem.appendChild(inputRegex);
-
 	lineItem.appendChild(sortTarget);
 	lineItem.appendChild(removeButton);
 
@@ -669,16 +670,16 @@ function folderKeywordChanged(e) {
 
 function handleKeyboardShortcut(e) {
 	if (e.target.nodeName !== 'INPUT') return;
-	if ((os === 'macOS' && e.metaKey)||((os === 'Windows' || os === 'Linux') && e.ctrlKey)) return;
-	e.preventDefault(); 
+	if ((os === 'macOS' && e.metaKey) || ((os === 'Windows' || os === 'Linux') && e.ctrlKey)) return;
+	e.preventDefault();
 	if (logToConsole) console.log(os);
 	if (logToConsole) console.log(keysPressed);
 	let lineItem = e.target.parentNode;
 	let id = lineItem.getAttribute('id');
-	let input = document.getElementById(id+'-kbsc');
+	let input = document.getElementById(id + '-kbsc');
 	let keyboardShortcut = '';
 	if (logToConsole) console.log(e);
-	for (let i=0; i<modifiers.length; i++) {
+	for (let i = 0; i < modifiers.length; i++) {
 		const modifier = modifiers[i];
 		if (logToConsole) console.log(modifier);
 		if (!(modifier in keysPressed)) continue;
@@ -796,9 +797,9 @@ function readData() {
 			searchEngines[lineItems[i].id]['base64'] = oldSearchEngines[lineItems[i].id].base64;
 		}
 		// Add folder
-		else if (lineItems[i].classList.contains('folder')) {	
+		else if (lineItems[i].classList.contains('folder')) {
 			let folder = {
-				index: i, 
+				index: i,
 				name: lineItems[i].id,
 				keyword: lineItems[i].querySelector('input.keyword').value,
 				folder: true,
@@ -1082,7 +1083,7 @@ async function restoreOptionsPage() {
 
 function saveToLocalDisk() {
 	saveSearchEngines();
-	let fileToDownload = new Blob([ JSON.stringify(searchEngines, null, 2) ], {
+	let fileToDownload = new Blob([JSON.stringify(searchEngines, null, 2)], {
 		type: 'text/json',
 		name: 'searchEngines.json'
 	});
@@ -1095,7 +1096,7 @@ function handleFileUpload() {
 		let upload = document.getElementById('upload');
 		let jsonFile = upload.files[0];
 		let reader = new FileReader();
-		reader.onload = function(event) {
+		reader.onload = function (event) {
 			searchEngines = JSON.parse(event.target.result);
 			displaySearchEngines();
 			saveSearchEngines();
@@ -1129,6 +1130,12 @@ function updateTabMode() {
 	sendMessage('updateTabMode', data);
 }
 
+function updateMultiMode() {
+	let data = {};
+	data['multiMode'] = document.querySelector('input[name="ms_results"]:checked').value;
+	sendMessage('updateMultiMode', data);
+}
+
 function updateDisplayFavicons() {
 	let fav = displayFavicons.checked;
 	sendMessage('updateDisplayFavicons', { displayFavicons: fav });
@@ -1148,7 +1155,7 @@ function updateOptionsMenuLocation() {
 }
 
 function updateSiteSearchSetting() {
-	sendMessage('updateSiteSearchSetting', { 
+	sendMessage('updateSiteSearchSetting', {
 		siteSearch: searchEngineSiteSearch.value,
 		siteSearchUrl: searchEngineSiteSearch.selectedOptions[0].dataset.url
 	});

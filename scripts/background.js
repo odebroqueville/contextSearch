@@ -65,6 +65,8 @@ let contextsearch_forceSearchEnginesReload = false;
 let contextsearch_siteSearch = "Google";
 let contextsearch_siteSearchUrl = "https://www.google.com/search?q=";
 let contextsearch_useRegex = false;
+let contextsearch_multiMode = 'multiNewWindow';
+
 
 const defaultOptions = {
 	exactMatch: contextsearch_exactMatch,
@@ -81,7 +83,8 @@ const defaultOptions = {
 	siteSearch: contextsearch_siteSearch,
 	siteSearchUrl: contextsearch_siteSearchUrl,
 	useRegex: contextsearch_useRegex,
-};
+	multiMode: contextsearch_multiMode
+}
 
 /// Handle Page Action click
 browser.pageAction.onClicked.addListener(handlePageAction);
@@ -115,10 +118,6 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 		case 'doSearch':
 			id = message.data.id;
 			if (logToConsole) console.log('Search engine id: ' + id);
-			if (id === 'multisearch') {
-				processMultiTabSearch();
-				return;
-			}
 			if (logToConsole) console.log(contextsearch_openSearchResultsInSidebar);
 			if (contextsearch_openSearchResultsInSidebar) {
 				searchUsing(id, null);
@@ -126,7 +125,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			}
 			browser.tabs.query({ currentWindow: true }).then((tabs) => {
 				if (logToConsole) console.log(tabs);
-				let tabIndex = 0;
+				let tabIndex, tabPosition;
 				for (let tab of tabs) {
 					if (tab.active) {
 						if (logToConsole) console.log('Active tab url: ' + tab.url);
@@ -134,6 +133,15 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 						if (logToConsole) console.log('tabIndex: ' + tabIndex);
 						break;
 					}
+				}
+				if (contextsearch_multiMode === 'multiAfterLastTab') {
+					tabPosition = tabs.length;
+				} else {
+					tabPosition = tabIndex;
+				}
+				if (id === 'multisearch') {
+					processMultiTabSearch(tabPosition);
+					return;
 				}
 				if (contextsearch_openSearchResultsInLastTab) tabIndex = tabs.length;
 				searchUsing(id, tabIndex);
@@ -237,6 +245,16 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				options.tabActive = message.data.tabActive;
 				options.lastTab = message.data.lastTab;
 				setTabMode(options);
+				saveOptions(options, false);
+			});
+			break;
+		case 'updateMultiMode':
+			getOptions().then((options) => {
+				if (logToConsole) {
+					console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
+				}
+				options.tabMode = message.data.multiMode;
+				setMultiMode(options);
 				saveOptions(options, false);
 			});
 			break;
@@ -452,14 +470,14 @@ function setKeyboardShortcuts() {
 }
 
 async function getOptions() {
-	const options = await browser.storage.sync.get(null);
-	options.catch(err => {
-		if (logToConsole) {
-			console.error(err);
-			console.log('Failed to retrieve options from sync storage.');
-		}
-		return err;
-	});
+	const options = await browser.storage.sync.get(null)
+		.catch(err => {
+			if (logToConsole) {
+				console.error(err);
+				console.log('Failed to retrieve options from sync storage.');
+			}
+			return err;
+		});
 	if (logToConsole) console.log(options);
 	return (options);
 }
@@ -534,6 +552,10 @@ function setTabMode(options) {
 		default:
 			break;
 	}
+}
+
+function setMultiMode(options) {
+	contextsearch_multiMode = options.multiMode;
 }
 
 function setOptionsMenuLocation(options) {
@@ -940,40 +962,42 @@ function buildContextMenuItem(searchEngine, index, title, base64String, browserV
 // Perform search based on selected search engine, i.e. selected context menu item
 async function processSearch(info, tab) {
 	let id = info.menuItemId.replace('cs-', '');
-	let tabPosition;
-	if ((contextsearch_openSearchResultsInSidebar && id !== 'reverse-image-search') || id === 'exif-tags') {
-		await browser.sidebarAction.open();
-		browser.sidebarAction.setPanel({ panel: "about:blank" });
-	} else {
-		await browser.sidebarAction.close();
-		tabPosition = tab.index;
-	}
-
-	if (id === 'exif-tags') {
-		let url = browser.runtime.getURL('/sidebar/exif_tags.html');
-		browser.sidebarAction.setPanel({ panel: url });
-		browser.sidebarAction.setTitle({ title: 'Image analysis' });
-		return;
-	} else if (id === 'reverse-image-search') {
-		browser.tabs.query({ currentWindow: true }).then((tabs) => {
-			for (let tab of tabs) {
-				if (logToConsole) {
-					console.log(tab.index);
-					console.log(tab.title);
-					console.log('-------------------------');
-				}
-			}
-			if (contextsearch_openSearchResultsInLastTab) tabPosition = tabs.length;
-			displaySearchResults(targetUrl, tabPosition);
-		}, onError);
-		return;
-	}
+	let tabIndex, tabPosition;
 
 	// Prefer info.selectionText over selection received by content script for these lengths (more reliable)
 	if (info.selectionText.length < 150 || info.selectionText.length > 150) {
 		selection = info.selectionText.trim();
 	}
 
+	if ((contextsearch_openSearchResultsInSidebar && id !== 'reverse-image-search') || id === 'exif-tags') {
+		await browser.sidebarAction.open();
+		browser.sidebarAction.setPanel({ panel: "about:blank" });
+	} else {
+		await browser.sidebarAction.close();
+		tabIndex = tab.index;
+	}
+	const tabs = await browser.tabs.query({ currentWindow: true });
+	for (let tab of tabs) {
+		if (logToConsole) {
+			console.log(tab.index);
+			console.log(tab.title);
+			console.log('-------------------------');
+		}
+		tabPosition = tab.index;
+	}
+	if (contextsearch_multiMode !== 'multiAfterLastTab') {
+		tabPosition = tabIndex;
+	}
+	if (contextsearch_openSearchResultsInLastTab) tabIndex = tabs.length;
+	if (id === 'exif-tags') {
+		let url = browser.runtime.getURL('/sidebar/exif_tags.html');
+		browser.sidebarAction.setPanel({ panel: url });
+		browser.sidebarAction.setTitle({ title: 'Image analysis' });
+		return;
+	} else if (id === 'reverse-image-search') {
+		displaySearchResults(targetUrl, tabIndex);
+		return;
+	}
 	if ((id === 'site-search') && !isEmpty(targetUrl)) {
 		if (logToConsole) console.log(targetUrl);
 		if (contextsearch_openSearchResultsInSidebar) {
@@ -983,24 +1007,15 @@ async function processSearch(info, tab) {
 			openUrl(targetUrl);
 			browser.sidebarAction.setTitle({ title: 'Search results' });
 			return;
+		} else {
+			displaySearchResults(targetUrl, tabIndex);
+			return;
 		}
-		browser.tabs.query({ currentWindow: true }).then((tabs) => {
-			for (let tab of tabs) {
-				if (logToConsole) {
-					console.log(tab.index);
-					console.log(tab.title);
-					console.log('-------------------------');
-				}
-			}
-			if (contextsearch_openSearchResultsInLastTab) tabPosition = tabs.length;
-			displaySearchResults(targetUrl, tabPosition);
-		}, onError);
-		return;
 	} else if (id === 'options') {
 		browser.runtime.openOptionsPage().then(null, onError);
 		return;
 	} else if (id === 'multitab') {
-		processMultiTabSearch();
+		processMultiTabSearch(tabPosition);
 		return;
 	} else if (id === 'match') {
 		getOptions().then((settings) => {
@@ -1019,41 +1034,38 @@ async function processSearch(info, tab) {
 
 	// At this point, it should be a number
 	if (!isNaN(intId)) {
-		browser.tabs.query({ currentWindow: true }).then((tabs) => {
-			for (let tab of tabs) {
-				if (logToConsole) {
-					console.log(tab.index);
-					console.log(tab.title);
-					console.log('-------------------------');
-				}
-			}
-			if (contextsearch_openSearchResultsInLastTab) tabPosition = tabs.length;
-			searchUsing(searchEnginesArray[intId - 1], tabPosition);
-		}, onError);
+		searchUsing(searchEnginesArray[intId - 1], tabIndex);
 	}
 }
 
-function processMultiTabSearch() {
-	browser.storage.local.get(null).then((data) => {
-		searchEngines = sortByIndex(data);
-		let multiTabSearchEngineUrls = [];
-		for (let id in searchEngines) {
-			if (searchEngines[id].multitab) {
-				multiTabSearchEngineUrls.push(getSearchEngineUrl(searchEngines[id].url, selection));
-			}
+async function processMultiTabSearch(tabPosition) {
+	const data = await browser.storage.local.get(null);
+	searchEngines = sortByIndex(data);
+	let multiTabSearchEngineUrls = [];
+	for (let id in searchEngines) {
+		if (searchEngines[id].multitab) {
+			multiTabSearchEngineUrls.push(getSearchEngineUrl(searchEngines[id].url, selection));
 		}
-		if (isEmpty(multiTabSearchEngineUrls)) {
-			notify('Search engines have not been selected for a multi-search.');
-			return;
+	}
+	if (isEmpty(multiTabSearchEngineUrls)) {
+		notify('Search engines have not been selected for a multi-search.');
+		return;
+	}
+	const n = multiTabSearchEngineUrls.length;
+	if (logToConsole) console.log(multiTabSearchEngineUrls);
+	if (contextsearch_multiMode === 'multiNewWindow') {
+		await browser.windows.create({
+			titlePreface: windowTitle + '"' + selection + '"',
+			url: multiTabSearchEngineUrls
+		});
+	} else {
+		for (let i = 0; i < n; i++) {
+			await browser.tabs.create({
+				index: tabPosition + i,
+				url: multiTabSearchEngineUrls[i]
+			});
 		}
-		if (logToConsole) console.log(multiTabSearchEngineUrls);
-		browser.windows
-			.create({
-				titlePreface: windowTitle + '"' + selection + '"',
-				url: multiTabSearchEngineUrls
-			})
-			.then(null, onError);
-	}, onError);
+	}
 }
 
 // Handle search terms if there are any
@@ -1135,60 +1147,57 @@ browser.omnibox.onInputChanged.addListener((input, suggest) => {
 });
 
 // Open the page based on how the user clicks on a suggestion
-browser.omnibox.onInputEntered.addListener((input) => {
+browser.omnibox.onInputEntered.addListener(async (input) => {
 	if (logToConsole) console.log(input);
-	let tabPosition = 0;
-	let tabId = 0;
+	let tabIndex, tabPosition, tabId;
 
-	browser.tabs
-		.query({
-			currentWindow: true,
-			active: true
-		})
-		.then((tabs) => {
-			for (let tab of tabs) {
-				tabPosition = tab.index;
-				tabId = tab.id;
+	const activeTab = await browser.tabs.query({
+		currentWindow: true,
+		active: true
+	});
+	tabIndex = activeTab[0].index;
+	tabId = activeTab[0].id;
+
+	const tabs = await browser.tabs.query({ currentWindow: true });
+	if (contextsearch_openSearchResultsInLastTab) {
+		tabIndex = tabs.length;
+	}
+
+	if (logToConsole) console.log(contextsearch_multiMode);
+	if (contextsearch_multiMode === 'multiAfterLastTab') {
+		tabPosition = tabs[-1].index + 1;
+	} else {
+		tabPosition = tabIndex;
+	}
+
+	if (logToConsole) console.log(tabPosition);
+	if (logToConsole) console.log(input.indexOf('://'));
+
+	// Only display search results when there is a valid link inside of the url variable
+	if (input.indexOf('://') > -1) {
+		if (logToConsole) console.log('Processing search...');
+		displaySearchResults(input, tabIndex);
+	} else {
+		try {
+			let keyword = input.split(' ')[0];
+			let searchTerms = input.replace(keyword, '').trim();
+			if (keyword !== '!' && keyword !== '.') {
+				let suggestion = buildSuggestion(input);
+				if (suggestion.length === 1) {
+					displaySearchResults(suggestion[0].content, tabIndex);
+				} else {
+					browser.search.search({ query: searchTerms, tabId: tabId });
+					notify(notifyUsage);
+				}
+			} else if (keyword === '.') {
+				browser.runtime.openOptionsPage();
+			} else {
+				processMultiTabSearch(tabPosition);
 			}
-
-			browser.tabs
-				.query({
-					currentWindow: true
-				})
-				.then((tabs) => {
-					if (contextsearch_openSearchResultsInLastTab) {
-						tabPosition = tabs.length;
-					}
-					if (logToConsole) console.log(tabPosition);
-					if (logToConsole) console.log(input.indexOf('://'));
-
-					// Only display search results when there is a valid link inside of the url variable
-					if (input.indexOf('://') > -1) {
-						if (logToConsole) console.log('Processing search...');
-						displaySearchResults(input, tabPosition);
-					} else {
-						try {
-							let keyword = input.split(' ')[0];
-							let searchTerms = input.replace(keyword, '').trim();
-							if (keyword !== '!' && keyword !== '.') {
-								let suggestion = buildSuggestion(input);
-								if (suggestion.length === 1) {
-									displaySearchResults(suggestion[0].content, tabPosition);
-								} else {
-									browser.search.search({ query: searchTerms, tabId: tabId });
-									notify(notifyUsage);
-								}
-							} else if (keyword === '.') {
-								browser.runtime.openOptionsPage();
-							} else {
-								processMultiTabSearch();
-							}
-						} catch (ex) {
-							if (logToConsole) console.log('Failed to process ' + input);
-						}
-					}
-				}, onError);
-		}, onError);
+		} catch (ex) {
+			if (logToConsole) console.log('Failed to process ' + input);
+		}
+	}
 });
 
 function buildSuggestion(text) {
