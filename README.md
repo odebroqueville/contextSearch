@@ -40,8 +40,8 @@ You can also import a JSON file containing your own list of search engines. It i
 
 ## How to add a search engine to your custom list
 
-* visit mycroftproject.com and right-click on the main link of a listed search engine
-* use the page action (i.e. Context Search icon in the address bar) to add a search engine if the website supports open search
+* visit mycroftproject.com and click on the Context Search icon that appears before the textual link of a listed search engine
+* use the page action (i.e. Context Search icon in the url address bar) to add a search engine if the website supports open search
 * add a search engine manually via the Options page (you can test the query string before adding the search engine)
 
 ## How to perform a search in the omnibox

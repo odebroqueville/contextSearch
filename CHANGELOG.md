@@ -1,5 +1,10 @@
-4.2.6
+4.2.7
 =========
+
+* Changed the way search engines are added from mycroftproject.com: users can now click on the Context Search icon that appears right before the search engine textual link
+
+4.2.6
+---------
 
 * Minor corrections to German translations
 * Fix [#129](https://github.com/odebroqueville/contextSearch/issues/129) missing documentation for advanced features
