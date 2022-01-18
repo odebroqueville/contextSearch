@@ -39,8 +39,9 @@ let selectedText = '';
 // Current state
 if (logToConsole) {
 	console.log(document.readyState);
-	document.addEventListener('readystatechange', () => console.log(document.readyState));
 }
+
+if (document.readyState === 'complete') showButtons();
 
 /// Event handlers
 // Text seleection change event listener
@@ -57,7 +58,7 @@ document.addEventListener('keydown', (event) => {
 	if (event.target.nodeName === 'INPUT') return;
 	keysPressed[event.key] = [true, event.code];
 	if (logToConsole) console.log(keysPressed);
- });
+});
 
 // Key up event listener
 document.addEventListener('keyup', handleKeyUp);
@@ -101,8 +102,8 @@ async function init() {
 	}
 	// If the website doesn't contain an opensearch plugin, then hide the Page action
 	if (document.querySelector('link[type="application/opensearchdescription+xml"]') == null) {
-		sendMessage('hidePageAction',null);
-	} 
+		sendMessage('hidePageAction', null);
+	}
 
 	// Retrieve options on initial load
 	options = await browser.storage.sync.get(null);
@@ -112,6 +113,7 @@ async function init() {
 		sameTab = false;
 	}
 	searchEngines = await browser.storage.local.get(null);
+	showButtons();
 }
 
 // Detect the underlying OS
@@ -123,7 +125,7 @@ function getOS() {
 	// } else {
 	// 	platform = window.navigator.platform;
 	// }
-  
+
 	if (platform.toLowerCase().startsWith("mac")) {
 		return 'macOS';
 	} else if (platform.toLowerCase().startsWith("ip")) {
@@ -135,7 +137,7 @@ function getOS() {
 	} else if (/Linux/.test(platform)) {
 		return 'Linux';
 	} else return null;
-  
+
 }
 
 function handleKeyUp(e) {
@@ -148,7 +150,7 @@ function handleKeyUp(e) {
 	sendSelectionToBackgroundScript(selectedText);
 	if (logToConsole) console.log(e);
 	let input = "";
-	for (let i=0; i<modifiers.length; i++) {
+	for (let i = 0; i < modifiers.length; i++) {
 		const modifier = modifiers[i];
 		if (logToConsole) console.log(modifier);
 		if (!(modifier in keysPressed)) continue;
@@ -290,37 +292,44 @@ async function handleRightClickWithoutGrid(e) {
 		let targetUrl = googleReverseImageSearchUrl + imgurl;
 		sendMessage('setTargetUrl', targetUrl);
 		if (logToConsole) console.log(`Image url: ${imgurl}`);
-		EXIF.getData(img, function() {
+		EXIF.getData(img, function () {
 			//alert(EXIF.pretty(this));
 			let tags = EXIF.getAllTags(this);
 			if (logToConsole) console.log(tags);
 			let data = { imageUrl: imgurl, imageTags: tags };
 			sendMessage('setImageData', data);
 		});
-	} else if (tag === 'A') {
-		// Check that domain of current web page is mycroftproject.com
-		const fullUrl = window.location.href;
-		const domain = getDomain(fullUrl).replace(/https?:\/\//, '');
-		if (domain === 'mycroftproject.com') {
-			// Prevent context menu from showing
-			e.preventDefault();
+	}
+}
 
-			// get pid and name to retrieve open search data
-			const attr = elementClicked.getAttribute('href');
-			const pid = getPidAndName(attr).pid;
-			const name = getPidAndName(attr).name;
+async function showButtons() {
+	if (domain != 'mycroftproject.com') return;
+	const installLinks = document.querySelectorAll('a[href^="/install.html"]');
+	const links = Array.from(installLinks);
+	if (logToConsole) console.log(links);
+
+	links.forEach(link => {
+		let img = new Image();
+		img.src = browser.runtime.getURL('/icons/context-search.svg');
+		img.className = 'icon';
+		img.height = '16px';
+		img.style.marginRight = '5px';
+		img.style.cursor = 'pointer';
+		img.title = browser.i18n.getMessage("AddSearchEngine");
+
+		img.onclick = function (e) {
+			const href = link.getAttribute('href');
+			const pid = getPidAndName(href).pid;
+			const name = getPidAndName(href).name;
 			const url = mycroftUrl + pid + '/' + name + '.xml';
-			if (logToConsole) console.log(`pid: ${pid}`);
-			if (logToConsole) console.log(`name: ${name}`);
-			if (logToConsole) console.log(`url: ${url}`);
-
-			getNewSearchEngine(url, searchEngines).then((result) => {
+			getNewSearchEngine(url, searchEngines).then(result => {
 				// Send msg to background script to get the new search engine added
 				sendMessage('addNewSearchEngine', result);
 			});
-			return false;
 		}
-	}
+
+		link.parentNode.insertBefore(img, link);
+	});
 }
 
 function handleTextSelection() {
@@ -368,7 +377,7 @@ function sendSelectionToBackgroundScript(selectedText) {
 	// Send the selected text to background.js
 	sendMessage('setSelection', selectedText);
 }
-  
+
 /* function handleError(error) {
 	console.log(`Error: ${error}`);
 } */
@@ -545,32 +554,32 @@ function sendMessage(action, data) {
 	browser.runtime.sendMessage({ action: action, data: data });
 }
 
-function absoluteUrl(url){
-    /* Only accept commonly trusted protocols:
-     * Only data-image URLs are accepted, Exotic flavours (escaped slash,
-     * html-entitied characters) are not supported to keep the function fast */
-  if(/^(https?|file|ftps?|mailto|javascript|data:image\/[^;]{2,9};):/i.test(url))
-         return url; //Url is already absolute
+function absoluteUrl(url) {
+	/* Only accept commonly trusted protocols:
+	 * Only data-image URLs are accepted, Exotic flavours (escaped slash,
+	 * html-entitied characters) are not supported to keep the function fast */
+	if (/^(https?|file|ftps?|mailto|javascript|data:image\/[^;]{2,9};):/i.test(url))
+		return url; //Url is already absolute
 
-    var base_url = location.href.match(/^(.+)\/?(?:#.+)?$/)[0]+"/";
-    if(url.substring(0,2) == "//")
-        return location.protocol + url;
-    else if(url.charAt(0) == "/")
-        return location.protocol + "//" + location.host + url;
-    else if(url.substring(0,2) == "./")
-        url = "." + url;
-    else if(/^\s*$/.test(url))
-        return ""; //Empty = Return nothing
-    else url = "../" + url;
+	var base_url = location.href.match(/^(.+)\/?(?:#.+)?$/)[0] + "/";
+	if (url.substring(0, 2) == "//")
+		return location.protocol + url;
+	else if (url.charAt(0) == "/")
+		return location.protocol + "//" + location.host + url;
+	else if (url.substring(0, 2) == "./")
+		url = "." + url;
+	else if (/^\s*$/.test(url))
+		return ""; //Empty = Return nothing
+	else url = "../" + url;
 
-    url = base_url + url;
-    
-    while(/\/\.\.\//.test(url = url.replace(/[^/]+\/+\.\.\//g,"")));
+	url = base_url + url;
 
-    /* Escape certain characters to prevent XSS */
-    url = url.replace(/\.$/,"").replace(/\/\./g,"").replace(/"/g,"%22")
-            .replace(/'/g,"%27").replace(/</g,"%3C").replace(/>/g,"%3E");
-    return url;
+	while (/\/\.\.\//.test(url = url.replace(/[^/]+\/+\.\.\//g, "")));
+
+	/* Escape certain characters to prevent XSS */
+	url = url.replace(/\.$/, "").replace(/\/\./g, "").replace(/"/g, "%22")
+		.replace(/'/g, "%27").replace(/</g, "%3C").replace(/>/g, "%3E");
+	return url;
 }
 
 async function getNewSearchEngine(url, searchEngines) {
