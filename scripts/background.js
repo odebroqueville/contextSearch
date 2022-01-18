@@ -16,7 +16,7 @@ const logToConsole = true;
 
 //const FIREFOX_VERSION = /rv:([0-9.]+)/.exec(navigator.userAgent)[1];
 //const contextsearch_userAgent = `Mozilla/5.0 (Android 4.4; Mobile; rv:${FIREFOX_VERSION}) Gecko/${FIREFOX_VERSION} Firefox/${FIREFOX_VERSION}`;
-const contextsearch_userAgent = 
+const contextsearch_userAgent =
 	'Mozilla/5.0 (iPhone9,3; U; CPU iPhone OS 10_0_1 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/14A403 Safari/602.1';
 const DEFAULT_SEARCH_ENGINES = 'defaultSearchEngines.json';
 const base64ContextSearchIcon =
@@ -29,8 +29,8 @@ const defaultRegex = /[\s\S]*/i;
 // It only matches embedded iframes
 const requestFilter = {
 	tabId: -1,
-	types: [ 'main_frame' ],
-	urls: [ 'http://*/*', 'https://*/*' ]
+	types: ['main_frame'],
+	urls: ['http://*/*', 'https://*/*']
 };
 
 // Constants for translations
@@ -103,7 +103,7 @@ browser.webRequest.onBeforeSendHeaders.addListener(
 		return {};
 	},
 	requestFilter,
-	[ 'blocking', 'requestHeaders' ]
+	['blocking', 'requestHeaders']
 );
 
 /// Handle Incoming Messages
@@ -308,8 +308,8 @@ async function init() {
 		// Inform on storage space being used by storage sync
 		const bytesUsed = await browser.storage.sync.getBytesInUse(null)
 			.catch((err) => {
-					console.error(err);
-					console.log('Failed to retrieve storage space used by storage sync.');
+				console.error(err);
+				console.log('Failed to retrieve storage space used by storage sync.');
 			});
 		console.log(`Bytes used by storage sync: ${bytesUsed} bytes.`);
 
@@ -348,19 +348,19 @@ async function reset() {
 }
 
 async function addNewSearchEngine(id, domain) {
-		await browser.storage.local.clear()
-			.catch(err => {
-				if (logToConsole) {
-					console.error(err);
-					console.log('Failed to clear local storage.');
-				}
-				return;
-			});
-		const value = await getNewFavicon(id, domain);
-		searchEngines[id]['base64'] = value.base64;
-		await saveSearchEnginesToLocalStorage(false);
-		rebuildContextMenu();
-		notify(notifySearchEngineAdded);
+	await browser.storage.local.clear()
+		.catch(err => {
+			if (logToConsole) {
+				console.error(err);
+				console.log('Failed to clear local storage.');
+			}
+			return;
+		});
+	const value = await getNewFavicon(id, domain);
+	searchEngines[id]['base64'] = value.base64;
+	await saveSearchEnginesToLocalStorage(false);
+	rebuildContextMenu();
+	notify(notifySearchEngineAdded);
 }
 
 function handlePageAction(tab) {
@@ -461,7 +461,7 @@ async function getOptions() {
 		return err;
 	});
 	if (logToConsole) console.log(options);
-	return(options);
+	return (options);
 }
 
 // Sets the default options if they haven't already been set in local storage and saves them
@@ -487,7 +487,7 @@ async function saveOptions(options, blnRebuildContextMenu) {
 		const strOptions = JSON.stringify(options);
 		console.log(`Options settings:\n${strOptions}`);
 	}
-	await browser.storage.sync.set({"options": options})
+	await browser.storage.sync.set({ "options": options })
 		.catch((err) => {
 			if (logToConsole) {
 				console.error(err);
@@ -679,7 +679,7 @@ async function getFaviconsAsBase64Strings() {
 
 async function getNewFavicon(id, domain) {
 	const optimalSize = '32x32';
-	const tests = [ optimalSize, '[.]png', '[.]ico' ];
+	const tests = [optimalSize, '[.]png', '[.]ico'];
 	let linksWithIcons = [];
 	let parser = new DOMParser();
 	let bestIconUrl = null;
@@ -699,7 +699,7 @@ async function getNewFavicon(id, domain) {
 		const webPage = await response.text();
 		const doc = parser.parseFromString(webPage, 'text/html');
 		const links = doc.getElementsByTagName('link');
-	
+
 		// Store all links with a possible favicon in an array
 		for (let link of links) {
 			const rel = link.getAttribute('rel');
@@ -708,10 +708,10 @@ async function getNewFavicon(id, domain) {
 				linksWithIcons.push(absUrl);
 			}
 		}
-	
+
 		if (logToConsole) console.log(`Domain: ${domain}`);
 		if (logToConsole) console.log(`Links with favicons: ${linksWithIcons}`);
-	
+
 		// Check if the links containing icons contain 32x32 in their name, then
 		// check if they are of type png. Finally, check if they are of type ico.
 		for (let test of tests) {
@@ -724,7 +724,7 @@ async function getNewFavicon(id, domain) {
 				return { id: id, base64: base64str };
 			}
 		}
-	
+
 		// Failed to retrieve a favicon, proceeding with default CS icon
 		return { id: id, base64: base64ContextSearchIcon };
 	} catch (error) {
@@ -859,36 +859,36 @@ function rebuildContextOptionsMenu() {
 		browser.contextMenus.create({
 			id: 'cs-separator',
 			type: 'separator',
-			contexts: [ 'selection' ]
+			contexts: ['selection']
 		});
 	}
 	browser.contextMenus.create({
 		id: 'cs-match',
 		type: 'checkbox',
 		title: titleExactMatch,
-		contexts: [ 'selection' ],
+		contexts: ['selection'],
 		checked: contextsearch_exactMatch
 	});
 	browser.contextMenus.create({
 		id: 'cs-multitab',
 		title: titleMultipleSearchEngines,
-		contexts: [ 'selection' ]
+		contexts: ['selection']
 	});
 	browser.contextMenus.create({
 		id: 'cs-site-search',
 		title: `${titleSiteSearch} ${contextsearch_siteSearch}`,
-		contexts: [ 'selection' ]
+		contexts: ['selection']
 	});
 	browser.contextMenus.create({
 		id: 'cs-options',
 		title: titleOptions + '...',
-		contexts: [ 'selection' ]
+		contexts: ['selection']
 	});
 	if (contextsearch_optionsMenuLocation === 'top') {
 		browser.contextMenus.create({
 			id: 'cs-separator',
 			type: 'separator',
-			contexts: [ 'selection' ]
+			contexts: ['selection']
 		});
 	}
 }
@@ -898,18 +898,18 @@ function buildContextMenuForImages() {
 	browser.contextMenus.create({
 		id: 'cs-reverse-image-search',
 		title: 'Google Reverse Image Search',
-		contexts: [ 'image' ]
+		contexts: ['image']
 	});
 	browser.contextMenus.create({
 		id: 'cs-exif-tags',
 		title: 'Image analysis...',
-		contexts: [ 'image' ]
+		contexts: ['image']
 	});
 }
 
 /// Build a single context menu item
 function buildContextMenuItem(searchEngine, index, title, base64String, browserVersion) {
-	const contexts = [ 'selection' ];
+	const contexts = ['selection'];
 	const faviconUrl = 'data:image/png;base64,' + base64String;
 	const regexString = searchEngine.regex.body;
 	const regexModifier = searchEngine.regex.flags;
@@ -943,7 +943,7 @@ async function processSearch(info, tab) {
 	let tabPosition;
 	if ((contextsearch_openSearchResultsInSidebar && id !== 'reverse-image-search') || id === 'exif-tags') {
 		await browser.sidebarAction.open();
-		browser.sidebarAction.setPanel({panel: "about:blank"});
+		browser.sidebarAction.setPanel({ panel: "about:blank" });
 	} else {
 		await browser.sidebarAction.close();
 		tabPosition = tab.index;
@@ -1074,7 +1074,7 @@ function searchUsing(id, tabIndex) {
 	targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
 	if (logToConsole) console.log(`Target url: ${targetUrl}`);
 	if (contextsearch_openSearchResultsInSidebar) {
-		browser.sidebarAction.setPanel({panel: "about:blank"});
+		browser.sidebarAction.setPanel({ panel: "about:blank" });
 		openUrl(targetUrl);
 		browser.sidebarAction.setTitle({ title: 'Search results' });
 		return;

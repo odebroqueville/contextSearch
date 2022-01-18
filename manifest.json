@@ -3,7 +3,7 @@
 	"default_locale": "en",
 	"name": "__MSG_extensionName__",
 	"description": "__MSG_extensionDescription__",
-	"version": "4.2.6",
+	"version": "4.2.7",
 	"author": "Olivier de Broqueville",
 	"browser_specific_settings": {
 		"gecko": {
@@ -12,28 +12,28 @@
 		}
 	},
 	"content_security_policy": "script-src 'self'; object-src 'self'; img-src *; ",
-
 	"page_action": {
-		"show_matches": [ "*://*/*" ],
+		"show_matches": [
+			"<all_urls>"
+		],
 		"browser_style": true,
 		"default_icon": "/icons/context-search.svg",
 		"default_title": "Add search engine to Context Search"
 	},
-
 	"sidebar_action": {
 		"browser_style": false,
 		"default_icon": "/icons/context-search.svg",
 		"default_title": "Search results",
 		"default_panel": "/sidebar/search_results.html",
-		"open_at_install": true
+		"open_at_install": false
 	},
-
 	"background": {
-		"scripts": [ "/scripts/background.js" ]
+		"scripts": [
+			"/scripts/background.js"
+		]
 	},
-
 	"permissions": [
-		"*://*/*",
+		"<all_urls>",
 		"contextMenus",
 		"storage",
 		"tabs",
@@ -43,11 +43,9 @@
 		"webRequest",
 		"webRequestBlocking"
 	],
-
 	"omnibox": {
 		"keyword": "cs"
 	},
-
 	"icons": {
 		"16": "icons/icon_16.png",
 		"20": "icons/icon_20.png",
@@ -59,16 +57,16 @@
 		"256": "icons/icon_256.png",
 		"512": "icons/icon_512.png"
 	},
-
 	"options_ui": {
 		"page": "options.html",
 		"open_in_tab": true,
 		"browser_style": true
 	},
-
 	"content_scripts": [
 		{
-			"matches": [ "*://*/*" ],
+			"matches": [
+				"<all_urls>"
+			],
 			"js": [
 				"/scripts/selection.js",
 				"/scripts/exif.js",
