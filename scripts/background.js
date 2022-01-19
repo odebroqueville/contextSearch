@@ -111,9 +111,10 @@ browser.webRequest.onBeforeSendHeaders.addListener(
 
 /// Handle Incoming Messages
 // Listen for messages from the content or options script
-browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 	let id = '';
 	let domain = '';
+	let tabIndex, tabPosition, tabs, options;
 	switch (message.action) {
 		case 'doSearch':
 			id = message.data.id;
@@ -123,29 +124,27 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				searchUsing(id, null);
 				return;
 			}
-			browser.tabs.query({ currentWindow: true }).then((tabs) => {
-				if (logToConsole) console.log(tabs);
-				let tabIndex, tabPosition;
-				for (let tab of tabs) {
-					if (tab.active) {
-						if (logToConsole) console.log('Active tab url: ' + tab.url);
-						tabIndex = tab.index;
-						if (logToConsole) console.log('tabIndex: ' + tabIndex);
-						break;
-					}
+			tabs = await browser.tabs.query({ currentWindow: true });
+			if (logToConsole) console.log(tabs);
+			for (let tab of tabs) {
+				if (tab.active) {
+					if (logToConsole) console.log('Active tab url: ' + tab.url);
+					tabIndex = tab.index;
+					if (logToConsole) console.log('tabIndex: ' + tabIndex);
+					break;
 				}
-				if (contextsearch_multiMode === 'multiAfterLastTab') {
-					tabPosition = tabs.length;
-				} else {
-					tabPosition = tabIndex;
-				}
-				if (id === 'multisearch') {
-					processMultiTabSearch(tabPosition);
-					return;
-				}
-				if (contextsearch_openSearchResultsInLastTab) tabIndex = tabs.length;
-				searchUsing(id, tabIndex);
-			}, onError);
+			}
+			if (contextsearch_multiMode === 'multiAfterLastTab') {
+				tabPosition = tabs.length + 1;
+			} else {
+				tabPosition = tabIndex + 1;
+			}
+			if (id === 'multisearch') {
+				processMultiTabSearch(tabPosition);
+				return;
+			}
+			if (contextsearch_openSearchResultsInLastTab) tabIndex = tabs.length;
+			searchUsing(id, tabIndex);
 			break;
 		case 'notify':
 			notify(message.data);
@@ -165,7 +164,8 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			rebuildContextMenu();
 			break;
 		case 'reset':
-			return reset();
+			reset();
+			break;
 		case 'setTargetUrl':
 			if (message.data) targetUrl = message.data;
 			break;
@@ -175,18 +175,15 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 		case 'saveSearchEngines':
 			searchEngines = sortByIndex(message.data);
 			if (logToConsole) console.log(searchEngines);
-			browser.storage.local
-				.clear()
-				.then(() => {
-					saveSearchEnginesToLocalStorage(false);
-					rebuildContextMenu();
-				})
+			await browser.storage.local.clear()
 				.catch((err) => {
 					if (logToConsole) {
 						console.error(err);
 						console.log('Failed to clear local storage.');
 					}
 				});
+			await saveSearchEnginesToLocalStorage(false);
+			rebuildContextMenu();
 			break;
 		case 'addNewSearchEngine':
 			id = message.data.id;
@@ -194,113 +191,103 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			if (logToConsole) console.log(id, domain);
 			searchEngines[id] = message.data.searchEngine;
 			searchEngines = sortByIndex(searchEngines);
-			addNewSearchEngine(id, domain);
+			await addNewSearchEngine(id, domain);
 			break;
 		case 'updateSearchOptions':
-			getOptions().then((options) => {
-				if (logToConsole) {
-					console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
-				}
-				options.exactMatch = message.data.exactMatch;
-				setExactMatch(options);
-				saveOptions(options, true);
-			});
+			options = await getOptions();
+			if (logToConsole) {
+				console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
+			}
+			options.exactMatch = message.data.exactMatch;
+			setExactMatch(options);
+			await saveOptions(options, true);
 			break;
 		case 'updateDisplayFavicons':
-			getOptions().then((options) => {
-				if (logToConsole) {
-					console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
-				}
-				options.displayFavicons = message.data.displayFavicons;
-				setDisplayFavicons(options);
-				saveOptions(options, true);
-			});
+			options = await getOptions();
+			if (logToConsole) {
+				console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
+			}
+			options.displayFavicons = message.data.displayFavicons;
+			setDisplayFavicons(options);
+			await saveOptions(options, true);
 			break;
 		case 'updateDisplayExifSummary':
-			getOptions().then((options) => {
-				if (logToConsole) {
-					console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
-				}
-				options.displayExifSummary = message.data.displayExifSummary;
-				setDisplayExifSummary(options);
-				saveOptions(options, false);
-			});
+			options = await getOptions();
+			if (logToConsole) {
+				console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
+			}
+			options.displayExifSummary = message.data.displayExifSummary;
+			setDisplayExifSummary(options);
+			await saveOptions(options, false);
 			break;
 		case 'updateDisableAltClick':
-			getOptions().then((options) => {
-				if (logToConsole) {
-					console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
-				}
-				options.disableAltClick = message.data.disableAltClick;
-				setDisableAltClick(options);
-				saveOptions(options, false);
-			});
+			options = await getOptions();
+			if (logToConsole) {
+				console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
+			}
+			options.disableAltClick = message.data.disableAltClick;
+			setDisableAltClick(options);
+			await saveOptions(options, false);
 			break;
 		case 'updateTabMode':
-			getOptions().then((options) => {
-				if (logToConsole) {
-					console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
-				}
-				options.tabMode = message.data.tabMode;
-				options.tabActive = message.data.tabActive;
-				options.lastTab = message.data.lastTab;
-				setTabMode(options);
-				saveOptions(options, false);
-			});
+			options = await getOptions();
+			if (logToConsole) {
+				console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
+			}
+			options.tabMode = message.data.tabMode;
+			options.tabActive = message.data.tabActive;
+			options.lastTab = message.data.lastTab;
+			setTabMode(options);
+			await saveOptions(options, false);
 			break;
 		case 'updateMultiMode':
-			getOptions().then((options) => {
-				if (logToConsole) {
-					console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
-				}
-				options.tabMode = message.data.multiMode;
-				setMultiMode(options);
-				saveOptions(options, false);
-			});
+			options = await getOptions();
+			if (logToConsole) {
+				console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
+			}
+			options.multiMode = message.data.multiMode;
+			setMultiMode(options);
+			await saveOptions(options, false);
 			break;
 		case 'updateOptionsMenuLocation':
-			getOptions().then((options) => {
-				if (logToConsole) {
-					console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
-				}
-				options.optionsMenuLocation = message.data.optionsMenuLocation;
-				setOptionsMenuLocation(options);
-				saveOptions(options, true);
-			});
+			options = await getOptions();
+			if (logToConsole) {
+				console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
+			}
+			options.optionsMenuLocation = message.data.optionsMenuLocation;
+			setOptionsMenuLocation(options);
+			await saveOptions(options, true);
 			break;
 		case 'updateSiteSearchSetting':
-			getOptions().then((options) => {
-				if (logToConsole) {
-					console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
-				}
-				options.siteSearch = message.data.siteSearch;
-				options.siteSearchUrl = message.data.siteSearchUrl;
-				setSiteSearchSetting(options);
-				saveOptions(options, true);
-			});
+			options = await getOptions();
+			if (logToConsole) {
+				console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
+			}
+			options.siteSearch = message.data.siteSearch;
+			options.siteSearchUrl = message.data.siteSearchUrl;
+			setSiteSearchSetting(options);
+			await saveOptions(options, true);
 			break;
 		case 'updateResetOptions':
-			getOptions().then((options) => {
-				if (logToConsole) {
-					console.log('Preferences retrieved from sync storage:');
-					console.log(options);
-				}
-				options.forceSearchEnginesReload = message.data.resetOptions.forceSearchEnginesReload;
-				options.resetPreferences = message.data.resetOptions.resetPreferences;
-				options.forceFaviconsReload = message.data.resetOptions.forceFaviconsReload;
-				setResetOptions(options);
-				saveOptions(options, false);
-			});
+			options = await getOptions();
+			if (logToConsole) {
+				console.log('Preferences retrieved from sync storage:');
+				console.log(options);
+			}
+			options.forceSearchEnginesReload = message.data.resetOptions.forceSearchEnginesReload;
+			options.resetPreferences = message.data.resetOptions.resetPreferences;
+			options.forceFaviconsReload = message.data.resetOptions.forceFaviconsReload;
+			setResetOptions(options);
+			await saveOptions(options, false);
 			break;
 		case 'updateUseRegex':
-			getOptions().then((options) => {
-				if (logToConsole) {
-					console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
-				}
-				options.useRegex = message.data.useRegex;
-				setUseRegex(options);
-				saveOptions(options, true);
-			});
+			options = await getOptions();
+			if (logToConsole) {
+				console.log(`Preferences retrieved from sync storage: ${JSON.stringify(options)}`);
+			}
+			options.useRegex = message.data.useRegex;
+			setUseRegex(options);
+			await saveOptions(options, true);
 			break;
 		case 'saveSearchEnginesToDisk':
 			browser.downloads.download({
@@ -351,14 +338,15 @@ async function reset() {
 			"Resetting extension's preferences and search engines as per user reset preferences."
 		);
 	}
-	const options = browser.storage.sync.get(null);
-	options.catch((err) => {
-		if (logToConsole) {
-			console.error(err);
-			console.log('Failed to retrieve options from storage sync.');
-		}
-		return;
-	});
+	const data = await browser.storage.sync.get(null)
+		.catch((err) => {
+			if (logToConsole) {
+				console.error(err);
+				console.log('Failed to retrieve options from storage sync.');
+			}
+			return;
+		});
+	const options = data.options;
 	const forceReload = options.forceSearchEnginesReload;
 	if (logToConsole) console.log(`Options:`);
 	if (logToConsole) console.log(options);
@@ -396,9 +384,12 @@ async function initialiseOptionsAndSearchEngines(forceReload) {
 				console.log('Failed to retrieve data from storage sync.');
 			}
 		});
-	options = data.options;
-	if (logToConsole) console.log(options);
-	if (data.options) delete data['options'];
+
+	if (data.options) {
+		options = data.options;
+		if (logToConsole) console.log(options);
+		delete data['options'];
+	}
 
 	// If there are no options stored in storage sync or reset preferences is set, then use default options
 	// Otherwise clear storage sync and only save options in storage sync
@@ -408,8 +399,7 @@ async function initialiseOptionsAndSearchEngines(forceReload) {
 		await browser.storage.sync.clear();
 	}
 	if (logToConsole) console.log(options);
-	setOptions(options, true);
-	console.log(data);
+	await setOptions(options, true);
 
 	/// Initialise search engines
 	// If there were search engines stored in storage sync (legacy), move them to storage local
@@ -428,7 +418,6 @@ async function initialiseOptionsAndSearchEngines(forceReload) {
 		// Check for search engines in local storage
 		const se = await browser.storage.local.get(null);
 		if (se === undefined || isEmpty(se) || forceReload) {
-			console.log("PAR ICI!");
 			// Load default search engines if force reload is set or if no search engines are stored in local storage
 			await browser.storage.local.clear();
 			await loadDefaultSearchEngines(DEFAULT_SEARCH_ENGINES)
@@ -470,7 +459,7 @@ function setKeyboardShortcuts() {
 }
 
 async function getOptions() {
-	const options = await browser.storage.sync.get(null)
+	const data = await browser.storage.sync.get(null)
 		.catch(err => {
 			if (logToConsole) {
 				console.error(err);
@@ -478,8 +467,9 @@ async function getOptions() {
 			}
 			return err;
 		});
+	const options = data.options;
 	if (logToConsole) console.log(options);
-	return (options);
+	return options;
 }
 
 // Sets the default options if they haven't already been set in local storage and saves them
@@ -494,6 +484,7 @@ async function setOptions(options, save) {
 	setResetOptions(options);
 	setSiteSearchSetting(options);
 	setUseRegex(options);
+	setMultiMode(options);
 	if (save) {
 		await browser.storage.sync.clear();
 		await saveOptions(options, true);
@@ -505,8 +496,8 @@ async function saveOptions(options, blnRebuildContextMenu) {
 		const strOptions = JSON.stringify(options);
 		console.log(`Options settings:\n${strOptions}`);
 	}
-	await browser.storage.sync.set({ "options": options })
-		.catch((err) => {
+	await browser.storage.sync.set({ options: options })
+		.catch(err => {
 			if (logToConsole) {
 				console.error(err);
 				console.log('Failed to save options to storage sync.');
@@ -675,14 +666,14 @@ async function getFaviconsAsBase64Strings() {
 
 	if (arrayOfPromises.length > 0) {
 		// values is an array of {id:, base64:}
-		const values = await Promise.all(arrayOfPromises);
-		values.catch((err) => {
-			if (logToConsole) {
-				console.error(err);
-				console.log('Not ALL the favcions could be fetched.');
-			}
-			return;
-		});
+		const values = await Promise.all(arrayOfPromises)
+			.catch((err) => {
+				if (logToConsole) {
+					console.error(err);
+					console.log('Not ALL the favcions could be fetched.');
+				}
+				return;
+			});
 		if (logToConsole) console.log('ALL promises have completed.');
 		if (values === undefined) return;
 		for (let value of values) {
@@ -983,12 +974,12 @@ async function processSearch(info, tab) {
 			console.log(tab.title);
 			console.log('-------------------------');
 		}
-		tabPosition = tab.index;
+		tabPosition = tab.index + 1;
 	}
 	if (contextsearch_multiMode !== 'multiAfterLastTab') {
-		tabPosition = tabIndex;
+		tabPosition = tabIndex + 1;
 	}
-	if (contextsearch_openSearchResultsInLastTab) tabIndex = tabs.length;
+	if (contextsearch_openSearchResultsInLastTab) tabIndex = tabs.length + 1;
 	if (id === 'exif-tags') {
 		let url = browser.runtime.getURL('/sidebar/exif_tags.html');
 		browser.sidebarAction.setPanel({ panel: url });
@@ -1160,14 +1151,14 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
 
 	const tabs = await browser.tabs.query({ currentWindow: true });
 	if (contextsearch_openSearchResultsInLastTab) {
-		tabIndex = tabs.length;
+		tabIndex = tabs.length + 1;
 	}
 
 	if (logToConsole) console.log(contextsearch_multiMode);
 	if (contextsearch_multiMode === 'multiAfterLastTab') {
-		tabPosition = tabs[-1].index + 1;
+		tabPosition = tabs.length + 1;
 	} else {
-		tabPosition = tabIndex;
+		tabPosition = tabIndex + 1;
 	}
 
 	if (logToConsole) console.log(tabPosition);

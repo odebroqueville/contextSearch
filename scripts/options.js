@@ -55,6 +55,9 @@ const forceSearchEnginesReload = document.getElementById('forceSearchEnginesRelo
 const forceFaviconsReload = document.getElementById('forceFaviconsReload');
 const searchEngineSiteSearch = document.getElementById('siteSearch');
 const useRegex = document.getElementById('useRegex');
+const multiNewWindow = document.getElementById('multiNewWindow');
+const multiActiveTab = document.getElementById('multiActiveTab');
+const multiAfterLastTab = document.getElementById('multiAfterLastTab');
 const multiMode = document.getElementById('multiMode');
 
 // All engine buttons
@@ -171,12 +174,11 @@ function getOS() {
 }
 
 // Send a message to the background script
-function sendMessage(action, data) {
-	return new Promise((resolve, reject) => {
-		browser.runtime.sendMessage({ action: action, data: JSON.parse(JSON.stringify(data)) })
-			.then(resolve, reject)
-			.catch(e => console.error(e))
-	});
+async function sendMessage(action, data) {
+	await browser.runtime.sendMessage({ action: action, data: JSON.parse(JSON.stringify(data)) })
+		.catch(e => {
+			if (logToConsole) console.error(e);
+		});
 }
 
 function handleStorageChange(changes, area) {
@@ -203,21 +205,22 @@ function handleStorageChange(changes, area) {
 		if (logToConsole) console.log(searchEngines);
 		displaySearchEngines();
 	} else if (area === 'sync') {
-		let options = {};
+		let data = {};
 		let optionKeys = Object.keys(changes);
 		if (logToConsole) {
 			console.log(changes);
 			console.log(optionKeys);
 		}
 		for (let optionKey of optionKeys) {
-			if (changes[optionKey].newValue !== undefined) options[optionKey] = changes[optionKey].newValue;
+			if (changes[optionKey].newValue !== undefined) data[optionKey] = changes[optionKey].newValue;
 			if (logToConsole) {
 				console.log(optionKey);
 				console.log(changes[optionKey].newValue);
 				console.log('---------------------------------------');
 			}
 		}
-		if (logToConsole) console.log(options);
+		if (logToConsole) console.log(data);
+		const options = data.options;
 		if (!isEmpty(options)) setOptions(options);
 	}
 }
@@ -1058,13 +1061,28 @@ function setOptions(options) {
 		useRegex.checked = false;
 	}
 
+	switch (options.multiMode) {
+		case 'multiNewWindow':
+			multiNewWindow.checked = true;
+			break;
+		case 'multiActiveTab':
+			multiActiveTab.checked = true;
+			break;
+		case 'multiAfterLastTab':
+			multiAfterLastTab.checked = true;
+			break;
+		default:
+			break;
+	}
+
 	searchEngineSiteSearch.value = options.siteSearch || "Google";
 }
 
 // Restore the list of search engines and the options to be displayed in the options page
 async function restoreOptionsPage() {
 	try {
-		let options = await browser.storage.sync.get(null);
+		const data = await browser.storage.sync.get(null);
+		const options = data.options;
 		searchEngines = await browser.storage.local.get(null);
 		if (logToConsole) {
 			console.log('Search engines retrieved from local storage:\n');

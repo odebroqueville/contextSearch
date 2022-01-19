@@ -198,9 +198,10 @@ function handleKeyUp(e) {
 async function handleStorageChange(changes, area) {
 	let oldSearchEngines = JSON.parse(JSON.stringify(searchEngines));
 	let ids = Object.keys(changes);
+	let data;
 	if (logToConsole) {
 		console.log('The following changes have occured:\n');
-		console.log(ids);
+		console.log(changes);
 	}
 	switch (area) {
 		case 'local':
@@ -234,8 +235,8 @@ async function handleStorageChange(changes, area) {
 			}
 
 			// Update options var on change
-			options = await browser.storage.sync.get(null);
-
+			data = await browser.storage.sync.get(null);
+			options = data.options;
 			break;
 		default:
 			break;
