@@ -2,6 +2,9 @@
 =========
 
 * Changed the way search engines are added from mycroftproject.com: users can now click on the Context Search icon that appears right before the search engine textual link
+* Fix [#125](https://github.com/odebroqueville/contextSearch/issues/125) Hide/Show Page action when required
+* Fix [#126](https://github.com/odebroqueville/contextSearch/issues/126) Multisearch results may now be displayed in a new window or, in the current window, right after the active tab or after the last tab
+* Added translations for multisearch options
 
 4.2.6
 ---------

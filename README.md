@@ -2,14 +2,18 @@
 
 Firefox add-on to search selected text in a web page using your favorite search engines.
 
+## Permissions
+
+Notifications and Downloads are now optional permissions. They are disabled by default. If you'd like to show notifications and/or save your list of search engines to your hard disk, open the extensions manager, select Context Search and under the Permissions tab enable Notifications and/or Downloads.
+
 ## How does it work
 
-<ul>
+<ol>
 <li>Select some text on a webpage</li>
 <li>Right click (or Alt-click) on a selection</li>
 <li>A context menu (or a grid of icons) appears, displaying the list of search engines chosen in the extension's preferences</li>
 <li>Click on the search engine with which you’d like to search for the selected text</li>
-</ul>
+</ol>
 
 The search results will appear as defined in the extension's preferences page.
 
