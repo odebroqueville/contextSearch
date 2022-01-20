@@ -299,6 +299,9 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 		case 'hidePageAction':
 			browser.pageAction.hide(sender.tab.id);
 			break;
+		case 'showPageAction':
+			browser.pageAction.show(sender.tab.id);
+			break;
 		default:
 			break;
 	}
@@ -1086,38 +1089,28 @@ function searchUsing(id, tabIndex) {
 }
 
 // Display the search results
-function displaySearchResults(targetUrl, tabPosition) {
+async function displaySearchResults(targetUrl, tabPosition) {
 	if (logToConsole) console.log('Tab position: ' + tabPosition);
-	browser.windows.getCurrent({ populate: false }).then((windowInfo) => {
-		let currentWindowID = windowInfo.id;
-		if (contextsearch_openSearchResultsInNewWindow) {
-			browser.windows
-				.create({
-					url: targetUrl
-				})
-				.then(() => {
-					if (!contextsearch_makeNewTabOrWindowActive) {
-						browser.windows
-							.update(currentWindowID, {
-								focused: true
-							})
-							.then(null, onError);
-					}
-				}, onError);
-		} else if (contextsearch_openSearchResultsInNewTab) {
-			browser.tabs.create({
-				active: contextsearch_makeNewTabOrWindowActive,
-				index: tabPosition + 1,
-				url: targetUrl
-			});
-		} else {
-			// Open search results in the same tab
-			if (logToConsole) {
-				console.log('Opening search results in same tab, url is ' + targetUrl);
-			}
-			browser.tabs.update({ url: targetUrl });
+	const windowInfo = await browser.windows.getCurrent({ populate: false });
+	const currentWindowID = windowInfo.id;
+	if (contextsearch_openSearchResultsInNewWindow) {
+		await browser.windows.create({ url: targetUrl });
+		if (!contextsearch_makeNewTabOrWindowActive) {
+			await browser.windows.update(currentWindowID, { focused: true });
 		}
-	}, onError);
+	} else if (contextsearch_openSearchResultsInNewTab) {
+		browser.tabs.create({
+			active: contextsearch_makeNewTabOrWindowActive,
+			index: tabPosition + 1,
+			url: targetUrl
+		});
+	} else {
+		// Open search results in the same tab
+		if (logToConsole) {
+			console.log('Opening search results in same tab, url is ' + targetUrl);
+		}
+		browser.tabs.update({ url: targetUrl });
+	}
 }
 
 /// OMNIBOX
@@ -1170,8 +1163,8 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
 		displaySearchResults(input, tabIndex);
 	} else {
 		try {
-			let keyword = input.split(' ')[0];
-			let searchTerms = input.replace(keyword, '').trim();
+			const keyword = input.split(' ')[0];
+			const searchTerms = input.replace(keyword, '').trim();
 			if (keyword !== '!' && keyword !== '.') {
 				let suggestion = buildSuggestion(input);
 				if (suggestion.length === 1) {

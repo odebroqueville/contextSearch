@@ -68,7 +68,7 @@ browser.storage.onChanged.addListener(handleStorageChange);
 
 /// Handle Incoming Messages
 // Listen for messages from the background script
-browser.runtime.onMessage.addListener((message) => {
+browser.runtime.onMessage.addListener(async (message) => {
 	let action = message.action;
 	let url = '';
 	switch (action) {
@@ -77,10 +77,9 @@ browser.runtime.onMessage.addListener((message) => {
 				url = document.querySelector('link[type="application/opensearchdescription+xml"]').href;
 				if (logToConsole) console.log(url);
 				// Fetch search engine data
-				getNewSearchEngine(url, searchEngines).then((result) => {
-					// Send msg to background script to get the new search engine added
-					sendMessage('addNewSearchEngine', result);
-				});
+				const result = await getNewSearchEngine(url);
+				// Send msg to background script to get the new search engine added
+				if (result !== null) sendMessage('addNewSearchEngine', result);
 			} catch (err) {
 				if (logToConsole) console.log(err);
 				sendMessage('notify', notifySearchEngineNotFound);
@@ -100,9 +99,12 @@ async function init() {
 		console.log(`Path name: ${pn}`);
 		console.log(`Domain: ${domain}`);
 	}
+
 	// If the website doesn't contain an opensearch plugin, then hide the Page action
 	if (document.querySelector('link[type="application/opensearchdescription+xml"]') == null) {
 		sendMessage('hidePageAction', null);
+	} else {
+		sendMessage('showPageAction', null);
 	}
 
 	// Retrieve options on initial load
@@ -113,6 +115,16 @@ async function init() {
 		sameTab = false;
 	}
 	searchEngines = await browser.storage.local.get(null);
+
+	// If there exists a search engine with a query string that includes the domain of the visited web page, then hide the Page action
+	for (let id in searchEngines) {
+		if (searchEngines[id].url.includes(domain)) {
+			if (logToConsole) console.log('This web page has already been added to your list of search engines.');
+			sendMessage('hidePageAction', null);
+			break;
+		}
+	}
+
 	showButtons();
 }
 
@@ -196,8 +208,8 @@ function handleKeyUp(e) {
 }
 
 async function handleStorageChange(changes, area) {
-	let oldSearchEngines = JSON.parse(JSON.stringify(searchEngines));
-	let ids = Object.keys(changes);
+	// let oldSearchEngines = JSON.parse(JSON.stringify(searchEngines));
+	// let ids = Object.keys(changes);
 	let data;
 	if (logToConsole) {
 		console.log('The following changes have occured:\n');
@@ -206,37 +218,48 @@ async function handleStorageChange(changes, area) {
 	switch (area) {
 		case 'local':
 			searchEngines = {};
-			if (logToConsole) {
-				console.log(changes);
-				console.log('Search engines list has been updated with:\n');
+			searchEngines = await browser.storage.local.get(null);
+			// If the website doesn't contain an opensearch plugin, then hide the Page action
+			if (document.querySelector('link[type="application/opensearchdescription+xml"]') == null) {
+				sendMessage('hidePageAction', null);
+			} else {
+				sendMessage('showPageAction', null);
 			}
-			for (let id of ids) {
-				if (changes[id].newValue === undefined) {
-					continue;
-				}
-				searchEngines[id] = changes[id].newValue;
-				if (logToConsole) {
-					console.log(`Search engine ${id}:\n`);
-					console.log(searchEngines[id]);
+			// The following test has to be accried out when a new search engine is added...
+			// If there exists a search engine with a query string that includes the domain of the visited web page, then hide the Page action
+			for (let id in searchEngines) {
+				if (searchEngines[id].url.includes(domain)) {
+					if (logToConsole) console.log('This web page has already been added to your list of search engines.');
+					sendMessage('hidePageAction', null);
+					break;
 				}
 			}
-			if (!Object.keys(searchEngines).length > 0) searchEngines = oldSearchEngines;
-			if (logToConsole) console.log(searchEngines);
+			// if (logToConsole) {
+			// 	console.log(changes);
+			// 	console.log('Search engines list has been updated with:\n');
+			// }
+			// for (let id of ids) {
+			// 	if (changes[id].newValue === undefined) {
+			// 		continue;
+			// 	}
+			// 	searchEngines[id] = changes[id].newValue;
+			// 	if (logToConsole) {
+			// 		console.log(`Search engine ${id}:\n`);
+			// 		console.log(searchEngines[id]);
+			// 	}
+			// }
+			// if (!Object.keys(searchEngines).length > 0) searchEngines = oldSearchEngines;
+			// if (logToConsole) console.log(searchEngines);
 			break;
 		case 'sync':
-			for (let id of ids) {
-				if (id === 'options') {
-					if (changes[id].tabMode === 'sameTab') {
-						sameTab = true;
-					} else {
-						sameTab = false;
-					}
-				}
-			}
-
 			// Update options var on change
 			data = await browser.storage.sync.get(null);
 			options = data.options;
+			if (options.tabMode === 'sameTab') {
+				sameTab = true;
+			} else {
+				sameTab = false;
+			}
 			break;
 		default:
 			break;
@@ -318,15 +341,16 @@ async function showButtons() {
 		img.style.cursor = 'pointer';
 		img.title = browser.i18n.getMessage("AddSearchEngine");
 
-		img.onclick = function (e) {
+		img.onclick = async function (e) {
 			const href = link.getAttribute('href');
 			const pid = getPidAndName(href).pid;
 			const name = getPidAndName(href).name;
 			const url = mycroftUrl + pid + '/' + name + '.xml';
-			getNewSearchEngine(url, searchEngines).then(result => {
-				// Send msg to background script to get the new search engine added
+			const result = await getNewSearchEngine(url);
+			// Send msg to background script to get the new search engine added
+			if (result !== null) {
 				sendMessage('addNewSearchEngine', result);
-			});
+			}
 		}
 
 		link.parentNode.insertBefore(img, link);
@@ -583,12 +607,15 @@ function absoluteUrl(url) {
 	return url;
 }
 
-async function getNewSearchEngine(url, searchEngines) {
-	let xml = await fetchXML(url);
-	let shortName = getNameAndQueryString(xml).shortName;
-	let queryString = getNameAndQueryString(xml).queryString;
+async function getNewSearchEngine(url) {
+	const xml = await fetchXML(url);
+	const shortName = getNameAndQueryString(xml).shortName;
+	const queryString = getNameAndQueryString(xml).queryString;
+	for (let id in searchEngines) {
+		if (queryString === searchEngines[id].url) return null;
+	}
 	let id = shortName.replace(/\s/g, '-').toLowerCase();
-	while (!isIdUnique(id, searchEngines)) {
+	while (!isIdUnique(id)) {
 		id = defineNewId(shortName);
 	}
 	id = id.trim();
@@ -672,7 +699,7 @@ function defineNewId(shortName) {
 }
 
 // Ensure the ID generated is unique
-function isIdUnique(testId, searchEngines) {
+function isIdUnique(testId) {
 	for (let id in searchEngines) {
 		if (id === testId) {
 			return false;
