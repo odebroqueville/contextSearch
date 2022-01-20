@@ -37,11 +37,13 @@
 		"contextMenus",
 		"storage",
 		"tabs",
-		"notifications",
-		"downloads",
 		"search",
 		"webRequest",
 		"webRequestBlocking"
+	],
+	"optional_permissions": [
+		"notifications",
+		"downloads"
 	],
 	"omnibox": {
 		"keyword": "cs"
