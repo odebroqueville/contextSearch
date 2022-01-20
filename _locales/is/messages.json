@@ -166,6 +166,18 @@
 		"message": "Stikkorð",
 		"hash": "a715ce8d52a556c7541e52a39273b8e4"
 	},
+	"warningText": {
+		"message": "Viðvörun",
+		"hash": "d02ba8f1a5b9fd49d892558d83e71d59"
+	},
+	"keyboardShortcutWarning": {
+		"message": "ekki allar takkasamsetningar virka. Flýtivísar byrja kannski ekki með CMD á macOS eða CTRL á Windows eða Linux, þar sem þær eru venjulega fráteknar fyrir Firefox skipanir.",
+		"hash": "a87da357c72be4e165534f8a068a00a4"
+	},
+	"placeHolderKeyboardShortcut": {
+		"message": "Flýtileiðir",
+		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
+	},
 	"multipleSearchEngines": {
 		"message": "Hafa með í breiðleit",
 		"hash": "795672c778b61e3785aa2fff7dca91ed"
@@ -349,6 +361,30 @@
 	"addFolder": {
 		"message": "Bæta við möppu",
 		"hash": "f6668a06fb140909b3f286d742c848c8"
+	},
+	"keyboardShortcut": {
+		"message": "Flýtileiðir",
+		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
+	},
+	"header10": {
+		"message": "Fjölleitarvalkostir",
+		"hash": "25b7321fc9e19e8e99598b40b96d2d52"
+	},
+	"multisearchIntro": {
+		"message": "Opnaðu margar leitarniðurstöður/flipa",
+		"hash": "4536d63e7c6838b383fa5a71967e5933"
+	},
+	"multiNewWindow": {
+		"message": "Í nýjum glugga",
+		"hash": "dd5cfb4d20eb4b6f9d6e12c02e8f48e3"
+	},
+	"multiAfterLastTab": {
+		"message": "Eftir síðasta flipann í núverandi glugga",
+		"hash": "ddd24d070e912ba19edff0c610e91e56"
+	},
+	"multiActiveTab": {
+		"message": "Rétt á eftir virka flipanum í núverandi glugga",
+		"hash": "580a6b556e35b0b48dca22506debb42c"
 	},
 
 	"__WET_LOCALE__": { "message": "is" }

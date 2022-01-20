@@ -138,6 +138,14 @@
 		"message": "Sortuj alfabetycznie",
 		"hash": "9dbba2e2d73fbe9d34b492113a47dc86"
 	},
+	"showAdvancedFeatures": {
+		"message": "Pokaż zaawansowane funkcje",
+		"hash": "adab8345d6d3749a2687addeb95aa6a0"
+	},
+	"hideAdvancedFeatures": {
+		"message": "Ukryj zaawansowane funkcje",
+		"hash": "6d0f963850902a32f1e4cde900271ec3"
+	},
 	"reset": {
 		"message": "Zresetuj",
 		"hash": "0d25968a7dfc21f95043a86dd5373b81"
@@ -158,6 +166,18 @@
 		"message": "Słowo kluczowe",
 		"hash": "a715ce8d52a556c7541e52a39273b8e4"
 	},
+	"warningText": {
+		"message": "Ostrzeżenie",
+		"hash": "d02ba8f1a5b9fd49d892558d83e71d59"
+	},
+	"keyboardShortcutWarning": {
+		"message": "nie wszystkie kombinacje klawiszy będą działać. Skróty klawiaturowe mogą nie zaczynać się od CMD w systemie macOS lub CTRL w systemie Windows lub Linux, ponieważ są one zwykle zarezerwowane dla poleceń Firefoksa.",
+		"hash": "a87da357c72be4e165534f8a068a00a4"
+	},
+	"placeHolderKeyboardShortcut": {
+		"message": "Skrót klawiszowy",
+		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
+	},
 	"multipleSearchEngines": {
 		"message": "Użyj tej wyszukiwarki do multi-search",
 		"hash": "795672c778b61e3785aa2fff7dca91ed"
@@ -165,6 +185,10 @@
 	"searchEngineURL": {
 		"message": "Adres URL wyszukiwarki",
 		"hash": "f5b1aa2bdb81d4357409d3ecb87bc1e3"
+	},
+	"regex": {
+		"message": "Wyrażenie regularne",
+		"hash": "836b4e8f189b0435476c917699858782"
 	},
 	"testSearchEngine": {
 		"message": "Przetestuj wyszukiwarkę",
@@ -309,6 +333,58 @@
 	"siteSearch": {
 		"message": "Wyszukiwarka do wyszukiwania aktualnej witryny:",
 		"hash": "1aef8aa2adcad0a105bc24d0ac87fe4c"
+	},
+	"header9": {
+		"message": "Zaawansowane funkcje",
+		"hash": "64bdb129ceb0e431268d7c8199542e11"
+	},
+	"useRegex": {
+		"message": "Użyj wyrażeń regularnych do zbudowania menu kontekstowego",
+		"hash": "9d48895eae1e8a92e6a0b2a2bd0e0fa0"
+	},
+	"regexNote": {
+		"message": "Ta funkcja nie dotyczy siatki ikon.",
+		"hash": "2d301abb7cffcf3a4f41cc59dc52e828"
+	},
+	"subheader62": {
+		"message": "Dodaj nowy folder",
+		"hash": "3a46fe63f172c9cf1e4cf9753dc935f9"
+	},
+	"folderName": {
+		"message": "Nazwa folderu",
+		"hash": "66c685078184b7f5123e83f4b94097fe"
+	},
+	"folder": {
+		"message": "teczka",
+		"hash": "6fa625e07a474959d219b2abdaa8c39e"
+	},
+	"addFolder": {
+		"message": "Dodaj folder",
+		"hash": "f6668a06fb140909b3f286d742c848c8"
+	},
+	"keyboardShortcut": {
+		"message": "Skrót klawiszowy",
+		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
+	},
+	"header10": {
+		"message": "Opcje multiwyszukiwania",
+		"hash": "25b7321fc9e19e8e99598b40b96d2d52"
+	},
+	"multisearchIntro": {
+		"message": "Otwórz wiele wyników wyszukiwania/kart",
+		"hash": "4536d63e7c6838b383fa5a71967e5933"
+	},
+	"multiNewWindow": {
+		"message": "W nowym oknie",
+		"hash": "dd5cfb4d20eb4b6f9d6e12c02e8f48e3"
+	},
+	"multiAfterLastTab": {
+		"message": "Po ostatniej karcie w bieżącym oknie",
+		"hash": "ddd24d070e912ba19edff0c610e91e56"
+	},
+	"multiActiveTab": {
+		"message": "Zaraz po aktywnej zakładce w bieżącym oknie",
+		"hash": "580a6b556e35b0b48dca22506debb42c"
 	},
 
 	"__WET_LOCALE__": { "message": "pl" }

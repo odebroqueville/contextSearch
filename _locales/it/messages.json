@@ -366,6 +366,26 @@
 		"message": "Scorciatoia da tastiera",
 		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
 	},
+	"header10": {
+		"message": "Opzioni di ricerca multipla",
+		"hash": "25b7321fc9e19e8e99598b40b96d2d52"
+	},
+	"multisearchIntro": {
+		"message": "Apri più risultati/schede di ricerca",
+		"hash": "4536d63e7c6838b383fa5a71967e5933"
+	},
+	"multiNewWindow": {
+		"message": "In una nuova finestra",
+		"hash": "dd5cfb4d20eb4b6f9d6e12c02e8f48e3"
+	},
+	"multiAfterLastTab": {
+		"message": "Dopo l'ultima scheda nella finestra corrente",
+		"hash": "ddd24d070e912ba19edff0c610e91e56"
+	},
+	"multiActiveTab": {
+		"message": "Subito dopo la scheda attiva nella finestra corrente",
+		"hash": "580a6b556e35b0b48dca22506debb42c"
+	},
 
 	"__WET_LOCALE__": { "message": "it" }
 }

@@ -138,6 +138,14 @@
 		"message": "알파벳순 정렬",
 		"hash": "9dbba2e2d73fbe9d34b492113a47dc86"
 	},
+	"showAdvancedFeatures": {
+		"message": "고급 기능 표시",
+		"hash": "adab8345d6d3749a2687addeb95aa6a0"
+	},
+	"hideAdvancedFeatures": {
+		"message": "고급 기능 숨기기",
+		"hash": "6d0f963850902a32f1e4cde900271ec3"
+	},
 	"reset": {
 		"message": "재설정",
 		"hash": "0d25968a7dfc21f95043a86dd5373b81"
@@ -158,6 +166,18 @@
 		"message": "키워드",
 		"hash": "a715ce8d52a556c7541e52a39273b8e4"
 	},
+	"warningText": {
+		"message": "경고",
+		"hash": "d02ba8f1a5b9fd49d892558d83e71d59"
+	},
+	"keyboardShortcutWarning": {
+		"message": "모든 키 조합이 작동하는 것은 아닙니다. 키보드 단축키는 일반적으로 Firefox 명령용으로 예약되어 있으므로 macOS의 CMD 또는 Windows 또는 Linux의 CTRL로 시작하지 않을 수 있습니다.",
+		"hash": "a87da357c72be4e165534f8a068a00a4"
+	},
+	"placeHolderKeyboardShortcut": {
+		"message": "키보드 단축키",
+		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
+	},
 	"multipleSearchEngines": {
 		"message": "다중 검색에 포함",
 		"hash": "795672c778b61e3785aa2fff7dca91ed"
@@ -165,6 +185,10 @@
 	"searchEngineURL": {
 		"message": "검색 엔진 URL",
 		"hash": "f5b1aa2bdb81d4357409d3ecb87bc1e3"
+	},
+	"regex": {
+		"message": "정규식",
+		"hash": "836b4e8f189b0435476c917699858782"
 	},
 	"testSearchEngine": {
 		"message": "테스트 검색 엔진",
@@ -309,6 +333,58 @@
 	"siteSearch": {
 		"message": "현재 사이트 검색을위한 검색 엔진 :",
 		"hash": "1aef8aa2adcad0a105bc24d0ac87fe4c"
+	},
+	"header9": {
+		"message": "고급 기능",
+		"hash": "64bdb129ceb0e431268d7c8199542e11"
+	},
+	"useRegex": {
+		"message": "정규식을 사용하여 상황에 맞는 메뉴 만들기",
+		"hash": "9d48895eae1e8a92e6a0b2a2bd0e0fa0"
+	},
+	"regexNote": {
+		"message": "이 기능은 아이콘 격자에 적용되지 않습니다.",
+		"hash": "2d301abb7cffcf3a4f41cc59dc52e828"
+	},
+	"subheader62": {
+		"message": "새 폴더 추가",
+		"hash": "3a46fe63f172c9cf1e4cf9753dc935f9"
+	},
+	"folderName": {
+		"message": "폴더 이름",
+		"hash": "66c685078184b7f5123e83f4b94097fe"
+	},
+	"folder": {
+		"message": "폴더",
+		"hash": "6fa625e07a474959d219b2abdaa8c39e"
+	},
+	"addFolder": {
+		"message": "폴더 추가",
+		"hash": "f6668a06fb140909b3f286d742c848c8"
+	},
+	"keyboardShortcut": {
+		"message": "키보드 단축키",
+		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
+	},
+	"header10": {
+		"message": "다중 검색 옵션",
+		"hash": "25b7321fc9e19e8e99598b40b96d2d52"
+	},
+	"multisearchIntro": {
+		"message": "여러 검색 결과/탭 열기",
+		"hash": "4536d63e7c6838b383fa5a71967e5933"
+	},
+	"multiNewWindow": {
+		"message": "새 창에서",
+		"hash": "dd5cfb4d20eb4b6f9d6e12c02e8f48e3"
+	},
+	"multiAfterLastTab": {
+		"message": "현재 창의 마지막 탭 뒤",
+		"hash": "ddd24d070e912ba19edff0c610e91e56"
+	},
+	"multiActiveTab": {
+		"message": "현재 창의 활성 탭 바로 뒤",
+		"hash": "580a6b556e35b0b48dca22506debb42c"
 	},
 
 	"__WET_LOCALE__": { "message": "ko" }
