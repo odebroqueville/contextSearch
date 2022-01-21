@@ -66,6 +66,7 @@ let contextsearch_siteSearch = "Google";
 let contextsearch_siteSearchUrl = "https://www.google.com/search?q=";
 let contextsearch_useRegex = false;
 let contextsearch_multiMode = 'multiNewWindow';
+let contextsearch_privateMode = false;
 
 
 const defaultOptions = {
@@ -83,7 +84,8 @@ const defaultOptions = {
 	siteSearch: contextsearch_siteSearch,
 	siteSearchUrl: contextsearch_siteSearchUrl,
 	useRegex: contextsearch_useRegex,
-	multiMode: contextsearch_multiMode
+	multiMode: contextsearch_multiMode,
+	privateMode: contextsearch_privateMode
 }
 
 /// Handle Page Action click
@@ -237,6 +239,7 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 			options.tabMode = message.data.tabMode;
 			options.tabActive = message.data.tabActive;
 			options.lastTab = message.data.lastTab;
+			options.privateMode = message.data.privateMode;
 			setTabMode(options);
 			await saveOptions(options, false);
 			break;
@@ -522,6 +525,7 @@ function setTabMode(options) {
 	if (logToConsole) console.log('Setting tab mode..');
 	contextsearch_makeNewTabOrWindowActive = options.tabActive;
 	contextsearch_openSearchResultsInLastTab = options.lastTab;
+	contextsearch_privateMode = options.privateMode;
 	switch (options.tabMode) {
 		case 'openNewTab':
 			contextsearch_openSearchResultsInNewTab = true;
@@ -1050,7 +1054,8 @@ async function processMultiTabSearch(tabPosition) {
 	if (contextsearch_multiMode === 'multiNewWindow') {
 		await browser.windows.create({
 			titlePreface: windowTitle + '"' + selection + '"',
-			url: multiTabSearchEngineUrls
+			url: multiTabSearchEngineUrls,
+			incognito: contextsearch_privateMode
 		});
 	} else {
 		for (let i = 0; i < n; i++) {
@@ -1094,14 +1099,17 @@ async function displaySearchResults(targetUrl, tabPosition) {
 	const windowInfo = await browser.windows.getCurrent({ populate: false });
 	const currentWindowID = windowInfo.id;
 	if (contextsearch_openSearchResultsInNewWindow) {
-		await browser.windows.create({ url: targetUrl });
+		await browser.windows.create({
+			url: targetUrl,
+			incognito: contextsearch_privateMode
+		});
 		if (!contextsearch_makeNewTabOrWindowActive) {
 			await browser.windows.update(currentWindowID, { focused: true });
 		}
 	} else if (contextsearch_openSearchResultsInNewTab) {
 		browser.tabs.create({
 			active: contextsearch_makeNewTabOrWindowActive,
-			index: tabPosition + 1,
+			index: tabPosition,
 			url: targetUrl
 		});
 	} else {
@@ -1257,7 +1265,9 @@ function buildSuggestion(text) {
 function testSearchEngine(engineData) {
 	if (engineData.url != '') {
 		let tempTargetUrl = getSearchEngineUrl(engineData.url, 'test');
-		browser.tabs.create({ url: tempTargetUrl });
+		browser.tabs.create({
+			url: tempTargetUrl
+		});
 	} else {
 		notify(notifySearchEngineUrlRequired);
 	}

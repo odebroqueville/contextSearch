@@ -43,8 +43,10 @@ const openNewWindow = document.getElementById('openNewWindow');
 const openSidebar = document.getElementById('openSidebar');
 const tabMode = document.getElementById('tabMode');
 const tabActive = document.getElementById('tabActive');
+const privateMode = document.getElementById('privateMode');
 const active = document.getElementById('active');
 const position = document.getElementById('position');
+const privacy = document.getElementById('privacy');
 const lastTab = document.getElementById('lastTab');
 const optionsMenuLocation = document.getElementById('optionsMenuLocation');
 const displayExifSummary = document.getElementById('displayExifSummary');
@@ -121,6 +123,7 @@ disableAltClick.addEventListener('click', updateDisableAltClick);
 tabMode.addEventListener('click', updateTabMode);
 tabActive.addEventListener('click', updateTabMode);
 lastTab.addEventListener('click', updateTabMode);
+privateMode.addEventListener('click', updateTabMode);
 optionsMenuLocation.addEventListener('click', updateOptionsMenuLocation);
 displayExifSummary.addEventListener('click', updateDisplayExifSummary);
 searchEngineSiteSearch.addEventListener('change', updateSiteSearchSetting);
@@ -970,26 +973,31 @@ function setOptions(options) {
 			openNewTab.checked = true;
 			active.style.visibility = 'visible';
 			position.style.visibility = 'visible';
+			privacy.style.visibility = 'hidden';
 			break;
 		case 'sameTab':
 			sameTab.checked = true;
 			active.style.visibility = 'hidden';
 			position.style.visibility = 'hidden';
+			privacy.style.visibility = 'hidden';
 			break;
 		case 'openNewWindow':
 			openNewWindow.checked = true;
 			active.style.visibility = 'visible';
 			position.style.visibility = 'hidden';
+			privacy.style.visibility = 'visible';
 			break;
 		case 'openSidebar':
 			openSidebar.checked = true;
 			active.style.visibility = 'hidden';
 			position.style.visibility = 'hidden';
+			privacy.style.visibility = 'hidden';
 			break;
 		default:
 			openNewTab.checked = true;
 			active.style.visibility = 'visible';
 			position.style.visibility = 'visible';
+			privacy.style.visibility = 'hidden';
 			break;
 	}
 
@@ -1005,6 +1013,13 @@ function setOptions(options) {
 	} else {
 		// Default value for lastTab is false
 		lastTab.checked = false;
+	}
+
+	if (options.privateMode === true) {
+		privateMode.checked = true;
+	} else {
+		// Default value for privateMode is false
+		privateMode.checked = false;
 	}
 
 	if (
@@ -1132,12 +1147,15 @@ function updateTabMode() {
 	if (sameTab.checked || openSidebar.checked) {
 		active.style.visibility = 'hidden';
 		position.style.visibility = 'hidden';
+		privacy.style.visibility = 'hidden';
 	} else {
 		active.style.visibility = 'visible';
 		if (openNewWindow.checked) {
 			position.style.visibility = 'hidden';
+			privacy.style.visibility = 'visible';
 		} else {
 			position.style.visibility = 'visible';
+			privacy.style.visibility = 'hidden';
 		}
 	}
 
@@ -1145,6 +1163,7 @@ function updateTabMode() {
 	data['tabMode'] = document.querySelector('input[name="results"]:checked').value;
 	data['tabActive'] = tabActive.checked;
 	data['lastTab'] = lastTab.checked;
+	data['privateMode'] = privateMode.checked;
 	sendMessage('updateTabMode', data);
 }
 

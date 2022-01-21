@@ -290,5 +290,8 @@
 	"multiActiveTab": {
 		"message": "Right after the active tab in the current window"
 	},
+	"privacy": {
+		"message": "Make new window private"
+	},
 	"__WET_LOCALE__": { "message": "en" }
 }

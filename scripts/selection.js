@@ -521,7 +521,6 @@ function buildIconGrid(x, y) {
 }
 
 function onGridClick(e) {
-	e.preventDefault();
 	if (logToConsole) console.log('Grid icon got clicked:' + e.type);
 	let id = e.target.parentNode.id;
 	if (logToConsole) console.log('Search engine clicked:' + id);
@@ -706,20 +705,6 @@ function isIdUnique(testId) {
 		}
 	}
 	return true;
-}
-
-function getDomain(url) {
-	let protocol = '';
-	if (url.indexOf('://') !== -1) {
-		protocol = url.split('://')[0] + '://';
-	} else {
-		// By default, set the protocol to 'https://' if it hasn't been set
-		protocol = 'https://';
-	}
-
-	let urlParts = url.replace('http://', '').replace('https://', '').split(/[/?#]/);
-	let domain = protocol + urlParts[0];
-	return domain;
 }
 
 // Test if an object is empty

@@ -386,6 +386,10 @@
 		"message": "현재 창의 활성 탭 바로 뒤",
 		"hash": "580a6b556e35b0b48dca22506debb42c"
 	},
+	"privacy": {
+		"message": "새 창을 비공개로 설정",
+		"hash": "a2c9e60d71cf882080023ad80af8b903"
+	},
 
 	"__WET_LOCALE__": { "message": "ko" }
 }

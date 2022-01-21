@@ -386,6 +386,10 @@
 		"message": "在当前窗口中的活动选项卡之后",
 		"hash": "580a6b556e35b0b48dca22506debb42c"
 	},
+	"privacy": {
+		"message": "将新窗口设为私有",
+		"hash": "a2c9e60d71cf882080023ad80af8b903"
+	},
 
 	"__WET_LOCALE__": { "message": "zh-cn" }
 }
