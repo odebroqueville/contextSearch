@@ -9,6 +9,7 @@ let targetUrl = '';
 let lastAddressBarKeyword = '';
 let imageUrl = '';
 let imageTags = {};
+let historyItems, bookmarkItems;
 
 /// Constants
 // Debug
@@ -169,7 +170,9 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 			reset();
 			break;
 		case 'setTargetUrl':
-			if (message.data) targetUrl = message.data;
+			if (message.data) {
+				targetUrl = message.data;
+			}
 			break;
 		case 'testSearchEngine':
 			testSearchEngine(message.data);
@@ -962,9 +965,11 @@ async function processSearch(info, tab) {
 	let id = info.menuItemId.replace('cs-', '');
 	let tabIndex, tabPosition;
 
-	// Prefer info.selectionText over selection received by content script for these lengths (more reliable)
-	if (info.selectionText.length < 150 || info.selectionText.length > 150) {
-		selection = info.selectionText.trim();
+	if (info.selectionText !== undefined) {
+		// Prefer info.selectionText over selection received by content script for these lengths (more reliable)
+		if (info.selectionText.length < 150 || info.selectionText.length > 150) {
+			selection = info.selectionText.trim();
+		}
 	}
 
 	if ((contextsearch_openSearchResultsInSidebar && id !== 'reverse-image-search') || id === 'exif-tags') {
@@ -972,27 +977,21 @@ async function processSearch(info, tab) {
 		browser.sidebarAction.setPanel({ panel: "about:blank" });
 	} else {
 		await browser.sidebarAction.close();
-		tabIndex = tab.index;
+		tabIndex = tab.index + 1;
 	}
 	const tabs = await browser.tabs.query({ currentWindow: true });
-	for (let tab of tabs) {
-		if (logToConsole) {
-			console.log(tab.index);
-			console.log(tab.title);
-			console.log('-------------------------');
-		}
-		tabPosition = tab.index + 1;
-	}
+	tabPosition = tabs[tabs.length - 1].index + 1;
+	if (contextsearch_openSearchResultsInLastTab) tabIndex = tabPosition;
 	if (contextsearch_multiMode !== 'multiAfterLastTab') {
 		tabPosition = tabIndex + 1;
 	}
-	if (contextsearch_openSearchResultsInLastTab) tabIndex = tabs.length + 1;
 	if (id === 'exif-tags') {
 		let url = browser.runtime.getURL('/sidebar/exif_tags.html');
 		browser.sidebarAction.setPanel({ panel: url });
 		browser.sidebarAction.setTitle({ title: 'Image analysis' });
 		return;
 	} else if (id === 'reverse-image-search') {
+		if (logToConsole) console.log(targetUrl);
 		displaySearchResults(targetUrl, tabIndex);
 		return;
 	}
@@ -1173,18 +1172,45 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
 		try {
 			const keyword = input.split(' ')[0];
 			const searchTerms = input.replace(keyword, '').trim();
-			if (keyword !== '!' && keyword !== '.') {
-				let suggestion = buildSuggestion(input);
-				if (suggestion.length === 1) {
-					displaySearchResults(suggestion[0].content, tabIndex);
-				} else {
-					browser.search.search({ query: searchTerms, tabId: tabId });
-					notify(notifyUsage);
-				}
-			} else if (keyword === '.') {
-				browser.runtime.openOptionsPage();
-			} else {
-				processMultiTabSearch(tabPosition);
+			const suggestion = buildSuggestion(input);
+			switch (keyword) {
+				case '.':
+					browser.runtime.openOptionsPage();
+					break;
+				case '!':
+					processMultiTabSearch(tabPosition);
+					break;
+				case ('!b' || 'bookmarks'):
+					if (searchTerms === "recent") {
+						bookmarkItems = await browser.bookmarks.getRecent(10);
+					} else {
+						bookmarkItems = await browser.bookmarks.search({ query: searchTerms });
+					}
+					if (logToConsole) console.log(bookmarkItems);
+					await browser.storage.sync.set({ bookmarkItems: bookmarkItems, searchTerms: searchTerms });
+					await browser.tabs.create({
+						active: contextsearch_makeNewTabOrWindowActive,
+						index: tabPosition,
+						url: '/bookmarks.html'
+					});
+					break;
+				case ('!h' || 'history'):
+					historyItems = await browser.history.search({ text: searchTerms });
+					await browser.storage.sync.set({ historyItems: historyItems, searchTerms: searchTerms });
+					await browser.tabs.create({
+						active: contextsearch_makeNewTabOrWindowActive,
+						index: tabPosition,
+						url: '/history.html'
+					});
+					break;
+				default:
+					if (suggestion.length === 1) {
+						displaySearchResults(suggestion[0].content, tabIndex);
+					} else {
+						browser.search.search({ query: searchTerms, tabId: tabId });
+						notify(notifyUsage);
+					}
+					break;
 			}
 		} catch (ex) {
 			if (logToConsole) console.log('Failed to process ' + input);
@@ -1227,6 +1253,22 @@ function buildSuggestion(text) {
 			{
 				content: '',
 				description: 'Open options page'
+			}
+		];
+		return suggestion;
+	} else if (keyword === '!b' || keyword === 'bookmarks') {
+		let suggestion = [
+			{
+				content: '',
+				description: 'Search bookmarks'
+			}
+		];
+		return suggestion;
+	} else if (keyword === '!h' || keyword === 'history') {
+		let suggestion = [
+			{
+				content: '',
+				description: 'Search history'
 			}
 		];
 		return suggestion;
