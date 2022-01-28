@@ -2,6 +2,7 @@
 =========
 
 * Added bookmarks and history search from the Omnibox
+* Removed Image Analysis Tool as exif.js is deprecated and stopped working
 * Fix [#106](https://github.com/odebroqueville/contextSearch/issues/106) Added option to open search results in a private new window
 * Fix [#134](https://github.com/odebroqueville/contextSearch/issues/134) Google Reverse Image Search
 * Updated translations
