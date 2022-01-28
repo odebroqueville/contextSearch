@@ -132,7 +132,7 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 			for (let tab of tabs) {
 				if (tab.active) {
 					if (logToConsole) console.log('Active tab url: ' + tab.url);
-					tabIndex = tab.index;
+					tabIndex = tab.index + 1;
 					if (logToConsole) console.log('tabIndex: ' + tabIndex);
 					break;
 				}
@@ -140,7 +140,7 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 			if (contextsearch_multiMode === 'multiAfterLastTab') {
 				tabPosition = tabs.length + 1;
 			} else {
-				tabPosition = tabIndex + 1;
+				tabPosition = tabIndex;
 			}
 			if (id === 'multisearch') {
 				processMultiTabSearch(tabPosition);

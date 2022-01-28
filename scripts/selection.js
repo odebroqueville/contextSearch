@@ -47,6 +47,9 @@ if (document.readyState === 'complete') showButtons();
 // Text seleection change event listener
 document.addEventListener('selectionchange', handleTextSelection);
 
+// Right-click event listener
+document.addEventListener('contextmenu', handleRightClickWithoutGrid);
+
 // Mouse up event listener
 document.addEventListener('mouseup', handleAltClickWithGrid);
 
@@ -283,6 +286,19 @@ async function handleAltClickWithGrid(e) {
 
 		sendSelectionToBackgroundScript(selectedText);
 		buildIconGrid(x, y);
+	}
+}
+
+function handleRightClickWithoutGrid(e) {
+	if (logToConsole) console.log(e);
+	const elementClicked = e.target;
+	const tag = elementClicked.tagName;
+	if (tag === 'IMG') {
+		let img = e.target;
+		let imgurl = absoluteUrl(img.getAttribute('src'));
+		let targetUrl = googleReverseImageSearchUrl + imgurl;
+		sendMessage('setTargetUrl', targetUrl);
+		if (logToConsole) console.log(`Image url: ${imgurl}`);
 	}
 }
 
