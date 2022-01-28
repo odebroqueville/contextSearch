@@ -52,7 +52,7 @@ You can also import a JSON file containing your own list of search engines. It i
 
 ## How to perform a search in the omnibox
 
-In the omnibox (or url address bar), type 'cs ' (without the quotes, and where cs stands for Context Search) followed by the keyword you have chosen for your seaarch engine in the extension's preferences, e.g. 'w ' (again without quotes) for Wikipedia, followed by your search term(s). The dot ('.') and the exclamation mark ('!') are reserved keywords.
+In the omnibox (or url address bar), type 'cs ' (without the quotes, and where cs stands for Context Search) followed by the keyword you have chosen for your seaarch engine in the extension's preferences, e.g. 'w ' (again without quotes) for Wikipedia, followed by your search term(s). The dot ('.'), the exclamation mark ('!'), '!h' or 'history' and '!b' or 'bookmarks' are reserved keywords.
 
 Here are some examples:
 
@@ -64,6 +64,15 @@ will open the Options page
 
 cs ! cold fusion
 will perform a multi-search for the search terms 'cold fusion'
+
+cs !h or cs history
+will display all your history
+
+cs !b Mozilla or cs bookmarks Mozilla
+will display all bookmarks that include the term Mozilla
+
+cs !b recent or cs bookmarks recent
+will display your 10 most recent bookmarks
 
 ## Advanced feature
 

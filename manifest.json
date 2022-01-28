@@ -3,7 +3,7 @@
 	"default_locale": "en",
 	"name": "__MSG_extensionName__",
 	"description": "__MSG_extensionDescription__",
-	"version": "4.2.7",
+	"version": "4.2.8",
 	"author": "Olivier de Broqueville",
 	"browser_specific_settings": {
 		"gecko": {
@@ -11,6 +11,11 @@
 			"strict_min_version": "63.0"
 		}
 	},
+	"web_accessible_resources": [
+		"/history.html",
+		"/bookmarks.html",
+		"/images/*.png"
+	],
 	"content_security_policy": "script-src 'self'; object-src 'self'; img-src *; ",
 	"page_action": {
 		"show_matches": [
@@ -43,7 +48,9 @@
 	],
 	"optional_permissions": [
 		"notifications",
-		"downloads"
+		"downloads",
+		"bookmarks",
+		"history"
 	],
 	"omnibox": {
 		"keyword": "cs"
@@ -67,7 +74,8 @@
 	"content_scripts": [
 		{
 			"matches": [
-				"<all_urls>"
+				"http://*/*",
+				"https://*/*"
 			],
 			"js": [
 				"/scripts/selection.js",

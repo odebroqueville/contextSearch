@@ -1,7 +1,16 @@
-4.2.7
+4.2.8
 =========
 
+* Added bookmarks and history search from the Omnibox
+* Fix [#106](https://github.com/odebroqueville/contextSearch/issues/106) Added option to open search results in a private new window
+* Fix [#134](https://github.com/odebroqueville/contextSearch/issues/134) Google Reverse Image Search
+* Updated translations
+
+4.2.7
+---------
+
 * Changed the way search engines are added from mycroftproject.com: users can now click on the Context Search icon that appears right before the search engine textual link
+* Fix [#133](https://github.com/odebroqueville/contextSearch/issues/133) Notifications and Downloads now require optional permission to be enabled
 * Fix [#125](https://github.com/odebroqueville/contextSearch/issues/125) Hide/Show Page action when required
 * Fix [#126](https://github.com/odebroqueville/contextSearch/issues/126) Multisearch results may now be displayed in a new window or, in the current window, right after the active tab or after the last tab
 * Added translations for multisearch options
