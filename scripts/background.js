@@ -152,15 +152,6 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 		case 'notify':
 			notify(message.data);
 			break;
-		case 'setImageData':
-			imageUrl = message.data.imageUrl;
-			imageTags = JSON.parse(JSON.stringify(message.data.imageTags));
-			if (logToConsole) console.log(imageUrl);
-			if (logToConsole) console.log(imageTags);
-			break;
-		case 'returnImageData':
-			sendResponse({ imageUrl: imageUrl, imageTags: imageTags });
-			break;
 		case 'setSelection':
 			if (logToConsole) console.log(`Selected text: ${message.data}`);
 			selection = message.data;
@@ -923,11 +914,11 @@ function buildContextMenuForImages() {
 		title: 'Google Reverse Image Search',
 		contexts: ['image']
 	});
-	browser.contextMenus.create({
-		id: 'cs-exif-tags',
-		title: 'Image analysis...',
-		contexts: ['image']
-	});
+	/* 	browser.contextMenus.create({
+			id: 'cs-exif-tags',
+			title: 'Image analysis...',
+			contexts: ['image']
+		}); */
 }
 
 /// Build a single context menu item

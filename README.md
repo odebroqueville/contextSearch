@@ -19,8 +19,6 @@ To open search results in a new private window, in the extensions manager, allow
 
 The search results will appear as defined in the extension's preferences page.
 
-The extension includes an Image analysis tool. To analyse an image, right-click on the image and select: "Image analysis...". If present, the EXIF tags will appear in the sidebar along with a color histogram and color palette. A map will also show where the image was taken and in which direction if the GPS data is available.
-
 ## Managing search engines
 
 To manage your favorite search engines, you can go to the preferences page of Context Search. You can reach this page by opening the extensions page (Addon Manager) where all your add-ons are listed and then clicking on the "Preferences" button.
@@ -147,9 +145,5 @@ https://addons.mozilla.org/firefox/addon/contextual-search/
 ## Code made by others used in this extension
 
 <ul>
-<li>exif.js v2.3.0 originally by Jacob Seidelin and modified by Bart van der Wal which can be found on Github: https://github.com/exif-js/exif-js/blob/v2.3.0/exif.js</li>
-<li>2 libraries from RGraph v6.05 by Richard Heyes: Rgraph.svg.common.core.js which may be found here: https://www.rgraph.net/libraries/src/RGraph.svg.common.core.js and RGraph.svg.line.js which may be found here: https://www.rgraph.net/libraries/src/RGraph.svg.line.js</li>
 <li>SortableJS v1.14.0 minified with many contributors, which can be found on GitHub here: https://github.com/SortableJS/Sortable/blob/1.14.0/Sortable.min.js</li>
-<li>Leaflet v1.7.1 minified by Vladimir Agafonkin downloaded from https://leafletjs.com/download.html</li>
-<li>Color Thief v2.3.2 minified by Lokesh Dhakar available from https://github.com/lokesh/color-thief/blob/master/dist/color-thief.min.js</li>
 </ul>
