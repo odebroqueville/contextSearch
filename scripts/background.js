@@ -132,15 +132,15 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 			for (let tab of tabs) {
 				if (tab.active) {
 					if (logToConsole) console.log('Active tab url: ' + tab.url);
-					tabIndex = tab.index;
+					tabIndex = tab.index + 1;
 					if (logToConsole) console.log('tabIndex: ' + tabIndex);
 					break;
 				}
 			}
 			if (contextsearch_multiMode === 'multiAfterLastTab') {
-				tabPosition = tabs.length + 1;
+				tabPosition = tabs[tabs.length - 1].index + 1;
 			} else {
-				tabPosition = tabIndex + 1;
+				tabPosition = tabIndex;
 			}
 			if (id === 'multisearch') {
 				processMultiTabSearch(tabPosition);
@@ -981,9 +981,11 @@ async function processSearch(info, tab) {
 	}
 	const tabs = await browser.tabs.query({ currentWindow: true });
 	tabPosition = tabs[tabs.length - 1].index + 1;
-	if (contextsearch_openSearchResultsInLastTab) tabIndex = tabPosition;
+	if (contextsearch_openSearchResultsInLastTab) {
+		tabIndex = tabPosition;
+	}
 	if (contextsearch_multiMode !== 'multiAfterLastTab') {
-		tabPosition = tabIndex + 1;
+		tabPosition = tabIndex;
 	}
 	if (id === 'exif-tags') {
 		let url = browser.runtime.getURL('/sidebar/exif_tags.html');
@@ -1180,7 +1182,8 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
 				case '!':
 					processMultiTabSearch(tabPosition);
 					break;
-				case ('!b' || 'bookmarks'):
+				case 'bookmarks':
+				case '!b':
 					if (searchTerms === "recent") {
 						bookmarkItems = await browser.bookmarks.getRecent(10);
 					} else {
@@ -1194,7 +1197,8 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
 						url: '/bookmarks.html'
 					});
 					break;
-				case ('!h' || 'history'):
+				case 'history':
+				case '!h':
 					historyItems = await browser.history.search({ text: searchTerms });
 					await browser.storage.sync.set({ historyItems: historyItems, searchTerms: searchTerms });
 					await browser.tabs.create({
