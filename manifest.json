@@ -14,7 +14,14 @@
 	"web_accessible_resources": [
 		"/history.html",
 		"/bookmarks.html",
-		"/images/*.png"
+		"/images/*.png",
+		"/sidebar/exif_tags.html",
+		"/scripts/exif-reader.js",
+		"/scripts/color-thief.min.js",
+		"/scripts/Sortable.min.js",
+		"/scripts/RGraph.svg.common.core.js",
+		"/scripts/RGraph.svg.line.js",
+		"/scripts/exif_tags.js"
 	],
 	"content_security_policy": "script-src 'self'; object-src 'self'; img-src *; ",
 	"page_action": {
@@ -78,13 +85,7 @@
 				"https://*/*"
 			],
 			"js": [
-				"/scripts/selection.js",
-				"/scripts/exif.js",
-				"/scripts/color-thief.min.js",
-				"/scripts/Sortable.min.js",
-				"/scripts/RGraph.svg.common.core.js",
-				"/scripts/RGraph.svg.line.js",
-				"/scripts/exif_tags.js"
+				"/scripts/selection.js"
 			]
 		}
 	]

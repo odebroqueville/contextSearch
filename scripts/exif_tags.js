@@ -1,6 +1,8 @@
+import ExifReader from '/scripts/exif-reader.js';
+
 // Constants
 // Debug
-// const logToConsole = false;
+const logToConsole = true;
 
 // Save original method before overwriting it below.
 const _setPosOriginal = L.Marker.prototype._setPos;
@@ -57,7 +59,7 @@ Math.radians = (degrees) => degrees * Math.PI / 180;
 // Main
 (function () {
 	if (logToConsole) console.log(`Retrieving Exif tags..`);
-	requestImageData();
+	displayImageData();
 
 	L.Marker.addInitHook(function () {
 		const anchor = this.options.icon.options.iconAnchor;
@@ -81,15 +83,6 @@ Math.radians = (degrees) => degrees * Math.PI / 180;
 	});
 })();
 
-function requestImageData() {
-	browser.runtime.sendMessage({ action: 'returnImageData' }).then(handleResponse).catch((err) => {
-		if (logToConsole) {
-			console.error(err);
-			console.log('Failed to retrieve image EXIF tags.');
-		}
-	});
-}
-
 async function getDisplayExifSummary() {
 	let options = await browser.storage.sync.get(null);
 	if (logToConsole) console.log(options);
@@ -110,11 +103,12 @@ function convertToDecimalDegrees(dms) {
 	return dms[0] + dms[1] / 60 + dms[2] / 3600;
 }
 
-async function handleResponse(message) {
-	// let src = '';
-	imageUrl = message.imageUrl;
+async function displayImageData() {
+	const imageUrl = (await browser.storage.sync.get('imageUrl')).imageUrl;
+	const imageTags = await ExifReader.load(imageUrl);
+	await browser.storage.sync.remove('imageUrl');
 	if (logToConsole) console.log(imageUrl);
-	imageTags = message.imageTags;
+	if (logToConsole) console.log(imageTags);
 	if (!isEmpty(imageTags['ExposureTime'])) {
 		imageTags['ExposureTime'] = '1/' + Math.round(1 / imageTags['ExposureTime']).toString();
 	}

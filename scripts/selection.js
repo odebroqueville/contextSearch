@@ -1,8 +1,6 @@
 'use strict';
 
 /// Global variables
-/* global EXIF */
-
 const logToConsole = true; // Debug
 const os = getOS();
 const modifiers = ["Control", "Shift", "Alt", "Meta"];
@@ -294,18 +292,12 @@ async function handleRightClickWithoutGrid(e) {
 	const elementClicked = e.target;
 	const tag = elementClicked.tagName;
 	if (tag === 'IMG') {
-		let img = e.target;
-		let imgurl = absoluteUrl(img.getAttribute('src'));
-		let targetUrl = googleReverseImageSearchUrl + imgurl;
+		const img = e.target;
+		const imgurl = absoluteUrl(img.getAttribute('src'));
+		const targetUrl = googleReverseImageSearchUrl + imgurl;
 		sendMessage('setTargetUrl', targetUrl);
 		if (logToConsole) console.log(`Target url: ${targetUrl}`);
-		EXIF.getData(img, function () {
-			//alert(EXIF.pretty(this));
-			let tags = EXIF.getAllTags(this);
-			if (logToConsole) console.log(tags);
-			let data = { imageUrl: imgurl, imageTags: tags };
-			sendMessage('setImageData', data);
-		});
+		await browser.storage.sync.set({ imageUrl: imgurl });
 	}
 }
 

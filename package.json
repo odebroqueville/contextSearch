@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/odebroqueville/contextSearch#readme",
   "dependencies": {
-    "exif-js": "^2.3.0",
+    "exifreader": "^4.2.0",
     "leaflet": "^1.7.1",
     "sortablejs": "^1.14.0"
   },
