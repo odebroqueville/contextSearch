@@ -7,8 +7,6 @@ let searchEnginesArray = [];
 let selection = '';
 let targetUrl = '';
 let lastAddressBarKeyword = '';
-let imageUrl = '';
-let imageTags = {};
 let historyItems, bookmarkItems;
 
 /// Constants
@@ -114,7 +112,7 @@ browser.webRequest.onBeforeSendHeaders.addListener(
 
 /// Handle Incoming Messages
 // Listen for messages from the content or options script
-browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+browser.runtime.onMessage.addListener(async (message, sender) => {
 	let id = '';
 	let domain = '';
 	let tabIndex, tabPosition, tabs, options;
