@@ -69,9 +69,9 @@ browser.storage.onChanged.addListener(handleStorageChange);
 /// Handle Incoming Messages
 // Listen for messages from the background script
 browser.runtime.onMessage.addListener(async (message) => {
-	let action = message.action;
-	let url = '';
-	switch (action) {
+	let url;
+
+	switch (message.action) {
 		case 'getSearchEngine':
 			try {
 				url = document.querySelector('link[type="application/opensearchdescription+xml"]').href;
@@ -208,8 +208,7 @@ function handleKeyUp(e) {
 }
 
 async function handleStorageChange(changes, area) {
-	// let oldSearchEngines = JSON.parse(JSON.stringify(searchEngines));
-	// let ids = Object.keys(changes);
+	if (isEmpty(changes.newValue)) return;
 	let data;
 	if (logToConsole) {
 		console.log('The following changes have occured:\n');
@@ -234,22 +233,6 @@ async function handleStorageChange(changes, area) {
 					break;
 				}
 			}
-			// if (logToConsole) {
-			// 	console.log(changes);
-			// 	console.log('Search engines list has been updated with:\n');
-			// }
-			// for (let id of ids) {
-			// 	if (changes[id].newValue === undefined) {
-			// 		continue;
-			// 	}
-			// 	searchEngines[id] = changes[id].newValue;
-			// 	if (logToConsole) {
-			// 		console.log(`Search engine ${id}:\n`);
-			// 		console.log(searchEngines[id]);
-			// 	}
-			// }
-			// if (!Object.keys(searchEngines).length > 0) searchEngines = oldSearchEngines;
-			// if (logToConsole) console.log(searchEngines);
 			break;
 		case 'sync':
 			// Update options var on change
@@ -315,7 +298,7 @@ async function handleRightClickWithoutGrid(e) {
 		let imgurl = absoluteUrl(img.getAttribute('src'));
 		let targetUrl = googleReverseImageSearchUrl + imgurl;
 		sendMessage('setTargetUrl', targetUrl);
-		if (logToConsole) console.log(`Image url: ${imgurl}`);
+		if (logToConsole) console.log(`Target url: ${targetUrl}`);
 		EXIF.getData(img, function () {
 			//alert(EXIF.pretty(this));
 			let tags = EXIF.getAllTags(this);
