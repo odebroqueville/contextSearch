@@ -1,5 +1,10 @@
-4.2.8
+4.2.9
 =========
+
+* Fixed bug where bookmarks and history search failed due to quota limitation excess for storage sync -> using storage local instead
+
+4.2.8
+---------
 
 * Added bookmarks and history search from the Omnibox
 * Removed Image Analysis Tool as exif.js is deprecated and stopped working
