@@ -4,7 +4,7 @@ Firefox add-on to search selected text in a web page using your favorite search 
 
 ## Permissions
 
-<b>Notifications</b> and <b>Downloads</b> are now optional permissions. They are disabled by default. If you'd like to show notifications and/or save your list of search engines to your local disk, open the extensions manager, select Context Search and under the Permissions tab enable Notifications and/or Downloads.
+<b>Notifications</b> and <b>Downloads</b> are now optional permissions. They are disabled by default. If you'd like to show notifications and/or save your list of search engines to your local disk, or search your history or bookmarks from the Omnibox, then open the extensions manager, select Context Search and under the Permissions tab enable the appropriate permissions.
 
 To open search results in a new private window, in the extensions manager, allow Context Search to <em>"Run in Private Windows"</em>.
 
