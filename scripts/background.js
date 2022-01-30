@@ -1169,23 +1169,25 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
 				case '!':
 					processMultiTabSearch(tabPosition);
 					break;
-				case ('!b' || 'bookmarks'):
+				case 'bookmarks':
+				case '!b':
 					if (searchTerms === "recent") {
 						bookmarkItems = await browser.bookmarks.getRecent(10);
 					} else {
 						bookmarkItems = await browser.bookmarks.search({ query: searchTerms });
 					}
 					if (logToConsole) console.log(bookmarkItems);
-					await browser.storage.sync.set({ bookmarkItems: bookmarkItems, searchTerms: searchTerms });
+					await browser.storage.local.set({ bookmarkItems: bookmarkItems, searchTerms: searchTerms });
 					await browser.tabs.create({
 						active: contextsearch_makeNewTabOrWindowActive,
 						index: tabPosition,
 						url: '/bookmarks.html'
 					});
 					break;
-				case ('!h' || 'history'):
+				case 'history':
+				case '!h':
 					historyItems = await browser.history.search({ text: searchTerms });
-					await browser.storage.sync.set({ historyItems: historyItems, searchTerms: searchTerms });
+					await browser.storage.local.set({ historyItems: historyItems, searchTerms: searchTerms });
 					await browser.tabs.create({
 						active: contextsearch_makeNewTabOrWindowActive,
 						index: tabPosition,
@@ -1201,7 +1203,8 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
 					}
 					break;
 			}
-		} catch (ex) {
+		} catch (error) {
+			if (logToConsole) console.error(error);
 			if (logToConsole) console.log('Failed to process ' + input);
 		}
 	}
