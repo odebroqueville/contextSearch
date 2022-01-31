@@ -1,5 +1,10 @@
-4.2.9
+4.3.0
 =========
+
+* Bug fixes
+
+4.2.9
+---------
 
 * Fixed bug where bookmarks and history search failed due to quota limitation excess for storage sync -> using storage local instead
 
