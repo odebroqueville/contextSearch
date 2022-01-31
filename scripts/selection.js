@@ -1,8 +1,6 @@
 'use strict';
 
 /// Global variables
-/* global EXIF */
-
 const logToConsole = true; // Debug
 const os = getOS();
 const modifiers = ["Control", "Shift", "Alt", "Meta"];
@@ -70,7 +68,6 @@ browser.storage.onChanged.addListener(handleStorageChange);
 // Listen for messages from the background script
 browser.runtime.onMessage.addListener(async (message) => {
 	let url;
-
 	switch (message.action) {
 		case 'getSearchEngine':
 			try {
@@ -109,12 +106,14 @@ async function init() {
 
 	// Retrieve options on initial load
 	options = await browser.storage.sync.get(null);
+	if (logToConsole) console.log(options);
 	if (options.tabMode === 'sameTab') {
 		sameTab = true;
 	} else {
 		sameTab = false;
 	}
 	searchEngines = await browser.storage.local.get(null);
+	if (logToConsole) console.log(searchEngines);
 
 	// If there exists a search engine with a query string that includes the domain of the visited web page, then hide the Page action
 	for (let id in searchEngines) {
@@ -195,6 +194,7 @@ function handleKeyUp(e) {
 		}
 	}
 	if (logToConsole) console.log(`keys pressed: ${input}`);
+	if (input === "alt+") return;
 	for (let id in searchEngines) {
 		if (logToConsole) console.log(id);
 		const keyboardShortcut = searchEngines[id].keyboardShortcut;
@@ -208,7 +208,6 @@ function handleKeyUp(e) {
 }
 
 async function handleStorageChange(changes, area) {
-	if (isEmpty(changes.newValue)) return;
 	let data;
 	if (logToConsole) {
 		console.log('The following changes have occured:\n');
@@ -273,16 +272,13 @@ async function handleAltClickWithGrid(e) {
 				e.target.textContent.indexOf(selectedText) === -1 &&
 				selectedText.indexOf(e.target.textContent) === -1
 			) {
-				// This is not safe. There is a selection on the page, but the element that right clicked does not contain a part of the selection
+				// This is not safe. There is a selection on the page, but the element that got alt clicked does not contain a part of the selection
 				return;
 			}
 		}
 
 		// If option is diabled then do nothing. Note: this intentionally comes after selected text is accessed as text can become unselected on click
 		if (options.disableAltClick) return;
-
-		// Test URL: https://bugzilla.mozilla.org/show_bug.cgi?id=1215376
-		// Test URL: https://github.com/odebroqueville/contextSearch/
 
 		sendSelectionToBackgroundScript(selectedText);
 		buildIconGrid(x, y);
@@ -317,7 +313,7 @@ async function showButtons() {
 		img.style.cursor = 'pointer';
 		img.title = browser.i18n.getMessage("AddSearchEngine");
 
-		img.onclick = async function (e) {
+		img.onclick = async function () {
 			const href = link.getAttribute('href');
 			const pid = getPidAndName(href).pid;
 			const name = getPidAndName(href).name;
@@ -351,11 +347,18 @@ function getSelectedText() {
 	selectedText = ''; // Get the current value, not a cached value
 
 	if (window.getSelection) {
-		// All modern browsers and IE9+
 		sel = window.getSelection();
 		range = sel.getRangeAt(0);
-		selectedText = sel.toString().trim();
+		selectedText = range.toString().trim();
 	}
+
+	// Debug
+	let ranges = [];
+	for (let i = 0; i < sel.rangeCount; i++) {
+		ranges[i] = sel.getRangeAt(i);
+		if (logToConsole) console.log(ranges[i].toString());
+	}
+
 	if (
 		document.activeElement != null &&
 		(document.activeElement.tagName === 'TEXTAREA' || document.activeElement.tagName === 'INPUT')
@@ -384,6 +387,7 @@ function sendSelectionToBackgroundScript(selectedText) {
 } */
 
 function buildIconGrid(x, y) {
+	if (logToConsole) console.log(searchEngines);
 	let arrIDs = Object.keys(searchEngines);
 
 	// Grid dimensions

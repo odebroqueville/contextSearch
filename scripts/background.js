@@ -66,7 +66,7 @@ let contextsearch_siteSearchUrl = "https://www.google.com/search?q=";
 let contextsearch_useRegex = false;
 let contextsearch_multiMode = 'multiNewWindow';
 let contextsearch_privateMode = false;
-
+let notificationsEnabled = false;
 
 const defaultOptions = {
 	exactMatch: contextsearch_exactMatch,
@@ -115,45 +115,41 @@ browser.webRequest.onBeforeSendHeaders.addListener(
 browser.runtime.onMessage.addListener(async (message, sender) => {
 	let id = '';
 	let domain = '';
-	let tabIndex, tabPosition, tabs, options;
+	let activeTab, lastTab, activeTabIndex, tabPosition, tabs, options;
 	switch (message.action) {
 		case 'doSearch':
 			id = message.data.id;
 			if (logToConsole) console.log('Search engine id: ' + id);
 			if (logToConsole) console.log(contextsearch_openSearchResultsInSidebar);
-			if (contextsearch_openSearchResultsInSidebar) {
-				searchUsing(id, null);
-				return;
-			}
+			activeTab = (await browser.tabs.query({ active: true, currentWindow: true }))[0];
+			if (logToConsole) console.log('Active tab url: ' + activeTab.url);
 			tabs = await browser.tabs.query({ currentWindow: true });
 			if (logToConsole) console.log(tabs);
-			for (let tab of tabs) {
-				if (tab.active) {
-					if (logToConsole) console.log('Active tab url: ' + tab.url);
-					tabIndex = tab.index + 1;
-					if (logToConsole) console.log('tabIndex: ' + tabIndex);
-					break;
-				}
-			}
+			lastTab = tabs[tabs.length - 1];
+			activeTabIndex = activeTab.index;
+			if (logToConsole) console.log('Active tab index: ' + activeTabIndex);
 			if (contextsearch_multiMode === 'multiAfterLastTab') {
-				tabPosition = tabs.length + 1;
+				tabPosition = lastTab.index + 1;
 			} else {
-				tabPosition = tabIndex;
+				tabPosition = activeTabIndex + 1;
 			}
 			if (id === 'multisearch') {
 				processMultiTabSearch(tabPosition);
 				return;
 			}
-			if (contextsearch_openSearchResultsInLastTab) tabIndex = tabs.length;
-			searchUsing(id, tabIndex);
+			if (contextsearch_openSearchResultsInSidebar) {
+				searchUsing(id, null);
+				return;
+			}
+			if (contextsearch_openSearchResultsInLastTab) activeTabIndex = lastTab.index;
+			searchUsing(id, activeTabIndex + 1);
 			break;
 		case 'notify':
-			notify(message.data);
+			if (notificationsEnabled) notify(message.data);
 			break;
 		case 'setSelection':
 			if (logToConsole) console.log(`Selected text: ${message.data}`);
 			selection = message.data;
-			rebuildContextMenu();
 			break;
 		case 'reset':
 			reset();
@@ -321,6 +317,8 @@ async function init() {
 		console.log(`Bytes used by local storage: ${JSON.stringify(items).length} bytes.`);
 	}
 
+	notificationsEnabled = (await navigator.permissions.query({ name: 'notifications' })).state === 'granted';
+
 	// Initialize options and search engines
 	await initialiseOptionsAndSearchEngines(false);
 	rebuildContextMenu();
@@ -349,6 +347,7 @@ async function reset() {
 	if (logToConsole) console.log(`Options:`);
 	if (logToConsole) console.log(options);
 	await initialiseOptionsAndSearchEngines(forceReload);
+	rebuildContextMenu();
 }
 
 async function addNewSearchEngine(id, domain) {
@@ -364,7 +363,7 @@ async function addNewSearchEngine(id, domain) {
 	searchEngines[id]['base64'] = value.base64;
 	await saveSearchEnginesToLocalStorage(false);
 	rebuildContextMenu();
-	notify(notifySearchEngineAdded);
+	if (notificationsEnabled) notify(notifySearchEngineAdded);
 }
 
 function handlePageAction(tab) {
@@ -422,7 +421,6 @@ async function initialiseOptionsAndSearchEngines(forceReload) {
 				.catch((err) => {
 					console.error(err);
 					console.log('Failed to retrieve search enginees from local storage.');
-					return;
 				});
 		} else {
 			searchEngines = sortByIndex(se);
@@ -627,18 +625,18 @@ async function saveSearchEnginesToLocalStorage(blnNotify) {
 		console.log(searchEngines);
 	}
 
-	// save list of search engines to local storage
-	await browser.storage.local.set(searchEngines)
-		.catch(error => {
-			if (logToConsole) {
-				console.error(error.message);
-				console.log('Failed to save the search engines to local storage.');
-			}
-			return;
-		});
-	if (blnNotify) notify(notifySearchEnginesLoaded);
-	if (logToConsole) {
-		console.log('Search engines have been successfully saved to local storage.');
+	try {
+		// save list of search engines to local storage
+		await browser.storage.local.set(searchEngines);
+		if (notificationsEnabled && blnNotify) notify(notifySearchEnginesLoaded);
+		if (logToConsole) {
+			console.log('Search engines have been successfully saved to local storage.');
+		}
+	} catch (error) {
+		if (logToConsole) {
+			console.error(error.message);
+			console.log('Failed to save the search engines to local storage.');
+		}
 	}
 }
 
@@ -1033,7 +1031,7 @@ async function processMultiTabSearch(tabPosition) {
 			multiTabSearchEngineUrls.push(getSearchEngineUrl(searchEngines[id].url, selection));
 		}
 	}
-	if (isEmpty(multiTabSearchEngineUrls)) {
+	if (notificationsEnabled && isEmpty(multiTabSearchEngineUrls)) {
 		notify('Search engines have not been selected for a multi-search.');
 		return;
 	}
@@ -1199,7 +1197,7 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
 						displaySearchResults(suggestion[0].content, tabIndex);
 					} else {
 						browser.search.search({ query: searchTerms, tabId: tabId });
-						notify(notifyUsage);
+						if (notificationsEnabled) notify(notifyUsage);
 					}
 					break;
 			}
@@ -1286,7 +1284,7 @@ function buildSuggestion(text) {
 	}
 
 	// If no known keyword was found
-	if (showNotification) {
+	if (notificationsEnabled && showNotification) {
 		notify(notifySearchEngineWithKeyword + ' ' + keyword + ' ' + notifyUnknown);
 	}
 
@@ -1302,7 +1300,7 @@ function testSearchEngine(engineData) {
 		browser.tabs.create({
 			url: tempTargetUrl
 		});
-	} else {
+	} else if (notificationsEnabled) {
 		notify(notifySearchEngineUrlRequired);
 	}
 }
