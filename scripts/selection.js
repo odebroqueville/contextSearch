@@ -1,7 +1,7 @@
 'use strict';
 
 /// Global variables
-const logToConsole = true; // Debug
+const logToConsole = false; // Debug
 const os = getOS();
 const modifiers = ["Control", "Shift", "Alt", "Meta"];
 const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');

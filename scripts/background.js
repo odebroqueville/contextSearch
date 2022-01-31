@@ -11,7 +11,7 @@ let historyItems, bookmarkItems;
 
 /// Constants
 // Debug
-const logToConsole = true;
+const logToConsole = false;
 
 //const FIREFOX_VERSION = /rv:([0-9.]+)/.exec(navigator.userAgent)[1];
 //const contextsearch_userAgent = `Mozilla/5.0 (Android 4.4; Mobile; rv:${FIREFOX_VERSION}) Gecko/${FIREFOX_VERSION} Firefox/${FIREFOX_VERSION}`;
