@@ -1,5 +1,11 @@
-4.3.0
+4.4.0
 =========
+
+* Updated SortableJS from 1.14.0 to 1.15.0
+* Updated Google Reverse Image Search Url in selection.js
+
+4.3.0
+---------
 
 * Bug fixes
 

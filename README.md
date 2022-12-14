@@ -141,4 +141,4 @@ It is not required to provide the base 64 string representation of any search en
 
 ## Code made by others used in this extension
 
-- SortableJS v1.14.0 minified with many contributors, which can be found on GitHub here: https://github.com/SortableJS/Sortable/blob/1.14.0/Sortable.min.js
+- SortableJS v1.15.0 minified with many contributors, which can be found on GitHub here: https://github.com/SortableJS/Sortable/blob/1.15.0/Sortable.min.js
