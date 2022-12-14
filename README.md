@@ -4,7 +4,7 @@ Firefox add-on to search selected text in a web page using your favorite search 
 
 ## Permissions
 
-<b>Notifications</b> and <b>Downloads</b> are now optional permissions. They are disabled by default. If you'd like to show notifications and/or save your list of search engines to your local disk, or search your history or bookmarks from the Omnibox, then open the extensions manager, select Context Search and under the Permissions tab enable the appropriate permissions.
+**Notifications**, **Downloads**, **History** and **Bookmarks** are now optional permissions. They are disabled by default. If you'd like to show notifications and/or save your list of search engines to your local disk, or search your history or bookmarks from the Omnibox, then open the extensions manager, select Context Search and, under the Permissions tab, enable the appropriate permissions.
 
 To open search results in a new private window, in the extensions manager, allow Context Search to <em>"Run in Private Windows"</em>.
 
@@ -54,27 +54,27 @@ In the omnibox (or url address bar), type 'cs ' (without the quotes, and where c
 
 Here are some examples:
 
-cs w atom
+**cs w atom**
 will search for the word 'atom' in Wikipedia.
 
-cs .
+**cs .**
 will open the Options page
 
-cs ! cold fusion
+**cs ! cold fusion**
 will perform a multi-search for the search terms 'cold fusion'
 
-cs !h or cs history
+**cs !h** or c**s history**
 will display all your history
 
-cs !b Mozilla or cs bookmarks Mozilla
+**cs !b Mozilla** or c**s bookmarks Mozilla**
 will display all bookmarks that include the term Mozilla
 
-cs !b recent or cs bookmarks recent
+**cs !b recent** or **cs bookmarks recent**
 will display your 10 most recent bookmarks
 
 ## Advanced feature
 
-You can add a regular expression to each search engine. If the selected text matches the regex, then the search engine will appear in the context menu. As an example, imagine you had a search engine for booking.com and another for tripadvisor.com and you would like these search engines to appear in the context menu when a selection contains the word 'hotel'. Then, for those search engines, you'd enter the regex /hotel/. If you then make any other selection that doesn't contain the word "hotel" in it, those search engines won't appear in the context menu. There's a very useful website for building a regex: https://regex101.com. Another example is, if you select an IP address, then you might want the search engine corresponding to whatismyipaddress.com to appear. The regex here is a little more complicated to establish, but Google can help: search Google for "regex for ip address".
+You can add a regular expression to each search engine. If the selected text matches the regex, then the search engine will appear in the context menu. As an example, imagine you had a search engine for booking.com and another for tripadvisor.com and you would like these search engines to appear in the context menu when a selection contains the word 'hotel'. Then, for those search engines, you'd enter the regex /hotel/. If you then make any other selection that doesn't contain the word "hotel" in it, those search engines won't appear in the context menu. There's a very useful website for building a regex: [https://regex101.com](https://regex101.com). Another example is, if you select an IP address, then you might want the search engine corresponding to whatismyipaddress.com to appear. The regex here is a little more complicated to establish, but Google can help: search Google for "regex for ip address".
 
 ## The main structure of a JSON file containing the search engines
 
@@ -128,9 +128,6 @@ Here is an example of a JSON file containing 3 search engines:
 
 It is not required to provide the base 64 string representation of any search engine's favicon. This string will automatically be loaded for you.
 
-The Firefox add-on may be found here:
-https://addons.mozilla.org/firefox/addon/contextual-search/
-
 ## Special thanks to the following contributors
 
 <ul>
@@ -144,6 +141,4 @@ https://addons.mozilla.org/firefox/addon/contextual-search/
 
 ## Code made by others used in this extension
 
-<ul>
-<li>SortableJS v1.14.0 minified with many contributors, which can be found on GitHub here: https://github.com/SortableJS/Sortable/blob/1.14.0/Sortable.min.js</li>
-</ul>
+- SortableJS v1.14.0 minified with many contributors, which can be found on GitHub here: https://github.com/SortableJS/Sortable/blob/1.14.0/Sortable.min.js
