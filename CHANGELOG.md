@@ -1,5 +1,12 @@
-4.4.0
+4.4.1
 =========
+
+* Bug fix : Alt key should now toggle Firefox's main menu on and off in Windows OS
+* Permission to "Access your data for all web sites" is no longer requested
+* Minor update to Icelandic translation
+
+4.4.0
+---------
 
 * Updated SortableJS from 1.14.0 to 1.15.0
 * Updated Google Reverse Image Search Url in selection.js

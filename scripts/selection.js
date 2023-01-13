@@ -42,7 +42,7 @@ if (logToConsole) {
 if (document.readyState === 'complete') showButtons();
 
 /// Event handlers
-// Text seleection change event listener
+// Text selection change event listener
 document.addEventListener('selectionchange', handleTextSelection);
 
 // Right-click event listener
@@ -52,14 +52,14 @@ document.addEventListener('contextmenu', handleRightClickWithoutGrid);
 document.addEventListener('mouseup', handleAltClickWithGrid);
 
 // Key down event listener
-document.addEventListener('keydown', (event) => {
+/* document.addEventListener('keydown', (event) => {
 	if (event.target.nodeName === 'INPUT') return;
 	keysPressed[event.key] = [true, event.code];
 	if (logToConsole) console.log(keysPressed);
-});
+}); */
 
 // Key up event listener
-document.addEventListener('keyup', handleKeyUp);
+//document.addEventListener('keyup', handleKeyUp);
 
 // Storage change event listener
 browser.storage.onChanged.addListener(handleStorageChange);
@@ -157,7 +157,7 @@ function handleKeyUp(e) {
 	if (e.target.nodeName === 'INPUT') return;
 	// if (e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey) return;
 	e.preventDefault();
-	selectedText = getSelectedText();
+	getSelectedText();
 	sendSelectionToBackgroundScript(selectedText);
 	if (logToConsole) console.log(e);
 	let input = "";
@@ -236,11 +236,10 @@ async function handleStorageChange(changes, area) {
 		case 'sync':
 			// Update options var on change
 			data = await browser.storage.sync.get(null);
+			sameTab = false;
 			options = data.options;
-			if (options.tabMode === 'sameTab') {
+			if (options && options.tabMode === 'sameTab') {
 				sameTab = true;
-			} else {
-				sameTab = false;
 			}
 			break;
 		default:
@@ -251,38 +250,22 @@ async function handleStorageChange(changes, area) {
 async function handleAltClickWithGrid(e) {
 	if (logToConsole) console.log('Click event triggered:\n' + e.type, e.button, e.altKey);
 
+	// If option is disabled then do nothing. Note: this intentionally comes after selected text is accessed as text can become unselected on click
+	if (options.disableAltClick) return;
+
 	// If mouse up is not done with left mouse button then do nothing
 	if (e.button > 0) return;
 
 	// If Option (alt) key isn't pressed on mouse up then do nothing
 	if (!e.altKey) return;
 
-	e.preventDefault();
-
-	selectedText = getSelectedText();
-	if (logToConsole) console.log(`Selected text: ${selectedText}`);
+	// If the grid of icons is alreadey displayed
+	let nav = document.getElementById('cs-grid');
+	if (nav !== null && nav.style.display !== 'none') return;
 
 	let x = e.clientX;
 	let y = e.clientY;
-
-	if (selectedText) {
-		if (e.target.tagName === 'A') {
-			// Do additional safety checks.
-			if (
-				e.target.textContent.indexOf(selectedText) === -1 &&
-				selectedText.indexOf(e.target.textContent) === -1
-			) {
-				// This is not safe. There is a selection on the page, but the element that got alt clicked does not contain a part of the selection
-				return;
-			}
-		}
-
-		// If option is diabled then do nothing. Note: this intentionally comes after selected text is accessed as text can become unselected on click
-		if (options.disableAltClick) return;
-
-		sendSelectionToBackgroundScript(selectedText);
-		buildIconGrid(x, y);
-	}
+	buildIconGrid(x, y);
 }
 
 function handleRightClickWithoutGrid(e) {
@@ -330,8 +313,10 @@ async function showButtons() {
 }
 
 function handleTextSelection() {
-	selectedText = getSelectedText();
-	sendSelectionToBackgroundScript(selectedText);
+	getSelectedText();
+	if (selectedText !== null && selectedText !== undefined && selectedText !== "") {
+		sendSelectionToBackgroundScript(selectedText);
+	}
 }
 
 function getPidAndName(string) {
@@ -344,21 +329,13 @@ function getPidAndName(string) {
 }
 
 function getSelectedText() {
-	selectedText = ''; // Get the current value, not a cached value
-
 	if (window.getSelection) {
 		sel = window.getSelection();
 		range = sel.getRangeAt(0);
 		selectedText = range.toString().trim();
 	}
 
-	// Debug
-	let ranges = [];
-	for (let i = 0; i < sel.rangeCount; i++) {
-		ranges[i] = sel.getRangeAt(i);
-		if (logToConsole) console.log(ranges[i].toString());
-	}
-
+	// If selection is made in Textarea or Input field
 	if (
 		document.activeElement != null &&
 		(document.activeElement.tagName === 'TEXTAREA' || document.activeElement.tagName === 'INPUT')
@@ -371,7 +348,6 @@ function getSelectedText() {
 	}
 
 	if (logToConsole) console.log(`Selected text: ${selectedText}`);
-	return selectedText;
 }
 
 function sendSelectionToBackgroundScript(selectedText) {
@@ -501,6 +477,8 @@ function buildIconGrid(x, y) {
 }
 
 function onGridClick(e) {
+	e.preventDefault();
+	e.stopPropagation();
 	if (logToConsole) console.log('Grid icon got clicked:' + e.type);
 	let id = e.target.parentNode.id;
 	if (logToConsole) console.log('Search engine clicked:' + id);
@@ -510,9 +488,9 @@ function onGridClick(e) {
 		nav.removeEventListener('click', onGridClick);
 		nav.removeEventListener('mouseleave', onLeave);
 		nav = null;
-	} else {
-		sel.addRange(range);
 	}
+	const selection = window.getSelection();
+	selection.addRange(range);
 	sendMessage('doSearch', { id: id });
 }
 
