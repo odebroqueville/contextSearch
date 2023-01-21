@@ -1,5 +1,11 @@
-4.4.1
+4.4.2
 =========
+
+* Bug fix : keyboard shortcuts were broken in CS 4.4.1
+* Added Google Lens search to Google Reverse Image Search 
+
+4.4.1
+---------
 
 * Bug fix : Alt key now toggles Firefox's main menu on and off in Windows OS
 * Minor update to Icelandic translation

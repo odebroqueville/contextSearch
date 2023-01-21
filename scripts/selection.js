@@ -5,7 +5,6 @@ const logToConsole = false; // Debug
 const os = getOS();
 const modifiers = ["Control", "Shift", "Alt", "Meta"];
 const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
-const googleReverseImageSearchUrl = 'https://lens.google.com/uploadbyurl?url=';
 const mycroftUrl = 'https://mycroftproject.com/installos.php/';
 const base64ContextSearchIcon =
 	'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';
@@ -52,14 +51,14 @@ document.addEventListener('contextmenu', handleRightClickWithoutGrid);
 document.addEventListener('mouseup', handleAltClickWithGrid);
 
 // Key down event listener
-/* document.addEventListener('keydown', (event) => {
+document.addEventListener('keydown', (event) => {
 	if (event.target.nodeName === 'INPUT') return;
 	keysPressed[event.key] = [true, event.code];
 	if (logToConsole) console.log(keysPressed);
-}); */
+});
 
 // Key up event listener
-//document.addEventListener('keyup', handleKeyUp);
+document.addEventListener('keyup', handleKeyUp);
 
 // Storage change event listener
 browser.storage.onChanged.addListener(handleStorageChange);
@@ -151,15 +150,18 @@ function getOS() {
 
 }
 
+// Handle keyboard shortcuts
 function handleKeyUp(e) {
+	if (logToConsole) console.log(e);
 	if (logToConsole) console.log(keysPressed);
-	if (!Object.keys(keysPressed).length > 0) return;
+	if (!Object.keys(keysPressed).length > 0 || Object.keys(keysPressed)[0] === "Alt") return;
 	if (e.target.nodeName === 'INPUT') return;
 	// if (e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey) return;
 	e.preventDefault();
 	getSelectedText();
 	sendSelectionToBackgroundScript(selectedText);
-	if (logToConsole) console.log(e);
+
+	// Store all modifier keys pressesd in var input
 	let input = "";
 	for (let i = 0; i < modifiers.length; i++) {
 		const modifier = modifiers[i];
@@ -185,6 +187,8 @@ function handleKeyUp(e) {
 	if (logToConsole) console.log(`keys pressed: ${input}`);
 	if (logToConsole) console.log(`remaining keys down: `);
 	if (logToConsole) console.log(keysPressed);
+
+	// For all non-modifier keys pressed...
 	for (let key in keysPressed) {
 		if (logToConsole) console.log(key);
 		if (os === 'macOS' && input.includes('alt')) {
@@ -247,7 +251,8 @@ async function handleStorageChange(changes, area) {
 	}
 }
 
-async function handleAltClickWithGrid(e) {
+// Triggered by mouse up event
+function handleAltClickWithGrid(e) {
 	if (logToConsole) console.log('Click event triggered:\n' + e.type, e.button, e.altKey);
 
 	// If option is disabled then do nothing. Note: this intentionally comes after selected text is accessed as text can become unselected on click
@@ -259,10 +264,13 @@ async function handleAltClickWithGrid(e) {
 	// If Option (alt) key isn't pressed on mouse up then do nothing
 	if (!e.altKey) return;
 
+	e.preventDefault();
+
 	// If the grid of icons is alreadey displayed
 	let nav = document.getElementById('cs-grid');
 	if (nav !== null && nav.style.display !== 'none') return;
 
+	// Otherwise
 	let x = e.clientX;
 	let y = e.clientY;
 	buildIconGrid(x, y);
@@ -273,11 +281,13 @@ function handleRightClickWithoutGrid(e) {
 	const elementClicked = e.target;
 	const tag = elementClicked.tagName;
 	if (tag === 'IMG') {
+		if (window.getSelection) {
+			window.getSelection().removeAllRanges();
+		}
 		let img = e.target;
-		let imgurl = absoluteUrl(img.getAttribute('src'));
-		let targetUrl = googleReverseImageSearchUrl + imgurl;
-		sendMessage('setTargetUrl', targetUrl);
-		if (logToConsole) console.log(`Image url: ${imgurl}`);
+		let imgUrl = absoluteUrl(img.getAttribute('src'));
+		sendMessage('setTargetUrl', imgUrl);
+		if (logToConsole) console.log(`Image url: ${imgUrl}`);
 	}
 }
 
