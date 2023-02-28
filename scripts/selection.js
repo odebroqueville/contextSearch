@@ -264,8 +264,6 @@ function handleAltClickWithGrid(e) {
 	// If Option (alt) key isn't pressed on mouse up then do nothing
 	if (!e.altKey) return;
 
-	e.preventDefault();
-
 	// If the grid of icons is alreadey displayed
 	let nav = document.getElementById('cs-grid');
 	if (nav !== null && nav.style.display !== 'none') return;
