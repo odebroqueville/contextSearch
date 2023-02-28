@@ -1,6 +1,6 @@
 {
 	"extensionName": {
-		"message": "Context Search",
+		"message": "CBM Manager",
 		"description": "Name of the extension",
 		"hash": "dc46af1f918347f13872ba3b1acf5cb5"
 	},
@@ -27,7 +27,7 @@
 		"hash": "93175e4d6a2f2b01a19a17c09ac98750"
 	},
 	"pageTitle": {
-		"message": "Preferenze per Context Search",
+		"message": "Preferenze per CBM Manager",
 		"hash": "85459cf0f20967bcc8995dd2257f6ba2"
 	},
 	"header1": {

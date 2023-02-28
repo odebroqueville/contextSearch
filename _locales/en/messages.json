@@ -1,6 +1,6 @@
 {
 	"extensionName": {
-		"message": "Context Search",
+		"message": "CBM Manager",
 		"description": "Name of the extension"
 	},
 	"extensionDescription": {
@@ -21,7 +21,7 @@
 		"message": "through the context menu or through the omnibox by typing:"
 	},
 	"pageTitle": {
-		"message": "Context Search Preferences"
+		"message": "CBM Manager Preferences"
 	},
 	"header1": {
 		"message": "Where should search results appear?"
@@ -180,7 +180,7 @@
 		"message": "Show this search engine in the context menu or grid"
 	},
 	"notifyEnableStorageSync": {
-		"message": "Please ensure that the flag 'webextensions.storage.sync.enabled' is set to 'true' in 'about:config', otherwise Context Search won't work."
+		"message": "Please ensure that the flag 'webextensions.storage.sync.enabled' is set to 'true' in 'about:config', otherwise CBM Manager won't work."
 	},
 	"notifySearchEnginesLoaded": {
 		"message": "Default list of search engines has been loaded."
@@ -201,7 +201,7 @@
 		"message": "Search results for"
 	},
 	"omniboxDescription": {
-		"message": "Search using Context Search with keywords. Usage: cs [keyword] [search terms] (e.g. 'cs w Linux' searches Wikipedia for the term 'Linux')"
+		"message": "Search using CBM Manager with keywords. Usage: cs [keyword] [search terms] (e.g. 'cs w Linux' searches Wikipedia for the term 'Linux')"
 	},
 	"notifyUsage": {
 		"message": "Usage: cs [keyword] [search terms] (for example: cs w Linux)"

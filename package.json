@@ -1,6 +1,6 @@
 {
   "name": "contextsearch",
-  "title": "Context Search",
+  "title": "CBM Manager",
   "version": "4.4.3",
   "description": "Firefox add-on to search selected text in a web page using your favorite search engines.",
   "browserslist": [

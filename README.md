@@ -1,4 +1,4 @@
-# Context Search
+# CBM Manager
 
 Firefox add-on to search selected text in a web page using your favorite search engines.
 

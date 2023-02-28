@@ -1,6 +1,6 @@
 {
 	"extensionName": {
-		"message": "Context Search",
+		"message": "CBM Manager",
 		"description": "Name of the extension",
 		"hash": "dc46af1f918347f13872ba3b1acf5cb5"
 	},
@@ -27,7 +27,7 @@
 		"hash": "93175e4d6a2f2b01a19a17c09ac98750"
 	},
 	"pageTitle": {
-		"message": "Context Search: Einstellungen",
+		"message": "CBM Manager: Einstellungen",
 		"hash": "85459cf0f20967bcc8995dd2257f6ba2"
 	},
 	"header1": {
@@ -239,7 +239,7 @@
 		"hash": "5c7ec6b539f06fe17a5e3f9832530eea"
 	},
 	"notifyEnableStorageSync": {
-		"message": "Stelle sicher, dass 'webextensions.storage.sync.enabled' in 'about:config' auf 'true' gesetzt ist. Andernfalls wird Context Search nicht funktionieren.",
+		"message": "Stelle sicher, dass 'webextensions.storage.sync.enabled' in 'about:config' auf 'true' gesetzt ist. Andernfalls wird CBM Manager nicht funktionieren.",
 		"hash": "273ab612652228bc54090e98d1ac1b15"
 	},
 	"notifySearchEnginesLoaded": {
@@ -267,7 +267,7 @@
 		"hash": "0a26dab592394ea9548c1a5588c0cd0d"
 	},
 	"omniboxDescription": {
-		"message": "Mit Context Search mit Schlüsselwörtern suchen. Benutzung: cs [Schlüsselwort] [Suchbegriffe] (z.B. 'cs w Linux' durchsucht die Wikipedia nach dem Begriff 'Linux')",
+		"message": "Mit CBM Manager mit Schlüsselwörtern suchen. Benutzung: cs [Schlüsselwort] [Suchbegriffe] (z.B. 'cs w Linux' durchsucht die Wikipedia nach dem Begriff 'Linux')",
 		"hash": "e2406855d2445278d8becb4e11f772b0"
 	},
 	"notifyUsage": {
