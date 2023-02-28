@@ -8,7 +8,8 @@
 	"browser_specific_settings": {
 		"gecko": {
 			"id": "olivier.debroqueville@gmail.com",
-			"strict_min_version": "79.0"
+			"strict_min_version": "79.0",
+			"update_url": "https://github.com/odebroqueville/cbm.git/updates.json"
 		}
 	},
 	"web_accessible_resources": [
