@@ -11,12 +11,12 @@ let historyItems, bookmarkItems;
 
 /// Constants
 // Debug
-const logToConsole = false;
+const logToConsole = true;
 
 //const FIREFOX_VERSION = /rv:([0-9.]+)/.exec(navigator.userAgent)[1];
 //const contextsearch_userAgent = `Mozilla/5.0 (Android 4.4; Mobile; rv:${FIREFOX_VERSION}) Gecko/${FIREFOX_VERSION} Firefox/${FIREFOX_VERSION}`;
 const contextsearch_userAgent =
-    "Mozilla/5.0 (iPhone9,3; U; CPU iPhone OS 10_0_1 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/14A403 Safari/602.1";
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/12.0 Mobile/15A372 Safari/604.1";
 const DEFAULT_SEARCH_ENGINES = "defaultSearchEngines.json";
 const googleLensUrl = "https://lens.google.com/uploadbyurl?url=";
 const googleReverseImageSearchUrl =
@@ -117,11 +117,13 @@ function rewriteUserAgentHeader(e) {
     if (!contextsearch_openSearchResultsInSidebar) {
         return {};
     }
+    console.log(`Intercepted header: ${e.requestHeaders}`);
     for (const header of e.requestHeaders) {
         if (header.name.toLowerCase() === "user-agent") {
             header.value = contextsearch_userAgent;
         }
     }
+    console.log(`Modified header: ${e.requestHeaders}`);
     return { requestHeaders: e.requestHeaders };
 }
 
@@ -1018,7 +1020,7 @@ async function processSearch(info, tab) {
         id !== "google-lens"
     ) {
         await browser.sidebarAction.open();
-        browser.sidebarAction.setPanel({ panel: "about:blank" });
+        await browser.sidebarAction.setPanel({ panel: "" });
     } else {
         await browser.sidebarAction.close();
         tabIndex = tab.index + 1;
@@ -1134,9 +1136,9 @@ function searchUsing(id, tabIndex) {
     targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
     if (logToConsole) console.log(`Target url: ${targetUrl}`);
     if (contextsearch_openSearchResultsInSidebar) {
-        browser.sidebarAction.setPanel({ panel: "about:blank" });
-        openUrl(targetUrl);
-        browser.sidebarAction.setTitle({ title: "Search results" });
+        browser.sidebarAction.setPanel({ panel: targetUrl });
+        //openUrl(targetUrl);
+        //browser.sidebarAction.setTitle({ title: "Search results" });
         return;
     }
     displaySearchResults(targetUrl, tabIndex);
