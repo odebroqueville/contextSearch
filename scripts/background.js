@@ -127,6 +127,24 @@ function rewriteUserAgentHeader(e) {
     return { requestHeaders: e.requestHeaders };
 }
 
+browser.webNavigation.onDOMContentLoaded.addListener(details => {
+    if (!contextsearch_openSearchResultsInSidebar) {
+        return;
+    }
+
+    // Get the width of the sidebar
+    const sidebar = browser.extension.getViews({ type: 'sidebar' })[0];
+    let sidebarWidth = 432;
+    if (sidebar) sidebarWidth = sidebar.document.documentElement.clientWidth;
+
+    // Inject CSS into the search results page
+    browser.tabs.insertCSS(details.tabId, {
+        code: `body { max-width: ${sidebarWidth}px; }`,
+        runAt: 'document_start'
+    });
+});
+
+
 /// Handle Incoming Messages
 // Listen for messages from the content or options script
 browser.runtime.onMessage.addListener(async (message, sender) => {
@@ -1135,12 +1153,14 @@ function searchUsing(id, tabIndex) {
     let searchEngineUrl = searchEngines[id].url;
     targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
     if (logToConsole) console.log(`Target url: ${targetUrl}`);
+    // If the search results are to be displayed in the sidebar, do not open a new tab.Instead, set the sidebar panel to the search results.
     if (contextsearch_openSearchResultsInSidebar) {
-        browser.sidebarAction.setPanel({ panel: targetUrl });
-        //openUrl(targetUrl);
-        //browser.sidebarAction.setTitle({ title: "Search results" });
+        // Open the sidebar and set the panel to the search results
+        openUrl(targetUrl);
+        browser.sidebarAction.setTitle({ title: "Search results" });
         return;
     }
+    // Open the search results in the same tab, a new tab or new window
     displaySearchResults(targetUrl, tabIndex);
 }
 
@@ -1158,7 +1178,7 @@ async function displaySearchResults(targetUrl, tabPosition) {
             await browser.windows.update(currentWindowID, { focused: true });
         }
     } else if (contextsearch_openSearchResultsInNewTab) {
-        browser.tabs.create({
+        await browser.tabs.create({
             active: contextsearch_makeNewTabOrWindowActive,
             index: tabPosition,
             url: targetUrl,
@@ -1168,7 +1188,7 @@ async function displaySearchResults(targetUrl, tabPosition) {
         if (logToConsole) {
             console.log("Opening search results in same tab, url is " + targetUrl);
         }
-        browser.tabs.update({ url: targetUrl });
+        await browser.tabs.update({ url: targetUrl });
     }
 }
 
