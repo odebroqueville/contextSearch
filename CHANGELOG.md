@@ -1,5 +1,9 @@
-4.4.3
+4.4.4
 =========
+* Bug fix [#137](https://github.com/odebroqueville/contextSearch/issues/137)
+
+4.4.3
+---------
 
 * Bug fix : Alt key now toggles Firefox's main menu on and off in Windows OS (version 4.4.2 had broken the bug fix introduced in v4.4.1)
 
