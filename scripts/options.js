@@ -1033,7 +1033,7 @@ function setOptions(options) {
 		optionsMenuLocation.value = 'bottom';
 	}
 
-	if (options.favicons === false) {
+	if (options.displayFavicons === false) {
 		displayFavicons.checked = false;
 	} else {
 		// Default setting is to fetch favicons for context menu list
@@ -1173,6 +1173,7 @@ function updateMultiMode() {
 	sendMessage('updateMultiMode', data);
 }
 
+// Check if the favicons should be displayed in the context menu
 function updateDisplayFavicons() {
 	let fav = displayFavicons.checked;
 	sendMessage('updateDisplayFavicons', { displayFavicons: fav });
