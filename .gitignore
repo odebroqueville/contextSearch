@@ -1,4 +1,10 @@
+.vscode
 .DS_Store
+.eslintrc.json
 *.zip
-node_modules
-web-ext-artifacts
+node_modules/
+web-ext-artifacts/
+config.json
+web-ext-config.js
+package.json
+package-lock.json
