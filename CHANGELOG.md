@@ -1,5 +1,10 @@
-4.4.4
+4.5.0
 =========
+* Introducing parcelJS as a dev dependency to build the extension
+* Add ChatGPT features (Explain, Summarize and Reply)
+
+4.4.4
+
 * Bug fix [#137](https://github.com/odebroqueville/contextSearch/issues/137)
 * Bug fix [#138](https://github.com/odebroqueville/contextSearch/issues/138)
 
