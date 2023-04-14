@@ -1,12 +1,12 @@
-"use strict";
+'use strict';
 
 /// Global variables
 /* global  */
 let searchEngines = {};
 let searchEnginesArray = [];
-let selection = "";
-let targetUrl = "";
-let lastAddressBarKeyword = "";
+let selection = '';
+let targetUrl = '';
+let lastAddressBarKeyword = '';
 let historyItems, bookmarkItems;
 let CORS_API_URL;
 let CORS_API_KEY;
@@ -18,13 +18,13 @@ const logToConsole = false;
 //const FIREFOX_VERSION = /rv:([0-9.]+)/.exec(navigator.userAgent)[1];
 //const contextsearch_userAgent = `Mozilla/5.0 (Android 4.4; Mobile; rv:${FIREFOX_VERSION}) Gecko/${FIREFOX_VERSION} Firefox/${FIREFOX_VERSION}`;
 const contextsearch_userAgent =
-    "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/12.0 Mobile/15A372 Safari/604.1";
-const DEFAULT_SEARCH_ENGINES = "defaultSearchEngines.json";
-const googleLensUrl = "https://lens.google.com/uploadbyurl?url=";
+    'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/12.0 Mobile/15A372 Safari/604.1';
+const DEFAULT_SEARCH_ENGINES = 'defaultSearchEngines.json';
+const googleLensUrl = 'https://lens.google.com/uploadbyurl?url=';
 const googleReverseImageSearchUrl =
-    "https://www.google.com/searchbyimage?sbisrc=1&safe=off&image_url=";
+    'https://www.google.com/searchbyimage?sbisrc=1&safe=off&image_url=';
 const base64ContextSearchIcon =
-    "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";
+    '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';
 // Advanced feature
 const defaultRegex = /[\s\S]*/i;
 
@@ -33,38 +33,38 @@ const defaultRegex = /[\s\S]*/i;
 // It only matches embedded iframes
 const requestFilter = {
     tabId: -1,
-    types: ["main_frame"],
-    urls: ["http://*/*", "https://*/*"],
+    types: ['main_frame'],
+    urls: ['http://*/*', 'https://*/*'],
 };
 
 // Constants for translations
 const titleMultipleSearchEngines = browser.i18n.getMessage(
-    "titleMultipleSearchEngines"
+    'titleMultipleSearchEngines'
 );
-const titleSiteSearch = browser.i18n.getMessage("titleSiteSearch");
-const titleExactMatch = browser.i18n.getMessage("exactMatch");
-const titleOptions = browser.i18n.getMessage("titleOptions");
-const windowTitle = browser.i18n.getMessage("windowTitle");
-const omniboxDescription = browser.i18n.getMessage("omniboxDescription");
+const titleSiteSearch = browser.i18n.getMessage('titleSiteSearch');
+const titleExactMatch = browser.i18n.getMessage('exactMatch');
+const titleOptions = browser.i18n.getMessage('titleOptions');
+const windowTitle = browser.i18n.getMessage('windowTitle');
+const omniboxDescription = browser.i18n.getMessage('omniboxDescription');
 const notifySearchEnginesLoaded = browser.i18n.getMessage(
-    "notifySearchEnginesLoaded"
+    'notifySearchEnginesLoaded'
 );
 const notifySearchEngineAdded = browser.i18n.getMessage(
-    "notifySearchEngineAdded"
+    'notifySearchEngineAdded'
 );
-const notifyUsage = browser.i18n.getMessage("notifyUsage");
+const notifyUsage = browser.i18n.getMessage('notifyUsage');
 const notifySearchEngineWithKeyword = browser.i18n.getMessage(
-    "notifySearchEngineWithKeyword"
+    'notifySearchEngineWithKeyword'
 );
-const notifyUnknown = browser.i18n.getMessage("notifyUnknown");
+const notifyUnknown = browser.i18n.getMessage('notifyUnknown');
 const notifySearchEngineUrlRequired = browser.i18n.getMessage(
-    "notifySearchEngineUrlRequired"
+    'notifySearchEngineUrlRequired'
 );
 
 /// Preferences - Default settings
 let contextsearch_exactMatch = false;
-let contextsearch_tabMode = "openNewTab";
-let contextsearch_optionsMenuLocation = "bottom";
+let contextsearch_tabMode = 'openNewTab';
+let contextsearch_optionsMenuLocation = 'bottom';
 let contextsearch_openSearchResultsInNewTab = true;
 let contextsearch_openSearchResultsInLastTab = false;
 let contextsearch_makeNewTabOrWindowActive = false;
@@ -76,10 +76,10 @@ let contextsearch_disableAltClick = false;
 let contextsearch_forceFaviconsReload = false;
 let contextsearch_resetPreferences = false;
 let contextsearch_forceSearchEnginesReload = false;
-let contextsearch_siteSearch = "Google";
-let contextsearch_siteSearchUrl = "https://www.google.com/search?q=";
+let contextsearch_siteSearch = 'Google';
+let contextsearch_siteSearchUrl = 'https://www.google.com/search?q=';
 let contextsearch_useRegex = false;
-let contextsearch_multiMode = "multiNewWindow";
+let contextsearch_multiMode = 'multiNewWindow';
 let contextsearch_privateMode = false;
 let notificationsEnabled = false;
 
@@ -109,7 +109,7 @@ browser.pageAction.onClicked.addListener(handlePageAction);
 browser.webRequest.onBeforeSendHeaders.addListener(
     rewriteUserAgentHeader,
     requestFilter,
-    ["blocking", "requestHeaders"]
+    ['blocking', 'requestHeaders']
 );
 
 /*
@@ -121,7 +121,7 @@ function rewriteUserAgentHeader(e) {
     }
     console.log(`Intercepted header: ${e.requestHeaders}`);
     for (const header of e.requestHeaders) {
-        if (header.name.toLowerCase() === "user-agent") {
+        if (header.name.toLowerCase() === 'user-agent') {
             header.value = contextsearch_userAgent;
         }
     }
@@ -132,29 +132,29 @@ function rewriteUserAgentHeader(e) {
 /// Handle Incoming Messages
 // Listen for messages from the content or options script
 browser.runtime.onMessage.addListener(async (message, sender) => {
-    let id = "";
-    let domain = "";
+    let id = '';
+    let domain = '';
     let activeTab, lastTab, activeTabIndex, tabPosition, tabs, options;
     switch (message.action) {
-        case "doSearch":
+        case 'doSearch':
             id = message.data.id;
-            if (logToConsole) console.log("Search engine id: " + id);
+            if (logToConsole) console.log('Search engine id: ' + id);
             if (logToConsole) console.log(contextsearch_openSearchResultsInSidebar);
             activeTab = (
                 await browser.tabs.query({ active: true, currentWindow: true })
             )[0];
-            if (logToConsole) console.log("Active tab url: " + activeTab.url);
+            if (logToConsole) console.log('Active tab url: ' + activeTab.url);
             tabs = await browser.tabs.query({ currentWindow: true });
             if (logToConsole) console.log(tabs);
             lastTab = tabs[tabs.length - 1];
             activeTabIndex = activeTab.index;
-            if (logToConsole) console.log("Active tab index: " + activeTabIndex);
-            if (contextsearch_multiMode === "multiAfterLastTab") {
+            if (logToConsole) console.log('Active tab index: ' + activeTabIndex);
+            if (contextsearch_multiMode === 'multiAfterLastTab') {
                 tabPosition = lastTab.index + 1;
             } else {
                 tabPosition = activeTabIndex + 1;
             }
-            if (id === "multisearch") {
+            if (id === 'multisearch') {
                 processMultiTabSearch(tabPosition);
                 return;
             }
@@ -166,37 +166,37 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
                 activeTabIndex = lastTab.index;
             searchUsing(id, activeTabIndex + 1);
             break;
-        case "notify":
+        case 'notify':
             if (notificationsEnabled) notify(message.data);
             break;
-        case "setSelection":
+        case 'setSelection':
             if (logToConsole) console.log(`Selected text: ${message.data}`);
             selection = message.data;
             break;
-        case "reset":
+        case 'reset':
             reset();
             break;
-        case "setTargetUrl":
+        case 'setTargetUrl':
             if (message.data) {
                 targetUrl = message.data;
             }
             break;
-        case "testSearchEngine":
+        case 'testSearchEngine':
             testSearchEngine(message.data);
             break;
-        case "saveSearchEngines":
+        case 'saveSearchEngines':
             searchEngines = sortByIndex(message.data);
             if (logToConsole) console.log(searchEngines);
             await browser.storage.local.clear().catch((err) => {
                 if (logToConsole) {
                     console.error(err);
-                    console.log("Failed to clear local storage.");
+                    console.log('Failed to clear local storage.');
                 }
             });
             await saveSearchEnginesToLocalStorage(false);
             rebuildContextMenu();
             break;
-        case "addNewSearchEngine":
+        case 'addNewSearchEngine':
             id = message.data.id;
             domain = getDomain(message.data.searchEngine.url);
             if (logToConsole) console.log(id, domain);
@@ -204,7 +204,7 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
             searchEngines = sortByIndex(searchEngines);
             await addNewSearchEngine(id, domain);
             break;
-        case "updateSearchOptions":
+        case 'updateSearchOptions':
             options = await getOptions();
             if (logToConsole) {
                 console.log(
@@ -215,7 +215,7 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
             setExactMatch(options);
             await saveOptions(options, true);
             break;
-        case "updateDisplayFavicons":
+        case 'updateDisplayFavicons':
             options = await getOptions();
             if (logToConsole) {
                 console.log(
@@ -226,7 +226,7 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
             setDisplayFavicons(options);
             await saveOptions(options, true);
             break;
-        case "updateDisableAltClick":
+        case 'updateDisableAltClick':
             options = await getOptions();
             if (logToConsole) {
                 console.log(
@@ -237,7 +237,7 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
             setDisableAltClick(options);
             await saveOptions(options, false);
             break;
-        case "updateTabMode":
+        case 'updateTabMode':
             options = await getOptions();
             if (logToConsole) {
                 console.log(
@@ -251,7 +251,7 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
             setTabMode(options);
             await saveOptions(options, false);
             break;
-        case "updateMultiMode":
+        case 'updateMultiMode':
             options = await getOptions();
             if (logToConsole) {
                 console.log(
@@ -262,7 +262,7 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
             setMultiMode(options);
             await saveOptions(options, false);
             break;
-        case "updateOptionsMenuLocation":
+        case 'updateOptionsMenuLocation':
             options = await getOptions();
             if (logToConsole) {
                 console.log(
@@ -273,7 +273,7 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
             setOptionsMenuLocation(options);
             await saveOptions(options, true);
             break;
-        case "updateSiteSearchSetting":
+        case 'updateSiteSearchSetting':
             options = await getOptions();
             if (logToConsole) {
                 console.log(
@@ -285,10 +285,10 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
             setSiteSearchSetting(options);
             await saveOptions(options, true);
             break;
-        case "updateResetOptions":
+        case 'updateResetOptions':
             options = await getOptions();
             if (logToConsole) {
-                console.log("Preferences retrieved from sync storage:");
+                console.log('Preferences retrieved from sync storage:');
                 console.log(options);
             }
             options.forceSearchEnginesReload =
@@ -299,7 +299,7 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
             setResetOptions(options);
             await saveOptions(options, false);
             break;
-        case "updateUseRegex":
+        case 'updateUseRegex':
             options = await getOptions();
             if (logToConsole) {
                 console.log(
@@ -310,17 +310,17 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
             setUseRegex(options);
             await saveOptions(options, true);
             break;
-        case "saveSearchEnginesToDisk":
+        case 'saveSearchEnginesToDisk':
             browser.downloads.download({
                 url: message.data,
                 saveAs: true,
-                filename: "searchEngines.json",
+                filename: 'searchEngines.json',
             });
             break;
-        case "hidePageAction":
+        case 'hidePageAction':
             browser.pageAction.hide(sender.tab.id);
             break;
-        case "showPageAction":
+        case 'showPageAction':
             browser.pageAction.show(sender.tab.id);
             break;
         default:
@@ -339,7 +339,7 @@ async function init() {
             .getBytesInUse(null)
             .catch((err) => {
                 console.error(err);
-                console.log("Failed to retrieve storage space used by storage sync.");
+                console.log('Failed to retrieve storage space used by storage sync.');
             });
         console.log(`Bytes used by storage sync: ${bytesUsed} bytes.`);
 
@@ -351,8 +351,8 @@ async function init() {
     }
 
     notificationsEnabled =
-        (await navigator.permissions.query({ name: "notifications" })).state ===
-        "granted";
+        (await navigator.permissions.query({ name: 'notifications' })).state ===
+        'granted';
 
     // Fetch CORS API URL and key from config file
     const config = await fetchConfig();
@@ -371,13 +371,13 @@ async function init() {
 async function reset() {
     if (logToConsole) {
         console.log(
-            "Resetting extension's preferences and search engines as per user reset preferences."
+            'Resetting extension's preferences and search engines as per user reset preferences.'
         );
     }
     const data = await browser.storage.sync.get(null).catch((err) => {
         if (logToConsole) {
             console.error(err);
-            console.log("Failed to retrieve options from storage sync.");
+            console.log('Failed to retrieve options from storage sync.');
         }
         return;
     });
@@ -393,19 +393,19 @@ async function addNewSearchEngine(id, domain) {
     await browser.storage.local.clear().catch((err) => {
         if (logToConsole) {
             console.error(err);
-            console.log("Failed to clear local storage.");
+            console.log('Failed to clear local storage.');
         }
         return;
     });
     const value = await getNewFavicon(id, domain);
-    searchEngines[id]["base64"] = value.base64;
+    searchEngines[id]['base64'] = value.base64;
     await saveSearchEnginesToLocalStorage(false);
     rebuildContextMenu();
     if (notificationsEnabled) notify(notifySearchEngineAdded);
 }
 
 function handlePageAction(tab) {
-    let message = { action: "getSearchEngine", data: "" };
+    let message = { action: 'getSearchEngine', data: '' };
     sendMessageToTab(tab, message);
 }
 
@@ -415,14 +415,14 @@ async function initialiseOptionsAndSearchEngines(forceReload) {
     let data = await browser.storage.sync.get(null).catch((err) => {
         if (logToConsole) {
             console.error(err);
-            console.log("Failed to retrieve data from storage sync.");
+            console.log('Failed to retrieve data from storage sync.');
         }
     });
 
     if (data.options) {
         options = data.options;
         if (logToConsole) console.log(options);
-        delete data["options"];
+        delete data['options'];
     }
 
     // If there are no options stored in storage sync or reset preferences is set, then use default options
@@ -442,7 +442,7 @@ async function initialiseOptionsAndSearchEngines(forceReload) {
         setRegex();
         setKeyboardShortcuts();
         if (logToConsole) {
-            console.log("Search engines: \n");
+            console.log('Search engines: \n');
             console.log(searchEngines);
         }
         await browser.storage.local.clear();
@@ -456,14 +456,14 @@ async function initialiseOptionsAndSearchEngines(forceReload) {
             await browser.storage.local.clear();
             await loadDefaultSearchEngines(DEFAULT_SEARCH_ENGINES).catch((err) => {
                 console.error(err);
-                console.log("Failed to retrieve search enginees from local storage.");
+                console.log('Failed to retrieve search enginees from local storage.');
             });
         } else {
             searchEngines = sortByIndex(se);
             setRegex();
             setKeyboardShortcuts();
             if (logToConsole) {
-                console.log("Search engines: \n");
+                console.log('Search engines: \n');
                 console.log(searchEngines);
             }
         }
@@ -474,9 +474,9 @@ function setRegex() {
     for (let id in searchEngines) {
         if (searchEngines[id].regex !== undefined) continue;
         if (logToConsole) console.log(`id: ${id}`);
-        searchEngines[id]["regex"] = {};
-        searchEngines[id]["regex"]["body"] = defaultRegex.source;
-        searchEngines[id]["regex"]["flags"] = defaultRegex.flags;
+        searchEngines[id]['regex'] = {};
+        searchEngines[id]['regex']['body'] = defaultRegex.source;
+        searchEngines[id]['regex']['flags'] = defaultRegex.flags;
         if (logToConsole) console.log(searchEngines[id].regex);
     }
 }
@@ -485,7 +485,7 @@ function setKeyboardShortcuts() {
     for (let id in searchEngines) {
         if (searchEngines[id].keyboardShortcut !== undefined) continue;
         if (logToConsole) console.log(`id: ${id}`);
-        searchEngines[id]["keyboardShortcut"] = "";
+        searchEngines[id]['keyboardShortcut'] = '';
         if (logToConsole)
             console.log(`keyboard shortcut: ${searchEngines[id].keyboardShortcut}`);
     }
@@ -495,7 +495,7 @@ async function getOptions() {
     const data = await browser.storage.sync.get(null).catch((err) => {
         if (logToConsole) {
             console.error(err);
-            console.log("Failed to retrieve options from sync storage.");
+            console.log('Failed to retrieve options from sync storage.');
         }
         return err;
     });
@@ -531,12 +531,12 @@ async function saveOptions(options, blnRebuildContextMenu) {
     await browser.storage.sync.set({ options: options }).catch((err) => {
         if (logToConsole) {
             console.error(err);
-            console.log("Failed to save options to storage sync.");
+            console.log('Failed to save options to storage sync.');
         }
     });
     if (blnRebuildContextMenu) rebuildContextMenu();
     if (logToConsole) {
-        console.log("Successfully saved the options to storage sync.");
+        console.log('Successfully saved the options to storage sync.');
     }
 }
 
@@ -547,27 +547,27 @@ function setExactMatch(options) {
 
 // Store the default values for tab mode in storage local
 function setTabMode(options) {
-    if (logToConsole) console.log("Setting tab mode..");
+    if (logToConsole) console.log('Setting tab mode..');
     contextsearch_makeNewTabOrWindowActive = options.tabActive;
     contextsearch_openSearchResultsInLastTab = options.lastTab;
     contextsearch_privateMode = options.privateMode;
     switch (options.tabMode) {
-        case "openNewTab":
+        case 'openNewTab':
             contextsearch_openSearchResultsInNewTab = true;
             contextsearch_openSearchResultsInNewWindow = false;
             contextsearch_openSearchResultsInSidebar = false;
             break;
-        case "sameTab":
+        case 'sameTab':
             contextsearch_openSearchResultsInNewTab = false;
             contextsearch_openSearchResultsInNewWindow = false;
             contextsearch_openSearchResultsInSidebar = false;
             break;
-        case "openNewWindow":
+        case 'openNewWindow':
             contextsearch_openSearchResultsInNewWindow = true;
             contextsearch_openSearchResultsInNewTab = false;
             contextsearch_openSearchResultsInSidebar = false;
             break;
-        case "openSidebar":
+        case 'openSidebar':
             contextsearch_openSearchResultsInSidebar = true;
             contextsearch_openSearchResultsInNewTab = false;
             contextsearch_openSearchResultsInNewWindow = false;
@@ -591,22 +591,22 @@ function setOptionsMenuLocation(options) {
 }
 
 function setDisplayFavicons(options) {
-    if (logToConsole) console.log("Setting favicons preference..");
+    if (logToConsole) console.log('Setting favicons preference..');
     contextsearch_displayFavicons = options.displayFavicons;
 }
 
 function setDisplayExifSummary(options) {
-    if (logToConsole) console.log("Setting display EXIF summary preference..");
+    if (logToConsole) console.log('Setting display EXIF summary preference..');
     contextsearch_displayExifSummary = options.displayExifSummary;
 }
 
 function setDisableAltClick(options) {
-    if (logToConsole) console.log("Setting option to disable Alt-Click..");
+    if (logToConsole) console.log('Setting option to disable Alt-Click..');
     contextsearch_disableAltClick = options.disableAltClick;
 }
 
 function setSiteSearchSetting(options) {
-    if (logToConsole) console.log("Setting site search option..");
+    if (logToConsole) console.log('Setting site search option..');
     contextsearch_siteSearch = options.siteSearch;
     contextsearch_siteSearchUrl = options.siteSearchUrl;
 }
@@ -627,9 +627,9 @@ function setUseRegex(options) {
 /// Load default list of search engines
 async function loadDefaultSearchEngines(jsonFile) {
     let reqHeader = new Headers();
-    reqHeader.append("Content-Type", "application/json");
+    reqHeader.append('Content-Type', 'application/json');
     const initObject = {
-        method: "GET",
+        method: 'GET',
         headers: reqHeader,
     };
     let userRequest = new Request(jsonFile, initObject);
@@ -644,7 +644,7 @@ async function loadDefaultSearchEngines(jsonFile) {
         setRegex();
         setKeyboardShortcuts();
         if (logToConsole) {
-            console.log("Search engines:\n");
+            console.log('Search engines:\n');
             console.log(searchEngines);
         }
         await browser.storage.local.clear();
@@ -659,7 +659,7 @@ async function loadDefaultSearchEngines(jsonFile) {
 async function saveSearchEnginesToLocalStorage(blnNotify) {
     searchEngines = sortByIndex(searchEngines);
     if (logToConsole) {
-        console.log("Search engines:\n");
+        console.log('Search engines:\n');
         console.log(searchEngines);
     }
 
@@ -669,20 +669,20 @@ async function saveSearchEnginesToLocalStorage(blnNotify) {
         if (notificationsEnabled && blnNotify) notify(notifySearchEnginesLoaded);
         if (logToConsole) {
             console.log(
-                "Search engines have been successfully saved to local storage."
+                'Search engines have been successfully saved to local storage.'
             );
         }
     } catch (error) {
         if (logToConsole) {
             console.error(error.message);
-            console.log("Failed to save the search engines to local storage.");
+            console.log('Failed to save the search engines to local storage.');
         }
     }
 }
 
 /// Get and store favicon urls and base64 images
 async function getFaviconsAsBase64Strings() {
-    if (logToConsole) console.log("Fetching favicons..");
+    if (logToConsole) console.log('Fetching favicons..');
     let arrayOfPromises = [];
 
     for (let id in searchEngines) {
@@ -693,10 +693,10 @@ async function getFaviconsAsBase64Strings() {
             contextsearch_forceFaviconsReload
         ) {
             let seUrl = searchEngines[id].url;
-            if (logToConsole) console.log("id: " + id);
-            if (logToConsole) console.log("url: " + seUrl);
+            if (logToConsole) console.log('id: ' + id);
+            if (logToConsole) console.log('url: ' + seUrl);
             let domain = getDomain(seUrl);
-            if (logToConsole) console.log("Getting favicon for " + domain);
+            if (logToConsole) console.log('Getting favicon for ' + domain);
             arrayOfPromises.push(await getNewFavicon(id, domain));
         }
     }
@@ -706,37 +706,37 @@ async function getFaviconsAsBase64Strings() {
         const values = await Promise.all(arrayOfPromises).catch((err) => {
             if (logToConsole) {
                 console.error(err);
-                console.log("Not ALL the favcions could be fetched.");
+                console.log('Not ALL the favcions could be fetched.');
             }
             return;
         });
-        if (logToConsole) console.log("ALL promises have completed.");
+        if (logToConsole) console.log('ALL promises have completed.');
         if (values === undefined) return;
         for (let value of values) {
             if (logToConsole) {
-                console.log("================================================");
-                console.log("id is " + value.id);
-                console.log("------------------------------------------------");
-                console.log("base64 string is " + value.base64);
-                console.log("================================================");
+                console.log('================================================');
+                console.log('id is ' + value.id);
+                console.log('------------------------------------------------');
+                console.log('base64 string is ' + value.base64);
+                console.log('================================================');
             }
-            searchEngines[value.id]["base64"] = value.base64;
+            searchEngines[value.id]['base64'] = value.base64;
         }
-        if (logToConsole) console.log("The favicons have ALL been fetched.");
+        if (logToConsole) console.log('The favicons have ALL been fetched.');
     }
 }
 
 async function getNewFavicon(id, domain) {
-    const optimalSize = "32x32";
-    const tests = [optimalSize, "[.]png", "[.]ico"];
+    const optimalSize = '32x32';
+    const tests = [optimalSize, '[.]png', '[.]ico'];
     let linksWithIcons = [];
     let parser = new DOMParser();
     let bestIconUrl = null;
     let reqHeader = new Headers();
-    reqHeader.append("Content-Type", "text/html; charset=UTF-8");
-    reqHeader.append("x-api-key", CORS_API_KEY);
+    reqHeader.append('Content-Type', 'text/html; charset=UTF-8');
+    reqHeader.append('x-api-key', CORS_API_KEY);
     const initObject = {
-        method: "GET",
+        method: 'GET',
         headers: reqHeader,
     };
     const userRequest = new Request(CORS_API_URL + domain, initObject);
@@ -748,12 +748,12 @@ async function getNewFavicon(id, domain) {
         }
         if (logToConsole) console.log(response);
         const webPage = await response.text();
-        const doc = parser.parseFromString(webPage, "text/html");
-        const links = doc.getElementsByTagName("link");
+        const doc = parser.parseFromString(webPage, 'text/html');
+        const links = doc.getElementsByTagName('link');
 
         // Store all links with a possible favicon in an array
         for (let link of links) {
-            const rel = link.getAttribute("rel");
+            const rel = link.getAttribute('rel');
             if (/icon/i.test(rel)) {
                 const absUrl = convertUrl2AbsUrl(link.href, domain);
                 linksWithIcons.push(absUrl);
@@ -780,7 +780,7 @@ async function getNewFavicon(id, domain) {
         return { id: id, base64: base64ContextSearchIcon };
     } catch (error) {
         if (logToConsole) console.error(error.message);
-        if (logToConsole) console.log("Failed to retrieve new favicon.");
+        if (logToConsole) console.log('Failed to retrieve new favicon.');
         return { id: id, base64: base64ContextSearchIcon };
     }
 }
@@ -793,20 +793,20 @@ function convertUrl2AbsUrl(href, domain) {
     // If the url is absolute, i.e. begins withh either'http' or 'https', there's nothing to do!
     if (/^(https?:\/\/)/.test(url)) return url;
 
-    if (url.includes("moz-extension://")) {
-        let i = url.lastIndexOf("moz-extension://") + 16;
+    if (url.includes('moz-extension://')) {
+        let i = url.lastIndexOf('moz-extension://') + 16;
         url = url.substr(i);
         urlParts = url.split(/\//);
         urlParts.shift();
         for (let urlPart of urlParts) {
-            absUrl += "/" + urlPart;
+            absUrl += '/' + urlPart;
         }
         return absUrl;
     }
 
     // If url begins with '//'
     if (/^(\/\/)/.test(url)) {
-        return "https:" + url;
+        return 'https:' + url;
     }
 
     // If url is relative...
@@ -819,13 +819,13 @@ function convertUrl2AbsUrl(href, domain) {
         urlParts = url.split(/\//);
     }
     for (let urlPart of urlParts) {
-        absUrl += "/" + urlPart;
+        absUrl += '/' + urlPart;
     }
     return absUrl;
 }
 
 function getBestIconUrl(urls, regex) {
-    let regexp = new RegExp(regex, "i");
+    let regexp = new RegExp(regex, 'i');
     for (let url of urls) {
         if (regexp.test(url)) {
             return url;
@@ -837,9 +837,9 @@ function getBestIconUrl(urls, regex) {
 /// Generate base64 image string for the favicon with the given url
 async function getBase64Image(url) {
     let reqHeader = new Headers();
-    reqHeader.append("x-api-key", CORS_API_KEY);
+    reqHeader.append('x-api-key', CORS_API_KEY);
     const initObject = {
-        method: "GET",
+        method: 'GET',
         headers: reqHeader
     };
     const userRequest = new Request(CORS_API_URL + url, initObject);
@@ -870,15 +870,15 @@ function convertArrayBuffer2Base64(ab, faviconUrl) {
 
 /// Rebuild the context menu using the search engines from local storage
 function rebuildContextMenu() {
-    if (logToConsole) console.log("Rebuilding context menu..");
+    if (logToConsole) console.log('Rebuilding context menu..');
     browser.runtime.getBrowserInfo().then((info) => {
         let v = info.version;
-        let browserVersion = parseInt(v.slice(0, v.search(".") - 1));
+        let browserVersion = parseInt(v.slice(0, v.search('.') - 1));
 
         browser.contextMenus.removeAll();
         browser.contextMenus.onClicked.removeListener(processSearch);
 
-        if (contextsearch_optionsMenuLocation === "top") {
+        if (contextsearch_optionsMenuLocation === 'top') {
             rebuildContextOptionsMenu();
         }
 
@@ -890,7 +890,7 @@ function rebuildContextMenu() {
             for (let id in searchEngines) {
                 if (searchEngines[id].index === i) {
                     let base64String = searchEngines[id].base64;
-                    let strIndex = "cs-" + i.toString();
+                    let strIndex = 'cs-' + i.toString();
                     let strTitle = searchEngines[id].name;
 
                     searchEnginesArray.push(id);
@@ -905,7 +905,7 @@ function rebuildContextMenu() {
             }
         }
 
-        if (contextsearch_optionsMenuLocation === "bottom") {
+        if (contextsearch_optionsMenuLocation === 'bottom') {
             rebuildContextOptionsMenu();
         }
 
@@ -914,40 +914,40 @@ function rebuildContextMenu() {
 }
 
 function rebuildContextOptionsMenu() {
-    if (contextsearch_optionsMenuLocation === "bottom") {
+    if (contextsearch_optionsMenuLocation === 'bottom') {
         browser.contextMenus.create({
-            id: "cs-separator",
-            type: "separator",
-            contexts: ["selection"],
+            id: 'cs-separator',
+            type: 'separator',
+            contexts: ['selection'],
         });
     }
     browser.contextMenus.create({
-        id: "cs-match",
-        type: "checkbox",
+        id: 'cs-match',
+        type: 'checkbox',
         title: titleExactMatch,
-        contexts: ["selection"],
+        contexts: ['selection'],
         checked: contextsearch_exactMatch,
     });
     browser.contextMenus.create({
-        id: "cs-multitab",
+        id: 'cs-multitab',
         title: titleMultipleSearchEngines,
-        contexts: ["selection"],
+        contexts: ['selection'],
     });
     browser.contextMenus.create({
-        id: "cs-site-search",
+        id: 'cs-site-search',
         title: `${titleSiteSearch} ${contextsearch_siteSearch}`,
-        contexts: ["selection"],
+        contexts: ['selection'],
     });
     browser.contextMenus.create({
-        id: "cs-options",
-        title: titleOptions + "...",
-        contexts: ["selection"],
+        id: 'cs-options',
+        title: titleOptions + '...',
+        contexts: ['selection'],
     });
-    if (contextsearch_optionsMenuLocation === "top") {
+    if (contextsearch_optionsMenuLocation === 'top') {
         browser.contextMenus.create({
-            id: "cs-separator",
-            type: "separator",
-            contexts: ["selection"],
+            id: 'cs-separator',
+            type: 'separator',
+            contexts: ['selection'],
         });
     }
 }
@@ -955,14 +955,14 @@ function rebuildContextOptionsMenu() {
 /// Build the context menu for image searches
 function buildContextMenuForImages() {
     browser.contextMenus.create({
-        id: "cs-reverse-image-search",
-        title: "Google Reverse Image Search",
-        contexts: ["image"],
+        id: 'cs-reverse-image-search',
+        title: 'Google Reverse Image Search',
+        contexts: ['image'],
     });
     browser.contextMenus.create({
-        id: "cs-google-lens",
-        title: "Google Lens",
-        contexts: ["image"],
+        id: 'cs-google-lens',
+        title: 'Google Lens',
+        contexts: ['image'],
     });
 }
 
@@ -974,8 +974,8 @@ function buildContextMenuItem(
     base64String,
     browserVersion
 ) {
-    const contexts = ["selection"];
-    const faviconUrl = "data:image/png;base64," + base64String;
+    const contexts = ['selection'];
+    const faviconUrl = 'data:image/png;base64,' + base64String;
     const regexString = searchEngine.regex.body;
     const regexModifier = searchEngine.regex.flags;
     const regex = new RegExp(regexString, regexModifier);
@@ -1004,7 +1004,7 @@ function buildContextMenuItem(
 
 // Perform search based on selected search engine, i.e. selected context menu item
 async function processSearch(info, tab) {
-    let id = info.menuItemId.replace("cs-", "");
+    let id = info.menuItemId.replace('cs-', '');
     let tabIndex, tabPosition;
 
     if (info.selectionText !== undefined) {
@@ -1016,11 +1016,11 @@ async function processSearch(info, tab) {
 
     if (
         contextsearch_openSearchResultsInSidebar &&
-        id !== "reverse-image-search" &&
-        id !== "google-lens"
+        id !== 'reverse-image-search' &&
+        id !== 'google-lens'
     ) {
         await browser.sidebarAction.open();
-        await browser.sidebarAction.setPanel({ panel: "" });
+        await browser.sidebarAction.setPanel({ panel: '' });
     } else {
         await browser.sidebarAction.close();
         tabIndex = tab.index + 1;
@@ -1028,41 +1028,41 @@ async function processSearch(info, tab) {
     const tabs = await browser.tabs.query({ currentWindow: true });
     tabPosition = tabs[tabs.length - 1].index + 1;
     if (contextsearch_openSearchResultsInLastTab) tabIndex = tabPosition;
-    if (contextsearch_multiMode !== "multiAfterLastTab") {
+    if (contextsearch_multiMode !== 'multiAfterLastTab') {
         tabPosition = tabIndex + 1;
     }
-    if (id === "reverse-image-search") {
+    if (id === 'reverse-image-search') {
         if (logToConsole) console.log(targetUrl);
         displaySearchResults(googleReverseImageSearchUrl + targetUrl, tabIndex);
         return;
     }
-    if (id === "google-lens") {
+    if (id === 'google-lens') {
         if (logToConsole) console.log(targetUrl);
         displaySearchResults(googleLensUrl + targetUrl, tabIndex);
         return;
     }
-    if (id === "site-search" && !isEmpty(targetUrl)) {
+    if (id === 'site-search' && !isEmpty(targetUrl)) {
         if (logToConsole) console.log(targetUrl);
         if (contextsearch_openSearchResultsInSidebar) {
-            const domain = getDomain(tab.url).replace(/https?:\/\//, "");
+            const domain = getDomain(tab.url).replace(/https?:\/\//, '');
             const options = await getOptions();
             targetUrl =
                 options.siteSearchUrl +
                 encodeUrl(`site:https://${domain} ${selection}`);
             openUrl(targetUrl);
-            browser.sidebarAction.setTitle({ title: "Search results" });
+            browser.sidebarAction.setTitle({ title: 'Search results' });
             return;
         } else {
             displaySearchResults(targetUrl, tabIndex);
             return;
         }
-    } else if (id === "options") {
+    } else if (id === 'options') {
         browser.runtime.openOptionsPage().then(null, onError);
         return;
-    } else if (id === "multitab") {
+    } else if (id === 'multitab') {
         processMultiTabSearch(tabPosition);
         return;
-    } else if (id === "match") {
+    } else if (id === 'match') {
         getOptions().then((settings) => {
             let options = settings.options;
             if (logToConsole) {
@@ -1097,14 +1097,14 @@ async function processMultiTabSearch(tabPosition) {
         }
     }
     if (notificationsEnabled && isEmpty(multiTabSearchEngineUrls)) {
-        notify("Search engines have not been selected for a multi-search.");
+        notify('Search engines have not been selected for a multi-search.');
         return;
     }
     const n = multiTabSearchEngineUrls.length;
     if (logToConsole) console.log(multiTabSearchEngineUrls);
-    if (contextsearch_multiMode === "multiNewWindow") {
+    if (contextsearch_multiMode === 'multiNewWindow') {
         await browser.windows.create({
-            titlePreface: windowTitle + '"' + selection + '"',
+            titlePreface: windowTitle + ''' + selection + ''',
             url: multiTabSearchEngineUrls,
             incognito: contextsearch_privateMode,
         });
@@ -1120,11 +1120,11 @@ async function processMultiTabSearch(tabPosition) {
 
 // Handle search terms if there are any
 function getSearchEngineUrl(searchEngineUrl, sel) {
-    let quote = "";
-    if (contextsearch_exactMatch) quote = "%22";
-    if (searchEngineUrl.includes("{searchTerms}")) {
+    let quote = '';
+    if (contextsearch_exactMatch) quote = '%22';
+    if (searchEngineUrl.includes('{searchTerms}')) {
         return searchEngineUrl.replace(/{searchTerms}/g, encodeUrl(sel));
-    } else if (searchEngineUrl.includes("%s")) {
+    } else if (searchEngineUrl.includes('%s')) {
         return searchEngineUrl.replace(/%s/g, encodeUrl(sel));
     } else {
         return searchEngineUrl + quote + encodeUrl(sel) + quote;
@@ -1137,8 +1137,8 @@ function searchUsing(id, tabIndex) {
     if (logToConsole) console.log(`Target url: ${targetUrl}`);
     if (contextsearch_openSearchResultsInSidebar) {
         browser.sidebarAction.setPanel({ panel: targetUrl });
-        //openUrl(targetUrl);
-        //browser.sidebarAction.setTitle({ title: "Search results" });
+        openUrl(targetUrl);
+        browser.sidebarAction.setTitle({ title: 'Search results' });
         return;
     }
     displaySearchResults(targetUrl, tabIndex);
@@ -1146,7 +1146,7 @@ function searchUsing(id, tabIndex) {
 
 // Display the search results
 async function displaySearchResults(targetUrl, tabPosition) {
-    if (logToConsole) console.log("Tab position: " + tabPosition);
+    if (logToConsole) console.log('Tab position: ' + tabPosition);
     const windowInfo = await browser.windows.getCurrent({ populate: false });
     const currentWindowID = windowInfo.id;
     if (contextsearch_openSearchResultsInNewWindow) {
@@ -1166,7 +1166,7 @@ async function displaySearchResults(targetUrl, tabPosition) {
     } else {
         // Open search results in the same tab
         if (logToConsole) {
-            console.log("Opening search results in same tab, url is " + targetUrl);
+            console.log('Opening search results in same tab, url is ' + targetUrl);
         }
         browser.tabs.update({ url: targetUrl });
     }
@@ -1180,7 +1180,7 @@ browser.omnibox.setDefaultSuggestion({
 
 // Update the suggestions whenever the input is changed
 browser.omnibox.onInputChanged.addListener((input, suggest) => {
-    if (input.indexOf(" ") > 0) {
+    if (input.indexOf(' ') > 0) {
         let suggestion = buildSuggestion(input);
         if (logToConsole) console.log(JSON.stringify(suggestion));
         if (suggestion.length === 1) {
@@ -1207,34 +1207,34 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
     }
 
     if (logToConsole) console.log(contextsearch_multiMode);
-    if (contextsearch_multiMode === "multiAfterLastTab") {
+    if (contextsearch_multiMode === 'multiAfterLastTab') {
         tabPosition = tabs.length + 1;
     } else {
         tabPosition = tabIndex + 1;
     }
 
     if (logToConsole) console.log(tabPosition);
-    if (logToConsole) console.log(input.indexOf("://"));
+    if (logToConsole) console.log(input.indexOf('://'));
 
     // Only display search results when there is a valid link inside of the url variable
-    if (input.indexOf("://") > -1) {
-        if (logToConsole) console.log("Processing search...");
+    if (input.indexOf('://') > -1) {
+        if (logToConsole) console.log('Processing search...');
         displaySearchResults(input, tabIndex);
     } else {
         try {
-            const keyword = input.split(" ")[0];
-            const searchTerms = input.replace(keyword, "").trim();
+            const keyword = input.split(' ')[0];
+            const searchTerms = input.replace(keyword, '').trim();
             const suggestion = buildSuggestion(input);
             switch (keyword) {
-                case ".":
+                case '.':
                     browser.runtime.openOptionsPage();
                     break;
-                case "!":
+                case '!':
                     processMultiTabSearch(tabPosition);
                     break;
-                case "bookmarks":
-                case "!b":
-                    if (searchTerms === "recent") {
+                case 'bookmarks':
+                case '!b':
+                    if (searchTerms === 'recent') {
                         bookmarkItems = await browser.bookmarks.getRecent(10);
                     } else {
                         bookmarkItems = await browser.bookmarks.search({
@@ -1249,11 +1249,11 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                     await browser.tabs.create({
                         active: contextsearch_makeNewTabOrWindowActive,
                         index: tabPosition,
-                        url: "/bookmarks.html",
+                        url: '/bookmarks.html',
                     });
                     break;
-                case "history":
-                case "!h":
+                case 'history':
+                case '!h':
                     historyItems = await browser.history.search({ text: searchTerms });
                     await browser.storage.local.set({
                         historyItems: historyItems,
@@ -1262,7 +1262,7 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                     await browser.tabs.create({
                         active: contextsearch_makeNewTabOrWindowActive,
                         index: tabPosition,
-                        url: "/history.html",
+                        url: '/history.html',
                     });
                     break;
                 default:
@@ -1276,25 +1276,25 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
             }
         } catch (error) {
             if (logToConsole) console.error(error);
-            if (logToConsole) console.log("Failed to process " + input);
+            if (logToConsole) console.log('Failed to process ' + input);
         }
     }
 });
 
 function buildSuggestion(text) {
     let result = [];
-    let quote = "";
+    let quote = '';
 
-    if (contextsearch_exactMatch) quote = "%22";
+    if (contextsearch_exactMatch) quote = '%22';
 
     // Only make suggestions available and check for existence of a search engine when there is a space.
-    if (text.indexOf(" ") === -1) {
-        lastAddressBarKeyword = "";
+    if (text.indexOf(' ') === -1) {
+        lastAddressBarKeyword = '';
         return result;
     }
 
-    let keyword = text.split(" ")[0];
-    let searchTerms = text.replace(keyword, "").trim();
+    let keyword = text.split(' ')[0];
+    let searchTerms = text.replace(keyword, '').trim();
     if (logToConsole) console.log(searchTerms);
 
     // Don't notify for the same keyword
@@ -1302,36 +1302,36 @@ function buildSuggestion(text) {
     if (lastAddressBarKeyword == keyword) showNotification = false;
     lastAddressBarKeyword = keyword;
 
-    if (keyword === "!") {
+    if (keyword === '!') {
         selection = searchTerms;
         let suggestion = [
             {
-                content: "",
-                description: "Perform multisearch for " + searchTerms,
+                content: '',
+                description: 'Perform multisearch for ' + searchTerms,
             },
         ];
         return suggestion;
-    } else if (keyword === ".") {
+    } else if (keyword === '.') {
         let suggestion = [
             {
-                content: "",
-                description: "Open options page",
+                content: '',
+                description: 'Open options page',
             },
         ];
         return suggestion;
-    } else if (keyword === "!b" || keyword === "bookmarks") {
+    } else if (keyword === '!b' || keyword === 'bookmarks') {
         let suggestion = [
             {
-                content: "",
-                description: "Search bookmarks",
+                content: '',
+                description: 'Search bookmarks',
             },
         ];
         return suggestion;
-    } else if (keyword === "!h" || keyword === "history") {
+    } else if (keyword === '!h' || keyword === 'history') {
         let suggestion = [
             {
-                content: "",
-                description: "Search history",
+                content: '',
+                description: 'Search history',
             },
         ];
         return suggestion;
@@ -1341,19 +1341,19 @@ function buildSuggestion(text) {
         if (searchEngines[id].keyword === keyword) {
             let suggestion = {};
             let searchEngineUrl = searchEngines[id].url;
-            if (searchEngineUrl.includes("{searchTerms}")) {
+            if (searchEngineUrl.includes('{searchTerms}')) {
                 targetUrl = searchEngineUrl.replace(
                     /{searchTerms}/g,
                     encodeUrl(searchTerms)
                 );
-            } else if (searchEngineUrl.includes("%s")) {
+            } else if (searchEngineUrl.includes('%s')) {
                 targetUrl = searchEngineUrl.replace(/%s/g, encodeUrl(searchTerms));
             } else {
                 targetUrl = searchEngineUrl + quote + encodeUrl(searchTerms) + quote;
             }
-            suggestion["content"] = targetUrl;
-            suggestion["description"] =
-                "Search " + searchEngines[id].name + " for " + searchTerms;
+            suggestion['content'] = targetUrl;
+            suggestion['description'] =
+                'Search ' + searchEngines[id].name + ' for ' + searchTerms;
             if (logToConsole) console.log(JSON.stringify(suggestion));
             result.push(suggestion);
             return result;
@@ -1362,7 +1362,7 @@ function buildSuggestion(text) {
 
     // If no known keyword was found
     if (notificationsEnabled && showNotification) {
-        notify(notifySearchEngineWithKeyword + " " + keyword + " " + notifyUnknown);
+        notify(notifySearchEngineWithKeyword + ' ' + keyword + ' ' + notifyUnknown);
     }
 
     return result;
@@ -1372,8 +1372,8 @@ function buildSuggestion(text) {
 
 // Test if a search engine performing a search for the keyword 'test' returns valid results
 function testSearchEngine(engineData) {
-    if (engineData.url != "") {
-        let tempTargetUrl = getSearchEngineUrl(engineData.url, "test");
+    if (engineData.url != '') {
+        let tempTargetUrl = getSearchEngineUrl(engineData.url, 'test');
         browser.tabs.create({
             url: tempTargetUrl,
         });
@@ -1397,7 +1397,7 @@ function encodeUrl(url) {
 
 /// Verify if uri is encoded
 function isEncoded(uri) {
-    let test = "";
+    let test = '';
     try {
         test = uri !== decodeURIComponent(uri);
         return test;
@@ -1426,25 +1426,25 @@ async function sendMessageToTab(tab, message) {
 /// Notifications
 function notify(message) {
     browser.notifications.create(message.substring(0, 20), {
-        type: "basic",
-        iconUrl: "icons/icon_64.png",
-        title: browser.i18n.getMessage("extensionName"),
+        type: 'basic',
+        iconUrl: 'icons/icon_64.png',
+        title: browser.i18n.getMessage('extensionName'),
         message: message,
     });
 }
 
 function getDomain(url) {
-    let protocol = "";
-    if (url.indexOf("://") !== -1) {
-        protocol = url.split("://")[0] + "://";
+    let protocol = '';
+    if (url.indexOf('://') !== -1) {
+        protocol = url.split('://')[0] + '://';
     } else {
         // By default, set the protocol to 'https://' if it hasn't been set
-        protocol = "https://";
+        protocol = 'https://';
     }
 
     let urlParts = url
-        .replace("http://", "")
-        .replace("https://", "")
+        .replace('http://', '')
+        .replace('https://', '')
         .split(/[/?#]/);
     let domain = protocol + urlParts[0];
     return domain;
@@ -1483,12 +1483,12 @@ function sortByIndex(list) {
 
 // Test if an object is empty
 function isEmpty(value) {
-    if (typeof value === "number") return false;
-    else if (typeof value === "string") return value.trim().length === 0;
+    if (typeof value === 'number') return false;
+    else if (typeof value === 'string') return value.trim().length === 0;
     else if (Array.isArray(value)) return value.length === 0;
-    else if (typeof value === "object") {
+    else if (typeof value === 'object') {
         return value === null || Object.keys(value).length === 0;
-    } else if (typeof value === "boolean") return false;
+    } else if (typeof value === 'boolean') return false;
     else return !value;
 }
 
