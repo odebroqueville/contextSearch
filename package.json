@@ -8,7 +8,9 @@
     ],
     "scripts": {
         "test": "eslint .",
-        "lint": "eslint ."
+        "lint": "eslint .",
+        "start": "parcel watch manifest.json --host localhost --config @parcel/config-webextension",
+        "build": "parcel build manifest.json --config @parcel/config-webextension"
     },
     "repository": {
         "type": "git",
@@ -29,9 +31,12 @@
     },
     "homepage": "https://github.com/odebroqueville/contextSearch#readme",
     "dependencies": {
+        "@types/sortablejs": "^1.15.1",
         "sortablejs": "^1.15.0"
     },
     "devDependencies": {
-        "eslint": "^8.29.0"
+        "@parcel/config-webextension": "^2.8.3",
+        "eslint": "^8.29.0",
+        "parcel": "^2.8.3"
     }
 }

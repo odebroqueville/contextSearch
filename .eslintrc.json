@@ -10,14 +10,29 @@
         "SharedArrayBuffer": "readonly"
     },
     "parserOptions": {
-        "ecmaVersion": 13
+        "ecmaVersion": 13,
+        "sourceType": "module"
     },
     "rules": {
         "no-console": 0,
-        "no-unused-vars": ["warn", { "vars": "all", "args": "all" } ],
-        "no-undef": ["warn"],
-        "no-proto": ["error"],
-        "prefer-arrow-callback": ["warn"],
-        "prefer-spread": ["warn"]
+        "no-unused-vars": [
+            "warn",
+            {
+                "vars": "all",
+                "args": "all"
+            }
+        ],
+        "no-undef": [
+            "warn"
+        ],
+        "no-proto": [
+            "error"
+        ],
+        "prefer-arrow-callback": [
+            "warn"
+        ],
+        "prefer-spread": [
+            "warn"
+        ]
     }
 }
