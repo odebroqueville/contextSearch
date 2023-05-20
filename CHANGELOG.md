@@ -1,5 +1,11 @@
-4.4.4
+4.4.5
 =========
+
+* Improved the search for favicons
+
+4.4.4
+---------
+
 * Bug fix [#137](https://github.com/odebroqueville/contextSearch/issues/137)
 * Bug fix [#138](https://github.com/odebroqueville/contextSearch/issues/138)
 
