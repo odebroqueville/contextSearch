@@ -371,7 +371,7 @@ async function init() {
 async function reset() {
     if (logToConsole) {
         console.log(
-            'Resetting extension's preferences and search engines as per user reset preferences.'
+            "Resetting extension's preferences and search engines as per user reset preferences."
         );
     }
     const data = await browser.storage.sync.get(null).catch((err) => {
@@ -768,19 +768,21 @@ async function getNewFavicon(id, domain) {
         for (let test of tests) {
             if (logToConsole) console.log(`Checking if url contains: ${test}`);
             bestIconUrl = getBestIconUrl(linksWithIcons, test);
-            // If an icon is found convert it to a base64 image
-            if (bestIconUrl !== null) {
+            if (bestIconUrl) {
+                // Convert the icon to a base64 string
                 if (logToConsole) console.log(`Best icon url: ${bestIconUrl}`);
                 const base64str = await getBase64Image(bestIconUrl);
                 return { id: id, base64: base64str };
             }
         }
-
-        // Failed to retrieve a favicon, proceeding with default CS icon
-        return { id: id, base64: base64ContextSearchIcon };
+        // If no favicons could be found previously...
+        bestIconUrl = 'https://icon.horse/icon/' + domain.replace('http://', '').replace('https://', '');
+        const base64str = await getBase64Image(bestIconUrl);
+        return { id: id, base64: base64str };
     } catch (error) {
         if (logToConsole) console.error(error.message);
         if (logToConsole) console.log('Failed to retrieve new favicon.');
+        // Failed to retrieve a favicon, proceeding with default CS icon
         return { id: id, base64: base64ContextSearchIcon };
     }
 }
@@ -856,16 +858,6 @@ async function getBase64Image(url) {
         if (logToConsole) console.log(error.message);
         return base64ContextSearchIcon;
     }
-}
-
-function convertArrayBuffer2Base64(ab, faviconUrl) {
-    let byteArray = new Uint8Array(ab);
-    let str = String.fromCharCode.apply(null, byteArray);
-    let base64String = btoa(str);
-    if (logToConsole) {
-        console.log(`Base64 string for ${faviconUrl} is:\n ${base64String}`);
-    }
-    return base64String;
 }
 
 /// Rebuild the context menu using the search engines from local storage
@@ -1104,7 +1096,7 @@ async function processMultiTabSearch(tabPosition) {
     if (logToConsole) console.log(multiTabSearchEngineUrls);
     if (contextsearch_multiMode === 'multiNewWindow') {
         await browser.windows.create({
-            titlePreface: windowTitle + ''' + selection + ''',
+            titlePreface: windowTitle + "'" + selection + "'",
             url: multiTabSearchEngineUrls,
             incognito: contextsearch_privateMode,
         });
