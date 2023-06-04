@@ -1,7 +1,7 @@
 'use strict';
 
 /// Global variables
-const logToConsole = false; // Debug
+const logToConsole = true; // Debug
 const os = getOS();
 const modifiers = ["Control", "Shift", "Alt", "Meta"];
 const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
@@ -118,6 +118,7 @@ async function init() {
 
     // If there exists a search engine with a query string that includes the domain of the visited web page, then hide the Page action
     for (let id in searchEngines) {
+        if (id.startsWith("separator-")) continue;
         if (searchEngines[id].url.includes(domain)) {
             if (logToConsole) console.log('This web page has already been added to your list of search engines.');
             sendMessage('hidePageAction', null);
@@ -266,14 +267,17 @@ function handleAltClickWithGrid(e) {
     // If Option (alt) key isn't pressed on mouse up then do nothing
     if (!e.altKey) return;
 
+    // Sort the search engines by index
+    searchEngines = sortByIndex(searchEngines);
+
     // If the grid of icons is alreadey displayed
-    let nav = document.getElementById('cs-grid');
+    let nav = document.getElementById('icon-grid');
     if (nav !== null && nav.style.display !== 'none') return;
 
     // Otherwise
     let x = e.clientX;
     let y = e.clientY;
-    buildIconGrid(x, y);
+    createIconGrid(x, y);
 }
 
 function handleRightClickWithoutGrid(e) {
@@ -375,26 +379,44 @@ function sendSelectionToBackgroundScript(selectedText) {
     console.log(`Error: ${error}`);
 } */
 
-function buildIconGrid(x, y) {
+function createIconGrid(x, y) {
     if (logToConsole) console.log(searchEngines);
-    let arrIDs = Object.keys(searchEngines);
+    const icons = [{
+        id: 'multisearch',
+        src: 'data:image/svg+xml;base64,' + base64MultiSearchIcon,
+        title: 'multi-search',
+    }];
+
+    // Number of search engines
+    let n = 0;
+    for (const id in searchEngines) {
+        if (!id.startsWith("separator-")) {
+            let src = 'data:image/png;base64,';
+            const title = searchEngines[id].name;
+            if (isEmpty(searchEngines[id]) || isEmpty(searchEngines[id].base64)) {
+                // Default icon when no favicon could be found
+                src += base64ContextSearchIcon;
+            } else {
+                src += searchEngines[id].base64;
+            }
+            icons.push({ id: id, src: src, title: title });
+            n++;
+        }
+    }
 
     // Grid dimensions
-    let n = arrIDs.length; // Number of search engines
     n += 1; // Add one icon for multi-search
-    let m = Math.ceil(Math.sqrt(n)); // Grid dimension: m x m matrix
-    let r = m - Math.floor(Math.abs(m * m - n) / m); // Number of rows
+    const m = Math.ceil(Math.sqrt(n)); // Grid dimension: m x m matrix
 
     // Cleanup
-    let navExisting = document.getElementById('cs-grid');
+    let navExisting = document.getElementById('icon-grid');
     if (navExisting != null) {
         navExisting.parentElement.removeChild(navExisting);
     }
 
-    let nav = document.createElement('nav');
-    nav.setAttribute('id', 'cs-grid');
-    nav.style.display = 'block';
-    nav.style.backgroundColor = 'white';
+    const nav = document.createElement('nav');
+    nav.setAttribute('id', 'icon-grid');
+    nav.style.backgroundColor = '#ccc';
     nav.style.border = '3px solid #999';
     nav.style.padding = '5px';
     nav.style.borderRadius = '20px';
@@ -402,73 +424,32 @@ function buildIconGrid(x, y) {
     nav.style.position = 'fixed';
     nav.style.setProperty('top', y.toString() + 'px');
     nav.style.setProperty('left', x.toString() + 'px');
-    let ul = document.createElement('ul');
-    ul.style.margin = '0px';
-    ul.style.padding = '0px';
-    for (let i = 0; i < r; i++) {
-        let liRow = document.createElement('li');
-        liRow.style.listStyleType = 'none';
-        liRow.style.margin = '0px';
-        liRow.style.padding = '0px';
-        liRow.style.height = ICON32;
-        let ulRow = document.createElement('ul');
-        ulRow.style.margin = '0px';
-        ulRow.style.padding = '0px';
-        ulRow.style.height = ICON32;
-        for (let j = 0; j < m; j++) {
-            if (i * m + j + 1 > n) break;
-            let id = '';
-            let src = '';
-            let title = '';
-            let liItem = document.createElement('li');
-            liItem.style.display = 'inline-block';
-            liItem.style.listStyleType = 'none';
-            liItem.style.width = ICON32;
-            liItem.style.height = ICON32;
-            let img = document.createElement('img');
-            img.style.display = 'inline-block';
-            if (i === 0 && j === 0) {
-                // Insert multisearch icon in first position
-                id = 'multisearch';
-                src = 'data:image/svg+xml;base64,' + base64MultiSearchIcon;
-                title = 'multi-search';
-            } else {
-                id = arrIDs[i * m + j - 1];
-                src = 'data:image/png;base64,';
-                if (isEmpty(searchEngines[id]) || isEmpty(searchEngines[id].base64)) {
-                    // Default icon when no favicon could be found
-                    src += base64ContextSearchIcon;
-                } else {
-                    src += searchEngines[id].base64;
-                }
-                title = searchEngines[id].name;
-            }
-            liItem.setAttribute('id', id);
-            liItem.style.margin = '0px';
-            liItem.style.padding = '0px';
-            img.setAttribute('src', src);
-            img.setAttribute('title', title);
-            img.style.margin = '0px';
-            img.style.padding = '0px';
-            img.style.border = '3px solid #fff';
-            img.style.borderRadius = '10px';
-            img.style.width = '32px';
-            img.style.height = '32px';
-            img.addEventListener('mouseover', addBorder);
-            img.addEventListener('mouseleave', removeBorder);
-            liItem.appendChild(img);
-            ulRow.appendChild(liItem);
-            if (i * m + j === n) break;
-        }
-        liRow.appendChild(ulRow);
-        ul.appendChild(liRow);
+    nav.style.gridTemplateColumns = `repeat(${m}, 1fr)`;
+    nav.style.display = 'grid';
+    nav.style.gap = '4px';
+
+
+    for (const icon of icons) {
+        const iconElement = document.createElement("img");
+        iconElement.style.width = '32px';
+        iconElement.style.height = '32px';
+        iconElement.style.display = 'inline-block';
+        iconElement.style.border = '3px solid #ccc';
+        iconElement.style.borderRadius = '10px';
+        iconElement.setAttribute('id', icon.id);
+        iconElement.setAttribute('src', icon.src);
+        iconElement.setAttribute('title', icon.title);
+        iconElement.addEventListener('mouseover', addBorder);
+        iconElement.addEventListener('mouseleave', removeBorder);
+        nav.appendChild(iconElement);
     }
-    nav.appendChild(ul);
+
+    const body = document.getElementsByTagName('body')[0];
+    body.appendChild(nav);
+
+    // Define event listeners for the icon grid
     nav.addEventListener('click', onGridClick);
     nav.addEventListener('mouseleave', onLeave);
-
-    let body = document.getElementsByTagName('body')[0];
-    body.appendChild(nav);
 
     // Position icon grid contained in nav element
     nav.style.left = 0;
@@ -493,10 +474,10 @@ function onGridClick(e) {
     e.preventDefault();
     e.stopPropagation();
     if (logToConsole) console.log('Grid icon got clicked:' + e.type);
-    let id = e.target.parentNode.id;
+    const id = e.target.id;
     if (logToConsole) console.log('Search engine clicked:' + id);
     if (sameTab) {
-        let nav = document.getElementById('cs-grid');
+        let nav = document.getElementById('icon-grid');
         nav.style.display = 'none';
         nav.removeEventListener('click', onGridClick);
         nav.removeEventListener('mouseleave', onLeave);
@@ -527,7 +508,7 @@ function removeBorder(e) {
     if (logToConsole) console.log(e);
     if (logToConsole) console.log(e.target.tagName);
     if (e.target.tagName === 'IMG') {
-        e.target.style.border = '3px solid #fff';
+        e.target.style.border = '3px solid #ccc';
     }
 }
 
@@ -687,6 +668,37 @@ function isEmpty(value) {
         return value === null || Object.keys(value).length === 0;
     } else if (typeof value === 'boolean') return false;
     else return !value;
+}
+
+/// Sort search engines by index
+function sortByIndex(list) {
+    let sortedList = JSON.parse(JSON.stringify(list));
+    let n = Object.keys(list).length;
+    let arrayOfIndexes = [];
+    let arrayOfIds = [];
+    let min = 0;
+    if (logToConsole) console.log(list);
+    // Create the array of indexes and its corresponding array of ids
+    for (let id in list) {
+        if (logToConsole) console.log(`id = ${id}`);
+        // If there is no index, then move the search engine to the end of the list
+        if (isEmpty(list[id].index)) {
+            list[id].index = n + 1;
+            n++;
+        }
+        arrayOfIndexes.push(list[id].index);
+        arrayOfIds.push(id);
+    }
+    // Sort the list by index
+    for (let i = 1; i < n + 1; i++) {
+        min = Math.min(...arrayOfIndexes);
+        let ind = arrayOfIndexes.indexOf(min);
+        arrayOfIndexes.splice(ind, 1);
+        let id = arrayOfIds.splice(ind, 1);
+        sortedList[id].index = i;
+    }
+
+    return sortedList;
 }
 
 init();
