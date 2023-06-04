@@ -198,9 +198,11 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
             break;
         case 'addNewSearchEngine':
             id = message.data.id;
-            domain = getDomain(message.data.searchEngine.url);
-            if (logToConsole) console.log(id, domain);
-            searchEngines[id] = message.data.searchEngine;
+            if (!id.startsWith("separator-")) {
+                domain = getDomain(message.data.searchEngine.url);
+                if (logToConsole) console.log(id, domain);
+                searchEngines[id] = message.data.searchEngine;
+            }
             searchEngines = sortByIndex(searchEngines);
             await addNewSearchEngine(id, domain);
             break;
@@ -390,16 +392,13 @@ async function reset() {
 }
 
 async function addNewSearchEngine(id, domain) {
-    await browser.storage.local.clear().catch((err) => {
-        if (logToConsole) {
-            console.error(err);
-            console.log('Failed to clear local storage.');
-        }
-        return;
-    });
-    const value = await getNewFavicon(id, domain);
-    searchEngines[id]['base64'] = value.base64;
-    await saveSearchEnginesToLocalStorage(false);
+    const keys = {};
+    if (!id.startsWith("separator-")) {
+        const value = await getNewFavicon(id, domain);
+        searchEngines[id]['base64'] = value.base64;
+    }
+    keys[id] = searchEngines[id];
+    await browser.storage.local.set(keys);
     rebuildContextMenu();
     if (notificationsEnabled) notify(notifySearchEngineAdded);
 }
@@ -881,6 +880,16 @@ function rebuildContextMenu() {
         for (let i = 1; i < n + 1; i++) {
             for (let id in searchEngines) {
                 if (searchEngines[id].index === i) {
+                    if (id.startsWith("separator-")) {
+                        browser.contextMenus.create({
+                            id: 'cs-separator-' + i,
+                            type: 'separator',
+                            contexts: ['selection'],
+                        });
+                        break;
+                    }
+
+
                     let base64String = searchEngines[id].base64;
                     let strIndex = 'cs-' + i.toString();
                     let strTitle = searchEngines[id].name;
