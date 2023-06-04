@@ -1,227 +1,239 @@
 * {
-	box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body {
-	font-family: 'Raleway', Calibri, Helvetica, Arial, sans-serif;
-	font-size: 10pt;
-	color: darkslategrey;
+    font-family: 'Raleway', Calibri, Helvetica, Arial, sans-serif;
+    font-size: 10pt;
+    color: darkslategrey;
 }
 
 .left fieldset {
-	display: inline-block;
-	width: 480px;
-	margin-right: 10px;
+    display: inline-block;
+    width: 480px;
+    margin-right: 10px;
 }
 
 .right fieldset {
-	display: inline-block;
+    display: inline-block;
 }
 
 span.option {
-	display: inline-block;
-	width: 150px;
-	padding-bottom: 5px;
+    display: inline-block;
+    width: 150px;
+    padding-bottom: 5px;
 }
 
-div#tabMode, div#multiMode {
-	max-width: 320px;
-	background-color: lightgray;
+div#tabMode,
+div#multiMode {
+    max-width: 320px;
+    background-color: lightgray;
 }
 
 #showAdvancedFeatures {
-	display: block;
-	float: right;
+    display: block;
+    float: right;
 }
 
 #hideAdvancedFeatures {
-	display: none;
-	float: right;
+    display: none;
+    float: right;
 }
 
 .icon {
-	font-size: 1.5em;
-	margin-left: 3px;
+    font-size: 1.5em;
+    margin-left: 3px;
 }
 
 div.nav {
-	float: right;
+    float: right;
 }
 
 input[type="checkbox"] {
-	display: inline-block;
-	width: 15px;
+    display: inline-block;
+    width: 15px;
 }
 
-li > input[type="checkbox"] {
-	margin-left: 10px;
+li>input[type="checkbox"] {
+    margin-left: 10px;
 }
 
 .regex {
-	display: none;
-	width: 15%;
+    display: none;
+    width: 15%;
 }
 
 #container {
-	margin-right: 25px;
+    margin-right: 25px;
 }
 
 #container label,
 #container #name {
-	display: inline-block;
-	width: 210px;
+    display: inline-block;
+    width: 210px;
 }
 
 #addSearchEngineSection #name {
-	display: inline-block;
-	width: 195px;
+    display: inline-block;
+    width: 195px;
 }
 
-input[type="radio"] + label {
-	width: 120px;
+input[type="radio"]+label {
+    width: 120px;
 }
 
-input#gridMode + label,
-input#optionsMenuAtTop + label {
-	width: 600px;
+input#gridMode+label,
+input#optionsMenuAtTop+label {
+    width: 600px;
 }
 
 #container input[type="url"],
 #addSearchEngineSection #url {
-	display: inline-block;
-	width: 400px;
-	margin-left: 10px;
+    display: inline-block;
+    width: 400px;
+    margin-left: 10px;
 }
 
 #container .kb-shortcut,
 #addSearchEngineSection #kb-shortcut {
-	width: 130px;
-	margin-left: 10px;
+    width: 130px;
+    margin-left: 10px;
 }
 
 #container .keyword,
 #addSearchEngineSection #keyword {
-	width: 80px;
-	margin-left: 10px;
+    width: 80px;
+    margin-left: 10px;
 }
 
 h2 {
-	font-size: 12pt;
+    font-size: 12pt;
 }
 
 #container button {
-	margin-left: 10px;
+    margin-left: 10px;
 }
 
 #container li {
-	margin-bottom: 5px;
+    margin-bottom: 5px;
 }
 
-#container li:first-child > button.up {
-	visibility: hidden;
+#container li:first-child>button.up {
+    visibility: hidden;
 }
 
-#container li:last-child > button.down {
-	visibility: hidden;
+#container li:last-child>button.down {
+    visibility: hidden;
 }
 
 #upl {
-	margin-top: 10px;
-	margin-bottom: 8px;
+    margin-top: 10px;
+    margin-bottom: 8px;
 }
 
 #addSearchEngineSection,
 #addFolderSection {
-	margin-left: 40px;
+    margin-left: 40px;
 }
 
 h4 {
-	margin-left: 0;
-	margin-right: 0;
-	margin-top: 5px;
-	margin-bottom: 3px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 5px;
+    margin-bottom: 3px;
 }
 
-p, button, select {
-	margin-top: 5px;
-	margin-bottom: 5px;
+p,
+button,
+select {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 #flexbox-container {
-	margin-left: 10px;
+    margin-left: 10px;
 }
 
-#flexbox-container > div.left > div.preferences {
-	display: -ms-flex;
-	display: -webkit-flex;
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: row;
-	align-content: flex-start;
-	margin-right: 10px;
+#flexbox-container>div.left>div.preferences {
+    display: -ms-flex;
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: flex-start;
+    margin-right: 10px;
 }
 
-#flexbox-container > div.right,
-#flexbox-container > div.left {
-	padding: 10px;
+#flexbox-container>div.right,
+#flexbox-container>div.left {
+    padding: 10px;
+}
+
+#container hr {
+    display: inline-block;
+    height: 5px;
+    width: 882px;
+    margin-left: 6px;
+    border-width: 0;
+    background-color: #005588;
 }
 
 hr.ruler {
-	opacity: 0.5;
-	margin: 1.25em 0.5em;
+    opacity: 0.5;
+    margin: 1.25em 0.5em;
 }
 
 @media screen and (min-width: 1520px) {
-	#flexbox-container {
-		display: -ms-flex;
-		display: -webkit-flex;
-		display: flex;
-	}
+    #flexbox-container {
+        display: -ms-flex;
+        display: -webkit-flex;
+        display: flex;
+    }
 
-	#flexbox-container .left {
-		width: 30%;
-	}
+    #flexbox-container .left {
+        width: 30%;
+    }
 
-	#flexbox-container .right {
-		width: 70%;
-	}
+    #flexbox-container .right {
+        width: 70%;
+    }
 
-	#flexbox-container > div.left {
-		margin-right: 10px;
-	}
+    #flexbox-container>div.left {
+        margin-right: 10px;
+    }
 }
 
 .buttonrow button {
-	margin-top: 4px;
-	margin-bottom: 4px;
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
 
 .sort {
-	margin-left: 10px;
-	color: black;
+    margin-left: 10px;
+    color: black;
 }
 
 .ms {
-	max-width: 650px;
+    max-width: 650px;
 }
 
 code {
-	background: #eaeaea;
-	padding: 0px 5px;
-	border-radius: 2px;
+    background: #eaeaea;
+    padding: 0px 5px;
+    border-radius: 2px;
 }
 
 .p-sm {
-	padding: 0.5em;
+    padding: 0.5em;
 }
 
 .subfolder {
-	margin-left: 25px;
+    margin-left: 25px;
 }
 
 .empty {
-	width: 100%;
-	height: 20px;
-	margin: 5px 0px;
-	border: 2px dashed black;
+    width: 100%;
+    height: 20px;
+    margin: 5px 0px;
+    border: 2px dashed black;
 }
