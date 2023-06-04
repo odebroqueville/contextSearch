@@ -149,6 +149,9 @@
 	"addSearchEngine": {
 		"message": "Add search engine"
 	},
+	"addSeparator": {
+		"message": "Add separator"
+	},
 	"clear": {
 		"message": "Clear"
 	},
