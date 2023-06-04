@@ -48,6 +48,10 @@ You can also import a JSON file containing your own list of search engines. It i
 * use the page action (i.e. Context Search icon in the url address bar) to add a search engine if the website supports open search
 * add a search engine manually via the Options page (you can test the query string before adding the search engine)
 
+## How to add a separator (horizontal line) in the context menu
+
+At the bottom of the Options page, simply click on the "Add separator" button. This will add a separator to the bottom of your search engines list. Then, use the arrow handle to the right of the horizontal line to move the separator to the position where you would like it to be. The separator should appear in the context menu.
+
 ## How to perform a search in the omnibox
 
 In the omnibox (or url address bar), type 'cs ' (without the quotes, and where cs stands for Context Search) followed by the keyword you have chosen for your seaarch engine in the extension's preferences, e.g. 'w ' (again without quotes) for Wikipedia, followed by your search term(s). The dot ('.'), the exclamation mark ('!'), '!h' or 'history' and '!b' or 'bookmarks' are reserved keywords.
@@ -84,6 +88,7 @@ You can add a regular expression to each search engine. If the selected text mat
     "index": 0,
     "name": "search engine's name",
     "keyword": "keyword to be used in an omnibox search",
+    "keyboardShortcut": "keyboard shortcut assigned to the search engine",
     "multitab": "takes the value true or false depending on whether this search engine should be included in a multi-search or not",
     "url": "search engine query string (without the search terms)",
     "show": "takes the value true if the search engine is to be shown in the context menu or false if not",
@@ -100,6 +105,7 @@ Here is an example of a JSON file containing 3 search engines:
     "index": 0,
     "name": "Bing",
     "keyword": "b",
+    "keyboardShortcut": "",
     "multitab": false,
     "url": "https://www.bing.com/search?q=",
     "show": true,
@@ -109,6 +115,7 @@ Here is an example of a JSON file containing 3 search engines:
     "index": 1,
     "name": "Google",
     "keyword": "g",
+    "keyboardShortcut": "",
     "multitab": false,
     "url": "https://www.google.com/search?q=",
     "show": true,
@@ -118,6 +125,7 @@ Here is an example of a JSON file containing 3 search engines:
     "index": 2,
     "name": "Yahoo!",
     "keyword": "y",
+    "keyboardShortcut": "",
     "multitab": false,
     "url": "https://search.yahoo.com/search?p=",
     "show": true,

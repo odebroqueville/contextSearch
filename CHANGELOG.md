@@ -1,5 +1,12 @@
-4.4.5
+4.4.6
 =========
+
+* Updated README and defaultSearchEngines files with keyboard shortcuts
+* Added option to include separators in the context menu
+* Improved the code for the icon grid
+
+4.4.5
+---------
 
 * Improved the search for favicons
 
