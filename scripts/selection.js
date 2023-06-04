@@ -111,6 +111,8 @@ async function init() {
     } else {
         sameTab = false;
     }
+
+    // Retrieve search engines from local storage
     searchEngines = await browser.storage.local.get(null);
     if (logToConsole) console.log(searchEngines);
 
