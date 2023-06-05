@@ -198,6 +198,10 @@
 		"message": "Додати пошукову систему",
 		"hash": "0f5b60489cf3500e92871eb17e71ce05"
 	},
+	"addSeparator": {
+		"message": "Додайте роздільник",
+		"hash": "e7dee3308538cf240c29661ce7fcd41d"
+	},
 	"clear": {
 		"message": "Очистити",
 		"hash": "bcf7e7587a412ea36d869d51026dfd6d"

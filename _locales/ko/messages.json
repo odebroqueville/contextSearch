@@ -198,6 +198,10 @@
 		"message": "검색 엔진 추가",
 		"hash": "0f5b60489cf3500e92871eb17e71ce05"
 	},
+	"addSeparator": {
+		"message": "구분 기호 추가",
+		"hash": "e7dee3308538cf240c29661ce7fcd41d"
+	},
 	"clear": {
 		"message": "클리어",
 		"hash": "bcf7e7587a412ea36d869d51026dfd6d"

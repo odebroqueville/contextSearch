@@ -198,6 +198,10 @@
 		"message": "添加搜索引擎",
 		"hash": "0f5b60489cf3500e92871eb17e71ce05"
 	},
+	"addSeparator": {
+		"message": "添加分隔符",
+		"hash": "3ca31acdb4e16f109453054af8b918f1"
+	},
 	"clear": {
 		"message": "明確",
 		"hash": "bcf7e7587a412ea36d869d51026dfd6d"
