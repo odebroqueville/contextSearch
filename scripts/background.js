@@ -3,7 +3,6 @@
 /// Global variables
 /* global  */
 let searchEngines = {};
-let searchEnginesArray = [];
 let selection = '';
 let targetUrl = '';
 let lastAddressBarKeyword = '';
@@ -863,8 +862,8 @@ async function getBase64Image(url) {
 function rebuildContextMenu() {
     if (logToConsole) console.log('Rebuilding context menu..');
     browser.runtime.getBrowserInfo().then((info) => {
-        let v = info.version;
-        let browserVersion = parseInt(v.slice(0, v.search('.') - 1));
+        const v = info.version;
+        const browserVersion = parseInt(v.slice(0, v.search('.') - 1));
 
         browser.contextMenus.removeAll();
         browser.contextMenus.onClicked.removeListener(processSearch);
@@ -875,11 +874,11 @@ function rebuildContextMenu() {
 
         buildContextMenuForImages();
 
-        searchEnginesArray = [];
         let n = Object.keys(searchEngines).length;
         for (let i = 1; i < n + 1; i++) {
             for (let id in searchEngines) {
                 if (searchEngines[id].index === i) {
+                    if (logToConsole) console.log(`Index: ${i}  id: ${id}`);
                     if (id.startsWith("separator-")) {
                         browser.contextMenus.create({
                             id: 'cs-separator-' + i,
@@ -889,15 +888,13 @@ function rebuildContextMenu() {
                         break;
                     }
 
+                    const strId = 'cs-' + id;
+                    const strTitle = searchEngines[id].name;
+                    const base64String = searchEngines[id].base64;
 
-                    let base64String = searchEngines[id].base64;
-                    let strIndex = 'cs-' + i.toString();
-                    let strTitle = searchEngines[id].name;
-
-                    searchEnginesArray.push(id);
                     buildContextMenuItem(
                         searchEngines[id],
-                        strIndex,
+                        strId,
                         strTitle,
                         base64String,
                         browserVersion
@@ -1005,7 +1002,8 @@ function buildContextMenuItem(
 
 // Perform search based on selected search engine, i.e. selected context menu item
 async function processSearch(info, tab) {
-    let id = info.menuItemId.replace('cs-', '');
+    if (logToConsole) console.log(info);
+    const id = info.menuItemId.replace('cs-', '');
     let tabIndex, tabPosition;
 
     if (info.selectionText !== undefined) {
@@ -1078,11 +1076,8 @@ async function processSearch(info, tab) {
         return;
     }
 
-    let intId = parseInt(id);
-
-    // At this point, it should be a number
-    if (!isNaN(intId)) {
-        searchUsing(searchEnginesArray[intId - 1], tabIndex);
+    if (!id.startsWith("separator-")) {
+        searchUsing(id, tabIndex);
     }
 }
 
