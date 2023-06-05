@@ -230,9 +230,10 @@ async function handleStorageChange(changes, area) {
             } else {
                 sendMessage('showPageAction', null);
             }
-            // The following test has to be accried out when a new search engine is added...
+            // The following test has to be carried out when a new search engine is added...
             // If there exists a search engine with a query string that includes the domain of the visited web page, then hide the Page action
             for (let id in searchEngines) {
+                if (id.startsWith("separator-")) continue;
                 if (searchEngines[id].url.includes(domain)) {
                     if (logToConsole) console.log('This web page has already been added to your list of search engines.');
                     sendMessage('hidePageAction', null);
