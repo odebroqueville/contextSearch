@@ -313,7 +313,7 @@
         "keyword": "sc",
         "keyboardShortcut": "alt+s",
         "multitab": false,
-        "url": "https://swisscows.ch/?query=",
+        "url": "https://swisscows.com/en/web?query=",
         "regex": {
             "body": "[\\s\\S]*",
             "flags": "i"
