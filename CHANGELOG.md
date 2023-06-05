@@ -1,5 +1,10 @@
-4.4.6
+4.4.7
 =========
+
+* Bug fix [#140](https://github.com/odebroqueville/contextSearch/issues/140)
+
+4.4.6
+---------
 
 * Updated README and defaultSearchEngines files with keyboard shortcuts
 * Added option to include separators in the context menu
