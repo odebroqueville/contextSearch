@@ -52,6 +52,10 @@ You can also import a JSON file containing your own list of search engines. It i
 
 At the bottom of the Options page, simply click on the "Add separator" button. This will add a separator to the bottom of your search engines list. Then, use the arrow handle to the right of the horizontal line to move the separator to the position where you would like it to be. The separator should appear in the context menu.
 
+## How to add a custom favicon for a search engine
+
+From the Options page, clcik on the favicon right before the search engine's name. A popup window will open displaying the current favicon and the associated base64 string. Either drag & drop a new png image onto the existing one or paste the base64 string of your new image. Then click on the 'Save' button for your changes to take effect. The popup will automatically close after you click on the 'Save' button.
+
 ## How to perform a search in the omnibox
 
 In the omnibox (or url address bar), type 'cs ' (without the quotes, and where cs stands for Context Search) followed by the keyword you have chosen for your seaarch engine in the extension's preferences, e.g. 'w ' (again without quotes) for Wikipedia, followed by your search term(s). The dot ('.'), the exclamation mark ('!'), '!h' or 'history' and '!b' or 'bookmarks' are reserved keywords.

@@ -1,5 +1,10 @@
-4.4.7
+4.5.0
 =========
+
+* Added the option to use custom favicons for the search engines
+
+4.4.7
+---------
 
 * Bug fix [#140](https://github.com/odebroqueville/contextSearch/issues/140)
 
@@ -7,7 +12,7 @@
 ---------
 
 * Updated README and defaultSearchEngines files with keyboard shortcuts
-* Added option to include separators in the context menu
+* Added the option to include separators in the context menu
 * Improved the code for the icon grid
 
 4.4.5
