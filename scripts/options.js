@@ -126,7 +126,6 @@ tabActive.addEventListener('click', updateTabMode);
 lastTab.addEventListener('click', updateTabMode);
 privateMode.addEventListener('click', updateTabMode);
 optionsMenuLocation.addEventListener('click', updateOptionsMenuLocation);
-displayExifSummary.addEventListener('click', updateDisplayExifSummary);
 searchEngineSiteSearch.addEventListener('change', updateSiteSearchSetting);
 resetPreferences.addEventListener('click', updateResetOptions);
 forceSearchEnginesReload.addEventListener('click', updateResetOptions);
@@ -273,8 +272,8 @@ function displaySearchEngines() {
     for (let i = 0; i < numberOfSearchEngines + 1; i++) {
         for (let id in searchEngines) {
             if (searchEngines[id].index === i) {
-                let searchEngine = searchEngines[id];
-                let lineItem = createLineItem(id, searchEngine, searchEngine.folder);
+                const searchEngine = searchEngines[id];
+                const lineItem = createLineItem(id, searchEngine, searchEngine.folder);
                 divSearchEngines.appendChild(lineItem);
 
                 // If folder, add search engines within folder
@@ -342,6 +341,7 @@ function createLineItem(id, searchEngine, isFolder = false) {
 
     // Input elements for each search engine composing each line item
     const chkShowSearchEngine = document.createElement('input');
+    const favicon = document.createElement('img');
     const inputSearchEngineName = document.createElement('input');
     const inputKeyword = document.createElement('input');
     const inputKeyboardShortcut = document.createElement('input');
@@ -351,6 +351,9 @@ function createLineItem(id, searchEngine, isFolder = false) {
 
     // Event handler for 'show search engine' checkbox click event
     chkShowSearchEngine.addEventListener('click', visibleChanged); // when users check or uncheck the checkbox
+
+    // Event handler for click on favicon
+    favicon.addEventListener('click', editFavicon);
 
     // Event handlers for search engine name changes
     inputSearchEngineName.addEventListener('cut', searchEngineNameChanged); // when users cut text
@@ -421,6 +424,8 @@ function createLineItem(id, searchEngine, isFolder = false) {
     chkShowSearchEngine.setAttribute('id', id + '-chk');
     chkShowSearchEngine.checked = searchEngine.show;
 
+    favicon.setAttribute('src', 'data:image/png;base64,' + searchEngine.base64);
+
     inputSearchEngineName.setAttribute('type', 'text');
     inputSearchEngineName.setAttribute('id', id + '-name');
     inputSearchEngineName.setAttribute('placeholder', placeHolderName);
@@ -456,6 +461,7 @@ function createLineItem(id, searchEngine, isFolder = false) {
 
     // Attach all the elements composing a search engine to the line item
     lineItem.appendChild(chkShowSearchEngine);
+    lineItem.appendChild(favicon);
     lineItem.appendChild(inputSearchEngineName);
     lineItem.appendChild(inputKeyword);
     lineItem.appendChild(inputKeyboardShortcut);
@@ -467,6 +473,182 @@ function createLineItem(id, searchEngine, isFolder = false) {
 
     return lineItem;
 }
+
+function editFavicon(e) {
+    console.log(e);
+    // Find closest <li> parent
+    const lineItem = e.target.closest('li');
+    if (!lineItem) return;
+    const id = lineItem.getAttribute('id');
+    const base64Image = searchEngines[id].base64;
+    const searchEngineName = searchEngines[id].name;
+    const popupWidth = 550; // Width of the popup window
+    const popupHeight = 550; // Height of the popup window
+    const left = Math.floor((window.screen.width - popupWidth) / 2);
+    const top = Math.floor((window.screen.height - popupHeight) / 2);
+    const windowFeatures = `popup, width=${popupWidth}, height=${popupHeight}, left=${left}, top=${top}`;
+
+    // Create the popup window
+    const popup = window.open('', 'editFaviconPopup', windowFeatures);
+
+    // Set the CSS rule for the body of the popup
+    popup.document.body.style.display = 'grid';
+    popup.document.body.style.gridTemplateColumns = '1fr 1fr';
+    popup.document.body.style.gridTemplateRows = 'auto 30px';
+    popup.document.body.style.fontFamily = 'Raleway, Helvetica, sans-serif';
+
+    // Create the first cell for displaying the favicon image
+    const faviconCell = document.createElement('div');
+    faviconCell.style.gridRow = '1 / span 2';
+    faviconCell.style.width = '200px';
+    faviconCell.style.height = '500px';
+
+    // Create an image element for displaying the favicon
+    const faviconImg = document.createElement('img');
+    faviconImg.src = 'data:image/png;base64,' + base64Image;
+    faviconImg.style.width = '100%';
+    faviconImg.style.height = 'auto';
+    faviconImg.style.padding = '10px';
+    faviconImg.style.margin = '0';
+
+    // Create a title containing the search engine name
+    const imageTitle = document.createElement('h3');
+    imageTitle.textContent = searchEngineName;
+    //imageTitle.style.fontFamily = 'Raleway, Helvetica, sans-serif';
+    imageTitle.style.padding = '10px';
+    imageTitle.style.margin = '0';
+
+    // Create a title containing the search engine name
+    const help = document.createElement('em');
+    help.textContent = "Drag & drop a png image over the existing image or paste the base64 string of the new image to the right. Then click on the 'Save' button for your changes to take effect.";
+    help.style.display = 'inline-block';
+    help.style.padding = '10px';
+    help.style.lineHeight = '1.3em';
+
+    // Append the image to the first cell
+    faviconCell.appendChild(faviconImg);
+    faviconCell.appendChild(imageTitle);
+    faviconCell.appendChild(help);
+
+    // Create the second cell for the content-editable div
+    const editableDivCell = document.createElement('div');
+    editableDivCell.style.gridColumn = '2';
+    editableDivCell.style.gridRow = '1';
+    editableDivCell.style.width = '300px';
+    editableDivCell.style.height = '460px';
+    editableDivCell.style.padding = '10px';
+    editableDivCell.style.overflowX = 'hidden'; // Allow vertical overflow only
+    editableDivCell.style.overflowY = 'hidden'; // Prevent vertical overflow
+
+    // Create the content-editable div
+    const editableDiv = document.createElement('div');
+    editableDiv.contentEditable = true;
+    editableDiv.style.width = '100%';
+    editableDiv.style.height = '100%';
+    editableDiv.style.fontSize = '13px';
+    editableDiv.style.padding = '5px';
+    editableDiv.style.backgroundColor = '#ccc';
+    editableDiv.style.overflow = 'auto';
+    editableDiv.style.overflowWrap = 'break-word'; // Enable word wrapping
+    editableDiv.textContent = base64Image;
+
+    // Append the editable div to the second cell
+    editableDivCell.appendChild(editableDiv);
+
+    // Create the third cell for the button
+    const buttonCell = document.createElement('div');
+    buttonCell.style.gridColumn = '2';
+    buttonCell.style.gridRow = '2';
+    buttonCell.style.width = '300px';
+    buttonCell.style.height = '30px';
+    buttonCell.style.marginTop = '15px';
+    buttonCell.style.display = 'flex';
+    buttonCell.style.gap = '10px';
+
+    /// Create the "Clear" button
+    const clearButton = document.createElement('button');
+    clearButton.style.width = '100px';
+    clearButton.style.height = '100%';
+    clearButton.style.marginLeft = '10px';
+    clearButton.textContent = 'Clear';
+
+    // Handle clear button click event
+    clearButton.addEventListener('click', () => {
+        editableDiv.textContent = '';
+    });
+
+    // Create the "Copy" button
+    const copyButton = document.createElement('button');
+    copyButton.style.width = '100px';
+    copyButton.style.height = '100%';
+    copyButton.textContent = 'Copy';
+
+    // Handle copy button click event
+    copyButton.addEventListener('click', () => {
+        navigator.clipboard.writeText(editableDiv.textContent)
+            .then(() => {
+                if (logToConsole) console.log('Text copied to clipboard.');
+            })
+            .catch((err) => {
+                if (logToConsole) console.error('Failed to copy text to clipboard:', err);
+            });
+    });
+
+    // Create the "Replace favicon" button
+    const replaceButton = document.createElement('button');
+    replaceButton.style.width = '100px';
+    replaceButton.style.height = '100%';
+    replaceButton.textContent = 'Save';
+
+    // Handle button click event
+    replaceButton.addEventListener('click', () => {
+        const newBase64 = editableDiv.textContent.trim();
+
+        // Replace the favicon image with the new base64 string
+        faviconImg.src = `data:image/png;base64,${newBase64}`;
+
+        // Save the new favicon image to local storage
+        searchEngines[id].base64 = newBase64;
+        sendMessage('saveSearchEngines', searchEngines);
+        popup.close();
+    });
+
+    // Handle drag and drop event
+    faviconImg.addEventListener('dragover', (e) => {
+        e.preventDefault();
+    });
+
+    faviconImg.addEventListener('drop', (e) => {
+        e.preventDefault();
+
+        const file = e.dataTransfer.files[0];
+        const reader = new FileReader();
+
+        reader.onload = (event) => {
+            const newBase64 = event.target.result.replace(/^.*?,/, '');
+
+            // Replace the favicon image with the dragged image
+            faviconImg.src = `data:image/png;base64,${newBase64}`;
+
+            // Update the base64 string in the editable div
+            editableDiv.textContent = newBase64;
+        };
+
+        reader.readAsDataURL(file);
+    });
+
+    // Append the buttons to the third cell
+    buttonCell.appendChild(clearButton);
+    buttonCell.appendChild(copyButton);
+    buttonCell.appendChild(replaceButton);
+
+    // Append the cells to the body of the popup
+    popup.document.body.appendChild(faviconCell);
+    popup.document.body.appendChild(editableDivCell);
+    popup.document.body.appendChild(buttonCell);
+
+}
+
 
 function createFolderItem(name, keyword) {
     const el = document.getElementById('ol#searchEngines');
@@ -800,7 +982,7 @@ function readData() {
     for (let i = 0; i < numberOfSearchEngines; i++) {
         let input = lineItems[i].firstChild;
         if (input != null && input.nodeName === 'INPUT' && input.getAttribute('type') === 'checkbox') {
-            let label = input.nextSibling;
+            let label = input.nextSibling.nextSibling;
             let keyword = label.nextSibling;
             let keyboardShortcut = keyword.nextSibling;
             let multiTab = keyboardShortcut.nextSibling;
@@ -1227,10 +1409,6 @@ function updateMultiMode() {
 function updateDisplayFavicons() {
     let fav = displayFavicons.checked;
     sendMessage('updateDisplayFavicons', { displayFavicons: fav });
-}
-
-function updateDisplayExifSummary() {
-    sendMessage('updateDisplayExifSummary', { displayExifSummary: displayExifSummary.checked });
 }
 
 function updateDisableAltClick() {

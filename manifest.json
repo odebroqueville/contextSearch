@@ -17,7 +17,7 @@
         "/images/*.png",
         "/scripts/Sortable.min.js"
     ],
-    "content_security_policy": "script-src 'self'; object-src 'self'; img-src *; ",
+    "content_security_policy": "script-src 'self'; object-src 'self'; img-src 'self' data:;",
     "page_action": {
         "show_matches": [
             "<all_urls>"
@@ -43,6 +43,7 @@
         "contextMenus",
         "storage",
         "search",
+        "clipboardWrite",
         "webRequest",
         "webRequestBlocking"
     ],
