@@ -54,7 +54,7 @@ At the bottom of the Options page, simply click on the "Add separator" button. T
 
 ## How to add a custom favicon for a search engine
 
-From the Options page, clcik on the favicon right before the search engine's name. A popup window will open displaying the current favicon and the associated base64 string. Either drag & drop a new png image onto the existing one or paste the base64 string of your new image. Then click on the 'Save' button for your changes to take effect. The popup will automatically close after you click on the 'Save' button.
+From the Options page, click on the favicon right before the search engine's name. A popup window will open displaying the current favicon and the associated base64 string. Either drag & drop a new png image onto the existing one or paste the base64 string of your new image. Then click on the 'Save' button for your changes to take effect. The popup will automatically close after you click on the 'Save' button.
 
 ## How to perform a search in the omnibox
 
@@ -79,6 +79,8 @@ will display all bookmarks that include the term Mozilla
 
 **cs !b recent** or **cs bookmarks recent**
 will display your 10 most recent bookmarks
+
+Please note that permissions for History and/or Bookmarks need to be anabled for the latter features to work.
 
 ## Advanced feature
 

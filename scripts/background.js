@@ -1043,7 +1043,7 @@ async function processSearch(info, tab) {
             targetUrl =
                 options.siteSearchUrl +
                 encodeUrl(`site:https://${domain} ${selection}`);
-            openUrl(targetUrl);
+            browser.sidebarAction.setPanel({ panel: targetUrl });
             browser.sidebarAction.setTitle({ title: 'Search results' });
             return;
         } else {
@@ -1123,12 +1123,11 @@ function getSearchEngineUrl(searchEngineUrl, sel) {
 }
 
 function searchUsing(id, tabIndex) {
-    let searchEngineUrl = searchEngines[id].url;
+    const searchEngineUrl = searchEngines[id].url;
     targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
     if (logToConsole) console.log(`Target url: ${targetUrl}`);
     if (contextsearch_openSearchResultsInSidebar) {
         browser.sidebarAction.setPanel({ panel: targetUrl });
-        openUrl(targetUrl);
         browser.sidebarAction.setTitle({ title: 'Search results' });
         return;
     }
@@ -1481,10 +1480,6 @@ function isEmpty(value) {
         return value === null || Object.keys(value).length === 0;
     } else if (typeof value === 'boolean') return false;
     else return !value;
-}
-
-function openUrl(url) {
-    browser.sidebarAction.setPanel({ panel: url });
 }
 
 // 

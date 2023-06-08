@@ -1,5 +1,10 @@
-4.5.0
+4.5.1
 =========
+
+* Bug fix [#141](https://github.com/odebroqueville/contextSearch/issues/141)
+
+4.5.0
+---------
 
 * Added the option to use custom favicons for the search engines
 
