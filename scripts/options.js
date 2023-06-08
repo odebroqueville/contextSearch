@@ -49,7 +49,6 @@ const position = document.getElementById('position');
 const privacy = document.getElementById('privacy');
 const lastTab = document.getElementById('lastTab');
 const optionsMenuLocation = document.getElementById('optionsMenuLocation');
-const displayExifSummary = document.getElementById('displayExifSummary');
 const displayFavicons = document.getElementById('displayFavicons');
 const disableAltClick = document.getElementById('disableAltClick');
 const resetPreferences = document.getElementById('resetPreferences');
@@ -269,6 +268,7 @@ function displaySearchEngines() {
     numberOfSearchEngines = Object.keys(searchEngines).length;
     let divSearchEngines = document.createElement('ol');
     divSearchEngines.setAttribute('id', 'searchEngines');
+    divSearchEngines.classList.add('list-group', 'col', 'nested-sortable');
     for (let i = 0; i < numberOfSearchEngines + 1; i++) {
         for (let id in searchEngines) {
             if (searchEngines[id].index === i) {
@@ -315,7 +315,7 @@ function createButton(ioniconClass, btnClass, btnTitle) {
 
 // Display a single search engine in a row or line item
 function createLineItem(id, searchEngine, isFolder = false) {
-    if (isFolder) { return createFolderItem(searchEngine.name, searchEngine.keyword); }
+    if (isFolder) { return createFolderItem(id, searchEngine.name, searchEngine.keyword); }
 
     const searchEngineName = searchEngine.name;
     const lineItem = document.createElement('li');
@@ -650,13 +650,10 @@ function editFavicon(e) {
 }
 
 
-function createFolderItem(name, keyword) {
-    const el = document.getElementById('ol#searchEngines');
-    const folderItem = document.createElement('li');
-    const icon = document.createElement('span');
+function createFolderItem(id, name, keyword) {
+    const ol = document.getElementById('searchEngines');
     const inputFolderName = document.createElement('input');
     const inputFolderKeyword = document.createElement('input');
-    const subFolder = document.createElement('div');
 
     // Event handlers for search engine name changes
     inputFolderName.addEventListener('cut', folderNameChanged); // when users cut text
@@ -694,9 +691,11 @@ function createFolderItem(name, keyword) {
     navDiv.appendChild(sortTarget);
     navDiv.appendChild(removeButton);
 
-    folderItem.setAttribute('id', name);
-    folderItem.setAttribute('class', 'folder');
+    const folderItem = document.createElement('li');
+    folderItem.setAttribute('id', id);
+    folderItem.classList.add('folder', 'list-group-item', 'nested-1');
 
+    const icon = document.createElement('span');
     icon.setAttribute('class', 'icon ion-folder');
 
     inputFolderName.setAttribute('type', 'text');
@@ -708,6 +707,7 @@ function createFolderItem(name, keyword) {
     inputFolderKeyword.setAttribute('data-i18n-placeholder', 'placeholderKeyword');
     inputFolderKeyword.setAttribute('value', keyword);
 
+    const subFolder = document.createElement('div');
     subFolder.setAttribute('class', 'subfolder');
 
     folderItem.appendChild(icon);
@@ -717,7 +717,7 @@ function createFolderItem(name, keyword) {
     folderItem.appendChild(subFolder);
 
     // Initialize Sortable subfolder
-    new Sortable(el.querySelector('.subfolder'), {
+    new Sortable(ol.querySelector('.subfolder'), {
         group: 'nested',
         animation: 200,
         fallbackOnBody: true,
@@ -1143,17 +1143,24 @@ function addFolder() {
     const divSearchEngines = document.getElementById('searchEngines');
     const name = folderName.value;
     const keyword = folderKeyword.value;
-    const id = name.replace(' ', '-').toLowerCase();
+    let folderId = 'folder-' + name.replace(' ', '-').toLowerCase();
+
+    // Verify that folderId is unique
+    for (const id of searchEngines) {
+        if (folderId === id) {
+            folderId += '-' + Math.floor(Math.random() * 1000000000000);
+        }
+    }
 
     // Append folder to search engine list
-    const folderItem = createFolderItem(name, keyword);
+    const folderItem = createFolderItem(folderId, name, keyword);
     divSearchEngines.appendChild(folderItem);
 
     // The new folder will be saved as a search engine entry
     // Folders don't possess all the properties that search engines do
     // A folder doesn't have a query string url property
     // A folder may have children; not a search engine
-    searchEngines[id] = {
+    searchEngines[folderId] = {
         index: numberOfSearchEngines,
         name: name,
         keyword: keyword,
@@ -1165,8 +1172,8 @@ function addFolder() {
     clearAddFolder();
 
     sendMessage('addNewSearchEngine', {
-        id: id,
-        searchEngine: searchEngines[id]
+        id: folderId,
+        searchEngine: searchEngines[folderId]
     });
 }
 
@@ -1270,13 +1277,6 @@ function setOptions(options) {
     } else {
         // Default setting is to fetch favicons for context menu list
         displayFavicons.checked = true;
-    }
-
-    if (options.displayExifSummary === false) {
-        displayExifSummary.checked = false;
-    } else {
-        // Default setting is to display a summary of Exif tags
-        displayExifSummary.checked = true;
     }
 
     disableAltClick.checked = options.disableAltClick || false;
