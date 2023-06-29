@@ -49,7 +49,6 @@ const position = document.getElementById('position');
 const privacy = document.getElementById('privacy');
 const lastTab = document.getElementById('lastTab');
 const optionsMenuLocation = document.getElementById('optionsMenuLocation');
-const displayExifSummary = document.getElementById('displayExifSummary');
 const displayFavicons = document.getElementById('displayFavicons');
 const disableAltClick = document.getElementById('disableAltClick');
 const resetPreferences = document.getElementById('resetPreferences');
@@ -1270,13 +1269,6 @@ function setOptions(options) {
     } else {
         // Default setting is to fetch favicons for context menu list
         displayFavicons.checked = true;
-    }
-
-    if (options.displayExifSummary === false) {
-        displayExifSummary.checked = false;
-    } else {
-        // Default setting is to display a summary of Exif tags
-        displayExifSummary.checked = true;
     }
 
     disableAltClick.checked = options.disableAltClick || false;

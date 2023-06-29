@@ -22,7 +22,7 @@
         "show_matches": [
             "<all_urls>"
         ],
-        "browser_style": true,
+        "browser_style": false,
         "default_icon": "/icons/context-search.svg",
         "default_title": "Add search engine to Context Search"
     },
