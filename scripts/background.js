@@ -170,7 +170,7 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
                 tabPosition = activeTabIndex + 1;
             }
             if (id === 'multisearch') {
-                processMultiTabSearch(tabPosition);
+                processMultiTabSearch([], tabPosition);
                 return;
             }
             if (contextsearch_openSearchResultsInSidebar) {
@@ -1069,7 +1069,7 @@ async function processSearch(info, tab) {
         browser.runtime.openOptionsPage().then(null, onError);
         return;
     } else if (id === 'multitab') {
-        processMultiTabSearch(tabPosition);
+        processMultiTabSearch([], tabPosition);
         return;
     } else if (id === 'match') {
         getOptions().then((settings) => {
@@ -1091,15 +1091,19 @@ async function processSearch(info, tab) {
     }
 }
 
-async function processMultiTabSearch(tabPosition) {
+async function processMultiTabSearch(arraySearchEngineUrls, tabPosition) {
     const data = await browser.storage.local.get(null);
     searchEngines = sortByIndex(data);
     let multiTabSearchEngineUrls = [];
-    for (let id in searchEngines) {
-        if (searchEngines[id].multitab) {
-            multiTabSearchEngineUrls.push(
-                getSearchEngineUrl(searchEngines[id].url, selection)
-            );
+    if (arraySearchEngineUrls.length > 1) {
+        multiTabSearchEngineUrls = arraySearchEngineUrls;
+    } else {
+        for (let id in searchEngines) {
+            if (searchEngines[id].multitab) {
+                multiTabSearchEngineUrls.push(
+                    getSearchEngineUrl(searchEngines[id].url, selection)
+                );
+            }
         }
     }
     if (notificationsEnabled && isEmpty(multiTabSearchEngineUrls)) {
@@ -1235,7 +1239,7 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                     browser.runtime.openOptionsPage();
                     break;
                 case '!':
-                    processMultiTabSearch(tabPosition);
+                    processMultiTabSearch([], tabPosition);
                     break;
                 case 'bookmarks':
                 case '!b':
@@ -1271,7 +1275,14 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                     });
                     break;
                 default:
-                    if (suggestion.length === 1) {
+                    if (suggestion.length > 1) {
+                        let arraySearchEngineUrls = [];
+                        for (const s of suggestion) {
+                            arraySearchEngineUrls.push(s.content);
+                        }
+                        processMultiTabSearch(arraySearchEngineUrls, tabPosition);
+                    }
+                    else if (suggestion.length === 1) {
                         displaySearchResults(suggestion[0].content, tabIndex);
                     } else {
                         browser.search.search({ query: searchTerms, tabId: tabId });
@@ -1361,7 +1372,6 @@ function buildSuggestion(text) {
                 'Search ' + searchEngines[id].name + ' for ' + searchTerms;
             if (logToConsole) console.log(JSON.stringify(suggestion));
             result.push(suggestion);
-            return result;
         }
     }
 

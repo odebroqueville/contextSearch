@@ -1,5 +1,10 @@
-4.5.1
+4.5.2
 =========
+
+* Added the option to make a multisearch in the Omnibox using the same keyword for multiple different search engines
+
+4.5.1
+---------
 
 * Bug fix [#141](https://github.com/odebroqueville/contextSearch/issues/141)
 
