@@ -115,19 +115,34 @@ browser.webRequest.onBeforeSendHeaders.addListener(
 /*
 Rewrite the User-Agent header to contextsearch_userAgent
 */
-function rewriteUserAgentHeader(e) {
+async function rewriteUserAgentHeader(e) {
+    if (logToConsole) console.log(e);
     if (!contextsearch_openSearchResultsInSidebar) {
         return {};
     }
-    console.log(`Intercepted header: ${e.requestHeaders}`);
+    if (logToConsole) {
+        const activeTab = await browser.tabs.query({
+            currentWindow: true,
+            active: true,
+        });
+        console.log('Active tab: ');
+        console.log(activeTab);
+        console.log('Intercepted header:');
+        console.log(e.requestHeaders);
+    }
     for (const header of e.requestHeaders) {
         if (header.name.toLowerCase() === 'user-agent') {
             header.value = contextsearch_userAgent;
         }
     }
-    console.log(`Modified header: ${e.requestHeaders}`);
+    if (logToConsole) {
+        console.log('Modified header:');
+        console.log(e.requestHeaders);
+    }
     return { requestHeaders: e.requestHeaders };
 }
+
+
 
 /// Handle Incoming Messages
 // Listen for messages from the content or options script
@@ -1127,7 +1142,7 @@ function searchUsing(id, tabIndex) {
     targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
     if (logToConsole) console.log(`Target url: ${targetUrl}`);
     if (contextsearch_openSearchResultsInSidebar) {
-        browser.sidebarAction.setPanel({ panel: targetUrl });
+        browser.sidebarAction.setPanel({ panel: targetUrl + '#_sidebar' });
         browser.sidebarAction.setTitle({ title: 'Search results' });
         return;
     }

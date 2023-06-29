@@ -1,15 +1,10 @@
 html,
 body {
-    scroll-behavior: smooth;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    height: 100%;
-    width: 100%;
-    max-width: 432px;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Raleway', Helvetica, Arial, sans-serif;
+
+    font-family: Raleway, Helvetica, Arial, sans-serif;
     font-size: 10pt;
-    color: darkslategrey;
+}
+
+div#botstuff {
+    display: none !important;
 }

@@ -96,6 +96,14 @@ async function init() {
         console.log(`Domain: ${domain}`);
     }
 
+    if (tabUrl.endsWith('#_sidebar')) {
+        const stylesheetUrl = browser.runtime.getURL('/styles/search_results.css');
+        const link = document.createElement('link');
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('href', stylesheetUrl);
+        document.head.appendChild(link);
+    }
+
     // If the website doesn't contain an opensearch plugin, then hide the Page action
     if (document.querySelector('link[type="application/opensearchdescription+xml"]') == null) {
         sendMessage('hidePageAction', null);
