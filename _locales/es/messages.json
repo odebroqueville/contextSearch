@@ -394,6 +394,14 @@
 		"message": "Hacer nueva ventana privada",
 		"hash": "a2c9e60d71cf882080023ad80af8b903"
 	},
+	"reminder": {
+		"message": "Recordatorio",
+		"hash": "7764c333b42339d1f5edf71779799c41"
+	},
+	"enableDownloadsReminder": {
+		"message": "habilite los permisos de Descargas para exportar sus motores de búsqueda.",
+		"hash": "16e431f64c09354a2034b62338cab41c"
+	},
 
 	"__WET_LOCALE__": { "message": "es" }
 }
