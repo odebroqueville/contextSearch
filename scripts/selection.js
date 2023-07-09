@@ -400,7 +400,7 @@ function createIconGrid(x, y) {
     let n = 0;
     for (const id in searchEngines) {
         if (!id.startsWith("separator-")) {
-            let src = 'data:image/png;base64,';
+            let src = `data:${searchEngines[id].imageFormat || 'image/png'};base64,`;
             const title = searchEngines[id].name;
             if (isEmpty(searchEngines[id]) || isEmpty(searchEngines[id].base64)) {
                 // Default icon when no favicon could be found

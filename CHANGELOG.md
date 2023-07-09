@@ -1,5 +1,22 @@
-4.5.2
+4.5.4
 =========
+
+* Code cleanup
+* Bug fixes for reset action in options page
+* Changed method to retrieve favicons for better performance
+* Added missing keyboard shortcut for Adobe Stock to default search engines
+
+4.5.3
+---------
+
+* Added translations for the Downloads Permission reminder
+* Export button is now disabled when the Downloads permission is disabled
+* Added support for all favicon image formats by adding imageFormats field to the search engines local storage and modifying the data urls
+* Changed the behaviour of the popup window to edit favicons: the base64 string can no longer be edited; the favicon image can only be changed by drag & drop
+* Modified the getNewFavicon function: the favicon image is directly retrieved from the Firebase Cloud Function
+
+4.5.2
+---------
 
 * Added the option to make a multisearch in the Omnibox using the same keyword for multiple different search engines
 

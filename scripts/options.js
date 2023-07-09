@@ -113,8 +113,10 @@ let keysPressed = {};
 
 /// Event handlers
 document.addEventListener('DOMContentLoaded', restoreOptionsPage);
+browser.runtime.onMessage.addListener(handleMessage);
 browser.storage.onChanged.addListener(handleStorageChange);
-// browser.runtime.onMessage.addListener(handleIncomingMessages);
+browser.permissions.onAdded.addListener(handlePermissionsChanges);
+browser.permissions.onRemoved.addListener(handlePermissionsChanges);
 
 // Settings
 exactMatch.addEventListener('click', updateSearchOptions);
@@ -151,6 +153,21 @@ btnAddSeparator.addEventListener('click', addSeparator);
 // Import/export
 btnDownload.addEventListener('click', saveToLocalDisk);
 btnUpload.addEventListener('change', handleFileUpload);
+
+// Handle incoming messages
+function handleMessage(message) {
+    if (logToConsole) console.log(message);
+    if (message.action === 'resetCompleted') {
+        restoreOptionsPage();
+    }
+}
+
+// Handle Permissions changes for Downloads
+function handlePermissionsChanges(Permissions) {
+    console.log(`API permissions: ${Permissions.permissions}`);
+    console.log(`Host permissions: ${Permissions.origins}`);
+    checkForDownloadssPermission();
+}
 
 // Detect the underlying OS
 function getOS() {
@@ -423,7 +440,7 @@ function createLineItem(id, searchEngine, isFolder = false) {
     chkShowSearchEngine.setAttribute('id', id + '-chk');
     chkShowSearchEngine.checked = searchEngine.show;
 
-    favicon.setAttribute('src', 'data:image/png;base64,' + searchEngine.base64);
+    favicon.setAttribute('src', `data:${searchEngine.imageFormat || 'image/png'};base64,${searchEngine.base64}`);
 
     inputSearchEngineName.setAttribute('type', 'text');
     inputSearchEngineName.setAttribute('id', id + '-name');
@@ -474,11 +491,12 @@ function createLineItem(id, searchEngine, isFolder = false) {
 }
 
 function editFavicon(e) {
-    console.log(e);
+    if (logToConsole) console.log(e);
     // Find closest <li> parent
     const lineItem = e.target.closest('li');
     if (!lineItem) return;
     const id = lineItem.getAttribute('id');
+    const imageFormat = searchEngines[id].imageFormat;
     const base64Image = searchEngines[id].base64;
     const searchEngineName = searchEngines[id].name;
     const popupWidth = 550; // Width of the popup window
@@ -486,6 +504,8 @@ function editFavicon(e) {
     const left = Math.floor((window.screen.width - popupWidth) / 2);
     const top = Math.floor((window.screen.height - popupHeight) / 2);
     const windowFeatures = `popup, width=${popupWidth}, height=${popupHeight}, left=${left}, top=${top}`;
+    let newBase64;
+    let contentType;
 
     // Create the popup window
     const popup = window.open('', 'editFaviconPopup', windowFeatures);
@@ -504,7 +524,7 @@ function editFavicon(e) {
 
     // Create an image element for displaying the favicon
     const faviconImg = document.createElement('img');
-    faviconImg.src = 'data:image/png;base64,' + base64Image;
+    faviconImg.src = `data:${imageFormat || 'image/png'};base64,${base64Image}`;
     faviconImg.style.width = '100%';
     faviconImg.style.height = 'auto';
     faviconImg.style.padding = '10px';
@@ -517,9 +537,9 @@ function editFavicon(e) {
     imageTitle.style.padding = '10px';
     imageTitle.style.margin = '0';
 
-    // Create a title containing the search engine name
+    // Add a section to instruct users how to change the favicon image
     const help = document.createElement('em');
-    help.textContent = "Drag & drop a png image over the existing image or paste the base64 string of the new image to the right. Then click on the 'Save' button for your changes to take effect.";
+    help.textContent = "Drag & drop a new image over the existing favicon image. Then click on the 'Save' button for your changes to take effect.";
     help.style.display = 'inline-block';
     help.style.padding = '10px';
     help.style.lineHeight = '1.3em';
@@ -541,7 +561,7 @@ function editFavicon(e) {
 
     // Create the content-editable div
     const editableDiv = document.createElement('div');
-    editableDiv.contentEditable = true;
+    editableDiv.contentEditable = false;
     editableDiv.style.width = '100%';
     editableDiv.style.height = '100%';
     editableDiv.style.fontSize = '13px';
@@ -564,53 +584,54 @@ function editFavicon(e) {
     buttonCell.style.display = 'flex';
     buttonCell.style.gap = '10px';
 
-    /// Create the "Clear" button
-    const clearButton = document.createElement('button');
-    clearButton.style.width = '100px';
-    clearButton.style.height = '100%';
-    clearButton.style.marginLeft = '10px';
-    clearButton.textContent = 'Clear';
-
-    // Handle clear button click event
-    clearButton.addEventListener('click', () => {
-        editableDiv.textContent = '';
-    });
-
-    // Create the "Copy" button
-    const copyButton = document.createElement('button');
-    copyButton.style.width = '100px';
-    copyButton.style.height = '100%';
-    copyButton.textContent = 'Copy';
-
-    // Handle copy button click event
-    copyButton.addEventListener('click', () => {
-        navigator.clipboard.writeText(editableDiv.textContent)
-            .then(() => {
-                if (logToConsole) console.log('Text copied to clipboard.');
-            })
-            .catch((err) => {
-                if (logToConsole) console.error('Failed to copy text to clipboard:', err);
-            });
-    });
+    /*     // Create the "Clear" button
+        const clearButton = document.createElement('button');
+        clearButton.style.width = '100px';
+        clearButton.style.height = '100%';
+        clearButton.style.marginLeft = '10px';
+        clearButton.textContent = 'Clear';
+    
+        // Handle clear button click event
+        clearButton.addEventListener('click', () => {
+            editableDiv.textContent = '';
+        });
+    
+        // Create the "Copy" button
+        const copyButton = document.createElement('button');
+        copyButton.style.width = '100px';
+        copyButton.style.height = '100%';
+        copyButton.textContent = 'Copy';
+    
+        // Handle copy button click event
+        copyButton.addEventListener('click', () => {
+            navigator.clipboard.writeText(editableDiv.textContent)
+                .then(() => {
+                    if (logToConsole) console.log('Text copied to clipboard.');
+                })
+                .catch((err) => {
+                    if (logToConsole) console.error('Failed to copy text to clipboard:', err);
+                });
+        }); */
 
     // Create the "Replace favicon" button
     const replaceButton = document.createElement('button');
-    replaceButton.style.width = '100px';
+    replaceButton.style.width = '100%';
     replaceButton.style.height = '100%';
     replaceButton.textContent = 'Save';
 
     // Handle button click event
     replaceButton.addEventListener('click', () => {
-        const newBase64 = editableDiv.textContent.trim();
-
-        // Replace the favicon image with the new base64 string
-        faviconImg.src = `data:image/png;base64,${newBase64}`;
-
         // Save the new favicon image to local storage
+        searchEngines[id].imageFormat = contentType;
         searchEngines[id].base64 = newBase64;
         sendMessage('saveSearchEngines', searchEngines);
         popup.close();
     });
+
+    // Append the buttons to the third cell
+    // buttonCell.appendChild(clearButton);
+    // buttonCell.appendChild(copyButton);
+    buttonCell.appendChild(replaceButton);
 
     // Handle drag and drop event
     faviconImg.addEventListener('dragover', (e) => {
@@ -624,10 +645,11 @@ function editFavicon(e) {
         const reader = new FileReader();
 
         reader.onload = (event) => {
-            const newBase64 = event.target.result.replace(/^.*?,/, '');
+            newBase64 = event.target.result.replace(/^.*?,/, '');
+            contentType = file.type; // Get the content type of the dropped file
 
             // Replace the favicon image with the dragged image
-            faviconImg.src = `data:image/png;base64,${newBase64}`;
+            faviconImg.src = `data:${contentType};base64,${newBase64}`;
 
             // Update the base64 string in the editable div
             editableDiv.textContent = newBase64;
@@ -635,11 +657,6 @@ function editFavicon(e) {
 
         reader.readAsDataURL(file);
     });
-
-    // Append the buttons to the third cell
-    buttonCell.appendChild(clearButton);
-    buttonCell.appendChild(copyButton);
-    buttonCell.appendChild(replaceButton);
 
     // Append the cells to the body of the popup
     popup.document.body.appendChild(faviconCell);
@@ -771,8 +788,8 @@ function sortSearchEnginesAlphabetically() {
 }
 
 function reset() {
-    let sending = sendMessage('reset', null);
-    sending.then(handleResponse, handleError);
+    sendMessage('reset', null);
+    // sending.then(handleResponse).catch(handleError);
 }
 
 function handleResponse(message) {
@@ -979,29 +996,31 @@ function readData() {
     let lineItems = divSearchEngines.childNodes;
     numberOfSearchEngines = lineItems.length;
     for (let i = 0; i < numberOfSearchEngines; i++) {
-        let input = lineItems[i].firstChild;
+        const input = lineItems[i].firstChild;
+        const id = lineItems[i].id;
         if (input != null && input.nodeName === 'INPUT' && input.getAttribute('type') === 'checkbox') {
-            let label = input.nextSibling.nextSibling;
-            let keyword = label.nextSibling;
-            let keyboardShortcut = keyword.nextSibling;
-            let multiTab = keyboardShortcut.nextSibling;
-            let url = multiTab.nextSibling;
-            let strRegex = url.nextSibling;
-            searchEngines[lineItems[i].id] = {};
-            searchEngines[lineItems[i].id]['index'] = i;
-            searchEngines[lineItems[i].id]['name'] = label.value;
-            searchEngines[lineItems[i].id]['keyword'] = keyword.value;
-            searchEngines[lineItems[i].id]['keyboardShortcut'] = keyboardShortcut.value;
-            searchEngines[lineItems[i].id]['multitab'] = multiTab.checked;
-            searchEngines[lineItems[i].id]['url'] = url.value;
-            searchEngines[lineItems[i].id]['regex'] = {};
-            searchEngines[lineItems[i].id]['regex']['body'] = strRegex.value.split('/')[1];
-            searchEngines[lineItems[i].id]['regex']['flags'] = strRegex.value.split('/').pop();
-            searchEngines[lineItems[i].id]['show'] = input.checked;
-            searchEngines[lineItems[i].id]['base64'] = oldSearchEngines[lineItems[i].id].base64;
-        } else if (input != null && input.nodeName === 'HR' && lineItems[i].id.startsWith("separator-")) {
-            searchEngines[lineItems[i].id] = {};
-            searchEngines[lineItems[i].id]['index'] = i;
+            const label = input.nextSibling.nextSibling;
+            const keyword = label.nextSibling;
+            const keyboardShortcut = keyword.nextSibling;
+            const multiTab = keyboardShortcut.nextSibling;
+            const url = multiTab.nextSibling;
+            const strRegex = url.nextSibling;
+            searchEngines[id] = {};
+            searchEngines[id]['index'] = i;
+            searchEngines[id]['name'] = label.value;
+            searchEngines[id]['keyword'] = keyword.value;
+            searchEngines[id]['keyboardShortcut'] = keyboardShortcut.value;
+            searchEngines[id]['multitab'] = multiTab.checked;
+            searchEngines[id]['url'] = url.value;
+            searchEngines[id]['regex'] = {};
+            searchEngines[id]['regex']['body'] = strRegex.value.split('/')[1];
+            searchEngines[id]['regex']['flags'] = strRegex.value.split('/').pop();
+            searchEngines[id]['show'] = input.checked;
+            searchEngines[id]['imageFormat'] = oldSearchEngines[id].imageFormat;
+            searchEngines[id]['base64'] = oldSearchEngines[id].base64;
+        } else if (input != null && input.nodeName === 'HR' && id.startsWith("separator-")) {
+            searchEngines[id] = {};
+            searchEngines[id]['index'] = i;
             // searchEngines[lineItems[i].id]['name'] = null;
             // searchEngines[lineItems[i].id]['keyword'] = null;
             // searchEngines[lineItems[i].id]['keyboardShortcut'] = null;
@@ -1015,7 +1034,7 @@ function readData() {
         else if (lineItems[i].classList.contains('folder')) {
             let folder = {
                 index: i,
-                name: lineItems[i].id,
+                name: id,
                 keyword: lineItems[i].querySelector('input.keyword').value,
                 folder: true,
                 searchEngines: []
@@ -1035,7 +1054,7 @@ function readData() {
                 });
             })
 
-            searchEngines[lineItems[i].id] = folder
+            searchEngines[id] = folder
         }
     }
     return searchEngines;
@@ -1467,7 +1486,18 @@ function sortAlphabetically(array) {
 }
 
 function init() {
+    checkForDownloadssPermission();
     i18n();
+}
+
+async function checkForDownloadssPermission() {
+    const downloads = { permissions: ['downloads'] };
+    const hasDownloadsPermission = await browser.permissions.contains(downloads);
+    if (hasDownloadsPermission) {
+        btnDownload.disabled = false;
+    } else {
+        btnDownload.disabled = true;
+    }
 }
 
 function i18n() {
