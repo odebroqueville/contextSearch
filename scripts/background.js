@@ -149,9 +149,7 @@ async function rewriteUserAgentHeader(e) {
 /// Handle Incoming Messages
 // Listen for messages from the content or options script
 browser.runtime.onMessage.addListener((message, sender) => {
-    let id = '';
-    let domain = '';
-    let activeTab, lastTab, activeTabIndex, tabPosition, tabs;
+    const id = message.data.id;
 
     const queryActiveTab = () => {
         return browser.tabs.query({ active: true, currentWindow: true });
@@ -161,13 +159,13 @@ browser.runtime.onMessage.addListener((message, sender) => {
         return browser.tabs.query({ currentWindow: true });
     };
 
-    const processSearchEngineId = (searchEngineId) => {
-        id = searchEngineId;
+    const logSearchEngineId = () => {
         logToConsole('Search engine id: ' + id);
         logToConsole(contextsearch_openSearchResultsInSidebar);
     };
 
     const handleDoSearch = () => {
+        let activeTab;
         queryActiveTab()
             .then((result) => {
                 activeTab = result[0];
@@ -175,10 +173,11 @@ browser.runtime.onMessage.addListener((message, sender) => {
                 return queryAllTabs();
             })
             .then((result) => {
-                tabs = result;
+                const tabs = result;
                 logToConsole(tabs);
-                lastTab = tabs[tabs.length - 1];
-                activeTabIndex = activeTab.index;
+                const lastTab = tabs[tabs.length - 1];
+                let activeTabIndex = activeTab.index;
+                let tabPosition;
                 logToConsole('Active tab index: ' + activeTabIndex);
                 if (contextsearch_multiMode === 'multiAfterLastTab') {
                     tabPosition = lastTab.index + 1;
@@ -219,16 +218,12 @@ browser.runtime.onMessage.addListener((message, sender) => {
             .then(() => {
                 rebuildContextMenu();
             })
-            .catch(err => {
-                if (logToConsole) {
-                    console.error(err);
-                    console.log('Failed to clear local storage.');
-                }
-            });
+            .catch(console.error);
     };
 
     const handleAddNewSearchEngine = (data) => {
-        id = data.id;
+        const id = data.id;
+        let domain;
         if (!id.startsWith("separator-")) {
             domain = getDomain(data.searchEngine.url);
             logToConsole(id, domain);
@@ -244,9 +239,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
                 options.exactMatch = data.exactMatch;
                 return setOptions(options, true, false);
             })
-            .catch(err => {
-                console.error(err);
-            });
+            .catch(console.error);
     };
 
     const handleUpdateDisplayFavicons = (data) => {
@@ -255,9 +248,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
                 options.displayFavicons = data.displayFavicons;
                 return setOptions(options, true, true);
             })
-            .catch(err => {
-                console.error(err);
-            });
+            .catch(console.error);
     };
 
     const handleUpdateDisableAltClick = (data) => {
@@ -266,9 +257,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
                 options.disableAltClick = data.disableAltClick;
                 return setOptions(options, true, false);
             })
-            .catch(err => {
-                console.error(err);
-            });
+            .catch(console.error);
     };
 
     const handleUpdateTabMode = (data) => {
@@ -280,9 +269,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
                 options.privateMode = data.privateMode;
                 return setOptions(options, true, false);
             })
-            .catch(err => {
-                console.error(err);
-            });
+            .catch(console.error);
     };
 
     const handleUpdateMultiMode = (data) => {
@@ -291,9 +278,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
                 options.multiMode = data.multiMode;
                 return setOptions(options, true, false);
             })
-            .catch(err => {
-                console.error(err);
-            });
+            .catch(console.error);
     };
 
     const handleUpdateOptionsMenuLocation = (data) => {
@@ -302,9 +287,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
                 options.optionsMenuLocation = data.optionsMenuLocation;
                 return setOptions(options, true, true);
             })
-            .catch(err => {
-                console.error(err);
-            });
+            .catch(console.error);
     };
 
     const handleUpdateSiteSearchSetting = (data) => {
@@ -314,9 +297,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
                 options.siteSearchUrl = data.siteSearchUrl;
                 return setOptions(options, true, true);
             })
-            .catch(err => {
-                console.error(err);
-            });
+            .catch(console.error);
     };
 
     const handleUpdateResetOptions = (data) => {
@@ -327,9 +308,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
                 options.forceFaviconsReload = data.resetOptions.forceFaviconsReload;
                 return setOptions(options, true, false);
             })
-            .catch(err => {
-                console.error(err);
-            });
+            .catch(console.error);
     };
 
     const handleUpdateUseRegex = (data) => {
@@ -338,9 +317,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
                 options.useRegex = data.useRegex;
                 return setOptions(options, true, true);
             })
-            .catch(err => {
-                console.error(err);
-            });
+            .catch(console.error);
     };
 
     const handleSaveSearchEnginesToDisk = (data) => {
@@ -353,8 +330,8 @@ browser.runtime.onMessage.addListener((message, sender) => {
 
     switch (message.action) {
         case 'doSearch':
-            processSearchEngineId(message.data.id);
-            handleDoSearch();
+            logSearchEngineId(id);
+            handleDoSearch(id);
             break;
         case 'notify':
             if (notificationsEnabled) notify(message.data);
