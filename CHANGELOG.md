@@ -9,8 +9,9 @@
 4.5.3
 ---------
 
+* Bug fix [#145](https://github.com/odebroqueville/contextSearch/issues/145)
 * Added translations for the Downloads Permission reminder
-* Export button is now disabled when the Downloads permission is disabled
+* Bug fix [#146](https://github.com/odebroqueville/contextSearch/issues/146) Export button is now disabled when the Downloads permission is disabled
 * Added support for all favicon image formats by adding imageFormats field to the search engines local storage and modifying the data urls
 * Changed the behaviour of the popup window to edit favicons: the base64 string can no longer be edited; the favicon image can only be changed by drag & drop
 * Modified the getNewFavicon function: the favicon image is directly retrieved from the Firebase Cloud Function

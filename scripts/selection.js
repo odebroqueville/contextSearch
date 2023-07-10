@@ -65,17 +65,11 @@ browser.storage.onChanged.addListener(handleStorageChange);
 
 /// Handle Incoming Messages
 // Listen for messages from the background script
-browser.runtime.onMessage.addListener(async (message) => {
-    let url;
+browser.runtime.onMessage.addListener((message) => {
     switch (message.action) {
         case 'getSearchEngine':
             try {
-                url = document.querySelector('link[type="application/opensearchdescription+xml"]').href;
-                if (logToConsole) console.log(url);
-                // Fetch search engine data
-                const result = await getNewSearchEngine(url);
-                // Send msg to background script to get the new search engine added
-                if (result !== null) sendMessage('addNewSearchEngine', result);
+                getOpenSearchEngine();
             } catch (err) {
                 if (logToConsole) console.log(err);
                 sendMessage('notify', notifySearchEngineNotFound);
@@ -85,6 +79,15 @@ browser.runtime.onMessage.addListener(async (message) => {
             break;
     }
 });
+
+async function getOpenSearchEngine() {
+    const url = document.querySelector('link[type="application/opensearchdescription+xml"]').href;
+    if (logToConsole) console.log(url);
+    // Fetch search engine data
+    const result = await getNewSearchEngine(url);
+    // Send msg to background script to get the new search engine added
+    if (result !== null) sendMessage('addNewSearchEngine', result);
+}
 
 async function init() {
     tabUrl = window.location.href;
