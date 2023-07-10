@@ -302,5 +302,16 @@
     "enableDownloadsReminder": {
         "message": "enable Downloads permissions to export your search engines."
     },
-    "__WET_LOCALE__": { "message": "en" }
+    "header11": {
+        "message": "Icons Grid options"
+    },
+    "quickIconGrid": {
+        "message": "Immediately display the icons grid after text has been selected"
+    },
+    "closeGridOnMouseOut": {
+        "message": "Close the icons grid on mouse out"
+    },
+    "__WET_LOCALE__": {
+        "message": "en"
+    }
 }

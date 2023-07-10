@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 'use strict';
 
 /// Global variables
@@ -137,6 +138,7 @@ async function init() {
         }
     }
 
+    // Display clickable icons (buttons) for mycroftproject.com
     showButtons();
 }
 
@@ -226,7 +228,6 @@ function handleKeyUp(e) {
 }
 
 async function handleStorageChange(changes, area) {
-    let data;
     if (logToConsole) {
         console.log('The following changes have occured:\n');
         console.log(changes);
@@ -254,7 +255,7 @@ async function handleStorageChange(changes, area) {
             break;
         case 'sync':
             // Update options var on change
-            data = await browser.storage.sync.get(null);
+            const data = await browser.storage.sync.get(null);
             sameTab = false;
             options = data.options;
             if (options && options.tabMode === 'sameTab') {
@@ -268,28 +269,32 @@ async function handleStorageChange(changes, area) {
 
 // Triggered by mouse up event
 function handleAltClickWithGrid(e) {
-    if (logToConsole) console.log('Click event triggered:\n' + e.type, e.button, e.altKey);
+    if (e !== undefined && logToConsole) console.log('Click event triggered:\n' + e.type, e.button, e.altKey, e.clientX, e.clientY);
 
     // If option is disabled then do nothing. Note: this intentionally comes after selected text is accessed as text can become unselected on click
     if (options.disableAltClick) return;
 
     // If mouse up is not done with left mouse button then do nothing
-    if (e.button > 0) return;
+    if (e !== undefined && e.button > 0) return;
 
-    // If Option (alt) key isn't pressed on mouse up then do nothing
-    if (!e.altKey) return;
+    // IF either the Quick Icons Grid is activated on mouse up 
+    // OR the option (alt) key is pressed on mouse up
+    // THEN display the Icons Grid
+    if ((options.quickIconGrid && e.type === 'mouseup' && selectedText.length > 0) || (e.type === 'mouseup' && e.altKey && selectedText)) {
+        if (logToConsole) console.log(`Selected text: ${selectedText}`);
 
-    // Sort the search engines by index
-    searchEngines = sortByIndex(searchEngines);
+        // Sort the search engines by index
+        searchEngines = sortByIndex(searchEngines);
 
-    // If the grid of icons is alreadey displayed
-    let nav = document.getElementById('icon-grid');
-    if (nav !== null && nav.style.display !== 'none') return;
+        // If the grid of icons is alreadey displayed
+        const nav = document.getElementById('icon-grid');
+        if (nav !== null && nav.style.display !== 'none') return;
 
-    // Otherwise
-    let x = e.clientX;
-    let y = e.clientY;
-    createIconGrid(x, y);
+        // Otherwise
+        const x = e.clientX;
+        const y = e.clientY;
+        createIconGrid(x, y);
+    }
 }
 
 function handleRightClickWithoutGrid(e) {
@@ -338,9 +343,10 @@ async function showButtons() {
     });
 }
 
-function handleTextSelection() {
+function handleTextSelection(e) {
     getSelectedText();
     if (selectedText !== null && selectedText !== undefined && selectedText !== "") {
+        if (logToConsole) console.log(`Selected text: ${selectedText}`);
         sendSelectionToBackgroundScript(selectedText);
     }
 }
@@ -363,7 +369,6 @@ function getSelectedText() {
         }
     }
 
-
     // If selection is made in Textarea or Input field
     if (
         document.activeElement != null &&
@@ -375,8 +380,6 @@ function getSelectedText() {
         );
         if (selectedTextInput !== '') selectedText = selectedTextInput;
     }
-
-    if (logToConsole) console.log(`Selected text: ${selectedText}`);
 }
 
 function sendSelectionToBackgroundScript(selectedText) {
@@ -485,23 +488,22 @@ function createIconGrid(x, y) {
 function onGridClick(e) {
     e.preventDefault();
     e.stopPropagation();
-    if (logToConsole) console.log('Grid icon got clicked:' + e.type);
+    if (logToConsole) console.log('Icons Grid got clicked:' + e.type);
     const id = e.target.id;
     if (logToConsole) console.log('Search engine clicked:' + id);
-    if (sameTab) {
-        let nav = document.getElementById('icon-grid');
-        nav.style.display = 'none';
-        nav.removeEventListener('click', onGridClick);
-        nav.removeEventListener('mouseleave', onLeave);
-        nav = null;
-    }
+    closeGrid();
     const selection = window.getSelection();
     selection.addRange(range);
     sendMessage('doSearch', { id: id });
 }
 
-function onLeave(e) {
-    let nav = e.target;
+function onLeave() {
+    if (!options.closeGridOnMouseOut) return;
+    closeGrid();
+}
+
+function closeGrid() {
+    let nav = document.getElementById('icon-grid');
     nav.style.display = 'none';
     nav.removeEventListener('click', onGridClick);
     nav.removeEventListener('mouseleave', onLeave);

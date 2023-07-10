@@ -74,6 +74,8 @@ let contextsearch_makeNewTabOrWindowActive = false;
 let contextsearch_openSearchResultsInNewWindow = false;
 let contextsearch_openSearchResultsInSidebar = false;
 let contextsearch_displayFavicons = true;
+let contextsearch_quickIconGrid = false;
+let contextsearch_closeGridOnMouseOut = true;
 let contextsearch_disableAltClick = false;
 let contextsearch_forceFaviconsReload = false;
 let contextsearch_resetPreferences = false;
@@ -92,6 +94,8 @@ const defaultOptions = {
     lastTab: contextsearch_openSearchResultsInLastTab,
     optionsMenuLocation: contextsearch_optionsMenuLocation,
     displayFavicons: contextsearch_displayFavicons,
+    quickIconGrid: contextsearch_quickIconGrid,
+    closeGridOnMouseOut: contextsearch_closeGridOnMouseOut,
     disableAltClick: contextsearch_disableAltClick,
     forceSearchEnginesReload: contextsearch_forceSearchEnginesReload,
     resetPreferences: contextsearch_resetPreferences,
@@ -217,6 +221,18 @@ async function handleUpdateDisplayFavicons(data) {
     await setOptions(options, true, true);
 }
 
+async function handleUpdateQuickIconGrid(data) {
+    const options = await getOptions();
+    options.quickIconGrid = data.quickIconGrid;
+    await setOptions(options, true, false);
+}
+
+async function handleUpdateCloseGridOnMouseOut(data) {
+    const options = await getOptions();
+    options.closeGridOnMouseOut = data.closeGridOnMouseOut;
+    await setOptions(options, true, false);
+}
+
 async function handleUpdateDisableAltClick(data) {
     const options = await getOptions();
     options.disableAltClick = data.disableAltClick;
@@ -308,6 +324,12 @@ browser.runtime.onMessage.addListener((message, sender) => {
             break;
         case 'updateDisplayFavicons':
             handleUpdateDisplayFavicons(data);
+            break;
+        case 'updateQuickIconGrid':
+            handleUpdateQuickIconGrid(data);
+            break;
+        case 'updateCloseGridOnMouseOut':
+            handleUpdateCloseGridOnMouseOut(data);
             break;
         case 'updateDisableAltClick':
             handleUpdateDisableAltClick(data);
@@ -554,7 +576,9 @@ function setOptions(options, save, rebuildContextMenu) {
     if (debug) console.log('Setting favicons preference..');
     contextsearch_displayFavicons = options.displayFavicons;
 
-    if (debug) console.log('Setting option to disable Alt-Click..');
+    if (debug) console.log('Setting Icons Grid options..');
+    contextsearch_quickIconGrid = options.quickIconGrid;
+    contextsearch_closeGridOnMouseOut = options.closeGridOnMouseOut;
     contextsearch_disableAltClick = options.disableAltClick;
 
     if (debug) console.log('Setting site search option..');

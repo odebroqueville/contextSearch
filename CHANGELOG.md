@@ -1,5 +1,11 @@
-4.5.4
+4.5.5
 =========
+
+* Bug fix [#143](https://github.com/odebroqueville/contextSearch/issues/143): Added Quick Icons Grid option
+* Bug fix [#144](https://github.com/odebroqueville/contextSearch/issues/144): Added option to close Icons Grid on mouse out
+
+4.5.4
+---------
 
 * Code cleanup
 * Bug fixes for reset action in options page

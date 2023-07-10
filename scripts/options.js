@@ -50,6 +50,8 @@ const privacy = document.getElementById('privacy');
 const lastTab = document.getElementById('lastTab');
 const optionsMenuLocation = document.getElementById('optionsMenuLocation');
 const displayFavicons = document.getElementById('displayFavicons');
+const quickIconGrid = document.getElementById('quickIconGrid');
+const closeGridOnMouseOut = document.getElementById('closeGridOnMouseOut');
 const disableAltClick = document.getElementById('disableAltClick');
 const resetPreferences = document.getElementById('resetPreferences');
 const forceSearchEnginesReload = document.getElementById('forceSearchEnginesReload');
@@ -121,6 +123,8 @@ browser.permissions.onRemoved.addListener(handlePermissionsChanges);
 // Settings
 exactMatch.addEventListener('click', updateSearchOptions);
 displayFavicons.addEventListener('click', updateDisplayFavicons);
+quickIconGrid.addEventListener('click', updateQuickIconGrid);
+closeGridOnMouseOut.addEventListener('click', updateCloseGridOnMouseOut);
 disableAltClick.addEventListener('click', updateDisableAltClick);
 tabMode.addEventListener('click', updateTabMode);
 tabActive.addEventListener('click', updateTabMode);
@@ -1290,7 +1294,9 @@ function setOptions(options) {
         displayFavicons.checked = true;
     }
 
-    disableAltClick.checked = options.disableAltClick || false;
+    quickIconGrid.checked = options.quickIconGrid;
+    closeGridOnMouseOut.checked = options.closeGridOnMouseOut;
+    disableAltClick.checked = options.disableAltClick;
 
     if (options.resetPreferences === false) {
         resetPreferences.checked = false;
@@ -1420,6 +1426,14 @@ function updateMultiMode() {
 function updateDisplayFavicons() {
     let fav = displayFavicons.checked;
     sendMessage('updateDisplayFavicons', { displayFavicons: fav });
+}
+
+function updateQuickIconGrid() {
+    sendMessage('updateQuickIconGrid', { quickIconGrid: quickIconGrid.checked });
+}
+
+function updateCloseGridOnMouseOut() {
+    sendMessage('updateCloseGridOnMouseOut', { closeGridOnMouseOut: closeGridOnMouseOut.checked });
 }
 
 function updateDisableAltClick() {
