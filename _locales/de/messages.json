@@ -402,6 +402,18 @@
 		"message": "Aktivieren Sie Download-Berechtigungen, um Ihre Suchmaschinen zu exportieren.",
 		"hash": "16e431f64c09354a2034b62338cab41c"
 	},
+	"header11": {
+		"message": "Symbole Rasteroptionen",
+		"hash": "cb2b6fc9b6c0ab15b1627704b612ca71"
+	},
+	"quickIconGrid": {
+		"message": "Zeigen Sie das Symbolraster sofort an, nachdem Text ausgewählt wurde",
+		"hash": "6af6aafa529c63b4f4aef72c478e0db1"
+	},
+	"closeGridOnMouseOut": {
+		"message": "Schließen Sie das Symbolraster beim Herausfahren der Maus",
+		"hash": "fc2fcdd466209645b574677c6250e546"
+	},
 
 	"__WET_LOCALE__": { "message": "de" }
 }

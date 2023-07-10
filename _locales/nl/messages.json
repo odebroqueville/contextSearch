@@ -402,6 +402,18 @@
 		"message": "schakel downloadrechten in om uw zoekmachines te exporteren.",
 		"hash": "16e431f64c09354a2034b62338cab41c"
 	},
+	"header11": {
+		"message": "Pictogrammen Rasteropties",
+		"hash": "cb2b6fc9b6c0ab15b1627704b612ca71"
+	},
+	"quickIconGrid": {
+		"message": "Geef onmiddellijk het pictogrammenraster weer nadat tekst is geselecteerd",
+		"hash": "6af6aafa529c63b4f4aef72c478e0db1"
+	},
+	"closeGridOnMouseOut": {
+		"message": "Sluit het iconenraster met de muis uit",
+		"hash": "fc2fcdd466209645b574677c6250e546"
+	},
 
 	"__WET_LOCALE__": { "message": "nl" }
 }

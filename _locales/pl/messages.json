@@ -402,6 +402,18 @@
 		"message": "włącz uprawnienia do pobierania, aby wyeksportować swoje wyszukiwarki.",
 		"hash": "16e431f64c09354a2034b62338cab41c"
 	},
+	"header11": {
+		"message": "Opcje siatki ikon",
+		"hash": "cb2b6fc9b6c0ab15b1627704b612ca71"
+	},
+	"quickIconGrid": {
+		"message": "Natychmiast wyświetl siatkę ikon po zaznaczeniu tekstu",
+		"hash": "6af6aafa529c63b4f4aef72c478e0db1"
+	},
+	"closeGridOnMouseOut": {
+		"message": "Zamknij siatkę ikon po wyjęciu myszy",
+		"hash": "fc2fcdd466209645b574677c6250e546"
+	},
 
 	"__WET_LOCALE__": { "message": "pl" }
 }

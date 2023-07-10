@@ -402,6 +402,18 @@
 		"message": "activez les autorisations de téléchargement pour exporter vos moteurs de recherche.",
 		"hash": "16e431f64c09354a2034b62338cab41c"
 	},
+	"header11": {
+		"message": "Options de la grille d'icônes",
+		"hash": "cb2b6fc9b6c0ab15b1627704b612ca71"
+	},
+	"quickIconGrid": {
+		"message": "Afficher immédiatement la grille d'icônes après la sélection du texte",
+		"hash": "6af6aafa529c63b4f4aef72c478e0db1"
+	},
+	"closeGridOnMouseOut": {
+		"message": "Fermez la grille d'icônes lorsque le pointeur de la souris la quitte",
+		"hash": "fc2fcdd466209645b574677c6250e546"
+	},
 
 	"__WET_LOCALE__": { "message": "fr" }
 }

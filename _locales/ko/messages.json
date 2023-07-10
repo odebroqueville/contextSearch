@@ -402,6 +402,18 @@
 		"message": "검색 엔진을 내보내려면 다운로드 권한을 활성화하십시오.",
 		"hash": "16e431f64c09354a2034b62338cab41c"
 	},
+	"header11": {
+		"message": "아이콘 그리드 옵션",
+		"hash": "cb2b6fc9b6c0ab15b1627704b612ca71"
+	},
+	"quickIconGrid": {
+		"message": "텍스트를 선택한 후 아이콘 그리드를 즉시 표시합니다.",
+		"hash": "6af6aafa529c63b4f4aef72c478e0db1"
+	},
+	"closeGridOnMouseOut": {
+		"message": "마우스 아웃 시 아이콘 그리드 닫기",
+		"hash": "fc2fcdd466209645b574677c6250e546"
+	},
 
 	"__WET_LOCALE__": { "message": "ko" }
 }

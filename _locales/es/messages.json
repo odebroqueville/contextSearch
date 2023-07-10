@@ -402,6 +402,18 @@
 		"message": "habilite los permisos de Descargas para exportar sus motores de búsqueda.",
 		"hash": "16e431f64c09354a2034b62338cab41c"
 	},
+	"header11": {
+		"message": "Opciones de la grilla de iconos",
+		"hash": "cb2b6fc9b6c0ab15b1627704b612ca71"
+	},
+	"quickIconGrid": {
+		"message": "Mostrar inmediatamente la cuadrícula de iconos después de seleccionar el texto",
+		"hash": "6af6aafa529c63b4f4aef72c478e0db1"
+	},
+	"closeGridOnMouseOut": {
+		"message": "Cerrar la cuadrícula de iconos al sacar el mouse",
+		"hash": "fc2fcdd466209645b574677c6250e546"
+	},
 
 	"__WET_LOCALE__": { "message": "es" }
 }
