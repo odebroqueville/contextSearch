@@ -2,7 +2,7 @@
 /* global Sortable */
 
 // Debug
-const logToConsole = false;
+const logToConsole = true;
 
 // Advanced feature
 const defaultRegex = /[\s\S]*/i;

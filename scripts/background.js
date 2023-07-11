@@ -13,7 +13,7 @@ let CORS_API_KEY;
 
 /// Constants
 // Debug
-const debug = false;
+const debug = true;
 
 //const FIREFOX_VERSION = /rv:([0-9.]+)/.exec(navigator.userAgent)[1];
 //const contextsearch_userAgent = `Mozilla/5.0 (Android 4.4; Mobile; rv:${FIREFOX_VERSION}) Gecko/${FIREFOX_VERSION} Firefox/${FIREFOX_VERSION}`;
@@ -308,6 +308,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
             handleReset();
             break;
         case 'setTargetUrl':
+            if (debug) console.log(`TargetUrl: ${data}`);
             if (data) targetUrl = data;
             break;
         case 'testSearchEngine':

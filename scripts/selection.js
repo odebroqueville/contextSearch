@@ -2,7 +2,7 @@
 'use strict';
 
 /// Global variables
-const logToConsole = false; // Debug
+const logToConsole = true; // Debug
 const os = getOS();
 const modifiers = ["Control", "Shift", "Alt", "Meta"];
 const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
@@ -22,16 +22,13 @@ if (os === 'macOS') {
 } else if (os === 'Linux') {
     meta = 'super+';
 } else meta = 'meta+';
-let searchEngines = {};
 let tabUrl = '';
 let domain = '';
 let pn = '';
 let sel = null;
 let range = null;
-let sameTab = false;
-let options = '';
 let keysPressed = {};
-let selectedText = '';
+let flagSearchEngineClicked = false;
 
 /// Debugging
 // Current state
@@ -39,7 +36,7 @@ if (logToConsole) {
     console.log(document.readyState);
 }
 
-if (document.readyState === 'complete') showButtons();
+if (document.readyState === 'complete') init();
 
 /// Event handlers
 // Text selection change event listener
@@ -115,17 +112,8 @@ async function init() {
         sendMessage('showPageAction', null);
     }
 
-    // Retrieve options on initial load
-    options = await browser.storage.sync.get(null);
-    if (logToConsole) console.log(options);
-    if (options.tabMode === 'sameTab') {
-        sameTab = true;
-    } else {
-        sameTab = false;
-    }
-
     // Retrieve search engines from local storage
-    searchEngines = await browser.storage.local.get(null);
+    const searchEngines = await browser.storage.local.get(null);
     if (logToConsole) console.log(searchEngines);
 
     // If there exists a search engine with a query string that includes the domain of the visited web page, then hide the Page action
@@ -167,15 +155,18 @@ function getOS() {
 }
 
 // Handle keyboard shortcuts
-function handleKeyUp(e) {
+async function handleKeyUp(e) {
     if (logToConsole) console.log(e);
     if (logToConsole) console.log(keysPressed);
     if (!Object.keys(keysPressed).length > 0 || Object.keys(keysPressed)[0] === "Alt") return;
     if (e.target.nodeName === 'INPUT') return;
     // if (e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey) return;
     e.preventDefault();
-    getSelectedText();
+    const selectedText = getSelectedText();
     sendSelectionToBackgroundScript(selectedText);
+
+    // Retrieve search engines from local storage
+    const searchEngines = await browser.storage.local.get(null);
 
     // Store all modifier keys pressesd in var input
     let input = "";
@@ -234,8 +225,7 @@ async function handleStorageChange(changes, area) {
     }
     switch (area) {
         case 'local':
-            searchEngines = {};
-            searchEngines = await browser.storage.local.get(null);
+            const searchEngines = await browser.storage.local.get(null);
             // If the website doesn't contain an opensearch plugin, then hide the Page action
             if (document.querySelector('link[type="application/opensearchdescription+xml"]') == null) {
                 sendMessage('hidePageAction', null);
@@ -253,23 +243,20 @@ async function handleStorageChange(changes, area) {
                 }
             }
             break;
-        case 'sync':
-            // Update options var on change
-            const data = await browser.storage.sync.get(null);
-            sameTab = false;
-            options = data.options;
-            if (options && options.tabMode === 'sameTab') {
-                sameTab = true;
-            }
-            break;
         default:
             break;
     }
 }
 
 // Triggered by mouse up event
-function handleAltClickWithGrid(e) {
+async function handleAltClickWithGrid(e) {
     if (e !== undefined && logToConsole) console.log('Click event triggered:\n' + e.type, e.button, e.altKey, e.clientX, e.clientY);
+
+    e.preventDefault();
+
+    const data = await browser.storage.sync.get(null);
+    const options = data.options;
+    if (logToConsole) console.log(options);
 
     // If option is disabled then do nothing. Note: this intentionally comes after selected text is accessed as text can become unselected on click
     if (options.disableAltClick) return;
@@ -277,20 +264,25 @@ function handleAltClickWithGrid(e) {
     // If mouse up is not done with left mouse button then do nothing
     if (e !== undefined && e.button > 0) return;
 
+    const selectedText = getSelectedText();
+    if (logToConsole) console.log(`Selected text: ${selectedText}`);
+
     // IF either the Quick Icons Grid is activated on mouse up 
     // OR the option (alt) key is pressed on mouse up
     // THEN display the Icons Grid
-    if ((options.quickIconGrid && e.type === 'mouseup' && selectedText.length > 0) || (e.type === 'mouseup' && e.altKey && selectedText)) {
-        if (logToConsole) console.log(`Selected text: ${selectedText}`);
-
-        // Sort the search engines by index
-        searchEngines = sortByIndex(searchEngines);
+    if ((options.quickIconGrid && e.type === 'mouseup' && selectedText.length > 0) || (e.type === 'mouseup' && e.altKey && selectedText.length > 0)) {
+        // If a search engine has just been clicked
+        if (flagSearchEngineClicked) {
+            flagSearchEngineClicked = false;
+            return;
+        }
 
         // If the grid of icons is alreadey displayed
-        const nav = document.getElementById('icon-grid');
-        if (nav !== null && nav.style.display !== 'none') return;
+        const nav = document.getElementById('context-search-icon-grid');
+        if (nav !== undefined && nav !== null) return;
 
         // Otherwise
+        if (logToConsole) console.log('Displaying Icons Grid...');
         const x = e.clientX;
         const y = e.clientY;
         createIconGrid(x, y);
@@ -343,8 +335,8 @@ async function showButtons() {
     });
 }
 
-function handleTextSelection(e) {
-    getSelectedText();
+function handleTextSelection() {
+    const selectedText = getSelectedText();
     if (selectedText !== null && selectedText !== undefined && selectedText !== "") {
         if (logToConsole) console.log(`Selected text: ${selectedText}`);
         sendSelectionToBackgroundScript(selectedText);
@@ -361,28 +353,31 @@ function getPidAndName(string) {
 }
 
 function getSelectedText() {
-    if (window.getSelection) {
-        sel = window.getSelection();
-        if (sel.rangeCount > 0) {
-            range = sel.getRangeAt(0);
-            selectedText = range.toString().trim();
-        }
-    }
-
     // If selection is made in Textarea or Input field
     if (
         document.activeElement != null &&
         (document.activeElement.tagName === 'TEXTAREA' || document.activeElement.tagName === 'INPUT')
     ) {
-        let selectedTextInput = document.activeElement.value.substring(
+        const selectedTextInput = document.activeElement.value.substring(
             document.activeElement.selectionStart,
             document.activeElement.selectionEnd
         );
-        if (selectedTextInput !== '') selectedText = selectedTextInput;
+        if (selectedTextInput !== '') return selectedTextInput;
+    }
+
+    if (window.getSelection) {
+        sel = window.getSelection();
+        if (sel.rangeCount > 0) {
+            range = sel.getRangeAt(0);
+            return range.toString().trim();
+        }
     }
 }
 
-function sendSelectionToBackgroundScript(selectedText) {
+async function sendSelectionToBackgroundScript(selectedText) {
+    const data = await browser.storage.sync.get(null);
+    const options = data.options;
+    if (logToConsole) console.log(options);
     const targetUrl = options.siteSearchUrl + encodeUrl(`site:https://${domain} ${selectedText}`);
     sendMessage('setTargetUrl', targetUrl);
 
@@ -394,7 +389,10 @@ function sendSelectionToBackgroundScript(selectedText) {
     console.log(`Error: ${error}`);
 } */
 
-function createIconGrid(x, y) {
+async function createIconGrid(x, y) {
+    // Retrieve search engines from local storage
+    const se = await browser.storage.local.get(null);
+    const searchEngines = sortByIndex(se);
     if (logToConsole) console.log(searchEngines);
     const icons = [{
         id: 'multisearch',
@@ -424,18 +422,15 @@ function createIconGrid(x, y) {
     const m = Math.ceil(Math.sqrt(n)); // Grid dimension: m x m matrix
 
     // Cleanup
-    let navExisting = document.getElementById('icon-grid');
-    if (navExisting != null) {
-        navExisting.parentElement.removeChild(navExisting);
-    }
+    closeGrid();
 
-    const nav = document.createElement('nav');
-    nav.setAttribute('id', 'icon-grid');
+    const nav = document.createElement('div');
+    nav.setAttribute('id', 'context-search-icon-grid');
     nav.style.backgroundColor = '#ccc';
     nav.style.border = '3px solid #999';
     nav.style.padding = '5px';
     nav.style.borderRadius = '20px';
-    nav.style.zIndex = 999;
+    nav.style.zIndex = 9999;
     nav.style.position = 'fixed';
     nav.style.setProperty('top', y.toString() + 'px');
     nav.style.setProperty('left', x.toString() + 'px');
@@ -488,6 +483,7 @@ function createIconGrid(x, y) {
 function onGridClick(e) {
     e.preventDefault();
     e.stopPropagation();
+    flagSearchEngineClicked = true;
     if (logToConsole) console.log('Icons Grid got clicked:' + e.type);
     const id = e.target.id;
     if (logToConsole) console.log('Search engine clicked:' + id);
@@ -497,17 +493,23 @@ function onGridClick(e) {
     sendMessage('doSearch', { id: id });
 }
 
-function onLeave() {
+async function onLeave() {
+    const data = await browser.storage.sync.get(null);
+    const options = data.options;
+    if (logToConsole) console.log(options);
     if (!options.closeGridOnMouseOut) return;
+    if (logToConsole) console.log('Closing Icons Grid...');
     closeGrid();
 }
 
 function closeGrid() {
-    let nav = document.getElementById('icon-grid');
-    nav.style.display = 'none';
-    nav.removeEventListener('click', onGridClick);
-    nav.removeEventListener('mouseleave', onLeave);
-    nav = null;
+    let nav = document.getElementById('context-search-icon-grid');
+    if (nav) {
+        nav.parentElement.removeChild(nav);
+        nav.removeEventListener('click', onGridClick);
+        nav.removeEventListener('mouseleave', onLeave);
+        nav = null;
+    }
 }
 
 function addBorder(e) {
@@ -576,9 +578,15 @@ async function getNewSearchEngine(url) {
     const xml = await fetchXML(url);
     const shortName = getNameAndQueryString(xml).shortName;
     const queryString = getNameAndQueryString(xml).queryString;
+
+    // Retrieve search engines from local storage
+    const searchEngines = await browser.storage.local.get(null);
+
+    // Prevent duplicates
     for (let id in searchEngines) {
         if (queryString === searchEngines[id].url) return null;
     }
+
     let id = shortName.replace(/\s/g, '-').toLowerCase();
     while (!isIdUnique(id)) {
         id = defineNewId(shortName);
@@ -664,7 +672,9 @@ function defineNewId(shortName) {
 }
 
 // Ensure the ID generated is unique
-function isIdUnique(testId) {
+async function isIdUnique(testId) {
+    // Retrieve search engines from local storage
+    const searchEngines = await browser.storage.local.get(null);
     for (let id in searchEngines) {
         if (id === testId) {
             return false;
@@ -714,5 +724,3 @@ function sortByIndex(list) {
 
     return sortedList;
 }
-
-init();
