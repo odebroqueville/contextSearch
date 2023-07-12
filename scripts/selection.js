@@ -252,7 +252,7 @@ async function handleStorageChange(changes, area) {
 async function handleAltClickWithGrid(e) {
     if (e !== undefined && logToConsole) console.log('Click event triggered:\n' + e.type, e.button, e.altKey, e.clientX, e.clientY);
 
-    e.preventDefault();
+    if (e.type === 'mouseup' && e.altKey && e.button === 0) e.preventDefault();
 
     const data = await browser.storage.sync.get(null);
     const options = data.options;
