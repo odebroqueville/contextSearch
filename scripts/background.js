@@ -15,14 +15,16 @@ let CORS_API_KEY;
 // Debug
 const debug = true;
 
-//const FIREFOX_VERSION = /rv:([0-9.]+)/.exec(navigator.userAgent)[1];
-//const contextsearch_userAgent = `Mozilla/5.0 (Android 4.4; Mobile; rv:${FIREFOX_VERSION}) Gecko/${FIREFOX_VERSION} Firefox/${FIREFOX_VERSION}`;
+// User agent for sidebar search results
 const contextsearch_userAgent =
     'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/12.0 Mobile/15A372 Safari/604.1';
 const DEFAULT_SEARCH_ENGINES = 'defaultSearchEngines.json';
 const googleLensUrl = 'https://lens.google.com/uploadbyurl?url=';
 const googleReverseImageSearchUrl =
     'https://www.google.com/searchbyimage?sbisrc=1&safe=off&image_url=';
+const chatGPTUrl = 'https://chat.openai.com/';
+const googleBardUrl = 'https://bard.google.com/';
+const perplexityAIUrl = 'https://www.perplexity.ai/';
 const base64ContextSearchIcon =
     'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAG2ElEQVRYhe2Wa1CTVxrH31o/7ezM7kxndndmv6wjs4aEJCCiOx20sOPYdms7uhBaUbou5Y4JBIGogFxiR7BeqmWgSiARCAlvyA2oEMAABbkZVC6CBAkGMCGBo+jY2W5H/feDwhgToLS7s1/2mXm+vc/5/97/c55zDkX9P9YYQcna3/rwtbsCUusEvIKWM9vS9GIfgZbPOlTzrr+I/s1/S3edpL7/7Mmqb83Z5e3PDL1jsDucIITg3swsdmVqwBXqwUnSPWMn65pZfHUoj0e/+R9R5on17wmLWqzZsnbsSKOxI10No8kMQggIIbg1NgWOgAZXqH+ZOnAFNP4qUt1hRkm3/wJprKtsvlXXdsP8PPtyO1KKW3Cp3gR2XAU6BybQNzyJY2XtCE6n8XexHtxkHbhCHfyTlBgen8bktB1XukeeH71klFAU1q1NGnijsWdkoMJwE4GpKohKjIg8fQU+8XJwkjQ4UdmJwDQ1uEIdAoQ1CExXg82nwU6QY3h8GoqWAXQPWWCdmcWUzYHG3tHhNUFovh1uIITgaGkbdmVoMDFlh3NuHrsytC96Lah5xXI9OAI1QsS14Il1SLxgQEpxC8Ym7y+1iRACTftQ008SlzbcPDg3P79UuLiQc24e+YoucARqF/FFoD05Wkjq+3HH4iq8mHPz85A1XP9sVev7RyefvF58Y9SKkDwdgtNpcJI07gDJWuw8qoLDOedRfDFvjt77bsVWyA03Ml8vMprMCExVgStQuVm/mOxD1bBM2yFvHkCQSI2LtSb0DU/CMm13g6gw3MxeFqCt3zzz6sdD41Pg8mmPoi4AfBqn6W6klxiRXtKKwMNK7DyiQvjJOlQbB10A2vvNNo/iF02mX9lmnc8JIbA7nDDfsyH4iObFXK8CsPOoBuNW25JIU98YdB23Uay/jsaeOy4AdocTNN36azeAauNwiN3hxLGydgSmqhBRUO+x326ZpML125PL9r170IJRywwIITgubUdjzx2UNfQfcANQto0UXL89CU6iAjvSVODwVeAka1cFiD1vWHHjTdkcOKXsAiEEIxMzOFHZiYDEqjA3gKyK3mOWaTuumsxIu2R8ueFWt/9zeeeKAIQQlNT3o2fIggmrDXvyasHm0wfdAHxT9LwgkQb5imuYmLLDT1CN0M/r8G6GFuxD1cu6kVvesSqAZdoORcsA9ufXgSvUgRUr/9QNgCVQBy+e53vFtRBXdMA268SsYw53rTb4CapfnveuAFuEKnQOTIAQgvt2Jx5MGrBgEuHRtQgsdEfh4dA5PJgdByEEiYXN4Cbr4P2Z7AM3gD8l0H9g81VLC4fn17v8xYB5Cu+I1B7bEpimRvSZOnxTcQDzjdsw0RyHvvoM3GoUwXl1Lx5f3Y67tzTwFdBg81XYFFGyweMoboorv/viXte4ze/i1ZtU3AKuQOUGoSiLwpguCB9FJyP3TDEKCiUoKJQg/6tLGGzKxAPDNoRlfw1mXKXVozhFURQzsvQ0R1ADNl+FniHLsj39pmsUnFfc2nu8BI8MAQhJTIZ3aCaS8i4sARQUSpBy4itoSj+GsSoE3tHSL5cF8PrHxY2MWNlTrlALkaR1WYDz6l6XTXmmMA2mmt3wDs0Ak5eF8MMFLgBC8QXsEx7GQlMAorJO+i8LQFEU5R0tLfVJUICbVIOa1iGPALtzal3svyyJg748Asyw4/DmZSIu65wLwLFTRXg74jAeN23BfJ0/Y0WAP35a+BYzWnaffagaXIEKXYOurZibm0fwEdeRPF8kRBe9B0xeFrx5mYjNPLsknnv2a3BCRdgTk/DkcdMWzGgYb60IQFEU9eeY0kBmZNn3rPhK1HaOuLwN9opr3Y7oA3mFWGgKwHsxR8AMO47348Qu9jM+TH7aIQtqfWTwN60qvhiMf5btZkRJ/3VK3rYEcKV71OODhCvUo1n+MfpV7+Ptgxnw/SQTBYUSiL+8iG370p9+kfmh4WHj5udmyebYnwxAURTlFVX0l6qmvieEEAyarQjN1S57PG9Pr0Yf/RGsde/g7Lk4FJWeRmpuEhnXbm9baNz8rCPPFzXhvs6qfUzWmiDKDb0bGjoHb3+SU/VvVowMrNjLYMVXwidBAXaiEuxEJXwSFPCJl4MbL0XOqRR0K/72zHFl6/cPDZtnFgx+CruWu7VmP1epjvD7eRAURVEbI4p/tylKmsaIknUyIqU/sGJkeDUZkdIfGDHSa97RUtGGfSW/f70+h6LWqw5wFOoIP8jDfOYqeCyvNUMsRVDOei++ciMrQR3A4tNbWQm0FxWUs361shyKWl8ZzlGWhvqA3s8O//kAvyBoHu9NOpzlC4p6438C8Hr8CN553KkxVTnMAAAAAElFTkSuQmCC';
 // Folder icon download link: https://icons8.com/icon/12160/folder
@@ -82,9 +84,9 @@ let contextsearch_resetPreferences = false;
 let contextsearch_forceSearchEnginesReload = false;
 let contextsearch_siteSearch = 'Google';
 let contextsearch_siteSearchUrl = 'https://www.google.com/search?q=';
-let contextsearch_useRegex = false;
 let contextsearch_multiMode = 'multiNewWindow';
 let contextsearch_privateMode = false;
+let contextsearch_openAIAPIKey = '';
 let notificationsEnabled = false;
 
 const defaultOptions = {
@@ -102,9 +104,9 @@ const defaultOptions = {
     forceFaviconsReload: contextsearch_forceFaviconsReload,
     siteSearch: contextsearch_siteSearch,
     siteSearchUrl: contextsearch_siteSearchUrl,
-    useRegex: contextsearch_useRegex,
     multiMode: contextsearch_multiMode,
     privateMode: contextsearch_privateMode,
+    openAIAPIKey: contextsearch_openAIAPIKey
 };
 
 /// Handle Page Action click
@@ -275,10 +277,10 @@ async function handleUpdateResetOptions(data) {
     await setOptions(options, true, false);
 }
 
-async function handleUpdateUseRegex(data) {
+async function handleUpdateApiKey(data) {
     const options = await getOptions();
-    options.useRegex = data.useRegex;
-    await setOptions(options, true, true);
+    options.openAIAPIKey = data.openAIAPIKey;
+    await setOptions(options, true, false);
 }
 
 async function handleSaveSearchEnginesToDisk(data) {
@@ -350,8 +352,8 @@ browser.runtime.onMessage.addListener((message, sender) => {
         case 'updateResetOptions':
             handleUpdateResetOptions(data);
             break;
-        case 'updateUseRegex':
-            handleUpdateUseRegex(data);
+        case 'updateApiKey':
+            handleUpdateApiKey(data);
             break;
         case 'saveSearchEnginesToDisk':
             handleSaveSearchEnginesToDisk(data);
@@ -419,7 +421,7 @@ async function reset() {
 
 async function addNewSearchEngine(id, domain) {
     const searchEngine = {};
-    if (!id.startsWith("separator-")) {
+    if (!(id.startsWith("separator-") || id.startsWith("chatgpt-"))) {
         const favicon = await getNewFavicon(id, domain);
         searchEngines[id]['imageFormat'] = favicon.imageFormat;
         searchEngines[id]['base64'] = favicon.base64;
@@ -465,7 +467,6 @@ async function initialiseOptionsAndSearchEngines() {
     // If there were search engines stored in storage sync (legacy), move them to storage local
     if (!isEmpty(data) && Object.keys(data).length > 1) {
         searchEngines = sortByIndex(data);
-        setRegex();
         setKeyboardShortcuts();
         if (debug) {
             console.log('Search engines: \n');
@@ -483,7 +484,6 @@ async function initialiseOptionsAndSearchEngines() {
             await loadDefaultSearchEngines(DEFAULT_SEARCH_ENGINES);
         } else {
             searchEngines = sortByIndex(se);
-            setRegex();
             setKeyboardShortcuts();
             await getFaviconsAsBase64Strings();
             await saveSearchEnginesToLocalStorage(true);
@@ -493,17 +493,6 @@ async function initialiseOptionsAndSearchEngines() {
                 console.log(searchEngines);
             }
         }
-    }
-}
-
-function setRegex() {
-    for (let id in searchEngines) {
-        if (searchEngines[id].regex !== undefined) continue;
-        if (debug) console.log(`id: ${id}`);
-        searchEngines[id]['regex'] = {};
-        searchEngines[id]['regex']['body'] = defaultRegex.source;
-        searchEngines[id]['regex']['flags'] = defaultRegex.flags;
-        if (debug) console.log(searchEngines[id].regex);
     }
 }
 
@@ -591,10 +580,9 @@ function setOptions(options, save, rebuildContextMenu) {
     contextsearch_resetPreferences = options.resetPreferences;
     contextsearch_forceFaviconsReload = options.forceFaviconsReload;
 
-    if (debug) console.log(`Setting whether to use regular expressions...`);
-    contextsearch_useRegex = options.useRegex;
-
     contextsearch_multiMode = options.multiMode;
+
+    contextsearch_openAIAPIKey = options.openAIAPIKey;
 
     if (save) {
         saveOptions(options, rebuildContextMenu);
@@ -635,7 +623,6 @@ async function loadDefaultSearchEngines(jsonFile) {
         }
         const json = await response.json();
         searchEngines = sortByIndex(json);
-        setRegex();
         setKeyboardShortcuts();
         if (debug) {
             console.log('Search engines:\n');
@@ -1074,6 +1061,7 @@ function getSearchEngineUrl(searchEngineUrl, sel) {
 
 function searchUsing(id, tabIndex) {
     const searchEngineUrl = searchEngines[id].url;
+
     targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
     if (debug) console.log(`Target url: ${targetUrl}`);
     if (contextsearch_openSearchResultsInSidebar) {
@@ -1387,6 +1375,7 @@ function notify(message) {
     });
 }
 
+/// Get the domain of a given url
 function getDomain(url) {
     let protocol = '';
     if (url.indexOf('://') !== -1) {

@@ -311,5 +311,49 @@
     "closeGridOnMouseOut": {
         "message": "Close the icons grid on mouse out"
     },
-    "__WET_LOCALE__": { "message": "en" }
+    "header12": {
+        "message": "ChatGPT Setup"
+    },
+    "openaiAPIKey": {
+        "message": "OpenAI API Key:"
+    },
+    "model": {
+        "message": "Model:"
+    },
+    "role": {
+        "message": "Role:"
+    },
+    "temperature": {
+        "message": "Temperature (0-100%):"
+    },
+    "imageSize": {
+        "message": "Image size:"
+    },
+    "numberOfImages": {
+        "message": "Number of images (1-10):"
+    },
+    "subheader63": {
+        "message": "Add a new ChatGPT prompt"
+    },
+    "subheader64": {
+        "message": "Add a separator"
+    },
+    "testChatGPT": {
+        "message": "Test ChatGPT Prompt"
+    },
+    "addChatGPTPrompt": {
+        "message": "Add ChatGPT Prompt"
+    },
+    "promptShow": {
+        "message": "Show prompt in grid or context menu"
+    },
+    "promptName": {
+        "message": "Prompt name"
+    },
+    "prompt": {
+        "message": "Prompt"
+    },
+    "__WET_LOCALE__": {
+        "message": "en"
+    }
 }

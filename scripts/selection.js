@@ -291,14 +291,14 @@ async function handleAltClickWithGrid(e) {
 
 function handleRightClickWithoutGrid(e) {
     if (logToConsole) console.log(e);
+    // If right click is on image
     const elementClicked = e.target;
     const tag = elementClicked.tagName;
     if (tag === 'IMG') {
         if (window.getSelection) {
             window.getSelection().removeAllRanges();
         }
-        let img = e.target;
-        let imgUrl = absoluteUrl(img.getAttribute('src'));
+        const imgUrl = absoluteUrl(elementClicked.getAttribute('src'));
         sendMessage('setTargetUrl', imgUrl);
         if (logToConsole) console.log(`Image url: ${imgUrl}`);
     }

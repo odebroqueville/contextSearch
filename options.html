@@ -151,17 +151,6 @@
 
                     <fieldset>
                         <legend>
-                            <h4 data-i18n="header9">Advanced features</h4>
-                        </legend>
-                        <div>
-                            <input type="checkbox" id="useRegex"><label for="useRegex" data-i18n="useRegex">Use regular
-                                expressions to build the context menu</label>
-                            <p><em data-i18n="regexNote">This feature doesn't apply to the grid of icons.</em></p>
-                        </div>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>
                             <h4 data-i18n="header3">Position of options in context menu</h4>
                         </legend>
                         <div>
@@ -195,11 +184,11 @@
 
                     <fieldset style="display:inline-block">
                         <legend>
-                            <h4 data-i18n="header11">ChatGPT setup</h4>
+                            <h4 data-i18n="header12">ChatGPT setup</h4>
                         </legend>
                         <div>
-                            <input type="text" id="chatgptAPIKey"><label for="chatgptAPIKey"
-                                data-i18n="chatgptAPIKey">Open AI API key:</label>
+                            <label for="openaiAPIKey" data-i18n="openaiAPIKey">OpenAI API Key: </label>
+                            <input type="password" id="openaiAPIKey">
                         </div>
                     </fieldset>
 
@@ -243,10 +232,6 @@
                         <button type="button" id="selectAll" data-i18n="selectAll">Select All</button>
                         <button type="button" id="sortAlphabetically" data-i18n="sortAlphabetically">Sort
                             alphabetically</button>
-                        <button type="button" id="showAdvancedFeatures" data-i18n="showAdvancedFeatures">Show advanced
-                            features</button>
-                        <button type="button" id="hideAdvancedFeatures" data-i18n="hideAdvancedFeatures">Hide advanced
-                            features</button>
                         <br />
                         <p><b><span data-i18n="warningText">Warning</span></b>: <span
                                 data-i18n="keyboardShortcutWarning">not all key combinations will work. Keyboard
@@ -259,53 +244,156 @@
                                 launch a</span><b> multi-search </b><span data-i18n="multisearchEnd">through the context
                                 menu OR through the omnibox by typing:</span> <code>cs ! </code>followed by your search
                             terms.</p>
-                        <br />
-                        <div id="container">
+                    </div>
+                    <br />
+                    <div id="container">
+                    </div>
+                    <br />
+                    <div class="wrapper">
+                        <div class="tabs">
+                            <div class="tab">
+                                <input type="radio" name="css-tabs" id="searchEngineTab" checked class="tab-switch">
+                                <label for="searchEngineTab" class="tab-label" data-i18n="subheader61">Add a new search
+                                    engine</label>
+                                <div id="addSearchEngineTab" class="tab-content">
+                                    <div>
+                                        <h3 class="subheader" data-i18n="subheader61">Add a new search engine</h3>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="show" data-i18n-title="showSearchEngine" checked />
+                                        <input type="text" id="name" data-i18n-placeholder="searchEngineName" />
+                                        <input type="text" id="keyword" class="keyword"
+                                            data-i18n-placeholder="placeHolderKeyword" />
+                                        <input type="text" id="kb-shortcut" data-i18n-placeholder="keyboardShortcut" />
+                                        <input type="checkbox" id="multitab" data-i18n-title="multipleSearchEngines" />
+                                        <input type="url" id="url" data-i18n-placeholder="searchEngineURL" />
+                                    </div>
+                                    <div class="buttonrow">
+                                        <!-- Display on a new line -->
+                                        <button type="button" id="test" style="margin-left: 26px;"
+                                            data-i18n="testSearchEngine">Test Search Engine</button>
+                                        <button type="button" id="addSearchEngine" data-i18n="addSearchEngine">Add
+                                            Search
+                                            Engine</button>
+                                        <button type="button" id="clearAddSearchEngine" data-i18n="clear">Clear</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab">
+                                <input type="radio" name="css-tabs" id="promptTab" checked class="tab-switch">
+                                <label for="promptTab" class="tab-label" data-i18n="subheader63">Add a new ChatGPT
+                                    prompt</label>
+                                <div id="addChatGPTPromptTab" class="tab-content">
+                                    <div>
+                                        <h3 class="subheader" data-i18n="subheader63">Add a new ChatGPT prompt</h3>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="promptShow" data-i18n-title="promptShow" checked />
+                                        <input type="text" id="promptName" data-i18n-placeholder="promptName" />
+                                        <input type="text" id="promptKeyword" class="keyword"
+                                            data-i18n-placeholder="placeHolderKeyword" />
+                                        <input type="text" id="prompt-kb-shortcut"
+                                            data-i18n-placeholder="keyboardShortcut" />
+                                        <input type="checkbox" id="promptMultitab"
+                                            data-i18n-title="multipleSearchEngines" />
+                                        <textarea id="prompt" rows="4" cols="50"
+                                            data-i18n-placeholder="prompt"></textarea>
+                                    </div>
+                                    <div class="p-sm">
+                                        <label for="model" data-i18n="model">Model:</label>
+                                        <select id="model">
+                                            <option value="gpt-4">GPT-4</option>
+                                            <option value="gpt-4-32k">GPT-4 32k</option>
+                                            <option value="gpt-3.5-turbo" selected>GPT-3.5 turbo</option>
+                                            <option value="gpt-3.5-turbo-16k">GPT-3.5 turbo 16k</option>
+                                            <option value="dall-e">DALL·E</option>
+                                        </select>
+                                    </div>
+                                    <div id="notdalle">
+                                        <div class="p-sm">
+                                            <label for="role" data-i18n="role">Role:</label>
+                                            <select id="role">
+                                                <option value="assistant">Assistant</option>
+                                                <option value="function">Function</option>
+                                                <option value="system">System</option>
+                                                <option value="user" selected>User</option>
+                                            </select>
+                                        </div>
+                                        <div class="slidercontainer">
+                                            <label for="temperature" data-i18n="temperature"> Temperature (0-100%):
+                                            </label>
+                                            <input type="range" min="0" max="100" value="60" class="slider"
+                                                id="temperature" name="temperature">
+                                            <output class="bubble"></output>
+                                        </div>
+                                    </div>
+                                    <div id="dalle">
+                                        <div class="p-sm">
+                                            <label for="imageSize" data-i18n="imageSize">Image size:</label>
+                                            <select id="imageSize">
+                                                <option value="1024x1024" selected>1024x1024</option>
+                                                <option value="512x512">512x512</option>
+                                                <option value="256x256">256x256</option>
+                                            </select>
+                                        </div>
+                                        <div class="slidercontainer">
+                                            <label for="numberOfImages" data-i18n="numberOfImages"> Number of images
+                                                (1-10):</label>
+                                            <input type="range" min="1" max="10" value="3" class="slider"
+                                                id="numberOfImages" name="numberOfImages">
+                                            <output class="bubble"></output>
+                                        </div>
+                                    </div>
+                                    <div class="buttonrow">
+                                        <!-- Display on a new line -->
+                                        <button type="button" id="testChatGPTPrompt" style="margin-left: 26px;"
+                                            data-i18n="testChatGPT">Test
+                                            ChatGPT Prompt</button>
+                                        <button type="button" id="addChatGPTPrompt" data-i18n="addChatGPTPrompt">Add
+                                            ChatGPT
+                                            Prompt</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab">
+                                <input type="radio" name="css-tabs" id="separatorTab" checked class="tab-switch">
+                                <label for="separatorTab" class="tab-label" data-i18n="subheader64">Add a
+                                    separator</label>
+                                <div id="addSeparatorTab" class="tab-content">
+                                    <div>
+                                        <h3 class="subheader" data-i18n="subheader64">Add a separator</h3>
+                                    </div>
+                                    <div class="buttonrow">
+                                        <!-- Display on a new line -->
+                                        <button type="button" id="addSeparator" data-i18n="addSeparator">Add
+                                            Separator</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="tab">
+                                <div id="addFolderSection">
+                                    <div>
+                                        <h4 class="subheader" data-i18n="subheader62">Add a new folder</h4>
+                                    </div>
+                                    <div>
+                                        <input type="text" id="folderName" data-i18n-placeholder="folderName" />
+                                        <input type="text" id="folderKeyword" class="keyword" data-i18n-placeholder="placeHolderKeyword" />
+                                    </div>
+                                    <div class="buttonrow">
+                                        <button type="button" id="addFolder" data-i18n="addFolder">Add Folder</button>
+                                        <button type="button" id="clearAddFolder" data-i18n="clear">Clear</button>
+                                    </div>
+                                </div>
+                            </div> -->
                         </div>
-                        <br />
-                        <div id="addSearchEngineSection">
-                            <div>
-                                <h4 class="subheader" data-i18n="subheader61">Add a new search engine</h4>
-                            </div>
-                            <div><input type="checkbox" id="show" data-i18n-title="showSearchEngine" checked />
-                                <input type="text" id="name" data-i18n-placeholder="searchEngineName" />
-                                <input type="text" id="keyword" class="keyword"
-                                    data-i18n-placeholder="placeHolderKeyword" />
-                                <input type="text" id="kb-shortcut" data-i18n-placeholder="keyboardShortcut" />
-                                <input type="checkbox" id="multitab" data-i18n-title="multipleSearchEngines" />
-                                <input type="url" id="url" data-i18n-placeholder="searchEngineURL" />
-                                <input type="text" id="regex" class="regex" data-i18n-placeholder="regex" />
-                            </div>
-                            <div class="buttonrow">
-                                <!-- Display on a new line -->
-                                <button type="button" id="test" style="margin-left: 26px;"
-                                    data-i18n="testSearchEngine">Test Search Engine</button>
-                                <button type="button" id="addSearchEngine" data-i18n="addSearchEngine">Add Search
-                                    Engine</button>
-                                <button type="button" id="addSeparator" data-i18n="addSeparator">Add Separator</button>
-                                <button type="button" id="clearAddSearchEngine" data-i18n="clear">Clear</button>
-                            </div>
-                        </div>
-                        <!-- <div id="addFolderSection">
-							<div>
-								<h4 class="subheader" data-i18n="subheader62">Add a new folder</h4>
-							</div>
-							<div>
-								<input type="text" id="folderName" data-i18n-placeholder="folderName" />
-								<input type="text" id="folderKeyword" class="keyword" data-i18n-placeholder="placeHolderKeyword" />
-							</div>
-							<div class="buttonrow">
-								<button type="button" id="addFolder" data-i18n="addFolder">Add Folder</button>
-								<button type="button" id="clearAddFolder" data-i18n="clear">Clear</button>
-							</div>
-						</div> -->
                     </div>
                 </fieldset>
             </div>
         </div>
     </form>
+    <script src="/scripts/aes4js.js"></script>
     <script src="/scripts/Sortable.min.js"></script>
-    <script src="/scripts/options.js"></script>
+    <script type="module" src="/scripts/options.js"></script>
 </body>
 
 </html>

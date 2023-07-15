@@ -1,11 +1,10 @@
+// import { aesEnc as encrypt, aesDec as decrypt } from '/scripts/aes4js.js';
+
 /// Global variables
 /* global Sortable */
 
 // Debug
 const logToConsole = true;
-
-// Advanced feature
-const defaultRegex = /[\s\S]*/i;
 
 // Other 
 const os = getOS();
@@ -19,6 +18,9 @@ if (os === 'macOS') {
     meta = 'super+';
 } else meta = 'meta+';
 
+// Slider styling
+const allRanges = document.querySelectorAll(".slidercontainer");
+
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById('container');
 
@@ -28,14 +30,28 @@ const sename = document.getElementById('name'); // String
 const keyword = document.getElementById('keyword'); // String
 const multitab = document.getElementById('multitab'); // Boolean
 const url = document.getElementById('url'); // String
-const regex = document.getElementById('regex'); // String
 const kbsc = document.getElementById('kb-shortcut'); // String
 
-// Add folder
-const folderName = document.getElementById('folderName');
-const folderKeyword = document.getElementById('folderKeyword');
+// Add ChatGPT Prompt
+const promptShow = document.getElementById('promptShow'); // Boolean
+const promptName = document.getElementById('prompName'); // String
+const promptKeyword = document.getElementById('promptKeyword'); // String
+const promptMultitab = document.getElementById('promptMultitab'); // Boolean
+const promptText = document.getElementById('prompt'); // String
+const promptKbsc = document.getElementById('prompt-kb-shortcut'); // String
+const model = document.getElementById('model');
+const notdalle = document.getElementById('notdalle');
+const role = document.getElementById('role');
+const temperature = document.getElementById('temperature');
+const dalle = document.getElementById('dalle');
+const imageSize = document.getElementById('imageSize');
+const numberOfImages = document.getElementById('numberOfImages');
 
-// Settings
+// Add folder
+// const folderName = document.getElementById('folderName');
+// const folderKeyword = document.getElementById('folderKeyword');
+
+// Options
 const exactMatch = document.getElementById('exactMatch');
 const openNewTab = document.getElementById('openNewTab');
 const sameTab = document.getElementById('sameTab');
@@ -57,26 +73,25 @@ const resetPreferences = document.getElementById('resetPreferences');
 const forceSearchEnginesReload = document.getElementById('forceSearchEnginesReload');
 const forceFaviconsReload = document.getElementById('forceFaviconsReload');
 const searchEngineSiteSearch = document.getElementById('siteSearch');
-const useRegex = document.getElementById('useRegex');
 const multiNewWindow = document.getElementById('multiNewWindow');
 const multiActiveTab = document.getElementById('multiActiveTab');
 const multiAfterLastTab = document.getElementById('multiAfterLastTab');
 const multiMode = document.getElementById('multiMode');
 
-// All engine buttons
+// All search engine buttons
 const btnClearAll = document.getElementById('clearAll');
 const btnSelectAll = document.getElementById('selectAll');
 const btnSortAlpha = document.getElementById('sortAlphabetically');
-const btnShowAdvancedFeatures = document.getElementById('showAdvancedFeatures');
-const btnHideAdvancedFeatures = document.getElementById('hideAdvancedFeatures');
 const btnReset = document.getElementById('reset');
 
 // Add new search engine buttons
 const btnTest = document.getElementById('test');
 const btnAdd = document.getElementById('addSearchEngine');
 const btnClearAddSearchEngine = document.getElementById('clearAddSearchEngine');
-const btnAddFolder = document.getElementById('addFolder');
-const btnClearAddFolder = document.getElementById('clearAddFolder');
+const btnTestChatGPTPrompt = document.getElementById('testChatGPTPrompt');
+const btnAddChatGPTPrompt = document.getElementById('addChatGPTPrompt');
+// const btnAddFolder = document.getElementById('addFolder');
+// const btnClearAddFolder = document.getElementById('clearAddFolder');
 const btnAddSeparator = document.getElementById('addSeparator');
 
 // Import/export
@@ -85,7 +100,7 @@ const btnUpload = document.getElementById('upload');
 
 // Translation variables
 const remove = browser.i18n.getMessage('remove');
-const folder = browser.i18n.getMessage('folder');
+// const folder = browser.i18n.getMessage('folder');
 const multipleSearchEnginesSearch = browser.i18n.getMessage('multipleSearchEnginesSearch');
 const titleShowEngine = browser.i18n.getMessage('titleShowEngine');
 const placeHolderName = browser.i18n.getMessage('searchEngineName');
@@ -93,20 +108,8 @@ const placeHolderKeyword = browser.i18n.getMessage('placeHolderKeyword');
 const placeHolderKeyboardShortcut = browser.i18n.getMessage('placeHolderKeyboardShortcut');
 const notifySearchEngineUrlRequired = browser.i18n.getMessage('notifySearchEngineUrlRequired');
 
-// Typing timer
-let typingTimerSearchEngineName;
-let typingTimerKeyword;
-let typingTimerFolderName;
-let typingTimerFolderKeyword;
-let typingTimerQueryString;
-let typingTimerRegex;
-let typingEventSearchEngineName;
-let typingEventKeyword;
-let typingEventFolderKeyword;
-let typingEventFolderName;
-let typingEventQueryString;
-let typingEventRegex;
-let typingInterval = 1500;
+// OpenAI API Key
+const openaiAPIKey = document.getElementById('openaiAPIKey');
 
 // Other variables
 let numberOfSearchEngines = 0;
@@ -114,13 +117,30 @@ let searchEngines = {};
 let keysPressed = {};
 
 /// Event handlers
-document.addEventListener('DOMContentLoaded', restoreOptionsPage);
+// document.addEventListener('DOMContentLoaded', restoreOptionsPage);
 browser.runtime.onMessage.addListener(handleMessage);
 browser.storage.onChanged.addListener(handleStorageChange);
 browser.permissions.onAdded.addListener(handlePermissionsChanges);
 browser.permissions.onRemoved.addListener(handlePermissionsChanges);
 
-// Settings
+// Event handlers for OpenAI API Key changes
+openaiAPIKey.addEventListener('paste', updateOpenaiAPIKey); // when users paste text
+openaiAPIKey.addEventListener('change', updateOpenaiAPIKey); // when users leave the input field and content has changed
+
+// Model changes event handler for the Add ChatGPT Prompt tab
+model.addEventListener('click', updatePromptOptionsVisibility);
+
+function updatePromptOptionsVisibility() {
+    if (model.value === 'dall-e') {
+        dalle.style.display = 'block';
+        notdalle.style.display = 'none';
+    } else {
+        notdalle.style.display = 'block';
+        dalle.style.display = 'none';
+    }
+}
+
+// Options changes event handlers
 exactMatch.addEventListener('click', updateSearchOptions);
 displayFavicons.addEventListener('click', updateDisplayFavicons);
 quickIconGrid.addEventListener('click', updateQuickIconGrid);
@@ -135,24 +155,27 @@ searchEngineSiteSearch.addEventListener('change', updateSiteSearchSetting);
 resetPreferences.addEventListener('click', updateResetOptions);
 forceSearchEnginesReload.addEventListener('click', updateResetOptions);
 forceFaviconsReload.addEventListener('click', updateResetOptions);
-useRegex.addEventListener('click', updateUseRegex);
 multiMode.addEventListener('click', updateMultiMode);
 
-// All engine buttons
+/// All button click handlers
 btnClearAll.addEventListener('click', clearAll);
 btnSelectAll.addEventListener('click', selectAll);
 btnSortAlpha.addEventListener('click', sortSearchEnginesAlphabetically);
-btnShowAdvancedFeatures.addEventListener('click', toggleAdvancedFeatures);
-btnHideAdvancedFeatures.addEventListener('click', toggleAdvancedFeatures);
 btnReset.addEventListener('click', reset);
 
-// Add new engine
+// Add new search engine button click handlers
 btnTest.addEventListener('click', testSearchEngine);
 btnAdd.addEventListener('click', addSearchEngine);
 btnClearAddSearchEngine.addEventListener('click', clearAddSearchEngine);
-//btnAddFolder.addEventListener('click', addFolder);
-//btnClearAddFolder.addEventListener('click', clearAddFolder);
+
+// Add new ChatGPT Prompt button handlers
+btnTestChatGPTPrompt.addEventListener('click', testChatGPTPrompt);
+btnAddChatGPTPrompt.addEventListener('click', addChatGPTPrompt);
+
+// Add new folder or separator button click handlers
 btnAddSeparator.addEventListener('click', addSeparator);
+// btnAddFolder.addEventListener('click', addFolder);
+// btnClearAddFolder.addEventListener('click', clearAddFolder);
 
 // Import/export
 btnDownload.addEventListener('click', saveToLocalDisk);
@@ -170,7 +193,7 @@ function handleMessage(message) {
 function handlePermissionsChanges(Permissions) {
     console.log(`API permissions: ${Permissions.permissions}`);
     console.log(`Host permissions: ${Permissions.origins}`);
-    checkForDownloadssPermission();
+    checkForDownloadsPermission();
 }
 
 // Detect the underlying OS
@@ -205,6 +228,7 @@ async function sendMessage(action, data) {
         });
 }
 
+// Handle local and sync storage changes
 function handleStorageChange(changes, area) {
     if (area === 'local') {
         if (logToConsole) {
@@ -268,18 +292,6 @@ function removeEventHandler(e) {
     removeSearchEngine(e);
 }
 
-function toggleAdvancedFeatures() {
-    if (btnShowAdvancedFeatures.style.display != 'none') {
-        btnShowAdvancedFeatures.style.display = 'none';
-        btnHideAdvancedFeatures.style.display = 'block';
-        for (let el of document.querySelectorAll('.regex')) el.style.display = 'inline-block';
-    } else {
-        btnShowAdvancedFeatures.style.display = 'block';
-        btnHideAdvancedFeatures.style.display = 'none';
-        for (let el of document.querySelectorAll('.regex')) el.style.display = 'none';
-    }
-}
-
 // Display the list of search engines
 function displaySearchEngines() {
     const div = document.getElementById('searchEngines');
@@ -335,12 +347,21 @@ function createButton(ioniconClass, btnClass, btnTitle) {
 
 // Display a single search engine in a row or line item
 function createLineItem(id, searchEngine, isFolder = false) {
-    if (isFolder) { return createFolderItem(searchEngine.name, searchEngine.keyword); }
+    // if (isFolder) { return createFolderItem(searchEngine.name, searchEngine.keyword); }
 
     const searchEngineName = searchEngine.name;
     const lineItem = document.createElement('li');
     lineItem.setAttribute('id', id);
 
+    let inputQueryString;
+    let textareaPrompt;
+    let model;
+    let role;
+    let temperature;
+    let imageSize;
+    let numberOfImages;
+
+    // If line item is a separator
     if (id.startsWith("separator-")) {
         const hr = document.createElement('hr');
         const sortTarget = document.createElement('i');
@@ -351,6 +372,54 @@ function createLineItem(id, searchEngine, isFolder = false) {
         lineItem.appendChild(sortTarget);
         lineItem.appendChild(removeButton);
         return lineItem;
+    }
+
+    // If line item is a ChatGPT prompt
+    if (id.startsWith("chatgpt-")) {
+        model = document.createElement('select');
+        model.setAttribute('value', searchEngine.model);
+        model.addEventListener('change', (e) => {
+            saveChanges(e, 'model');
+        });
+        textareaPrompt = document.createElement('textarea');
+        textareaPrompt.setAttribute('rows', 4);
+        textareaPrompt.setAttribute('cols', 50);
+        textareaPrompt.setAttribute('value', searchEngine.prompt);
+        textareaPrompt.addEventListener('change', (e) => {
+            saveChanges(e, 'prompt');
+        });
+        if (searchEngine.model === 'dall-e') {
+            imageSize = document.createElement('select');
+            imageSize.setAttribute('value', searchEngine.imageSize);
+            imageSize.addEventListener('change', (e) => {
+                saveChanges(e, 'imageSize');
+            });
+            numberOfImages = document.createElement('input');
+            numberOfImages.setAttribute('value', searchEngine.numberOfImages);
+            numberOfImages.addEventListener('change', (e) => {
+                saveChanges(e, 'numberOfImages');
+            });
+        } else if (searchEngine.model) {
+            role = document.createElement('select');
+            role.setAttribute('value', searchEngine.role);
+            role.addEventListener('change', (e) => {
+                saveChanges(e, 'role');
+            });
+            temperature = document.createElement('input');
+            temperature.setAttribute('value', searchEngine.temperature);
+            temperature.addEventListener('change', (e) => {
+                saveChanges(e, 'temperature');
+            });
+        }
+    } else {
+        // If line item is a search engine
+        inputQueryString = document.createElement('input');
+        inputQueryString.setAttribute('type', 'url');
+        inputQueryString.setAttribute('value', searchEngine.url);
+        // Event handler for query string changes
+        inputQueryString.addEventListener('change', (e) => {
+            saveChanges(e, 'url');
+        });
     }
 
     // Navigation and deletion buttons for each search engine or line item
@@ -366,8 +435,6 @@ function createLineItem(id, searchEngine, isFolder = false) {
     const inputKeyword = document.createElement('input');
     const inputKeyboardShortcut = document.createElement('input');
     const chkMultiSearch = document.createElement('input');
-    const inputQueryString = document.createElement('input');
-    const inputRegex = document.createElement('input');
 
     // Event handler for 'show search engine' checkbox click event
     chkShowSearchEngine.addEventListener('click', visibleChanged); // when users check or uncheck the checkbox
@@ -376,30 +443,14 @@ function createLineItem(id, searchEngine, isFolder = false) {
     favicon.addEventListener('click', editFavicon);
 
     // Event handlers for search engine name changes
-    inputSearchEngineName.addEventListener('cut', searchEngineNameChanged); // when users cut text
-    inputSearchEngineName.addEventListener('paste', searchEngineNameChanged); // when users paste text
-    inputSearchEngineName.addEventListener('input', (e) => {
-        typingEventSearchEngineName = e;
-        clearTimeout(typingTimerSearchEngineName);
-        typingTimerSearchEngineName = setTimeout(searchEngineNameChanged, typingInterval);
-    });
     inputSearchEngineName.addEventListener('change', (e) => {
-        typingEventSearchEngineName = e;
-        clearTimeout(typingTimerSearchEngineName);
-        searchEngineNameChanged();
+        saveChanges(e, 'name');
     });
 
-    // Event handlers for keyword text changes
-    inputKeyword.addEventListener('paste', keywordChanged); // when users paste text
-    inputKeyword.addEventListener('change', keywordChanged); // when users leave the input field and content has changed
-    inputKeyword.addEventListener('keyup', () => {
-        clearTimeout(typingTimerKeyword);
-        typingTimerKeyword = setTimeout(keywordChanged, typingInterval);
-    });
-    inputKeyword.addEventListener('keydown', (e) => {
-        typingEventKeyword = e;
-        clearTimeout(typingTimerKeyword);
-    });
+    // Event handler for keyword text changes
+    inputKeyword.addEventListener('change', (e) => {
+        saveChanges(e, 'keyword');
+    }); // when users leave the input field and content has changed
 
     // Event handlers for adding a keyboard shortcut
     inputKeyboardShortcut.addEventListener('keyup', handleKeyboardShortcut);
@@ -410,30 +461,6 @@ function createLineItem(id, searchEngine, isFolder = false) {
 
     // Event handler for 'include search engine in multi-search' checkbox click event
     chkMultiSearch.addEventListener('click', multiTabChanged); // when users check or uncheck the checkbox
-
-    // Event handlers for query string changes
-    inputQueryString.addEventListener('paste', queryStringChanged); // when users paste text
-    inputQueryString.addEventListener('change', queryStringChanged); // when users leave the input field and content has changed
-    inputQueryString.addEventListener('keyup', () => {
-        clearTimeout(typingTimerQueryString);
-        typingTimerQueryString = setTimeout(queryStringChanged, typingInterval);
-    });
-    inputQueryString.addEventListener('keydown', (e) => {
-        typingEventQueryString = e;
-        clearTimeout(typingTimerQueryString);
-    });
-
-    // Event handlers for regex string changes
-    inputRegex.addEventListener('paste', regexChanged); // when users paste text
-    inputRegex.addEventListener('change', regexChanged); // when users leave the input field and content has changed
-    inputRegex.addEventListener('keyup', () => {
-        clearTimeout(typingTimerRegex);
-        typingTimerRegex = setTimeout(regexChanged, typingInterval);
-    });
-    inputRegex.addEventListener('keydown', (e) => {
-        typingEventRegex = e;
-        clearTimeout(typingTimerRegex);
-    });
 
     // Navigation and deletion buttons event handlers
     removeButton.addEventListener('click', removeEventHandler);
@@ -468,17 +495,6 @@ function createLineItem(id, searchEngine, isFolder = false) {
     chkMultiSearch.setAttribute('title', multipleSearchEnginesSearch);
     chkMultiSearch.checked = searchEngine.multitab;
 
-    inputQueryString.setAttribute('type', 'url');
-    inputQueryString.setAttribute('value', searchEngine.url);
-
-    inputRegex.setAttribute('type', 'text');
-    inputRegex.setAttribute('class', 'regex');
-    if (!isEmpty(searchEngine.regex)) {
-        inputRegex.setAttribute('value', "/" + searchEngine.regex.body + "/" + searchEngine.regex.flags);
-    } else {
-        inputRegex.setAttribute('value', defaultRegex.toString());
-    }
-
     // Attach all the elements composing a search engine to the line item
     lineItem.appendChild(chkShowSearchEngine);
     lineItem.appendChild(favicon);
@@ -486,8 +502,19 @@ function createLineItem(id, searchEngine, isFolder = false) {
     lineItem.appendChild(inputKeyword);
     lineItem.appendChild(inputKeyboardShortcut);
     lineItem.appendChild(chkMultiSearch);
-    lineItem.appendChild(inputQueryString);
-    lineItem.appendChild(inputRegex);
+    if (id.startsWith("chatgpt-")) {
+        lineItem.appendChild(model);
+        if (searchEngine.model === 'dall-e') {
+            lineItem.appendChild(imageSize);
+            lineItem.appendChild(numberOfImages);
+        } else {
+            lineItem.appendChild(role);
+            lineItem.appendChild(temperature);
+            lineItem.appendChild(textareaPrompt);
+        }
+    } else {
+        lineItem.appendChild(inputQueryString);
+    }
     lineItem.appendChild(sortTarget);
     lineItem.appendChild(removeButton);
 
@@ -670,7 +697,7 @@ function editFavicon(e) {
 }
 
 
-function createFolderItem(name, keyword) {
+/* function createFolderItem(name, keyword) {
     const el = document.getElementById('ol#searchEngines');
     const folderItem = document.createElement('li');
     const icon = document.createElement('span');
@@ -679,30 +706,10 @@ function createFolderItem(name, keyword) {
     const subFolder = document.createElement('div');
 
     // Event handlers for search engine name changes
-    inputFolderName.addEventListener('cut', folderNameChanged); // when users cut text
-    inputFolderName.addEventListener('paste', folderNameChanged); // when users paste text
-    inputFolderName.addEventListener('input', (e) => {
-        typingEventFolderName = e;
-        clearTimeout(typingTimerFolderName);
-        typingTimerFolderName = setTimeout(folderNameChanged, typingInterval);
-    });
-    inputFolderName.addEventListener('change', (e) => {
-        typingEventFolderName = e;
-        clearTimeout(typingTimerFolderName);
-        folderNameChanged();
-    });
+    inputFolderName.addEventListener('change', folderNameChanged);
 
     // Event handlers for keyword text changes
-    inputFolderKeyword.addEventListener('paste', folderKeywordChanged); // when users paste text
-    inputFolderKeyword.addEventListener('change', folderKeywordChanged); // when users leave the input field and content has changed
-    inputFolderKeyword.addEventListener('keyup', () => {
-        clearTimeout(typingTimerFolderKeyword);
-        typingTimerFolderKeyword = setTimeout(folderKeywordChanged, typingInterval);
-    });
-    inputFolderKeyword.addEventListener('keydown', (e) => {
-        typingEventFolderKeyword = e;
-        clearTimeout(typingTimerFolderKeyword);
-    });
+    inputFolderKeyword.addEventListener('change', folderKeywordChanged); // when users leave the 
 
     // Navigation and deletion buttons for each search engine or line item
     // Create menu target for line item sorting
@@ -745,7 +752,7 @@ function createFolderItem(name, keyword) {
     });
 
     return folderItem;
-}
+} */
 
 function clearAll() {
     let divSearchEngines = document.getElementById('searchEngines');
@@ -793,18 +800,6 @@ function sortSearchEnginesAlphabetically() {
 
 function reset() {
     sendMessage('reset', null);
-    // sending.then(handleResponse).catch(handleError);
-}
-
-function handleResponse(message) {
-    if (logToConsole) console.log(`Response from background script: ${message.response}`);
-    if (message.response === 'resetCompleted') {
-        restoreOptionsPage();
-    }
-}
-
-function handleError(error) {
-    if (logToConsole) console.error(error);
 }
 
 // Begin of user event handlers
@@ -824,74 +819,34 @@ function removeSearchEngine(e) {
 }
 
 function visibleChanged(e) {
-    let lineItem = e.target.parentNode;
-    let id = lineItem.getAttribute('id');
-    let visible = e.target.checked;
+    const lineItem = e.target.parentNode;
+    const id = lineItem.getAttribute('id');
+    const visible = e.target.checked;
 
     searchEngines[id]['show'] = visible;
 
     sendMessage('saveSearchEngines', searchEngines);
 }
 
-function searchEngineNameChanged(e) {
-    if (e) {
-        if (e.target.value == typingEventSearchEngineName.target.value) return;
-    }
-    let event = e || typingEventSearchEngineName;
-    if (!event) return;
-    let lineItem = event.target.parentNode;
+/* function folderNameChanged(e) {
+    let lineItem = e.target.parentNode;
     let id = lineItem.getAttribute('id');
-    let searchEngineName = event.target.value;
+    let searchEngineName = e.target.value;
 
     searchEngines[id]['name'] = searchEngineName;
-
-    sendMessage('saveSearchEngines', searchEngines);
-}
-
-function folderNameChanged(e) {
-    if (e) {
-        if (e.target.value == typingEventFolderName.target.value) return;
-    }
-    let event = e || typingEventFolderName;
-    if (!event) return;
-    let lineItem = event.target.parentNode;
-    let id = lineItem.getAttribute('id');
-    let searchEngineName = event.target.value;
-
-    searchEngines[id]['name'] = searchEngineName;
-
-    sendMessage('saveSearchEngines', searchEngines);
-}
-
-function keywordChanged(e) {
-    if (e) {
-        if (e.target.value == typingEventKeyword.target.value) return;
-    }
-    let event = e || typingEventKeyword;
-    if (!event) return;
-    let lineItem = event.target.parentNode;
-    let id = lineItem.getAttribute('id');
-    let keyword = event.target.value;
-
-    searchEngines[id]['keyword'] = keyword;
 
     sendMessage('saveSearchEngines', searchEngines);
 }
 
 function folderKeywordChanged(e) {
-    if (e) {
-        if (e.target.value == typingEventFolderKeyword.target.value) return;
-    }
-    let event = e || typingEventFolderKeyword;
-    if (!event) return;
-    let lineItem = event.target.parentNode;
+    let lineItem = e.target.parentNode;
     let id = lineItem.getAttribute('id');
-    let keyword = event.target.value;
+    let keyword = e.target.value;
 
     searchEngines[id]['keyword'] = keyword;
 
     sendMessage('saveSearchEngines', searchEngines);
-}
+} */
 
 function handleKeyboardShortcut(e) {
     if (e.target.nodeName !== 'INPUT') return;
@@ -955,40 +910,16 @@ function multiTabChanged(e) {
     sendMessage('saveSearchEngines', searchEngines);
 }
 
-function queryStringChanged(e) {
-    if (e) {
-        if (e.target.value == typingEventQueryString.target.value) return;
-    }
-    let event = e || typingEventQueryString;
-    if (!event) return;
-    let lineItem = event.target.parentNode;
-    let id = lineItem.getAttribute('id');
-    let queryString = event.target.value;
-
-    searchEngines[id]['url'] = queryString;
-
-    sendMessage('saveSearchEngines', searchEngines);
-}
-
-function regexChanged(e) {
-    if (e) {
-        if (e.target.value == typingEventRegex.target.value) return;
-    }
-    const event = e || typingEventRegex;
-    if (!event) return;
-    const lineItem = event.target.parentNode;
+function saveChanges(e, property) {
+    const lineItem = e.target.parentNode;
     const id = lineItem.getAttribute('id');
-    const regexString = event.target.value;
-    const lastSlash = regexString.lastIndexOf("/");
-    const body = regexString.slice(1, lastSlash);
-    const flags = regexString.split('/').pop();
+    const newValue = e.target.value;
 
-    searchEngines[id]['regex'] = {};
-    searchEngines[id]['regex']['body'] = body;
-    searchEngines[id]['regex']['flags'] = flags;
+    searchEngines[id][property] = newValue;
 
     sendMessage('saveSearchEngines', searchEngines);
 }
+
 // End of user event handlers
 
 function readData() {
@@ -1002,13 +933,34 @@ function readData() {
     for (let i = 0; i < numberOfSearchEngines; i++) {
         const input = lineItems[i].firstChild;
         const id = lineItems[i].id;
-        if (input != null && input.nodeName === 'INPUT' && input.getAttribute('type') === 'checkbox') {
+        if (input !== null && input.nodeName === 'HR' && id.startsWith("separator-")) {
+            searchEngines[id] = {};
+            searchEngines[id]['index'] = i;
+        }
+        else if (input !== null && input.nodeName === 'INPUT' && input.getAttribute('type') === 'checkbox' && id.startsWith("chatgpt-")) {
+            const label = input.nextSibling.nextSibling;
+            const keyword = label.nextSibling;
+            const keyboardShortcut = keyword.nextSibling;
+            const multiTab = keyboardShortcut.nextSibling;
+            const prompt = multiTab.nextSibling;
+            searchEngines[id] = {};
+            searchEngines[id]['index'] = i;
+            searchEngines[id]['name'] = label.value;
+            searchEngines[id]['keyword'] = keyword.value;
+            searchEngines[id]['keyboardShortcut'] = keyboardShortcut.value;
+            searchEngines[id]['multitab'] = multiTab.checked;
+            searchEngines[id]['prompt'] = prompt.value;
+            searchEngines[id]['show'] = input.checked;
+            searchEngines[id]['imageFormat'] = oldSearchEngines[id].imageFormat;
+            searchEngines[id]['base64'] = oldSearchEngines[id].base64;
+        }
+        // Add search engine
+        else if (input !== null && input.nodeName === 'INPUT' && input.getAttribute('type') === 'checkbox') {
             const label = input.nextSibling.nextSibling;
             const keyword = label.nextSibling;
             const keyboardShortcut = keyword.nextSibling;
             const multiTab = keyboardShortcut.nextSibling;
             const url = multiTab.nextSibling;
-            const strRegex = url.nextSibling;
             searchEngines[id] = {};
             searchEngines[id]['index'] = i;
             searchEngines[id]['name'] = label.value;
@@ -1016,23 +968,9 @@ function readData() {
             searchEngines[id]['keyboardShortcut'] = keyboardShortcut.value;
             searchEngines[id]['multitab'] = multiTab.checked;
             searchEngines[id]['url'] = url.value;
-            searchEngines[id]['regex'] = {};
-            searchEngines[id]['regex']['body'] = strRegex.value.split('/')[1];
-            searchEngines[id]['regex']['flags'] = strRegex.value.split('/').pop();
             searchEngines[id]['show'] = input.checked;
             searchEngines[id]['imageFormat'] = oldSearchEngines[id].imageFormat;
             searchEngines[id]['base64'] = oldSearchEngines[id].base64;
-        } else if (input != null && input.nodeName === 'HR' && id.startsWith("separator-")) {
-            searchEngines[id] = {};
-            searchEngines[id]['index'] = i;
-            // searchEngines[lineItems[i].id]['name'] = null;
-            // searchEngines[lineItems[i].id]['keyword'] = null;
-            // searchEngines[lineItems[i].id]['keyboardShortcut'] = null;
-            // searchEngines[lineItems[i].id]['multitab'] = null;
-            // searchEngines[lineItems[i].id]['url'] = null;
-            // searchEngines[lineItems[i].id]['regex'] = null;
-            // searchEngines[lineItems[i].id]['show'] = null;
-            // searchEngines[lineItems[i].id]['base64'] = null;
         }
         // Add folder
         else if (lineItems[i].classList.contains('folder')) {
@@ -1078,18 +1016,15 @@ function testSearchEngine() {
     });
 }
 
+function testChatGPTPrompt() {
+
+}
+
 function addSeparator() {
     const id = "separator-" + Math.floor(Math.random() * 1000000000000);
     const divSearchEngines = document.getElementById('searchEngines');
     searchEngines[id] = {
-        index: numberOfSearchEngines + 1,
-        // name: "",
-        // keyword: "",
-        // keyboardShortcut: "",
-        // multitab: false,
-        // url: "",
-        // show: true,
-        // base64: ""
+        index: numberOfSearchEngines + 1
     };
     const lineItem = createLineItem(id, searchEngines[id], false);
     divSearchEngines.appendChild(lineItem);
@@ -1103,8 +1038,6 @@ function addSeparator() {
 function addSearchEngine() {
     const id = sename.value.replace(' ', '-').toLowerCase();
     const divSearchEngines = document.getElementById('searchEngines');
-    const body = regex.value.split('/')[1];
-    const flags = regex.value.split('/').pop();
     let strUrl = url.value;
     let testUrl = '';
 
@@ -1143,10 +1076,6 @@ function addSearchEngine() {
         // parentFolder: null
     };
 
-    searchEngines[id]['regex'] = {};
-    searchEngines[id]['regex']['body'] = body;
-    searchEngines[id]['regex']['flags'] = flags;
-
     if (logToConsole) console.log('New search engine: ' + id + '\n' + JSON.stringify(searchEngines[id]));
 
     const lineItem = createLineItem(id, searchEngines[id], false);
@@ -1161,7 +1090,42 @@ function addSearchEngine() {
     clearAddSearchEngine();
 }
 
-function addFolder() {
+function addChatGPTPrompt() {
+    const id = "chatgpt-" + Math.floor(Math.random() * 1000000000000);
+    const divSearchEngines = document.getElementById('searchEngines');
+
+    searchEngines[id] = {
+        index: numberOfSearchEngines,
+        name: promptName.value,
+        keyword: promptKeyword.value,
+        keyboardShortcut: promptKbsc.value,
+        multitab: promptMultitab.checked,
+        prompt: promptText.value,
+        show: promptShow.checked,
+        model: model.value
+    };
+
+    if (model.value === 'dall-e') {
+        searchEngines[id]['imageSize'] = imageSize.value;
+        searchEngines[id]['numberOfImages'] = numberOfImages.value;
+    } else {
+        searchEngines[id]['role'] = role.value;
+        searchEngines[id]['temperature'] = temperature.value;
+    }
+
+    const lineItem = createLineItem(id, searchEngines[id], false);
+    divSearchEngines.appendChild(lineItem);
+
+    sendMessage('addNewPrompt', {
+        id: id,
+        searchEngine: searchEngines[id]
+    });
+
+    // Clear HTML input fields to add a new prompt
+    clearAddChatGPTPrompt();
+}
+
+/* function addFolder() {
     const divSearchEngines = document.getElementById('searchEngines');
     const name = folderName.value;
     const keyword = folderKeyword.value;
@@ -1190,7 +1154,7 @@ function addFolder() {
         id: id,
         searchEngine: searchEngines[id]
     });
-}
+} */
 
 function clearAddSearchEngine() {
     // Clear check boxes and text box entries of the line used to add a new search engine
@@ -1200,16 +1164,30 @@ function clearAddSearchEngine() {
     kbsc.value = null;
     multitab.checked = false;
     url.value = null;
-    regex.value = null;
 }
 
-function clearAddFolder() {
+function clearAddChatGPTPrompt() {
+    // Clear check boxes and text box entries of the line used to add a new search engine
+    promptShow.checked = true;
+    promptName.value = null;
+    promptKeyword.value = null;
+    promptKbsc.value = null;
+    promptMultitab.checked = false;
+    promptText.value = null;
+    model.value = 'gpt-3.5-turbo';
+    role.value = 'user';
+    temperature.value = 60;
+}
+
+/* function clearAddFolder() {
     // Clear text box entries of the line used to add a new folder
     folderName.value = null;
     folderKeyword.value = null;
-}
+} */
 
-function setOptions(options) {
+async function setOptions(data) {
+    const options = data.options;
+    const encryptionKey = data.enky;
     if (isEmpty(options)) return;
     if (logToConsole) {
         console.log('Preferences retrieved from sync storage:\n');
@@ -1319,12 +1297,6 @@ function setOptions(options) {
         forceFaviconsReload.checked = true;
     }
 
-    if (options.useRegex === true) {
-        useRegex.checked = true;
-    } else {
-        useRegex.checked = false;
-    }
-
     switch (options.multiMode) {
         case 'multiNewWindow':
             multiNewWindow.checked = true;
@@ -1340,24 +1312,26 @@ function setOptions(options) {
     }
 
     searchEngineSiteSearch.value = options.siteSearch || "Google";
+
+    openaiAPIKey.value = await aes4js.decrypt(encryptionKey, options.openaiAPIKey);
 }
 
 // Restore the list of search engines and the options to be displayed in the options page
 async function restoreOptionsPage() {
     try {
         const data = await browser.storage.sync.get(null);
-        const options = data.options;
+
         searchEngines = await browser.storage.local.get(null);
         if (logToConsole) {
             console.log('Search engines retrieved from local storage:\n');
             console.log(searchEngines);
         }
-        displaySearchEngines();
-        if (!isEmpty(options)) setOptions(options);
+        if (!isEmpty(data)) setOptions(data);
         if (logToConsole) {
-            console.log(options);
+            console.log(data);
             console.log('Options have been reset.');
         }
+        displaySearchEngines();
     } catch (err) {
         if (logToConsole) console.error(err);
     }
@@ -1461,9 +1435,22 @@ function updateResetOptions() {
     sendMessage('updateResetOptions', { resetOptions: resetOptions });
 }
 
-function updateUseRegex() {
-    const chkboxRegex = useRegex.checked;
-    sendMessage('updateUseRegex', { useRegex: chkboxRegex });
+async function updateOpenaiAPIKey() {
+    const data = {};
+    const encryptionKey = generatePassword(24);
+    data['enky'] = encryptionKey;
+    browser.storage.sync.set(data);
+    const apiKey = await aes4js.encrypt(encryptionKey, openaiAPIKey.value);
+    sendMessage('updateApiKey', { openaiAPIKey: apiKey });
+}
+
+// Generate a password
+function generatePassword(length) {
+    const charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_!@-#$';
+    const pwd = Array.from(crypto.getRandomValues(new Uint32Array(length)))
+        .map((x) => charset[x % charset.length])
+        .join('')
+    return pwd;
 }
 
 function isValidUrl(url) {
@@ -1500,11 +1487,22 @@ function sortAlphabetically(array) {
 }
 
 function init() {
-    checkForDownloadssPermission();
+    restoreOptionsPage();
+    checkForDownloadsPermission();
     i18n();
+    allRanges.forEach(wrap => {
+        const range = wrap.querySelector(".slider");
+        const bubble = wrap.querySelector(".bubble");
+
+        range.addEventListener("input", () => {
+            setBubble(range, bubble);
+        });
+        setBubble(range, bubble);
+    });
+    updatePromptOptionsVisibility();
 }
 
-async function checkForDownloadssPermission() {
+async function checkForDownloadsPermission() {
     const downloads = { permissions: ['downloads'] };
     const hasDownloadsPermission = await browser.permissions.contains(downloads);
     if (hasDownloadsPermission) {
@@ -1518,6 +1516,17 @@ function i18n() {
     translateContent('data-i18n', 'textContent');
     translateContent('data-i18n-placeholder', 'placeholder');
     translateContent('data-i18n-title', 'title');
+}
+
+function setBubble(range, bubble) {
+    const val = range.value;
+    const min = range.min ? range.min : 0;
+    const max = range.max ? range.max : 100;
+    const newVal = Number(((val - min) * 100) / (max - min));
+    bubble.innerHTML = val;
+
+    // Sorta magic numbers based on size of the native UI thumb
+    bubble.style.left = `calc(${newVal}% + (${8 - newVal * 0.15}px))`;
 }
 
 function translateContent(attribute, type) {

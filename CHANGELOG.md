@@ -1,5 +1,11 @@
-4.5.5
+4.6.0
 =========
+
+* Bug fix to allow Windows users of firefox to use the Alt key to display menu
+* Added AI search options with ChatGPT, Google Bard and Perplexity.ai
+
+4.5.5
+---------
 
 * Bug fix [#143](https://github.com/odebroqueville/contextSearch/issues/143): Added Quick Icons Grid option
 * Bug fix [#144](https://github.com/odebroqueville/contextSearch/issues/144): Added option to close Icons Grid on mouse out
