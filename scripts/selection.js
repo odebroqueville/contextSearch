@@ -73,6 +73,16 @@ browser.runtime.onMessage.addListener((message) => {
                 sendMessage('notify', notifySearchEngineNotFound);
             }
             break;
+        case 'askPrompt':
+            try {
+                const prompt = message.data.prompt;
+                const url = message.data.url;
+                ask(url, prompt);
+            } catch (err) {
+                if (logToConsole) console.log(err);
+                sendMessage('notify', notifySearchEngineNotFound);
+            }
+            break;
         default:
             break;
     }
@@ -85,6 +95,54 @@ async function getOpenSearchEngine() {
     const result = await getNewSearchEngine(url);
     // Send msg to background script to get the new search engine added
     if (result !== null) sendMessage('addNewSearchEngine', result);
+}
+
+async function ask(url, promptText) {
+    if (logToConsole) console.log(`Prompt is: ${promptText}`);
+    if (logToConsole) console.log(`Ready state is: ${document.readyState}`);
+    navigator.clipboard.writeText(promptText);
+    let someDiv, textarea, input, submit;
+    let observer = new MutationObserver((mutations, mutationInstance) => {
+        if (url.includes('openai')) {
+            someDiv = document.getElementsByTagName("h1")[0];
+        } else {
+            someDiv = document.getElementsByTagName("p")[0];
+        }
+        if (someDiv) {
+            if (url.includes('bard')) {
+                textarea = document.getElementById('mat-input-0');
+                submit = document.getElementsByClassName('send-button');
+            } else if (url === 'https://www.perplexity.ai') {
+                textarea = document.getElementsByTagName("textarea")[0];
+                const buttons = document.getElementsByTagName("button");
+                submit = buttons[5];
+            } else if (url.includes('llama')) {
+                const textareas = document.getElementsByTagName("textarea");
+                textarea = textareas[textareas.length - 1];
+                submit = document.getElementById("component-7");
+            } else if (url.includes('openai')) {
+                textarea = document.getElementById('prompt-textarea');
+                submit = textarea.nextSibling;
+            } else {
+                const textareas = document.getElementsByTagName("textarea");
+                textarea = textareas[textareas.length - 1];
+                const buttons = document.getElementsByTagName("button");
+                submit = buttons[buttons.length - 1];
+            }
+
+            textarea.focus();
+            textarea.textContent = promptText;
+            submit.disabled = false;
+            // submit.click();
+
+            mutationInstance.disconnect();
+        }
+    });
+
+    observer.observe(document, {
+        childList: true,
+        subtree: true
+    });
 }
 
 async function init() {
@@ -118,7 +176,7 @@ async function init() {
 
     // If there exists a search engine with a query string that includes the domain of the visited web page, then hide the Page action
     for (let id in searchEngines) {
-        if (id.startsWith("separator-")) continue;
+        if (id.startsWith("separator-") || id.startsWith("chatgpt-")) continue;
         if (searchEngines[id].url.includes(domain)) {
             if (logToConsole) console.log('This web page has already been added to your list of search engines.');
             sendMessage('hidePageAction', null);
@@ -235,7 +293,7 @@ async function handleStorageChange(changes, area) {
             // The following test has to be carried out when a new search engine is added...
             // If there exists a search engine with a query string that includes the domain of the visited web page, then hide the Page action
             for (let id in searchEngines) {
-                if (id.startsWith("separator-")) continue;
+                if (id.startsWith("separator-") || id.startsWith("chatgpt-")) continue;
                 if (searchEngines[id].url.includes(domain)) {
                     if (logToConsole) console.log('This web page has already been added to your list of search engines.');
                     sendMessage('hidePageAction', null);
@@ -291,6 +349,10 @@ async function handleAltClickWithGrid(e) {
 
 function handleRightClickWithoutGrid(e) {
     if (logToConsole) console.log(e);
+    const selectedText = getSelectedText();
+    if (logToConsole) console.log(selectedText);
+    // Send the selected text to background.js
+    sendMessage('setSelection', { selection: selectedText });
     // If right click is on image
     const elementClicked = e.target;
     const tag = elementClicked.tagName;
@@ -372,6 +434,8 @@ function getSelectedText() {
             return range.toString().trim();
         }
     }
+
+    return '';
 }
 
 async function sendSelectionToBackgroundScript(selectedText) {
@@ -382,7 +446,7 @@ async function sendSelectionToBackgroundScript(selectedText) {
     sendMessage('setTargetUrl', targetUrl);
 
     // Send the selected text to background.js
-    sendMessage('setSelection', selectedText);
+    sendMessage('setSelection', { selection: selectedText });
 }
 
 /* function handleError(error) {
@@ -394,11 +458,18 @@ async function createIconGrid(x, y) {
     const se = await browser.storage.local.get(null);
     const searchEngines = sortByIndex(se);
     if (logToConsole) console.log(searchEngines);
-    const icons = [{
-        id: 'multisearch',
-        src: 'data:image/svg+xml;base64,' + base64MultiSearchIcon,
-        title: 'multi-search',
-    }];
+    let icons = [];
+    // Only include the multi-search icon in the Icons Grid if required
+    for (const id in searchEngines) {
+        if (searchEngines[id].multitab) {
+            icons = [{
+                id: 'multisearch',
+                src: 'data:image/svg+xml;base64,' + base64MultiSearchIcon,
+                title: 'multi-search',
+            }];
+            break;
+        }
+    }
 
     // Number of search engines
     let n = 0;
@@ -697,18 +768,19 @@ function isEmpty(value) {
 /// Sort search engines by index
 function sortByIndex(list) {
     let sortedList = JSON.parse(JSON.stringify(list));
-    let n = Object.keys(list).length;
+    const n = Object.keys(list).length;
+    let m = n;
     let arrayOfIndexes = [];
     let arrayOfIds = [];
-    let min = 0;
+    let min = 999;
     if (logToConsole) console.log(list);
     // Create the array of indexes and its corresponding array of ids
     for (let id in list) {
         if (logToConsole) console.log(`id = ${id}`);
         // If there is no index, then move the search engine to the end of the list
         if (isEmpty(list[id].index)) {
-            list[id].index = n + 1;
-            n++;
+            list[id].index = m + 1;
+            m++;
         }
         arrayOfIndexes.push(list[id].index);
         arrayOfIds.push(id);
@@ -716,9 +788,10 @@ function sortByIndex(list) {
     // Sort the list by index
     for (let i = 1; i < n + 1; i++) {
         min = Math.min(...arrayOfIndexes);
-        let ind = arrayOfIndexes.indexOf(min);
-        arrayOfIndexes.splice(ind, 1);
-        let id = arrayOfIds.splice(ind, 1);
+        const indice = arrayOfIndexes.indexOf(min);
+        const id = arrayOfIds[indice];
+        arrayOfIndexes.splice(indice, 1);
+        arrayOfIds.splice(indice, 1);
         sortedList[id].index = i;
     }
 

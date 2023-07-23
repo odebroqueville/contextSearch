@@ -333,16 +333,16 @@
         "message": "Number of images (1-10):"
     },
     "subheader63": {
-        "message": "Add a new ChatGPT prompt"
+        "message": "Add a new AI prompt"
     },
     "subheader64": {
         "message": "Add a separator"
     },
     "testChatGPT": {
-        "message": "Test ChatGPT Prompt"
+        "message": "Test AI Prompt"
     },
     "addChatGPTPrompt": {
-        "message": "Add ChatGPT Prompt"
+        "message": "Add AI Prompt"
     },
     "promptShow": {
         "message": "Show prompt in grid or context menu"

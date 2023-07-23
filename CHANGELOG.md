@@ -1,8 +1,10 @@
 4.6.0
 =========
 
+* Removed advanced feature related to regex
 * Bug fix to allow Windows users of firefox to use the Alt key to display menu
-* Added AI search options with ChatGPT, Google Bard and Perplexity.ai
+* Bug fix: when using separators, Context Search would no longer be available in the context menu
+* Added AI search options with ChatGPT, Google Bard, Perplexity.ai, Claude-instant and Assistant on Poe (requires users to be logged in)
 
 4.5.5
 ---------

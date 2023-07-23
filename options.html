@@ -182,15 +182,15 @@
                         </div>
                     </fieldset>
 
-                    <fieldset style="display:inline-block">
+                    <!--                     <fieldset style="display:inline-block">
                         <legend>
-                            <h4 data-i18n="header12">ChatGPT setup</h4>
+                            <h4 data-i18n="header12">Bing settings for AI requests</h4>
                         </legend>
                         <div>
-                            <label for="openaiAPIKey" data-i18n="openaiAPIKey">OpenAI API Key: </label>
-                            <input type="password" id="openaiAPIKey">
+                            <label for="bingUrl" data-i18n="bingUrl">Your personal Bing url: </label>
+                            <input type="url" id="bingUrl">
                         </div>
-                    </fieldset>
+                    </fieldset> -->
 
                     <fieldset>
                         <legend>
@@ -280,15 +280,24 @@
                                 </div>
                             </div>
                             <div class="tab">
-                                <input type="radio" name="css-tabs" id="promptTab" checked class="tab-switch">
-                                <label for="promptTab" class="tab-label" data-i18n="subheader63">Add a new ChatGPT
+                                <input type="radio" name="css-tabs" id="promptTab" class="tab-switch">
+                                <label for="promptTab" class="tab-label" data-i18n="subheader63">Add a new AI
                                     prompt</label>
                                 <div id="addChatGPTPromptTab" class="tab-content">
                                     <div>
-                                        <h3 class="subheader" data-i18n="subheader63">Add a new ChatGPT prompt</h3>
+                                        <h3 class="subheader" data-i18n="subheader63">Add a new AI prompt</h3>
                                     </div>
-                                    <div>
+                                    <div class="va">
                                         <input type="checkbox" id="promptShow" data-i18n-title="promptShow" checked />
+                                        <select id="ai-provider">
+                                            <option value="">Choose AI Provider</option>
+                                            <option value="chatgpt">ChatGPT</option>
+                                            <option value="bard">Google Bard</option>
+                                            <option value="perplexity">Perplexity.ai</option>
+                                            <option value="llama2">Llama2 on Perplexity</option>
+                                            <option value="claude-instant">Claude-instant on Poe</option>
+                                            <option value="assistant">Poe Assistant</option>
+                                        </select>
                                         <input type="text" id="promptName" data-i18n-placeholder="promptName" />
                                         <input type="text" id="promptKeyword" class="keyword"
                                             data-i18n-placeholder="placeHolderKeyword" />
@@ -299,7 +308,7 @@
                                         <textarea id="prompt" rows="4" cols="50"
                                             data-i18n-placeholder="prompt"></textarea>
                                     </div>
-                                    <div class="p-sm">
+                                    <!--                                     <div class="p-sm">
                                         <label for="model" data-i18n="model">Model:</label>
                                         <select id="model">
                                             <option value="gpt-4">GPT-4</option>
@@ -343,7 +352,7 @@
                                                 id="numberOfImages" name="numberOfImages">
                                             <output class="bubble"></output>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="buttonrow">
                                         <!-- Display on a new line -->
                                         <button type="button" id="testChatGPTPrompt" style="margin-left: 26px;"
@@ -352,11 +361,13 @@
                                         <button type="button" id="addChatGPTPrompt" data-i18n="addChatGPTPrompt">Add
                                             ChatGPT
                                             Prompt</button>
+                                        <button type="button" id="clearAddChatGPTPrompt"
+                                            data-i18n="clear">Clear</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="tab">
-                                <input type="radio" name="css-tabs" id="separatorTab" checked class="tab-switch">
+                                <input type="radio" name="css-tabs" id="separatorTab" class="tab-switch">
                                 <label for="separatorTab" class="tab-label" data-i18n="subheader64">Add a
                                     separator</label>
                                 <div id="addSeparatorTab" class="tab-content">
@@ -391,7 +402,6 @@
             </div>
         </div>
     </form>
-    <script src="/scripts/aes4js.js"></script>
     <script src="/scripts/Sortable.min.js"></script>
     <script type="module" src="/scripts/options.js"></script>
 </body>

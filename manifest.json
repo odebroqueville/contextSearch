@@ -35,16 +35,17 @@
     },
     "background": {
         "scripts": [
-            "/scripts/background.js",
-            "/scripts/aes4js.js"
+            "/scripts/background.js"
         ]
     },
     "permissions": [
         "<all_urls>",
         "activeTab",
+        "clipboardWrite",
         "contextMenus",
         "storage",
         "search",
+        "tabs",
         "webRequest",
         "webRequestBlocking"
     ],
