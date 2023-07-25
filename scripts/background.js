@@ -1389,8 +1389,12 @@ function buildSuggestion(text) {
             if (id.startsWith('chatgpt-')) {
                 targetUrl = getAIProviderBaseUrl(id);
                 selection = searchTerms;
+                suggestion['description'] =
+                    'Search ' + searchEngines[id].name + ' ' + searchTerms;
             } else {
                 const searchEngineUrl = searchEngines[id].url;
+                suggestion['description'] =
+                    'Search ' + searchEngines[id].name + ' for ' + searchTerms;
                 if (searchEngineUrl.includes('{searchTerms}')) {
                     targetUrl = searchEngineUrl.replace(
                         /{searchTerms}/g,
@@ -1403,8 +1407,7 @@ function buildSuggestion(text) {
                 }
             }
             suggestion['content'] = targetUrl;
-            suggestion['description'] =
-                'Search ' + searchEngines[id].name + ' for ' + searchTerms;
+
             if (debug) console.log(JSON.stringify(suggestion));
             result.push(suggestion);
         }
