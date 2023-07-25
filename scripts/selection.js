@@ -99,27 +99,31 @@ async function getOpenSearchEngine() {
 
 async function ask(url, promptText) {
     if (logToConsole) console.log(`Prompt is: ${promptText}`);
+    if (logToConsole) console.log(`URL is: ${url}`);
     if (logToConsole) console.log(`Ready state is: ${document.readyState}`);
-    navigator.clipboard.writeText(promptText);
-    let someDiv, textarea, input, submit;
+    await navigator.clipboard.writeText(promptText);
+    let someDiv, textarea, submit;
     let observer = new MutationObserver((mutations, mutationInstance) => {
+        if (logToConsole) console.log(mutations);
         if (url.includes('openai')) {
             someDiv = document.getElementsByTagName("h1")[0];
         } else {
-            someDiv = document.getElementsByTagName("p")[0];
+            someDiv = document.getElementsByTagName("span")[0];
+            if (logToConsole) console.log(someDiv);
         }
         if (someDiv) {
             if (url.includes('bard')) {
                 textarea = document.getElementById('mat-input-0');
                 submit = document.getElementsByClassName('send-button');
-            } else if (url === 'https://www.perplexity.ai') {
-                textarea = document.getElementsByTagName("textarea")[0];
+            } else if (url.includes('www.perplexity.ai/')) {
+                const textareas = document.getElementsByTagName("textarea");
+                textarea = textareas[0];
                 const buttons = document.getElementsByTagName("button");
                 submit = buttons[5];
-            } else if (url.includes('llama')) {
+            } else if (url.includes('huggingface')) {
                 const textareas = document.getElementsByTagName("textarea");
                 textarea = textareas[textareas.length - 1];
-                submit = document.getElementById("component-7");
+                submit = textarea.parentElement.nextSibling;
             } else if (url.includes('openai')) {
                 textarea = document.getElementById('prompt-textarea');
                 submit = textarea.nextSibling;
@@ -130,6 +134,7 @@ async function ask(url, promptText) {
                 submit = buttons[buttons.length - 1];
             }
 
+            // if (logToConsole) console.log(textarea);
             textarea.focus();
             textarea.textContent = promptText;
             submit.disabled = false;

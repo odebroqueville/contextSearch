@@ -362,7 +362,7 @@ function createLineItem(id, searchEngine, isFolder = false) {
 
         const option5 = document.createElement("option");
         option5.value = "llama2";
-        option5.text = "Llama2 on Perplexity";
+        option5.text = "Llama2 on Huggingface";
 
         const option6 = document.createElement("option");
         option6.value = "claude-instant";
