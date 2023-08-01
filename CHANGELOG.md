@@ -4,7 +4,7 @@
 * Removed advanced feature related to regex
 * Bug fix to allow Windows users of firefox to use the Alt key to display menu
 * Bug fix: when using separators, Context Search would no longer be available in the context menu
-* Added AI search options with ChatGPT, Google Bard, Perplexity.ai, Claude-instant and Assistant on Poe (requires users to be logged in)
+* Added AI search options with ChatGPT, Google Bard, Perplexity.ai, Claude-instant on Poe, Llama2 on Poe and Poe Assistant (requires users to be logged in)
 
 4.5.5
 ---------
