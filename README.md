@@ -42,11 +42,19 @@ The 'Reset' button will re-load the default list of search engines and their ass
 
 You can also import a JSON file containing your own list of search engines. It is strongly recommended to export your customized list of search engines as a backup in case anything goes wrong.
 
-## How to add a search engine to your custom list
+## How to add a search engine to your custom list of search engines
 
 * visit mycroftproject.com and click on the Context Search icon that appears before the textual link of a listed search engine
 * use the page action (i.e. Context Search icon in the url address bar) to add a search engine if the website supports open search
 * add a search engine manually via the Options page (you can test the query string before adding the search engine)
+
+## How to add an AI prompt to your custom list of search engines
+
+Prior to using an AI provider, ensure that you have logged in to their website. At the bottom of the Options page, select the tab to 'Add a new AI prompt'. Chose the AI provider you'd like to use, add a name for your prompt and enter your prompt by inserting %s where you'd like your text selection to appear (e.g. 'Comprehensively explain the following for a 10 year old: %s'). 
+
+In most cases, after selecting text on a web page and selecting your prompt in the context menu, a new tab will open with the prompt pasted in the search box. However, pressing the ENTER key will not work! You have to place the cursor in the search box, then press the SPACE bar and finally press the ENTER key. The search results should then appear.
+
+At any time, you may press CMD + V to paste you prompt if it doesn't appear.
 
 ## How to add a separator (horizontal line) in the context menu
 

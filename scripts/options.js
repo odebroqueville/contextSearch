@@ -362,7 +362,7 @@ function createLineItem(id, searchEngine, isFolder = false) {
 
         const option5 = document.createElement("option");
         option5.value = "llama2";
-        option5.text = "Llama2 on Huggingface";
+        option5.text = "Llama2 on Poe";
 
         const option6 = document.createElement("option");
         option6.value = "claude-instant";
@@ -1031,7 +1031,10 @@ function testSearchEngine() {
 }
 
 function testChatGPTPrompt() {
-
+    const provider = document.getElementById('ai-provider').value;
+    sendMessage('testPrompt', {
+        provider: provider
+    });
 }
 
 function addSeparator() {

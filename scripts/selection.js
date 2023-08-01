@@ -113,8 +113,11 @@ async function ask(url, promptText) {
         }
         if (someDiv) {
             if (url.includes('bard')) {
+                // mutationInstance.disconnect();
+                // return;
                 textarea = document.getElementById('mat-input-0');
-                submit = document.getElementsByClassName('send-button');
+                const buttons = document.getElementsByTagName("button");
+                submit = buttons[buttons.length - 1];
             } else if (url.includes('www.perplexity.ai/')) {
                 const textareas = document.getElementsByTagName("textarea");
                 textarea = textareas[0];
@@ -134,13 +137,15 @@ async function ask(url, promptText) {
                 submit = buttons[buttons.length - 1];
             }
 
-            // if (logToConsole) console.log(textarea);
-            textarea.focus();
-            textarea.textContent = promptText;
-            submit.disabled = false;
-            // submit.click();
-
-            mutationInstance.disconnect();
+            if (logToConsole) console.log(textarea);
+            if (logToConsole) console.log(submit);
+            if (textarea) {
+                textarea.focus();
+                textarea.value = promptText;
+                submit.disabled = false;
+                submit.click();
+                mutationInstance.disconnect();
+            }
         }
     });
 
