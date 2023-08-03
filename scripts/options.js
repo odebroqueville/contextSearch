@@ -1,7 +1,7 @@
 /// Global variables
 /* global Sortable */
 // Debug
-const logToConsole = false;
+const logToConsole = true;
 
 // Other 
 const os = getOS();
@@ -316,8 +316,6 @@ function createButton(ioniconClass, btnClass, btnTitle) {
 function createLineItem(id, searchEngine, isFolder = false) {
     // if (isFolder) { return createFolderItem(searchEngine.name, searchEngine.keyword); }
 
-    if (logToConsole) console.log(searchEngine);
-
     const searchEngineName = searchEngine.name;
     const lineItem = document.createElement('li');
     lineItem.setAttribute('id', id);
@@ -448,7 +446,8 @@ function createLineItem(id, searchEngine, isFolder = false) {
     // Event handlers for adding a keyboard shortcut
     inputKeyboardShortcut.addEventListener('keyup', handleKeyboardShortcut);
     inputKeyboardShortcut.addEventListener('keydown', (event) => {
-        keysPressed[event.key] = [true, event.code];
+        const key = event.key;
+        if (isKeyAllowed(event)) keysPressed[key] = event.code;
         if (logToConsole) console.log(keysPressed);
     });
 
@@ -854,49 +853,56 @@ function folderKeywordChanged(e) {
     sendMessage('saveSearchEngines', searchEngines);
 } */
 
+// Handle the input of a keyboard shortcut for a search engine in the Options page
 function handleKeyboardShortcut(e) {
-    if (e.target.nodeName !== 'INPUT') return;
+    if (e.target.nodeName !== 'INPUT' || !isKeyAllowed(e) || !Object.keys(keysPressed).length > 0) return;
     if ((os === 'macOS' && e.metaKey) || ((os === 'Windows' || os === 'Linux') && e.ctrlKey)) return;
     e.preventDefault();
     if (logToConsole) console.log(os);
     if (logToConsole) console.log(keysPressed);
-    let lineItem = e.target.parentNode;
-    let id = lineItem.getAttribute('id');
-    let input = document.getElementById(id + '-kbsc');
+    const lineItem = e.target.parentNode;
+    const id = lineItem.getAttribute('id');
+    const input = document.getElementById(id + '-kbsc');
     let keyboardShortcut = '';
     if (logToConsole) console.log(e);
-    for (let i = 0; i < modifiers.length; i++) {
-        const modifier = modifiers[i];
-        if (logToConsole) console.log(modifier);
-        if (!(modifier in keysPressed)) continue;
-        switch (modifier) {
+
+    // Identify modifier keys pressed
+    for (let key in keysPressed) {
+        switch (key) {
             case 'Control':
                 keyboardShortcut = keyboardShortcut + 'ctrl+';
-                break;
-            case 'Shift':
-                keyboardShortcut = keyboardShortcut + 'shift+';
+                delete keysPressed[key];
                 break;
             case 'Alt':
                 keyboardShortcut = keyboardShortcut + 'alt+';
+                delete keysPressed[key];
+                break;
+            case 'Shift':
+                keyboardShortcut = keyboardShortcut + 'shift+';
+                delete keysPressed[key];
                 break;
             case 'Meta':
                 keyboardShortcut = keyboardShortcut + meta;
+                delete keysPressed[key];
                 break;
             default:
         }
-        delete keysPressed[modifier];
     }
-    if (logToConsole) console.log(`keys pressed: ${keyboardShortcut}`);
-    if (logToConsole) console.log(`remaining keys down: `);
+    if (logToConsole) console.log(`Modifier keys pressed: ${keyboardShortcut}`);
+    if (logToConsole) console.log(`Remaining non-modifier keys pressed: `);
     if (logToConsole) console.log(keysPressed);
+
+    // Identify the remaining non-modifier keys pressed
     for (let key in keysPressed) {
-        if (logToConsole) console.log(key);
-        if (os === 'macOS' && keyboardShortcut.includes('alt')) {
-            keyboardShortcut += keysPressed[key][1].substring(3).toLowerCase();
+        if (os === 'macOS') {
+            keyboardShortcut += keysPressed[key].substring(3).toLowerCase();
         } else {
             keyboardShortcut += key.toLowerCase();
         }
     }
+
+    // Save the identified keyboard shortcut
+    if (logToConsole) console.log(keyboardShortcut);
     input.value = keyboardShortcut;
     keysPressed = {};
     searchEngines[id]['keyboardShortcut'] = keyboardShortcut;
@@ -1588,6 +1594,16 @@ function isEmpty(value) {
         return value === null || Object.keys(value).length === 0;
     } else if (typeof value === 'boolean') return false;
     else return !value;
+}
+
+function isKeyAllowed(event) {
+    const disallowedKeys = [
+        'Tab', 'Enter', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
+        'Escape', ' ', 'Delete', 'Backspace', 'Home', 'End',
+        'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12',
+    ];
+
+    return !disallowedKeys.includes(event.key);
 }
 
 init();

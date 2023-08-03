@@ -2,7 +2,7 @@
 'use strict';
 
 /// Global variables
-const logToConsole = false; // Debug
+const logToConsole = true; // Debug
 const os = getOS();
 const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
 const mycroftUrl = 'https://mycroftproject.com/installos.php/';
@@ -49,8 +49,9 @@ document.addEventListener('mouseup', handleAltClickWithGrid);
 
 // Key down event listener
 document.addEventListener('keydown', (event) => {
-    if (event.target.nodeName === 'INPUT') return;
-    keysPressed[event.key] = [true, event.code];
+    const key = event.key;
+    if (event.target.nodeName === 'INPUT' || !isKeyAllowed(event)) return;
+    keysPressed[key] = event.code;
     if (logToConsole) console.log(keysPressed);
 });
 
@@ -227,7 +228,7 @@ async function handleKeyUp(e) {
     if (logToConsole) console.log(e);
     if (logToConsole) console.log(keysPressed);
     // If no key has been pressed or if text is being typed in an INPUT field then discontinue
-    if (!Object.keys(keysPressed).length > 0 || e.target.nodeName === 'INPUT') return;
+    if (!Object.keys(keysPressed).length > 0 || e.target.nodeName === 'INPUT' || !isKeyAllowed(e)) return;
     // if (e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey) return;
 
     // If no text has been selected then discontinue
@@ -272,22 +273,22 @@ async function handleKeyUp(e) {
     // For all non-modifier keys pressed...
     for (let key in keysPressed) {
         if (logToConsole) console.log(key);
-        if (os === 'macOS' && input.includes('alt')) {
-            input += keysPressed[key][1].substring(3).toLowerCase();
+        if (os === 'macOS') {
+            input += keysPressed[key].substring(3).toLowerCase();
         } else {
             input += key.toLowerCase();
         }
     }
     if (logToConsole) console.log(`keys pressed: ${input}`);
+    keysPressed = {};
     // If only the alt key was pressed then discontinue
     if (input === "alt+") return;
     for (let id in searchEngines) {
         if (logToConsole) console.log(id);
         const keyboardShortcut = searchEngines[id].keyboardShortcut;
         if (logToConsole) console.log(keyboardShortcut);
-        if (keyboardShortcut === input) {
+        if (keyboardShortcut && keyboardShortcut === input) {
             sendMessage('doSearch', { id: id });
-            keysPressed = {};
             break;
         }
     }
@@ -814,4 +815,14 @@ function sortByIndex(list) {
     }
 
     return sortedList;
+}
+
+function isKeyAllowed(event) {
+    const disallowedKeys = [
+        'Tab', 'Enter', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
+        'Escape', ' ', 'Delete', 'Backspace', 'Home', 'End',
+        'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12',
+    ];
+
+    return !disallowedKeys.includes(event.key);
 }
