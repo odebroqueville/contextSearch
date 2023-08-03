@@ -4,7 +4,6 @@
 /// Global variables
 const logToConsole = false; // Debug
 const os = getOS();
-const modifiers = ["Control", "Shift", "Alt", "Meta"];
 const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
 const mycroftUrl = 'https://mycroftproject.com/installos.php/';
 const base64ContextSearchIcon =
@@ -224,14 +223,21 @@ function getOS() {
 
 // Handle keyboard shortcuts
 async function handleKeyUp(e) {
+    const modifiers = ["Control", "Shift", "Alt", "Meta"];
     if (logToConsole) console.log(e);
     if (logToConsole) console.log(keysPressed);
-    if (!Object.keys(keysPressed).length > 0 || Object.keys(keysPressed)[0] === "Alt") return;
-    if (e.target.nodeName === 'INPUT') return;
+    // If no key has been pressed or if text is being typed in an INPUT field then discontinue
+    if (!Object.keys(keysPressed).length > 0 || e.target.nodeName === 'INPUT') return;
     // if (e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey) return;
-    e.preventDefault();
+
+    // If no text has been selected then discontinue
     const selectedText = getSelectedText();
-    sendSelectionToBackgroundScript(selectedText);
+    if (selectedText) {
+        e.preventDefault();
+        sendSelectionToBackgroundScript(selectedText);
+    } else {
+        return;
+    }
 
     // Retrieve search engines from local storage
     const searchEngines = await browser.storage.local.get(null);
@@ -273,6 +279,7 @@ async function handleKeyUp(e) {
         }
     }
     if (logToConsole) console.log(`keys pressed: ${input}`);
+    // If only the alt key was pressed then discontinue
     if (input === "alt+") return;
     for (let id in searchEngines) {
         if (logToConsole) console.log(id);
@@ -376,6 +383,7 @@ function handleRightClickWithoutGrid(e) {
     }
 }
 
+// Display clickable buttons/icons on mycroftproject.com
 async function showButtons() {
     if (domain != 'mycroftproject.com') return;
     const installLinks = document.querySelectorAll('a[href^="/install.html"]');
