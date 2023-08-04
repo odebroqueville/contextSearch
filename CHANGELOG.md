@@ -1,5 +1,11 @@
-4.6.0
+4.6.1
 =========
+
+* Bug fix [#149](https://github.com/odebroqueville/contextSearch/issues/149)
+* Fixes a bug where alt key couldn't be used for search engine keyboard shortcuts
+
+4.6.0
+---------
 
 * Removed advanced feature related to regex
 * Bug fix to allow Windows users of firefox to use the Alt key to display menu
