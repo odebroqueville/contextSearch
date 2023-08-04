@@ -2,7 +2,7 @@
 'use strict';
 
 /// Global variables
-const logToConsole = true; // Debug
+const logToConsole = false; // Debug
 const os = getOS();
 const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
 const mycroftUrl = 'https://mycroftproject.com/installos.php/';

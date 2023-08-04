@@ -1,7 +1,7 @@
 /// Global variables
 /* global Sortable */
 // Debug
-const logToConsole = true;
+const logToConsole = false;
 
 // Other 
 const os = getOS();
@@ -450,6 +450,7 @@ function createLineItem(id, searchEngine, isFolder = false) {
         if (isKeyAllowed(event)) keysPressed[key] = event.code;
         if (logToConsole) console.log(keysPressed);
     });
+    inputKeyboardShortcut.addEventListener('change', handleKeyboardShortcutChange);
 
     // Event handler for 'include search engine in multi-search' checkbox click event
     chkMultiSearch.addEventListener('click', multiTabChanged); // when users check or uncheck the checkbox
@@ -905,6 +906,16 @@ function handleKeyboardShortcut(e) {
     if (logToConsole) console.log(keyboardShortcut);
     input.value = keyboardShortcut;
     keysPressed = {};
+    searchEngines[id]['keyboardShortcut'] = keyboardShortcut;
+
+    sendMessage('saveSearchEngines', searchEngines);
+}
+
+function handleKeyboardShortcutChange(e) {
+    const lineItem = e.target.parentNode;
+    const id = lineItem.getAttribute('id');
+    const input = document.getElementById(id + '-kbsc');
+    const keyboardShortcut = input.value;
     searchEngines[id]['keyboardShortcut'] = keyboardShortcut;
 
     sendMessage('saveSearchEngines', searchEngines);
