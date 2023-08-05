@@ -1015,12 +1015,12 @@ async function processSearch(info, tab) {
     }
     if (id === 'reverse-image-search') {
         if (debug) console.log(targetUrl);
-        displaySearchResults(googleReverseImageSearchUrl + targetUrl, tabIndex);
+        displaySearchResults(id, googleReverseImageSearchUrl + targetUrl, tabIndex);
         return;
     }
     if (id === 'google-lens') {
         if (debug) console.log(targetUrl);
-        displaySearchResults(googleLensUrl + targetUrl, tabIndex);
+        displaySearchResults(id, googleLensUrl + targetUrl, tabIndex);
         return;
     }
     if (id === 'site-search' && !isEmpty(targetUrl)) {
@@ -1035,7 +1035,7 @@ async function processSearch(info, tab) {
             browser.sidebarAction.setTitle({ title: 'Search results' });
             return;
         } else {
-            displaySearchResults(targetUrl, tabIndex);
+            displaySearchResults(id, targetUrl, tabIndex);
             return;
         }
     } else if (id === 'options') {
