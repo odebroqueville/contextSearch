@@ -1,5 +1,10 @@
-4.6.1
+4.6.2
 =========
+
+* Bug fix [#151](https://github.com/odebroqueville/contextSearch/issues/151)
+
+4.6.1
+---------
 
 * Bug fix [#149](https://github.com/odebroqueville/contextSearch/issues/149)
 * Fixes a bug where alt key couldn't be used for search engine keyboard shortcuts

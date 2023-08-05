@@ -3,7 +3,7 @@
     "default_locale": "en",
     "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
-    "version": "4.6.1",
+    "version": "4.6.2",
     "author": "Olivier de Broqueville",
     "browser_specific_settings": {
         "gecko": {
