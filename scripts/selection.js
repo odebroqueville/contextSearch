@@ -4,7 +4,7 @@
 /// Global variables
 const logToConsole = false; // Debug
 const os = getOS();
-const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
+const notifySearchEngineNotFound = chrome.i18n.getMessage('notifySearchEngineNotFound');
 const mycroftUrl = 'https://mycroftproject.com/installos.php/';
 const base64ContextSearchIcon =
     'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAG2ElEQVRYhe2Wa1CTVxrH31o/7ezM7kxndndmv6wjs4aEJCCiOx20sOPYdms7uhBaUbou5Y4JBIGogFxiR7BeqmWgSiARCAlvyA2oEMAABbkZVC6CBAkGMCGBo+jY2W5H/feDwhgToLS7s1/2mXm+vc/5/97/c55zDkX9P9YYQcna3/rwtbsCUusEvIKWM9vS9GIfgZbPOlTzrr+I/s1/S3edpL7/7Mmqb83Z5e3PDL1jsDucIITg3swsdmVqwBXqwUnSPWMn65pZfHUoj0e/+R9R5on17wmLWqzZsnbsSKOxI10No8kMQggIIbg1NgWOgAZXqH+ZOnAFNP4qUt1hRkm3/wJprKtsvlXXdsP8PPtyO1KKW3Cp3gR2XAU6BybQNzyJY2XtCE6n8XexHtxkHbhCHfyTlBgen8bktB1XukeeH71klFAU1q1NGnijsWdkoMJwE4GpKohKjIg8fQU+8XJwkjQ4UdmJwDQ1uEIdAoQ1CExXg82nwU6QY3h8GoqWAXQPWWCdmcWUzYHG3tHhNUFovh1uIITgaGkbdmVoMDFlh3NuHrsytC96Lah5xXI9OAI1QsS14Il1SLxgQEpxC8Ym7y+1iRACTftQ008SlzbcPDg3P79UuLiQc24e+YoucARqF/FFoD05Wkjq+3HH4iq8mHPz85A1XP9sVev7RyefvF58Y9SKkDwdgtNpcJI07gDJWuw8qoLDOedRfDFvjt77bsVWyA03Ml8vMprMCExVgStQuVm/mOxD1bBM2yFvHkCQSI2LtSb0DU/CMm13g6gw3MxeFqCt3zzz6sdD41Pg8mmPoi4AfBqn6W6klxiRXtKKwMNK7DyiQvjJOlQbB10A2vvNNo/iF02mX9lmnc8JIbA7nDDfsyH4iObFXK8CsPOoBuNW25JIU98YdB23Uay/jsaeOy4AdocTNN36azeAauNwiN3hxLGydgSmqhBRUO+x326ZpML125PL9r170IJRywwIITgubUdjzx2UNfQfcANQto0UXL89CU6iAjvSVODwVeAka1cFiD1vWHHjTdkcOKXsAiEEIxMzOFHZiYDEqjA3gKyK3mOWaTuumsxIu2R8ueFWt/9zeeeKAIQQlNT3o2fIggmrDXvyasHm0wfdAHxT9LwgkQb5imuYmLLDT1CN0M/r8G6GFuxD1cu6kVvesSqAZdoORcsA9ufXgSvUgRUr/9QNgCVQBy+e53vFtRBXdMA268SsYw53rTb4CapfnveuAFuEKnQOTIAQgvt2Jx5MGrBgEuHRtQgsdEfh4dA5PJgdByEEiYXN4Cbr4P2Z7AM3gD8l0H9g81VLC4fn17v8xYB5Cu+I1B7bEpimRvSZOnxTcQDzjdsw0RyHvvoM3GoUwXl1Lx5f3Y67tzTwFdBg81XYFFGyweMoboorv/viXte4ze/i1ZtU3AKuQOUGoSiLwpguCB9FJyP3TDEKCiUoKJQg/6tLGGzKxAPDNoRlfw1mXKXVozhFURQzsvQ0R1ADNl+FniHLsj39pmsUnFfc2nu8BI8MAQhJTIZ3aCaS8i4sARQUSpBy4itoSj+GsSoE3tHSL5cF8PrHxY2MWNlTrlALkaR1WYDz6l6XTXmmMA2mmt3wDs0Ak5eF8MMFLgBC8QXsEx7GQlMAorJO+i8LQFEU5R0tLfVJUICbVIOa1iGPALtzal3svyyJg748Asyw4/DmZSIu65wLwLFTRXg74jAeN23BfJ0/Y0WAP35a+BYzWnaffagaXIEKXYOurZibm0fwEdeRPF8kRBe9B0xeFrx5mYjNPLsknnv2a3BCRdgTk/DkcdMWzGgYb60IQFEU9eeY0kBmZNn3rPhK1HaOuLwN9opr3Y7oA3mFWGgKwHsxR8AMO47348Qu9jM+TH7aIQtqfWTwN60qvhiMf5btZkRJ/3VK3rYEcKV71OODhCvUo1n+MfpV7+Ptgxnw/SQTBYUSiL+8iG370p9+kfmh4WHj5udmyebYnwxAURTlFVX0l6qmvieEEAyarQjN1S57PG9Pr0Yf/RGsde/g7Lk4FJWeRmpuEhnXbm9baNz8rCPPFzXhvs6qfUzWmiDKDb0bGjoHb3+SU/VvVowMrNjLYMVXwidBAXaiEuxEJXwSFPCJl4MbL0XOqRR0K/72zHFl6/cPDZtnFgx+CruWu7VmP1epjvD7eRAURVEbI4p/tylKmsaIknUyIqU/sGJkeDUZkdIfGDHSa97RUtGGfSW/f70+h6LWqw5wFOoIP8jDfOYqeCyvNUMsRVDOei++ciMrQR3A4tNbWQm0FxWUs361shyKWl8ZzlGWhvqA3s8O//kAvyBoHu9NOpzlC4p6438C8Hr8CN553KkxVTnMAAAAAElFTkSuQmCC';
@@ -59,11 +59,11 @@ document.addEventListener('keydown', (event) => {
 document.addEventListener('keyup', handleKeyUp);
 
 // Storage change event listener
-browser.storage.onChanged.addListener(handleStorageChange);
+chrome.storage.onChanged.addListener(handleStorageChange);
 
 /// Handle Incoming Messages
 // Listen for messages from the background script
-browser.runtime.onMessage.addListener((message) => {
+chrome.runtime.onMessage.addListener((message) => {
     switch (message.action) {
         case 'getSearchEngine':
             try {
@@ -166,7 +166,7 @@ async function init() {
     }
 
     if (tabUrl.endsWith('#_sidebar')) {
-        const stylesheetUrl = browser.runtime.getURL('/styles/search_results.css');
+        const stylesheetUrl = chrome.runtime.getURL('/styles/search_results.css');
         const link = document.createElement('link');
         link.setAttribute('rel', 'stylesheet');
         link.setAttribute('href', stylesheetUrl);
@@ -181,7 +181,7 @@ async function init() {
     }
 
     // Retrieve search engines from local storage
-    const searchEngines = await browser.storage.local.get(null);
+    const searchEngines = await chrome.storage.local.get(null);
     if (logToConsole) console.log(searchEngines);
 
     // If there exists a search engine with a query string that includes the domain of the visited web page, then hide the Page action
@@ -241,7 +241,7 @@ async function handleKeyUp(e) {
     }
 
     // Retrieve search engines from local storage
-    const searchEngines = await browser.storage.local.get(null);
+    const searchEngines = await chrome.storage.local.get(null);
 
     // Store all modifier keys pressesd in var input
     let input = "";
@@ -301,7 +301,7 @@ async function handleStorageChange(changes, area) {
     }
     switch (area) {
         case 'local':
-            const searchEngines = await browser.storage.local.get(null);
+            const searchEngines = await chrome.storage.local.get(null);
             // If the website doesn't contain an opensearch plugin, then hide the Page action
             if (document.querySelector('link[type="application/opensearchdescription+xml"]') == null) {
                 sendMessage('hidePageAction', null);
@@ -330,7 +330,7 @@ async function handleAltClickWithGrid(e) {
 
     if (e.type === 'mouseup' && e.altKey && e.button === 0) e.preventDefault();
 
-    const data = await browser.storage.sync.get(null);
+    const data = await chrome.storage.sync.get(null);
     const options = data.options;
     if (logToConsole) console.log(options);
 
@@ -393,12 +393,12 @@ async function showButtons() {
 
     links.forEach(link => {
         let img = new Image();
-        img.src = browser.runtime.getURL('/icons/context-search.svg');
+        img.src = chrome.runtime.getURL('/icons/context-search.svg');
         img.className = 'icon';
         img.height = '16px';
         img.style.marginRight = '5px';
         img.style.cursor = 'pointer';
-        img.title = browser.i18n.getMessage("AddSearchEngine");
+        img.title = chrome.i18n.getMessage("AddSearchEngine");
 
         img.onclick = async function () {
             const href = link.getAttribute('href');
@@ -458,7 +458,7 @@ function getSelectedText() {
 }
 
 async function sendSelectionToBackgroundScript(selectedText) {
-    const data = await browser.storage.sync.get(null);
+    const data = await chrome.storage.sync.get(null);
     const options = data.options;
     if (logToConsole) console.log(options);
     const targetUrl = options.siteSearchUrl + encodeUrl(`site:https://${domain} ${selectedText}`);
@@ -474,7 +474,7 @@ async function sendSelectionToBackgroundScript(selectedText) {
 
 async function createIconGrid(x, y) {
     // Retrieve search engines from local storage
-    const se = await browser.storage.local.get(null);
+    const se = await chrome.storage.local.get(null);
     const searchEngines = sortByIndex(se);
     if (logToConsole) console.log(searchEngines);
     let icons = [];
@@ -584,7 +584,7 @@ function onGridClick(e) {
 }
 
 async function onLeave() {
-    const data = await browser.storage.sync.get(null);
+    const data = await chrome.storage.sync.get(null);
     const options = data.options;
     if (logToConsole) console.log(options);
     if (!options.closeGridOnMouseOut) return;
@@ -633,7 +633,7 @@ function isEncoded(uri) {
 }
 
 function sendMessage(action, data) {
-    browser.runtime.sendMessage({ action: action, data: data });
+    chrome.runtime.sendMessage({ action: action, data: data });
 }
 
 function absoluteUrl(url) {
@@ -670,7 +670,7 @@ async function getNewSearchEngine(url) {
     const queryString = getNameAndQueryString(xml).queryString;
 
     // Retrieve search engines from local storage
-    const searchEngines = await browser.storage.local.get(null);
+    const searchEngines = await chrome.storage.local.get(null);
 
     // Prevent duplicates
     for (let id in searchEngines) {
@@ -764,7 +764,7 @@ function defineNewId(shortName) {
 // Ensure the ID generated is unique
 async function isIdUnique(testId) {
     // Retrieve search engines from local storage
-    const searchEngines = await browser.storage.local.get(null);
+    const searchEngines = await chrome.storage.local.get(null);
     for (let id in searchEngines) {
         if (id === testId) {
             return false;

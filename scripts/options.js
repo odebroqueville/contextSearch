@@ -88,14 +88,14 @@ const btnDownload = document.getElementById('download');
 const btnUpload = document.getElementById('upload');
 
 // Translation variables
-const remove = browser.i18n.getMessage('remove');
-// const folder = browser.i18n.getMessage('folder');
-const multipleSearchEnginesSearch = browser.i18n.getMessage('multipleSearchEnginesSearch');
-const titleShowEngine = browser.i18n.getMessage('titleShowEngine');
-const placeHolderName = browser.i18n.getMessage('searchEngineName');
-const placeHolderKeyword = browser.i18n.getMessage('placeHolderKeyword');
-const placeHolderKeyboardShortcut = browser.i18n.getMessage('placeHolderKeyboardShortcut');
-const notifySearchEngineUrlRequired = browser.i18n.getMessage('notifySearchEngineUrlRequired');
+const remove = chrome.i18n.getMessage('remove');
+// const folder = chrome.i18n.getMessage('folder');
+const multipleSearchEnginesSearch = chrome.i18n.getMessage('multipleSearchEnginesSearch');
+const titleShowEngine = chrome.i18n.getMessage('titleShowEngine');
+const placeHolderName = chrome.i18n.getMessage('searchEngineName');
+const placeHolderKeyword = chrome.i18n.getMessage('placeHolderKeyword');
+const placeHolderKeyboardShortcut = chrome.i18n.getMessage('placeHolderKeyboardShortcut');
+const notifySearchEngineUrlRequired = chrome.i18n.getMessage('notifySearchEngineUrlRequired');
 
 // Other variables
 let numberOfSearchEngines = 0;
@@ -104,10 +104,10 @@ let keysPressed = {};
 
 /// Event handlers
 // document.addEventListener('DOMContentLoaded', restoreOptionsPage);
-browser.runtime.onMessage.addListener(handleMessage);
-browser.storage.onChanged.addListener(handleStorageChange);
-browser.permissions.onAdded.addListener(handlePermissionsChanges);
-browser.permissions.onRemoved.addListener(handlePermissionsChanges);
+chrome.runtime.onMessage.addListener(handleMessage);
+chrome.storage.onChanged.addListener(handleStorageChange);
+chrome.permissions.onAdded.addListener(handlePermissionsChanges);
+chrome.permissions.onRemoved.addListener(handlePermissionsChanges);
 
 // Options changes event handlers
 exactMatch.addEventListener('click', updateSearchOptions);
@@ -192,7 +192,7 @@ function getOS() {
 
 // Send a message to the background script
 async function sendMessage(action, data) {
-    await browser.runtime.sendMessage({ action: action, data: JSON.parse(JSON.stringify(data)) })
+    await chrome.runtime.sendMessage({ action: action, data: JSON.parse(JSON.stringify(data)) })
         .catch(e => {
             if (logToConsole) console.error(e);
         });
@@ -1356,10 +1356,10 @@ async function setOptions(options) {
 // Restore the list of search engines and the options to be displayed in the options page
 async function restoreOptionsPage() {
     try {
-        const data = await browser.storage.sync.get(null);
+        const data = await chrome.storage.sync.get(null);
         const options = data.options;
 
-        searchEngines = await browser.storage.local.get(null);
+        searchEngines = await chrome.storage.local.get(null);
         if (logToConsole) {
             console.log('Search engines retrieved from local storage:\n');
             console.log(searchEngines);
@@ -1386,7 +1386,7 @@ function saveToLocalDisk() {
 }
 
 function handleFileUpload() {
-    browser.storage.local.clear().then(() => {
+    chrome.storage.local.clear().then(() => {
         let upload = document.getElementById('upload');
         let jsonFile = upload.files[0];
         let reader = new FileReader();
@@ -1524,7 +1524,7 @@ function init() {
 
 async function checkForDownloadsPermission() {
     const downloads = { permissions: ['downloads'] };
-    const hasDownloadsPermission = await browser.permissions.contains(downloads);
+    const hasDownloadsPermission = await chrome.permissions.contains(downloads);
     if (hasDownloadsPermission) {
         btnDownload.disabled = false;
     } else {
@@ -1545,7 +1545,7 @@ function translateContent(attribute, type) {
         try {
             if (i18nElements[i].getAttribute == null) continue;
             let i18n_attrib = i18nElements[i].getAttribute(attribute);
-            let message = browser.i18n.getMessage(i18n_attrib);
+            let message = chrome.i18n.getMessage(i18n_attrib);
             switch (type) {
                 case 'textContent':
                     i18nElements[i].textContent = message;

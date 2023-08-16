@@ -10,16 +10,14 @@ let targetUrl = '';
 let lastAddressBarKeyword = '';
 let historyItems, bookmarkItems;
 let promptText = '';
-let messageSent = false;
-let CORS_API_URL;
-let CORS_API_KEY;
+
 
 /// Constants
 // Debug
 const debug = false;
 
 // User agent for sidebar search results
-const contextsearch_userAgent =
+const USER_AGENT =
     'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/12.0 Mobile/15A372 Safari/604.1';
 const DEFAULT_SEARCH_ENGINES = 'defaultSearchEngines.json';
 const googleLensUrl = 'https://lens.google.com/uploadbyurl?url=';
@@ -52,90 +50,77 @@ const requestFilter = {
 };
 
 // Constants for translations
-const titleMultipleSearchEngines = browser.i18n.getMessage(
+const titleMultipleSearchEngines = chrome.i18n.getMessage(
     'titleMultipleSearchEngines'
 );
-const titleSiteSearch = browser.i18n.getMessage('titleSiteSearch');
-const titleExactMatch = browser.i18n.getMessage('exactMatch');
-const titleOptions = browser.i18n.getMessage('titleOptions');
-const windowTitle = browser.i18n.getMessage('windowTitle');
-const omniboxDescription = browser.i18n.getMessage('omniboxDescription');
-const notifySearchEnginesLoaded = browser.i18n.getMessage(
+const titleSiteSearch = chrome.i18n.getMessage('titleSiteSearch');
+const titleExactMatch = chrome.i18n.getMessage('exactMatch');
+const titleOptions = chrome.i18n.getMessage('titleOptions');
+const windowTitle = chrome.i18n.getMessage('windowTitle');
+const omniboxDescription = chrome.i18n.getMessage('omniboxDescription');
+const notifySearchEnginesLoaded = chrome.i18n.getMessage(
     'notifySearchEnginesLoaded'
 );
-const notifySearchEngineAdded = browser.i18n.getMessage(
+const notifySearchEngineAdded = chrome.i18n.getMessage(
     'notifySearchEngineAdded'
 );
-const notifyUsage = browser.i18n.getMessage('notifyUsage');
-const notifySearchEngineWithKeyword = browser.i18n.getMessage(
+const notifyUsage = chrome.i18n.getMessage('notifyUsage');
+const notifySearchEngineWithKeyword = chrome.i18n.getMessage(
     'notifySearchEngineWithKeyword'
 );
-const notifyUnknown = browser.i18n.getMessage('notifyUnknown');
-const notifySearchEngineUrlRequired = browser.i18n.getMessage(
+const notifyUnknown = chrome.i18n.getMessage('notifyUnknown');
+const notifySearchEngineUrlRequired = chrome.i18n.getMessage(
     'notifySearchEngineUrlRequired'
 );
 
 /// Preferences - Default settings
-let contextsearch_exactMatch = false;
-let contextsearch_tabMode = 'openNewTab';
-let contextsearch_optionsMenuLocation = 'bottom';
-let contextsearch_openSearchResultsInNewTab = true;
-let contextsearch_openSearchResultsInLastTab = false;
-let contextsearch_makeNewTabOrWindowActive = false;
-let contextsearch_openSearchResultsInNewWindow = false;
-let contextsearch_openSearchResultsInSidebar = false;
-let contextsearch_displayFavicons = true;
-let contextsearch_quickIconGrid = false;
-let contextsearch_closeGridOnMouseOut = true;
-let contextsearch_disableAltClick = false;
-let contextsearch_forceFaviconsReload = false;
-let contextsearch_resetPreferences = false;
-let contextsearch_forceSearchEnginesReload = false;
-let contextsearch_siteSearch = 'Google';
-let contextsearch_siteSearchUrl = 'https://www.google.com/search?q=';
-let contextsearch_multiMode = 'multiNewWindow';
-let contextsearch_privateMode = false;
-let notificationsEnabled = false;
-
 const defaultOptions = {
-    exactMatch: contextsearch_exactMatch,
-    tabMode: contextsearch_tabMode,
-    tabActive: contextsearch_makeNewTabOrWindowActive,
-    lastTab: contextsearch_openSearchResultsInLastTab,
-    optionsMenuLocation: contextsearch_optionsMenuLocation,
-    displayFavicons: contextsearch_displayFavicons,
-    quickIconGrid: contextsearch_quickIconGrid,
-    closeGridOnMouseOut: contextsearch_closeGridOnMouseOut,
-    disableAltClick: contextsearch_disableAltClick,
-    forceSearchEnginesReload: contextsearch_forceSearchEnginesReload,
-    resetPreferences: contextsearch_resetPreferences,
-    forceFaviconsReload: contextsearch_forceFaviconsReload,
-    siteSearch: contextsearch_siteSearch,
-    siteSearchUrl: contextsearch_siteSearchUrl,
-    multiMode: contextsearch_multiMode,
-    privateMode: contextsearch_privateMode
+    exactMatch: false,
+    tabMode: 'openNewTab',
+    makeNewTabOrWindowActive: false,
+    openSearchResultsInLastTab: false,
+    optionsMenuLocation: 'bottom',
+    displayFavicons: true,
+    quickIconGrid: false,
+    closeGridOnMouseOut: true,
+    disableAltClick: false,
+    forceSearchEnginesReload: false,
+    resetPreferences: false,
+    forceFaviconsReload: false,
+    siteSearch: 'Google',
+    siteSearchUrl: 'https://www.google.com/search?q=',
+    multiMode: 'multiNewWindow',
+    privateMode: false,
+    notificationsEnabled: false
 };
 
 /// Handle Page Action click
-browser.pageAction.onClicked.addListener(handlePageAction);
+chrome.pageAction.onClicked.addListener(handlePageAction);
 
 /// Add a mobile header to outgoing requests
-browser.webRequest.onBeforeSendHeaders.addListener(
+chrome.webRequest.onBeforeSendHeaders.addListener(
     rewriteUserAgentHeader,
     requestFilter,
     ['blocking', 'requestHeaders']
 );
 
 /*
-Rewrite the User-Agent header to contextsearch_userAgent
+Rewrite the User-Agent header
 */
 async function rewriteUserAgentHeader(e) {
     if (debug) console.log(e);
-    if (!contextsearch_openSearchResultsInSidebar) {
+    const options = await getOptions();
+    let openSearchResultsInSidebar;
+    if (options.tabMode === 'openSidebar') {
+        openSearchResultsInSidebar = true;
+    } else {
+        openSearchResultsInSidebar = false;
+    }
+    if (!openSearchResultsInSidebar) {
         return {};
     }
     if (debug) {
-        const activeTab = await browser.tabs.query({
+        const activeTab = await chrome.tabs.query({
             currentWindow: true,
             active: true,
         });
@@ -146,7 +131,7 @@ async function rewriteUserAgentHeader(e) {
     }
     for (const header of e.requestHeaders) {
         if (header.name.toLowerCase() === 'user-agent') {
-            header.value = contextsearch_userAgent;
+            header.value = USER_AGENT;
         }
     }
     if (debug) {
@@ -163,14 +148,27 @@ function isActive(tab) {
 }
 
 function queryAllTabs() {
-    return browser.tabs.query({ currentWindow: true });
+    return chrome.tabs.query({ currentWindow: true });
+}
+
+async function handleNotify(data) {
+    const options = await getOptions();
+    const notificationsEnabled = options.notificationsEnabled;
+    if (notificationsEnabled) notify(data);
 }
 
 async function handleDoSearch(data) {
     const id = data.id;
+    const options = await getOptions();
+    let openSearchResultsInSidebar;
+    if (options.tabMode === 'openSidebar') {
+        openSearchResultsInSidebar = true;
+    } else {
+        openSearchResultsInSidebar = false;
+    }
     if (debug) console.log('Search engine id: ' + id);
-    if (debug) console.log(contextsearch_openSearchResultsInSidebar);
-    if (contextsearch_openSearchResultsInSidebar) {
+    if (debug) console.log(openSearchResultsInSidebar);
+    if (openSearchResultsInSidebar) {
         searchUsing(id, null);
         return;
     }
@@ -178,14 +176,14 @@ async function handleDoSearch(data) {
     const activeTab = tabs.filter(isActive)[0];
     const lastTab = tabs[tabs.length - 1];
     let tabPosition = activeTab.index + 1;
-    if (contextsearch_multiMode === 'multiAfterLastTab') {
+    if (options.multiMode === 'multiAfterLastTab') {
         tabPosition = lastTab.index + 1;
     }
     if (id === 'multisearch') {
         processMultiTabSearch([], tabPosition);
         return;
     }
-    if (contextsearch_openSearchResultsInLastTab) {
+    if (options.openSearchResultsInLastTab) {
         tabPosition = lastTab.index + 1;
     }
     searchUsing(id, tabPosition);
@@ -200,7 +198,7 @@ async function handleReset() {
 async function handleSaveSearchEngines(data) {
     searchEngines = sortByIndex(data);
     if (debug) console.log(searchEngines);
-    await browser.storage.local.clear();
+    await chrome.storage.local.clear();
     if (debug) console.log('Local storage cleared.');
     await saveSearchEnginesToLocalStorage(false);
     rebuildContextMenu();
@@ -227,72 +225,82 @@ async function handleAddNewPrompt(data) {
 
 async function handleUpdateSearchOptions(data) {
     const options = await getOptions();
+    const rebuildContextMenu = false;
     options.exactMatch = data.exactMatch;
-    await setOptions(options, true, false);
+    await saveOptions(options, rebuildContextMenu);
 }
 
 async function handleUpdateDisplayFavicons(data) {
     const options = await getOptions();
+    const rebuildContextMenu = true;
     options.displayFavicons = data.displayFavicons;
-    await setOptions(options, true, true);
+    await saveOptions(options, rebuildContextMenu);
 }
 
 async function handleUpdateQuickIconGrid(data) {
     const options = await getOptions();
+    const rebuildContextMenu = false;
     options.quickIconGrid = data.quickIconGrid;
-    await setOptions(options, true, false);
+    await saveOptions(options, rebuildContextMenu);
 }
 
 async function handleUpdateCloseGridOnMouseOut(data) {
     const options = await getOptions();
+    const rebuildContextMenu = false;
     options.closeGridOnMouseOut = data.closeGridOnMouseOut;
-    await setOptions(options, true, false);
+    await saveOptions(options, rebuildContextMenu);
 }
 
 async function handleUpdateDisableAltClick(data) {
     const options = await getOptions();
+    const rebuildContextMenu = false;
     options.disableAltClick = data.disableAltClick;
-    await setOptions(options, true, false);
+    await saveOptions(options, rebuildContextMenu);
 }
 
 async function handleUpdateTabMode(data) {
     const options = await getOptions();
+    const rebuildContextMenu = false;
     options.tabMode = data.tabMode;
-    options.tabActive = data.tabActive;
-    options.lastTab = data.lastTab;
+    options.makeNewTabOrWindowActive = data.tabActive;
+    options.openSearchResultsInLastTab = data.lastTab;
     options.privateMode = data.privateMode;
-    await setOptions(options, true, false);
+    await saveOptions(options, rebuildContextMenu);
 }
 
 async function handleUpdateMultiMode(data) {
     const options = await getOptions();
+    const rebuildContextMenu = false;
     options.multiMode = data.multiMode;
-    await setOptions(options, true, false);
+    await saveOptions(options, rebuildContextMenu);
 }
 
 async function handleUpdateOptionsMenuLocation(data) {
     const options = await getOptions();
+    const rebuildContextMenu = true;
     options.optionsMenuLocation = data.optionsMenuLocation;
-    await setOptions(options, true, true);
+    await saveOptions(options, rebuildContextMenu);
 }
 
 async function handleUpdateSiteSearchSetting(data) {
     const options = await getOptions();
+    const rebuildContextMenu = true;
     options.siteSearch = data.siteSearch;
     options.siteSearchUrl = data.siteSearchUrl;
-    await setOptions(options, true, true);
+    await saveOptions(options, rebuildContextMenu);
 }
 
 async function handleUpdateResetOptions(data) {
     const options = await getOptions();
+    const rebuildContextMenu = false;
     options.forceSearchEnginesReload = data.resetOptions.forceSearchEnginesReload;
     options.resetPreferences = data.resetOptions.resetPreferences;
     options.forceFaviconsReload = data.resetOptions.forceFaviconsReload;
-    await setOptions(options, true, false);
+    await saveOptions(options, rebuildContextMenu);
 }
 
 async function handleSaveSearchEnginesToDisk(data) {
-    await browser.downloads.download({
+    await chrome.downloads.download({
         url: data,
         saveAs: true,
         filename: 'searchEngines.json',
@@ -300,10 +308,12 @@ async function handleSaveSearchEnginesToDisk(data) {
 }
 
 // Test if a search engine performing a search for the keyword 'test' returns valid results
-function testSearchEngine(engineData) {
+async function testSearchEngine(engineData) {
+    const options = await getOptions();
+    const notificationsEnabled = options.notificationsEnabled;
     if (engineData.url != '') {
         let tempTargetUrl = getSearchEngineUrl(engineData.url, 'test');
-        browser.tabs.create({
+        chrome.tabs.create({
             url: tempTargetUrl,
         });
     } else if (notificationsEnabled) {
@@ -322,7 +332,7 @@ async function testPrompt(data) {
 }
 
 // Listen for messages from the content or options script
-browser.runtime.onMessage.addListener((message, sender) => {
+chrome.runtime.onMessage.addListener((message, sender) => {
     const action = message.action;
     const data = message.data;
     switch (action) {
@@ -330,7 +340,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
             handleDoSearch(data);
             break;
         case 'notify':
-            if (notificationsEnabled) notify(data);
+            handleNotify(data);
             break;
         case 'setSelection':
             if (data) selection = data.selection;
@@ -392,10 +402,10 @@ browser.runtime.onMessage.addListener((message, sender) => {
             handleSaveSearchEnginesToDisk(data);
             break;
         case 'hidePageAction':
-            browser.pageAction.hide(sender.tab.id);
+            chrome.pageAction.hide(sender.tab.id);
             break;
         case 'showPageAction':
-            browser.pageAction.show(sender.tab.id);
+            chrome.pageAction.show(sender.tab.id);
             break;
         default:
             break;
@@ -410,7 +420,7 @@ async function init() {
     // Debug: verify that storage space occupied is within limits
     if (debug) {
         // Inform on storage space being used by storage sync
-        const bytesUsed = await browser.storage.sync
+        const bytesUsed = await chrome.storage.sync
             .getBytesInUse(null)
             .catch((err) => {
                 console.error(err);
@@ -419,20 +429,18 @@ async function init() {
         console.log(`Bytes used by storage sync: ${bytesUsed} bytes.`);
 
         // Inform on storage space being used by local storage
-        const items = await browser.storage.local.get(null);
+        const items = await chrome.storage.local.get(null);
         console.log(
             `Bytes used by local storage: ${JSON.stringify(items).length} bytes.`
         );
     }
 
-    notificationsEnabled =
+    const notificationsEnabled =
         (await navigator.permissions.query({ name: 'notifications' })).state ===
         'granted';
-
-    // Fetch CORS API URL and key from config file
-    const config = await fetchConfig();
-    CORS_API_URL = config.API_URL;
-    CORS_API_KEY = config.API_KEY;
+    const options = {};
+    options["notificationsEnabled"] = notificationsEnabled;
+    await chrome.storage.sync.set(options);
 
     // Initialize options and search engines
     await initialiseOptionsAndSearchEngines();
@@ -453,6 +461,8 @@ async function reset() {
 }
 
 async function addNewSearchEngine(id, domain) {
+    const options = await chrome.storage.sync.get("options");
+    const notificationsEnabled = options.notificationsEnabled;
     const searchEngine = {};
     // Add a favicon to the search engine except if it's a separator
     if (!id.startsWith("separator-")) {
@@ -462,7 +472,7 @@ async function addNewSearchEngine(id, domain) {
     }
     searchEngine[id] = searchEngines[id];
     // Save the search engine to local storage
-    await browser.storage.local.set(searchEngine);
+    await chrome.storage.local.set(searchEngine);
     rebuildContextMenu();
     if (notificationsEnabled) notify(notifySearchEngineAdded);
 }
@@ -475,7 +485,7 @@ function handlePageAction(tab) {
 async function initialiseOptionsAndSearchEngines() {
     /// Initialise options
     let options = {};
-    let data = await browser.storage.sync.get(null).catch((err) => {
+    let data = await chrome.storage.sync.get().catch((err) => {
         if (debug) {
             console.error(err);
             console.log('Failed to retrieve data from storage sync.');
@@ -493,10 +503,10 @@ async function initialiseOptionsAndSearchEngines() {
     if (isEmpty(options) || options.resetPreferences) {
         options = defaultOptions;
     } else {
-        await browser.storage.sync.clear();
+        await chrome.storage.sync.clear();
     }
     if (debug) console.log(options);
-    await setOptions(options, true, false);
+    await saveOptions(options, false);
 
     /// Initialise search engines
     // If there were search engines stored in storage sync (legacy), move them to storage local
@@ -507,15 +517,15 @@ async function initialiseOptionsAndSearchEngines() {
             console.log('Search engines: \n');
             console.log(searchEngines);
         }
-        await browser.storage.local.clear();
+        await chrome.storage.local.clear();
         await getFaviconsAsBase64Strings();
         await saveSearchEnginesToLocalStorage(false);
     } else {
         // Check for search engines in local storage
-        const se = await browser.storage.local.get(null);
-        if (se === undefined || isEmpty(se) || contextsearch_forceSearchEnginesReload) {
+        const se = await chrome.storage.local.get(null);
+        if (se === undefined || isEmpty(se) || options.forceSearchEnginesReload) {
             // Load default search engines if force reload is set or if no search engines are stored in local storage
-            await browser.storage.local.clear();
+            await chrome.storage.local.clear();
             await loadDefaultSearchEngines(DEFAULT_SEARCH_ENGINES);
         } else {
             searchEngines = sortByIndex(se);
@@ -542,7 +552,7 @@ function setKeyboardShortcuts() {
 }
 
 function getOptions() {
-    return browser.storage.sync.get(null)
+    return chrome.storage.sync.get()
         .then(data => {
             const options = data.options;
             if (debug) console.log('Preferences retrieved from sync storage:');
@@ -558,74 +568,8 @@ function getOptions() {
         });
 }
 
-// Sets the default options if they haven't already been set in local storage and saves them
-// The context menu is also rebuilt when required
-function setOptions(options, save, rebuildContextMenu) {
-    if (debug) console.log(`Setting exact match to ${options.exactMatch}`);
-    contextsearch_exactMatch = options.exactMatch;
-
-    if (debug) console.log('Setting tab mode..');
-    contextsearch_makeNewTabOrWindowActive = options.tabActive;
-    contextsearch_openSearchResultsInLastTab = options.lastTab;
-    contextsearch_privateMode = options.privateMode;
-    switch (options.tabMode) {
-        case 'openNewTab':
-            contextsearch_openSearchResultsInNewTab = true;
-            contextsearch_openSearchResultsInNewWindow = false;
-            contextsearch_openSearchResultsInSidebar = false;
-            break;
-        case 'sameTab':
-            contextsearch_openSearchResultsInNewTab = false;
-            contextsearch_openSearchResultsInNewWindow = false;
-            contextsearch_openSearchResultsInSidebar = false;
-            break;
-        case 'openNewWindow':
-            contextsearch_openSearchResultsInNewWindow = true;
-            contextsearch_openSearchResultsInNewTab = false;
-            contextsearch_openSearchResultsInSidebar = false;
-            break;
-        case 'openSidebar':
-            contextsearch_openSearchResultsInSidebar = true;
-            contextsearch_openSearchResultsInNewTab = false;
-            contextsearch_openSearchResultsInNewWindow = false;
-            break;
-        default:
-            break;
-    }
-
-    if (debug) console.log(
-        `Setting the position of options in the context menu to ${options.optionsMenuLocation}`
-    );
-    contextsearch_optionsMenuLocation = options.optionsMenuLocation;
-
-    if (debug) console.log('Setting favicons preference..');
-    contextsearch_displayFavicons = options.displayFavicons;
-
-    if (debug) console.log('Setting Icons Grid options..');
-    contextsearch_quickIconGrid = options.quickIconGrid;
-    contextsearch_closeGridOnMouseOut = options.closeGridOnMouseOut;
-    contextsearch_disableAltClick = options.disableAltClick;
-
-    if (debug) console.log('Setting site search option..');
-    contextsearch_siteSearch = options.siteSearch;
-    contextsearch_siteSearchUrl = options.siteSearchUrl;
-
-    if (debug) console.log(`Setting reset options..`);
-    contextsearch_forceSearchEnginesReload = options.forceSearchEnginesReload;
-    contextsearch_resetPreferences = options.resetPreferences;
-    contextsearch_forceFaviconsReload = options.forceFaviconsReload;
-
-    contextsearch_multiMode = options.multiMode;
-
-    if (save) {
-        saveOptions(options, rebuildContextMenu);
-    }
-
-    return Promise.resolve();
-}
-
 function saveOptions(options, blnRebuildContextMenu) {
-    return browser.storage.sync.set({ options })
+    return chrome.storage.sync.set({ options })
         .then(() => {
             if (debug) console.log(options);
             if (blnRebuildContextMenu) rebuildContextMenu();
@@ -661,7 +605,7 @@ async function loadDefaultSearchEngines(jsonFile) {
             console.log('Search engines:\n');
             console.log(searchEngines);
         }
-        await browser.storage.local.clear();
+        await chrome.storage.local.clear();
         await getFaviconsAsBase64Strings();
         await saveSearchEnginesToLocalStorage(true);
         rebuildContextMenu();
@@ -671,6 +615,8 @@ async function loadDefaultSearchEngines(jsonFile) {
 }
 
 async function saveSearchEnginesToLocalStorage(blnNotify) {
+    const options = await chrome.storage.sync.get("options");
+    const notificationsEnabled = options.notificationsEnabled;
     searchEngines = sortByIndex(searchEngines);
     if (debug) {
         console.log('Search engines:\n');
@@ -679,7 +625,7 @@ async function saveSearchEnginesToLocalStorage(blnNotify) {
 
     try {
         // save list of search engines to local storage
-        await browser.storage.local.set(searchEngines);
+        await chrome.storage.local.set(searchEngines);
         if (notificationsEnabled && blnNotify) notify(notifySearchEnginesLoaded);
         if (debug) {
             console.log(
@@ -696,6 +642,7 @@ async function saveSearchEnginesToLocalStorage(blnNotify) {
 
 /// Fetch and store favicon image format and base64 representation to searchEngines
 async function getFaviconsAsBase64Strings() {
+    const options = await getOptions();
     if (debug) console.log('Fetching favicons..');
     let arrayOfPromises = [];
 
@@ -707,7 +654,7 @@ async function getFaviconsAsBase64Strings() {
         if (
             searchEngines[id].base64 === null ||
             searchEngines[id].base64 === undefined ||
-            contextsearch_forceFaviconsReload
+            options.forceFaviconsReload
         ) {
             let domain;
             if (!id.startsWith('chatgpt-')) {
@@ -750,6 +697,10 @@ async function getFaviconsAsBase64Strings() {
 }
 
 async function getNewFavicon(id, domain) {
+    // Fetch CORS API URL and key from config file
+    const config = await fetchConfig();
+    const CORS_API_URL = config.API_URL;
+    const CORS_API_KEY = config.API_KEY;
     if (id.startsWith('chatgpt-')) {
         return getFaviconForPrompt(id)
     }
@@ -820,56 +771,18 @@ function getFaviconForPrompt(id) {
     return { id: id, imageFormat: imageFormat, base64: b64 };
 }
 
-function convertUrl2AbsUrl(href, domain) {
-    let url = href;
-    let absUrl = domain;
-    let urlParts = [];
-
-    // If the url is absolute, i.e. begins with either'http' or 'https', there's nothing to do!
-    if (/^(https?:\/\/)/.test(url)) return url;
-
-    if (url.includes('moz-extension://')) {
-        let i = url.lastIndexOf('moz-extension://') + 16;
-        url = url.substr(i);
-        urlParts = url.split(/\//);
-        urlParts.shift();
-        for (let urlPart of urlParts) {
-            absUrl += '/' + urlPart;
-        }
-        return absUrl;
-    }
-
-    // If url begins with '//'
-    if (/^(\/\/)/.test(url)) {
-        return 'https:' + url;
-    }
-
-    // If url is relative...
-    // If url begings with either './' or '/' (excluding './/' or '//')
-    if (/^([.]\/|\/)[^/]/.test(url)) {
-        urlParts = url.split(/\//);
-        urlParts.shift();
-    } else if (/^[^/]/.test(url)) {
-        // url does not begin with '/'
-        urlParts = url.split(/\//);
-    }
-    for (let urlPart of urlParts) {
-        absUrl += '/' + urlPart;
-    }
-    return absUrl;
-}
-
 /// Rebuild the context menu using the search engines from local storage
 async function rebuildContextMenu() {
     if (debug) console.log('Rebuilding context menu..');
-    const info = await browser.runtime.getBrowserInfo();
+    const options = await getOptions();
+    const info = await chrome.runtime.getBrowserInfo();
     const v = info.version;
     const browserVersion = parseInt(v.slice(0, v.search('.') - 1));
 
-    browser.contextMenus.removeAll();
-    browser.contextMenus.onClicked.removeListener(processSearch);
+    chrome.contextMenus.removeAll();
+    chrome.contextMenus.onClicked.removeListener(processSearch);
 
-    if (contextsearch_optionsMenuLocation === 'top') {
+    if (options.optionsMenuLocation === 'top') {
         rebuildContextOptionsMenu();
     }
 
@@ -881,7 +794,7 @@ async function rebuildContextMenu() {
             if (searchEngines[id].index === i) {
                 if (debug) console.log(`Index: ${i}  id: ${id}`);
                 if (id.startsWith("separator-")) {
-                    browser.contextMenus.create({
+                    chrome.contextMenus.create({
                         id: 'cs-separator-' + i,
                         type: 'separator',
                         contexts: ['selection'],
@@ -894,45 +807,46 @@ async function rebuildContextMenu() {
         }
     }
 
-    if (contextsearch_optionsMenuLocation === 'bottom') {
+    if (options.optionsMenuLocation === 'bottom') {
         rebuildContextOptionsMenu();
     }
 
-    browser.contextMenus.onClicked.addListener(processSearch);
+    chrome.contextMenus.onClicked.addListener(processSearch);
 }
 
-function rebuildContextOptionsMenu() {
-    if (contextsearch_optionsMenuLocation === 'bottom') {
-        browser.contextMenus.create({
+async function rebuildContextOptionsMenu() {
+    const options = await getOptions();
+    if (options.optionsMenuLocation === 'bottom') {
+        chrome.contextMenus.create({
             id: 'cs-separator',
             type: 'separator',
             contexts: ['selection'],
         });
     }
-    browser.contextMenus.create({
+    chrome.contextMenus.create({
         id: 'cs-match',
         type: 'checkbox',
         title: titleExactMatch,
         contexts: ['selection'],
-        checked: contextsearch_exactMatch,
+        checked: options.exactMatch,
     });
-    browser.contextMenus.create({
+    chrome.contextMenus.create({
         id: 'cs-multitab',
         title: titleMultipleSearchEngines,
         contexts: ['selection'],
     });
-    browser.contextMenus.create({
+    chrome.contextMenus.create({
         id: 'cs-site-search',
-        title: `${titleSiteSearch} ${contextsearch_siteSearch}`,
+        title: `${titleSiteSearch} ${options.siteSearch}`,
         contexts: ['selection'],
     });
-    browser.contextMenus.create({
+    chrome.contextMenus.create({
         id: 'cs-options',
         title: titleOptions + '...',
         contexts: ['selection'],
     });
-    if (contextsearch_optionsMenuLocation === 'top') {
-        browser.contextMenus.create({
+    if (options.optionsMenuLocation === 'top') {
+        chrome.contextMenus.create({
             id: 'cs-separator',
             type: 'separator',
             contexts: ['selection'],
@@ -942,12 +856,12 @@ function rebuildContextOptionsMenu() {
 
 /// Build the context menu for image searches
 function buildContextMenuForImages() {
-    browser.contextMenus.create({
+    chrome.contextMenus.create({
         id: 'cs-reverse-image-search',
         title: 'Google Reverse Image Search',
         contexts: ['image'],
     });
-    browser.contextMenus.create({
+    chrome.contextMenus.create({
         id: 'cs-google-lens',
         title: 'Google Lens',
         contexts: ['image'],
@@ -955,7 +869,8 @@ function buildContextMenuForImages() {
 }
 
 /// Build a single context menu item
-function buildContextMenuItem(id, browserVersion) {
+async function buildContextMenuItem(id, browserVersion) {
+    const options = await getOptions();
     const searchEngine = searchEngines[id];
 
     if (!searchEngine.show) return;
@@ -967,15 +882,15 @@ function buildContextMenuItem(id, browserVersion) {
     const contexts = ['selection'];
     const faviconUrl = `data:${imageFormat};base64,${base64String}`;
 
-    if (browserVersion >= 56 && contextsearch_displayFavicons === true) {
-        browser.contextMenus.create({
+    if (browserVersion >= 56 && options.displayFavicons === true) {
+        chrome.contextMenus.create({
             id: index,
             title: title,
             contexts: contexts,
             icons: { 20: faviconUrl },
         });
     } else {
-        browser.contextMenus.create({
+        chrome.contextMenus.create({
             id: index,
             title: title,
             contexts: contexts,
@@ -985,9 +900,16 @@ function buildContextMenuItem(id, browserVersion) {
 
 // Perform search based on selected search engine, i.e. selected context menu item
 async function processSearch(info, tab) {
+    const options = await getOptions();
     if (debug) console.log(info);
     const id = info.menuItemId.replace('cs-', '');
     let tabIndex, tabPosition;
+    let openSearchResultsInSidebar;
+    if (options.tabMode === 'openSidebar') {
+        openSearchResultsInSidebar = true;
+    } else {
+        openSearchResultsInSidebar = false;
+    }
 
     if (info.selectionText !== undefined) {
         // Prefer info.selectionText over selection received by content script for these lengths (more reliable)
@@ -997,20 +919,20 @@ async function processSearch(info, tab) {
     }
 
     if (
-        contextsearch_openSearchResultsInSidebar &&
+        openSearchResultsInSidebar &&
         id !== 'reverse-image-search' &&
         id !== 'google-lens'
     ) {
-        await browser.sidebarAction.open();
-        await browser.sidebarAction.setPanel({ panel: '' });
+        await chrome.sidebarAction.open();
+        await chrome.sidebarAction.setPanel({ panel: '' });
     } else {
-        await browser.sidebarAction.close();
+        await chrome.sidebarAction.close();
         tabIndex = tab.index + 1;
     }
-    const tabs = await browser.tabs.query({ currentWindow: true });
+    const tabs = await chrome.tabs.query({ currentWindow: true });
     tabPosition = tabs[tabs.length - 1].index + 1;
-    if (contextsearch_openSearchResultsInLastTab) tabIndex = tabPosition;
-    if (contextsearch_multiMode !== 'multiAfterLastTab') {
+    if (options.openSearchResultsInLastTab) tabIndex = tabPosition;
+    if (options.multiMode !== 'multiAfterLastTab') {
         tabPosition = tabIndex + 1;
     }
     if (id === 'reverse-image-search') {
@@ -1025,40 +947,30 @@ async function processSearch(info, tab) {
     }
     if (id === 'site-search' && !isEmpty(targetUrl)) {
         if (debug) console.log(targetUrl);
-        if (contextsearch_openSearchResultsInSidebar) {
+        if (openSearchResultsInSidebar) {
             const domain = getDomain(tab.url).replace(/https?:\/\//, '');
             const options = await getOptions();
             targetUrl =
                 options.siteSearchUrl +
                 encodeUrl(`site:https://${domain} ${selection}`);
-            browser.sidebarAction.setPanel({ panel: targetUrl });
-            browser.sidebarAction.setTitle({ title: 'Search results' });
+            chrome.sidebarAction.setPanel({ panel: targetUrl });
+            chrome.sidebarAction.setTitle({ title: 'Search results' });
             return;
         } else {
             displaySearchResults(id, targetUrl, tabIndex);
             return;
         }
     } else if (id === 'options') {
-        browser.runtime.openOptionsPage().then(null, onError);
+        chrome.runtime.openOptionsPage().then(null, onError);
         return;
     } else if (id === 'multitab') {
         processMultiTabSearch([], tabPosition);
         return;
     } else if (id === 'match') {
-        getOptions().then((settings) => {
-            let options = settings.options;
-            if (debug) {
-                console.log(
-                    `Preferences retrieved from sync storage: ${JSON.stringify(options)}`
-                );
-            }
-            options.exactMatch = !contextsearch_exactMatch;
-            if (options.exactMatch) {
-                if (debug) console.log(`Setting exact match to ${options.exactMatch}`);
-                contextsearch_exactMatch = options.exactMatch;
-            }
-            saveOptions(options, true);
-        });
+        const settings = await getOptions();
+        const options = settings.options;
+        options.exactMatch = !options.exactMatch;
+        await saveOptions(options, true);
         return;
     }
 
@@ -1068,7 +980,9 @@ async function processSearch(info, tab) {
 }
 
 async function processMultiTabSearch(arraySearchEngineUrls, tabPosition) {
-    const data = await browser.storage.local.get(null);
+    const options = await chrome.storage.sync.get("options");
+    const notificationsEnabled = options.notificationsEnabled;
+    const data = await chrome.storage.local.get(null);
     searchEngines = sortByIndex(data);
     let multiTabSearchEngineUrls = [];
     let multiTabSearchEnginesPrompts = [];
@@ -1095,11 +1009,11 @@ async function processMultiTabSearch(arraySearchEngineUrls, tabPosition) {
     const n = multiTabSearchEngineUrls.length;
     const m = multiTabSearchEnginesPrompts.length;
     if (debug) console.log(multiTabSearchEngineUrls);
-    if (contextsearch_multiMode === 'multiNewWindow') {
-        await browser.windows.create({
+    if (options.multiMode === 'multiNewWindow') {
+        await chrome.windows.create({
             titlePreface: windowTitle + "'" + selection + "'",
             url: multiTabSearchEngineUrls,
-            incognito: contextsearch_privateMode,
+            incognito: options.privateMode,
         });
         for (let i = 0; i < m; i++) {
             const id = multiTabSearchEnginesPrompts[i];
@@ -1108,7 +1022,7 @@ async function processMultiTabSearch(arraySearchEngineUrls, tabPosition) {
         }
     } else {
         for (let i = 0; i < n; i++) {
-            await browser.tabs.create({
+            await chrome.tabs.create({
                 index: tabPosition + i,
                 url: multiTabSearchEngineUrls[i],
             });
@@ -1122,9 +1036,10 @@ async function processMultiTabSearch(arraySearchEngineUrls, tabPosition) {
 }
 
 // Handle search terms if there are any
-function getSearchEngineUrl(searchEngineUrl, sel) {
+async function getSearchEngineUrl(searchEngineUrl, sel) {
+    const options = await getOptions();
     let quote = '';
-    if (contextsearch_exactMatch) quote = '%22';
+    if (options.exactMatch) quote = '%22';
     if (searchEngineUrl.includes('{searchTerms}')) {
         return searchEngineUrl.replace(/{searchTerms}/g, encodeUrl(sel));
     } else if (searchEngineUrl.includes('%s')) {
@@ -1134,7 +1049,14 @@ function getSearchEngineUrl(searchEngineUrl, sel) {
     }
 }
 
-function searchUsing(id, tabIndex) {
+async function searchUsing(id, tabIndex) {
+    const options = await getOptions();
+    let openSearchResultsInSidebar;
+    if (options.tabMode === 'openSidebar') {
+        openSearchResultsInSidebar = true;
+    } else {
+        openSearchResultsInSidebar = false;
+    }
     if (!id.startsWith('chatgpt-')) {
         const searchEngineUrl = searchEngines[id].url;
         targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
@@ -1143,9 +1065,9 @@ function searchUsing(id, tabIndex) {
         targetUrl = getAIProviderBaseUrl(provider);
     }
     if (debug) console.log(`Target url: ${targetUrl}`);
-    if (contextsearch_openSearchResultsInSidebar) {
-        browser.sidebarAction.setPanel({ panel: targetUrl + '#_sidebar' });
-        browser.sidebarAction.setTitle({ title: 'Search results' });
+    if (openSearchResultsInSidebar) {
+        chrome.sidebarAction.setPanel({ panel: targetUrl + '#_sidebar' });
+        chrome.sidebarAction.setTitle({ title: 'Search results' });
         return;
     }
     displaySearchResults(id, targetUrl, tabIndex);
@@ -1180,10 +1102,36 @@ function getAIProviderBaseUrl(provider) {
 
 // Display the search results
 async function displaySearchResults(id, targetUrl, tabPosition) {
+    const options = await getOptions();
+    let openSearchResultsInNewTab, openSearchResultsInNewWindow, openSearchResultsInSidebar;
+    switch (options.tabMode) {
+        case 'openNewTab':
+            openSearchResultsInNewTab = true;
+            openSearchResultsInNewWindow = false;
+            openSearchResultsInSidebar = false;
+            break;
+        case 'sameTab':
+            openSearchResultsInNewTab = false;
+            openSearchResultsInNewWindow = false;
+            openSearchResultsInSidebar = false;
+            break;
+        case 'openNewWindow':
+            openSearchResultsInNewWindow = true;
+            openSearchResultsInNewTab = false;
+            openSearchResultsInSidebar = false;
+            break;
+        case 'openSidebar':
+            openSearchResultsInSidebar = true;
+            openSearchResultsInNewTab = false;
+            openSearchResultsInNewWindow = false;
+            break;
+        default:
+            break;
+    }
     if (debug) console.log('Tab position: ' + tabPosition);
     if (debug) console.log(`id: ${id}`);
     if (debug) console.log(`selection: ${selection}`);
-    const windowInfo = await browser.windows.getCurrent({ populate: false });
+    const windowInfo = await chrome.windows.getCurrent({ populate: false });
     const currentWindowID = windowInfo.id;
     if (id.startsWith('chatgpt-')) {
         const aiUrls = [chatGPTUrl, googleBardUrl, perplexityAIUrl, llama2Url, claudeUrl, assistantUrl];
@@ -1209,20 +1157,21 @@ async function displaySearchResults(id, targetUrl, tabPosition) {
             }
         }
         if (debug) console.log(promptText);
-        messageSent = false;
-        browser.tabs.onUpdated.addListener(handleTabUpdate, filter);
+
+        await chrome.storage.session.set({ messageSent: false });
+        chrome.tabs.onUpdated.addListener(handleTabUpdate, filter);
     }
-    if (contextsearch_openSearchResultsInNewWindow) {
-        await browser.windows.create({
+    if (openSearchResultsInNewWindow) {
+        await chrome.windows.create({
             url: targetUrl,
-            incognito: contextsearch_privateMode,
+            incognito: options.privateMode,
         });
-        if (!contextsearch_makeNewTabOrWindowActive) {
-            await browser.windows.update(currentWindowID, { focused: true });
+        if (!options.makeNewTabOrWindowActive) {
+            await chrome.windows.update(currentWindowID, { focused: true });
         }
-    } else if (contextsearch_openSearchResultsInNewTab) {
-        browser.tabs.create({
-            active: contextsearch_makeNewTabOrWindowActive,
+    } else if (openSearchResultsInNewTab) {
+        chrome.tabs.create({
+            active: options.makeNewTabOrWindowActive,
             index: tabPosition,
             url: targetUrl,
         });
@@ -1231,32 +1180,33 @@ async function displaySearchResults(id, targetUrl, tabPosition) {
         if (debug) {
             console.log('Opening search results in same tab, url is ' + targetUrl);
         }
-        browser.tabs.update({ url: targetUrl });
+        chrome.tabs.update({ url: targetUrl });
     }
 }
 
 async function tabUpdatedListener(changeInfo, tab, promptText) {
     if (debug) console.log('Tab updated.');
     if (changeInfo.status === 'complete') {
-        sendMessageToTab(tab, { action: "askPrompt", data: { url: tab.url, prompt: promptText } });
-        messageSent = true;
-        browser.tabs.onUpdated.removeListener(handleTabUpdate);
+        await sendMessageToTab(tab, { action: "askPrompt", data: { url: tab.url, prompt: promptText } });
+        await chrome.storage.session.set({ messageSent: true });
+        chrome.tabs.onUpdated.removeListener(handleTabUpdate);
     }
 }
 
-function handleTabUpdate(tabId, changeInfo, tab) {
+async function handleTabUpdate(tabId, changeInfo, tab) {
     if (debug) console.log(promptText);
+    const messageSent = await chrome.storage.session.get("messageSent");
     if (!messageSent) tabUpdatedListener(changeInfo, tab, promptText);
 }
 
 /// OMNIBOX
 // Provide help text to the user
-browser.omnibox.setDefaultSuggestion({
+chrome.omnibox.setDefaultSuggestion({
     description: omniboxDescription,
 });
 
 // Update the suggestions whenever the input is changed
-browser.omnibox.onInputChanged.addListener((input, suggest) => {
+chrome.omnibox.onInputChanged.addListener((input, suggest) => {
     if (input.indexOf(' ') > 0) {
         let suggestion = buildSuggestion(input);
         if (debug) console.log(JSON.stringify(suggestion));
@@ -1267,7 +1217,9 @@ browser.omnibox.onInputChanged.addListener((input, suggest) => {
 });
 
 // Open the page based on how the user clicks on a suggestion
-browser.omnibox.onInputEntered.addListener(async (input) => {
+chrome.omnibox.onInputEntered.addListener(async (input) => {
+    const options = await getOptions();
+    const notificationsEnabled = options.notificationsEnabled;
     if (debug) console.log(input);
     const keyword = input.split(' ')[0];
     const searchTerms = input.replace(keyword, '').trim();
@@ -1282,20 +1234,20 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
     }
 
     // Get active tab's index and id
-    const activeTab = await browser.tabs.query({
+    const activeTab = await chrome.tabs.query({
         currentWindow: true,
         active: true,
     });
     tabIndex = activeTab[0].index;
     tabId = activeTab[0].id;
 
-    const tabs = await browser.tabs.query({ currentWindow: true });
-    if (contextsearch_openSearchResultsInLastTab) {
+    const tabs = await chrome.tabs.query({ currentWindow: true });
+    if (options.openSearchResultsInLastTab) {
         tabIndex = tabs.length + 1;
     }
 
-    if (debug) console.log(contextsearch_multiMode);
-    if (contextsearch_multiMode === 'multiAfterLastTab') {
+    if (debug) console.log(options.multiMode);
+    if (options.multiMode === 'multiAfterLastTab') {
         tabPosition = tabs.length + 1;
     } else {
         tabPosition = tabIndex + 1;
@@ -1312,7 +1264,7 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
         try {
             switch (keyword) {
                 case '.':
-                    browser.runtime.openOptionsPage();
+                    chrome.runtime.openOptionsPage();
                     break;
                 case '!':
                     processMultiTabSearch([], tabPosition);
@@ -1320,32 +1272,32 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                 case 'bookmarks':
                 case '!b':
                     if (searchTerms === 'recent') {
-                        bookmarkItems = await browser.bookmarks.getRecent(10);
+                        bookmarkItems = await chrome.bookmarks.getRecent(10);
                     } else {
-                        bookmarkItems = await browser.bookmarks.search({
+                        bookmarkItems = await chrome.bookmarks.search({
                             query: searchTerms,
                         });
                     }
                     if (debug) console.log(bookmarkItems);
-                    await browser.storage.local.set({
+                    await chrome.storage.local.set({
                         bookmarkItems: bookmarkItems,
                         searchTerms: searchTerms,
                     });
-                    await browser.tabs.create({
-                        active: contextsearch_makeNewTabOrWindowActive,
+                    await chrome.tabs.create({
+                        active: options.makeNewTabOrWindowActive,
                         index: tabPosition,
                         url: '/bookmarks.html',
                     });
                     break;
                 case 'history':
                 case '!h':
-                    historyItems = await browser.history.search({ text: searchTerms });
-                    await browser.storage.local.set({
+                    historyItems = await chrome.history.search({ text: searchTerms });
+                    await chrome.storage.local.set({
                         historyItems: historyItems,
                         searchTerms: searchTerms,
                     });
-                    await browser.tabs.create({
-                        active: contextsearch_makeNewTabOrWindowActive,
+                    await chrome.tabs.create({
+                        active: options.makeNewTabOrWindowActive,
                         index: tabPosition,
                         url: '/history.html',
                     });
@@ -1361,7 +1313,7 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                     else if (suggestion.length === 1) {
                         displaySearchResults(id, suggestion[0].content, tabIndex);
                     } else {
-                        browser.search.search({ query: searchTerms, tabId: tabId });
+                        chrome.search.search({ query: searchTerms, tabId: tabId });
                         if (notificationsEnabled) notify(notifyUsage);
                     }
                     break;
@@ -1373,7 +1325,9 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
     }
 });
 
-function buildSuggestion(text) {
+async function buildSuggestion(text) {
+    const options = await getOptions();
+    const notificationsEnabled = options.notificationsEnabled;
     const keyword = text.split(' ')[0];
     const searchTerms = text.replace(keyword, '').trim();
     let result = [];
@@ -1382,7 +1336,7 @@ function buildSuggestion(text) {
 
     if (debug) console.log(searchTerms);
 
-    if (contextsearch_exactMatch) quote = '%22';
+    if (options.exactMatch) quote = '%22';
 
     // Only make suggestions available and check for existence of a search engine when there is a space.
     if (text.indexOf(' ') === -1) {
@@ -1497,7 +1451,7 @@ function isEncoded(uri) {
 /// Send message to content scripts
 async function sendMessageToTab(tab, message) {
     const tabId = tab.id;
-    await browser.tabs.sendMessage(tabId, message).catch((err) => {
+    await chrome.tabs.sendMessage(tabId, message).catch((err) => {
         if (debug) {
             console.error(err);
             console.log(`Failed to send message ${JSON.stringify(message)} to:\n`);
@@ -1513,7 +1467,7 @@ async function sendMessageToTab(tab, message) {
 
 /// Send message to options page
 async function sendMessageToOptionsPage(action, data) {
-    await browser.runtime.sendMessage({ action: action, data: JSON.parse(JSON.stringify(data)) })
+    await chrome.runtime.sendMessage({ action: action, data: JSON.parse(JSON.stringify(data)) })
         .catch(e => {
             if (debug) console.error(e);
         });
@@ -1521,10 +1475,10 @@ async function sendMessageToOptionsPage(action, data) {
 
 /// Notifications
 function notify(message) {
-    browser.notifications.create(message.substring(0, 20), {
+    chrome.notifications.create(message.substring(0, 20), {
         type: 'basic',
         iconUrl: 'icons/icon_64.png',
-        title: browser.i18n.getMessage('extensionName'),
+        title: chrome.i18n.getMessage('extensionName'),
         message: message,
     });
 }
@@ -1590,7 +1544,7 @@ function isEmpty(value) {
 
 // 
 async function fetchConfig() {
-    const response = await fetch(browser.runtime.getURL('config.json'));
+    const response = await fetch(chrome.runtime.getURL('config.json'));
     const config = await response.json();
     return config;
 }

@@ -1,9 +1,9 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "default_locale": "en",
     "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
-    "version": "4.6.2",
+    "version": "5.0.0",
     "author": "Olivier de Broqueville",
     "browser_specific_settings": {
         "gecko": {
@@ -12,48 +12,51 @@
         }
     },
     "web_accessible_resources": [
-        "/history.html",
-        "/bookmarks.html",
-        "/images/*.png",
-        "/scripts/Sortable.min.js"
+        {
+            "resources": [
+                "/history.html",
+                "/bookmarks.html",
+                "/images/*.png",
+                "/scripts/Sortable.min.js"
+            ]
+        }
     ],
-    "content_security_policy": "script-src 'self'; object-src 'self'; img-src 'self' data:;",
-    "page_action": {
+    "content_security_policy": {
+        "extension_pages": "script-src 'self'; object-src 'self'; img-src 'self' data:;"
+    },
+    "action": {
         "show_matches": [
             "<all_urls>"
         ],
-        "browser_style": false,
         "default_icon": "/icons/context-search.svg",
         "default_title": "Add search engine to Context Search"
     },
-    "sidebar_action": {
-        "browser_style": false,
+    "side_panel": {
         "default_icon": "/icons/context-search.svg",
         "default_title": "Search results",
-        "default_panel": "/sidebar/search_results.html",
+        "default_path": "/sidebar/search_results.html",
         "open_at_install": false
     },
     "background": {
-        "scripts": [
-            "/scripts/background.js"
-        ]
+        "service_worker": "service_worker.js"
     },
     "permissions": [
-        "<all_urls>",
         "activeTab",
         "clipboardWrite",
         "contextMenus",
         "storage",
         "search",
         "tabs",
-        "webRequest",
-        "webRequestBlocking"
+        "sidePanel"
     ],
     "optional_permissions": [
         "notifications",
         "downloads",
         "bookmarks",
         "history"
+    ],
+    "host_permissions": [
+        "<all_urls>"
     ],
     "omnibox": {
         "keyword": "cs"
@@ -71,8 +74,7 @@
     },
     "options_ui": {
         "page": "options.html",
-        "open_in_tab": true,
-        "browser_style": true
+        "open_in_tab": true
     },
     "content_scripts": [
         {

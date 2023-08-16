@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', getHistoryItems);
 
 async function getHistoryItems() {
-    const bookmarkItems = (await browser.storage.local.get('bookmarkItems')).bookmarkItems;
-    const searchTerms = (await browser.storage.local.get('searchTerms')).searchTerms;
-    await browser.storage.local.remove(['bookmarkItems', 'searchTerms']);
+    const bookmarkItems = (await chrome.storage.local.get('bookmarkItems')).bookmarkItems;
+    const searchTerms = (await chrome.storage.local.get('searchTerms')).searchTerms;
+    await chrome.storage.local.remove(['bookmarkItems', 'searchTerms']);
     const ol = document.getElementById('bookmarkItems');
     const h2 = document.getElementById('title');
     if (searchTerms && searchTerms !== "recent") {
