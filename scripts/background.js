@@ -16,7 +16,7 @@ let CORS_API_KEY;
 
 /// Constants
 // Debug
-const debug = true;
+const debug = false;
 
 // User agent for sidebar search results
 const contextsearch_userAgent =
@@ -171,10 +171,6 @@ async function handleDoSearch(data) {
     const multisearch = false;
     if (debug) console.log('Search engine id: ' + id);
     if (debug) console.log(contextsearch_openSearchResultsInSidebar);
-    if (contextsearch_openSearchResultsInSidebar) {
-        searchUsing(id, null, multisearch);
-        return;
-    }
     const tabs = await queryAllTabs();
     const activeTab = tabs.filter(isActive)[0];
     const lastTab = tabs[tabs.length - 1];
@@ -315,11 +311,12 @@ function testSearchEngine(engineData) {
 // test if an AI search engine perfoming an AI request with the prompt 'How old is the Universe' returns valid results
 async function testPrompt(data) {
     const id = 'chatgpt-';
+    const multisearch = false;
     const providerUrl = getAIProviderBaseUrl(data.provider);
     const tabs = await queryAllTabs();
     const activeTab = tabs.filter(isActive)[0];
     const tabPosition = activeTab.index + 1;
-    displaySearchResults(id, providerUrl, tabPosition);
+    displaySearchResults(id, providerUrl, tabPosition, multisearch);
 }
 
 // Listen for messages from the content or options script
@@ -987,6 +984,7 @@ function buildContextMenuItem(id, browserVersion) {
 // Perform search based on selected search engine, i.e. selected context menu item
 async function processSearch(info, tab) {
     if (debug) console.log(info);
+    const multisearch = false;
     const id = info.menuItemId.replace('cs-', '');
     let tabIndex, tabPosition;
 
@@ -1016,12 +1014,12 @@ async function processSearch(info, tab) {
     }
     if (id === 'reverse-image-search') {
         if (debug) console.log(targetUrl);
-        displaySearchResults(id, googleReverseImageSearchUrl + targetUrl, tabIndex);
+        displaySearchResults(id, googleReverseImageSearchUrl + targetUrl, tabIndex, multisearch);
         return;
     }
     if (id === 'google-lens') {
         if (debug) console.log(targetUrl);
-        displaySearchResults(id, googleLensUrl + targetUrl, tabIndex);
+        displaySearchResults(id, googleLensUrl + targetUrl, tabIndex, multisearch);
         return;
     }
     if (id === 'site-search' && !isEmpty(targetUrl)) {
@@ -1036,7 +1034,7 @@ async function processSearch(info, tab) {
             browser.sidebarAction.setTitle({ title: 'Search results' });
             return;
         } else {
-            displaySearchResults(id, targetUrl, tabIndex);
+            displaySearchResults(id, targetUrl, tabIndex, multisearch);
             return;
         }
     } else if (id === 'options') {
@@ -1164,7 +1162,7 @@ async function searchUsing(id, tabIndex, multisearch) {
         browser.sidebarAction.setTitle({ title: 'Search results' });
         return;
     }
-    await displaySearchResults(id, targetUrl, tabIndex);
+    await displaySearchResults(id, targetUrl, tabIndex, multisearch);
 }
 
 function getAIProviderBaseUrl(provider) {
@@ -1195,12 +1193,12 @@ function getAIProviderBaseUrl(provider) {
 }
 
 // Display the search results
-async function displaySearchResults(id, targetUrl, tabPosition) {
+async function displaySearchResults(id, targetUrl, tabPosition, multisearch) {
     if (debug) console.log('Tab position: ' + tabPosition);
     if (debug) console.log(`id: ${id}`);
     if (debug) console.log(`selection: ${selection}`);
-    const windowInfo = await browser.windows.getCurrent({ populate: false });
-    const currentWindowID = windowInfo.id;
+    // const windowInfo = await browser.windows.getCurrent({ populate: false });
+    // const currentWindowID = windowInfo.id;
     if (id.startsWith('chatgpt-')) {
         const aiUrls = [chatGPTUrl, googleBardUrl, perplexityAIUrl, llama2Url, claudeUrl, assistantUrl];
         const urls = aiUrls.map((aiUrl) => {
@@ -1228,7 +1226,7 @@ async function displaySearchResults(id, targetUrl, tabPosition) {
         messageSent = false;
         browser.tabs.onUpdated.addListener(handleTabUpdate, filter);
     }
-    if (tabPosition === 0 && contextsearch_openSearchResultsInNewWindow) {
+    if (!multisearch && contextsearch_openSearchResultsInNewWindow) {
         await browser.windows.create({
             titlePreface: windowTitle + "'" + selection + "'",
             focused: contextsearch_makeNewTabOrWindowActive,
@@ -1238,12 +1236,18 @@ async function displaySearchResults(id, targetUrl, tabPosition) {
         // if (contextsearch_makeNewTabOrWindowActive) {
         //     await browser.windows.update(currentWindowID, { focused: true });
         // }
-    } else if (contextsearch_openSearchResultsInNewTab) {
-        browser.tabs.create({
-            active: contextsearch_makeNewTabOrWindowActive,
-            index: tabPosition,
-            url: targetUrl,
-        });
+    } else if (multisearch || contextsearch_openSearchResultsInNewTab) {
+        if (multisearch && id.startsWith('chatgpt-') && tabPosition === 0) {
+            browser.tabs.update({
+                url: targetUrl
+            });
+        } else {
+            browser.tabs.create({
+                active: contextsearch_makeNewTabOrWindowActive,
+                index: tabPosition,
+                url: targetUrl,
+            });
+        }
     } else {
         // Open search results in the same tab
         if (debug) {
@@ -1287,6 +1291,7 @@ browser.omnibox.onInputChanged.addListener((input, suggest) => {
 // Open the page based on how the user clicks on a suggestion
 browser.omnibox.onInputEntered.addListener(async (input) => {
     if (debug) console.log(input);
+    const multisearch = false;
     const keyword = input.split(' ')[0];
     const searchTerms = input.replace(keyword, '').trim();
     const suggestion = buildSuggestion(input);
@@ -1325,7 +1330,7 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
     // Only display search results when there is a valid link inside of the url variable
     if (input.indexOf('://') > -1) {
         if (debug) console.log('Processing search...');
-        displaySearchResults(id, input, tabIndex);
+        displaySearchResults(id, input, tabIndex, multisearch);
     } else {
         try {
             switch (keyword) {
@@ -1377,7 +1382,7 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                         processMultiTabSearch(arraySearchEngineUrls, tabPosition);
                     }
                     else if (suggestion.length === 1) {
-                        displaySearchResults(id, suggestion[0].content, tabIndex);
+                        displaySearchResults(id, suggestion[0].content, tabIndex, multisearch);
                     } else {
                         browser.search.search({ query: searchTerms, tabId: tabId });
                         if (notificationsEnabled) notify(notifyUsage);

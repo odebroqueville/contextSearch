@@ -476,10 +476,6 @@ async function sendSelectionToBackgroundScript(selectedText) {
     sendMessage('setSelection', { selection: selectedText });
 }
 
-/* function handleError(error) {
-    console.log(`Error: ${error}`);
-} */
-
 async function createIconGrid(x, y) {
     // Retrieve search engines from local storage
     const se = await browser.storage.local.get(null);
