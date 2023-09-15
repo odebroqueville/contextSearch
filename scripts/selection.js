@@ -2,7 +2,7 @@
 'use strict';
 
 /// Global variables
-const logToConsole = true; // Debug
+const logToConsole = false; // Debug
 const os = getOS();
 const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
 const mycroftUrl = 'https://mycroftproject.com/installos.php/';
@@ -341,13 +341,6 @@ async function handleAltClickWithGrid(e) {
     // If mouse up is not done with left mouse button then do nothing
     if (e !== undefined && e.button > 0) return;
 
-    const data = await browser.storage.sync.get(null);
-    const options = data.options;
-    if (logToConsole) console.log(options);
-
-    // If option is disabled then do nothing. Note: this intentionally comes after selected text is accessed as text can become unselected on click
-    if (options.disableAltClick) return;
-
     // If the grid of icons is alreadey displayed
     const nav = document.getElementById('context-search-icon-grid');
     if (nav !== undefined && nav !== null) {
@@ -357,6 +350,13 @@ async function handleAltClickWithGrid(e) {
         }
         closeGrid();
     }
+
+    const data = await browser.storage.sync.get(null);
+    const options = data.options;
+    if (logToConsole) console.log(options);
+
+    // If option is disabled then do nothing. Note: this intentionally comes after selected text is accessed as text can become unselected on click
+    if (options.disableAltClick) return;
 
     if (logToConsole) console.log(`Selected text: ${textSelection}`);
 
