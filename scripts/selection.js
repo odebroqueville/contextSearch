@@ -2,7 +2,7 @@
 'use strict';
 
 /// Global variables
-const logToConsole = false; // Debug
+const logToConsole = true; // Debug
 const os = getOS();
 const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
 const mycroftUrl = 'https://mycroftproject.com/installos.php/';
@@ -27,7 +27,7 @@ let pn = '';
 let sel = null;
 let range = null;
 let keysPressed = {};
-let flagSearchEngineClicked = false;
+let textSelection = '';
 
 /// Debugging
 // Current state
@@ -43,6 +43,9 @@ document.addEventListener('selectionchange', handleTextSelection);
 
 // Right-click event listener
 document.addEventListener('contextmenu', handleRightClickWithoutGrid);
+
+// Mouse down event listener
+document.addEventListener('mousedown', setTextSelection);
 
 // Mouse up event listener
 document.addEventListener('mouseup', handleAltClickWithGrid);
@@ -324,11 +327,17 @@ async function handleStorageChange(changes, area) {
     }
 }
 
+// Use mouse down to store selected text
+function setTextSelection() {
+    textSelection = getSelectedText();
+    if (logToConsole) console.log(`Selected text: ${textSelection}`);
+}
+
 // Triggered by mouse up event
 async function handleAltClickWithGrid(e) {
-    if (e !== undefined && logToConsole) console.log('Click event triggered:\n' + e.type, e.button, e.altKey, e.clientX, e.clientY);
+    if (e !== undefined && logToConsole) console.log('Event triggered:\n' + e.type, e.button, e.altKey, e.clientX, e.clientY);
 
-    if (e.type === 'mouseup' && e.altKey && e.button === 0) e.preventDefault();
+    closeGrid();
 
     const data = await browser.storage.sync.get(null);
     const options = data.options;
@@ -340,18 +349,12 @@ async function handleAltClickWithGrid(e) {
     // If mouse up is not done with left mouse button then do nothing
     if (e !== undefined && e.button > 0) return;
 
-    const selectedText = getSelectedText();
-    if (logToConsole) console.log(`Selected text: ${selectedText}`);
+    if (logToConsole) console.log(`Selected text: ${textSelection}`);
 
     // IF either the Quick Icons Grid is activated on mouse up 
     // OR the option (alt) key is pressed on mouse up
     // THEN display the Icons Grid
-    if ((options.quickIconGrid && e.type === 'mouseup' && selectedText.length > 0) || (e.type === 'mouseup' && e.altKey && selectedText.length > 0)) {
-        // If a search engine has just been clicked
-        if (flagSearchEngineClicked) {
-            flagSearchEngineClicked = false;
-            return;
-        }
+    if ((options.quickIconGrid && e.type === 'mouseup' && textSelection.length > 0) || (e.type === 'mouseup' && e.altKey && textSelection.length > 0)) {
 
         // If the grid of icons is alreadey displayed
         const nav = document.getElementById('context-search-icon-grid');
@@ -361,7 +364,7 @@ async function handleAltClickWithGrid(e) {
         if (logToConsole) console.log('Displaying Icons Grid...');
         const x = e.clientX;
         const y = e.clientY;
-        createIconGrid(x, y);
+        createIconGrid(x + 12, y + 12);
     }
 }
 
@@ -418,9 +421,10 @@ async function showButtons() {
 
 function handleTextSelection() {
     const selectedText = getSelectedText();
+    if (logToConsole) console.log(`Selected text: ${selectedText}`);
     if (selectedText !== null && selectedText !== undefined && selectedText !== "") {
-        if (logToConsole) console.log(`Selected text: ${selectedText}`);
-        sendSelectionToBackgroundScript(selectedText);
+        textSelection = selectedText;
+        sendSelectionToBackgroundScript(textSelection);
     }
 }
 
@@ -548,7 +552,7 @@ async function createIconGrid(x, y) {
     body.appendChild(nav);
 
     // Define event listeners for the icon grid
-    nav.addEventListener('click', onGridClick);
+    nav.addEventListener('mouseup', onGridClick);
     nav.addEventListener('mouseleave', onLeave);
 
     // Position icon grid contained in nav element
@@ -573,7 +577,6 @@ async function createIconGrid(x, y) {
 function onGridClick(e) {
     e.preventDefault();
     e.stopPropagation();
-    flagSearchEngineClicked = true;
     if (logToConsole) console.log('Icons Grid got clicked:' + e.type);
     const id = e.target.id;
     if (logToConsole) console.log('Search engine clicked:' + id);

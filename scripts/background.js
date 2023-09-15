@@ -16,7 +16,7 @@ let CORS_API_KEY;
 
 /// Constants
 // Debug
-const debug = false;
+const debug = true;
 
 // User agent for sidebar search results
 const contextsearch_userAgent =
@@ -168,10 +168,11 @@ function queryAllTabs() {
 
 async function handleDoSearch(data) {
     const id = data.id;
+    const multisearch = false;
     if (debug) console.log('Search engine id: ' + id);
     if (debug) console.log(contextsearch_openSearchResultsInSidebar);
     if (contextsearch_openSearchResultsInSidebar) {
-        searchUsing(id, null);
+        searchUsing(id, null, multisearch);
         return;
     }
     const tabs = await queryAllTabs();
@@ -188,7 +189,7 @@ async function handleDoSearch(data) {
     if (contextsearch_openSearchResultsInLastTab) {
         tabPosition = lastTab.index + 1;
     }
-    searchUsing(id, tabPosition);
+    searchUsing(id, tabPosition, multisearch);
 }
 
 async function handleReset() {
@@ -1063,60 +1064,75 @@ async function processSearch(info, tab) {
     }
 
     if (!id.startsWith("separator-")) {
-        searchUsing(id, tabIndex);
+        const multisearch = false;
+        searchUsing(id, tabIndex, multisearch);
     }
 }
 
 async function processMultiTabSearch(arraySearchEngineUrls, tabPosition) {
-    const data = await browser.storage.local.get(null);
+    const data = await browser.storage.local.get();
     searchEngines = sortByIndex(data);
-    let multiTabSearchEngineUrls = [];
-    let multiTabSearchEnginesPrompts = [];
+    let multiTabArray = [];
     if (arraySearchEngineUrls.length > 1) {
-        multiTabSearchEngineUrls = arraySearchEngineUrls;
+        multiTabArray = arraySearchEngineUrls;
     } else {
         for (let id in searchEngines) {
             if (searchEngines[id].multitab) {
                 if (id.startsWith('chatgpt-')) {
-                    multiTabSearchEnginesPrompts.push(id);
+                    multiTabArray.push(id);
                 } else {
                     const searchEngineUrl = searchEngines[id].url;
-                    multiTabSearchEngineUrls.push(
-                        getSearchEngineUrl(searchEngineUrl, selection)
-                    );
+                    multiTabArray.push(getSearchEngineUrl(searchEngineUrl, selection));
                 }
             }
         }
     }
-    if (notificationsEnabled && isEmpty(multiTabSearchEngineUrls)) {
+    if (notificationsEnabled && isEmpty(multiTabArray)) {
         notify('Search engines have not been selected for a multi-search.');
         return;
     }
-    const n = multiTabSearchEngineUrls.length;
-    const m = multiTabSearchEnginesPrompts.length;
-    if (debug) console.log(multiTabSearchEngineUrls);
+
+    if (debug) console.log(multiTabArray);
     if (contextsearch_multiMode === 'multiNewWindow') {
-        await browser.windows.create({
-            titlePreface: windowTitle + "'" + selection + "'",
-            url: multiTabSearchEngineUrls,
-            incognito: contextsearch_privateMode,
-        });
-        for (let i = 0; i < m; i++) {
-            const id = multiTabSearchEnginesPrompts[i];
-            const tabIndex = n + i;
-            searchUsing(id, tabIndex);
-        }
-    } else {
-        for (let i = 0; i < n; i++) {
-            await browser.tabs.create({
-                index: tabPosition + i,
-                url: multiTabSearchEngineUrls[i],
+        let tabPos = 0;
+        const firstTab = multiTabArray[0];
+        if (!firstTab.startsWith('chatgpt-')) {
+            await browser.windows.create({
+                titlePreface: windowTitle + "'" + selection + "'",
+                focused: true,
+                url: firstTab,
+                incognito: contextsearch_privateMode,
+            });
+            multiTabArray.shift();
+            tabPos++;
+        } else {
+            await browser.windows.create({
+                titlePreface: windowTitle + "'" + selection + "'",
+                focused: true,
+                incognito: contextsearch_privateMode,
             });
         }
-        for (let i = 0; i < m; i++) {
-            const id = multiTabSearchEnginesPrompts[i];
-            const tabIndex = n + i;
-            searchUsing(id, tabIndex);
+        await displayMultiTabs(multiTabArray, tabPos);
+    } else {
+        await displayMultiTabs(multiTabArray, tabPosition);
+    }
+}
+
+async function displayMultiTabs(multiTabArray, tabPosition) {
+    const n = multiTabArray.length;
+    const multisearch = true;
+    for (let i = 0; i < n; i++) {
+        console.log(i);
+        const idOrUrl = multiTabArray[i];
+        const tabIndex = tabPosition + i;
+        if (idOrUrl.startsWith('chatgpt-')) {
+            await searchUsing(idOrUrl, tabIndex, multisearch);
+        } else {
+            await browser.tabs.create({
+                active: contextsearch_makeNewTabOrWindowActive,
+                index: tabIndex,
+                url: idOrUrl,
+            });
         }
     }
 }
@@ -1134,7 +1150,7 @@ function getSearchEngineUrl(searchEngineUrl, sel) {
     }
 }
 
-function searchUsing(id, tabIndex) {
+async function searchUsing(id, tabIndex, multisearch) {
     if (!id.startsWith('chatgpt-')) {
         const searchEngineUrl = searchEngines[id].url;
         targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
@@ -1143,12 +1159,12 @@ function searchUsing(id, tabIndex) {
         targetUrl = getAIProviderBaseUrl(provider);
     }
     if (debug) console.log(`Target url: ${targetUrl}`);
-    if (contextsearch_openSearchResultsInSidebar) {
+    if (!multisearch && contextsearch_openSearchResultsInSidebar) {
         browser.sidebarAction.setPanel({ panel: targetUrl + '#_sidebar' });
         browser.sidebarAction.setTitle({ title: 'Search results' });
         return;
     }
-    displaySearchResults(id, targetUrl, tabIndex);
+    await displaySearchResults(id, targetUrl, tabIndex);
 }
 
 function getAIProviderBaseUrl(provider) {
@@ -1212,14 +1228,16 @@ async function displaySearchResults(id, targetUrl, tabPosition) {
         messageSent = false;
         browser.tabs.onUpdated.addListener(handleTabUpdate, filter);
     }
-    if (contextsearch_openSearchResultsInNewWindow) {
+    if (tabPosition === 0 && contextsearch_openSearchResultsInNewWindow) {
         await browser.windows.create({
+            titlePreface: windowTitle + "'" + selection + "'",
+            focused: contextsearch_makeNewTabOrWindowActive,
             url: targetUrl,
             incognito: contextsearch_privateMode,
         });
-        if (!contextsearch_makeNewTabOrWindowActive) {
-            await browser.windows.update(currentWindowID, { focused: true });
-        }
+        // if (contextsearch_makeNewTabOrWindowActive) {
+        //     await browser.windows.update(currentWindowID, { focused: true });
+        // }
     } else if (contextsearch_openSearchResultsInNewTab) {
         browser.tabs.create({
             active: contextsearch_makeNewTabOrWindowActive,
@@ -1549,7 +1567,7 @@ function getDomain(url) {
 
 /// Sort search engines by index
 function sortByIndex(list) {
-    let sortedList = JSON.parse(JSON.stringify(list));
+    let sortedList = {};
     let n = Object.keys(list).length;
     let arrayOfIndexes = [];
     let arrayOfIds = [];
@@ -1571,6 +1589,7 @@ function sortByIndex(list) {
         let ind = arrayOfIndexes.indexOf(min);
         arrayOfIndexes.splice(ind, 1);
         let id = arrayOfIds.splice(ind, 1);
+        sortedList[id] = list[id];
         sortedList[id].index = i;
     }
 
