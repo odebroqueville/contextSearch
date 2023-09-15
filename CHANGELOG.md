@@ -1,5 +1,11 @@
-4.6.2
+4.6.3
 =========
+
+* Bug fix [#152](https://github.com/odebroqueville/contextSearch/issues/152)
+* Bug fix [#154](https://github.com/odebroqueville/contextSearch/issues/154)
+
+4.6.2
+---------
 
 * Bug fix [#151](https://github.com/odebroqueville/contextSearch/issues/151)
 
