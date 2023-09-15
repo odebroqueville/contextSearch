@@ -336,8 +336,10 @@ function setTextSelection() {
 // Triggered by mouse up event
 async function handleAltClickWithGrid(e) {
     if (e !== undefined && logToConsole) console.log('Event triggered:\n' + e.type, e.button, e.altKey, e.clientX, e.clientY);
+    if (logToConsole) console.log(e);
 
-    closeGrid();
+    // If mouse up is not done with left mouse button then do nothing
+    if (e !== undefined && e.button > 0) return;
 
     const data = await browser.storage.sync.get(null);
     const options = data.options;
@@ -346,21 +348,23 @@ async function handleAltClickWithGrid(e) {
     // If option is disabled then do nothing. Note: this intentionally comes after selected text is accessed as text can become unselected on click
     if (options.disableAltClick) return;
 
-    // If mouse up is not done with left mouse button then do nothing
-    if (e !== undefined && e.button > 0) return;
+    // If the grid of icons is alreadey displayed
+    const nav = document.getElementById('context-search-icon-grid');
+    if (nav !== undefined && nav !== null) {
+        if (textSelection) {
+            window.getSelection()?.removeAllRanges();
+            textSelection = '';
+        }
+        closeGrid();
+    }
 
     if (logToConsole) console.log(`Selected text: ${textSelection}`);
 
     // IF either the Quick Icons Grid is activated on mouse up 
     // OR the option (alt) key is pressed on mouse up
-    // THEN display the Icons Grid
     if ((options.quickIconGrid && e.type === 'mouseup' && textSelection.length > 0) || (e.type === 'mouseup' && e.altKey && textSelection.length > 0)) {
 
-        // If the grid of icons is alreadey displayed
-        const nav = document.getElementById('context-search-icon-grid');
-        if (nav !== undefined && nav !== null) return;
-
-        // Otherwise
+        // THEN display the Icons Grid
         if (logToConsole) console.log('Displaying Icons Grid...');
         const x = e.clientX;
         const y = e.clientY;
