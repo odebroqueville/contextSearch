@@ -2,7 +2,7 @@
 'use strict';
 
 /// Global variables
-const logToConsole = false; // Debug
+const logToConsole = true; // Debug
 const os = getOS();
 const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
 const mycroftUrl = 'https://mycroftproject.com/installos.php/';
@@ -28,6 +28,7 @@ let sel = null;
 let range = null;
 let keysPressed = {};
 let textSelection = '';
+let navEntered = false;
 
 /// Debugging
 // Current state
@@ -514,12 +515,15 @@ async function createIconGrid(x, y) {
     // Grid dimensions
     n += 1; // Add one icon for multi-search
     const m = Math.ceil(Math.sqrt(n)); // Grid dimension: m x m matrix
+    const navMaxWidth = m * 38 + 16;
 
     // Cleanup
     closeGrid();
 
     const nav = document.createElement('div');
     nav.setAttribute('id', 'context-search-icon-grid');
+    nav.style.maxWidth = navMaxWidth + 'px';
+    nav.style.transition = 'none';
     nav.style.backgroundColor = '#ccc';
     nav.style.border = '3px solid #999';
     nav.style.padding = '5px';
@@ -553,12 +557,13 @@ async function createIconGrid(x, y) {
 
     // Define event listeners for the icon grid
     nav.addEventListener('mouseup', onGridClick);
+    nav.addEventListener('mouseenter', onHover);
     nav.addEventListener('mouseleave', onLeave);
 
     // Position icon grid contained in nav element
     nav.style.left = 0;
     nav.style.top = 0;
-    let viewportWidth = document.body.clientWidth;
+    let viewportWidth = document.documentElement.clientWidth;
     let viewportHeight = window.innerHeight;
     let navWidth = nav.offsetWidth + 16;
     let navHeight = nav.offsetHeight;
@@ -577,6 +582,7 @@ async function createIconGrid(x, y) {
 function onGridClick(e) {
     e.preventDefault();
     e.stopPropagation();
+    if (!navEntered) return;
     if (logToConsole) console.log('Icons Grid got clicked:' + e.type);
     const id = e.target.id;
     if (logToConsole) console.log('Search engine clicked:' + id);
@@ -584,6 +590,10 @@ function onGridClick(e) {
     const selection = window.getSelection();
     selection.addRange(range);
     sendMessage('doSearch', { id: id });
+}
+
+function onHover() {
+    navEntered = true;
 }
 
 async function onLeave() {
@@ -599,9 +609,11 @@ function closeGrid() {
     let nav = document.getElementById('context-search-icon-grid');
     if (nav) {
         nav.parentElement.removeChild(nav);
-        nav.removeEventListener('click', onGridClick);
+        nav.removeEventListener('mouseup', onGridClick);
+        nav.removeEventListener('mouseenter', onHover);
         nav.removeEventListener('mouseleave', onLeave);
         nav = null;
+        navEntered = false;
     }
 }
 
