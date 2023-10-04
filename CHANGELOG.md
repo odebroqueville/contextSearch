@@ -1,5 +1,9 @@
-4.6.4
+4.6.5
 =========
+* Turn off console logging
+
+4.6.4
+---------
 
 * Bug fix [#155](https://github.com/odebroqueville/contextSearch/issues/155)
 
