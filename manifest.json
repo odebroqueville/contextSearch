@@ -3,7 +3,7 @@
     "default_locale": "en",
     "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
-    "version": "4.6.6",
+    "version": "4.6.7",
     "author": "Olivier de Broqueville",
     "browser_specific_settings": {
         "gecko": {
@@ -21,6 +21,20 @@
     "page_action": {
         "show_matches": [
             "<all_urls>"
+        ],
+        "hide_matches": [
+            "*://accounts-static.cdn.mozilla.net/*",
+            "*://accounts.firefox.com/*",
+            "*://addons.cdn.mozilla.net/*",
+            "*://addons.mozilla.org/*",
+            "*://api.accounts.firefox.com/*",
+            "*://content.cdn.mozilla.net/*",
+            "*://discovery.addons.mozilla.org/*",
+            "*://install.mozilla.org/*",
+            "*://oauth.accounts.firefox.com/*",
+            "*://profile.accounts.firefox.com/*",
+            "*://support.mozilla.org/*",
+            "*://sync.services.mozilla.com/*"
         ],
         "browser_style": false,
         "default_icon": "/icons/context-search.svg",

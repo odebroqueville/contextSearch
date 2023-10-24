@@ -1517,20 +1517,16 @@ function isEncoded(uri) {
     }
 }
 
-/// Send message to content scripts
+// Send message to content scripts
 async function sendMessageToTab(tab, message) {
     const tabId = tab.id;
-    await browser.tabs.sendMessage(tabId, message).catch((err) => {
-        if (debug) {
-            console.error(err);
-            console.log(`Failed to send message ${JSON.stringify(message)} to:\n`);
-            console.log(`Tab ${tab.id}: ${tab.title}\n`);
-        }
-        return;
-    });
-    if (debug) {
-        console.log(`Successfully sent message to:\n`);
-        console.log(`Tab ${tab.id}: ${tab.title}\n`);
+
+    try {
+        await browser.tabs.sendMessage(tabId, message);
+        console.log(`Successfully sent message to Tab ${tab.id}: ${tab.title}`);
+    } catch (err) {
+        console.error(err);
+        console.log(`Failed to send message ${JSON.stringify(message)} to Tab ${tab.id}: ${tab.title}`);
     }
 }
 

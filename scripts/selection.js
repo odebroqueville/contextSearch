@@ -35,6 +35,10 @@ if (logToConsole) {
     console.log(document.readyState);
 }
 
+if (document.readyState === "complete") {
+    init();
+}
+
 /// Event handlers
 // Run init function when readyState is complete
 document.onreadystatechange = function () {
