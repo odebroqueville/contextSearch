@@ -30,15 +30,22 @@ let keysPressed = {};
 let textSelection = '';
 let navEntered = false;
 
-/// Debugging
 // Current state
 if (logToConsole) {
     console.log(document.readyState);
 }
 
-if (document.readyState === 'complete') init();
-
 /// Event handlers
+// Run init function when readyState is complete
+document.onreadystatechange = function () {
+    if (logToConsole) {
+        console.log(document.readyState);
+    }
+    if (document.readyState === "complete") {
+        init();
+    }
+};
+
 // Text selection change event listener
 document.addEventListener('selectionchange', handleTextSelection);
 
@@ -178,10 +185,13 @@ async function init() {
     }
 
     // If the website doesn't contain an opensearch plugin, then hide the Page action
-    if (document.querySelector('link[type="application/opensearchdescription+xml"]') == null) {
-        sendMessage('hidePageAction', null);
-    } else {
+    const linkElement = document.querySelector('link[type="application/opensearchdescription+xml"]');
+    const isLinkElement = linkElement instanceof HTMLLinkElement;
+
+    if (isLinkElement) {
         sendMessage('showPageAction', null);
+    } else {
+        sendMessage('hidePageAction', null);
     }
 
     // Retrieve search engines from local storage
@@ -394,7 +404,7 @@ function handleRightClickWithoutGrid(e) {
 
 // Display clickable buttons/icons on mycroftproject.com
 async function showButtons() {
-    if (domain != 'mycroftproject.com') return;
+    if (domain !== 'mycroftproject.com') return;
     const installLinks = document.querySelectorAll('a[href^="/install.html"]');
     const links = Array.from(installLinks);
     if (logToConsole) console.log(links);
