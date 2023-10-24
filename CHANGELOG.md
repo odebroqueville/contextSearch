@@ -1,5 +1,12 @@
-4.6.5
+4.6.6
 =========
+
+* Bug fix: Context Search would occasionally display a magnifying glass in the url address bar for websites (e.g. bbc.com) that didn't support the OpenSearch description format
+* Bug fix: when visiting mycroftproject.com 's Top 100, the web page would require a refresh to display the CS icon to add a search engine
+
+4.6.5
+---------
+
 * Turn off console logging
 
 4.6.4
