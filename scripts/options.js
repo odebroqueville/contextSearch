@@ -18,7 +18,7 @@ if (os === 'macOS') {
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById('container');
 
-// Add Search Engine
+// Add a New Search Engine
 const show = document.getElementById('show'); // Boolean
 const sename = document.getElementById('name'); // String
 const keyword = document.getElementById('keyword'); // String
@@ -26,7 +26,7 @@ const multitab = document.getElementById('multitab'); // Boolean
 const url = document.getElementById('url'); // String
 const kbsc = document.getElementById('kb-shortcut'); // String
 
-// Add ChatGPT Prompt
+// Add a New AI Prompt
 const promptShow = document.getElementById('promptShow'); // Boolean
 const promptName = document.getElementById('promptName'); // String
 const promptKeyword = document.getElementById('promptKeyword'); // String
@@ -137,10 +137,28 @@ btnTest.addEventListener('click', testSearchEngine);
 btnAdd.addEventListener('click', addSearchEngine);
 btnClearAddSearchEngine.addEventListener('click', clearAddSearchEngine);
 
-// Add new ChatGPT Prompt button handlers
+// Add new search engine event handlers for adding a keyboard shortcut
+kbsc.addEventListener('keyup', handleKeyboardShortcut);
+kbsc.addEventListener('keydown', (event) => {
+    const key = event.key;
+    if (isKeyAllowed(event)) keysPressed[key] = event.code;
+    if (logToConsole) console.log(keysPressed);
+});
+// kbsc.addEventListener('change', handleKeyboardShortcutChange);
+
+// Add new AI Prompt button handlers
 btnTestChatGPTPrompt.addEventListener('click', testChatGPTPrompt);
 btnAddChatGPTPrompt.addEventListener('click', addChatGPTPrompt);
 btnClearAddChatGPTPrompt.addEventListener('click', clearAddChatGPTPrompt);
+
+// Add new search engine event handlers for adding a keyboard shortcut
+promptKbsc.addEventListener('keyup', handleKeyboardShortcut);
+promptKbsc.addEventListener('keydown', (event) => {
+    const key = event.key;
+    if (isKeyAllowed(event)) keysPressed[key] = event.code;
+    if (logToConsole) console.log(keysPressed);
+});
+// promptKbsc.addEventListener('change', handleKeyboardShortcutChange);
 
 // Add new folder or separator button click handlers
 btnAddSeparator.addEventListener('click', addSeparator);
@@ -702,7 +720,6 @@ function editFavicon(e) {
 
 }
 
-
 /* function createFolderItem(name, keyword) {
     const el = document.getElementById('ol#searchEngines');
     const folderItem = document.createElement('li');
@@ -856,16 +873,27 @@ function folderKeywordChanged(e) {
 
 // Handle the input of a keyboard shortcut for a search engine in the Options page
 function handleKeyboardShortcut(e) {
+    if (logToConsole) console.log(e);
     if (e.target.nodeName !== 'INPUT' || !isKeyAllowed(e) || !Object.keys(keysPressed).length > 0) return;
     if ((os === 'macOS' && e.metaKey) || ((os === 'Windows' || os === 'Linux') && e.ctrlKey)) return;
     e.preventDefault();
+
     if (logToConsole) console.log(os);
     if (logToConsole) console.log(keysPressed);
-    const lineItem = e.target.parentNode;
-    const id = lineItem.getAttribute('id');
-    const input = document.getElementById(id + '-kbsc');
+
+    let input;
+    let id = null;
+    if (e.target.id === 'kb-shortcut') {
+        input = kbsc;
+    } else if (e.target.id === 'prompt-kb-shortcut') {
+        input = promptKbsc;
+    } else {
+        const lineItem = e.target.parentNode;
+        id = lineItem.getAttribute('id');
+        input = document.getElementById(id + '-kbsc');
+    }
+
     let keyboardShortcut = '';
-    if (logToConsole) console.log(e);
 
     // Identify modifier keys pressed
     for (let key in keysPressed) {
@@ -906,9 +934,10 @@ function handleKeyboardShortcut(e) {
     if (logToConsole) console.log(keyboardShortcut);
     input.value = keyboardShortcut;
     keysPressed = {};
-    searchEngines[id]['keyboardShortcut'] = keyboardShortcut;
-
-    sendMessage('saveSearchEngines', searchEngines);
+    if (id !== null) {
+        searchEngines[id]['keyboardShortcut'] = keyboardShortcut;
+        sendMessage('saveSearchEngines', searchEngines);
+    }
 }
 
 function handleKeyboardShortcutChange(e) {

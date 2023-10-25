@@ -2,6 +2,7 @@
 =========
 
 * Added restricted domains (from firefox and mozilla) for the page action in the manifest file
+* Bug fix: inputing keyboard shortcuts now works when adding a new search engine or a new AI prompt
 
 4.6.6
 ---------
