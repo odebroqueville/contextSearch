@@ -45,6 +45,31 @@ input[type="checkbox"] {
     width: 15px;
 }
 
+ol#searchEngines li {
+    /* Set the default cursor style */
+    cursor: default;
+
+    /* Hide the dotted border by default */
+    border: none;
+}
+
+ol#searchEngines li:hover {
+    /* Show the dotted border when hovered */
+    border: 2px dotted blue;
+
+    /* Change the cursor to a hand when hovered */
+    cursor: pointer;
+}
+
+ol#searchEngines li textarea {
+    margin-top: 10px;
+    margin-left: 55px;
+}
+
+.remove {
+    margin-top: 10px;
+}
+
 /* #container li[id^=chatgpt] {
     display: grid;
     grid-template-columns: 30px 30px 190px 80px 130px 30px 400px 30px 40px;

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter search engine data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        label {
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input {
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 5px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 8px 15px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Enter Search Engine Data</h2>
+    <form id="formData">
+        <label for="searchEngineName">Search engine name:</label>
+        <input type="text" id="searchEngineName" placeholder="Required" required><br>
+
+        <label for="keyword">Keyword:</label>
+        <input type="text" id="keyword" placeholder="Optional"><br>
+
+        <label for="keyboardShortcut">Keyboard shortcut:</label>
+        <input type="text" id="keyboardShortcut" placeholder="Optional"><br>
+
+        <div class="btn-container">
+            <button id="cancel">Cancel</button>
+            <button id="ok">OK</button>
+        </div>
+    </form>
+    <script type="module" src="/scripts/modal.js"></script>
+</body>
+
+</html>

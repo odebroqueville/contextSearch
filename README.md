@@ -47,6 +47,7 @@ You can also import a JSON file containing your own list of search engines. It i
 * visit mycroftproject.com and click on the Context Search icon that appears before the textual link of a listed search engine
 * use the page action (i.e. Context Search icon in the url address bar) to add a search engine if the website supports open search
 * add a search engine manually via the Options page (you can test the query string before adding the search engine)
+* to add a search engine that uses a submit form via an HTTP POST request, double click in the website's search text box
 
 ## How to add an AI prompt to your custom list of search engines
 

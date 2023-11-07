@@ -5,6 +5,8 @@
 /// Global variables
 /* global  */
 let searchEngines = {};
+let newSearchEngineUrl;
+let formData;
 let selection = '';
 let targetUrl = '';
 let lastAddressBarKeyword = '';
@@ -16,7 +18,7 @@ let CORS_API_KEY;
 
 /// Constants
 // Debug
-const debug = false;
+const logToConsole = false;
 
 // User agent for sidebar search results
 const contextsearch_userAgent =
@@ -130,11 +132,11 @@ browser.webRequest.onBeforeSendHeaders.addListener(
 Rewrite the User-Agent header to contextsearch_userAgent
 */
 async function rewriteUserAgentHeader(e) {
-    if (debug) console.log(e);
+    if (logToConsole) console.log(e);
     if (!contextsearch_openSearchResultsInSidebar) {
         return {};
     }
-    if (debug) {
+    if (logToConsole) {
         const activeTab = await browser.tabs.query({
             currentWindow: true,
             active: true,
@@ -149,7 +151,7 @@ async function rewriteUserAgentHeader(e) {
             header.value = contextsearch_userAgent;
         }
     }
-    if (debug) {
+    if (logToConsole) {
         console.log('Modified header:');
         console.log(e.requestHeaders);
     }
@@ -166,11 +168,78 @@ function queryAllTabs() {
     return browser.tabs.query({ currentWindow: true });
 }
 
+async function isIdUnique(testId) {
+    // Retrieve search engines from local storage
+    const searchEngines = await browser.storage.local.get(null);
+    for (let id in searchEngines) {
+        if (id === testId) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function handleOpenModal(data) {
+    newSearchEngineUrl = data.url;
+    formData = data.formData;
+    const modalURL = browser.runtime.getURL('/modal.html');
+    const popupWidth = 400; // Width of the popup window
+    const popupHeight = 420; // Height of the popup window
+    const left = Math.floor((window.screen.width - popupWidth) / 2);
+    const top = Math.floor((window.screen.height - popupHeight) / 2);
+    browser.windows.create({
+        allowScriptsToClose: true,
+        type: 'popup',
+        top: top,
+        left: left,
+        width: popupWidth,
+        height: popupHeight,
+        url: modalURL
+    });
+}
+
+function handleAddNewPostSearchEngine(data) {
+    const searchEngineName = data.searchEngineName;
+    const keyword = data.keyword;
+    const keyboardShortcut = data.keyboardShortcut;
+    if (logToConsole) console.log(searchEngineName);
+    if (logToConsole) console.log(keyword);
+    if (logToConsole) console.log(keyboardShortcut);
+
+    // Define a unique ID for the new search engine
+    let id = searchEngineName.replace(/\s/g, '-').toLowerCase();
+    while (!isIdUnique(id)) {
+        id = defineNewId(searchEngineName);
+    }
+    id = id.trim();
+
+    // Add the new search engine
+    const numberOfSearchEngines = Object.keys(searchEngines).length;
+
+    const formDataString = JSON.stringify(formData);
+
+    const searchEngine = {
+        index: numberOfSearchEngines,
+        name: searchEngineName,
+        keyword: keyword,
+        keyboardShortcut: keyboardShortcut,
+        multitab: false,
+        url: newSearchEngineUrl,
+        show: true,
+        base64: '',
+        formData: formDataString
+    }
+
+    if (logToConsole) console.log(searchEngine);
+
+    handleAddNewSearchEngine({ id: id, searchEngine: searchEngine });
+}
+
 async function handleDoSearch(data) {
     const id = data.id;
     const multisearch = false;
-    if (debug) console.log('Search engine id: ' + id);
-    if (debug) console.log(contextsearch_openSearchResultsInSidebar);
+    if (logToConsole) console.log('Search engine id: ' + id);
+    if (logToConsole) console.log(contextsearch_openSearchResultsInSidebar);
     const tabs = await queryAllTabs();
     const activeTab = tabs.filter(isActive)[0];
     const lastTab = tabs[tabs.length - 1];
@@ -190,15 +259,15 @@ async function handleDoSearch(data) {
 
 async function handleReset() {
     const response = await reset();
-    if (debug) console.log(response);
+    if (logToConsole) console.log(response);
     sendMessageToOptionsPage(response, null);
 }
 
 async function handleSaveSearchEngines(data) {
     searchEngines = sortByIndex(data);
-    if (debug) console.log(searchEngines);
+    if (logToConsole) console.log(searchEngines);
     await browser.storage.local.clear();
-    if (debug) console.log('Local storage cleared.');
+    if (logToConsole) console.log('Local storage cleared.');
     await saveSearchEnginesToLocalStorage(false);
     rebuildContextMenu();
 }
@@ -210,7 +279,7 @@ async function handleAddNewSearchEngine(data) {
     searchEngines = sortByIndex(searchEngines);
     if (!(id.startsWith("separator-") || id.startsWith('chatgpt-'))) {
         domain = getDomain(data.searchEngine.url);
-        if (debug) console.log(id, domain);
+        if (logToConsole) console.log(id, domain);
     }
     await addNewSearchEngine(id, domain);
 }
@@ -324,6 +393,12 @@ browser.runtime.onMessage.addListener((message, sender) => {
     const action = message.action;
     const data = message.data;
     switch (action) {
+        case 'openModal':
+            handleOpenModal(data);
+            break;
+        case 'addNewPostSearchEngine':
+            handleAddNewPostSearchEngine(data);
+            break;
         case 'doSearch':
             handleDoSearch(data);
             break;
@@ -332,13 +407,13 @@ browser.runtime.onMessage.addListener((message, sender) => {
             break;
         case 'setSelection':
             if (data) selection = data.selection;
-            if (debug) console.log(`Selected text: ${selection}`);
+            if (logToConsole) console.log(`Selected text: ${selection}`);
             break;
         case 'reset':
             handleReset();
             break;
         case 'setTargetUrl':
-            if (debug) console.log(`TargetUrl: ${data}`);
+            if (logToConsole) console.log(`TargetUrl: ${data}`);
             if (data) targetUrl = data;
             break;
         case 'testSearchEngine':
@@ -406,7 +481,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
 // Check if options are set in sync storage and set to default if not
 async function init() {
     // Debug: verify that storage space occupied is within limits
-    if (debug) {
+    if (logToConsole) {
         // Inform on storage space being used by storage sync
         const bytesUsed = await browser.storage.sync
             .getBytesInUse(null)
@@ -441,7 +516,7 @@ async function init() {
 // Resets the list of search engines to the default list if options.forceSearchEnginesReload is set
 // Force favicons to be reloaded if options.forceFaviconsReload is set
 async function reset() {
-    if (debug) {
+    if (logToConsole) {
         console.log(
             "Resetting extension's preferences and search engines as per user reset preferences."
         );
@@ -450,6 +525,7 @@ async function reset() {
     return "resetCompleted";
 }
 
+// Fetches a favicon for the new search engine
 async function addNewSearchEngine(id, domain) {
     const searchEngine = {};
     // Add a favicon to the search engine except if it's a separator
@@ -474,7 +550,7 @@ async function initialiseOptionsAndSearchEngines() {
     /// Initialise options
     let options = {};
     let data = await browser.storage.sync.get(null).catch((err) => {
-        if (debug) {
+        if (logToConsole) {
             console.error(err);
             console.log('Failed to retrieve data from storage sync.');
         }
@@ -482,7 +558,7 @@ async function initialiseOptionsAndSearchEngines() {
 
     if (data.options) {
         options = data.options;
-        if (debug) console.log(options);
+        if (logToConsole) console.log(options);
         delete data['options'];
     }
 
@@ -493,7 +569,7 @@ async function initialiseOptionsAndSearchEngines() {
     } else {
         await browser.storage.sync.clear();
     }
-    if (debug) console.log(options);
+    if (logToConsole) console.log(options);
     await setOptions(options, true, false);
 
     /// Initialise search engines
@@ -501,7 +577,7 @@ async function initialiseOptionsAndSearchEngines() {
     if (!isEmpty(data) && Object.keys(data).length > 1) {
         searchEngines = sortByIndex(data);
         setKeyboardShortcuts();
-        if (debug) {
+        if (logToConsole) {
             console.log('Search engines: \n');
             console.log(searchEngines);
         }
@@ -521,7 +597,7 @@ async function initialiseOptionsAndSearchEngines() {
             await getFaviconsAsBase64Strings();
             await saveSearchEnginesToLocalStorage(true);
             rebuildContextMenu();
-            if (debug) {
+            if (logToConsole) {
                 console.log('Search engines: \n');
                 console.log(searchEngines);
             }
@@ -532,9 +608,9 @@ async function initialiseOptionsAndSearchEngines() {
 function setKeyboardShortcuts() {
     for (let id in searchEngines) {
         if (searchEngines[id].keyboardShortcut !== undefined) continue;
-        if (debug) console.log(`id: ${id}`);
+        if (logToConsole) console.log(`id: ${id}`);
         searchEngines[id]['keyboardShortcut'] = '';
-        if (debug)
+        if (logToConsole)
             console.log(`keyboard shortcut: ${searchEngines[id].keyboardShortcut}`);
     }
 }
@@ -543,12 +619,12 @@ function getOptions() {
     return browser.storage.sync.get(null)
         .then(data => {
             const options = data.options;
-            if (debug) console.log('Preferences retrieved from sync storage:');
-            if (debug) console.log(options);
+            if (logToConsole) console.log('Preferences retrieved from sync storage:');
+            if (logToConsole) console.log(options);
             return options;
         })
         .catch(err => {
-            if (debug) {
+            if (logToConsole) {
                 console.error(err);
                 console.log('Failed to retrieve options from sync storage.');
             }
@@ -559,10 +635,10 @@ function getOptions() {
 // Sets the default options if they haven't already been set in local storage and saves them
 // The context menu is also rebuilt when required
 function setOptions(options, save, rebuildContextMenu) {
-    if (debug) console.log(`Setting exact match to ${options.exactMatch}`);
+    if (logToConsole) console.log(`Setting exact match to ${options.exactMatch}`);
     contextsearch_exactMatch = options.exactMatch;
 
-    if (debug) console.log('Setting tab mode..');
+    if (logToConsole) console.log('Setting tab mode..');
     contextsearch_makeNewTabOrWindowActive = options.tabActive;
     contextsearch_openSearchResultsInLastTab = options.lastTab;
     contextsearch_privateMode = options.privateMode;
@@ -591,24 +667,24 @@ function setOptions(options, save, rebuildContextMenu) {
             break;
     }
 
-    if (debug) console.log(
+    if (logToConsole) console.log(
         `Setting the position of options in the context menu to ${options.optionsMenuLocation}`
     );
     contextsearch_optionsMenuLocation = options.optionsMenuLocation;
 
-    if (debug) console.log('Setting favicons preference..');
+    if (logToConsole) console.log('Setting favicons preference..');
     contextsearch_displayFavicons = options.displayFavicons;
 
-    if (debug) console.log('Setting Icons Grid options..');
+    if (logToConsole) console.log('Setting Icons Grid options..');
     contextsearch_quickIconGrid = options.quickIconGrid;
     contextsearch_closeGridOnMouseOut = options.closeGridOnMouseOut;
     contextsearch_disableAltClick = options.disableAltClick;
 
-    if (debug) console.log('Setting site search option..');
+    if (logToConsole) console.log('Setting site search option..');
     contextsearch_siteSearch = options.siteSearch;
     contextsearch_siteSearchUrl = options.siteSearchUrl;
 
-    if (debug) console.log(`Setting reset options..`);
+    if (logToConsole) console.log(`Setting reset options..`);
     contextsearch_forceSearchEnginesReload = options.forceSearchEnginesReload;
     contextsearch_resetPreferences = options.resetPreferences;
     contextsearch_forceFaviconsReload = options.forceFaviconsReload;
@@ -625,12 +701,12 @@ function setOptions(options, save, rebuildContextMenu) {
 function saveOptions(options, blnRebuildContextMenu) {
     return browser.storage.sync.set({ options })
         .then(() => {
-            if (debug) console.log(options);
+            if (logToConsole) console.log(options);
             if (blnRebuildContextMenu) rebuildContextMenu();
-            if (debug) console.log('Successfully saved the options to storage sync.');
+            if (logToConsole) console.log('Successfully saved the options to storage sync.');
         })
         .catch(err => {
-            if (debug) {
+            if (logToConsole) {
                 console.error(err);
                 console.log('Failed to save options to storage sync.');
             }
@@ -655,7 +731,7 @@ async function loadDefaultSearchEngines(jsonFile) {
         const json = await response.json();
         searchEngines = sortByIndex(json);
         setKeyboardShortcuts();
-        if (debug) {
+        if (logToConsole) {
             console.log('Search engines:\n');
             console.log(searchEngines);
         }
@@ -664,13 +740,13 @@ async function loadDefaultSearchEngines(jsonFile) {
         await saveSearchEnginesToLocalStorage(true);
         rebuildContextMenu();
     } catch (error) {
-        if (debug) console.error(error.message);
+        if (logToConsole) console.error(error.message);
     }
 }
 
 async function saveSearchEnginesToLocalStorage(blnNotify) {
     searchEngines = sortByIndex(searchEngines);
-    if (debug) {
+    if (logToConsole) {
         console.log('Search engines:\n');
         console.log(searchEngines);
     }
@@ -679,13 +755,13 @@ async function saveSearchEnginesToLocalStorage(blnNotify) {
         // save list of search engines to local storage
         await browser.storage.local.set(searchEngines);
         if (notificationsEnabled && blnNotify) notify(notifySearchEnginesLoaded);
-        if (debug) {
+        if (logToConsole) {
             console.log(
                 'Search engines have been successfully saved to local storage.'
             );
         }
     } catch (error) {
-        if (debug) {
+        if (logToConsole) {
             console.error(error.message);
             console.log('Failed to save the search engines to local storage.');
         }
@@ -694,7 +770,7 @@ async function saveSearchEnginesToLocalStorage(blnNotify) {
 
 /// Fetch and store favicon image format and base64 representation to searchEngines
 async function getFaviconsAsBase64Strings() {
-    if (debug) console.log('Fetching favicons..');
+    if (logToConsole) console.log('Fetching favicons..');
     let arrayOfPromises = [];
 
     for (let id in searchEngines) {
@@ -711,9 +787,9 @@ async function getFaviconsAsBase64Strings() {
             if (!id.startsWith('chatgpt-')) {
                 const seUrl = searchEngines[id].url;
                 domain = getDomain(seUrl);
-                if (debug) console.log('id: ' + id);
-                if (debug) console.log('url: ' + seUrl);
-                if (debug) console.log('Getting favicon for ' + domain);
+                if (logToConsole) console.log('id: ' + id);
+                if (logToConsole) console.log('url: ' + seUrl);
+                if (logToConsole) console.log('Getting favicon for ' + domain);
             }
             arrayOfPromises.push(await getNewFavicon(id, domain));
         }
@@ -722,16 +798,16 @@ async function getFaviconsAsBase64Strings() {
     if (arrayOfPromises.length > 0) {
         // values is an array of {id:, imageFormat:, base64:}
         const values = await Promise.all(arrayOfPromises).catch((err) => {
-            if (debug) {
+            if (logToConsole) {
                 console.error(err);
                 console.log('Not ALL the favcions could be fetched.');
             }
             return;
         });
-        if (debug) console.log('ALL promises have completed.');
+        if (logToConsole) console.log('ALL promises have completed.');
         if (values === undefined) return;
         for (let value of values) {
-            if (debug) {
+            if (logToConsole) {
                 console.log('================================================');
                 console.log('id is ' + value.id);
                 console.log('------------------------------------------------');
@@ -743,7 +819,7 @@ async function getFaviconsAsBase64Strings() {
             searchEngines[value.id]['imageFormat'] = value.imageFormat;
             searchEngines[value.id]['base64'] = value.base64;
         }
-        if (debug) console.log('The favicons have ALL been fetched.');
+        if (logToConsole) console.log('The favicons have ALL been fetched.');
     }
 }
 
@@ -765,7 +841,7 @@ async function getNewFavicon(id, domain) {
             const message = `Failed to get domain of search engine. An error has occured: ${response.status}`;
             throw new Error(message);
         }
-        if (debug) console.log(response);
+        if (logToConsole) console.log(response);
         const data = await response.json();
         let imageFormat = data.imageFormat;
         let b64 = data.b64;
@@ -773,11 +849,11 @@ async function getNewFavicon(id, domain) {
             b64 = base64ContextSearchIcon;
             imageFormat = 'image/png';
         }
-        if (debug) console.log(imageFormat, b64);
+        if (logToConsole) console.log(imageFormat, b64);
         return { id: id, imageFormat: imageFormat, base64: b64 };
     } catch (error) {
-        if (debug) console.error(error.message);
-        if (debug) console.log('Failed to retrieve new favicon.');
+        if (logToConsole) console.error(error.message);
+        if (logToConsole) console.log('Failed to retrieve new favicon.');
         // Failed to retrieve a favicon, proceeding with default CS icon
         return { id: id, imageFormat: 'image/png', base64: base64ContextSearchIcon };
     }
@@ -859,7 +935,7 @@ function convertUrl2AbsUrl(href, domain) {
 
 /// Rebuild the context menu using the search engines from local storage
 async function rebuildContextMenu() {
-    if (debug) console.log('Rebuilding context menu..');
+    if (logToConsole) console.log('Rebuilding context menu..');
     const info = await browser.runtime.getBrowserInfo();
     const v = info.version;
     const browserVersion = parseInt(v.slice(0, v.search('.') - 1));
@@ -877,7 +953,7 @@ async function rebuildContextMenu() {
     for (let i = 1; i < n + 1; i++) {
         for (let id in searchEngines) {
             if (searchEngines[id].index === i) {
-                if (debug) console.log(`Index: ${i}  id: ${id}`);
+                if (logToConsole) console.log(`Index: ${i}  id: ${id}`);
                 if (id.startsWith("separator-")) {
                     browser.contextMenus.create({
                         id: 'cs-separator-' + i,
@@ -983,7 +1059,7 @@ function buildContextMenuItem(id, browserVersion) {
 
 // Perform search based on selected search engine, i.e. selected context menu item
 async function processSearch(info, tab) {
-    if (debug) console.log(info);
+    if (logToConsole) console.log(info);
     const multisearch = false;
     const id = info.menuItemId.replace('cs-', '');
     let tabIndex, tabPosition;
@@ -1013,17 +1089,17 @@ async function processSearch(info, tab) {
         tabPosition = tabIndex + 1;
     }
     if (id === 'reverse-image-search') {
-        if (debug) console.log(targetUrl);
+        if (logToConsole) console.log(targetUrl);
         displaySearchResults(id, googleReverseImageSearchUrl + targetUrl, tabIndex, multisearch);
         return;
     }
     if (id === 'google-lens') {
-        if (debug) console.log(targetUrl);
+        if (logToConsole) console.log(targetUrl);
         displaySearchResults(id, googleLensUrl + targetUrl, tabIndex, multisearch);
         return;
     }
     if (id === 'site-search' && !isEmpty(targetUrl)) {
-        if (debug) console.log(targetUrl);
+        if (logToConsole) console.log(targetUrl);
         if (contextsearch_openSearchResultsInSidebar) {
             const domain = getDomain(tab.url).replace(/https?:\/\//, '');
             const options = await getOptions();
@@ -1038,31 +1114,29 @@ async function processSearch(info, tab) {
             return;
         }
     } else if (id === 'options') {
-        browser.runtime.openOptionsPage().then(null, onError);
+        await browser.runtime.openOptionsPage();
         return;
     } else if (id === 'multitab') {
-        processMultiTabSearch([], tabPosition);
+        await processMultiTabSearch([], tabPosition);
         return;
     } else if (id === 'match') {
-        getOptions().then((settings) => {
-            let options = settings.options;
-            if (debug) {
-                console.log(
-                    `Preferences retrieved from sync storage: ${JSON.stringify(options)}`
-                );
-            }
-            options.exactMatch = !contextsearch_exactMatch;
-            if (options.exactMatch) {
-                if (debug) console.log(`Setting exact match to ${options.exactMatch}`);
-                contextsearch_exactMatch = options.exactMatch;
-            }
-            saveOptions(options, true);
-        });
+        const settings = await getOptions();
+        let options = settings.options;
+        if (logToConsole) {
+            console.log(
+                `Preferences retrieved from sync storage: ${JSON.stringify(options)}`
+            );
+        }
+        options.exactMatch = !contextsearch_exactMatch;
+        if (options.exactMatch) {
+            if (logToConsole) console.log(`Setting exact match to ${options.exactMatch}`);
+            contextsearch_exactMatch = options.exactMatch;
+        }
+        saveOptions(options, true);
         return;
     }
 
     if (!id.startsWith("separator-")) {
-        const multisearch = false;
         searchUsing(id, tabIndex, multisearch);
     }
 }
@@ -1070,29 +1144,37 @@ async function processSearch(info, tab) {
 async function processMultiTabSearch(arraySearchEngineUrls, tabPosition) {
     const data = await browser.storage.local.get();
     searchEngines = sortByIndex(data);
+    let searchEngineUrl = '';
     let multiTabArray = [];
-    if (arraySearchEngineUrls.length > 1) {
+    if (arraySearchEngineUrls.length > 0) {
         multiTabArray = arraySearchEngineUrls;
     } else {
         for (let id in searchEngines) {
+            if (logToConsole) console.log(id);
             if (searchEngines[id].multitab) {
                 if (id.startsWith('chatgpt-')) {
                     multiTabArray.push(id);
                 } else {
-                    const searchEngineUrl = searchEngines[id].url;
-                    multiTabArray.push(getSearchEngineUrl(searchEngineUrl, selection));
+                    searchEngineUrl = searchEngines[id].url;
+                    if (searchEngineUrl.includes('?')) {
+                        multiTabArray.push(getSearchEngineUrl(searchEngineUrl, selection));
+                    } else {
+                        multiTabArray.push({ id: id, url: searchEngineUrl });
+                    }
                 }
             }
         }
     }
+
     if (notificationsEnabled && isEmpty(multiTabArray)) {
         notify('Search engines have not been selected for a multi-search.');
         return;
     }
 
-    if (debug) console.log(multiTabArray);
+    if (logToConsole) console.log(multiTabArray);
+
     if (contextsearch_multiMode === 'multiNewWindow') {
-        let tabPos = 0;
+        tabPosition = 0;
         const firstTab = multiTabArray[0];
         if (!firstTab.startsWith('chatgpt-')) {
             await browser.windows.create({
@@ -1101,8 +1183,6 @@ async function processMultiTabSearch(arraySearchEngineUrls, tabPosition) {
                 url: firstTab,
                 incognito: contextsearch_privateMode,
             });
-            multiTabArray.shift();
-            tabPos++;
         } else {
             await browser.windows.create({
                 titlePreface: windowTitle + "'" + selection + "'",
@@ -1110,27 +1190,59 @@ async function processMultiTabSearch(arraySearchEngineUrls, tabPosition) {
                 incognito: contextsearch_privateMode,
             });
         }
-        await displayMultiTabs(multiTabArray, tabPos);
+        await displayMultiTabs(multiTabArray, tabPosition);
     } else {
         await displayMultiTabs(multiTabArray, tabPosition);
     }
 }
 
 async function displayMultiTabs(multiTabArray, tabPosition) {
-    const n = multiTabArray.length;
+    const firstTab = multiTabArray[0];
     const multisearch = true;
+
+    if (!firstTab.startsWith('chatgpt-') && contextsearch_multiMode === 'multiNewWindow') {
+        multiTabArray.shift();
+        tabPosition++;
+    }
+
+    if (logToConsole) console.log(multiTabArray);
+    const n = multiTabArray.length;
+    if (logToConsole) console.log(n);
     for (let i = 0; i < n; i++) {
-        console.log(i);
+        if (logToConsole) console.log(i);
         const idOrUrl = multiTabArray[i];
         const tabIndex = tabPosition + i;
-        if (idOrUrl.startsWith('chatgpt-')) {
-            await searchUsing(idOrUrl, tabIndex, multisearch);
+        if (typeof (idOrUrl) === 'string') {
+            if (idOrUrl.startsWith('chatgpt-')) {
+                // If the search engine is an AI search engine
+                await searchUsing(idOrUrl, tabIndex, multisearch);
+            } else if (idOrUrl.includes('?')) {
+                // If the search engine uses HTTP GET
+                await browser.tabs.create({
+                    active: contextsearch_makeNewTabOrWindowActive,
+                    index: tabIndex,
+                    url: idOrUrl,
+                });
+            }
         } else {
-            await browser.tabs.create({
-                active: contextsearch_makeNewTabOrWindowActive,
-                index: tabIndex,
-                url: idOrUrl,
-            });
+            // If the search engine uses HTTP POST
+            const id = idOrUrl.id;
+            const url = idOrUrl.url;
+            let formDataString = searchEngines[id].formData;
+            if (formDataString.includes('{searchTerms}')) {
+                formDataString = formDataString.replace('{searchTerms}', selection);
+            } else if (formDataString.includes('%s')) {
+                formDataString = formDataString.replace('%s', selection);
+            }
+            if (logToConsole) console.log(formDataString);
+            if (logToConsole) console.log(`selection: ${selection}`);
+            if (logToConsole) console.log('Tab position: ' + tabIndex);
+            if (logToConsole) console.log(`id: ${id}`);
+
+            const jsonFormData = JSON.parse(formDataString);
+            const finalFormData = jsonToFormData(jsonFormData);
+
+            await submitForm(url, finalFormData, tabIndex, multisearch);
         }
     }
 }
@@ -1149,15 +1261,19 @@ function getSearchEngineUrl(searchEngineUrl, sel) {
 }
 
 async function searchUsing(id, tabIndex, multisearch) {
+    const searchEngineUrl = searchEngines[id].url;
     if (!id.startsWith('chatgpt-')) {
-        const searchEngineUrl = searchEngines[id].url;
-        targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
+        if (searchEngineUrl.includes('?')) {
+            targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
+        } else {
+            targetUrl = searchEngines[id].url;
+        }
     } else {
         const provider = searchEngines[id].aiProvider;
         targetUrl = getAIProviderBaseUrl(provider);
     }
-    if (debug) console.log(`Target url: ${targetUrl}`);
-    if (!multisearch && contextsearch_openSearchResultsInSidebar) {
+    if (logToConsole) console.log(`Target url: ${targetUrl}`);
+    if (!multisearch && contextsearch_openSearchResultsInSidebar && searchEngineUrl.includes('?')) {
         browser.sidebarAction.setPanel({ panel: targetUrl + '#_sidebar' });
         browser.sidebarAction.setTitle({ title: 'Search results' });
         return;
@@ -1194,9 +1310,23 @@ function getAIProviderBaseUrl(provider) {
 
 // Display the search results
 async function displaySearchResults(id, targetUrl, tabPosition, multisearch) {
-    if (debug) console.log('Tab position: ' + tabPosition);
-    if (debug) console.log(`id: ${id}`);
-    if (debug) console.log(`selection: ${selection}`);
+    let formDataString, jsonFormData, finalFormData;
+    if (searchEngines[id].formData) {
+        formDataString = searchEngines[id].formData;
+        if (formDataString.includes('{searchTerms}')) {
+            formDataString = formDataString.replace('{searchTerms}', selection);
+        } else if (formDataString.includes('%s')) {
+            formDataString = formDataString.replace('%s', selection);
+        }
+        if (logToConsole) console.log(formDataString);
+        if (logToConsole) console.log(`selection: ${selection}`);
+        if (logToConsole) console.log('Tab position: ' + tabPosition);
+        if (logToConsole) console.log(`id: ${id}`);
+
+        jsonFormData = JSON.parse(formDataString);
+        finalFormData = jsonToFormData(jsonFormData);
+    }
+
     // const windowInfo = await browser.windows.getCurrent({ populate: false });
     // const currentWindowID = windowInfo.id;
     if (id.startsWith('chatgpt-')) {
@@ -1211,7 +1341,7 @@ async function displaySearchResults(id, targetUrl, tabPosition, multisearch) {
         const filter = {
             urls: urls
         }
-        if (debug) console.log(filter);
+        if (logToConsole) console.log(filter);
         if (id === 'chatgpt-') {
             promptText = 'How old is the Universe';
         } else {
@@ -1222,52 +1352,147 @@ async function displaySearchResults(id, targetUrl, tabPosition, multisearch) {
                 promptText = promptText.replace(/%s/g, selection);
             }
         }
-        if (debug) console.log(promptText);
+        if (logToConsole) console.log(promptText);
         messageSent = false;
         browser.tabs.onUpdated.addListener(handleTabUpdate, filter);
     }
     if (!multisearch && contextsearch_openSearchResultsInNewWindow) {
-        await browser.windows.create({
-            titlePreface: windowTitle + "'" + selection + "'",
-            focused: contextsearch_makeNewTabOrWindowActive,
-            url: targetUrl,
-            incognito: contextsearch_privateMode,
-        });
-        // if (contextsearch_makeNewTabOrWindowActive) {
-        //     await browser.windows.update(currentWindowID, { focused: true });
-        // }
+        if (targetUrl.includes('?')) {
+            await browser.windows.create({
+                titlePreface: windowTitle + "'" + selection + "'",
+                focused: contextsearch_makeNewTabOrWindowActive,
+                url: targetUrl,
+                incognito: contextsearch_privateMode
+            });
+        } else {
+            submitForm(targetUrl, finalFormData, tabPosition, multisearch);
+        }
+
     } else if (multisearch || contextsearch_openSearchResultsInNewTab) {
         if (multisearch && id.startsWith('chatgpt-') && tabPosition === 0) {
-            browser.tabs.update({
+            await browser.tabs.update({
                 url: targetUrl
             });
         } else {
-            browser.tabs.create({
-                active: contextsearch_makeNewTabOrWindowActive,
-                index: tabPosition,
-                url: targetUrl,
-            });
+            if (targetUrl.includes('?')) {
+                await browser.tabs.create({
+                    active: contextsearch_makeNewTabOrWindowActive,
+                    index: tabPosition,
+                    url: targetUrl
+                });
+            } else {
+                if (logToConsole) {
+                    console.log('Opening search results in new tab, url is ' + targetUrl);
+                    console.log(finalFormData);
+                }
+                submitForm(targetUrl, finalFormData, tabPosition, multisearch);
+            }
         }
     } else {
         // Open search results in the same tab
-        if (debug) {
+        if (logToConsole) {
             console.log('Opening search results in same tab, url is ' + targetUrl);
         }
-        browser.tabs.update({ url: targetUrl });
+        if (targetUrl.includes('?')) {
+            await browser.tabs.update({ url: targetUrl });
+        } else {
+            submitForm(targetUrl, finalFormData, tabPosition, multisearch);
+        }
+    }
+}
+
+function jsonToFormData(jsonData) {
+    const formData = new FormData();
+
+    // Iterate through the JSON object
+    for (const key in jsonData) {
+        if (Object.prototype.hasOwnProperty.call(jsonData, key)) {
+            formData.append(key, jsonData[key]);
+        }
+    }
+
+    return formData;
+}
+
+async function submitForm(url, formData, tabPosition, multisearch) {
+    let data = '';
+    let newTabId;
+    messageSent = false;
+    const searchResultsUrl = getDomain(url);
+    if (logToConsole) console.log(tabPosition);
+    if (logToConsole) console.log(formData);
+    try {
+        browser.tabs.onUpdated.removeListener(() => { });
+
+        // Fetch request using the form data
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData
+        })
+        data = await response.text();
+
+        if (contextsearch_openSearchResultsInNewWindow && !multisearch) {
+            // Create a new window and load the fetched HTML content as a data URL
+            await browser.windows.create({
+                titlePreface: windowTitle + "'" + selection + "'",
+                focused: contextsearch_makeNewTabOrWindowActive,
+                url: searchResultsUrl,
+                incognito: contextsearch_privateMode
+            });
+        } else if (contextsearch_openSearchResultsInNewTab || multisearch) {
+            // Create a new window and load the fetched HTML content as a data URL
+            const newTab = await browser.tabs.create({
+                active: contextsearch_makeNewTabOrWindowActive,
+                index: tabPosition,
+                url: searchResultsUrl
+            });
+            newTabId = newTab.id;
+        } else {
+            // Open search results in the same tab
+            await browser.tabs.update({ url: searchResultsUrl });
+        }
+
+        browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+            if (tab.status !== 'complete' || messageSent || tabId !== newTabId) return;
+            if (logToConsole) console.log(tabPosition);
+
+            handleSubmitFormUpdate(tabId, changeInfo, tab, data);
+            if (logToConsole) console.log(tab);
+            if (logToConsole) console.log(data);
+        });
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function submitFormListener(tabId, changeInfo, tab, data) {
+    if (changeInfo.status === 'complete' && tab.status === 'complete' && !messageSent) {
+        // Send a message to the content script in the tab.
+        await sendMessageToTab(tab, { action: "displaySearchResults", data: data });
+        if (logToConsole) console.log(tabId);
+        messageSent = true;
+        browser.tabs.onUpdated.removeListener(handleSubmitFormUpdate);
+    }
+}
+
+function handleSubmitFormUpdate(tabId, changeInfo, tab, data) {
+    if (!messageSent) {
+        submitFormListener(tabId, changeInfo, tab, data);
     }
 }
 
 async function tabUpdatedListener(changeInfo, tab, promptText) {
-    if (debug) console.log('Tab updated.');
+    if (logToConsole) console.log('Tab updated.');
     if (changeInfo.status === 'complete') {
-        sendMessageToTab(tab, { action: "askPrompt", data: { url: tab.url, prompt: promptText } });
+        await sendMessageToTab(tab, { action: "askPrompt", data: { url: tab.url, prompt: promptText } });
         messageSent = true;
         browser.tabs.onUpdated.removeListener(handleTabUpdate);
     }
 }
 
 function handleTabUpdate(tabId, changeInfo, tab) {
-    if (debug) console.log(promptText);
+    if (logToConsole) console.log(promptText);
     if (!messageSent) tabUpdatedListener(changeInfo, tab, promptText);
 }
 
@@ -1281,7 +1506,6 @@ browser.omnibox.setDefaultSuggestion({
 browser.omnibox.onInputChanged.addListener((input, suggest) => {
     if (input.indexOf(' ') > 0) {
         let suggestion = buildSuggestion(input);
-        if (debug) console.log(JSON.stringify(suggestion));
         if (suggestion.length === 1) {
             suggest(suggestion);
         }
@@ -1290,12 +1514,14 @@ browser.omnibox.onInputChanged.addListener((input, suggest) => {
 
 // Open the page based on how the user clicks on a suggestion
 browser.omnibox.onInputEntered.addListener(async (input) => {
-    if (debug) console.log(input);
+    if (logToConsole) console.log(input);
     const multisearch = false;
     const keyword = input.split(' ')[0];
     const searchTerms = input.replace(keyword, '').trim();
     const suggestion = buildSuggestion(input);
     let tabIndex, tabPosition, tabId, id;
+
+    if (logToConsole) console.log(suggestion);
 
     for (const se in searchEngines) {
         if (searchEngines[se].keyword === keyword) {
@@ -1317,19 +1543,19 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
         tabIndex = tabs.length + 1;
     }
 
-    if (debug) console.log(contextsearch_multiMode);
+    if (logToConsole) console.log(contextsearch_multiMode);
     if (contextsearch_multiMode === 'multiAfterLastTab') {
         tabPosition = tabs.length + 1;
     } else {
         tabPosition = tabIndex + 1;
     }
 
-    if (debug) console.log(tabPosition);
-    if (debug) console.log(input.indexOf('://'));
+    if (logToConsole) console.log(tabPosition);
+    if (logToConsole) console.log(input.indexOf('://'));
 
     // Only display search results when there is a valid link inside of the url variable
     if (input.indexOf('://') > -1) {
-        if (debug) console.log('Processing search...');
+        if (logToConsole) console.log('Processing search...');
         displaySearchResults(id, input, tabIndex, multisearch);
     } else {
         try {
@@ -1349,7 +1575,7 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                             query: searchTerms,
                         });
                     }
-                    if (debug) console.log(bookmarkItems);
+                    if (logToConsole) console.log(bookmarkItems);
                     await browser.storage.local.set({
                         bookmarkItems: bookmarkItems,
                         searchTerms: searchTerms,
@@ -1382,7 +1608,11 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                         processMultiTabSearch(arraySearchEngineUrls, tabPosition);
                     }
                     else if (suggestion.length === 1) {
-                        displaySearchResults(id, suggestion[0].content, tabIndex, multisearch);
+                        if (typeof (suggestion[0].content) === 'string') {
+                            displaySearchResults(id, suggestion[0].content, tabIndex, multisearch);
+                        } else {
+                            displaySearchResults(id, suggestion[0].content.url, tabIndex, multisearch);
+                        }
                     } else {
                         browser.search.search({ query: searchTerms, tabId: tabId });
                         if (notificationsEnabled) notify(notifyUsage);
@@ -1390,8 +1620,8 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                     break;
             }
         } catch (error) {
-            if (debug) console.error(error);
-            if (debug) console.log('Failed to process ' + input);
+            if (logToConsole) console.error(error);
+            if (logToConsole) console.log('Failed to process ' + input);
         }
     }
 });
@@ -1403,7 +1633,7 @@ function buildSuggestion(text) {
     let quote = '';
     let showNotification = true;
 
-    if (debug) console.log(searchTerms);
+    if (logToConsole) console.log(searchTerms);
 
     if (contextsearch_exactMatch) quote = '%22';
 
@@ -1461,24 +1691,30 @@ function buildSuggestion(text) {
                 selection = searchTerms;
                 suggestion['description'] =
                     'Search ' + searchEngines[id].name + ' ' + searchTerms;
+                suggestion['content'] = targetUrl;
             } else {
                 const searchEngineUrl = searchEngines[id].url;
                 suggestion['description'] =
                     'Search ' + searchEngines[id].name + ' for ' + searchTerms;
-                if (searchEngineUrl.includes('{searchTerms}')) {
-                    targetUrl = searchEngineUrl.replace(
-                        /{searchTerms}/g,
-                        encodeUrl(searchTerms)
-                    );
-                } else if (searchEngineUrl.includes('%s')) {
-                    targetUrl = searchEngineUrl.replace(/%s/g, encodeUrl(searchTerms));
+                if (searchEngineUrl.includes('?')) {
+                    if (searchEngineUrl.includes('{searchTerms}')) {
+                        targetUrl = searchEngineUrl.replace(
+                            /{searchTerms}/g,
+                            encodeUrl(searchTerms)
+                        );
+                    } else if (searchEngineUrl.includes('%s')) {
+                        targetUrl = searchEngineUrl.replace(/%s/g, encodeUrl(searchTerms));
+                    } else {
+                        targetUrl = searchEngineUrl + quote + encodeUrl(searchTerms) + quote;
+                    }
+                    suggestion['content'] = targetUrl;
                 } else {
-                    targetUrl = searchEngineUrl + quote + encodeUrl(searchTerms) + quote;
+                    selection = searchTerms;
+                    targetUrl = searchEngineUrl;
+                    suggestion['content'] = { id: id, url: targetUrl };
                 }
             }
-            suggestion['content'] = targetUrl;
 
-            if (debug) console.log(JSON.stringify(suggestion));
             result.push(suggestion);
         }
     }
@@ -1495,7 +1731,7 @@ function buildSuggestion(text) {
 
 /// Generic Error Handler
 function onError(error) {
-    if (debug) console.error(`${error}`);
+    if (logToConsole) console.error(`${error}`);
 }
 
 /// Encode a url
@@ -1534,7 +1770,7 @@ async function sendMessageToTab(tab, message) {
 async function sendMessageToOptionsPage(action, data) {
     await browser.runtime.sendMessage({ action: action, data: JSON.parse(JSON.stringify(data)) })
         .catch(e => {
-            if (debug) console.error(e);
+            if (logToConsole) console.error(e);
         });
 }
 
@@ -1575,7 +1811,7 @@ function sortByIndex(list) {
     let min = 0;
     // Create the array of indexes and its corresponding array of ids
     for (let id in list) {
-        if (debug) console.log(`id = ${id}`);
+        // if (logToConsole) console.log(`id = ${id}`);
         // If there is no index, then move the search engine to the end of the list
         if (isEmpty(list[id].index)) {
             list[id].index = n + 1;
@@ -1593,6 +1829,8 @@ function sortByIndex(list) {
         sortedList[id] = list[id];
         sortedList[id].index = i;
     }
+
+    if (logToConsole) console.log(sortedList);
 
     return sortedList;
 }

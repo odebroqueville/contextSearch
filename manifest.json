@@ -3,7 +3,7 @@
     "default_locale": "en",
     "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
-    "version": "4.6.7",
+    "version": "4.7.0",
     "author": "Olivier de Broqueville",
     "browser_specific_settings": {
         "gecko": {
@@ -12,10 +12,14 @@
         }
     },
     "web_accessible_resources": [
+        "/modal.html",
         "/history.html",
         "/bookmarks.html",
         "/images/*.png",
-        "/scripts/Sortable.min.js"
+        "/scripts/modal.js",
+        "/scripts/Sortable.min.js",
+        "/sidebar/search_results.html",
+        "/scripts/search_results.js"
     ],
     "content_security_policy": "script-src 'self'; object-src 'self'; img-src 'self' data:;",
     "page_action": {

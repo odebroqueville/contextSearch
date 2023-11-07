@@ -80,6 +80,19 @@ browser.storage.onChanged.addListener(handleStorageChange);
 // Listen for messages from the background script
 browser.runtime.onMessage.addListener((message) => {
     switch (message.action) {
+        case 'displaySearchResults':
+            const html = document.getElementsByTagName('html')[0];
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(message.data, 'text/html');
+            if (logToConsole) console.log(message.data);
+            if (logToConsole) console.log(doc.head);
+            if (logToConsole) console.log(doc.body);
+
+            html.removeChild(document.head);
+            html.removeChild(document.body);
+            html.appendChild(doc.head);
+            html.appendChild(doc.body);
+            break;
         case 'getSearchEngine':
             try {
                 getOpenSearchEngine();
@@ -180,6 +193,13 @@ async function init() {
         console.log(`Domain: ${domain}`);
     }
 
+    // For all input elements on the page that are descendants of a form element, except for input elements with the type "hidden" or without any type, add a double click event listener
+    document.querySelectorAll('form input:not([type]):not([type="hidden"])').forEach(inputTextField => {
+        inputTextField.addEventListener('dblclick', handleInputDblclick);
+    });
+
+
+    // If the web page is opened in the sidebar, then inject a stylesheet
     if (tabUrl.endsWith('#_sidebar')) {
         const stylesheetUrl = browser.runtime.getURL('/styles/search_results.css');
         const link = document.createElement('link');
@@ -193,9 +213,9 @@ async function init() {
     const isLinkElement = linkElement instanceof HTMLLinkElement;
 
     if (isLinkElement) {
-        sendMessage('showPageAction', null);
+        await sendMessage('showPageAction', null);
     } else {
-        sendMessage('hidePageAction', null);
+        await sendMessage('hidePageAction', null);
     }
 
     // Retrieve search engines from local storage
@@ -215,6 +235,69 @@ async function init() {
     // Display clickable icons (buttons) for mycroftproject.com
     showButtons();
 }
+
+// Handle double click event on input elements for websites that use HTTP POST method
+async function handleInputDblclick(e) {
+    if (logToConsole) console.log(e);
+    const inputElement = e.target;
+    if (logToConsole) console.log(e.target.tagName);
+    if (inputElement.tagName !== 'INPUT') return;
+    const form = getClosestForm(inputElement);
+    const action = form?.action;
+    let url;
+    if (logToConsole) console.log(action);
+    if (action) {
+        url = action;
+    } else return;
+    if (logToConsole) console.log(url);
+
+    // Retrieve search engines from local storage
+    const searchEngines = await browser.storage.local.get();
+
+    // Fetch all input elements within the form
+    const inputs = form.querySelectorAll('input');
+    let formData = {};
+
+    // Loop through each input element to gather key-value pairs
+    inputs.forEach(input => {
+        const name = input.name;
+        let value;
+        if (input === inputElement) {
+            value = '%s';
+        } else {
+            value = input.value;
+        }
+
+        // Check if the input has a name attribute and add to formData
+        if (name) {
+            formData[name] = value;
+        }
+    });
+
+    // Open modal dialog to input new search engine data
+    await openModal(url, formData);
+
+}
+
+// This function opens a new tab with your modal form
+async function openModal(url, formData) {
+    await browser.runtime.sendMessage({
+        action: 'openModal',
+        data: { url: url, formData: formData }
+    });
+}
+
+// Traverse up the DOM tree from the given element until a form element is found, or until the root of the document is reached. If a form element is found, return the form element, otherwise return null.
+function getClosestForm(element) {
+    while (element) {
+        if (element.tagName === 'FORM') {
+            return element;
+        }
+        element = element.parentElement;
+    }
+    return null;
+}
+
 
 // Detect the underlying OS
 function getOS() {
@@ -356,7 +439,7 @@ async function handleAltClickWithGrid(e) {
     // If mouse up is not done with left mouse button then do nothing
     if (e !== undefined && e.button > 0) return;
 
-    // If the grid of icons is alreadey displayed
+    // If the grid of icons is alreadey displayed, then close the grid and empty the text selection
     const nav = document.getElementById('context-search-icon-grid');
     if (nav !== undefined && nav !== null) {
         if (textSelection) {
@@ -378,7 +461,6 @@ async function handleAltClickWithGrid(e) {
     // IF either the Quick Icons Grid is activated on mouse up 
     // OR the option (alt) key is pressed on mouse up
     if ((options.quickIconGrid && e.type === 'mouseup' && textSelection.length > 0) || (e.type === 'mouseup' && e.altKey && textSelection.length > 0)) {
-
         // THEN display the Icons Grid
         if (logToConsole) console.log('Displaying Icons Grid...');
         const x = e.clientX;
@@ -469,16 +551,56 @@ function getSelectedText() {
         if (selectedTextInput !== '') return selectedTextInput;
     }
 
+    const controlCharactersRegex = /[\x00-\x1f\x7f-\x9f]/g;
+    let plaintext = '';
+    let ranges = [];
+
     if (window.getSelection) {
-        sel = window.getSelection();
+        // Get the Selection object.
+        const sel = window.getSelection();
+
+        // Check if the Selection object has any ranges.
         if (sel.rangeCount > 0) {
-            range = sel.getRangeAt(0);
-            return range.toString().trim();
+            for (let i = 0; i < sel.rangeCount; i++) {
+                ranges[i] = sel.getRangeAt(i);
+                plaintext += getPlainTextContentOfRange(ranges[i]);
+                range += ranges[i];
+            }
         }
     }
 
-    return '';
+    let concatenatedRange = null;
+
+    for (const range of ranges) {
+        if (concatenatedRange === null) {
+            concatenatedRange = range;
+        } else {
+            concatenatedRange = concatenatedRange.union(range);
+        }
+    }
+
+    plaintext = plaintext.replace(controlCharactersRegex, ' ');
+    range = concatenatedRange;
+
+    return plaintext.trim();
 }
+
+function getPlainTextContentOfRange(range) {
+    // Check if the range is empty.
+    if (range.collapsed) {
+        return '';
+    }
+
+    // Get the plain text content of the range.
+    const plainTextContent = range.toString();
+
+    // Remove any HTML tags from the plain text content.
+    const plainTextContentWithoutHtmlTags = plainTextContent.replace(/<[^>]*>/g, '');
+
+    // Return the plain text content without HTML tags.
+    return plainTextContentWithoutHtmlTags;
+}
+
 
 async function sendSelectionToBackgroundScript(selectedText) {
     const data = await browser.storage.sync.get(null);
@@ -661,8 +783,8 @@ function isEncoded(uri) {
     return uri !== decodeURIComponent(uri);
 }
 
-function sendMessage(action, data) {
-    browser.runtime.sendMessage({ action: action, data: data });
+async function sendMessage(action, data) {
+    await browser.runtime.sendMessage({ action: action, data: data });
 }
 
 function absoluteUrl(url) {
@@ -716,7 +838,7 @@ async function getNewSearchEngine(url) {
         console.log(shortName);
         console.log(queryString);
     }
-    let numberOfSearchEngines = Object.keys(searchEngines).length;
+    const numberOfSearchEngines = Object.keys(searchEngines).length;
 
     // Define new search engine to be added along with its default values
     searchEngines[id] = {
@@ -729,9 +851,7 @@ async function getNewSearchEngine(url) {
         show: true,
         base64: '',
     };
-    searchEngines[id]['regex'] = {};
-    searchEngines[id]['regex']['body'] = defaultRegex.source;
-    searchEngines[id]['regex']['flags'] = defaultRegex.flags;
+
     if (logToConsole) console.log(searchEngines[id]);
     return { id: id, searchEngine: searchEngines[id] };
 }

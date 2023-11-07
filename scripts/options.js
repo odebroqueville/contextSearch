@@ -311,7 +311,7 @@ function displaySearchEngines() {
 
     // Initialize Sortable list
     new Sortable(divSearchEngines, {
-        handle: '.sort',
+        // handle: '.sort',
         animation: 200,
         // On element drag ended, save search engines
         onEnd: saveSearchEngines
@@ -341,6 +341,7 @@ function createLineItem(id, searchEngine, isFolder = false) {
     let inputQueryString;
     let textareaPrompt;
     let aiProvider;
+    let textareaFormData;
 
     // If line item is a separator
     if (id.startsWith("separator-")) {
@@ -355,7 +356,7 @@ function createLineItem(id, searchEngine, isFolder = false) {
         return lineItem;
     }
 
-    // If line item is a ChatGPT prompt
+    // If line item is an AI prompt
     if (id.startsWith("chatgpt-")) {
         aiProvider = document.createElement("select");
         aiProvider.classList.add('row-1');
@@ -407,7 +408,7 @@ function createLineItem(id, searchEngine, isFolder = false) {
         });
 
         textareaPrompt = document.createElement('textarea');
-        textareaPrompt.classList.add('row-2');
+        //textareaPrompt.classList.add('row-2');
         textareaPrompt.setAttribute('rows', 4);
         textareaPrompt.setAttribute('cols', 50);
         textareaPrompt.value = searchEngine.prompt;
@@ -423,19 +424,34 @@ function createLineItem(id, searchEngine, isFolder = false) {
         inputQueryString.addEventListener('change', (e) => {
             saveChanges(e, 'url');
         });
+
+        // If the search engine uses an HTTP POST request
+        if (!searchEngine.url.includes('?') && searchEngine.formData) {
+            if (logToConsole) console.log(searchEngine.formData);
+            textareaFormData = document.createElement('textarea');
+            //textareaFormData.classList.add('row-2');
+            textareaFormData.setAttribute('rows', 4);
+            textareaFormData.setAttribute('cols', 50);
+            textareaFormData.value = searchEngine.formData;
+            textareaFormData.addEventListener('change', (e) => {
+                saveChanges(e, 'formData');
+            });
+        }
     }
 
     // Navigation and deletion buttons for each search engine or line item
     // Create menu target for line item sorting
-    const sortTarget = document.createElement('i');
-    sortTarget.classList.add('sort', 'icon', 'ion-arrow-move');
-    if (id.startsWith('chatgpt-')) {
-        sortTarget.classList.add('row-2');
-    }
+    //const sortTarget = document.createElement('i');
+    //sortTarget.classList.add('sort', 'icon', 'ion-arrow-move');
+    // if (id.startsWith('chatgpt-')) {
+    // sortTarget.classList.add('row-2');
+    //}
     const removeButton = createButton('ion-ios-trash', 'remove', remove + ' ' + searchEngineName);
-    if (id.startsWith('chatgpt-')) {
-        removeButton.classList.add('row-2');
-    }
+    // if (id.startsWith('chatgpt-')) {
+    // removeButton.classList.add('row-2');
+    //}
+    //const secondRow = document.createElement('div');
+    //secondRow.classList.add('row-2');
 
     // Input elements for each search engine composing each line item
     const chkShowSearchEngine = document.createElement('input');
@@ -477,48 +493,48 @@ function createLineItem(id, searchEngine, isFolder = false) {
     removeButton.addEventListener('click', removeEventHandler);
 
     // Set attributes for all the elements composing a search engine or line item
-    if (id.startsWith('chatgpt-')) {
-        chkShowSearchEngine.classList.add('row-1');
-    }
+    /*     if (id.startsWith('chatgpt-')) {
+            chkShowSearchEngine.classList.add('row-1');
+        } */
     chkShowSearchEngine.setAttribute('type', 'checkbox');
     chkShowSearchEngine.setAttribute('title', titleShowEngine);
     chkShowSearchEngine.setAttribute('id', id + '-chk');
     chkShowSearchEngine.checked = searchEngine.show;
 
-    if (id.startsWith('chatgpt-')) {
-        favicon.classList.add('row-1');
-    }
+    /*     if (id.startsWith('chatgpt-')) {
+            favicon.classList.add('row-1');
+        } */
     favicon.setAttribute('src', `data:${searchEngine.imageFormat || 'image/png'};base64,${searchEngine.base64}`);
 
-    if (id.startsWith('chatgpt-')) {
-        inputSearchEngineName.classList.add('row-2');
-    }
+    /*     if (id.startsWith('chatgpt-')) {
+            inputSearchEngineName.classList.add('row-2');
+        } */
     inputSearchEngineName.setAttribute('type', 'text');
     inputSearchEngineName.setAttribute('id', id + '-name');
     inputSearchEngineName.setAttribute('placeholder', placeHolderName);
     inputSearchEngineName.setAttribute('value', searchEngineName);
 
-    if (id.startsWith('chatgpt-')) {
-        inputKeyword.classList.add('row-2');
-    }
+    /*     if (id.startsWith('chatgpt-')) {
+            inputKeyword.classList.add('row-2');
+        } */
     inputKeyword.setAttribute('type', 'text');
     inputKeyword.setAttribute('id', id + '-kw');
     inputKeyword.classList.add('keyword');
     inputKeyword.setAttribute('placeholder', placeHolderKeyword);
     inputKeyword.setAttribute('value', searchEngine.keyword);
 
-    if (id.startsWith('chatgpt-')) {
-        inputKeyboardShortcut.classList.add('row-2');
-    }
+    /*     if (id.startsWith('chatgpt-')) {
+            inputKeyboardShortcut.classList.add('row-2');
+        } */
     inputKeyboardShortcut.setAttribute('type', 'text');
     inputKeyboardShortcut.setAttribute('id', id + '-kbsc');
     inputKeyboardShortcut.classList.add('kb-shortcut');
     inputKeyboardShortcut.setAttribute('placeholder', placeHolderKeyboardShortcut);
     inputKeyboardShortcut.setAttribute('value', searchEngine.keyboardShortcut);
 
-    if (id.startsWith('chatgpt-')) {
-        chkMultiSearch.classList.add('row-2');
-    }
+    /*     if (id.startsWith('chatgpt-')) {
+            chkMultiSearch.classList.add('row-2');
+        } */
     chkMultiSearch.setAttribute('type', 'checkbox');
     chkMultiSearch.setAttribute('id', id + '-mt');
     chkMultiSearch.setAttribute('title', multipleSearchEnginesSearch);
@@ -539,8 +555,12 @@ function createLineItem(id, searchEngine, isFolder = false) {
     } else {
         lineItem.appendChild(textareaPrompt);
     }
-    lineItem.appendChild(sortTarget);
+    if (textareaFormData) {
+        lineItem.appendChild(textareaFormData);
+    };
+    //secondRow.appendChild(sortTarget);
     lineItem.appendChild(removeButton);
+    //lineItem.appendChild(secondRow);
 
     return lineItem;
 }
@@ -563,7 +583,7 @@ function editFavicon(e) {
     let contentType;
 
     // Create the popup window
-    const popup = window.open('', 'editFaviconPopup', windowFeatures);
+    const popup = window.open('', '_blank', windowFeatures);
 
     // Set the CSS rule for the body of the popup
     popup.document.body.style.display = 'grid';
@@ -985,10 +1005,12 @@ function readData() {
     for (let i = 0; i < numberOfSearchEngines; i++) {
         const input = lineItems[i].firstChild;
         const id = lineItems[i].id;
+        // If the line item is a separator
         if (input !== null && input.nodeName === 'HR' && id.startsWith("separator-")) {
             searchEngines[id] = {};
             searchEngines[id]['index'] = i;
         }
+        // If the line item is an AI prompt engine
         else if (input !== null && input.nodeName === 'INPUT' && input.getAttribute('type') === 'checkbox' && id.startsWith("chatgpt-")) {
             const aiProvider = lineItems[i].querySelector('select');
             const label = aiProvider.nextSibling;
@@ -1014,13 +1036,14 @@ function readData() {
             searchEngines[id]['imageFormat'] = oldSearchEngines[id].imageFormat;
             searchEngines[id]['base64'] = oldSearchEngines[id].base64;
         }
-        // Add search engine
+        // If the line item is a search engine
         else if (input !== null && input.nodeName === 'INPUT' && input.getAttribute('type') === 'checkbox') {
             const label = input.nextSibling.nextSibling;
             const keyword = label.nextSibling;
             const keyboardShortcut = keyword.nextSibling;
             const multiTab = keyboardShortcut.nextSibling;
             const url = multiTab.nextSibling;
+            const formData = url.nextSibling;
             searchEngines[id] = {};
             searchEngines[id]['index'] = i;
             searchEngines[id]['name'] = label.value;
@@ -1031,6 +1054,7 @@ function readData() {
             searchEngines[id]['show'] = input.checked;
             searchEngines[id]['imageFormat'] = oldSearchEngines[id].imageFormat;
             searchEngines[id]['base64'] = oldSearchEngines[id].base64;
+            searchEngines[id]['formData'] = formData.value;
         }
         // Add folder
         else if (lineItems[i].classList.contains('folder')) {
