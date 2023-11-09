@@ -1,5 +1,11 @@
-4.7.0
+4.7.1
 =========
+
+* Bug fix: search engines using HTTP GET requests where the url didn't contain a '?' would no longer display search results
+* Bug fix: a double-click in search text boxes would launch the add new search engine dialog box when users just wanted to select text
+
+4.7.0
+---------
 
 * Added support for search engines that make HTTP POST requests
 

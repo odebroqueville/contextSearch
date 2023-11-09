@@ -1156,7 +1156,7 @@ async function processMultiTabSearch(arraySearchEngineUrls, tabPosition) {
                     multiTabArray.push(id);
                 } else {
                     searchEngineUrl = searchEngines[id].url;
-                    if (searchEngineUrl.includes('?')) {
+                    if (!searchEngines[id].formData) {
                         multiTabArray.push(getSearchEngineUrl(searchEngineUrl, selection));
                     } else {
                         multiTabArray.push({ id: id, url: searchEngineUrl });
@@ -1216,7 +1216,7 @@ async function displayMultiTabs(multiTabArray, tabPosition) {
             if (idOrUrl.startsWith('chatgpt-')) {
                 // If the search engine is an AI search engine
                 await searchUsing(idOrUrl, tabIndex, multisearch);
-            } else if (idOrUrl.includes('?')) {
+            } else {
                 // If the search engine uses HTTP GET
                 await browser.tabs.create({
                     active: contextsearch_makeNewTabOrWindowActive,
@@ -1263,7 +1263,7 @@ function getSearchEngineUrl(searchEngineUrl, sel) {
 async function searchUsing(id, tabIndex, multisearch) {
     const searchEngineUrl = searchEngines[id].url;
     if (!id.startsWith('chatgpt-')) {
-        if (searchEngineUrl.includes('?')) {
+        if (!searchEngines[id].formData) {
             targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
         } else {
             targetUrl = searchEngines[id].url;
@@ -1273,7 +1273,7 @@ async function searchUsing(id, tabIndex, multisearch) {
         targetUrl = getAIProviderBaseUrl(provider);
     }
     if (logToConsole) console.log(`Target url: ${targetUrl}`);
-    if (!multisearch && contextsearch_openSearchResultsInSidebar && searchEngineUrl.includes('?')) {
+    if (!multisearch && contextsearch_openSearchResultsInSidebar && !searchEngines[id].formData) {
         browser.sidebarAction.setPanel({ panel: targetUrl + '#_sidebar' });
         browser.sidebarAction.setTitle({ title: 'Search results' });
         return;
@@ -1357,7 +1357,7 @@ async function displaySearchResults(id, targetUrl, tabPosition, multisearch) {
         browser.tabs.onUpdated.addListener(handleTabUpdate, filter);
     }
     if (!multisearch && contextsearch_openSearchResultsInNewWindow) {
-        if (targetUrl.includes('?')) {
+        if (!searchEngines[id].formData) {
             await browser.windows.create({
                 titlePreface: windowTitle + "'" + selection + "'",
                 focused: contextsearch_makeNewTabOrWindowActive,
@@ -1374,7 +1374,7 @@ async function displaySearchResults(id, targetUrl, tabPosition, multisearch) {
                 url: targetUrl
             });
         } else {
-            if (targetUrl.includes('?')) {
+            if (!searchEngines[id].formData) {
                 await browser.tabs.create({
                     active: contextsearch_makeNewTabOrWindowActive,
                     index: tabPosition,
@@ -1393,7 +1393,7 @@ async function displaySearchResults(id, targetUrl, tabPosition, multisearch) {
         if (logToConsole) {
             console.log('Opening search results in same tab, url is ' + targetUrl);
         }
-        if (targetUrl.includes('?')) {
+        if (!searchEngines[id].formData) {
             await browser.tabs.update({ url: targetUrl });
         } else {
             submitForm(targetUrl, finalFormData, tabPosition, multisearch);
@@ -1696,7 +1696,7 @@ function buildSuggestion(text) {
                 const searchEngineUrl = searchEngines[id].url;
                 suggestion['description'] =
                     'Search ' + searchEngines[id].name + ' for ' + searchTerms;
-                if (searchEngineUrl.includes('?')) {
+                if (!searchEngines[id].formData) {
                     if (searchEngineUrl.includes('{searchTerms}')) {
                         targetUrl = searchEngineUrl.replace(
                             /{searchTerms}/g,

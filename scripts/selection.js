@@ -241,7 +241,8 @@ async function handleInputDblclick(e) {
     if (logToConsole) console.log(e);
     const inputElement = e.target;
     if (logToConsole) console.log(e.target.tagName);
-    if (inputElement.tagName !== 'INPUT') return;
+    if (logToConsole) console.log(textSelection);
+    if (inputElement.tagName !== 'INPUT' || textSelection) return;
     const form = getClosestForm(inputElement);
     const action = form?.action;
     let url;
