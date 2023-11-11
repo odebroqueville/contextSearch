@@ -2,6 +2,24 @@
 
 Firefox add-on to search selected text in a web page using your favorite search engines.
 
+## Features
+
+* Access search engines from the Context Menu
+* Access search engines from an Icons Grid
+* Compatible with search engines using either GET or POST requests
+* Reverse-image search
+* Site search
+* Carry out multiple searches at once using multisearch
+* Manage your search engines from the extension's Options page
+* Many ways to easily add a new search engine
+* Support for search engines using OpenSearch description format
+* Simply add a search engine from mycroftproject.com
+* Use custom favicons for your search engines
+* Use custom prompts to question a selection of AI chatbots
+* Carry out searches from the Omnibox, i.e. url address bar
+* Assign keyboard shortcuts to your search engines
+* Export/Import your list of search engines as a safe backup
+
 ## Permissions
 
 **Notifications**, **Downloads**, **History** and **Bookmarks** are now optional permissions. They are disabled by default. If you'd like to show notifications and/or save your list of search engines to your local disk, or search your history or bookmarks from the Omnibox, then open the extensions manager, select Context Search and, under the Permissions tab, enable the appropriate permissions.
@@ -47,7 +65,7 @@ You can also import a JSON file containing your own list of search engines. It i
 * visit mycroftproject.com and click on the Context Search icon that appears before the textual link of a listed search engine
 * use the page action (i.e. Context Search icon in the url address bar) to add a search engine if the website supports open search
 * add a search engine manually via the Options page (you can test the query string before adding the search engine)
-* to add a search engine that uses a submit form via an HTTP POST request, double click in the website's search text box
+* to add a search engine that uses a submit form via an HTTP POST request, double click in the website's search text box, then at least enter a search engine name in the dialog box that appears
 
 ## How to add an AI prompt to your custom list of search engines
 
@@ -90,10 +108,6 @@ will display all bookmarks that include the term Mozilla
 will display your 10 most recent bookmarks
 
 Please note that permissions for History and/or Bookmarks need to be anabled for the latter features to work.
-
-## Advanced feature
-
-You can add a regular expression to each search engine. If the selected text matches the regex, then the search engine will appear in the context menu. As an example, imagine you had a search engine for booking.com and another for tripadvisor.com and you would like these search engines to appear in the context menu when a selection contains the word 'hotel'. Then, for those search engines, you'd enter the regex /hotel/. If you then make any other selection that doesn't contain the word "hotel" in it, those search engines won't appear in the context menu. There's a very useful website for building a regex: [https://regex101.com](https://regex101.com). Another example is, if you select an IP address, then you might want the search engine corresponding to whatismyipaddress.com to appear. The regex here is a little more complicated to establish, but Google can help: search Google for "regex for ip address".
 
 ## The main structure of a JSON file containing the search engines
 
