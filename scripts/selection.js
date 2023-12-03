@@ -80,6 +80,10 @@ browser.storage.onChanged.addListener(handleStorageChange);
 // Listen for messages from the background script
 browser.runtime.onMessage.addListener((message) => {
     switch (message.action) {
+        case 'launchIconsGrid':
+            if (logToConsole) console.log(message.action);
+            handleAltClickWithGrid(null);
+            break;
         case 'displaySearchResults':
             const html = document.getElementsByTagName('html')[0];
             const parser = new DOMParser();
@@ -434,19 +438,19 @@ function setTextSelection() {
 
 // Triggered by mouse up event
 async function handleAltClickWithGrid(e) {
-    if (e !== undefined && logToConsole) console.log('Event triggered:\n' + e.type, e.button, e.altKey, e.clientX, e.clientY);
+    if (e !== undefined && e !== null && logToConsole) console.log('Event triggered:\n' + e.type, e.button, e.altKey, e.clientX, e.clientY);
     if (logToConsole) console.log(e);
 
     // If mouse up is not done with left mouse button then do nothing
-    if (e !== undefined && e.button > 0) return;
+    if (e !== undefined && e !== null && e.button > 0) return;
 
     // If the grid of icons is alreadey displayed, then close the grid and empty the text selection
     const nav = document.getElementById('context-search-icon-grid');
     if (nav !== undefined && nav !== null) {
-        if (textSelection) {
-            window.getSelection()?.removeAllRanges();
-            textSelection = '';
-        }
+        /*         if (textSelection) {
+                    window.getSelection()?.removeAllRanges();
+                    textSelection = '';
+                } */
         closeGrid();
     }
 
@@ -461,13 +465,29 @@ async function handleAltClickWithGrid(e) {
 
     // IF either the Quick Icons Grid is activated on mouse up 
     // OR the option (alt) key is pressed on mouse up
-    if ((options.quickIconGrid && e.type === 'mouseup' && textSelection.length > 0) || (e.type === 'mouseup' && e.altKey && textSelection.length > 0)) {
+    if ((e === null) || (options.quickIconGrid && e.type === 'mouseup' && textSelection.length > 0) || (e.type === 'mouseup' && e.altKey && textSelection.length > 0)) {
         // THEN display the Icons Grid
         if (logToConsole) console.log('Displaying Icons Grid...');
-        const x = e.clientX;
-        const y = e.clientY;
-        createIconGrid(x + 12, y + 12);
+        if (e !== null) {
+            const x = e.clientX;
+            const y = e.clientY;
+            if (x > 0 && y > 0) createIconGrid(x + 12, y + 12);
+        } else {
+            const { x, y } = getSelectionEndPosition();
+            if (x > 0 && y > 0) createIconGrid(x + 12, y + 12);
+        }
     }
+}
+
+function getSelectionEndPosition() {
+    const sel = window.getSelection();
+    if (sel.rangeCount > 0) {
+        // Get the last range in the selection.
+        const range = sel.getRangeAt(sel.rangeCount - 1);
+        const rect = range.getBoundingClientRect();
+        return { x: rect.left + rect.width, y: rect.top + rect.height };
+    }
+    return { x: 0, y: 0 };
 }
 
 function handleRightClickWithoutGrid(e) {

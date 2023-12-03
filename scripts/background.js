@@ -121,6 +121,16 @@ const defaultOptions = {
 /// Handle Page Action click
 browser.pageAction.onClicked.addListener(handlePageAction);
 
+/// Handle addon shortcut to launch icons grid
+browser.commands.onCommand.addListener(async (command) => {
+    if (command === "launch-icons-grid") {
+        if (logToConsole) console.log('Launching Icons Grid...');
+        const tabs = await queryAllTabs();
+        const activeTab = tabs.filter(isActive)[0];
+        sendMessageToTab(activeTab, { action: "launchIconsGrid" });
+    }
+});
+
 /// Add a mobile header to outgoing requests
 browser.webRequest.onBeforeSendHeaders.addListener(
     rewriteUserAgentHeader,
@@ -137,10 +147,8 @@ async function rewriteUserAgentHeader(e) {
         return {};
     }
     if (logToConsole) {
-        const activeTab = await browser.tabs.query({
-            currentWindow: true,
-            active: true,
-        });
+        const tabs = await queryAllTabs();
+        const activeTab = tabs.filter(isActive)[0];
         console.log('Active tab: ');
         console.log(activeTab);
         console.log('Intercepted header:');
@@ -1082,7 +1090,7 @@ async function processSearch(info, tab) {
         await browser.sidebarAction.close();
         tabIndex = tab.index + 1;
     }
-    const tabs = await browser.tabs.query({ currentWindow: true });
+    const tabs = await queryAllTabs();
     tabPosition = tabs[tabs.length - 1].index + 1;
     if (contextsearch_openSearchResultsInLastTab) tabIndex = tabPosition;
     if (contextsearch_multiMode !== 'multiAfterLastTab') {
@@ -1146,6 +1154,7 @@ async function processMultiTabSearch(arraySearchEngineUrls, tabPosition) {
     searchEngines = sortByIndex(data);
     let searchEngineUrl = '';
     let multiTabArray = [];
+    let windowInfo;
     if (arraySearchEngineUrls.length > 0) {
         multiTabArray = arraySearchEngineUrls;
     } else {
@@ -1175,42 +1184,30 @@ async function processMultiTabSearch(arraySearchEngineUrls, tabPosition) {
 
     if (contextsearch_multiMode === 'multiNewWindow') {
         tabPosition = 0;
-        const firstTab = multiTabArray[0];
-        if (!firstTab.startsWith('chatgpt-')) {
-            await browser.windows.create({
-                titlePreface: windowTitle + "'" + selection + "'",
-                focused: true,
-                url: firstTab,
-                incognito: contextsearch_privateMode,
-            });
-        } else {
-            await browser.windows.create({
-                titlePreface: windowTitle + "'" + selection + "'",
-                focused: true,
-                incognito: contextsearch_privateMode,
-            });
-        }
-        await displayMultiTabs(multiTabArray, tabPosition);
-    } else {
-        await displayMultiTabs(multiTabArray, tabPosition);
+        windowInfo = await browser.windows.create({
+            titlePreface: windowTitle + "'" + selection + "'",
+            focused: contextsearch_makeNewTabOrWindowActive,
+            incognito: contextsearch_privateMode,
+        });
     }
+    await displayMultiTabs(multiTabArray, tabPosition, windowInfo.id);
 }
 
-async function displayMultiTabs(multiTabArray, tabPosition) {
+async function displayMultiTabs(multiTabArray, tabPosition, windowId) {
     const firstTab = multiTabArray[0];
     const multisearch = true;
 
-    if (!firstTab.startsWith('chatgpt-') && contextsearch_multiMode === 'multiNewWindow') {
-        multiTabArray.shift();
-        tabPosition++;
-    }
+    /*     if (!firstTab.startsWith('chatgpt-') && contextsearch_multiMode === 'multiNewWindow') {
+            multiTabArray.shift();
+            tabPosition++;
+        } */
 
     if (logToConsole) console.log(multiTabArray);
     const n = multiTabArray.length;
     if (logToConsole) console.log(n);
     for (let i = 0; i < n; i++) {
         if (logToConsole) console.log(i);
-        const idOrUrl = multiTabArray[i];
+        const idOrUrl = multiTabArray[i]; // id or url or {id, url}
         const tabIndex = tabPosition + i;
         if (typeof (idOrUrl) === 'string') {
             if (idOrUrl.startsWith('chatgpt-')) {
@@ -1219,7 +1216,7 @@ async function displayMultiTabs(multiTabArray, tabPosition) {
             } else {
                 // If the search engine uses HTTP GET
                 await browser.tabs.create({
-                    active: contextsearch_makeNewTabOrWindowActive,
+                    windowId: windowId,
                     index: tabIndex,
                     url: idOrUrl,
                 });
@@ -1531,14 +1528,11 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
     }
 
     // Get active tab's index and id
-    const activeTab = await browser.tabs.query({
-        currentWindow: true,
-        active: true,
-    });
-    tabIndex = activeTab[0].index;
-    tabId = activeTab[0].id;
+    const tabs = await queryAllTabs();
+    const activeTab = tabs.filter(isActive)[0];
+    tabIndex = activeTab.index;
+    tabId = activeTab.id;
 
-    const tabs = await browser.tabs.query({ currentWindow: true });
     if (contextsearch_openSearchResultsInLastTab) {
         tabIndex = tabs.length + 1;
     }

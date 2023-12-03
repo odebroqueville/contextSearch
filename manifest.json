@@ -3,7 +3,7 @@
     "default_locale": "en",
     "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
-    "version": "4.7.1",
+    "version": "4.7.2",
     "author": "Olivier de Broqueville",
     "browser_specific_settings": {
         "gecko": {
@@ -76,6 +76,14 @@
     "omnibox": {
         "keyword": "cs"
     },
+    "commands": {
+        "launch-icons-grid": {
+            "suggested_key": {
+                "default": "Alt+Shift+G"
+            },
+            "description": "Launch the icons grid"
+        }
+    },
     "icons": {
         "16": "icons/icon_16.png",
         "20": "icons/icon_20.png",
@@ -97,6 +105,9 @@
             "matches": [
                 "http://*/*",
                 "https://*/*"
+            ],
+            "exclude_matches": [
+                "https://paypal.com/*"
             ],
             "js": [
                 "/scripts/selection.js"

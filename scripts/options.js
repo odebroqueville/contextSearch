@@ -287,9 +287,9 @@ function displaySearchEngines() {
 
     searchEngines = sortByIndex(searchEngines);
     numberOfSearchEngines = Object.keys(searchEngines).length;
-    let divSearchEngines = document.createElement('ol');
+    const divSearchEngines = document.createElement('ol');
     divSearchEngines.setAttribute('id', 'searchEngines');
-    for (let i = 0; i < numberOfSearchEngines + 1; i++) {
+    for (let i = 1; i < numberOfSearchEngines + 1; i++) {
         for (let id in searchEngines) {
             if (searchEngines[id].index === i) {
                 const searchEngine = searchEngines[id];
@@ -297,8 +297,8 @@ function displaySearchEngines() {
                 divSearchEngines.appendChild(lineItem);
 
                 // If folder, add search engines within folder
-                if (searchEngine.folder && searchEngine.searchEngines) {
-                    searchEngine.searchEngines.forEach(se => {
+                if (searchEngine.folder && searchEngine.children.length > 0) {
+                    searchEngine.children.forEach(se => {
                         let seItem = createLineItem(se.id, se, false);
                         lineItem.querySelector('.subfolder').appendChild(seItem);
                     })
@@ -312,7 +312,7 @@ function displaySearchEngines() {
     // Initialize Sortable list
     new Sortable(divSearchEngines, {
         // handle: '.sort',
-        animation: 200,
+        animation: 150,
         // On element drag ended, save search engines
         onEnd: saveSearchEngines
     });
@@ -346,12 +346,12 @@ function createLineItem(id, searchEngine, isFolder = false) {
     // If line item is a separator
     if (id.startsWith("separator-")) {
         const hr = document.createElement('hr');
-        const sortTarget = document.createElement('i');
-        sortTarget.classList.add('sort', 'icon', 'ion-arrow-move');
+        // const sortTarget = document.createElement('i');
+        // sortTarget.classList.add('sort', 'icon', 'ion-arrow-move');
         const removeButton = createButton('ion-ios-trash', 'remove', remove + ' separator');
         removeButton.addEventListener('click', removeEventHandler);
         lineItem.appendChild(hr);
-        lineItem.appendChild(sortTarget);
+        // lineItem.appendChild(sortTarget);
         lineItem.appendChild(removeButton);
         return lineItem;
     }
