@@ -1,7 +1,7 @@
 /// Global variables
 /* global Sortable */
 // Debug
-const logToConsole = false;
+const logToConsole = true;
 
 // Other 
 const os = getOS();
@@ -140,6 +140,7 @@ btnClearAddSearchEngine.addEventListener('click', clearAddSearchEngine);
 // Add new search engine event handlers for adding a keyboard shortcut
 kbsc.addEventListener('keyup', handleKeyboardShortcut);
 kbsc.addEventListener('keydown', (event) => {
+    if (event.target.nodeName !== 'INPUT') return;
     const key = event.key;
     if (isKeyAllowed(event)) keysPressed[key] = event.code;
     if (logToConsole) console.log(keysPressed);
@@ -154,6 +155,7 @@ btnClearAddChatGPTPrompt.addEventListener('click', clearAddChatGPTPrompt);
 // Add new search engine event handlers for adding a keyboard shortcut
 promptKbsc.addEventListener('keyup', handleKeyboardShortcut);
 promptKbsc.addEventListener('keydown', (event) => {
+    if (event.target.nodeName !== 'INPUT') return;
     const key = event.key;
     if (isKeyAllowed(event)) keysPressed[key] = event.code;
     if (logToConsole) console.log(keysPressed);
@@ -313,6 +315,8 @@ function displaySearchEngines() {
     new Sortable(divSearchEngines, {
         // handle: '.sort',
         animation: 150,
+        filter: "input",
+        preventOnFilter: false,
         // On element drag ended, save search engines
         onEnd: saveSearchEngines
     });
@@ -479,9 +483,16 @@ function createLineItem(id, searchEngine, isFolder = false) {
 
     // Event handlers for adding a keyboard shortcut
     inputKeyboardShortcut.addEventListener('keyup', handleKeyboardShortcut);
-    inputKeyboardShortcut.addEventListener('keydown', (event) => {
-        const key = event.key;
-        if (isKeyAllowed(event)) keysPressed[key] = event.code;
+    inputKeyboardShortcut.addEventListener('keydown', (e) => {
+        if (logToConsole) console.log(e);
+        if (e.target.nodeName !== 'INPUT') return;
+        if ((os === 'macOS' && e.metaKey) || ((os === 'Windows' || os === 'Linux') && e.ctrlKey) || (!isInFocus(e.target)) || (e.key === 'Escape')) {
+            if (logToConsole) console.log("Keys pressed: " + keysPressed);
+            keysPressed = {};
+            return;
+        }
+        const key = e.key;
+        if (isKeyAllowed(e)) keysPressed[key] = e.code;
         if (logToConsole) console.log(keysPressed);
     });
     inputKeyboardShortcut.addEventListener('change', handleKeyboardShortcutChange);
@@ -895,7 +906,12 @@ function folderKeywordChanged(e) {
 function handleKeyboardShortcut(e) {
     if (logToConsole) console.log(e);
     if (e.target.nodeName !== 'INPUT' || !isKeyAllowed(e) || !Object.keys(keysPressed).length > 0) return;
-    if ((os === 'macOS' && e.metaKey) || ((os === 'Windows' || os === 'Linux') && e.ctrlKey)) return;
+    // If the CMD key is pressed on macOS or CTRL key is pressed on Windows or Linux
+    if ((os === 'macOS' && e.metaKey) || ((os === 'Windows' || os === 'Linux') && e.ctrlKey) || (!isInFocus(e.target)) || (e.key === 'Escape')) {
+        if (logToConsole) console.log("Keys pressed: " + Object.keys(keysPressed));
+        keysPressed = {};
+        return;
+    }
     e.preventDefault();
 
     if (logToConsole) console.log(os);
@@ -903,11 +919,15 @@ function handleKeyboardShortcut(e) {
 
     let input;
     let id = null;
+
     if (e.target.id === 'kb-shortcut') {
+        // If entering a new search engine keyboard shortcut
         input = kbsc;
     } else if (e.target.id === 'prompt-kb-shortcut') {
+        // If entering a new prompt keyboard shortcut
         input = promptKbsc;
     } else {
+        // If changing an existing search engine keyboard shortcut
         const lineItem = e.target.parentNode;
         id = lineItem.getAttribute('id');
         input = document.getElementById(id + '-kbsc');
@@ -1658,6 +1678,11 @@ function isEmpty(value) {
         return value === null || Object.keys(value).length === 0;
     } else if (typeof value === 'boolean') return false;
     else return !value;
+}
+
+// Function to check if an elementis in focus
+function isInFocus(element) {
+    return (document.activeElement === element);
 }
 
 function isKeyAllowed(event) {

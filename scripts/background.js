@@ -18,7 +18,7 @@ let CORS_API_KEY;
 
 /// Constants
 // Debug
-const logToConsole = false;
+const logToConsole = true;
 
 // User agent for sidebar search results
 const contextsearch_userAgent =
@@ -1185,12 +1185,15 @@ async function processMultiTabSearch(arraySearchEngineUrls, tabPosition) {
     if (contextsearch_multiMode === 'multiNewWindow') {
         tabPosition = 0;
         windowInfo = await browser.windows.create({
+            allowScriptsToClose: true,
             titlePreface: windowTitle + "'" + selection + "'",
             focused: contextsearch_makeNewTabOrWindowActive,
             incognito: contextsearch_privateMode,
         });
     }
+    const tab = windowInfo.tabs[0];
     await displayMultiTabs(multiTabArray, tabPosition, windowInfo.id);
+    await browser.tabs.remove(tab.id);
 }
 
 async function displayMultiTabs(multiTabArray, tabPosition, windowId) {

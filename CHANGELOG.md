@@ -1,5 +1,12 @@
-4.7.2
+4.7.3
 =========
+
+* Bug fix [#158](https://github.com/odebroqueville/contextSearch/issues/158)
+* Bug fix [#161](https://github.com/odebroqueville/contextSearch/issues/161)
+* Bug fix [#162](https://github.com/odebroqueville/contextSearch/issues/162)
+
+4.7.2
+---------
 
 * Enhancement: [#147](https://github.com/odebroqueville/contextSearch/issues/147)
 * Code cleanup
