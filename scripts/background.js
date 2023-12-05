@@ -18,7 +18,7 @@ let CORS_API_KEY;
 
 /// Constants
 // Debug
-const logToConsole = true;
+const logToConsole = false;
 
 // User agent for sidebar search results
 const contextsearch_userAgent =

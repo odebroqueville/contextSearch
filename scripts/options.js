@@ -1,7 +1,7 @@
 /// Global variables
 /* global Sortable */
 // Debug
-const logToConsole = true;
+const logToConsole = false;
 
 // Other 
 const os = getOS();
