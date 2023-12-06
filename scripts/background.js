@@ -1070,7 +1070,7 @@ async function processSearch(info, tab) {
     if (logToConsole) console.log(info);
     const multisearch = false;
     const id = info.menuItemId.replace('cs-', '');
-    let tabIndex, tabPosition;
+    let tabIndex = tab.index + 1;
 
     if (info.selectionText !== undefined) {
         // Prefer info.selectionText over selection received by content script for these lengths (more reliable)
@@ -1088,13 +1088,12 @@ async function processSearch(info, tab) {
         await browser.sidebarAction.setPanel({ panel: '' });
     } else {
         await browser.sidebarAction.close();
-        tabIndex = tab.index + 1;
     }
     const tabs = await queryAllTabs();
-    tabPosition = tabs[tabs.length - 1].index + 1;
-    if (contextsearch_openSearchResultsInLastTab) tabIndex = tabPosition;
-    if (contextsearch_multiMode !== 'multiAfterLastTab') {
-        tabPosition = tabIndex + 1;
+    // Get the index of the last tab and add 1 to define lastTab
+    const lastTab = tabs[tabs.length - 1].index + 1;
+    if (contextsearch_openSearchResultsInLastTab || contextsearch_multiMode === 'multiAfterLastTab') {
+        tabIndex = lastTab;
     }
     if (id === 'reverse-image-search') {
         if (logToConsole) console.log(targetUrl);
@@ -1125,7 +1124,7 @@ async function processSearch(info, tab) {
         await browser.runtime.openOptionsPage();
         return;
     } else if (id === 'multitab') {
-        await processMultiTabSearch([], tabPosition);
+        await processMultiTabSearch([], tabIndex);
         return;
     } else if (id === 'match') {
         const settings = await getOptions();
@@ -1154,7 +1153,7 @@ async function processMultiTabSearch(arraySearchEngineUrls, tabPosition) {
     searchEngines = sortByIndex(data);
     let searchEngineUrl = '';
     let multiTabArray = [];
-    let windowInfo;
+    let windowInfo, tab;
     if (arraySearchEngineUrls.length > 0) {
         multiTabArray = arraySearchEngineUrls;
     } else {
@@ -1190,10 +1189,12 @@ async function processMultiTabSearch(arraySearchEngineUrls, tabPosition) {
             focused: contextsearch_makeNewTabOrWindowActive,
             incognito: contextsearch_privateMode,
         });
+        tab = windowInfo.tabs[0];
+    } else {
+        windowInfo = await browser.windows.getCurrent();
     }
-    const tab = windowInfo.tabs[0];
     await displayMultiTabs(multiTabArray, tabPosition, windowInfo.id);
-    await browser.tabs.remove(tab.id);
+    if (tab) await browser.tabs.remove(tab.id);
 }
 
 async function displayMultiTabs(multiTabArray, tabPosition, windowId) {
