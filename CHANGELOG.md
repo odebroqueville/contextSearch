@@ -1,5 +1,10 @@
-4.7.4
+4.7.5
 =========
+
+* Bug fix [#164](https://github.com/odebroqueville/contextSearch/issues/164)
+
+4.7.4
+---------
 
 * Bug fix [#163](https://github.com/odebroqueville/contextSearch/issues/163)
 
