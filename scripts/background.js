@@ -1312,7 +1312,7 @@ function getAIProviderBaseUrl(provider) {
 // Display the search results
 async function displaySearchResults(id, targetUrl, tabPosition, multisearch) {
     let formDataString, jsonFormData, finalFormData;
-    if (searchEngines[id].formData) {
+    if (searchEngines[id] !== undefined && searchEngines[id].formData) {
         formDataString = searchEngines[id].formData;
         if (formDataString.includes('{searchTerms}')) {
             formDataString = formDataString.replace('{searchTerms}', selection);
@@ -1358,7 +1358,7 @@ async function displaySearchResults(id, targetUrl, tabPosition, multisearch) {
         browser.tabs.onUpdated.addListener(handleTabUpdate, filter);
     }
     if (!multisearch && contextsearch_openSearchResultsInNewWindow) {
-        if (!searchEngines[id].formData) {
+        if (searchEngines[id] !== undefined || !searchEngines[id].formData) {
             await browser.windows.create({
                 titlePreface: windowTitle + "'" + selection + "'",
                 focused: contextsearch_makeNewTabOrWindowActive,
@@ -1375,7 +1375,7 @@ async function displaySearchResults(id, targetUrl, tabPosition, multisearch) {
                 url: targetUrl
             });
         } else {
-            if (!searchEngines[id].formData) {
+            if (searchEngines[id] === undefined || !searchEngines[id].formData) {
                 await browser.tabs.create({
                     active: contextsearch_makeNewTabOrWindowActive,
                     index: tabPosition,
@@ -1394,7 +1394,7 @@ async function displaySearchResults(id, targetUrl, tabPosition, multisearch) {
         if (logToConsole) {
             console.log('Opening search results in same tab, url is ' + targetUrl);
         }
-        if (!searchEngines[id].formData) {
+        if (searchEngines[id] === undefined || !searchEngines[id].formData) {
             await browser.tabs.update({ url: targetUrl });
         } else {
             submitForm(targetUrl, finalFormData, tabPosition, multisearch);
