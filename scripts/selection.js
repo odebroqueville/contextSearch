@@ -2,7 +2,7 @@
 'use strict';
 
 /// Global variables
-const logToConsole = false; // Debug
+const logToConsole = true; // Debug
 const os = getOS();
 const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
 const mycroftUrl = 'https://mycroftproject.com/installos.php/';
@@ -255,9 +255,6 @@ async function handleInputDblclick(e) {
         url = action;
     } else return;
     if (logToConsole) console.log(url);
-
-    // Retrieve search engines from local storage
-    const searchEngines = await browser.storage.local.get();
 
     // Fetch all input elements within the form
     const inputs = form.querySelectorAll('input');
@@ -653,9 +650,10 @@ async function createIconGrid(x, y) {
     }
 
     // Number of search engines
-    let n = 0;
+    let i = 1;
+    const n = Object.keys(searchEngines).length;
     for (const id in searchEngines) {
-        if (!id.startsWith("separator-")) {
+        if (!id.startsWith("separator-") && searchEngines[id].index === i) {
             let src = `data:${searchEngines[id].imageFormat || 'image/png'};base64,`;
             const title = searchEngines[id].name;
             if (isEmpty(searchEngines[id]) || isEmpty(searchEngines[id].base64)) {
@@ -665,13 +663,13 @@ async function createIconGrid(x, y) {
                 src += searchEngines[id].base64;
             }
             icons.push({ id: id, src: src, title: title });
-            n++;
         }
+        i++;
     }
 
     // Grid dimensions
-    n += 1; // Add one icon for multi-search
-    const m = Math.ceil(Math.sqrt(n)); // Grid dimension: m x m matrix
+    i += 1; // Add one icon for multi-search
+    const m = Math.ceil(Math.sqrt(i)); // Grid dimension: m x m matrix
     const navMaxWidth = m * 38 + 16;
 
     // Cleanup
@@ -956,7 +954,7 @@ function isEmpty(value) {
 
 /// Sort search engines by index
 function sortByIndex(list) {
-    let sortedList = JSON.parse(JSON.stringify(list));
+    let sortedList = {};
     const n = Object.keys(list).length;
     let m = n;
     let arrayOfIndexes = [];
@@ -981,6 +979,7 @@ function sortByIndex(list) {
         const id = arrayOfIds[indice];
         arrayOfIndexes.splice(indice, 1);
         arrayOfIds.splice(indice, 1);
+        sortedList[id] = list[id];
         sortedList[id].index = i;
     }
 
