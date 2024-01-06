@@ -2,7 +2,7 @@
 'use strict';
 
 /// Global variables
-const logToConsole = true; // Debug
+const logToConsole = false; // Debug
 const os = getOS();
 const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
 const mycroftUrl = 'https://mycroftproject.com/installos.php/';
@@ -444,10 +444,10 @@ async function handleAltClickWithGrid(e) {
     // If the grid of icons is alreadey displayed, then close the grid and empty the text selection
     const nav = document.getElementById('context-search-icon-grid');
     if (nav !== undefined && nav !== null) {
-        /*         if (textSelection) {
-                    window.getSelection()?.removeAllRanges();
-                    textSelection = '';
-                } */
+        if (textSelection) {
+            window.getSelection()?.removeAllRanges();
+            textSelection = '';
+        }
         closeGrid();
     }
 
