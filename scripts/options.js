@@ -15,6 +15,9 @@ if (os === 'macOS') {
     meta = 'super+';
 } else meta = 'meta+';
 
+// Toggle dark theme
+const toggleDarkTheme = document.getElementById('toggleDarkTheme');
+
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById('container');
 
@@ -103,7 +106,7 @@ let searchEngines = {};
 let keysPressed = {};
 
 /// Event handlers
-// document.addEventListener('DOMContentLoaded', restoreOptionsPage);
+document.addEventListener('DOMContentLoaded', init);
 browser.runtime.onMessage.addListener(handleMessage);
 browser.storage.onChanged.addListener(handleStorageChange);
 browser.permissions.onAdded.addListener(handlePermissionsChanges);
@@ -125,6 +128,11 @@ resetPreferences.addEventListener('click', updateResetOptions);
 forceSearchEnginesReload.addEventListener('click', updateResetOptions);
 forceFaviconsReload.addEventListener('click', updateResetOptions);
 multiMode.addEventListener('click', updateMultiMode);
+
+// Toggle Dark Theme button click handler
+toggleDarkTheme.addEventListener('click', () => {
+    document.body.classList.toggle('dark-theme');
+});
 
 /// All button click handlers
 btnClearAll.addEventListener('click', clearAll);
@@ -568,7 +576,7 @@ function createLineItem(id, searchEngine, isFolder = false) {
     }
     if (textareaFormData) {
         lineItem.appendChild(textareaFormData);
-    };
+    }
     //secondRow.appendChild(sortTarget);
     lineItem.appendChild(removeButton);
     //lineItem.appendChild(secondRow);
@@ -1694,5 +1702,3 @@ function isKeyAllowed(event) {
 
     return !disallowedKeys.includes(event.key);
 }
-
-init();
