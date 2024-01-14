@@ -651,9 +651,8 @@ async function createIconGrid(x, y) {
 
     // Number of search engines
     let i = 1;
-    const n = Object.keys(searchEngines).length;
     for (const id in searchEngines) {
-        if (!id.startsWith("separator-") && searchEngines[id].index === i) {
+        if (!id.startsWith("separator-") && searchEngines[id].index === i && searchEngines[id].show) {
             let src = `data:${searchEngines[id].imageFormat || 'image/png'};base64,`;
             const title = searchEngines[id].name;
             if (isEmpty(searchEngines[id]) || isEmpty(searchEngines[id].base64)) {
