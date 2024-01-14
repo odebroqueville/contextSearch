@@ -6,7 +6,7 @@ body {
     font-family: 'Raleway', Calibri, Helvetica, Arial, sans-serif;
     font-size: 10pt;
     line-height: 1.618em;
-    color: darkslategrey;
+
 }
 
 .left fieldset {
@@ -27,8 +27,10 @@ span.option {
 
 div#tabMode,
 div#multiMode {
+    color-scheme: light;
     max-width: 320px;
     background-color: lightgray;
+    color: darkslategray;
 }
 
 .icon {
@@ -43,6 +45,7 @@ div.nav {
 input[type="checkbox"] {
     display: inline-block;
     width: 15px;
+    margin-right: 5px;
 }
 
 ol#searchEngines li {
@@ -53,9 +56,17 @@ ol#searchEngines li {
     border: none;
 }
 
-ol#searchEngines li:hover {
+html[theme=light] ol#searchEngines li:hover {
     /* Show the dotted border when hovered */
     border: 2px dotted blue;
+
+    /* Change the cursor to a hand when hovered */
+    cursor: pointer;
+}
+
+html[theme=dark] ol#searchEngines li:hover {
+    /* Show the dotted border when hovered */
+    border: 2px dotted lightskyblue;
 
     /* Change the cursor to a hand when hovered */
     cursor: pointer;
@@ -141,7 +152,10 @@ input#optionsMenuAtTop+label {
 }
 
 h2 {
-    font-size: 12pt;
+    margin: 20 0 10 0;
+    font-size: 14pt;
+    font-weight: bold;
+    text-align: center;
 }
 
 #container button {
@@ -396,67 +410,27 @@ Style the tabs
     transition: all 0.35s;
 }
 
-/*********************** 
-     Dark theme styles 
-************************/
-body.dark-theme {
-    background-color: #333;
-    color: #fff;
+.option {
+    margin-left: 3px;
 }
 
-.dark-theme h2 {
-    color: #fff;
-}
-
-.dark-theme fieldset {
-    border-color: #555;
-}
-
-.dark-theme label {
-    color: #fff;
-}
-
-.dark-theme hr {
-    border-color: #555;
-}
-
-.dark-theme ol#searchEngines li:hover {
-    border: 2px dotted lightskyblue;
-}
-
-.dark-theme select,
-.dark-theme input[type="text"],
-.dark-theme input[type="url"],
-.dark-theme input[type="checkbox"],
-.dark-theme input[type="radio"] {
-    background-color: #444;
-    color: #fff;
-    border-color: #555;
-}
-
-.dark-theme button {
-    background-color: #555;
-    color: #fff;
-}
-
-.dark-theme .option label,
-.dark-theme code {
+html[theme=dark] .option label {
     color: #444;
 }
 
-.dark-theme .tab-label {
+html[theme=dark] .tab-label {
     background: #0077ff;
     border-right: 0.125rem solid #0000cc;
     color: #fff;
 }
 
-.dark-theme .tab-content {
+html[theme=dark] .tab-content {
     background: lightskyblue;
-    color: #0077ff;
+    color: #0000cc;
 }
 
-.dark-theme .tab-switch:checked+.tab-label {
+html[theme=dark] .tab-switch:checked+.tab-label {
     background: lightskyblue;
-    color: #0077ff;
+    color: #0000cc;
     border-right: 0.125rem solid #0000cc;
 }

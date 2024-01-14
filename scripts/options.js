@@ -15,9 +15,6 @@ if (os === 'macOS') {
     meta = 'super+';
 } else meta = 'meta+';
 
-// Toggle dark theme
-const toggleDarkTheme = document.getElementById('darkmode-toggle');
-
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById('container');
 
@@ -128,15 +125,6 @@ resetPreferences.addEventListener('click', updateResetOptions);
 forceSearchEnginesReload.addEventListener('click', updateResetOptions);
 forceFaviconsReload.addEventListener('click', updateResetOptions);
 multiMode.addEventListener('click', updateMultiMode);
-
-// Toggle Dark Theme button click handler
-toggleDarkTheme.addEventListener('change', () => {
-    if (toggleDarkTheme.checked) {
-        document.body.classList.add('dark-theme');
-    } else {
-        document.body.classList.remove('dark-theme');
-    }
-});
 
 /// All button click handlers
 btnClearAll.addEventListener('click', clearAll);
