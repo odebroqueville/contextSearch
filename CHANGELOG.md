@@ -1,7 +1,14 @@
-4.7.6
+4.7.7
 =========
 
-* Added Dark Theme for Options page [#165](https://github.com/odebroqueville/contextSearch/issues/165)
+* New feature [#165](https://github.com/odebroqueville/contextSearch/issues/165): Improved the dark theme and added persistence
+* Bug fix [#170](https://github.com/odebroqueville/contextSearch/issues/170)
+* Bug fix [#171](https://github.com/odebroqueville/contextSearch/issues/171)
+
+4.7.6
+---------
+
+* New feature [#165](https://github.com/odebroqueville/contextSearch/issues/165): Added Dark Theme for Options page
 * Bug fix [#166](https://github.com/odebroqueville/contextSearch/issues/166)
 * Bug fix [#167](https://github.com/odebroqueville/contextSearch/issues/167)
 
