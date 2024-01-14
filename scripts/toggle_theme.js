@@ -5,9 +5,16 @@
 
     document.addEventListener("DOMContentLoaded", () => {
         setupThemeToggle();
-        const theme = JSON.parse(localStorage.theme).theme === "dark";
+        const storedTheme = JSON.parse(localStorage.theme);
+        const theme = storedTheme.theme === "dark";
+
         const tooltip = document.getElementById("ThemeToggle--tooltip");
-        tooltip.innerHTML = `Set theme to ${theme ? "light" : "dark"} (\u21E7+D)`;
+        while (tooltip.firstChild) {
+            tooltip.removeChild(tooltip.firstChild);
+        }
+
+        const textNode = document.createTextNode(`Set theme to ${theme ? "light" : "dark"} (\u21E7+D)`);
+        tooltip.appendChild(textNode);
     }), (themeToggle = document.querySelector("#ThemeToggle")), (s = !themeToggle);
 
     function setTheme(isDarkMode) {
@@ -26,7 +33,12 @@
     function toggleTheme(isDarkMode) {
         setTheme(isDarkMode);
         const tooltip = document.getElementById("ThemeToggle--tooltip");
-        tooltip.innerHTML = `Set theme to ${isDarkMode ? "light" : "dark"} (\u21E7+D)`;
+        while (tooltip.firstChild) {
+            tooltip.removeChild(tooltip.firstChild);
+        }
+
+        const textNode = document.createTextNode(`Set theme to ${isDarkMode ? "light" : "dark"} (\u21E7+D)`);
+        tooltip.appendChild(textNode);
     }
 
     function setupThemeToggle() {
