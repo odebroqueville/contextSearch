@@ -217,7 +217,7 @@ function handleAddNewPostSearchEngine(data) {
     // Define a unique ID for the new search engine
     let id = searchEngineName.replace(/\s/g, '-').toLowerCase();
     while (!isIdUnique(id)) {
-        id = defineNewId(searchEngineName);
+        id = id + "-" + Math.floor(Math.random() * 1000000000000);
     }
     id = id.trim();
 
@@ -1198,7 +1198,7 @@ async function processMultiTabSearch(arraySearchEngineUrls, tabPosition) {
 }
 
 async function displayMultiTabs(multiTabArray, tabPosition, windowId) {
-    const firstTab = multiTabArray[0];
+    // const firstTab = multiTabArray[0];
     const multisearch = true;
 
     /*     if (!firstTab.startsWith('chatgpt-') && contextsearch_multiMode === 'multiNewWindow') {
@@ -1376,10 +1376,16 @@ async function displaySearchResults(id, targetUrl, tabPosition, multisearch) {
             });
         } else {
             if (searchEngines[id] === undefined || !searchEngines[id].formData) {
-                await browser.tabs.create({
-                    active: contextsearch_makeNewTabOrWindowActive,
+                const newTab = await browser.tabs.create({
+                    active: false,
                     index: tabPosition,
                     url: targetUrl
+                });
+                const newTabId = newTab.id;
+                browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+                    if (changeInfo.status === 'complete' && tabId === newTabId) {
+                        browser.tabs.update(newTabId, { active: contextsearch_makeNewTabOrWindowActive });
+                    }
                 });
             } else {
                 if (logToConsole) {
@@ -1441,9 +1447,9 @@ async function submitForm(url, formData, tabPosition, multisearch) {
                 incognito: contextsearch_privateMode
             });
         } else if (contextsearch_openSearchResultsInNewTab || multisearch) {
-            // Create a new window and load the fetched HTML content as a data URL
+            // Create a new tab and load the fetched HTML content as a data URL
             const newTab = await browser.tabs.create({
-                active: contextsearch_makeNewTabOrWindowActive,
+                active: false,
                 index: tabPosition,
                 url: searchResultsUrl
             });
@@ -1454,12 +1460,14 @@ async function submitForm(url, formData, tabPosition, multisearch) {
         }
 
         browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-            if (tab.status !== 'complete' || messageSent || tabId !== newTabId) return;
-            if (logToConsole) console.log(tabPosition);
-
-            handleSubmitFormUpdate(tabId, changeInfo, tab, data);
-            if (logToConsole) console.log(tab);
-            if (logToConsole) console.log(data);
+            if (tab.status !== 'complete' || tabId !== newTabId) return;
+            if (messageSent) {
+                browser.tabs.update(newTabId, { active: contextsearch_makeNewTabOrWindowActive });
+            } else {
+                handleSubmitFormUpdate(tabId, changeInfo, tab, data);
+                if (logToConsole) console.log(tab);
+                if (logToConsole) console.log(data);
+            }
         });
 
     } catch (error) {

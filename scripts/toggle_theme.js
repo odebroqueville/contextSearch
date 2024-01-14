@@ -6,7 +6,6 @@
     document.addEventListener("DOMContentLoaded", () => {
         setupThemeToggle();
         const theme = JSON.parse(localStorage.theme).theme === "dark";
-        console.log(theme);
         const tooltip = document.getElementById("ThemeToggle--tooltip");
         tooltip.innerHTML = `Set theme to ${theme ? "light" : "dark"} (\u21E7+D)`;
     }), (themeToggle = document.querySelector("#ThemeToggle")), (s = !themeToggle);
@@ -39,8 +38,6 @@
             const isBodyElement = event.target === document.body;
             const isKeyPressD = event.key === "D" || event.key === "d";
             const isShiftKey = event.shiftKey;
-            console.log(event);
-            console.log(isBodyElement, isKeyPressD, isShiftKey);
 
             if (isBodyElement && isKeyPressD && isShiftKey) {
                 event.preventDefault();

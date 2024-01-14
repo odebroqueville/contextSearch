@@ -5,7 +5,7 @@ const logToConsole = false;
 
 // Other 
 const os = getOS();
-const modifiers = ["Control", "Shift", "Alt", "Meta"];
+// const modifiers = ["Control", "Shift", "Alt", "Meta"];
 let meta = '';
 if (os === 'macOS') {
     meta = 'cmd+';
