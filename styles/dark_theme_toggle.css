@@ -1205,8 +1205,8 @@ html {
 
 .ThemeToggle {
     position: fixed;
-    top: 0.2rem;
-    right: 0.5rem;
+    top: 1rem;
+    right: 0.8rem;
     width: 50px;
     height: 28px;
     border-radius: 99em
