@@ -1,7 +1,7 @@
 /// Global variables
 /* global Sortable */
 // Debug
-const logToConsole = false;
+let logToConsole = false;
 
 // Other 
 const os = getOS();
@@ -177,6 +177,9 @@ function handleMessage(message) {
     if (message.action === 'resetCompleted') {
         restoreOptionsPage();
     }
+    if (message.action === 'logToConsole') {
+        logToConsole = message.data;
+    }
 }
 
 // Handle Permissions changes for Downloads
@@ -249,6 +252,7 @@ function handleStorageChange(changes, area) {
     } else if (area === 'sync') {
         let data = {};
         let optionKeys = Object.keys(changes);
+        if (optionKeys.includes('logToConsole')) logToConsole = changes['logToConsole'].newValue;
         if (logToConsole) {
             console.log(changes);
             console.log(optionKeys);
@@ -1431,6 +1435,7 @@ async function restoreOptionsPage() {
     try {
         const data = await browser.storage.sync.get(null);
         const options = data.options;
+        logToConsole = options.logToConsole;
 
         searchEngines = await browser.storage.local.get(null);
         if (logToConsole) {

@@ -18,7 +18,7 @@ let CORS_API_KEY;
 
 /// Constants
 // Debug
-const logToConsole = false;
+let logToConsole = false;
 
 // User agent for sidebar search results
 const contextsearch_userAgent =
@@ -115,8 +115,21 @@ const defaultOptions = {
     siteSearch: contextsearch_siteSearch,
     siteSearchUrl: contextsearch_siteSearchUrl,
     multiMode: contextsearch_multiMode,
-    privateMode: contextsearch_privateMode
+    privateMode: contextsearch_privateMode,
 };
+
+/// Handle Debugging
+browser.runtime.onInstalled.addListener((details) => {
+    if (details.temporary) {
+        logToConsole = true;
+    } else {
+        logToConsole = false;
+    }
+    if (logToConsole) {
+        console.log('Debugging enabled.');
+        console.log(details);
+    }
+})
 
 /// Handle Page Action click
 browser.pageAction.onClicked.addListener(handlePageAction);
@@ -557,7 +570,7 @@ function handlePageAction(tab) {
 async function initialiseOptionsAndSearchEngines() {
     /// Initialise options
     let options = {};
-    let data = await browser.storage.sync.get(null).catch((err) => {
+    let data = await browser.storage.sync.get().catch((err) => {
         if (logToConsole) {
             console.error(err);
             console.log('Failed to retrieve data from storage sync.');
@@ -566,7 +579,6 @@ async function initialiseOptionsAndSearchEngines() {
 
     if (data.options) {
         options = data.options;
-        if (logToConsole) console.log(options);
         delete data['options'];
     }
 
@@ -577,6 +589,7 @@ async function initialiseOptionsAndSearchEngines() {
     } else {
         await browser.storage.sync.clear();
     }
+    options['logToConsole'] = logToConsole;
     if (logToConsole) console.log(options);
     await setOptions(options, true, false);
 
@@ -624,7 +637,7 @@ function setKeyboardShortcuts() {
 }
 
 function getOptions() {
-    return browser.storage.sync.get(null)
+    return browser.storage.sync.get()
         .then(data => {
             const options = data.options;
             if (logToConsole) console.log('Preferences retrieved from sync storage:');
@@ -1759,10 +1772,17 @@ function isEncoded(uri) {
     }
 }
 
+// Send message to tabs
+async function sendMessageToTabs(message) {
+    const tabs = await browser.tabs.query({});
+    for (const tab of tabs) {
+        sendMessageToTab(tab, message);
+    }
+}
+
 // Send message to content scripts
 async function sendMessageToTab(tab, message) {
     const tabId = tab.id;
-
     try {
         await browser.tabs.sendMessage(tabId, message);
         console.log(`Successfully sent message to Tab ${tab.id}: ${tab.title}`);

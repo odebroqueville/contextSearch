@@ -3,7 +3,7 @@
 'use strict';
 
 /// Global variables
-const logToConsole = false; // Debug
+let logToConsole = false; // Debug
 const os = getOS();
 const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
 const mycroftUrl = 'https://mycroftproject.com/installos.php/';
@@ -190,6 +190,17 @@ async function init() {
     tabUrl = window.location.href;
     pn = window.location.pathname;
     domain = window.location.hostname;
+
+    // Set debugging mode
+    const data = await browser.storage.sync.get();
+    const options = data.options;
+    if (options !== undefined && options !== null) {
+        if ('logToConsole' in options) {
+            logToConsole = options.logToConsole;
+        }
+    }
+
+
     if (logToConsole) {
         console.log(`Tab url: ${tabUrl}`);
         console.log(`Path name: ${pn}`);
@@ -299,7 +310,6 @@ function getClosestForm(element) {
     return null;
 }
 
-
 // Detect the underlying OS
 function getOS() {
     const userAgent = window.navigator.userAgent;
@@ -402,6 +412,15 @@ async function handleStorageChange(changes, area) {
         console.log(changes);
     }
     switch (area) {
+        case 'sync':
+            const data = await browser.storage.sync.get();
+            const options = data.options;
+            if (options !== undefined && options !== null) {
+                if ('logToConsole' in options) {
+                    logToConsole = options.logToConsole;
+                }
+            }
+            break;
         case 'local':
             const searchEngines = await browser.storage.local.get(null);
             // If the website doesn't contain an opensearch plugin, then hide the Page action
