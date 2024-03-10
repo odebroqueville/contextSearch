@@ -53,6 +53,12 @@ input[type="checkbox"] {
     margin-right: 5px;
 }
 
+input[type="number"] {
+    display: inline-block;
+    width: 60px;
+    margin-bottom: 5px;
+}
+
 ol#searchEngines li {
     /* Set the default cursor style */
     cursor: default;
@@ -228,7 +234,7 @@ select {
 
 hr.ruler {
     opacity: 0.5;
-    margin: 1.25em 0.5em;
+    margin: 1em 0.5em;
 }
 
 @media screen and (min-width: 1520px) {

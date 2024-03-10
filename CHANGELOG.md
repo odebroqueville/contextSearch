@@ -1,5 +1,10 @@
-4.7.7
+4.7.8
 =========
+
+* Add horizontal & vertical offsets in the extension's options to position the Icons Grid
+
+4.7.7
+---------
 
 * New feature [#165](https://github.com/odebroqueville/contextSearch/issues/165): Improved the dark theme and added persistence
 * Bug fix [#170](https://github.com/odebroqueville/contextSearch/issues/170)
