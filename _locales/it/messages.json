@@ -414,6 +414,14 @@
 		"message": "Chiudi la griglia delle icone al mouse fuori",
 		"hash": "fc2fcdd466209645b574677c6250e546"
 	},
+	"xOffset": {
+		"message": "Offset orizzontale della griglia delle icone:",
+		"hash": "fb4e2747c20484c21a1cecb5142b9f80"
+	},
+	"yOffset": {
+		"message": "Offset verticale della griglia delle icone:",
+		"hash": "49e08ac782b64fced86569f6dc56d82f"
+	},
 
 	"__WET_LOCALE__": { "message": "it" }
 }

@@ -414,6 +414,14 @@
 		"message": "鼠标移出时关闭图标网格",
 		"hash": "fc2fcdd466209645b574677c6250e546"
 	},
+	"xOffset": {
+		"message": "图标网格的水平偏移：",
+		"hash": "fb4e2747c20484c21a1cecb5142b9f80"
+	},
+	"yOffset": {
+		"message": "图标网格的垂直偏移：",
+		"hash": "49e08ac782b64fced86569f6dc56d82f"
+	},
 
 	"__WET_LOCALE__": { "message": "zh-cn" }
 }

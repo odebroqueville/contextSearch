@@ -89,6 +89,8 @@ let contextsearch_openSearchResultsInSidebar = false;
 let contextsearch_displayFavicons = true;
 let contextsearch_quickIconGrid = false;
 let contextsearch_closeGridOnMouseOut = true;
+let contextsearch_offsetX = 12;
+let contextsearch_offsetY = 12;
 let contextsearch_disableAltClick = false;
 let contextsearch_forceFaviconsReload = false;
 let contextsearch_resetPreferences = false;
@@ -108,6 +110,8 @@ const defaultOptions = {
     displayFavicons: contextsearch_displayFavicons,
     quickIconGrid: contextsearch_quickIconGrid,
     closeGridOnMouseOut: contextsearch_closeGridOnMouseOut,
+    offsetX: contextsearch_offsetX,
+    offsetY: contextsearch_offsetY,
     disableAltClick: contextsearch_disableAltClick,
     forceSearchEnginesReload: contextsearch_forceSearchEnginesReload,
     resetPreferences: contextsearch_resetPreferences,
@@ -336,6 +340,13 @@ async function handleUpdateCloseGridOnMouseOut(data) {
     await setOptions(options, true, false);
 }
 
+async function handleOffsetUpdate(data) {
+    const options = await getOptions();
+    if (data.offsetX) options.offsetX = data.offsetX;
+    if (data.offsetY) options.offsetY = data.offsetY;
+    await setOptions(options, true, false);
+}
+
 async function handleUpdateDisableAltClick(data) {
     const options = await getOptions();
     options.disableAltClick = data.disableAltClick;
@@ -463,6 +474,12 @@ browser.runtime.onMessage.addListener((message, sender) => {
             break;
         case 'updateCloseGridOnMouseOut':
             handleUpdateCloseGridOnMouseOut(data);
+            break;
+        case 'updateXOffset':
+            handleOffsetUpdate(data);
+            break;
+        case 'updateYOffset':
+            handleOffsetUpdate(data);
             break;
         case 'updateDisableAltClick':
             handleUpdateDisableAltClick(data);
@@ -655,7 +672,7 @@ function getOptions() {
 
 // Sets the default options if they haven't already been set in local storage and saves them
 // The context menu is also rebuilt when required
-function setOptions(options, save, rebuildContextMenu) {
+async function setOptions(options, save, rebuildContextMenu) {
     if (logToConsole) console.log(`Setting exact match to ${options.exactMatch}`);
     contextsearch_exactMatch = options.exactMatch;
 
@@ -713,25 +730,22 @@ function setOptions(options, save, rebuildContextMenu) {
     contextsearch_multiMode = options.multiMode;
 
     if (save) {
-        saveOptions(options, rebuildContextMenu);
+        await saveOptions(options, rebuildContextMenu);
     }
-
-    return Promise.resolve();
 }
 
-function saveOptions(options, blnRebuildContextMenu) {
-    return browser.storage.sync.set({ options })
-        .then(() => {
-            if (logToConsole) console.log(options);
-            if (blnRebuildContextMenu) rebuildContextMenu();
-            if (logToConsole) console.log('Successfully saved the options to storage sync.');
-        })
-        .catch(err => {
-            if (logToConsole) {
-                console.error(err);
-                console.log('Failed to save options to storage sync.');
-            }
-        });
+async function saveOptions(options, blnRebuildContextMenu) {
+    try {
+        await browser.storage.sync.set({ options });
+        if (logToConsole) console.log(options);
+        if (blnRebuildContextMenu) rebuildContextMenu();
+        if (logToConsole) console.log('Successfully saved the options to storage sync.');
+    } catch (err) {
+        if (logToConsole) {
+            console.error(err);
+            console.log('Failed to save options to storage sync.');
+        }
+    }
 }
 
 /// Load default list of search engines

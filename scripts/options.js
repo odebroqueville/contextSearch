@@ -56,6 +56,8 @@ const optionsMenuLocation = document.getElementById('optionsMenuLocation');
 const displayFavicons = document.getElementById('displayFavicons');
 const quickIconGrid = document.getElementById('quickIconGrid');
 const closeGridOnMouseOut = document.getElementById('closeGridOnMouseOut');
+const xOffset = document.getElementById('xOffset');
+const yOffset = document.getElementById('yOffset');
 const disableAltClick = document.getElementById('disableAltClick');
 const resetPreferences = document.getElementById('resetPreferences');
 const forceSearchEnginesReload = document.getElementById('forceSearchEnginesReload');
@@ -114,6 +116,8 @@ exactMatch.addEventListener('click', updateSearchOptions);
 displayFavicons.addEventListener('click', updateDisplayFavicons);
 quickIconGrid.addEventListener('click', updateQuickIconGrid);
 closeGridOnMouseOut.addEventListener('click', updateCloseGridOnMouseOut);
+xOffset.addEventListener('change', updateXOffset);
+yOffset.addEventListener('change', updateYOffset);
 disableAltClick.addEventListener('click', updateDisableAltClick);
 tabMode.addEventListener('click', updateTabMode);
 tabActive.addEventListener('click', updateTabMode);
@@ -1388,8 +1392,11 @@ async function setOptions(options) {
         displayFavicons.checked = true;
     }
 
+    // Options for the Icons Grid
     quickIconGrid.checked = options.quickIconGrid;
     closeGridOnMouseOut.checked = options.closeGridOnMouseOut;
+    xOffset.value = options.offsetX;
+    yOffset.value = options.offsetY;
     disableAltClick.checked = options.disableAltClick;
 
     if (options.resetPreferences === false) {
@@ -1524,6 +1531,14 @@ function updateQuickIconGrid() {
 
 function updateCloseGridOnMouseOut() {
     sendMessage('updateCloseGridOnMouseOut', { closeGridOnMouseOut: closeGridOnMouseOut.checked });
+}
+
+function updateXOffset() {
+    sendMessage('updateXOffset', { offsetX: xOffset.value });
+}
+
+function updateYOffset() {
+    sendMessage('updateYOffset', { offsetY: yOffset.value });
 }
 
 function updateDisableAltClick() {

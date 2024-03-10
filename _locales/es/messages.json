@@ -414,6 +414,14 @@
 		"message": "Cerrar la cuadrícula de iconos al sacar el mouse",
 		"hash": "fc2fcdd466209645b574677c6250e546"
 	},
+	"xOffset": {
+		"message": "Desplazamiento horizontal de la cuadrícula de iconos:",
+		"hash": "fb4e2747c20484c21a1cecb5142b9f80"
+	},
+	"yOffset": {
+		"message": "Desplazamiento vertical de la cuadrícula de iconos:",
+		"hash": "49e08ac782b64fced86569f6dc56d82f"
+	},
 
 	"__WET_LOCALE__": { "message": "es" }
 }

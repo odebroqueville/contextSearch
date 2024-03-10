@@ -414,6 +414,14 @@
 		"message": "마우스 아웃 시 아이콘 그리드 닫기",
 		"hash": "fc2fcdd466209645b574677c6250e546"
 	},
+	"xOffset": {
+		"message": "아이콘 그리드의 수평 오프셋:",
+		"hash": "fb4e2747c20484c21a1cecb5142b9f80"
+	},
+	"yOffset": {
+		"message": "아이콘 그리드의 수직 오프셋:",
+		"hash": "49e08ac782b64fced86569f6dc56d82f"
+	},
 
 	"__WET_LOCALE__": { "message": "ko" }
 }

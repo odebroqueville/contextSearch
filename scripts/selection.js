@@ -486,10 +486,12 @@ async function handleAltClickWithGrid(e) {
         if (e !== null) {
             const x = e.clientX;
             const y = e.clientY;
-            if (x > 0 && y > 0) createIconGrid(x + 12, y + 12);
+            if (logToConsole) console.log(x + parseInt(options.offsetX));
+            if (logToConsole) console.log(y + parseInt(options.offsetY));
+            if (x > 0 && y > 0) createIconGrid(x + parseInt(options.offsetX), y + parseInt(options.offsetY));
         } else {
             const { x, y } = getSelectionEndPosition();
-            if (x > 0 && y > 0) createIconGrid(x + 12, y + 12);
+            if (x > 0 && y > 0) createIconGrid(x + parseInt(options.offsetX), y + parseInt(options.offsetY));
         }
     }
 }

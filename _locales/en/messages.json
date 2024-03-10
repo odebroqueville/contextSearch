@@ -311,6 +311,12 @@
     "closeGridOnMouseOut": {
         "message": "Close the icons grid on mouse out"
     },
+    "xOffset": {
+        "message": "Horizontal offset of the icons grid: "
+    },
+    "yOffset": {
+        "message": "Vertical offset of the icons grid: "
+    },
     "header12": {
         "message": "ChatGPT Setup"
     },
@@ -353,7 +359,5 @@
     "prompt": {
         "message": "Prompt"
     },
-    "__WET_LOCALE__": {
-        "message": "en"
-    }
+    "__WET_LOCALE__": { "message": "en" }
 }
