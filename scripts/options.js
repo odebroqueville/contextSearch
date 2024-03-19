@@ -36,8 +36,8 @@ const promptKbsc = document.getElementById('prompt-kb-shortcut'); // String
 const aiProvider = document.getElementById('ai-provider');
 
 // Add folder
-// const folderName = document.getElementById('folderName');
-// const folderKeyword = document.getElementById('folderKeyword');
+const folderName = document.getElementById('folderName');
+const folderKeyword = document.getElementById('folderKeyword');
 
 // Options
 const exactMatch = document.getElementById('exactMatch');
@@ -81,8 +81,8 @@ const btnClearAddSearchEngine = document.getElementById('clearAddSearchEngine');
 const btnTestChatGPTPrompt = document.getElementById('testChatGPTPrompt');
 const btnAddChatGPTPrompt = document.getElementById('addChatGPTPrompt');
 const btnClearAddChatGPTPrompt = document.getElementById('clearAddChatGPTPrompt');
-// const btnAddFolder = document.getElementById('addFolder');
-// const btnClearAddFolder = document.getElementById('clearAddFolder');
+const btnAddFolder = document.getElementById('addFolder');
+const btnClearAddFolder = document.getElementById('clearAddFolder');
 const btnAddSeparator = document.getElementById('addSeparator');
 
 // Import/export
@@ -168,8 +168,8 @@ promptKbsc.addEventListener('keydown', (event) => {
 
 // Add new folder or separator button click handlers
 btnAddSeparator.addEventListener('click', addSeparator);
-// btnAddFolder.addEventListener('click', addFolder);
-// btnClearAddFolder.addEventListener('click', clearAddFolder);
+btnAddFolder.addEventListener('click', addFolder);
+btnClearAddFolder.addEventListener('click', clearAddFolder);
 
 // Import/export
 btnDownload.addEventListener('click', saveToLocalDisk);
@@ -292,43 +292,179 @@ function removeEventHandler(e) {
 
 // Display the list of search engines
 function displaySearchEngines() {
-    const div = document.getElementById('searchEngines');
-    if (!isEmpty(div)) divContainer.removeChild(div);
-
-    searchEngines = sortByIndex(searchEngines);
-    numberOfSearchEngines = Object.keys(searchEngines).length;
-    const divSearchEngines = document.createElement('ol');
-    divSearchEngines.setAttribute('id', 'searchEngines');
-    for (let i = 1; i < numberOfSearchEngines + 1; i++) {
-        for (let id in searchEngines) {
-            if (searchEngines[id].index === i) {
-                const searchEngine = searchEngines[id];
-                const lineItem = createLineItem(id, searchEngine, searchEngine.folder);
-                divSearchEngines.appendChild(lineItem);
-
-                // If folder, add search engines within folder
-                if (searchEngine.folder && searchEngine.children.length > 0) {
-                    searchEngine.children.forEach(se => {
-                        let seItem = createLineItem(se.id, se, false);
-                        lineItem.querySelector('.subfolder').appendChild(seItem);
-                    })
-                }
-            }
-        }
-    }
-    divContainer.appendChild(divSearchEngines);
-    numberOfSearchEngines = divSearchEngines.childNodes.length;
-
-    // Initialize Sortable list
-    new Sortable(divSearchEngines, {
-        // handle: '.sort',
+    const sortableOptions = {
+        group: {
+            name: 'folder',
+            pull: true,
+            put: true
+        },
         animation: 150,
         filter: "input",
         preventOnFilter: false,
         // On element drag ended, save search engines
-        onEnd: saveSearchEngines
+        onEnd: saveSearchEnginesOnDragEnded
+    };
+    const div = document.getElementById('searchEngines');
+    if (!isEmpty(div)) divContainer.removeChild(div);
+
+    if (logToConsole) console.log(searchEngines);
+    if (searchEngines.root) searchEngines = sortByIndex(searchEngines, 0);
+    numberOfSearchEngines = Object.keys(searchEngines).length;
+    const divSearchEngines = document.createElement('div');
+    divSearchEngines.setAttribute('id', 'searchEngines');
+    divSearchEngines.classList.add('folder');
+    divContainer.appendChild(divSearchEngines);
+
+    expand('root', null);
+
+    let folders = null;
+    folders = document.querySelectorAll(".folder");
+    for (let folder of folders) {
+        new Sortable(folder, sortableOptions);
+    }
+}
+
+function saveSearchEnginesOnDragEnded(evt) {
+    const draggedElement = evt.item;
+    const oldParent = evt.from;
+    const newParent = evt.to;
+    let oldIndex;
+    let newIndex;
+
+    // Identify the dragged item's id
+    const movedElementId = draggedElement.getAttribute('data-id');
+
+    // Identify the old and new parent folder's ids
+    let oldParentFolderId = findClosestFolder(oldParent).id;
+    if (oldParentFolderId === 'searchEngines') oldParentFolderId = 'root';
+    let newParentFolderId = findClosestFolder(newParent).id;
+    if (newParentFolderId === 'searchEngines') newParentFolderId = 'root';
+
+    // Get the old and new indices
+    if (oldParentFolderId === 'root') {
+        oldIndex = evt.oldIndex;
+    } else {
+        oldIndex = evt.oldIndex - 4;
+    }
+
+    if (newParentFolderId === 'root') {
+        newIndex = evt.newIndex;
+    } else {
+        newIndex = evt.newIndex - 4;
+    }
+
+    if (logToConsole) {
+        console.log(`Moved item id: ${movedElementId}`);
+        console.log(`Old index: ${oldIndex}`);
+        console.log(`New index: ${newIndex}`);
+        console.log(`Old parent folder id: ${oldParentFolderId}`);
+        console.log(`New parent folder id: ${newParentFolderId}`);
+    }
+
+    // Update the children property of the old parent folder
+    if (newParentFolderId && movedElementId) {
+        let oldChildren = searchEngines[oldParentFolderId].children;
+        let newChildren = searchEngines[newParentFolderId].children;
+
+        if (oldParentFolderId === newParentFolderId) {
+            if (newIndex > oldIndex) {
+                newIndex--;
+            }
+            // Remove the dragged element from the new children array
+            newChildren.splice(oldIndex, 1);
+            // Add the dragged element to the new children array
+            newChildren.splice(newIndex, 0, movedElementId);
+        } else {
+            // Remove the dragged element from the old children array
+            oldChildren.splice(oldIndex, 1);
+            // Add the dragged element to the new children array
+            newChildren.splice(newIndex, 0, movedElementId);
+
+            //searchEngines[oldParentFolderId].children = oldChildren;
+            //searchEngines[newParentFolderId].children = newChildren;
+        }
+
+        if (logToConsole) {
+            console.log(`Old children: ${oldChildren}`);
+            console.log(`New children: ${newChildren}`);
+            console.log(`Search Engines children in new parent folder: ${searchEngines[newParentFolderId].children}`);
+            console.log(searchEngines);
+        }
+
+        updateIndices('root', 0);
+    }
+    if (logToConsole) console.log(searchEngines);
+    sendMessage('saveSearchEngines', searchEngines);
+}
+
+function expand(folderId, parentDiv) {
+    const folder = searchEngines[folderId];
+    let folderDiv;
+    if (folderId === 'root') {
+        folderDiv = document.getElementById('searchEngines');
+    } else {
+        folderDiv = createFolderItem(folderId);
+        parentDiv.appendChild(folderDiv);
+    }
+    folder.children.forEach(f => {
+        if (searchEngines[f].isFolder) {
+            expand(f, folderDiv);
+        } else {
+            const div = createLineItem(f);
+            folderDiv.appendChild(div);
+        }
     });
 }
+
+function findClosestFolder(element) {
+    while (element && !element.classList.contains('folder')) {
+        element = element.parentElement;
+    }
+    return element;
+}
+
+function updateIndices(parentId, startIndex) {
+    let children = searchEngines[parentId].children;
+    for (let i = 0; i < children.length; i++) {
+        let childId = children[i];
+        searchEngines[childId].index = startIndex + i + 1;
+        if (logToConsole) console.log(childId, startIndex + i + 1);
+        if (searchEngines[childId].children) {
+            updateIndices(childId, 0);
+        }
+    }
+}
+
+/* function swap(arr, i, j) {
+    // Check if indices are within the valid range of the array
+    if (i < 0 || i >= arr.length || j < 0 || j >= arr.length) {
+        console.error("Invalid indices provided for swap.");
+        return arr; // Return the original array if indices are invalid
+    }
+
+    // Perform the swap using a temporary variable
+    var temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+
+    return arr;
+}
+
+function updateIndices(folderId, i) {
+    searchEngines[folderId].index = i;
+    const children = searchEngines[folderId].children;
+    if (children) i++;
+    children.forEach(c => {
+        if (logToConsole) console.log(c, i);
+        if (searchEngines[c].isFolder) {
+            updateIndices(c, i);
+            i++;
+        } else {
+            searchEngines[c].index = i;
+            i++;
+        }
+    });
+} */
 
 // Create a navigation button using icons from ionicon (up arrow, down arrow and bin)
 function createButton(ioniconClass, btnClass, btnTitle) {
@@ -342,13 +478,14 @@ function createButton(ioniconClass, btnClass, btnTitle) {
     return button;
 }
 
-// Display a single search engine in a row or line item
-function createLineItem(id, searchEngine, isFolder = false) {
-    // if (isFolder) { return createFolderItem(searchEngine.name, searchEngine.keyword); }
-
+// Display a single separator, search engine or prompt in a row or line item
+function createLineItem(id) {
+    const searchEngine = searchEngines[id];
     const searchEngineName = searchEngine.name;
-    const lineItem = document.createElement('li');
+    const lineItem = document.createElement('div');
     lineItem.setAttribute('id', id);
+    lineItem.classList.add('se');
+    lineItem.setAttribute('data-id', id);
 
     let inputQueryString;
     let textareaPrompt;
@@ -451,19 +588,8 @@ function createLineItem(id, searchEngine, isFolder = false) {
         }
     }
 
-    // Navigation and deletion buttons for each search engine or line item
-    // Create menu target for line item sorting
-    //const sortTarget = document.createElement('i');
-    //sortTarget.classList.add('sort', 'icon', 'ion-arrow-move');
-    // if (id.startsWith('chatgpt-')) {
-    // sortTarget.classList.add('row-2');
-    //}
+    // Deletion button for each search engine or prompt line item
     const removeButton = createButton('ion-ios-trash', 'remove', remove + ' ' + searchEngineName);
-    // if (id.startsWith('chatgpt-')) {
-    // removeButton.classList.add('row-2');
-    //}
-    //const secondRow = document.createElement('div');
-    //secondRow.classList.add('row-2');
 
     // Input elements for each search engine composing each line item
     const chkShowSearchEngine = document.createElement('input');
@@ -508,7 +634,7 @@ function createLineItem(id, searchEngine, isFolder = false) {
     // Event handler for 'include search engine in multi-search' checkbox click event
     chkMultiSearch.addEventListener('click', multiTabChanged); // when users check or uncheck the checkbox
 
-    // Navigation and deletion buttons event handlers
+    // Deletion button event handler
     removeButton.addEventListener('click', removeEventHandler);
 
     // Set attributes for all the elements composing a search engine or line item
@@ -759,62 +885,49 @@ function editFavicon(e) {
 
 }
 
-/* function createFolderItem(name, keyword) {
-    const el = document.getElementById('ol#searchEngines');
-    const folderItem = document.createElement('li');
+function createFolderItem(id) {
+    const name = searchEngines[id]['name'];
+    const keyword = searchEngines[id]['keyword'];
+    const folderItem = document.createElement('div');
     const icon = document.createElement('span');
     const inputFolderName = document.createElement('input');
     const inputFolderKeyword = document.createElement('input');
-    const subFolder = document.createElement('div');
 
     // Event handlers for search engine name changes
     inputFolderName.addEventListener('change', folderNameChanged);
 
     // Event handlers for keyword text changes
-    inputFolderKeyword.addEventListener('change', folderKeywordChanged); // when users leave the 
+    inputFolderKeyword.addEventListener('change', folderKeywordChanged);
 
-    // Navigation and deletion buttons for each search engine or line item
-    // Create menu target for line item sorting
-    const navDiv = document.createElement('div');
-    navDiv.setAttribute('class', 'nav');
-    const sortTarget = document.createElement('span');
-    sortTarget.classList.add('sort', 'icon', 'ion-arrow-move');
-    const removeButton = createButton('ion-ios-trash', 'remove', `${remove} ${name} ${folder}`);
-    navDiv.appendChild(sortTarget);
-    navDiv.appendChild(removeButton);
+    // Deletion button for each folder
+    const removeButton = createButton('ion-ios-trash', 'remove', `${remove} ${name} folder`);
 
-    folderItem.setAttribute('id', name);
-    folderItem.setAttribute('class', 'folder');
+    // Deletion button event handler
+    removeButton.addEventListener('click', removeEventHandler);
 
-    icon.setAttribute('class', 'icon ion-folder');
+    folderItem.setAttribute('id', id);
+    folderItem.classList.add('folder');
+    folderItem.setAttribute('data-id', id);
+
+    icon.classList.add('icon', 'ion-folder');
 
     inputFolderName.setAttribute('type', 'text');
+    inputFolderName.classList.add('name');
     inputFolderName.setAttribute('data-i18n-placeholder', 'folderName');
     inputFolderName.setAttribute('value', name);
 
     inputFolderKeyword.setAttribute('type', 'text');
-    inputFolderKeyword.setAttribute('class', 'keyword');
+    inputFolderKeyword.classList.add('keyword');
     inputFolderKeyword.setAttribute('data-i18n-placeholder', 'placeholderKeyword');
     inputFolderKeyword.setAttribute('value', keyword);
-
-    subFolder.setAttribute('class', 'subfolder');
 
     folderItem.appendChild(icon);
     folderItem.appendChild(inputFolderName);
     folderItem.appendChild(inputFolderKeyword);
-    folderItem.appendChild(navDiv);
-    folderItem.appendChild(subFolder);
-
-    // Initialize Sortable subfolder
-    new Sortable(el.querySelector('.subfolder'), {
-        group: 'nested',
-        animation: 200,
-        fallbackOnBody: true,
-        onEnd: saveSearchEngines
-    });
+    folderItem.appendChild(removeButton);
 
     return folderItem;
-} */
+}
 
 function clearAll() {
     let divSearchEngines = document.getElementById('searchEngines');
@@ -866,18 +979,53 @@ function reset() {
 
 // Begin of user event handlers
 function removeSearchEngine(e) {
-    // Find closest <li> parent
-    let lineItem = e.target.closest('li');
+    // Find closest <div> parent
+    const lineItem = e.target.closest('div');
     if (!lineItem) return;
-    let id = lineItem.getAttribute('id');
-    let pn = lineItem.parentNode;
-    if (logToConsole) console.log(id);
+    const id = lineItem.getAttribute('id');
+    const pn = lineItem.parentNode;
+    let parentId = pn.getAttribute('id');
+    if (parentId === 'searchEngines') parentId = 'root';
+    if (logToConsole) console.log(id, pn);
 
-    pn.removeChild(lineItem);
-    delete searchEngines[id];
+    if (!searchEngines[id].isFolder) {
+        // Remove the line item and its corresponding search engine
+        pn.removeChild(lineItem);
+        delete searchEngines[id];
+    } else {
+        // If the line item is a folder, display a warning message
+        const remove = confirm(`Are you sure you want to delete the folder ${searchEngines[id].name} and all of its contents?`);
+        if (remove) {
+            // Remove the folder and its children
+            pn.removeChild(lineItem);
+            removeFolder(id);
+        } else {
+            return;
+        }
+    }
+
+    // Remove the id from the parent's children
+    searchEngines[parentId].children.splice(searchEngines[parentId].children.indexOf(id), 1);
+
+    // Save the updated search engines
     if (logToConsole) console.log(searchEngines);
-
     sendMessage('saveSearchEngines', searchEngines);
+}
+
+function removeFolder(id) {
+    // Protect against trying to remove the root folder
+    if (id === 'root') return;
+
+    // Remove all the folder's children
+    for (const childId of searchEngines[id].children) {
+        if (searchEngines[childId].isFolder) {
+            removeFolder(childId);
+        }
+        delete searchEngines[childId];
+    }
+
+    // Remove the folder itself
+    delete searchEngines[id];
 }
 
 function visibleChanged(e) {
@@ -890,25 +1038,25 @@ function visibleChanged(e) {
     sendMessage('saveSearchEngines', searchEngines);
 }
 
-/* function folderNameChanged(e) {
-    let lineItem = e.target.parentNode;
-    let id = lineItem.getAttribute('id');
-    let searchEngineName = e.target.value;
+function folderNameChanged(e) {
+    const lineItem = e.target.parentNode;
+    const id = lineItem.getAttribute('id');
+    const folderName = e.target.value;
 
-    searchEngines[id]['name'] = searchEngineName;
+    searchEngines[id]['name'] = folderName;
 
     sendMessage('saveSearchEngines', searchEngines);
 }
 
 function folderKeywordChanged(e) {
-    let lineItem = e.target.parentNode;
-    let id = lineItem.getAttribute('id');
-    let keyword = e.target.value;
+    const lineItem = e.target.parentNode;
+    const id = lineItem.getAttribute('id');
+    const keyword = e.target.value;
 
     searchEngines[id]['keyword'] = keyword;
 
     sendMessage('saveSearchEngines', searchEngines);
-} */
+}
 
 // Handle the input of a keyboard shortcut for a search engine in the Options page
 function handleKeyboardShortcut(e) {
@@ -1024,94 +1172,123 @@ function saveChanges(e, property) {
 
 function readData() {
     let oldSearchEngines = {};
-    oldSearchEngines = searchEngines;
+    oldSearchEngines = JSON.parse(JSON.stringify(searchEngines)); // Deep copy of searchEngines
     searchEngines = {};
 
-    let divSearchEngines = document.getElementById('searchEngines');
-    let lineItems = divSearchEngines.childNodes;
-    numberOfSearchEngines = lineItems.length;
-    for (let i = 0; i < numberOfSearchEngines; i++) {
-        const input = lineItems[i].firstChild;
-        const id = lineItems[i].id;
-        // If the line item is a separator
-        if (input !== null && input.nodeName === 'HR' && id.startsWith("separator-")) {
-            searchEngines[id] = {};
-            searchEngines[id]['index'] = i;
-        }
-        // If the line item is an AI prompt engine
-        else if (input !== null && input.nodeName === 'INPUT' && input.getAttribute('type') === 'checkbox' && id.startsWith("chatgpt-")) {
-            const aiProvider = lineItems[i].querySelector('select');
-            const label = aiProvider.nextSibling;
-            const keyword = label.nextSibling;
-            const keyboardShortcut = keyword.nextSibling;
-            const multiTab = keyboardShortcut.nextSibling;
-            const prompt = multiTab.nextSibling;
-            if (logToConsole) console.log(aiProvider);
-            if (logToConsole) console.log(label);
-            if (logToConsole) console.log(keyword);
-            if (logToConsole) console.log(keyboardShortcut);
-            if (logToConsole) console.log(multiTab);
-            if (logToConsole) console.log(prompt);
-            searchEngines[id] = {};
-            searchEngines[id]['index'] = i;
-            searchEngines[id]['aiProvider'] = aiProvider.value;
-            searchEngines[id]['name'] = label.value;
-            searchEngines[id]['keyword'] = keyword.value;
-            searchEngines[id]['keyboardShortcut'] = keyboardShortcut.value;
-            searchEngines[id]['multitab'] = multiTab.checked;
-            searchEngines[id]['prompt'] = prompt.value;
-            searchEngines[id]['show'] = input.checked;
-            searchEngines[id]['imageFormat'] = oldSearchEngines[id].imageFormat;
-            searchEngines[id]['base64'] = oldSearchEngines[id].base64;
-        }
-        // If the line item is a search engine
-        else if (input !== null && input.nodeName === 'INPUT' && input.getAttribute('type') === 'checkbox') {
-            const label = input.nextSibling.nextSibling;
-            const keyword = label.nextSibling;
-            const keyboardShortcut = keyword.nextSibling;
-            const multiTab = keyboardShortcut.nextSibling;
-            const url = multiTab.nextSibling;
-            const formData = url.nextSibling;
-            searchEngines[id] = {};
-            searchEngines[id]['index'] = i;
-            searchEngines[id]['name'] = label.value;
-            searchEngines[id]['keyword'] = keyword.value;
-            searchEngines[id]['keyboardShortcut'] = keyboardShortcut.value;
-            searchEngines[id]['multitab'] = multiTab.checked;
-            searchEngines[id]['url'] = url.value;
-            searchEngines[id]['show'] = input.checked;
-            searchEngines[id]['imageFormat'] = oldSearchEngines[id].imageFormat;
-            searchEngines[id]['base64'] = oldSearchEngines[id].base64;
-            searchEngines[id]['formData'] = formData.value;
-        }
-        // Add folder
-        else if (lineItems[i].classList.contains('folder')) {
-            let folder = {
-                index: i,
-                name: id,
-                keyword: lineItems[i].querySelector('input.keyword').value,
-                folder: true,
-                searchEngines: []
-            }
+    const divSearchEngines = document.getElementById('searchEngines');
+    const lineItems = divSearchEngines.children;
 
-            // Add search engines to folder
-            lineItems[i].querySelectorAll('li').forEach(item => {
-                folder.searchEngines.push({
-                    index: i,
-                    name: item.id,
-                    keyword: item.querySelector('input.keyword').value,
-                    multitab: item.querySelector('input[id$="-mt"]'),
-                    url: item.querySelector('input[type="url"]').value,
-                    show: item.firstChild.checked,
-                    // TODO - not working; get base64
-                    // base64: oldSearchEngines[lineItems[i].id].base64
-                });
-            })
-
-            searchEngines[id] = folder
-        }
+    // Add 'root' folder to search engines
+    const root = {
+        index: 0,
+        name: 'Root',
+        isFolder: true,
+        children: []
     }
+
+    // Add search engine id or folder id to children of root folder
+    Array.from(lineItems).forEach(item => {
+        root.children.push(item.id);
+    });
+
+    searchEngines['root'] = root;
+
+    let i = 0;
+    // // Read all search engines and folders
+    Array.from(lineItems).forEach(item => {
+        readLineItem(item, i, oldSearchEngines);
+        i++;
+    });
+
+    numberOfSearchEngines = Object.keys(searchEngines).length;
+
     return searchEngines;
+}
+
+function readFolder(lineItem, i, oldSearchEngines) {
+    const folder = {
+        index: i,
+        name: lineItem.querySelector('input.name').value,
+        keyword: lineItem.querySelector('input.keyword').value,
+        isFolder: true,
+        children: []
+    }
+
+    // Add children of folder
+    lineItem.querySelectorAll('div').forEach(item => {
+        folder.children.push(item.id);
+    });
+
+    searchEngines[lineItem.id] = folder;
+
+    let j = 0;
+    // Read all search engines and folders that are children of lineItem
+    lineItem.querySelectorAll('div').forEach(item => {
+        readLineItem(item, j, oldSearchEngines);
+        j++;
+    });
+}
+
+function readLineItem(lineItem, i, oldSearchEngines) {
+    const input = lineItem.firstChild;
+    const id = lineItem.id;
+    // If the line item is a separator
+    if (input !== null && input.nodeName === 'HR' && id.startsWith("separator-")) {
+        searchEngines[id] = {};
+        searchEngines[id]['index'] = i;
+    }
+    // If the line item is an AI prompt
+    else if (input !== null && input.nodeName === 'INPUT' && input.getAttribute('type') === 'checkbox' && id.startsWith("chatgpt-")) {
+        const aiProvider = lineItem.querySelector('select');
+        const label = aiProvider.nextSibling;
+        const keyword = label.nextSibling;
+        const keyboardShortcut = keyword.nextSibling;
+        const multiTab = keyboardShortcut.nextSibling;
+        const prompt = multiTab.nextSibling;
+        if (logToConsole) {
+            console.log(aiProvider);
+            console.log(label);
+            console.log(keyword);
+            console.log(keyboardShortcut);
+            console.log(multiTab);
+            console.log(prompt);
+        }
+        searchEngines[id] = {};
+        searchEngines[id]['index'] = i;
+        searchEngines[id]['aiProvider'] = aiProvider.value;
+        searchEngines[id]['name'] = label.value;
+        searchEngines[id]['keyword'] = keyword.value;
+        searchEngines[id]['keyboardShortcut'] = keyboardShortcut.value;
+        searchEngines[id]['multitab'] = multiTab.checked;
+        searchEngines[id]['prompt'] = prompt.value;
+        searchEngines[id]['show'] = input.checked;
+        searchEngines[id]['imageFormat'] = oldSearchEngines[id].imageFormat;
+        searchEngines[id]['base64'] = oldSearchEngines[id].base64;
+    }
+    // If the line item is a search engine
+    else if (input !== null && input.nodeName === 'INPUT' && input.getAttribute('type') === 'checkbox') {
+        const label = input.nextSibling.nextSibling;
+        const keyword = label.nextSibling;
+        const keyboardShortcut = keyword.nextSibling;
+        const multiTab = keyboardShortcut.nextSibling;
+        const url = multiTab.nextSibling;
+        const formData = url.nextSibling;
+        searchEngines[id] = {};
+        searchEngines[id]['index'] = i;
+        searchEngines[id]['name'] = label.value;
+        searchEngines[id]['keyword'] = keyword.value;
+        searchEngines[id]['keyboardShortcut'] = keyboardShortcut.value;
+        searchEngines[id]['multitab'] = multiTab.checked;
+        searchEngines[id]['url'] = url.value;
+        searchEngines[id]['show'] = input.checked;
+        searchEngines[id]['imageFormat'] = oldSearchEngines[id].imageFormat;
+        searchEngines[id]['base64'] = oldSearchEngines[id].base64;
+        searchEngines[id]['formData'] = formData.value;
+    }
+    // If the line item is a folder
+    else if (lineItem.classList.contains('folder')) {
+        readFolder(lineItem, i, oldSearchEngines);
+    }
 }
 
 // Save the list of search engines to be displayed in the context menu
@@ -1144,10 +1321,14 @@ function addSeparator() {
     }
 
     searchEngines[id] = {
-        index: numberOfSearchEngines + 1
+        index: numberOfSearchEngines
     };
+
+    // Add separator as child of 'root'
+    searchEngines['root'].children.push(id);
+
     const divSearchEngines = document.getElementById('searchEngines');
-    const lineItem = createLineItem(id, searchEngines[id], false);
+    const lineItem = createLineItem(id);
     divSearchEngines.appendChild(lineItem);
 
     sendMessage('addNewSearchEngine', {
@@ -1187,19 +1368,22 @@ function addSearchEngine() {
     }
 
     searchEngines[id] = {
-        index: numberOfSearchEngines + 1,
+        index: numberOfSearchEngines,
         name: sename.value,
         keyword: keyword.value,
         keyboardShortcut: kbsc.value,
         multitab: multitab.checked,
         url: url.value,
         show: show.checked,
-        // parentFolder: null
+        isFolder: false
     };
 
     if (logToConsole) console.log('New search engine: ' + id + '\n' + JSON.stringify(searchEngines[id]));
 
-    const lineItem = createLineItem(id, searchEngines[id], false);
+    // Add search engine as child of 'root'
+    searchEngines['root'].children.push(id);
+
+    const lineItem = createLineItem(id);
     divSearchEngines.appendChild(lineItem);
 
     sendMessage('addNewSearchEngine', {
@@ -1227,17 +1411,21 @@ function addChatGPTPrompt() {
     }
 
     searchEngines[id] = {
-        index: numberOfSearchEngines + 1,
+        index: numberOfSearchEngines,
         aiProvider: aiProvider.value,
         name: promptName.value,
         keyword: promptKeyword.value,
         keyboardShortcut: promptKbsc.value,
         multitab: promptMultitab.checked,
         prompt: promptText.value,
-        show: promptShow.checked
+        show: promptShow.checked,
+        isFolder: false
     };
 
-    const lineItem = createLineItem(id, searchEngines[id], false);
+    // Add AI prompt as child of 'root'
+    searchEngines['root'].children.push(id);
+
+    const lineItem = createLineItem(id);
     divSearchEngines.appendChild(lineItem);
 
     sendMessage('addNewPrompt', {
@@ -1249,27 +1437,35 @@ function addChatGPTPrompt() {
     clearAddChatGPTPrompt();
 }
 
-/* function addFolder() {
+function addFolder() {
     const divSearchEngines = document.getElementById('searchEngines');
     const name = folderName.value;
     const keyword = folderKeyword.value;
-    const id = name.replace(' ', '-').toLowerCase();
+    let id = name.replace(' ', '-').toLowerCase();
 
-    // Append folder to search engine list
-    const folderItem = createFolderItem(name, keyword);
-    divSearchEngines.appendChild(folderItem);
+    // Ensure new id is unique
+    while (!isIdUnique(id)) {
+        id = name.replace(' ', '-').toLowerCase() + '-' + Math.floor(Math.random() * 1000000000000);
+    }
 
     // The new folder will be saved as a search engine entry
     // Folders don't possess all the properties that search engines do
     // A folder doesn't have a query string url property
-    // A folder may have children; not a search engine
+    // A folder may have children (search engines don't have children)
     searchEngines[id] = {
         index: numberOfSearchEngines,
         name: name,
         keyword: keyword,
-        parentFolder: null, // Points to the id of the parent folder; takes the value null if there is none
+        isFolder: true,
         children: [] // Array of search engine and/or subfolder ids
     };
+
+    // Add folder as child of 'root'
+    searchEngines['root'].children.push(id);
+
+    // Append folder to search engine list
+    const folderItem = createFolderItem(id);
+    divSearchEngines.appendChild(folderItem);
 
     // Clear HTML input fields to add a new folder
     clearAddFolder();
@@ -1278,7 +1474,7 @@ function addChatGPTPrompt() {
         id: id,
         searchEngine: searchEngines[id]
     });
-} */
+}
 
 function clearAddSearchEngine() {
     // Clear check boxes and text box entries of the line used to add a new search engine
@@ -1301,11 +1497,11 @@ function clearAddChatGPTPrompt() {
     promptText.value = null;
 }
 
-/* function clearAddFolder() {
+function clearAddFolder() {
     // Clear text box entries of the line used to add a new folder
     folderName.value = null;
     folderKeyword.value = null;
-} */
+}
 
 async function setOptions(options) {
     if (isEmpty(options)) return;
@@ -1567,7 +1763,7 @@ function updateResetOptions() {
 }
 
 // Ensure the ID generated is unique
-async function isIdUnique(testId) {
+function isIdUnique(testId) {
     for (let id in searchEngines) {
         if (id === testId) {
             return false;
@@ -1659,32 +1855,34 @@ function translateContent(attribute, type) {
 }
 
 /// Sort search engines by index
-function sortByIndex(list) {
-    let sortedList = JSON.parse(JSON.stringify(list));
+function sortByIndex(list, start = 1) {
+    let sortedList = {};
     let n = Object.keys(list).length;
     let arrayOfIndexes = [];
     let arrayOfIds = [];
     let min = 0;
-    if (logToConsole) console.log(list);
     // Create the array of indexes and its corresponding array of ids
     for (let id in list) {
-        if (logToConsole) console.log(`id = ${id}`);
+        // if (logToConsole) console.log(`id = ${id}`);
         // If there is no index, then move the search engine to the end of the list
         if (isEmpty(list[id].index)) {
-            list[id].index = n + 1;
+            list[id].index = n;
             n++;
         }
         arrayOfIndexes.push(list[id].index);
         arrayOfIds.push(id);
     }
-    // Sort the list by index
-    for (let i = 1; i < n + 1; i++) {
+    // Sort the list by index starting from Index start (=1 by default)
+    for (let i = start; i < n + start; i++) {
         min = Math.min(...arrayOfIndexes);
         let ind = arrayOfIndexes.indexOf(min);
         arrayOfIndexes.splice(ind, 1);
         let id = arrayOfIds.splice(ind, 1);
+        sortedList[id] = list[id];
         sortedList[id].index = i;
     }
+
+    if (logToConsole) console.log(sortedList);
 
     return sortedList;
 }

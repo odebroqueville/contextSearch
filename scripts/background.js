@@ -289,7 +289,7 @@ async function handleReset() {
 }
 
 async function handleSaveSearchEngines(data) {
-    searchEngines = sortByIndex(data);
+    searchEngines = sortByIndex(data, 0);
     if (logToConsole) console.log(searchEngines);
     await browser.storage.local.clear();
     if (logToConsole) console.log('Local storage cleared.');
@@ -299,10 +299,10 @@ async function handleSaveSearchEngines(data) {
 
 async function handleAddNewSearchEngine(data) {
     const id = data.id;
-    let domain;
+    let domain = null;
     searchEngines[id] = data.searchEngine;
-    searchEngines = sortByIndex(searchEngines);
-    if (!(id.startsWith("separator-") || id.startsWith('chatgpt-'))) {
+    searchEngines = sortByIndex(searchEngines, 0);
+    if (!(id.startsWith("separator-") || id.startsWith('chatgpt-') || searchEngines[id].isFolder)) {
         domain = getDomain(data.searchEngine.url);
         if (logToConsole) console.log(id, domain);
     }
@@ -565,16 +565,15 @@ async function reset() {
 
 // Fetches a favicon for the new search engine
 async function addNewSearchEngine(id, domain) {
-    const searchEngine = {};
-    // Add a favicon to the search engine except if it's a separator
-    if (!id.startsWith("separator-")) {
+    // Add a favicon to the search engine except if it's a separator or a folder
+    if (!(id.startsWith("separator-") || searchEngines[id]['isFolder'])) {
         const favicon = await getNewFavicon(id, domain);
         searchEngines[id]['imageFormat'] = favicon.imageFormat;
         searchEngines[id]['base64'] = favicon.base64;
     }
-    searchEngine[id] = searchEngines[id];
+    searchEngines['root']['children'].push(id);
     // Save the search engine to local storage
-    await browser.storage.local.set(searchEngine);
+    await browser.storage.local.set(searchEngines);
     rebuildContextMenu();
     if (notificationsEnabled) notify(notifySearchEngineAdded);
 }
@@ -613,31 +612,52 @@ async function initialiseOptionsAndSearchEngines() {
     /// Initialise search engines
     // If there were search engines stored in storage sync (legacy), move them to storage local
     if (!isEmpty(data) && Object.keys(data).length > 1) {
-        searchEngines = sortByIndex(data);
-        setKeyboardShortcuts();
-        if (logToConsole) {
-            console.log('Search engines: \n');
-            console.log(searchEngines);
-        }
         await browser.storage.local.clear();
-        await getFaviconsAsBase64Strings();
-        await saveSearchEnginesToLocalStorage(false);
+        if (!searchEngines.root) {
+            searchEngines = sortByIndex(data);
+        } else {
+            searchEngines = sortByIndex(data, 0);
+        }
     } else {
         // Check for search engines in local storage
-        const se = await browser.storage.local.get(null);
+        const se = await browser.storage.local.get();
         if (se === undefined || isEmpty(se) || contextsearch_forceSearchEnginesReload) {
             // Load default search engines if force reload is set or if no search engines are stored in local storage
             await browser.storage.local.clear();
             await loadDefaultSearchEngines(DEFAULT_SEARCH_ENGINES);
         } else {
-            searchEngines = sortByIndex(se);
-            setKeyboardShortcuts();
-            await getFaviconsAsBase64Strings();
-            await saveSearchEnginesToLocalStorage(true);
-            rebuildContextMenu();
-            if (logToConsole) {
-                console.log('Search engines: \n');
-                console.log(searchEngines);
+            if (!searchEngines.root) {
+                searchEngines = sortByIndex(se);
+            } else {
+                searchEngines = sortByIndex(se, 0);
+            }
+        }
+    }
+    if (!searchEngines.root) addRootFolderToSearchEngines();
+    setKeyboardShortcuts();
+    await getFaviconsAsBase64Strings();
+    await saveSearchEnginesToLocalStorage(true);
+    rebuildContextMenu();
+    if (logToConsole) {
+        console.log('Search engines: \n');
+        console.log(searchEngines);
+    }
+}
+
+function addRootFolderToSearchEngines() {
+    searchEngines['root'] = {
+        index: 0,
+        name: 'Root',
+        isFolder: true,
+        children: []
+    };
+    const n = Object.keys(searchEngines).length;
+    for (let i = 0; i < n; i++) {
+        for (let id in searchEngines) {
+            if (id === 'root') continue;
+            if (searchEngines[id]['index'] === i) {
+                searchEngines['root']['children'].push(id);
+                if (searchEngines[id]['isFolder'] === undefined) searchEngines[id]['isFolder'] = false;
             }
         }
     }
@@ -645,11 +665,14 @@ async function initialiseOptionsAndSearchEngines() {
 
 function setKeyboardShortcuts() {
     for (let id in searchEngines) {
-        if (searchEngines[id].keyboardShortcut !== undefined) continue;
-        if (logToConsole) console.log(`id: ${id}`);
-        searchEngines[id]['keyboardShortcut'] = '';
-        if (logToConsole)
-            console.log(`keyboard shortcut: ${searchEngines[id].keyboardShortcut}`);
+        if (id === 'root') continue;
+        if (searchEngines[id].keyboardShortcut === undefined) {
+            searchEngines[id]['keyboardShortcut'] = '';
+        }
+        if (logToConsole) {
+            console.log(`Search engine id: ${id}`);
+            console.log(`Keyboard shortcut: ${searchEngines[id].keyboardShortcut}`);
+        }
     }
 }
 
@@ -765,22 +788,13 @@ async function loadDefaultSearchEngines(jsonFile) {
         }
         const json = await response.json();
         searchEngines = sortByIndex(json);
-        setKeyboardShortcuts();
-        if (logToConsole) {
-            console.log('Search engines:\n');
-            console.log(searchEngines);
-        }
-        await browser.storage.local.clear();
-        await getFaviconsAsBase64Strings();
-        await saveSearchEnginesToLocalStorage(true);
-        rebuildContextMenu();
     } catch (error) {
         if (logToConsole) console.error(error.message);
     }
 }
 
 async function saveSearchEnginesToLocalStorage(blnNotify) {
-    searchEngines = sortByIndex(searchEngines);
+    searchEngines = sortByIndex(searchEngines, 0);
     if (logToConsole) {
         console.log('Search engines:\n');
         console.log(searchEngines);
@@ -809,8 +823,8 @@ async function getFaviconsAsBase64Strings() {
     let arrayOfPromises = [];
 
     for (let id in searchEngines) {
-        // If search engine is actually a separator
-        if (id.startsWith('separator-')) continue;
+        // If search engine is actually a separator or a folder, skip it
+        if (id.startsWith('separator-') || searchEngines[id].isFolder) continue;
 
         // Fetch a new favicon only if there is no existing favicon or if an favicon reload is being forced
         if (
@@ -974,9 +988,12 @@ async function rebuildContextMenu() {
     const info = await browser.runtime.getBrowserInfo();
     const v = info.version;
     const browserVersion = parseInt(v.slice(0, v.search('.') - 1));
+    const rootChildren = searchEngines.root.children;
 
-    browser.contextMenus.removeAll();
-    browser.contextMenus.onClicked.removeListener(processSearch);
+    if (logToConsole) console.log(`Root children: ${rootChildren}`);
+
+    browser.menus.removeAll();
+    browser.menus.onClicked.removeListener(processSearch);
 
     if (contextsearch_optionsMenuLocation === 'top') {
         rebuildContextOptionsMenu();
@@ -984,64 +1001,49 @@ async function rebuildContextMenu() {
 
     buildContextMenuForImages();
 
-    let n = Object.keys(searchEngines).length;
-    for (let i = 1; i < n + 1; i++) {
-        for (let id in searchEngines) {
-            if (searchEngines[id].index === i) {
-                if (logToConsole) console.log(`Index: ${i}  id: ${id}`);
-                if (id.startsWith("separator-")) {
-                    browser.contextMenus.create({
-                        id: 'cs-separator-' + i,
-                        type: 'separator',
-                        contexts: ['selection'],
-                    });
-                    break;
-                }
-
-                buildContextMenuItem(id, browserVersion);
-            }
-        }
+    for (let id of rootChildren) {
+        buildContextMenuItem(id, browserVersion, 'root');
     }
 
     if (contextsearch_optionsMenuLocation === 'bottom') {
         rebuildContextOptionsMenu();
     }
 
-    browser.contextMenus.onClicked.addListener(processSearch);
+    browser.menus.onClicked.addListener(processSearch);
 }
 
 function rebuildContextOptionsMenu() {
     if (contextsearch_optionsMenuLocation === 'bottom') {
-        browser.contextMenus.create({
+        browser.menus.create({
             id: 'cs-separator',
             type: 'separator',
             contexts: ['selection'],
         });
     }
-    browser.contextMenus.create({
+    browser.menus.create({
         id: 'cs-match',
         type: 'checkbox',
         title: titleExactMatch,
         contexts: ['selection'],
         checked: contextsearch_exactMatch,
     });
-    browser.contextMenus.create({
+    browser.menus.create({
         id: 'cs-multitab',
         title: titleMultipleSearchEngines,
         contexts: ['selection'],
     });
-    browser.contextMenus.create({
+    browser.menus.create({
         id: 'cs-site-search',
         title: `${titleSiteSearch} ${contextsearch_siteSearch}`,
         contexts: ['selection'],
     });
-    browser.contextMenus.create({
+    browser.menus.create({
         id: 'cs-options',
         title: titleOptions + '...',
         contexts: ['selection'],
     });
     if (contextsearch_optionsMenuLocation === 'top') {
-        browser.contextMenus.create({
+        browser.menus.create({
             id: 'cs-separator',
             type: 'separator',
             contexts: ['selection'],
@@ -1051,12 +1053,12 @@ function rebuildContextOptionsMenu() {
 
 /// Build the context menu for image searches
 function buildContextMenuForImages() {
-    browser.contextMenus.create({
+    browser.menus.create({
         id: 'cs-reverse-image-search',
         title: 'Google Reverse Image Search',
         contexts: ['image'],
     });
-    browser.contextMenus.create({
+    browser.menus.create({
         id: 'cs-google-lens',
         title: 'Google Lens',
         contexts: ['image'],
@@ -1064,31 +1066,84 @@ function buildContextMenuForImages() {
 }
 
 /// Build a single context menu item
-function buildContextMenuItem(id, browserVersion) {
+function buildContextMenuItem(id, browserVersion, parentId) {
+    if (id.startsWith("separator-")) {
+        browser.menus.create({
+            id: 'cs-separator',
+            type: 'separator',
+            contexts: ['selection'],
+        });
+        return;
+    }
     const searchEngine = searchEngines[id];
 
-    if (!searchEngine.show) return;
+    if (!(searchEngine.show || searchEngine.isFolder)) return;
 
-    const index = 'cs-' + id;
+    //const index = 'cs-' + id;
     const title = searchEngine.name;
-    const imageFormat = searchEngine.imageFormat;
-    const base64String = searchEngine.base64;
     const contexts = ['selection'];
-    const faviconUrl = `data:${imageFormat};base64,${base64String}`;
+    let imageFormat;
+    let base64String;
+    let faviconUrl;
 
-    if (browserVersion >= 56 && contextsearch_displayFavicons === true) {
-        browser.contextMenus.create({
-            id: index,
-            title: title,
-            contexts: contexts,
-            icons: { 20: faviconUrl },
-        });
+    if (searchEngine.isFolder) {
+        imageFormat = 'image/png';
+        base64String = base64FolderIcon;
+        faviconUrl = `data:${imageFormat};base64,${base64String}`;
+        createMenuItem(id, title, contexts, parentId, faviconUrl, browserVersion);
+        for (let i = 0; i < searchEngine.children.length; i++) {
+            buildContextMenuItem(searchEngine.children[i], browserVersion, id);
+        }
     } else {
-        browser.contextMenus.create({
-            id: index,
-            title: title,
-            contexts: contexts,
-        });
+        imageFormat = searchEngine.imageFormat;
+        base64String = searchEngine.base64;
+        faviconUrl = `data:${imageFormat};base64,${base64String}`;
+        createMenuItem(id, title, contexts, parentId, faviconUrl, browserVersion);
+    }
+}
+
+function createMenuItem(id, title, contexts, parentId, faviconUrl, browserVersion) {
+    if (browserVersion >= 56 && contextsearch_displayFavicons === true) {
+        if (parentId === 'root') {
+            browser.menus.create({
+                id: id,
+                title: title,
+                contexts: contexts,
+                icons: { 20: faviconUrl },
+            }, () => onCreated(id));
+        } else {
+            browser.menus.create({
+                id: id,
+                title: title,
+                contexts: contexts,
+                parentId: parentId,
+                icons: { 20: faviconUrl },
+            }, () => onCreated(id));
+        }
+    } else {
+        if (parentId === 'root') {
+            browser.menus.create({
+                id: id,
+                title: title,
+                contexts: contexts,
+            }, () => onCreated(id));
+        } else {
+            browser.menus.create({
+                id: id,
+                title: title,
+                contexts: contexts,
+                parentId: parentId,
+            }, () => onCreated(id));
+        }
+    }
+}
+
+
+function onCreated(id) {
+    if (browser.runtime.lastError) {
+        console.log(`Error: ${browser.runtime.lastError}`);
+    } else {
+        console.log(`Menu Item ${id} created successfully`);
     }
 }
 
@@ -1096,8 +1151,10 @@ function buildContextMenuItem(id, browserVersion) {
 async function processSearch(info, tab) {
     if (logToConsole) console.log(info);
     const multisearch = false;
-    const id = info.menuItemId.replace('cs-', '');
+    const id = (info.menuItemId.startsWith('cs-')) ? info.menuItemId.replace('cs-', '') : info.menuItemId;
     let tabIndex = tab.index + 1;
+
+    if (searchEngines[id].isFolder) return;
 
     if (info.selectionText !== undefined) {
         // Prefer info.selectionText over selection received by content script for these lengths (more reliable)
@@ -1843,7 +1900,7 @@ function getDomain(url) {
 }
 
 /// Sort search engines by index
-function sortByIndex(list) {
+function sortByIndex(list, start = 1) {
     let sortedList = {};
     let n = Object.keys(list).length;
     let arrayOfIndexes = [];
@@ -1854,14 +1911,14 @@ function sortByIndex(list) {
         // if (logToConsole) console.log(`id = ${id}`);
         // If there is no index, then move the search engine to the end of the list
         if (isEmpty(list[id].index)) {
-            list[id].index = n + 1;
+            list[id].index = n;
             n++;
         }
         arrayOfIndexes.push(list[id].index);
         arrayOfIds.push(id);
     }
-    // Sort the list by index
-    for (let i = 1; i < n + 1; i++) {
+    // Sort the list by index starting at Index start (=1 by default)
+    for (let i = start; i < n + start; i++) {
         min = Math.min(...arrayOfIndexes);
         let ind = arrayOfIndexes.indexOf(min);
         arrayOfIndexes.splice(ind, 1);

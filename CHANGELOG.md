@@ -1,5 +1,10 @@
-4.7.8
+5.0.0
 =========
+* Updated SortableJS to version 1.15.2
+* Context Search now supports folders
+
+4.7.8
+---------
 
 * Add horizontal & vertical offsets in the extension's options to position the Icons Grid
 

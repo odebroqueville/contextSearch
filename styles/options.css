@@ -59,7 +59,23 @@ input[type="number"] {
     margin-bottom: 5px;
 }
 
-ol#searchEngines li {
+.se {
+    background-color: lightskyblue;
+    padding: 5px;
+    margin-left: 30px;
+}
+
+.folder {
+    padding: 1px;
+    margin-left: 30px;
+}
+
+.ion-folder {
+    font-size: 1.5em;
+    margin-right: 10px;
+}
+
+#searchEngines div {
     /* Set the default cursor style */
     cursor: default;
 
@@ -67,23 +83,25 @@ ol#searchEngines li {
     border: none;
 }
 
-html[theme=light] ol#searchEngines li:hover {
+html[theme=light] #searchEngines div.se:hover,
+html[theme=dark] #searchEngines div.se:hover {
     /* Show the dotted border when hovered */
-    border: 2px dotted blue;
+    border: 3px dotted blue;
 
     /* Change the cursor to a hand when hovered */
     cursor: pointer;
 }
 
-html[theme=dark] ol#searchEngines li:hover {
+html[theme=light] #searchEngines div.folder:hover,
+html[theme=dark] #searchEngines div.folder:hover {
     /* Show the dotted border when hovered */
-    border: 2px dotted lightskyblue;
+    border: 3px dotted rgb(240, 177, 249);
 
     /* Change the cursor to a hand when hovered */
     cursor: pointer;
 }
 
-ol#searchEngines li textarea {
+#searchEngines div textarea {
     margin-top: 10px;
     margin-left: 55px;
 }
@@ -92,7 +110,7 @@ ol#searchEngines li textarea {
     margin-top: 10px;
 }
 
-li,
+div,
 .va {
     vertical-align: top;
 }
@@ -101,11 +119,11 @@ textarea {
     vertical-align: top;
 }
 
-li input[type="checkbox"] {
+div input[type="checkbox"] {
     margin-left: 10px;
 }
 
-li img {
+div img {
     vertical-align: baseline;
     width: 20px;
     height: 20px;
@@ -173,16 +191,8 @@ h2 {
     margin-left: 10px;
 }
 
-#container li {
+#container div {
     margin-bottom: 5px;
-}
-
-#container li:first-child>button.up {
-    visibility: hidden;
-}
-
-#container li:last-child>button.down {
-    visibility: hidden;
 }
 
 #upl {

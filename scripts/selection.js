@@ -11,6 +11,9 @@ const base64ContextSearchIcon =
     'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAG2ElEQVRYhe2Wa1CTVxrH31o/7ezM7kxndndmv6wjs4aEJCCiOx20sOPYdms7uhBaUbou5Y4JBIGogFxiR7BeqmWgSiARCAlvyA2oEMAABbkZVC6CBAkGMCGBo+jY2W5H/feDwhgToLS7s1/2mXm+vc/5/97/c55zDkX9P9YYQcna3/rwtbsCUusEvIKWM9vS9GIfgZbPOlTzrr+I/s1/S3edpL7/7Mmqb83Z5e3PDL1jsDucIITg3swsdmVqwBXqwUnSPWMn65pZfHUoj0e/+R9R5on17wmLWqzZsnbsSKOxI10No8kMQggIIbg1NgWOgAZXqH+ZOnAFNP4qUt1hRkm3/wJprKtsvlXXdsP8PPtyO1KKW3Cp3gR2XAU6BybQNzyJY2XtCE6n8XexHtxkHbhCHfyTlBgen8bktB1XukeeH71klFAU1q1NGnijsWdkoMJwE4GpKohKjIg8fQU+8XJwkjQ4UdmJwDQ1uEIdAoQ1CExXg82nwU6QY3h8GoqWAXQPWWCdmcWUzYHG3tHhNUFovh1uIITgaGkbdmVoMDFlh3NuHrsytC96Lah5xXI9OAI1QsS14Il1SLxgQEpxC8Ym7y+1iRACTftQ008SlzbcPDg3P79UuLiQc24e+YoucARqF/FFoD05Wkjq+3HH4iq8mHPz85A1XP9sVev7RyefvF58Y9SKkDwdgtNpcJI07gDJWuw8qoLDOedRfDFvjt77bsVWyA03Ml8vMprMCExVgStQuVm/mOxD1bBM2yFvHkCQSI2LtSb0DU/CMm13g6gw3MxeFqCt3zzz6sdD41Pg8mmPoi4AfBqn6W6klxiRXtKKwMNK7DyiQvjJOlQbB10A2vvNNo/iF02mX9lmnc8JIbA7nDDfsyH4iObFXK8CsPOoBuNW25JIU98YdB23Uay/jsaeOy4AdocTNN36azeAauNwiN3hxLGydgSmqhBRUO+x326ZpML125PL9r170IJRywwIITgubUdjzx2UNfQfcANQto0UXL89CU6iAjvSVODwVeAka1cFiD1vWHHjTdkcOKXsAiEEIxMzOFHZiYDEqjA3gKyK3mOWaTuumsxIu2R8ueFWt/9zeeeKAIQQlNT3o2fIggmrDXvyasHm0wfdAHxT9LwgkQb5imuYmLLDT1CN0M/r8G6GFuxD1cu6kVvesSqAZdoORcsA9ufXgSvUgRUr/9QNgCVQBy+e53vFtRBXdMA268SsYw53rTb4CapfnveuAFuEKnQOTIAQgvt2Jx5MGrBgEuHRtQgsdEfh4dA5PJgdByEEiYXN4Cbr4P2Z7AM3gD8l0H9g81VLC4fn17v8xYB5Cu+I1B7bEpimRvSZOnxTcQDzjdsw0RyHvvoM3GoUwXl1Lx5f3Y67tzTwFdBg81XYFFGyweMoboorv/viXte4ze/i1ZtU3AKuQOUGoSiLwpguCB9FJyP3TDEKCiUoKJQg/6tLGGzKxAPDNoRlfw1mXKXVozhFURQzsvQ0R1ADNl+FniHLsj39pmsUnFfc2nu8BI8MAQhJTIZ3aCaS8i4sARQUSpBy4itoSj+GsSoE3tHSL5cF8PrHxY2MWNlTrlALkaR1WYDz6l6XTXmmMA2mmt3wDs0Ak5eF8MMFLgBC8QXsEx7GQlMAorJO+i8LQFEU5R0tLfVJUICbVIOa1iGPALtzal3svyyJg748Asyw4/DmZSIu65wLwLFTRXg74jAeN23BfJ0/Y0WAP35a+BYzWnaffagaXIEKXYOurZibm0fwEdeRPF8kRBe9B0xeFrx5mYjNPLsknnv2a3BCRdgTk/DkcdMWzGgYb60IQFEU9eeY0kBmZNn3rPhK1HaOuLwN9opr3Y7oA3mFWGgKwHsxR8AMO47348Qu9jM+TH7aIQtqfWTwN60qvhiMf5btZkRJ/3VK3rYEcKV71OODhCvUo1n+MfpV7+Ptgxnw/SQTBYUSiL+8iG370p9+kfmh4WHj5udmyebYnwxAURTlFVX0l6qmvieEEAyarQjN1S57PG9Pr0Yf/RGsde/g7Lk4FJWeRmpuEhnXbm9baNz8rCPPFzXhvs6qfUzWmiDKDb0bGjoHb3+SU/VvVowMrNjLYMVXwidBAXaiEuxEJXwSFPCJl4MbL0XOqRR0K/72zHFl6/cPDZtnFgx+CruWu7VmP1epjvD7eRAURVEbI4p/tylKmsaIknUyIqU/sGJkeDUZkdIfGDHSa97RUtGGfSW/f70+h6LWqw5wFOoIP8jDfOYqeCyvNUMsRVDOei++ciMrQR3A4tNbWQm0FxWUs361shyKWl8ZzlGWhvqA3s8O//kAvyBoHu9NOpzlC4p6438C8Hr8CN553KkxVTnMAAAAAElFTkSuQmCC';
 const base64MultiSearchIcon =
     'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBtZWV0IiB2aWV3Qm94PSIwIDAgNjQwIDY0MCIgd2lkdGg9IjY0MCIgaGVpZ2h0PSI2NDAiPjxkZWZzPjxwYXRoIGQ9Ik0xMDQuODQgNTMzLjU3QzI3LjYzIDQ1OC4wNiAyNy42MyAxODEuOTQgMTA0Ljg0IDEwNi40M0MxODIuMDUgMzAuOTIgNDcyLjk3IDIzLjM3IDU0MS42IDEwNi40M0M2MTAuMjIgMTg5LjQ5IDYxMC4yMiA0NTAuNTEgNTQxLjYgNTMzLjU3QzQ3Mi45NyA2MTYuNjMgMTgyLjA1IDYwOS4wOCAxMDQuODQgNTMzLjU3WiIgaWQ9ImE5WUNBTG1FOSI+PC9wYXRoPjxwYXRoIGQ9Ik00NjguNzMgMzg4LjUyQzQ2OC43MyAzOTcuNiA0NjEuMzggNDA0Ljk1IDQ1Mi4zIDQwNC45NUM0MjUuODQgNDA0Ljk1IDIxNC4xNiA0MDQuOTUgMTg3LjcgNDA0Ljk1QzE3OC42MiA0MDQuOTUgMTcxLjI3IDM5Ny42IDE3MS4yNyAzODguNTJDMTcxLjI3IDM2Ni40OSAxNzEuMjcgMTkwLjI1IDE3MS4yNyAxNjguMjJDMTcxLjI3IDE2My42NiAxNzQuOTIgMTYwIDE3OS40OCAxNjBDMTg1LjY0IDE2MCAyMzQuOTEgMTYwIDI0MS4wNyAxNjBDMjQzLjM3IDE2MCAzMTMuMTggMTU4LjI3IDMxNC43NCAxNjBDMzE2Ljg1IDE2Mi4zMyAzMzcuMjEgMTgzLjcyIDMzOS4zMiAxODYuMDVDMzQwLjg4IDE4Ny43OCAzNDAuMTcgMTg4Ljc2IDM0Mi41MSAxODguNzZDMzYxLjEyIDE4OC43NiA0NDEuOSAxODguNzYgNDYwLjUyIDE4OC43NkM0NjUuMDQgMTg4Ljc2IDQ2OC43MyAxOTIuNDIgNDY4LjczIDE5Ni45OEM0NjguNzMgMjM1LjI5IDQ2OC43MyAzNjkuMzYgNDY4LjczIDM4OC41MloiIGlkPSJiMjNGdHkzcUxsIj48L3BhdGg+PHBhdGggZD0iTTQ2OC43MyAzODguNTJDNDY4LjczIDM5Ny42IDQ2MS4zOCA0MDQuOTUgNDUyLjMgNDA0Ljk1QzQyNS44NCA0MDQuOTUgMjE0LjE2IDQwNC45NSAxODcuNyA0MDQuOTVDMTc4LjYyIDQwNC45NSAxNzEuMjcgMzk3LjYgMTcxLjI3IDM4OC41MkMxNzEuMjcgMzY2LjQ5IDE3MS4yNyAxOTAuMjUgMTcxLjI3IDE2OC4yMkMxNzEuMjcgMTYzLjY2IDE3NC45MiAxNjAgMTc5LjQ4IDE2MEMxODUuNjQgMTYwIDIzNC45MSAxNjAgMjQxLjA3IDE2MEMyNDMuMzcgMTYwIDI0NS41OSAxNjAuOTkgMjQ3LjE1IDE2Mi43MUMyNDkuMjYgMTY1LjA1IDI2Ni4xMiAxODMuNzIgMjY4LjIzIDE4Ni4wNUMyNjkuNzkgMTg3Ljc4IDI3Mi4wMSAxODguNzYgMjc0LjM1IDE4OC43NkMyOTIuOTcgMTg4Ljc2IDQ0MS45IDE4OC43NiA0NjAuNTIgMTg4Ljc2QzQ2NS4wNCAxODguNzYgNDY4LjczIDE5Mi40MiA0NjguNzMgMTk2Ljk4QzQ2OC43MyAyMzUuMjkgNDY4LjczIDM2OS4zNiA0NjguNzMgMzg4LjUyWiIgaWQ9ImIxeWlRN0RaZlgiPjwvcGF0aD48cGF0aCBkPSJNMTcxLjI3IDM4OC41MkMxNzEuMjcgMzk3LjYgMTc4LjYyIDQwNC45NSAxODcuNyA0MDQuOTVDMjE0LjE2IDQwNC45NSA0MjUuODQgNDA0Ljk1IDQ1Mi4zIDQwNC45NUM0NjEuMzggNDA0Ljk1IDQ2OC43MyAzOTcuNiA0NjguNzMgMzg4LjUyQzQ2OC43MyAzODcuODMgNDY4LjczIDM4NC4zOSA0NjguNzMgMzc4LjJMMTcxLjI3IDM3OC4yQzE3MS4yNyAzODQuMzkgMTcxLjI3IDM4Ny44MyAxNzEuMjcgMzg4LjUyWiIgaWQ9ImJUazNsUzdZdSI+PC9wYXRoPjxwYXRoIGQ9Ik00NjguNzMgMjM1LjJDNDY4LjczIDIzNS4yIDQ2OC43MyAyMzUuMiA0NjguNzMgMjM1LjJDNDY4LjczIDI0NS4zMyA0NjguNzMgMjUwLjk2IDQ2OC43MyAyNTIuMDlDNDY4LjczIDI1Mi4wOSA0NjguNzMgMjUyLjA5IDQ2OC43MyAyNTIuMDlDMjkwLjI1IDI1Mi4wOSAxOTEuMSAyNTIuMDkgMTcxLjI3IDI1Mi4wOUMxNzEuMjcgMjUyLjA5IDE3MS4yNyAyNTIuMDkgMTcxLjI3IDI1Mi4wOUMxNzEuMjcgMjQxLjk1IDE3MS4yNyAyMzYuMzIgMTcxLjI3IDIzNS4yQzE3MS4yNyAyMzUuMiAxNzEuMjcgMjM1LjIgMTcxLjI3IDIzNS4yQzM0OS43NSAyMzUuMiA0NDguOSAyMzUuMiA0NjguNzMgMjM1LjJaIiBpZD0ibHJvTTdzSGZLIj48L3BhdGg+PHBhdGggZD0iTTQ2MS4yMyA0NTEuNzRDNDY3Ljc2IDQ1OC4wNiA0NjcuOTMgNDY4LjQ2IDQ2MS42MiA0NzQuOTlDNDU1LjMxIDQ4MS41MSA0NDQuOTEgNDgxLjY5IDQzOC4zOCA0NzUuMzhDNDMzLjgzIDQ3MC45OCA0MTEuMDcgNDQ4Ljk4IDM3MC4xIDQwOS4zN0wzOTIuOTUgMzg1Ljc0QzQzMy45MiA0MjUuMzQgNDU2LjY3IDQ0Ny4zNCA0NjEuMjMgNDUxLjc0WiIgaWQ9ImExSmVLeHNoYiI+PC9wYXRoPjxwYXRoIGQ9Ik0zODguOTIgMjk0Ljg5QzQyMC4zOCAzMjUuMDcgNDIxLjQyIDM3NS4wNSAzOTEuMjMgNDA2LjUxQzM2MS4wNSA0MzcuOTggMzExLjA3IDQzOS4wMSAyNzkuNjEgNDA4LjgzQzI0OC4xNCAzNzguNjUgMjQ3LjExIDMyOC42NyAyNzcuMjkgMjk3LjIxQzMwNy40OCAyNjUuNzQgMzU3LjQ1IDI2NC43IDM4OC45MiAyOTQuODlaIiBpZD0iZUhsaUJzZTh6Ij48L3BhdGg+PHBhdGggZD0iTTM3OS43OCAzMDQuNDFDNDA1Ljk4IDMyOS41NSA0MDYuODQgMzcxLjE3IDM4MS43MSAzOTcuMzhDMzU2LjU3IDQyMy41OCAzMTQuOTUgNDI0LjQ0IDI4OC43NCAzOTkuM0MyNjIuNTQgMzc0LjE3IDI2MS42OCAzMzIuNTUgMjg2LjgyIDMwNi4zNEMzMTEuOTUgMjgwLjE0IDM1My41NyAyNzkuMjggMzc5Ljc4IDMwNC40MVoiIGlkPSJhMTdycHZGTEgyIj48L3BhdGg+PHBhdGggZD0iTTM3NC4xNyAzMjMuNjhDMzczLjggMzI2LjY0IDM2MS4yNSAzMTQuMjEgMzQwLjc4IDMxMS42N0MzMjAuMzEgMzA5LjEzIDI5OS42NyAzMTcuNDQgMzAwLjA0IDMxNC40OEMzMDAuNDEgMzExLjUzIDMxOC4zOCAyOTkuMTkgMzM4Ljg1IDMwMS43M0MzNTkuMzIgMzA0LjI3IDM3NC41MyAzMjAuNzIgMzc0LjE3IDMyMy42OFoiIGlkPSJhUk9DeWh3dkQiPjwvcGF0aD48cGF0aCBkPSJNNDQ4LjQ2IDQzOS40MUM0NDguNDYgNDM5LjQxIDQ0OC40NiA0MzkuNDEgNDQ4LjQ2IDQzOS40MUM0NTIuMDEgNDQyLjgzIDQ1My45OCA0NDQuNzQgNDU0LjM3IDQ0NS4xMkM0NTQuMzcgNDQ1LjEyIDQ1NC4zNyA0NDUuMTIgNDU0LjM3IDQ0NS4xMkM0NDAuNjYgNDU5LjMgNDMzLjA1IDQ2Ny4xOCA0MzEuNTIgNDY4Ljc1QzQzMS41MiA0NjguNzUgNDMxLjUyIDQ2OC43NSA0MzEuNTIgNDY4Ljc1QzQyNy45OCA0NjUuMzMgNDI2LjAxIDQ2My40MiA0MjUuNjEgNDYzLjA0QzQyNS42MSA0NjMuMDQgNDI1LjYxIDQ2My4wNCA0MjUuNjEgNDYzLjA0QzQzOS4zMiA0NDguODYgNDQ2Ljk0IDQ0MC45OCA0NDguNDYgNDM5LjQxWiIgaWQ9ImFNUGNnNWJZbCI+PC9wYXRoPjxwYXRoIGQ9Ik00MzMuNjkgNDI1LjEyQzQzMy42OSA0MjUuMTIgNDMzLjY5IDQyNS4xMiA0MzMuNjkgNDI1LjEyQzQzNy4yNCA0MjguNTUgNDM5LjIxIDQzMC40NiA0MzkuNiA0MzAuODRDNDM5LjYgNDMwLjg0IDQzOS42IDQzMC44NCA0MzkuNiA0MzAuODRDNDI1Ljg5IDQ0NS4wMiA0MTguMjcgNDUyLjkgNDE2Ljc1IDQ1NC40N0M0MTYuNzUgNDU0LjQ3IDQxNi43NSA0NTQuNDcgNDE2Ljc1IDQ1NC40N0M0MTMuMjEgNDUxLjA1IDQxMS4yNCA0NDkuMTQgNDEwLjg0IDQ0OC43NkM0MTAuODQgNDQ4Ljc2IDQxMC44NCA0NDguNzYgNDEwLjg0IDQ0OC43NkM0MjQuNTUgNDM0LjU4IDQzMi4xNyA0MjYuNyA0MzMuNjkgNDI1LjEyWiIgaWQ9Imk0aEZYWXhoOWkiPjwvcGF0aD48L2RlZnM+PGc+PGc+PGc+PHVzZSB4bGluazpocmVmPSIjYTlZQ0FMbUU5IiBvcGFjaXR5PSIxIiBmaWxsPSIjMzM0ZDVjIiBmaWxsLW9wYWNpdHk9IjEiPjwvdXNlPjxnPjx1c2UgeGxpbms6aHJlZj0iI2E5WUNBTG1FOSIgb3BhY2l0eT0iMSIgZmlsbC1vcGFjaXR5PSIwIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLW9wYWNpdHk9IjAiPjwvdXNlPjwvZz48L2c+PGc+PHVzZSB4bGluazpocmVmPSIjYjIzRnR5M3FMbCIgb3BhY2l0eT0iMSIgZmlsbD0iI2Y2YzM1OCIgZmlsbC1vcGFjaXR5PSIxIj48L3VzZT48Zz48dXNlIHhsaW5rOmhyZWY9IiNiMjNGdHkzcUxsIiBvcGFjaXR5PSIxIiBmaWxsLW9wYWNpdHk9IjAiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2Utb3BhY2l0eT0iMCI+PC91c2U+PC9nPjwvZz48Zz48dXNlIHhsaW5rOmhyZWY9IiNiMXlpUTdEWmZYIiBvcGFjaXR5PSIxIiBmaWxsPSIjZmNkNDYyIiBmaWxsLW9wYWNpdHk9IjEiPjwvdXNlPjxnPjx1c2UgeGxpbms6aHJlZj0iI2IxeWlRN0RaZlgiIG9wYWNpdHk9IjEiIGZpbGwtb3BhY2l0eT0iMCIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1vcGFjaXR5PSIwIj48L3VzZT48L2c+PC9nPjxnPjx1c2UgeGxpbms6aHJlZj0iI2JUazNsUzdZdSIgb3BhY2l0eT0iMSIgZmlsbD0iI2Y2YzM1OCIgZmlsbC1vcGFjaXR5PSIxIj48L3VzZT48Zz48dXNlIHhsaW5rOmhyZWY9IiNiVGszbFM3WXUiIG9wYWNpdHk9IjEiIGZpbGwtb3BhY2l0eT0iMCIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1vcGFjaXR5PSIwIj48L3VzZT48L2c+PC9nPjxnPjx1c2UgeGxpbms6aHJlZj0iI2xyb003c0hmSyIgb3BhY2l0eT0iMSIgZmlsbD0iI2Y2YzM1OCIgZmlsbC1vcGFjaXR5PSIxIj48L3VzZT48Zz48dXNlIHhsaW5rOmhyZWY9IiNscm9NN3NIZksiIG9wYWNpdHk9IjEiIGZpbGwtb3BhY2l0eT0iMCIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1vcGFjaXR5PSIwIj48L3VzZT48L2c+PC9nPjxnPjx1c2UgeGxpbms6aHJlZj0iI2ExSmVLeHNoYiIgb3BhY2l0eT0iMSIgZmlsbD0iI2RjODc0NCIgZmlsbC1vcGFjaXR5PSIxIj48L3VzZT48Zz48dXNlIHhsaW5rOmhyZWY9IiNhMUplS3hzaGIiIG9wYWNpdHk9IjEiIGZpbGwtb3BhY2l0eT0iMCIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1vcGFjaXR5PSIwIj48L3VzZT48L2c+PC9nPjxnPjx1c2UgeGxpbms6aHJlZj0iI2VIbGlCc2U4eiIgb3BhY2l0eT0iMSIgZmlsbD0iI2U1NjM1MyIgZmlsbC1vcGFjaXR5PSIxIj48L3VzZT48Zz48dXNlIHhsaW5rOmhyZWY9IiNlSGxpQnNlOHoiIG9wYWNpdHk9IjEiIGZpbGwtb3BhY2l0eT0iMCIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1vcGFjaXR5PSIwIj48L3VzZT48L2c+PC9nPjxnPjx1c2UgeGxpbms6aHJlZj0iI2ExN3JwdkZMSDIiIG9wYWNpdHk9IjEiIGZpbGw9IiNlMWU2ZTkiIGZpbGwtb3BhY2l0eT0iMSI+PC91c2U+PGc+PHVzZSB4bGluazpocmVmPSIjYTE3cnB2RkxIMiIgb3BhY2l0eT0iMSIgZmlsbC1vcGFjaXR5PSIwIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLW9wYWNpdHk9IjAiPjwvdXNlPjwvZz48L2c+PGc+PHVzZSB4bGluazpocmVmPSIjYVJPQ3lod3ZEIiBvcGFjaXR5PSIxIiBmaWxsPSIjZWJmMGYzIiBmaWxsLW9wYWNpdHk9IjEiPjwvdXNlPjxnPjx1c2UgeGxpbms6aHJlZj0iI2FST0N5aHd2RCIgb3BhY2l0eT0iMSIgZmlsbC1vcGFjaXR5PSIwIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLW9wYWNpdHk9IjAiPjwvdXNlPjwvZz48L2c+PGc+PHVzZSB4bGluazpocmVmPSIjYU1QY2c1YllsIiBvcGFjaXR5PSIxIiBmaWxsPSIjZTFlNmU5IiBmaWxsLW9wYWNpdHk9IjEiPjwvdXNlPjxnPjx1c2UgeGxpbms6aHJlZj0iI2FNUGNnNWJZbCIgb3BhY2l0eT0iMSIgZmlsbC1vcGFjaXR5PSIwIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLW9wYWNpdHk9IjAiPjwvdXNlPjwvZz48L2c+PGc+PHVzZSB4bGluazpocmVmPSIjaTRoRlhZeGg5aSIgb3BhY2l0eT0iMSIgZmlsbD0iI2UxZTZlOSIgZmlsbC1vcGFjaXR5PSIxIj48L3VzZT48Zz48dXNlIHhsaW5rOmhyZWY9IiNpNGhGWFl4aDlpIiBvcGFjaXR5PSIxIiBmaWxsLW9wYWNpdHk9IjAiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2Utb3BhY2l0eT0iMCI+PC91c2U+PC9nPjwvZz48L2c+PC9nPjwvc3ZnPg==';
+// Folder icon download link: https://icons8.com/icon/12160/folder
+const base64FolderIcon = 'iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAABCUlEQVR4nO2VMWrDQBBFp8gRQhoFV5a0pM0Zci/fRAK7CcJd0gXcRfKALxFIZ4OdA+gbxZ1A3nU1A/4Pfv/f7OyuCCGEEDICS3lGJQ1q+UMtSEolC3FTvpZDcnFvErhM/vbyXiRwy9p4lMBQYPUAfGVAVwAabNMVPTazX3w+vaUJDOXb3L64jtLmPT4eX+MCw+Sty+pENrOfuICHtdGpUyj6uIB1Sb0eCoAnELhCV7FeEfASq/2UwWdU7ScNfmTqMxLDuiAooPZTBldI7ScNXmL1GbmHZ/RkXRJT2YZjXGBbrh0LNAkCoYCWe/OyOk55wO5lHhX4l/jOM2h4d7JOp2HyyeUJIYTcFWcLXG7i+rfwxwAAAABJRU5ErkJggg==';
+const base64BackIcon = 'iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAC+ElEQVR4nO1ZTWsUQRAd/DjoTaMXP36FGBIQFrqXECGHxOp2k3jyEjyIR6NByEWNIHgIJhr8AcKY6o1rVATx4ywqagzEg6LmoMluPEmyRhmp3Rg364ad6amZMbAPCgYGpt7rru6ufuM4DTTQQGhoV2+WRrcKhAGBCiXCW4mwIA38KEXpWU2V3hl1No1dLYODg5ucpNGWzeyXRl2SBmalUV7A+CwQhlLYtS924u2u3i0QxoSBogXxNSEMFAXCqDSdTbGQT4/rXmGgEJb4P0JQ5eW4zkRG/MBY31Zp4AY3cVkdqK6lHqe2sJLvyHVsl6juRU7erJbVJOXkG/kYycsKESwzEUvZmPXWBYyGI4/qWFLk5UqkDRy1HPnOJokwn7QAgSqfyvXsCiyA9vmkycu/cTUQeTodOQ4pxllYEq7eG6B8qD0Il/Ty8xFmEXDRF3lqsqhPsU3Uls14N2eyHoF3JmCWmkYfo69bbZMcmTzuvZx7UyLPL0B5wujmugKoJbb5+IlHp70v3+dWyUchIG30GR8zACboh4eeDXtLP4tryEchQBq45UOAmrKp91pgLyGE1/VLyGerXF3vtTC98C5QyHp5Eeb9CCja1DsHZN0ZUEssAnLvH7CT5xTgq4SuvLjuLf9a9jghOUooyCI+9fScV1j8ti6hk08GAoVkWcRl68P3zpC53+dNF2bsRtQEDjeSg6x9ose7++Fh5AIEQn9dAWQ62SaoXhfsM4BdB301cwLhk22SynXBOvoGPvp288gxC5Psz7pgnoELTpwXmsO3e5K70BDKdh9zDduXz7ATFG2u3ikMzCVOHlXe2jcVqLqTF6CVEwbkVW6o0qn98yL4JYehdO6wmbxktJJXGZsAVLkWV29zOEGjEcfOJAwMs9vrlSCvMgrLURj1NfSCDbLFkt1HB0x48rBIo35osneHEzfodCTHzKZ3ot5GIpxPT3TvcZJGqQE0upl8G7I+6OJBN7vSD7xy0C3v1cq7fuoq/4vfrA004Gx8/AaA9k9iqAR7zQAAAABJRU5ErkJggg==';
 const ICON32 = '32px'; // icon width is 32px
 
 let meta = '';
@@ -28,6 +31,8 @@ let range = null;
 let keysPressed = {};
 let textSelection = '';
 let navEntered = false;
+let xPos;
+let yPos;
 
 // Current state
 if (logToConsole) {
@@ -233,12 +238,12 @@ async function init() {
     }
 
     // Retrieve search engines from local storage
-    const searchEngines = await browser.storage.local.get(null);
+    const searchEngines = await browser.storage.local.get();
     if (logToConsole) console.log(searchEngines);
 
     // If there exists a search engine with a query string that includes the domain of the visited web page, then hide the Page action
     for (let id in searchEngines) {
-        if (id.startsWith("separator-") || id.startsWith("chatgpt-")) continue;
+        if (id.startsWith("separator-") || id.startsWith("chatgpt-") || searchEngines[id].isFolder) continue;
         if (searchEngines[id].url.includes(domain)) {
             if (logToConsole) console.log('This web page has already been added to your list of search engines.');
             sendMessage('hidePageAction', null);
@@ -422,7 +427,7 @@ async function handleStorageChange(changes, area) {
             }
             break;
         case 'local':
-            const searchEngines = await browser.storage.local.get(null);
+            const searchEngines = await browser.storage.local.get();
             // If the website doesn't contain an opensearch plugin, then hide the Page action
             if (document.querySelector('link[type="application/opensearchdescription+xml"]') == null) {
                 sendMessage('hidePageAction', null);
@@ -432,7 +437,7 @@ async function handleStorageChange(changes, area) {
             // The following test has to be carried out when a new search engine is added...
             // If there exists a search engine with a query string that includes the domain of the visited web page, then hide the Page action
             for (let id in searchEngines) {
-                if (id.startsWith("separator-") || id.startsWith("chatgpt-")) continue;
+                if (id.startsWith("separator-") || id.startsWith("chatgpt-") || searchEngines[id].isFolder) continue;
                 if (searchEngines[id].url.includes(domain)) {
                     if (logToConsole) console.log('This web page has already been added to your list of search engines.');
                     sendMessage('hidePageAction', null);
@@ -482,17 +487,18 @@ async function handleAltClickWithGrid(e) {
     // OR the option (alt) key is pressed on mouse up
     if ((e === null) || (options.quickIconGrid && e.type === 'mouseup' && textSelection.length > 0) || (e.type === 'mouseup' && e.altKey && textSelection.length > 0)) {
         // THEN display the Icons Grid
+        let x, y;
         if (logToConsole) console.log('Displaying Icons Grid...');
         if (e !== null) {
-            const x = e.clientX;
-            const y = e.clientY;
-            if (logToConsole) console.log(x + parseInt(options.offsetX));
-            if (logToConsole) console.log(y + parseInt(options.offsetY));
-            if (x > 0 && y > 0) createIconGrid(x + parseInt(options.offsetX), y + parseInt(options.offsetY));
+            x = e.clientX;
+            y = e.clientY;
         } else {
-            const { x, y } = getSelectionEndPosition();
-            if (x > 0 && y > 0) createIconGrid(x + parseInt(options.offsetX), y + parseInt(options.offsetY));
+            ({ x, y } = getSelectionEndPosition());
         }
+        xPos = x + parseInt(options.offsetX);
+        yPos = y + parseInt(options.offsetY);
+        if (logToConsole) console.log(xPos, yPos);
+        if (xPos > 0 && yPos > 0) createIconsGrid(xPos, yPos, 'root');
     }
 }
 
@@ -651,30 +657,46 @@ async function sendSelectionToBackgroundScript(selectedText) {
     sendMessage('setSelection', { selection: selectedText });
 }
 
-async function createIconGrid(x, y) {
+async function createIconsGrid(x, y, folderId) {
     // Retrieve search engines from local storage
-    const se = await browser.storage.local.get(null);
+    const se = await browser.storage.local.get();
     const searchEngines = sortByIndex(se);
-    if (logToConsole) console.log(searchEngines);
     let icons = [];
+
+    // If the parent folder is not the root folder, then add an icon for backwards navigation
+    if (folderId !== 'root') {
+        icons.push({
+            id: 'back',
+            src: 'data:image/png;base64,' + base64BackIcon,
+            title: 'back',
+        });
+    }
+
     // Only include the multi-search icon in the Icons Grid if required
-    for (const id in searchEngines) {
+    for (const id of searchEngines[folderId].children) {
+        if (searchEngines[id].isFolder) continue;
         if (searchEngines[id].multitab) {
-            icons = [{
+            icons.push({
                 id: 'multisearch',
                 src: 'data:image/svg+xml;base64,' + base64MultiSearchIcon,
                 title: 'multi-search',
-            }];
+            });
             break;
         }
     }
 
-    // Number of search engines
-    let i = 1;
-    for (const id in searchEngines) {
-        if (!id.startsWith("separator-") && searchEngines[id].index === i && searchEngines[id].show) {
-            let src = `data:${searchEngines[id].imageFormat || 'image/png'};base64,`;
-            const title = searchEngines[id].name;
+    // Add an icon for each search engine and folder
+    for (const id of searchEngines[folderId].children) {
+        let imageFormat, base64String, title, src;
+        if (searchEngines[id].isFolder) {
+            imageFormat = 'image/png';
+            base64String = base64FolderIcon;
+            title = searchEngines[id].name;
+            src = `data:${imageFormat};base64,${base64String}`;
+            icons.push({ id: id, src: src, title: title });
+        } else if (!id.startsWith("separator-") && searchEngines[id].show) {
+            src = `data:${searchEngines[id].imageFormat || 'image/png'};base64,`;
+            title = searchEngines[id].name;
             if (isEmpty(searchEngines[id]) || isEmpty(searchEngines[id].base64)) {
                 // Default icon when no favicon could be found
                 src += base64ContextSearchIcon;
@@ -683,12 +705,11 @@ async function createIconGrid(x, y) {
             }
             icons.push({ id: id, src: src, title: title });
         }
-        i++;
     }
 
     // Grid dimensions
-    i += 1; // Add one icon for multi-search
-    const m = Math.ceil(Math.sqrt(i)); // Grid dimension: m x m matrix
+    const n = icons.length;
+    const m = Math.ceil(Math.sqrt(n)); // Grid dimension: m x m matrix
     const navMaxWidth = m * 38 + 16;
 
     // Cleanup
@@ -730,7 +751,7 @@ async function createIconGrid(x, y) {
     body.appendChild(nav);
 
     // Define event listeners for the icon grid
-    nav.addEventListener('mouseup', onGridClick);
+    nav.addEventListener('mouseup', e => onGridClick(e, folderId));
     nav.addEventListener('mouseenter', onHover);
     nav.addEventListener('mouseleave', onLeave);
 
@@ -753,7 +774,7 @@ async function createIconGrid(x, y) {
     }
 }
 
-function onGridClick(e) {
+async function onGridClick(e, folderId) {
     e.preventDefault();
     e.stopPropagation();
     if (!navEntered) return;
@@ -761,9 +782,35 @@ function onGridClick(e) {
     const id = e.target.id;
     if (logToConsole) console.log('Search engine clicked:' + id);
     closeGrid();
+
+    // Retrieve search engines from local storage
+    const se = await browser.storage.local.get();
+    const searchEngines = sortByIndex(se);
+
+    if (id === 'back') {
+        const parentId = getParentFolderOf(searchEngines, folderId, 'root');
+        console.log('Parent folder of ' + folderId + ' is ' + parentId);
+        createIconsGrid(xPos, yPos, parentId);
+        return;
+    }
+
     const selection = window.getSelection();
     selection.addRange(range);
-    sendMessage('doSearch', { id: id });
+    if (!searchEngines[id].isFolder) {
+        sendMessage('doSearch', { id: id });
+    } else {
+        createIconsGrid(xPos, yPos, id);
+    }
+}
+
+function getParentFolderOf(searchEngines, folderId, startFolder) {
+    for (const id of searchEngines[startFolder].children) {
+        if (id === folderId) {
+            return startFolder;
+        } else if (searchEngines[id].isFolder) {
+            getParentFolderOf(searchEngines, folderId, id);
+        }
+    }
 }
 
 function onHover() {
@@ -935,7 +982,6 @@ function getNameAndQueryString(xml) {
             if (type === 'text/html') url = node.getAttribute('template');
         }
     }
-    if (logToConsole) console.log(txt);
     return { shortName: shortName, queryString: url };
 }
 
@@ -972,35 +1018,34 @@ function isEmpty(value) {
 }
 
 /// Sort search engines by index
-function sortByIndex(list) {
+function sortByIndex(list, start = 1) {
     let sortedList = {};
-    const n = Object.keys(list).length;
-    let m = n;
+    let n = Object.keys(list).length;
     let arrayOfIndexes = [];
     let arrayOfIds = [];
-    let min = 999;
-    if (logToConsole) console.log(list);
+
     // Create the array of indexes and its corresponding array of ids
     for (let id in list) {
-        if (logToConsole) console.log(`id = ${id}`);
+        // if (logToConsole) console.log(`id = ${id}`);
         // If there is no index, then move the search engine to the end of the list
         if (isEmpty(list[id].index)) {
-            list[id].index = m + 1;
-            m++;
+            list[id].index = n;
+            n++;
         }
         arrayOfIndexes.push(list[id].index);
         arrayOfIds.push(id);
     }
-    // Sort the list by index
-    for (let i = 1; i < n + 1; i++) {
-        min = Math.min(...arrayOfIndexes);
-        const indice = arrayOfIndexes.indexOf(min);
-        const id = arrayOfIds[indice];
-        arrayOfIndexes.splice(indice, 1);
-        arrayOfIds.splice(indice, 1);
+    // Sort the list by index starting at Index start (=1 by default)
+    for (let i = start; i < n + start; i++) {
+        const min = Math.min(...arrayOfIndexes);
+        const ind = arrayOfIndexes.indexOf(min);
+        const id = arrayOfIds.splice(ind, 1);
+        arrayOfIndexes.splice(ind, 1);
         sortedList[id] = list[id];
         sortedList[id].index = i;
     }
+
+    if (logToConsole) console.log(sortedList);
 
     return sortedList;
 }
