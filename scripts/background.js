@@ -262,24 +262,41 @@ function handleAddNewPostSearchEngine(data) {
 
 async function handleDoSearch(data) {
     const id = data.id;
-    const multisearch = false;
+    let multiTabArray = [];
+    let multisearch = false;
     if (logToConsole) console.log('Search engine id: ' + id);
     if (logToConsole) console.log(contextsearch_openSearchResultsInSidebar);
     const tabs = await queryAllTabs();
     const activeTab = tabs.filter(isActive)[0];
     const lastTab = tabs[tabs.length - 1];
     let tabPosition = activeTab.index + 1;
-    if (contextsearch_multiMode === 'multiAfterLastTab') {
+    if (contextsearch_multiMode === 'multiAfterLastTab' || contextsearch_openSearchResultsInLastTab) {
         tabPosition = lastTab.index + 1;
     }
-    if (id === 'multisearch') {
-        processMultiTabSearch([], tabPosition);
-        return;
+    if (searchEngines[id] && searchEngines[id].isFolder) {
+        multisearch = true;
+        for (const childId of searchEngines[id].children) {
+            if (searchEngines[childId].isFolder || !searchEngines[childId].show) continue;
+            if (id.startsWith('chatgpt-')) {
+                // If AI prompt
+                multiTabArray.push(childId);
+            } else {
+                const searchEngineUrl = searchEngines[childId].url;
+                if (!searchEngines[childId].formData) {
+                    // If not a search engine using POST
+                    multiTabArray.push(getSearchEngineUrl(searchEngineUrl, selection));
+                } else {
+                    // If search engine using POST
+                    multiTabArray.push({ id: childId, url: searchEngineUrl });
+                }
+            }
+        }
     }
-    if (contextsearch_openSearchResultsInLastTab) {
-        tabPosition = lastTab.index + 1;
+    if (id === 'multisearch' || searchEngines[id].isFolder) {
+        processMultiTabSearch(multiTabArray, tabPosition);
+    } else {
+        searchUsing(id, tabPosition, multisearch);
     }
-    searchUsing(id, tabPosition, multisearch);
 }
 
 async function handleReset() {
@@ -1241,8 +1258,7 @@ async function processSearch(info, tab) {
 }
 
 async function processMultiTabSearch(arraySearchEngineUrls, tabPosition) {
-    const data = await browser.storage.local.get();
-    searchEngines = sortByIndex(data);
+    const searchEngines = await browser.storage.local.get();
     let searchEngineUrl = '';
     let multiTabArray = [];
     let windowInfo, tab;
@@ -1253,12 +1269,15 @@ async function processMultiTabSearch(arraySearchEngineUrls, tabPosition) {
             if (logToConsole) console.log(id);
             if (searchEngines[id].multitab) {
                 if (id.startsWith('chatgpt-')) {
+                    // If AI prompt
                     multiTabArray.push(id);
                 } else {
                     searchEngineUrl = searchEngines[id].url;
                     if (!searchEngines[id].formData) {
+                        // If not a search engine using POST
                         multiTabArray.push(getSearchEngineUrl(searchEngineUrl, selection));
                     } else {
+                        // If search engine using POST
                         multiTabArray.push({ id: id, url: searchEngineUrl });
                     }
                 }
@@ -1705,12 +1724,32 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                         }
                         processMultiTabSearch(arraySearchEngineUrls, tabPosition);
                     }
-                    else if (suggestion.length === 1) {
+                    else if (suggestion.length === 1 && !searchEngines[id].isFolder) {
                         if (typeof (suggestion[0].content) === 'string') {
                             displaySearchResults(id, suggestion[0].content, tabIndex, multisearch);
                         } else {
                             displaySearchResults(id, suggestion[0].content.url, tabIndex, multisearch);
                         }
+                    } else if (suggestion.length === 1 && searchEngines[id].isFolder) {
+                        const multiTabArray = [];
+                        const selection = searchTerms;
+                        for (const childId of searchEngines[id].children) {
+                            if (searchEngines[childId].isFolder || !searchEngines[childId].show) continue;
+                            if (id.startsWith('chatgpt-')) {
+                                // If AI prompt
+                                multiTabArray.push(childId);
+                            } else {
+                                const searchEngineUrl = searchEngines[childId].url;
+                                if (!searchEngines[childId].formData) {
+                                    // If not a search engine using POST
+                                    multiTabArray.push(getSearchEngineUrl(searchEngineUrl, selection));
+                                } else {
+                                    // If search engine using POST
+                                    multiTabArray.push({ id: childId, url: searchEngineUrl });
+                                }
+                            }
+                        }
+                        processMultiTabSearch(multiTabArray, tabPosition);
                     } else {
                         browser.search.search({ query: searchTerms, tabId: tabId });
                         if (notificationsEnabled) notify(notifyUsage);
@@ -1735,7 +1774,7 @@ function buildSuggestion(text) {
 
     if (contextsearch_exactMatch) quote = '%22';
 
-    // Only make suggestions available and check for existence of a search engine when there is a space.
+    // Only make suggestions available and check for existence of a search engine when there is a space
     if (text.indexOf(' ') === -1) {
         lastAddressBarKeyword = '';
         return result;
@@ -1790,6 +1829,10 @@ function buildSuggestion(text) {
                 suggestion['description'] =
                     'Search ' + searchEngines[id].name + ' ' + searchTerms;
                 suggestion['content'] = targetUrl;
+            } else if (searchEngines[id].isFolder) {
+                suggestion['description'] =
+                    'Perform multisearch using search engines in ' + searchEngines[id].name + ' for ' + searchTerms;
+                suggestion['content'] = '';
             } else {
                 const searchEngineUrl = searchEngines[id].url;
                 suggestion['description'] =

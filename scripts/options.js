@@ -38,6 +38,7 @@ const aiProvider = document.getElementById('ai-provider');
 // Add folder
 const folderName = document.getElementById('folderName');
 const folderKeyword = document.getElementById('folderKeyword');
+const folderKbsc = document.getElementById('folder-kb-shortcut');
 
 // Options
 const exactMatch = document.getElementById('exactMatch');
@@ -91,12 +92,6 @@ const btnUpload = document.getElementById('upload');
 
 // Translation variables
 const remove = browser.i18n.getMessage('remove');
-// const folder = browser.i18n.getMessage('folder');
-const multipleSearchEnginesSearch = browser.i18n.getMessage('multipleSearchEnginesSearch');
-const titleShowEngine = browser.i18n.getMessage('titleShowEngine');
-const placeHolderName = browser.i18n.getMessage('searchEngineName');
-const placeHolderKeyword = browser.i18n.getMessage('placeHolderKeyword');
-const placeHolderKeyboardShortcut = browser.i18n.getMessage('placeHolderKeyboardShortcut');
 const notifySearchEngineUrlRequired = browser.i18n.getMessage('notifySearchEngineUrlRequired');
 
 // Other variables
@@ -156,7 +151,7 @@ btnTestChatGPTPrompt.addEventListener('click', testChatGPTPrompt);
 btnAddChatGPTPrompt.addEventListener('click', addChatGPTPrompt);
 btnClearAddChatGPTPrompt.addEventListener('click', clearAddChatGPTPrompt);
 
-// Add new search engine event handlers for adding a keyboard shortcut
+// Add new AI prompt event handlers for adding a keyboard shortcut
 promptKbsc.addEventListener('keyup', handleKeyboardShortcut);
 promptKbsc.addEventListener('keydown', (event) => {
     if (event.target.nodeName !== 'INPUT') return;
@@ -170,6 +165,16 @@ promptKbsc.addEventListener('keydown', (event) => {
 btnAddSeparator.addEventListener('click', addSeparator);
 btnAddFolder.addEventListener('click', addFolder);
 btnClearAddFolder.addEventListener('click', clearAddFolder);
+
+// Add new folder event handlers for adding a keyboard shortcut
+folderKbsc.addEventListener('keyup', handleKeyboardShortcut);
+folderKbsc.addEventListener('keydown', (event) => {
+    if (event.target.nodeName !== 'INPUT') return;
+    const key = event.key;
+    if (isKeyAllowed(event)) keysPressed[key] = event.code;
+    if (logToConsole) console.log(keysPressed);
+});
+// folderKbsc.addEventListener('change', handleKeyboardShortcutChange);
 
 // Import/export
 btnDownload.addEventListener('click', saveToLocalDisk);
@@ -640,7 +645,7 @@ function createLineItem(id) {
             chkShowSearchEngine.classList.add('row-1');
         } */
     chkShowSearchEngine.setAttribute('type', 'checkbox');
-    chkShowSearchEngine.setAttribute('title', titleShowEngine);
+    chkShowSearchEngine.setAttribute('data-i18n-title', 'showSearchEngine');
     chkShowSearchEngine.setAttribute('id', id + '-chk');
     chkShowSearchEngine.checked = searchEngine.show;
 
@@ -654,7 +659,7 @@ function createLineItem(id) {
         } */
     inputSearchEngineName.setAttribute('type', 'text');
     inputSearchEngineName.setAttribute('id', id + '-name');
-    inputSearchEngineName.setAttribute('placeholder', placeHolderName);
+    inputSearchEngineName.setAttribute('data-i18n-placeholder', 'searchEngineName');
     inputSearchEngineName.setAttribute('value', searchEngineName);
 
     /*     if (id.startsWith('chatgpt-')) {
@@ -663,7 +668,7 @@ function createLineItem(id) {
     inputKeyword.setAttribute('type', 'text');
     inputKeyword.setAttribute('id', id + '-kw');
     inputKeyword.classList.add('keyword');
-    inputKeyword.setAttribute('placeholder', placeHolderKeyword);
+    inputKeyword.setAttribute('data-i18n-placeholder', 'placeHolderKeyword');
     inputKeyword.setAttribute('value', searchEngine.keyword);
 
     /*     if (id.startsWith('chatgpt-')) {
@@ -672,7 +677,7 @@ function createLineItem(id) {
     inputKeyboardShortcut.setAttribute('type', 'text');
     inputKeyboardShortcut.setAttribute('id', id + '-kbsc');
     inputKeyboardShortcut.classList.add('kb-shortcut');
-    inputKeyboardShortcut.setAttribute('placeholder', placeHolderKeyboardShortcut);
+    inputKeyboardShortcut.setAttribute('data-i18n-placeholder', 'keyboardShortcut');
     inputKeyboardShortcut.setAttribute('value', searchEngine.keyboardShortcut);
 
     /*     if (id.startsWith('chatgpt-')) {
@@ -680,7 +685,7 @@ function createLineItem(id) {
         } */
     chkMultiSearch.setAttribute('type', 'checkbox');
     chkMultiSearch.setAttribute('id', id + '-mt');
-    chkMultiSearch.setAttribute('title', multipleSearchEnginesSearch);
+    chkMultiSearch.setAttribute('data-i18n-title', 'multipleSearchEngines');
     chkMultiSearch.checked = searchEngine.multitab;
 
     // Attach all the elements composing a search engine to the line item
@@ -890,10 +895,12 @@ function editFavicon(e) {
 function createFolderItem(id) {
     const name = searchEngines[id]['name'];
     const keyword = searchEngines[id]['keyword'];
+    const keyboardShortcut = searchEngines[id]['keyboardShortcut'];
     const folderItem = document.createElement('div');
     const icon = document.createElement('img');
     const inputFolderName = document.createElement('input');
     const inputFolderKeyword = document.createElement('input');
+    const inputFolderKeyboardShortcut = document.createElement('input');
 
     // Add icon click event handler
     icon.addEventListener('click', editFavicon);
@@ -903,6 +910,22 @@ function createFolderItem(id) {
 
     // Event handlers for keyword text changes
     inputFolderKeyword.addEventListener('change', folderKeywordChanged);
+
+    // Event handlers for adding a keyboard shortcut
+    inputFolderKeyboardShortcut.addEventListener('keyup', handleKeyboardShortcut);
+    inputFolderKeyboardShortcut.addEventListener('keydown', (e) => {
+        if (logToConsole) console.log(e);
+        if (e.target.nodeName !== 'INPUT') return;
+        if ((os === 'macOS' && e.metaKey) || ((os === 'Windows' || os === 'Linux') && e.ctrlKey) || (!isInFocus(e.target)) || (e.key === 'Escape')) {
+            if (logToConsole) console.log("Keys pressed: " + keysPressed);
+            keysPressed = {};
+            return;
+        }
+        const key = e.key;
+        if (isKeyAllowed(e)) keysPressed[key] = e.code;
+        if (logToConsole) console.log(keysPressed);
+    });
+    inputFolderKeyboardShortcut.addEventListener('change', handleKeyboardShortcutChange);
 
     // Add deletion button to folder
     const removeButton = createButton('ion-ios-trash', 'remove', `${remove} ${name} folder`);
@@ -923,12 +946,19 @@ function createFolderItem(id) {
 
     inputFolderKeyword.setAttribute('type', 'text');
     inputFolderKeyword.classList.add('keyword');
-    inputFolderKeyword.setAttribute('data-i18n-placeholder', 'placeholderKeyword');
+    inputFolderKeyword.setAttribute('data-i18n-placeholder', 'placeHolderKeyword');
     inputFolderKeyword.setAttribute('value', keyword);
+
+    inputFolderKeyboardShortcut.setAttribute('type', 'text');
+    inputFolderKeyboardShortcut.setAttribute('id', id + '-kbsc');
+    inputFolderKeyboardShortcut.classList.add('kb-shortcut');
+    inputFolderKeyboardShortcut.setAttribute('data-i18n-placeholder', 'keyboardShortcut');
+    inputFolderKeyboardShortcut.setAttribute('value', keyboardShortcut);
 
     folderItem.appendChild(icon);
     folderItem.appendChild(inputFolderName);
     folderItem.appendChild(inputFolderKeyword);
+    folderItem.appendChild(inputFolderKeyboardShortcut);
     folderItem.appendChild(removeButton);
 
     return folderItem;
@@ -1094,6 +1124,9 @@ function handleKeyboardShortcut(e) {
     } else if (e.target.id === 'prompt-kb-shortcut') {
         // If entering a new prompt keyboard shortcut
         input = promptKbsc;
+    } else if (e.target.id === 'folder-kb-shortcut') {
+        // If entering a new folder keyboard shortcut
+        input = folderKbsc;
     } else {
         // If changing an existing search engine keyboard shortcut
         const lineItem = e.target.parentNode;
@@ -1468,8 +1501,10 @@ function addChatGPTPrompt() {
 
 function addFolder() {
     const divSearchEngines = document.getElementById('searchEngines');
+    const n = searchEngines['root'].children.length;
     const name = folderName.value;
-    const keyword = folderKeyword.value;
+    const keyword = folderKeyword.value || '';
+    const keyboardShortcut = folderKbsc.value || '';
     let id = name.replace(' ', '-').toLowerCase();
 
     // Ensure new id is unique
@@ -1482,9 +1517,10 @@ function addFolder() {
     // A folder doesn't have a query string url property
     // A folder may have children (search engines don't have children)
     searchEngines[id] = {
-        index: numberOfSearchEngines,
+        index: n,
         name: name,
         keyword: keyword,
+        keyboardShortcut: keyboardShortcut,
         isFolder: true,
         children: [] // Array of search engine and/or subfolder ids
     };
@@ -1865,8 +1901,8 @@ function translateContent(attribute, type) {
     for (let i in i18nElements) {
         try {
             if (i18nElements[i].getAttribute == null) continue;
-            let i18n_attrib = i18nElements[i].getAttribute(attribute);
-            let message = browser.i18n.getMessage(i18n_attrib);
+            const i18n_attrib = i18nElements[i].getAttribute(attribute);
+            const message = browser.i18n.getMessage(i18n_attrib);
             switch (type) {
                 case 'textContent':
                     i18nElements[i].textContent = message;

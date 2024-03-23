@@ -792,7 +792,7 @@ async function onGridClick(e, folderId) {
 
     const selection = window.getSelection();
     selection.addRange(range);
-    if (!searchEngines[id].isFolder) {
+    if (id === 'multisearch' || !searchEngines[id].isFolder) {
         sendMessage('doSearch', { id: id });
     } else {
         createIconsGrid(xPos, yPos, id);
