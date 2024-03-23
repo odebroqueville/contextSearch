@@ -304,16 +304,17 @@ function displaySearchEngines() {
         // On element drag ended, save search engines
         onEnd: saveSearchEnginesOnDragEnded
     };
+
+    // Remove previous search engines
     const div = document.getElementById('searchEngines');
     if (!isEmpty(div)) divContainer.removeChild(div);
-
-    if (logToConsole) console.log(searchEngines);
-    if (searchEngines.root) searchEngines = sortByIndex(searchEngines, 0);
-    numberOfSearchEngines = Object.keys(searchEngines).length;
+    // Create new search engines div container
     const divSearchEngines = document.createElement('div');
     divSearchEngines.setAttribute('id', 'searchEngines');
     divSearchEngines.classList.add('folder');
     divContainer.appendChild(divSearchEngines);
+
+    if (logToConsole) console.log(searchEngines);
 
     expand('root', null);
 
@@ -367,9 +368,6 @@ function saveSearchEnginesOnDragEnded(evt) {
         let newChildren = searchEngines[newParentFolderId].children;
 
         if (oldParentFolderId === newParentFolderId) {
-            if (newIndex > oldIndex) {
-                newIndex--;
-            }
             // Remove the dragged element from the new children array
             newChildren.splice(oldIndex, 1);
             // Add the dragged element to the new children array
@@ -713,13 +711,13 @@ function createLineItem(id) {
 function editFavicon(e) {
     if (logToConsole) console.log(e);
     // Find closest <li> parent
-    const lineItem = e.target.closest('li');
+    const lineItem = e.target.closest('div');
     if (!lineItem) return;
     const id = lineItem.getAttribute('id');
     const imageFormat = searchEngines[id].imageFormat;
     const base64Image = searchEngines[id].base64;
     const searchEngineName = searchEngines[id].name;
-    const popupWidth = 550; // Width of the popup window
+    const popupWidth = 560; // Width of the popup window
     const popupHeight = 550; // Height of the popup window
     const left = Math.floor((window.screen.width - popupWidth) / 2);
     const top = Math.floor((window.screen.height - popupHeight) / 2);
@@ -735,6 +733,7 @@ function editFavicon(e) {
     popup.document.body.style.gridTemplateColumns = '1fr 1fr';
     popup.document.body.style.gridTemplateRows = 'auto 30px';
     popup.document.body.style.fontFamily = 'Raleway, Helvetica, sans-serif';
+    popup.document.body.style.marginRight = '20px';
 
     // Create the first cell for displaying the favicon image
     const faviconCell = document.createElement('div');
@@ -756,13 +755,15 @@ function editFavicon(e) {
     //imageTitle.style.fontFamily = 'Raleway, Helvetica, sans-serif';
     imageTitle.style.padding = '10px';
     imageTitle.style.margin = '0';
+    imageTitle.style.color = 'white';
 
     // Add a section to instruct users how to change the favicon image
     const help = document.createElement('em');
-    help.textContent = "Drag & drop a new image over the existing favicon image. Then click on the 'Save' button for your changes to take effect.";
+    help.textContent = "Drag & drop a new image over the existing favicon image. Then click on the 'Save new icon' button for your changes to take effect.";
     help.style.display = 'inline-block';
     help.style.padding = '10px';
     help.style.lineHeight = '1.3em';
+    help.style.color = 'white';
 
     // Append the image to the first cell
     faviconCell.appendChild(faviconImg);
@@ -775,7 +776,6 @@ function editFavicon(e) {
     editableDivCell.style.gridRow = '1';
     editableDivCell.style.width = '300px';
     editableDivCell.style.height = '460px';
-    editableDivCell.style.padding = '10px';
     editableDivCell.style.overflowX = 'hidden'; // Allow vertical overflow only
     editableDivCell.style.overflowY = 'hidden'; // Prevent vertical overflow
 
@@ -784,8 +784,9 @@ function editFavicon(e) {
     editableDiv.contentEditable = false;
     editableDiv.style.width = '100%';
     editableDiv.style.height = '100%';
+    editableDiv.style.padding = '10px';
     editableDiv.style.fontSize = '13px';
-    editableDiv.style.padding = '5px';
+    editableDiv.style.color = '#2B2A33';
     editableDiv.style.backgroundColor = '#ccc';
     editableDiv.style.overflow = 'auto';
     editableDiv.style.overflowWrap = 'break-word'; // Enable word wrapping
@@ -802,7 +803,7 @@ function editFavicon(e) {
     buttonCell.style.height = '30px';
     buttonCell.style.marginTop = '15px';
     buttonCell.style.display = 'flex';
-    buttonCell.style.gap = '10px';
+    //buttonCell.style.gap = '10px';
 
     /*     // Create the "Clear" button
         const clearButton = document.createElement('button');
@@ -837,7 +838,8 @@ function editFavicon(e) {
     const replaceButton = document.createElement('button');
     replaceButton.style.width = '100%';
     replaceButton.style.height = '100%';
-    replaceButton.textContent = 'Save';
+    replaceButton.style.color = '#2B2A33';
+    replaceButton.textContent = 'Save new icon';
 
     // Handle button click event
     replaceButton.addEventListener('click', () => {
@@ -889,9 +891,12 @@ function createFolderItem(id) {
     const name = searchEngines[id]['name'];
     const keyword = searchEngines[id]['keyword'];
     const folderItem = document.createElement('div');
-    const icon = document.createElement('span');
+    const icon = document.createElement('img');
     const inputFolderName = document.createElement('input');
     const inputFolderKeyword = document.createElement('input');
+
+    // Add icon click event handler
+    icon.addEventListener('click', editFavicon);
 
     // Event handlers for search engine name changes
     inputFolderName.addEventListener('change', folderNameChanged);
@@ -899,17 +904,17 @@ function createFolderItem(id) {
     // Event handlers for keyword text changes
     inputFolderKeyword.addEventListener('change', folderKeywordChanged);
 
-    // Deletion button for each folder
+    // Add deletion button to folder
     const removeButton = createButton('ion-ios-trash', 'remove', `${remove} ${name} folder`);
 
-    // Deletion button event handler
+    // Add deletion button event handler
     removeButton.addEventListener('click', removeEventHandler);
+
+    icon.setAttribute('src', `data:${searchEngines[id].imageFormat || 'image/png'};base64,${searchEngines[id].base64}`);
 
     folderItem.setAttribute('id', id);
     folderItem.classList.add('folder');
     folderItem.setAttribute('data-id', id);
-
-    icon.classList.add('icon', 'ion-folder');
 
     inputFolderName.setAttribute('type', 'text');
     inputFolderName.classList.add('name');
@@ -953,11 +958,14 @@ function selectAll() {
     saveSearchEngines();
 }
 
-function sortSearchEnginesAlphabetically() {
+function sortSearchEnginesAlphabeticallyInFolder(folderId) {
     let se = [];
     let counter = 0;
-    for (let id in searchEngines) {
+    for (let id in searchEngines[folderId].children) {
         se.push(searchEngines[id].name);
+        if (searchEngines[id].isFolder) {
+            sortSearchEnginesAlphabeticallyInFolder(id);
+        }
     }
     se = sortAlphabetically(se);
     if (logToConsole) console.log(se);
@@ -969,6 +977,10 @@ function sortSearchEnginesAlphabetically() {
             }
         }
     }
+}
+
+function sortSearchEnginesAlphabetically() {
+    sortSearchEnginesAlphabeticallyInFolder('root');
     displaySearchEngines();
     saveSearchEngines();
 }
@@ -1171,8 +1183,6 @@ function saveChanges(e, property) {
 // End of user event handlers
 
 function readData() {
-    let oldSearchEngines = {};
-    oldSearchEngines = JSON.parse(JSON.stringify(searchEngines)); // Deep copy of searchEngines
     searchEngines = {};
 
     const divSearchEngines = document.getElementById('searchEngines');
@@ -1196,7 +1206,7 @@ function readData() {
     let i = 0;
     // // Read all search engines and folders
     Array.from(lineItems).forEach(item => {
-        readLineItem(item, i, oldSearchEngines);
+        readLineItem(item, i);
         i++;
     });
 
@@ -1205,13 +1215,22 @@ function readData() {
     return searchEngines;
 }
 
-function readFolder(lineItem, i, oldSearchEngines) {
+function readFolder(lineItem, i) {
+    const icon = lineItem.querySelector('img');
+    const src = icon.src;
+    const splitSrc = src.split(",");
+    const imageFormat = splitSrc[0].split(":")[1].split(";")[0];
+    const base64String = splitSrc[1];
+    if (logToConsole) console.log(`Id: ${lineItem.id}`);
+    if (logToConsole) console.log(`imageFormat: ${imageFormat}, base64String: ${base64String}`);
     const folder = {
         index: i,
         name: lineItem.querySelector('input.name').value,
         keyword: lineItem.querySelector('input.keyword').value,
         isFolder: true,
-        children: []
+        children: [],
+        imageFormat: imageFormat,
+        base64: base64String
     }
 
     // Add children of folder
@@ -1224,12 +1243,12 @@ function readFolder(lineItem, i, oldSearchEngines) {
     let j = 0;
     // Read all search engines and folders that are children of lineItem
     lineItem.querySelectorAll('div').forEach(item => {
-        readLineItem(item, j, oldSearchEngines);
+        readLineItem(item, j);
         j++;
     });
 }
 
-function readLineItem(lineItem, i, oldSearchEngines) {
+function readLineItem(lineItem, i) {
     const input = lineItem.firstChild;
     const id = lineItem.id;
     // If the line item is a separator
@@ -1239,6 +1258,11 @@ function readLineItem(lineItem, i, oldSearchEngines) {
     }
     // If the line item is an AI prompt
     else if (input !== null && input.nodeName === 'INPUT' && input.getAttribute('type') === 'checkbox' && id.startsWith("chatgpt-")) {
+        const icon = lineItem.querySelector('img');
+        const src = icon.src;
+        const splitSrc = src.split(",");
+        const imageFormat = splitSrc[0].split(":")[1].split(";")[0];
+        const base64String = splitSrc[1];
         const aiProvider = lineItem.querySelector('select');
         const label = aiProvider.nextSibling;
         const keyword = label.nextSibling;
@@ -1262,17 +1286,22 @@ function readLineItem(lineItem, i, oldSearchEngines) {
         searchEngines[id]['multitab'] = multiTab.checked;
         searchEngines[id]['prompt'] = prompt.value;
         searchEngines[id]['show'] = input.checked;
-        searchEngines[id]['imageFormat'] = oldSearchEngines[id].imageFormat;
-        searchEngines[id]['base64'] = oldSearchEngines[id].base64;
+        searchEngines[id]['imageFormat'] = imageFormat;
+        searchEngines[id]['base64'] = base64String;
     }
     // If the line item is a search engine
     else if (input !== null && input.nodeName === 'INPUT' && input.getAttribute('type') === 'checkbox') {
-        const label = input.nextSibling.nextSibling;
+        const icon = lineItem.querySelector('img');
+        const src = icon.src;
+        const splitSrc = src.split(",");
+        const imageFormat = splitSrc[0].split(":")[1].split(";")[0];
+        const base64String = splitSrc[1];
+        const label = icon.nextSibling;
         const keyword = label.nextSibling;
         const keyboardShortcut = keyword.nextSibling;
         const multiTab = keyboardShortcut.nextSibling;
         const url = multiTab.nextSibling;
-        const formData = url.nextSibling;
+        const formData = (!url.nextSibling.classList.contains('remove') ? url.nextSibling : null);
         searchEngines[id] = {};
         searchEngines[id]['index'] = i;
         searchEngines[id]['name'] = label.value;
@@ -1281,21 +1310,21 @@ function readLineItem(lineItem, i, oldSearchEngines) {
         searchEngines[id]['multitab'] = multiTab.checked;
         searchEngines[id]['url'] = url.value;
         searchEngines[id]['show'] = input.checked;
-        searchEngines[id]['imageFormat'] = oldSearchEngines[id].imageFormat;
-        searchEngines[id]['base64'] = oldSearchEngines[id].base64;
-        searchEngines[id]['formData'] = formData.value;
+        searchEngines[id]['imageFormat'] = imageFormat;
+        searchEngines[id]['base64'] = base64String;
+        if (formData) searchEngines[id]['formData'] = formData.value;
     }
     // If the line item is a folder
     else if (lineItem.classList.contains('folder')) {
-        readFolder(lineItem, i, oldSearchEngines);
+        readFolder(lineItem, i);
     }
 }
 
 // Save the list of search engines to be displayed in the context menu
 function saveSearchEngines() {
-    if (logToConsole) console.log('Search Engines BEFORE SAVE:\n', searchEngines);
+    searchEngines = {};
     searchEngines = readData();
-    if (logToConsole) console.log('Search Engines AFTER SAVE:\n', searchEngines);
+    if (logToConsole) console.log('Search engines READ from the Options page:\n', searchEngines);
     sendMessage('saveSearchEngines', searchEngines);
 }
 
@@ -1636,11 +1665,11 @@ async function setOptions(options) {
 // Restore the list of search engines and the options to be displayed in the options page
 async function restoreOptionsPage() {
     try {
-        const data = await browser.storage.sync.get(null);
+        const data = await browser.storage.sync.get();
         const options = data.options;
         logToConsole = options.logToConsole;
 
-        searchEngines = await browser.storage.local.get(null);
+        searchEngines = await browser.storage.local.get();
         if (logToConsole) {
             console.log('Search engines retrieved from local storage:\n');
             console.log(searchEngines);
@@ -1666,18 +1695,21 @@ function saveToLocalDisk() {
     sendMessage('saveSearchEnginesToDisk', window.URL.createObjectURL(fileToDownload));
 }
 
-function handleFileUpload() {
-    browser.storage.local.clear().then(() => {
-        let upload = document.getElementById('upload');
-        let jsonFile = upload.files[0];
-        let reader = new FileReader();
-        reader.onload = function (event) {
-            searchEngines = JSON.parse(event.target.result);
-            displaySearchEngines();
-            saveSearchEngines();
-        };
+async function handleFileUpload() {
+    searchEngines = {};
+    const upload = document.getElementById('upload');
+    const jsonFile = upload.files[0];
+
+    const fileContent = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (event) => resolve(event.target.result);
+        reader.onerror = reject;
         reader.readAsText(jsonFile);
-    }, onError);
+    });
+
+    searchEngines = JSON.parse(fileContent);
+    displaySearchEngines();
+    sendMessage('saveSearchEngines', searchEngines);
 }
 
 function updateSearchOptions() {
@@ -1852,39 +1884,6 @@ function translateContent(attribute, type) {
             if (logToConsole) console.error(`Translation for ${i18nElements[i]} could not be found`);
         }
     }
-}
-
-/// Sort search engines by index
-function sortByIndex(list, start = 1) {
-    let sortedList = {};
-    let n = Object.keys(list).length;
-    let arrayOfIndexes = [];
-    let arrayOfIds = [];
-    let min = 0;
-    // Create the array of indexes and its corresponding array of ids
-    for (let id in list) {
-        // if (logToConsole) console.log(`id = ${id}`);
-        // If there is no index, then move the search engine to the end of the list
-        if (isEmpty(list[id].index)) {
-            list[id].index = n;
-            n++;
-        }
-        arrayOfIndexes.push(list[id].index);
-        arrayOfIds.push(id);
-    }
-    // Sort the list by index starting from Index start (=1 by default)
-    for (let i = start; i < n + start; i++) {
-        min = Math.min(...arrayOfIndexes);
-        let ind = arrayOfIndexes.indexOf(min);
-        arrayOfIndexes.splice(ind, 1);
-        let id = arrayOfIds.splice(ind, 1);
-        sortedList[id] = list[id];
-        sortedList[id].index = i;
-    }
-
-    if (logToConsole) console.log(sortedList);
-
-    return sortedList;
 }
 
 // Test if an object is empty

@@ -289,12 +289,8 @@ async function handleReset() {
 }
 
 async function handleSaveSearchEngines(data) {
-    searchEngines = sortByIndex(data, 0);
-    if (logToConsole) console.log(searchEngines);
-    await browser.storage.local.clear();
-    if (logToConsole) console.log('Local storage cleared.');
-    await saveSearchEnginesToLocalStorage(false);
-    rebuildContextMenu();
+    searchEngines = data;
+    await initSearchEngines();
 }
 
 async function handleAddNewSearchEngine(data) {
@@ -566,10 +562,15 @@ async function reset() {
 // Fetches a favicon for the new search engine
 async function addNewSearchEngine(id, domain) {
     // Add a favicon to the search engine except if it's a separator or a folder
-    if (!(id.startsWith("separator-") || searchEngines[id]['isFolder'])) {
-        const favicon = await getNewFavicon(id, domain);
-        searchEngines[id]['imageFormat'] = favicon.imageFormat;
-        searchEngines[id]['base64'] = favicon.base64;
+    if (!id.startsWith("separator-")) {
+        if (searchEngines[id].isFolder) {
+            searchEngines[id]['imageFormat'] = 'image/png';
+            searchEngines[id]['base64'] = base64FolderIcon;
+        } else {
+            const favicon = await getNewFavicon(id, domain);
+            searchEngines[id]['imageFormat'] = favicon.imageFormat;
+            searchEngines[id]['base64'] = favicon.base64;
+        }
     }
     searchEngines['root']['children'].push(id);
     // Save the search engine to local storage
@@ -612,36 +613,34 @@ async function initialiseOptionsAndSearchEngines() {
     /// Initialise search engines
     // If there were search engines stored in storage sync (legacy), move them to storage local
     if (!isEmpty(data) && Object.keys(data).length > 1) {
-        await browser.storage.local.clear();
-        if (!searchEngines.root) {
-            searchEngines = sortByIndex(data);
-        } else {
-            searchEngines = sortByIndex(data, 0);
-        }
+        searchEngines = data;
     } else {
         // Check for search engines in local storage
-        const se = await browser.storage.local.get();
-        if (se === undefined || isEmpty(se) || contextsearch_forceSearchEnginesReload) {
+        searchEngines = await browser.storage.local.get();
+        if (searchEngines === undefined || isEmpty(searchEngines) || contextsearch_forceSearchEnginesReload) {
             // Load default search engines if force reload is set or if no search engines are stored in local storage
-            await browser.storage.local.clear();
             await loadDefaultSearchEngines(DEFAULT_SEARCH_ENGINES);
-        } else {
-            if (!searchEngines.root) {
-                searchEngines = sortByIndex(se);
-            } else {
-                searchEngines = sortByIndex(se, 0);
-            }
         }
     }
+
+    initSearchEngines();
+}
+
+async function initSearchEngines() {
+    // Add root folder if it doesn't exist
     if (!searchEngines.root) addRootFolderToSearchEngines();
+
+    // Set default keyboard shortcuts to '' if they're undefined
     setKeyboardShortcuts();
+
+    // Get favicons as base64 strings
     await getFaviconsAsBase64Strings();
-    await saveSearchEnginesToLocalStorage(true);
+
+    // Save search engines to local storage
+    await saveSearchEnginesToLocalStorage();
+
+    // Rebuild context menu
     rebuildContextMenu();
-    if (logToConsole) {
-        console.log('Search engines: \n');
-        console.log(searchEngines);
-    }
 }
 
 function addRootFolderToSearchEngines() {
@@ -666,12 +665,12 @@ function addRootFolderToSearchEngines() {
 function setKeyboardShortcuts() {
     for (let id in searchEngines) {
         if (id === 'root') continue;
-        if (searchEngines[id].keyboardShortcut === undefined) {
+        if (!searchEngines[id].isFolder && searchEngines[id].keyboardShortcut === undefined) {
             searchEngines[id]['keyboardShortcut'] = '';
-        }
-        if (logToConsole) {
-            console.log(`Search engine id: ${id}`);
-            console.log(`Keyboard shortcut: ${searchEngines[id].keyboardShortcut}`);
+            if (logToConsole) {
+                console.log(`Search engine id: ${id}`);
+                console.log(`Keyboard shortcut: ${searchEngines[id].keyboardShortcut}`);
+            }
         }
     }
 }
@@ -787,23 +786,25 @@ async function loadDefaultSearchEngines(jsonFile) {
             throw new Error(message);
         }
         const json = await response.json();
-        searchEngines = sortByIndex(json);
+        searchEngines = json;
     } catch (error) {
         if (logToConsole) console.error(error.message);
     }
 }
 
-async function saveSearchEnginesToLocalStorage(blnNotify) {
-    searchEngines = sortByIndex(searchEngines, 0);
+async function saveSearchEnginesToLocalStorage() {
     if (logToConsole) {
-        console.log('Search engines:\n');
+        console.log('Saving search engines to local storage:\n');
         console.log(searchEngines);
     }
 
     try {
-        // save list of search engines to local storage
+        // Clear local storage
+        await browser.storage.local.clear();
+        if (logToConsole) console.log('Local storage cleared.');
+        // Save search engines to local storage
         await browser.storage.local.set(searchEngines);
-        if (notificationsEnabled && blnNotify) notify(notifySearchEnginesLoaded);
+        if (notificationsEnabled) notify(notifySearchEnginesLoaded);
         if (logToConsole) {
             console.log(
                 'Search engines have been successfully saved to local storage.'
@@ -823,22 +824,27 @@ async function getFaviconsAsBase64Strings() {
     let arrayOfPromises = [];
 
     for (let id in searchEngines) {
-        // If search engine is actually a separator or a folder, skip it
-        if (id.startsWith('separator-') || searchEngines[id].isFolder) continue;
+        // If search engine is a separator or the root folder, skip it
+        if (id.startsWith('separator-') || id === 'root') continue;
+        if (logToConsole) console.log(`Base64 string for ${id} is ${searchEngines[id].base64}`);
 
         // Fetch a new favicon only if there is no existing favicon or if an favicon reload is being forced
         if (
             searchEngines[id].base64 === null ||
             searchEngines[id].base64 === undefined ||
+            searchEngines[id].base64.length < 10 ||
             contextsearch_forceFaviconsReload
         ) {
+            if (logToConsole) console.log('Fetching favicon for ' + id);
             let domain;
-            if (!id.startsWith('chatgpt-')) {
+            if (!(id.startsWith('chatgpt-') || searchEngines[id].isFolder)) {
                 const seUrl = searchEngines[id].url;
                 domain = getDomain(seUrl);
-                if (logToConsole) console.log('id: ' + id);
-                if (logToConsole) console.log('url: ' + seUrl);
-                if (logToConsole) console.log('Getting favicon for ' + domain);
+                if (logToConsole) {
+                    console.log('id: ' + id);
+                    console.log('url: ' + seUrl);
+                    console.log('Getting favicon for ' + domain);
+                }
             }
             arrayOfPromises.push(await getNewFavicon(id, domain));
         }
@@ -875,6 +881,12 @@ async function getFaviconsAsBase64Strings() {
 async function getNewFavicon(id, domain) {
     if (id.startsWith('chatgpt-')) {
         return getFaviconForPrompt(id)
+    }
+    if (searchEngines[id].isFolder) {
+        const imageFormat = 'image/png';
+        const b64 = base64FolderIcon;
+        if (logToConsole) console.log(id, imageFormat, b64);
+        return { id: id, imageFormat: imageFormat, base64: b64 };
     }
     let reqHeader = new Headers();
     reqHeader.append('Content-Type', 'text/plain; charset=UTF-8');
@@ -988,8 +1000,10 @@ async function rebuildContextMenu() {
     const info = await browser.runtime.getBrowserInfo();
     const v = info.version;
     const browserVersion = parseInt(v.slice(0, v.search('.') - 1));
-    const rootChildren = searchEngines.root.children;
+    const rootChildren = searchEngines['root'].children;
 
+    if (logToConsole) console.log(`Search engines:`);
+    if (logToConsole) console.log(searchEngines);
     if (logToConsole) console.log(`Root children: ${rootChildren}`);
 
     browser.menus.removeAll();
@@ -1082,22 +1096,16 @@ function buildContextMenuItem(id, browserVersion, parentId) {
     //const index = 'cs-' + id;
     const title = searchEngine.name;
     const contexts = ['selection'];
-    let imageFormat;
-    let base64String;
-    let faviconUrl;
+    const imageFormat = searchEngine.imageFormat;
+    const base64String = searchEngine.base64;
+    const faviconUrl = `data:${imageFormat};base64,${base64String}`;
 
     if (searchEngine.isFolder) {
-        imageFormat = 'image/png';
-        base64String = base64FolderIcon;
-        faviconUrl = `data:${imageFormat};base64,${base64String}`;
         createMenuItem(id, title, contexts, parentId, faviconUrl, browserVersion);
         for (let i = 0; i < searchEngine.children.length; i++) {
             buildContextMenuItem(searchEngine.children[i], browserVersion, id);
         }
     } else {
-        imageFormat = searchEngine.imageFormat;
-        base64String = searchEngine.base64;
-        faviconUrl = `data:${imageFormat};base64,${base64String}`;
         createMenuItem(id, title, contexts, parentId, faviconUrl, browserVersion);
     }
 }
@@ -1900,36 +1908,37 @@ function getDomain(url) {
 }
 
 /// Sort search engines by index
-function sortByIndex(list, start = 1) {
-    let sortedList = {};
-    let n = Object.keys(list).length;
-    let arrayOfIndexes = [];
-    let arrayOfIds = [];
-    let min = 0;
-    // Create the array of indexes and its corresponding array of ids
-    for (let id in list) {
-        // if (logToConsole) console.log(`id = ${id}`);
-        // If there is no index, then move the search engine to the end of the list
-        if (isEmpty(list[id].index)) {
-            list[id].index = n;
-            n++;
+function sortByIndex(list, start = 0) {
+    /*     let sortedList = {};
+        let n = Object.keys(list).length;
+        let arrayOfIndexes = [];
+        let arrayOfIds = [];
+        let min = 0;
+        // Create the array of indexes and its corresponding array of ids
+        for (let id in list) {
+            // if (logToConsole) console.log(`id = ${id}`);
+            // If there is no index, then move the search engine to the end of the list
+            if (isEmpty(list[id].index)) {
+                list[id].index = n;
+                n++;
+            }
+            arrayOfIndexes.push(list[id].index);
+            arrayOfIds.push(id);
         }
-        arrayOfIndexes.push(list[id].index);
-        arrayOfIds.push(id);
-    }
-    // Sort the list by index starting at Index start (=1 by default)
-    for (let i = start; i < n + start; i++) {
-        min = Math.min(...arrayOfIndexes);
-        let ind = arrayOfIndexes.indexOf(min);
-        arrayOfIndexes.splice(ind, 1);
-        let id = arrayOfIds.splice(ind, 1);
-        sortedList[id] = list[id];
-        sortedList[id].index = i;
-    }
-
-    if (logToConsole) console.log(sortedList);
-
-    return sortedList;
+        // Sort the list by index starting at Index start (=1 by default)
+        for (let i = start; i < n + start; i++) {
+            min = Math.min(...arrayOfIndexes);
+            let ind = arrayOfIndexes.indexOf(min);
+            arrayOfIndexes.splice(ind, 1);
+            let id = arrayOfIds.splice(ind, 1);
+            sortedList[id] = list[id];
+            sortedList[id].index = i;
+        }
+    
+        if (logToConsole) console.log(sortedList);
+    
+        return sortedList; */
+    return list;
 }
 
 // Test if an object is empty

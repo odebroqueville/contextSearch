@@ -659,8 +659,7 @@ async function sendSelectionToBackgroundScript(selectedText) {
 
 async function createIconsGrid(x, y, folderId) {
     // Retrieve search engines from local storage
-    const se = await browser.storage.local.get();
-    const searchEngines = sortByIndex(se);
+    const searchEngines = await browser.storage.local.get();
     let icons = [];
 
     // If the parent folder is not the root folder, then add an icon for backwards navigation
@@ -687,25 +686,22 @@ async function createIconsGrid(x, y, folderId) {
 
     // Add an icon for each search engine and folder
     for (const id of searchEngines[folderId].children) {
-        let imageFormat, base64String, title, src;
-        if (searchEngines[id].isFolder) {
-            imageFormat = 'image/png';
-            base64String = base64FolderIcon;
-            title = searchEngines[id].name;
-            src = `data:${imageFormat};base64,${base64String}`;
-            icons.push({ id: id, src: src, title: title });
-        } else if (!id.startsWith("separator-") && searchEngines[id].show) {
-            src = `data:${searchEngines[id].imageFormat || 'image/png'};base64,`;
-            title = searchEngines[id].name;
+        if (!id.startsWith("separator-") && (searchEngines[id].show || searchEngines[id].isFolder)) {
+            const imageFormat = searchEngines[id].imageFormat || 'image/png';
+            const title = searchEngines[id].name;
+            let src = `data:${imageFormat};base64,`;
             if (isEmpty(searchEngines[id]) || isEmpty(searchEngines[id].base64)) {
                 // Default icon when no favicon could be found
                 src += base64ContextSearchIcon;
             } else {
-                src += searchEngines[id].base64;
+                const base64String = searchEngines[id].base64;
+                src += base64String;
             }
             icons.push({ id: id, src: src, title: title });
         }
     }
+
+    if (logToConsole) console.log(icons);
 
     // Grid dimensions
     const n = icons.length;
@@ -733,10 +729,11 @@ async function createIconsGrid(x, y, folderId) {
 
 
     for (const icon of icons) {
+        if (logToConsole) console.log(icon);
         const iconElement = document.createElement("img");
         iconElement.style.width = ICON32;
         iconElement.style.height = ICON32;
-        iconElement.style.display = 'inline-block';
+        iconElement.style.display = 'inline-block !important';
         iconElement.style.border = '3px solid #ccc';
         iconElement.style.borderRadius = '10px';
         iconElement.setAttribute('id', icon.id);
@@ -784,8 +781,7 @@ async function onGridClick(e, folderId) {
     closeGrid();
 
     // Retrieve search engines from local storage
-    const se = await browser.storage.local.get();
-    const searchEngines = sortByIndex(se);
+    const searchEngines = await browser.storage.local.get();
 
     if (id === 'back') {
         const parentId = getParentFolderOf(searchEngines, folderId, 'root');
@@ -902,11 +898,10 @@ function absoluteUrl(url) {
 
 async function getNewSearchEngine(url) {
     const xml = await fetchXML(url);
-    const shortName = getNameAndQueryString(xml).shortName;
-    const queryString = getNameAndQueryString(xml).queryString;
+    const { shortName, queryString } = getNameAndQueryString(xml);
 
     // Retrieve search engines from local storage
-    const searchEngines = await browser.storage.local.get(null);
+    const searchEngines = await browser.storage.local.get();
 
     // Prevent duplicates
     for (let id in searchEngines) {
@@ -1015,39 +1010,6 @@ function isEmpty(value) {
         return value === null || Object.keys(value).length === 0;
     } else if (typeof value === 'boolean') return false;
     else return !value;
-}
-
-/// Sort search engines by index
-function sortByIndex(list, start = 1) {
-    let sortedList = {};
-    let n = Object.keys(list).length;
-    let arrayOfIndexes = [];
-    let arrayOfIds = [];
-
-    // Create the array of indexes and its corresponding array of ids
-    for (let id in list) {
-        // if (logToConsole) console.log(`id = ${id}`);
-        // If there is no index, then move the search engine to the end of the list
-        if (isEmpty(list[id].index)) {
-            list[id].index = n;
-            n++;
-        }
-        arrayOfIndexes.push(list[id].index);
-        arrayOfIds.push(id);
-    }
-    // Sort the list by index starting at Index start (=1 by default)
-    for (let i = start; i < n + start; i++) {
-        const min = Math.min(...arrayOfIndexes);
-        const ind = arrayOfIndexes.indexOf(min);
-        const id = arrayOfIds.splice(ind, 1);
-        arrayOfIndexes.splice(ind, 1);
-        sortedList[id] = list[id];
-        sortedList[id].index = i;
-    }
-
-    if (logToConsole) console.log(sortedList);
-
-    return sortedList;
 }
 
 function isKeyAllowed(event) {
