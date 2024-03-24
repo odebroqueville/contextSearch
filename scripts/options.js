@@ -641,48 +641,30 @@ function createLineItem(id) {
     removeButton.addEventListener('click', removeEventHandler);
 
     // Set attributes for all the elements composing a search engine or line item
-    /*     if (id.startsWith('chatgpt-')) {
-            chkShowSearchEngine.classList.add('row-1');
-        } */
     chkShowSearchEngine.setAttribute('type', 'checkbox');
     chkShowSearchEngine.setAttribute('data-i18n-title', 'showSearchEngine');
     chkShowSearchEngine.setAttribute('id', id + '-chk');
     chkShowSearchEngine.checked = searchEngine.show;
 
-    /*     if (id.startsWith('chatgpt-')) {
-            favicon.classList.add('row-1');
-        } */
     favicon.setAttribute('src', `data:${searchEngine.imageFormat || 'image/png'};base64,${searchEngine.base64}`);
 
-    /*     if (id.startsWith('chatgpt-')) {
-            inputSearchEngineName.classList.add('row-2');
-        } */
     inputSearchEngineName.setAttribute('type', 'text');
     inputSearchEngineName.setAttribute('id', id + '-name');
     inputSearchEngineName.setAttribute('data-i18n-placeholder', 'searchEngineName');
     inputSearchEngineName.setAttribute('value', searchEngineName);
 
-    /*     if (id.startsWith('chatgpt-')) {
-            inputKeyword.classList.add('row-2');
-        } */
     inputKeyword.setAttribute('type', 'text');
     inputKeyword.setAttribute('id', id + '-kw');
     inputKeyword.classList.add('keyword');
     inputKeyword.setAttribute('data-i18n-placeholder', 'placeHolderKeyword');
     inputKeyword.setAttribute('value', searchEngine.keyword);
 
-    /*     if (id.startsWith('chatgpt-')) {
-            inputKeyboardShortcut.classList.add('row-2');
-        } */
     inputKeyboardShortcut.setAttribute('type', 'text');
     inputKeyboardShortcut.setAttribute('id', id + '-kbsc');
     inputKeyboardShortcut.classList.add('kb-shortcut');
     inputKeyboardShortcut.setAttribute('data-i18n-placeholder', 'keyboardShortcut');
     inputKeyboardShortcut.setAttribute('value', searchEngine.keyboardShortcut);
 
-    /*     if (id.startsWith('chatgpt-')) {
-            chkMultiSearch.classList.add('row-2');
-        } */
     chkMultiSearch.setAttribute('type', 'checkbox');
     chkMultiSearch.setAttribute('id', id + '-mt');
     chkMultiSearch.setAttribute('data-i18n-title', 'multipleSearchEngines');
@@ -1186,6 +1168,7 @@ function handleKeyboardShortcutChange(e) {
     const id = lineItem.getAttribute('id');
     const input = document.getElementById(id + '-kbsc');
     const keyboardShortcut = input.value;
+    if (logToConsole) console.log(id, keyboardShortcut);
     searchEngines[id]['keyboardShortcut'] = keyboardShortcut;
 
     sendMessage('saveSearchEngines', searchEngines);
@@ -1260,6 +1243,7 @@ function readFolder(lineItem, i) {
         index: i,
         name: lineItem.querySelector('input.name').value,
         keyword: lineItem.querySelector('input.keyword').value,
+        keyboardShortcut: lineItem.querySelector('input.kb-shortcut').value,
         isFolder: true,
         children: [],
         imageFormat: imageFormat,

@@ -314,7 +314,6 @@ async function handleAddNewSearchEngine(data) {
     const id = data.id;
     let domain = null;
     searchEngines[id] = data.searchEngine;
-    searchEngines = sortByIndex(searchEngines, 0);
     if (!(id.startsWith("separator-") || id.startsWith('chatgpt-') || searchEngines[id].isFolder)) {
         domain = getDomain(data.searchEngine.url);
         if (logToConsole) console.log(id, domain);
@@ -1948,40 +1947,6 @@ function getDomain(url) {
         .split(/[/?#]/);
     let domain = protocol + urlParts[0];
     return domain;
-}
-
-/// Sort search engines by index
-function sortByIndex(list, start = 0) {
-    /*     let sortedList = {};
-        let n = Object.keys(list).length;
-        let arrayOfIndexes = [];
-        let arrayOfIds = [];
-        let min = 0;
-        // Create the array of indexes and its corresponding array of ids
-        for (let id in list) {
-            // if (logToConsole) console.log(`id = ${id}`);
-            // If there is no index, then move the search engine to the end of the list
-            if (isEmpty(list[id].index)) {
-                list[id].index = n;
-                n++;
-            }
-            arrayOfIndexes.push(list[id].index);
-            arrayOfIds.push(id);
-        }
-        // Sort the list by index starting at Index start (=1 by default)
-        for (let i = start; i < n + start; i++) {
-            min = Math.min(...arrayOfIndexes);
-            let ind = arrayOfIndexes.indexOf(min);
-            arrayOfIndexes.splice(ind, 1);
-            let id = arrayOfIds.splice(ind, 1);
-            sortedList[id] = list[id];
-            sortedList[id].index = i;
-        }
-    
-        if (logToConsole) console.log(sortedList);
-    
-        return sortedList; */
-    return list;
 }
 
 // Test if an object is empty
