@@ -842,7 +842,6 @@ async function getFaviconsAsBase64Strings() {
     for (let id in searchEngines) {
         // If search engine is a separator or the root folder, skip it
         if (id.startsWith('separator-') || id === 'root') continue;
-        if (logToConsole) console.log(`Base64 string for ${id} is ${searchEngines[id].base64}`);
 
         // Fetch a new favicon only if there is no existing favicon or if an favicon reload is being forced
         if (
@@ -1107,7 +1106,7 @@ function buildContextMenuItem(id, browserVersion, parentId) {
     }
     const searchEngine = searchEngines[id];
 
-    if (!(searchEngine.show || searchEngine.isFolder)) return;
+    if (searchEngine === undefined || !(searchEngine.show || searchEngine.isFolder)) return;
 
     //const index = 'cs-' + id;
     const title = searchEngine.name;

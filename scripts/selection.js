@@ -474,7 +474,7 @@ async function handleAltClickWithGrid(e) {
         closeGrid();
     }
 
-    const data = await browser.storage.sync.get(null);
+    const data = await browser.storage.sync.get();
     const options = data.options;
     if (logToConsole) console.log(options);
 
@@ -672,9 +672,9 @@ async function createIconsGrid(x, y, folderId) {
     }
 
     // Only include the multi-search icon in the Icons Grid if required
-    for (const id of searchEngines[folderId].children) {
+    for (const id in searchEngines) {
         if (searchEngines[id].isFolder) continue;
-        if (searchEngines[id].multitab) {
+        if (folderId === 'root' && searchEngines[id].multitab) {
             icons.push({
                 id: 'multisearch',
                 src: 'data:image/svg+xml;base64,' + base64MultiSearchIcon,

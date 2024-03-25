@@ -15,6 +15,9 @@ if (os === 'macOS') {
     meta = 'super+';
 } else meta = 'meta+';
 
+// Folder icon download link: https://icons8.com/icon/12160/folder
+const base64FolderIcon = 'iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAABCUlEQVR4nO2VMWrDQBBFp8gRQhoFV5a0pM0Zci/fRAK7CcJd0gXcRfKALxFIZ4OdA+gbxZ1A3nU1A/4Pfv/f7OyuCCGEEDICS3lGJQ1q+UMtSEolC3FTvpZDcnFvErhM/vbyXiRwy9p4lMBQYPUAfGVAVwAabNMVPTazX3w+vaUJDOXb3L64jtLmPT4eX+MCw+Sty+pENrOfuICHtdGpUyj6uIB1Sb0eCoAnELhCV7FeEfASq/2UwWdU7ScNfmTqMxLDuiAooPZTBldI7ScNXmL1GbmHZ/RkXRJT2YZjXGBbrh0LNAkCoYCWe/OyOk55wO5lHhX4l/jOM2h4d7JOp2HyyeUJIYTcFWcLXG7i+rfwxwAAAABJRU5ErkJggg==';
+
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById('container');
 
@@ -95,7 +98,6 @@ const remove = browser.i18n.getMessage('remove');
 const notifySearchEngineUrlRequired = browser.i18n.getMessage('notifySearchEngineUrlRequired');
 
 // Other variables
-let numberOfSearchEngines = 0;
 let searchEngines = {};
 let keysPressed = {};
 
@@ -233,29 +235,16 @@ async function sendMessage(action, data) {
 // Handle local and sync storage changes
 function handleStorageChange(changes, area) {
     if (area === 'local') {
-        if (logToConsole) {
-            console.log('BEFORE CHANGES: ');
-            console.log(searchEngines);
-        }
         const ids = Object.keys(changes);
-        if (logToConsole) {
-            console.log(changes);
-            console.log(ids);
-        }
         for (const id of ids) {
             if (changes[id].newValue === undefined) {
                 continue;
             }
-            if (logToConsole) console.log(id);
             searchEngines[id] = changes[id].newValue;
             if (logToConsole) {
                 console.log(`Search engine ${id}:\n`);
                 console.log(searchEngines[id]);
             }
-        }
-        if (logToConsole) {
-            console.log('AFTER CHANGES: ');
-            console.log(searchEngines);
         }
         displaySearchEngines();
     } else if (area === 'sync') {
@@ -283,11 +272,6 @@ function handleStorageChange(changes, area) {
 // Notification
 function notify(message) {
     sendMessage('notify', message);
-}
-
-// Generic Error Handler
-function onError(error) {
-    if (logToConsole) console.log(`${error}`);
 }
 
 function removeEventHandler(e) {
@@ -334,8 +318,6 @@ function saveSearchEnginesOnDragEnded(evt) {
     const draggedElement = evt.item;
     const oldParent = evt.from;
     const newParent = evt.to;
-    let oldIndex;
-    let newIndex;
 
     // Identify the dragged item's id
     const movedElementId = draggedElement.getAttribute('data-id');
@@ -347,16 +329,12 @@ function saveSearchEnginesOnDragEnded(evt) {
     if (newParentFolderId === 'searchEngines') newParentFolderId = 'root';
 
     // Get the old and new indices
-    if (oldParentFolderId === 'root') {
-        oldIndex = evt.oldIndex;
-    } else {
-        oldIndex = evt.oldIndex - 4;
-    }
-
+    const oldIndex = searchEngines[oldParentFolderId].children.indexOf(movedElementId);
+    let newIndex;
     if (newParentFolderId === 'root') {
         newIndex = evt.newIndex;
     } else {
-        newIndex = evt.newIndex - 4;
+        newIndex = evt.newIndex - 5;
     }
 
     if (logToConsole) {
@@ -394,7 +372,7 @@ function saveSearchEnginesOnDragEnded(evt) {
             console.log(searchEngines);
         }
 
-        updateIndices('root', 0);
+        updateIndices('root');
     }
     if (logToConsole) console.log(searchEngines);
     sendMessage('saveSearchEngines', searchEngines);
@@ -410,6 +388,7 @@ function expand(folderId, parentDiv) {
         parentDiv.appendChild(folderDiv);
     }
     folder.children.forEach(f => {
+        if (!searchEngines[f]) return;
         if (searchEngines[f].isFolder) {
             expand(f, folderDiv);
         } else {
@@ -426,48 +405,16 @@ function findClosestFolder(element) {
     return element;
 }
 
-function updateIndices(parentId, startIndex) {
-    let children = searchEngines[parentId].children;
-    for (let i = 0; i < children.length; i++) {
-        let childId = children[i];
-        searchEngines[childId].index = startIndex + i + 1;
-        if (logToConsole) console.log(childId, startIndex + i + 1);
-        if (searchEngines[childId].children) {
-            updateIndices(childId, 0);
-        }
-    }
-}
-
-/* function swap(arr, i, j) {
-    // Check if indices are within the valid range of the array
-    if (i < 0 || i >= arr.length || j < 0 || j >= arr.length) {
-        console.error("Invalid indices provided for swap.");
-        return arr; // Return the original array if indices are invalid
-    }
-
-    // Perform the swap using a temporary variable
-    var temp = arr[i];
-    arr[i] = arr[j];
-    arr[j] = temp;
-
-    return arr;
-}
-
-function updateIndices(folderId, i) {
-    searchEngines[folderId].index = i;
+function updateIndices(folderId) {
     const children = searchEngines[folderId].children;
-    if (children) i++;
-    children.forEach(c => {
-        if (logToConsole) console.log(c, i);
-        if (searchEngines[c].isFolder) {
-            updateIndices(c, i);
-            i++;
-        } else {
-            searchEngines[c].index = i;
-            i++;
+    for (let childId of children) {
+        searchEngines[childId].index = children.indexOf(childId);
+        if (logToConsole) console.log(childId, searchEngines[childId].index);
+        if (searchEngines[childId].children && searchEngines[childId].children.length > 0) {
+            updateIndices(childId);
         }
-    });
-} */
+    }
+}
 
 // Create a navigation button using icons from ionicon (up arrow, down arrow and bin)
 function createButton(ioniconClass, btnClass, btnTitle) {
@@ -1175,11 +1122,12 @@ function handleKeyboardShortcutChange(e) {
 }
 
 function multiTabChanged(e) {
-    if (logToConsole) console.log(searchEngines);
     if (logToConsole) console.log(e.target);
     let lineItem = e.target.parentNode;
     let id = lineItem.getAttribute('id');
     let multiTab = e.target.checked;
+
+    if (logToConsole) console.log(`Multisearch ${(multiTab ? 'enabled' : 'disabled')} for search engine ${searchEngines[id].name}`);
 
     searchEngines[id]['multitab'] = multiTab;
 
@@ -1225,8 +1173,6 @@ function readData() {
         readLineItem(item, i);
         i++;
     });
-
-    numberOfSearchEngines = Object.keys(searchEngines).length;
 
     return searchEngines;
 }
@@ -1359,6 +1305,7 @@ function testChatGPTPrompt() {
 }
 
 function addSeparator() {
+    const n = searchEngines['root'].children.length;
     let id = "separator-" + Math.floor(Math.random() * 1000000000000);
 
     // Ensure new is unique
@@ -1367,7 +1314,7 @@ function addSeparator() {
     }
 
     searchEngines[id] = {
-        index: numberOfSearchEngines
+        index: n
     };
 
     // Add separator as child of 'root'
@@ -1384,6 +1331,7 @@ function addSeparator() {
 }
 
 function addSearchEngine() {
+    const n = searchEngines['root'].children.length;
     const id = sename.value.replace(' ', '-').toLowerCase();
     const divSearchEngines = document.getElementById('searchEngines');
     let strUrl = url.value;
@@ -1414,7 +1362,7 @@ function addSearchEngine() {
     }
 
     searchEngines[id] = {
-        index: numberOfSearchEngines,
+        index: n,
         name: sename.value,
         keyword: keyword.value,
         keyboardShortcut: kbsc.value,
@@ -1442,8 +1390,9 @@ function addSearchEngine() {
 }
 
 function addChatGPTPrompt() {
-    let id = "chatgpt-" + Math.floor(Math.random() * 1000000000000);
+    const n = searchEngines['root'].children.length;
     const divSearchEngines = document.getElementById('searchEngines');
+    let id = "chatgpt-" + Math.floor(Math.random() * 1000000000000);
 
     // Ensure new is unique
     while (!isIdUnique(id)) {
@@ -1457,7 +1406,7 @@ function addChatGPTPrompt() {
     }
 
     searchEngines[id] = {
-        index: numberOfSearchEngines,
+        index: n,
         aiProvider: aiProvider.value,
         name: promptName.value,
         keyword: promptKeyword.value,
@@ -1506,7 +1455,9 @@ function addFolder() {
         keyword: keyword,
         keyboardShortcut: keyboardShortcut,
         isFolder: true,
-        children: [] // Array of search engine and/or subfolder ids
+        children: [], // Array of search engine and/or subfolder ids
+        imageFormat: 'image/png',
+        base64: base64FolderIcon
     };
 
     // Add folder as child of 'root'
@@ -1550,6 +1501,7 @@ function clearAddFolder() {
     // Clear text box entries of the line used to add a new folder
     folderName.value = null;
     folderKeyword.value = null;
+    folderKbsc.value = null;
 }
 
 async function setOptions(options) {
@@ -1687,7 +1639,12 @@ async function restoreOptionsPage() {
     try {
         const data = await browser.storage.sync.get();
         const options = data.options;
-        logToConsole = options.logToConsole;
+        // Set debugging mode
+        if (options !== undefined && options !== null) {
+            if ('logToConsole' in options) {
+                logToConsole = options.logToConsole;
+            }
+        }
 
         searchEngines = await browser.storage.local.get();
         if (logToConsole) {
