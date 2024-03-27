@@ -329,44 +329,44 @@ async function handleAddNewPrompt(data) {
 }
 
 async function handleUpdateSearchOptions(data) {
-    const options = await getOptions();
+    let options = await getOptions();
     options.exactMatch = data.exactMatch;
     await setOptions(options, true, false);
 }
 
 async function handleUpdateDisplayFavicons(data) {
-    const options = await getOptions();
+    let options = await getOptions();
     options.displayFavicons = data.displayFavicons;
     await setOptions(options, true, true);
 }
 
 async function handleUpdateQuickIconGrid(data) {
-    const options = await getOptions();
+    let options = await getOptions();
     options.quickIconGrid = data.quickIconGrid;
     await setOptions(options, true, false);
 }
 
 async function handleUpdateCloseGridOnMouseOut(data) {
-    const options = await getOptions();
+    let options = await getOptions();
     options.closeGridOnMouseOut = data.closeGridOnMouseOut;
     await setOptions(options, true, false);
 }
 
 async function handleOffsetUpdate(data) {
-    const options = await getOptions();
+    let options = await getOptions();
     if (data.offsetX) options.offsetX = data.offsetX;
     if (data.offsetY) options.offsetY = data.offsetY;
     await setOptions(options, true, false);
 }
 
 async function handleUpdateDisableAltClick(data) {
-    const options = await getOptions();
+    let options = await getOptions();
     options.disableAltClick = data.disableAltClick;
     await setOptions(options, true, false);
 }
 
 async function handleUpdateTabMode(data) {
-    const options = await getOptions();
+    let options = await getOptions();
     options.tabMode = data.tabMode;
     options.tabActive = data.tabActive;
     options.lastTab = data.lastTab;
@@ -375,26 +375,26 @@ async function handleUpdateTabMode(data) {
 }
 
 async function handleUpdateMultiMode(data) {
-    const options = await getOptions();
+    let options = await getOptions();
     options.multiMode = data.multiMode;
     await setOptions(options, true, false);
 }
 
 async function handleUpdateOptionsMenuLocation(data) {
-    const options = await getOptions();
+    let options = await getOptions();
     options.optionsMenuLocation = data.optionsMenuLocation;
     await setOptions(options, true, true);
 }
 
 async function handleUpdateSiteSearchSetting(data) {
-    const options = await getOptions();
+    let options = await getOptions();
     options.siteSearch = data.siteSearch;
     options.siteSearchUrl = data.siteSearchUrl;
     await setOptions(options, true, true);
 }
 
 async function handleUpdateResetOptions(data) {
-    const options = await getOptions();
+    let options = await getOptions();
     options.forceSearchEnginesReload = data.resetOptions.forceSearchEnginesReload;
     options.resetPreferences = data.resetOptions.resetPreferences;
     options.forceFaviconsReload = data.resetOptions.forceFaviconsReload;
@@ -1177,7 +1177,7 @@ async function processSearch(info, tab) {
     const id = (info.menuItemId.startsWith('cs-')) ? info.menuItemId.replace('cs-', '') : info.menuItemId;
     let tabIndex = tab.index + 1;
 
-    if (searchEngines[id].isFolder) return;
+    if (searchEngines[id] !== undefined && searchEngines[id].isFolder) return;
 
     if (info.selectionText !== undefined) {
         // Prefer info.selectionText over selection received by content script for these lengths (more reliable)
@@ -1212,14 +1212,16 @@ async function processSearch(info, tab) {
         displaySearchResults(id, googleLensUrl + targetUrl, tabIndex, multisearch);
         return;
     }
-    if (id === 'site-search' && !isEmpty(targetUrl)) {
+    if (id === 'site-search') {
+        let quote = '';
+        if (contextsearch_exactMatch) quote = '%22';
+        const domain = getDomain(tab.url).replace(/https?:\/\//, '');
+        const options = await getOptions();
+        targetUrl =
+            options.siteSearchUrl +
+            encodeUrl(`site:https://${domain} ${quote}${selection}${quote}`);
         if (logToConsole) console.log(targetUrl);
         if (contextsearch_openSearchResultsInSidebar) {
-            const domain = getDomain(tab.url).replace(/https?:\/\//, '');
-            const options = await getOptions();
-            targetUrl =
-                options.siteSearchUrl +
-                encodeUrl(`site:https://${domain} ${selection}`);
             browser.sidebarAction.setPanel({ panel: targetUrl });
             browser.sidebarAction.setTitle({ title: 'Search results' });
             return;
@@ -1234,19 +1236,14 @@ async function processSearch(info, tab) {
         await processMultiTabSearch([], tabIndex);
         return;
     } else if (id === 'match') {
-        const settings = await getOptions();
-        let options = settings.options;
+        let options = await getOptions();
         if (logToConsole) {
             console.log(
                 `Preferences retrieved from sync storage: ${JSON.stringify(options)}`
             );
         }
-        options.exactMatch = !contextsearch_exactMatch;
-        if (options.exactMatch) {
-            if (logToConsole) console.log(`Setting exact match to ${options.exactMatch}`);
-            contextsearch_exactMatch = options.exactMatch;
-        }
-        saveOptions(options, true);
+        options.exactMatch = !options.exactMatch;
+        setOptions(options, true, true);
         return;
     }
 
@@ -1867,12 +1864,6 @@ function buildSuggestion(text) {
 }
 
 /// Helper functions
-
-/// Generic Error Handler
-function onError(error) {
-    if (logToConsole) console.error(`${error}`);
-}
-
 /// Encode a url
 function encodeUrl(url) {
     if (isEncoded(url)) {

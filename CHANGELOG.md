@@ -1,5 +1,11 @@
-5.0.0
+5.0.1
 =========
+
+* Bug fix [#175](https://github.com/odebroqueville/contextSearch/issues/175)
+
+5.0.0
+---------
+
 * Updated SortableJS to version 1.15.2
 * Context Search now supports folders
 
