@@ -76,6 +76,7 @@ const multiMode = document.getElementById('multiMode');
 const btnClearAll = document.getElementById('clearAll');
 const btnSelectAll = document.getElementById('selectAll');
 const btnSortAlpha = document.getElementById('sortAlphabetically');
+const btnClearKeyboardShortcuts = document.getElementById('clearKeyboardShortcuts');
 const btnReset = document.getElementById('reset');
 
 // Add new search engine buttons
@@ -131,6 +132,7 @@ multiMode.addEventListener('click', updateMultiMode);
 btnClearAll.addEventListener('click', clearAll);
 btnSelectAll.addEventListener('click', selectAll);
 btnSortAlpha.addEventListener('click', sortSearchEnginesAlphabetically);
+btnClearKeyboardShortcuts.addEventListener('click', clearKeyboardShortcuts);
 btnReset.addEventListener('click', reset);
 
 // Add new search engine button click handlers
@@ -940,6 +942,14 @@ function sortSearchEnginesAlphabeticallyInFolder(folderId) {
 
 function sortSearchEnginesAlphabetically() {
     sortSearchEnginesAlphabeticallyInFolder('root');
+    displaySearchEngines();
+    saveSearchEngines();
+}
+
+function clearKeyboardShortcuts() {
+    for (let id in searchEngines) {
+        searchEngines[id].keyboardShortcut = "";
+    }
     displaySearchEngines();
     saveSearchEngines();
 }

@@ -422,6 +422,10 @@
 		"message": "Lóðrétt frávik á táknhnitnum:",
 		"hash": "49e08ac782b64fced86569f6dc56d82f"
 	},
+	"clearKeyboardShortcuts": {
+		"message": "Hreinsaðu alla flýtilykla",
+		"hash": "3745c3c2b77449e9606d8bf4e137e94f"
+	},
 
 	"__WET_LOCALE__": { "message": "is" }
 }

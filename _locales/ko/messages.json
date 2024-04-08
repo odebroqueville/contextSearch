@@ -422,6 +422,10 @@
 		"message": "아이콘 그리드의 수직 오프셋:",
 		"hash": "49e08ac782b64fced86569f6dc56d82f"
 	},
+	"clearKeyboardShortcuts": {
+		"message": "모든 키보드 단축키 지우기",
+		"hash": "3745c3c2b77449e9606d8bf4e137e94f"
+	},
 
 	"__WET_LOCALE__": { "message": "ko" }
 }

@@ -317,6 +317,9 @@
     "yOffset": {
         "message": "Vertical offset of the icons grid: "
     },
+    "clearKeyboardShortcuts": {
+        "message": "Clear all keyboard shortcuts"
+    },
     "header12": {
         "message": "ChatGPT Setup"
     },
