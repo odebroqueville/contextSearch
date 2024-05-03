@@ -1695,8 +1695,8 @@ async function handleFileUpload() {
     });
 
     searchEngines = JSON.parse(fileContent);
+    await sendMessage('saveSearchEngines', searchEngines);
     displaySearchEngines();
-    sendMessage('saveSearchEngines', searchEngines);
 }
 
 function updateSearchOptions() {
