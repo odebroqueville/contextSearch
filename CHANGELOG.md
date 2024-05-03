@@ -1,5 +1,10 @@
-5.0.2
+5.0.3
 =========
+
+* Bug fix [#177](https://github.com/odebroqueville/contextSearch/issues/177)
+
+5.0.2
+---------
 
 * Bug fix [#176](https://github.com/odebroqueville/contextSearch/issues/176): Added a button to clear all keyboard shortcuts
 
