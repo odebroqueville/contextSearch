@@ -34,7 +34,7 @@
     },
     "devDependencies": {
         "eslint": "^8.29.0",
-        "web-ext": "^7.11.0",
+        "web-ext": "^8.1.0",
         "web-ext-translator": "^4.3.0"
     }
 }
