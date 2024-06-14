@@ -1,5 +1,10 @@
-5.0.4
+5.0.5
 =========
+
+* Added missing config.json file
+
+5.0.4
+---------
 
 * Bug fix [#179](https://github.com/odebroqueville/contextSearch/issues/179): Changed the shortcut for Encyclopedia Britannica to Ctrl+Alt+c
 
