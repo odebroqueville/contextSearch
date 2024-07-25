@@ -1,5 +1,11 @@
-5.0.5
+5.0.6
 =========
+
+* Bug fix [#181](https://github.com/odebroqueville/contextSearch/issues/181)
+* Implemented feature request [#182](https://github.com/odebroqueville/contextSearch/issues/182)
+
+5.0.5
+---------
 
 * Added missing config.json file
 
