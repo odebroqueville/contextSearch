@@ -920,30 +920,52 @@ function selectAll() {
 }
 
 function sortSearchEnginesAlphabeticallyInFolder(folderId) {
+    let folderChildren = [...searchEngines[folderId].children]; // Copy the array
     let se = [];
+    let children = [];
     let counter = 0;
-    for (let id in searchEngines[folderId].children) {
-        se.push(searchEngines[id].name);
+
+    if (logToConsole) console.log(folderId);
+    if (logToConsole) console.log(folderChildren);
+
+    // Collect search engines and identify folders for recursive sorting
+    for (let id of folderChildren) {
+        if (logToConsole) console.log(id);
+        se.push({ id: id, name: searchEngines[id].name });
+
         if (searchEngines[id].isFolder) {
             sortSearchEnginesAlphabeticallyInFolder(id);
         }
     }
-    se = sortAlphabetically(se);
-    if (logToConsole) console.log(se);
-    for (let name of se) {
-        for (let id in searchEngines) {
-            if (searchEngines[id].name == name) {
-                searchEngines[id].index = counter;
-                counter++;
+
+    // Extract names for sorting
+    let names = se.map(entry => entry.name);
+
+    // Sort names alphabetically, handling numbers and strings separately
+    names = sortAlphabetically(names);
+    if (logToConsole) console.log(names);
+
+    // Rebuild the children list in sorted order
+    for (let name of names) {
+        for (let entry of se) {
+            if (entry.name === name) {
+                children.push(entry.id);
+                searchEngines[entry.id].index = counter++;
+                break;  // Ensure each entry is only matched once
             }
         }
     }
+
+    if (logToConsole) console.log(folderId + " children: ");
+    if (logToConsole) console.log(children);
+
+    searchEngines[folderId].children = children;
 }
 
-function sortSearchEnginesAlphabetically() {
+async function sortSearchEnginesAlphabetically() {
     sortSearchEnginesAlphabeticallyInFolder('root');
+    await sendMessage('saveSearchEngines', searchEngines);
     displaySearchEngines();
-    saveSearchEngines();
 }
 
 function clearKeyboardShortcuts() {
