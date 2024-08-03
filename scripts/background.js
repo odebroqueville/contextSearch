@@ -432,6 +432,12 @@ async function testPrompt(data) {
     displaySearchResults(id, providerUrl, tabPosition, multisearch);
 }
 
+async function handleSetTargetUrl(data) {
+    if (logToConsole) console.log(`TargetUrl: ${data}`);
+    if (data) targetUrl = data;
+    await rebuildContextMenu();
+}
+
 // Listen for messages from the content or options script
 browser.runtime.onMessage.addListener((message, sender) => {
     const action = message.action;
@@ -457,8 +463,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
             handleReset();
             break;
         case 'setTargetUrl':
-            if (logToConsole) console.log(`TargetUrl: ${data}`);
-            if (data) targetUrl = data;
+            handleSetTargetUrl(data);
             break;
         case 'testSearchEngine':
             testSearchEngine(data);
@@ -1028,7 +1033,9 @@ async function rebuildContextMenu() {
         rebuildContextOptionsMenu();
     }
 
-    buildContextMenuForImages();
+    if (!(targetUrl.includes('youtube.com') || targetUrl.includes('youtu.be') || targetUrl.includes('youtube-nocookie.com') || targetUrl.includes('vimeo.com'))) buildContextMenuForImages();
+    //if (targetUrl.includes('youtube.com') || targetUrl.includes('youtu.be') || targetUrl.includes('youtube-nocookie.com') || targetUrl.includes('vimeo.com'))
+    buildContextMenuForVideoDownload();
 
     for (let id of rootChildren) {
         buildContextMenuItem(id, browserVersion, 'root');
@@ -1091,6 +1098,15 @@ function buildContextMenuForImages() {
         id: 'cs-google-lens',
         title: 'Google Lens',
         contexts: ['image'],
+    });
+}
+
+/// Build the context menu for YouTube video downloads
+function buildContextMenuForVideoDownload() {
+    browser.menus.create({
+        id: 'cs-download-video',
+        title: 'Download Video',
+        contexts: ['all']
     });
 }
 
@@ -1201,6 +1217,13 @@ async function processSearch(info, tab) {
     const lastTab = tabs[tabs.length - 1].index + 1;
     if (contextsearch_openSearchResultsInLastTab || contextsearch_multiMode === 'multiAfterLastTab') {
         tabIndex = lastTab;
+    }
+    if (id === 'download-video') {
+        let url = info.linkUrl
+        if (url.includes('vimeo.com')) url = url.replace('https://', 'http://');
+        if (logToConsole) console.log(url);
+        sendMessageToHostScript(url);
+        return;
     }
     if (id === 'reverse-image-search') {
         if (logToConsole) console.log(targetUrl);
@@ -1956,5 +1979,25 @@ async function fetchConfig() {
     const config = await response.json();
     return config;
 }
+
+function sendMessageToHostScript(url) {
+    let port = browser.runtime.connectNative("yt_dlp_host");
+    if (logToConsole) console.log(`Sending: ${url}`);
+    port.postMessage({ url: url });
+
+    port.onMessage.addListener((response) => {
+        if (logToConsole) console.log("Received response:", response);
+    });
+
+    port.onDisconnect.addListener(() => {
+        let error = browser.runtime.lastError;
+        if (error) {
+            if (logToConsole) console.error("Port disconnected due to error:", error.message);
+        } else {
+            if (logToConsole) console.log("Port disconnected without error.");
+        }
+    });
+}
+
 
 init();

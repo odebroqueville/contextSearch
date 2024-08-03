@@ -2,7 +2,7 @@
 =========
 
 * Bug fix [#181](https://github.com/odebroqueville/contextSearch/issues/181)
-* Implemented feature request [#182](https://github.com/odebroqueville/contextSearch/issues/182)
+* Implemented feature request [#182](https://github.com/odebroqueville/contextSearch/issues/182): Added the option to download videos from YouTube or Vimeo
 
 5.0.5
 ---------

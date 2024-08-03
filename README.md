@@ -19,6 +19,7 @@ Firefox add-on to search selected text in a web page using your favorite search 
 * Carry out searches from the Omnibox, i.e. url address bar
 * Assign keyboard shortcuts to your search engines
 * Export/Import your list of search engines as a safe backup
+* macOS users can download videos from YouTube or Vimeo by right-clicking on a video thumbnail (requires some manual configuration as detailed below in the 'Advanced features' section)
 
 ## Permissions
 
@@ -108,6 +109,52 @@ will display all bookmarks that include the term Mozilla
 will display your 10 most recent bookmarks
 
 Please note that permissions for History and/or Bookmarks need to be anabled for the latter features to work.
+
+## Advanced features for macOS users
+
+To download videos from YouTube or Vimeo, Homebrew, yt-dlp and Python are required. You'll also need to disable video previews from your YouTube settings for downloads to work.
+
+If you don't already have Homebrew installed, then you can install it by typing the following command in your terminal:
+
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+To install yt-dlp and Python, type:
+
+```
+brew install yt-dlp
+brew install python
+```
+
+Two additional files are required: yt_dlp_host.json and yt_dlp_host.py. The files can both be downloaded from the [Context Search GitHub repo](https://github.com/odebroqueville/contextSearch).
+
+Place the yt_dlp_host.py file in a folder of your chosing where it won't be deleted. Next, place the yt_dlp_host.json file in the folder:
+
+```
+/Library/Application Support/Mozilla/NativeMessagingHosts/
+````
+
+Finally, edit the yt_dlp_host.json file and modify the 'path' property so that it points to the location of the yt_dlp_host.py file:
+
+```
+"path": "/path/to/yt_dlp_host.py",
+````
+
+The videos will be downloaded in the mp4 format using the h.264 or h.265 video codec in 720p at least with the highest quality audio and video, and saved to the '~/Movies/Video Downloads' directory. The format of the video and the destination may be changed by editing the following line in the ytp_dlp_host.py file:
+
+```
+result = subprocess.run(['/usr/local/bin/yt-dlp', '--ffmpeg-location', '/usr/local/bin/ffmpeg', '-f', "(bv*[vcodec~='^((he|a)vc|h26[45])'][height>=720]+ba[ext=m4a]) / (bv*+ba/b)", '-P', '~/Movies/Video Downloads', url], 
+capture_output=True, 
+text=True, 
+check=True)
+```
+
+Formating parameters available for yt-dlp may be found on the [yt-dlp GitHub repo](https://github.com/yt-dlp/yt-dlp?tab=readme-ov-file#format-selection)
+
+Please refer to the [MDN web documentation](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Native_messaging#windows_setup) for instructions to configure native messaging for Windows.
+
+N.B. Please note that the context menu option to download the videos will only work when right-clicking on video thumbnails.
 
 ## The main structure of a JSON file containing the search engines
 

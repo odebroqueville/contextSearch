@@ -61,6 +61,7 @@
         "activeTab",
         "clipboardWrite",
         "menus",
+        "nativeMessaging",
         "storage",
         "search",
         "tabs",

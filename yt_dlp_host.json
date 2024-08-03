@@ -1,0 +1,9 @@
+{
+    "name": "yt_dlp_host",
+    "description": "YouTube-DL Native Messaging Host",
+    "path": "~/Developer/contextSearch/yt_dlp_host.py",
+    "type": "stdio",
+    "allowed_extensions": [
+        "olivier.debroqueville@gmail.com"
+    ]
+}
