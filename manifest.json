@@ -3,7 +3,7 @@
     "default_locale": "en",
     "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
-    "version": "5.0.6",
+    "version": "5.0.7",
     "author": "Olivier de Broqueville",
     "browser_specific_settings": {
         "gecko": {
@@ -61,7 +61,6 @@
         "activeTab",
         "clipboardWrite",
         "menus",
-        "nativeMessaging",
         "storage",
         "search",
         "tabs",
@@ -69,6 +68,7 @@
         "webRequestBlocking"
     ],
     "optional_permissions": [
+        "nativeMessaging",
         "notifications",
         "downloads",
         "bookmarks",

@@ -527,8 +527,8 @@ async function handleRightClickWithoutGrid(e) {
         // If right click is on image
         const elementClicked = e.target;
         const tag = elementClicked.tagName;
-        const className = elementClicked.className;
-        if (tag === 'IMG' || (tag === 'DIV' && className.includes('div.iris-annotation-layer'))) {
+        //const className = elementClicked.className;
+        if (tag === 'IMG' || (tag === 'DIV' && elementClicked.classList.includes('iris-annotation-layer'))) {
             if (domain.includes('youtube.com') || domain.includes('youtu.be') || domain.includes('youtube-nocookie.com') || domain.includes('vimeo.com')) {
                 // Get the video url
                 const videoUrl = absoluteUrl(getClosestAnchorHref(elementClicked));

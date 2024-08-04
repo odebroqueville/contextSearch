@@ -931,6 +931,7 @@ function sortSearchEnginesAlphabeticallyInFolder(folderId) {
     // Collect search engines and identify folders for recursive sorting
     for (let id of folderChildren) {
         if (logToConsole) console.log(id);
+        if (id.startsWith("separator-")) continue;
         se.push({ id: id, name: searchEngines[id].name });
 
         if (searchEngines[id].isFolder) {
@@ -1342,7 +1343,7 @@ function addSeparator() {
 
     // Ensure new is unique
     while (!isIdUnique(id)) {
-        id = "chatgpt-" + Math.floor(Math.random() * 1000000000000);
+        id = "separator-" + Math.floor(Math.random() * 1000000000000);
     }
 
     searchEngines[id] = {

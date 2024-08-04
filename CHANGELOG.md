@@ -1,5 +1,13 @@
-5.0.6
+5.0.7
 =========
+
+* Bug fix [#183](https://github.com/odebroqueville/contextSearch/issues/183): context menu item 'Download video' should only appear on YouTube or Vimeo websites
+* Bug fix [#185](https://github.com/odebroqueville/contextSearch/issues/185): separators should now be correctly positioned
+* Implemented feature request [#184](https://github.com/odebroqueville/contextSearch/issues/184): nativeMessaging permission is now optional
+* Alphabetical sort of search engines removes all separators
+
+5.0.6
+---------
 
 * Bug fix [#181](https://github.com/odebroqueville/contextSearch/issues/181)
 * Implemented feature request [#182](https://github.com/odebroqueville/contextSearch/issues/182): Added the option to download videos from YouTube or Vimeo

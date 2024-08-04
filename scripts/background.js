@@ -433,9 +433,25 @@ async function testPrompt(data) {
 }
 
 async function handleSetTargetUrl(data) {
+    const nativeMessagingEnabled = await browser.permissions.contains({ permissions: ['nativeMessaging'] });
+    let showVideoDownloadMenu;
+    if (logToConsole) console.log(`nativeMessaging permisssion: ${nativeMessagingEnabled}`);
     if (logToConsole) console.log(`TargetUrl: ${data}`);
     if (data) targetUrl = data;
-    await rebuildContextMenu();
+    if (targetUrl.includes('youtube.com') || targetUrl.includes('youtu.be') || targetUrl.includes('youtube-nocookie.com') || targetUrl.includes('vimeo.com')) {
+        showVideoDownloadMenu = true;
+    } else {
+        showVideoDownloadMenu = false;
+    }
+    await browser.menus.update('cs-download-video', {
+        visible: nativeMessagingEnabled && showVideoDownloadMenu
+    });
+    await browser.menus.update('cs-reverse-image-search', {
+        visible: !showVideoDownloadMenu
+    });
+    await browser.menus.update('cs-google-lens', {
+        visible: !showVideoDownloadMenu
+    });
 }
 
 // Listen for messages from the content or options script
@@ -1033,8 +1049,7 @@ async function rebuildContextMenu() {
         rebuildContextOptionsMenu();
     }
 
-    if (!(targetUrl.includes('youtube.com') || targetUrl.includes('youtu.be') || targetUrl.includes('youtube-nocookie.com') || targetUrl.includes('vimeo.com'))) buildContextMenuForImages();
-    //if (targetUrl.includes('youtube.com') || targetUrl.includes('youtu.be') || targetUrl.includes('youtube-nocookie.com') || targetUrl.includes('vimeo.com'))
+    buildContextMenuForImages();
     buildContextMenuForVideoDownload();
 
     for (let id of rootChildren) {
@@ -1106,15 +1121,24 @@ function buildContextMenuForVideoDownload() {
     browser.menus.create({
         id: 'cs-download-video',
         title: 'Download Video',
+        documentUrlPatterns: ['*://*.youtube.com/*', '*://*.youtu.be/*', '*://*.youtube-nocookie.com/*', '*://*.vimeo.com/*'],
         contexts: ['all']
     });
 }
 
 /// Build a single context menu item
 function buildContextMenuItem(id, browserVersion, parentId) {
-    if (id.startsWith("separator-")) {
+    if (id.startsWith("separator-") && parentId !== 'root') {
         browser.menus.create({
-            id: 'cs-separator',
+            id: 'cs-' + id,
+            parentId: parentId,
+            type: 'separator',
+            contexts: ['selection'],
+        });
+        return;
+    } else if (id.startsWith("separator-") && parentId === 'root') {
+        browser.menus.create({
+            id: 'cs-' + id,
             type: 'separator',
             contexts: ['selection'],
         });
@@ -1133,8 +1157,8 @@ function buildContextMenuItem(id, browserVersion, parentId) {
 
     if (searchEngine.isFolder) {
         createMenuItem(id, title, contexts, parentId, faviconUrl, browserVersion);
-        for (let i = 0; i < searchEngine.children.length; i++) {
-            buildContextMenuItem(searchEngine.children[i], browserVersion, id);
+        for (let child of searchEngine.children) {
+            buildContextMenuItem(child, browserVersion, id);
         }
     } else {
         createMenuItem(id, title, contexts, parentId, faviconUrl, browserVersion);
