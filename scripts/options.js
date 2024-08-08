@@ -471,24 +471,20 @@ function createLineItem(id) {
         option2.text = "ChatGPT";
 
         const option3 = document.createElement("option");
-        option3.value = "bard";
-        option3.text = "Google Bard";
+        option3.value = "google-ai-studio";
+        option3.text = "Google AI Studio";
 
         const option4 = document.createElement("option");
         option4.value = "perplexity";
         option4.text = "Perplexity.ai";
 
         const option5 = document.createElement("option");
-        option5.value = "llama2";
-        option5.text = "Llama2 on Poe";
+        option5.value = "llama31";
+        option5.text = "Llama3.1 on Poe";
 
         const option6 = document.createElement("option");
-        option6.value = "claude-instant";
-        option6.text = "Claude-instant on Poe";
-
-        const option7 = document.createElement("option");
-        option7.value = "assistant";
-        option7.text = "Poe Assistant";
+        option6.value = "claude";
+        option6.text = "Claude.ai";
 
         aiProvider.appendChild(option1);
         aiProvider.appendChild(option2);
@@ -496,7 +492,6 @@ function createLineItem(id) {
         aiProvider.appendChild(option4);
         aiProvider.appendChild(option5);
         aiProvider.appendChild(option6);
-        aiProvider.appendChild(option7);
 
         // Get the option with the value "chatgpt"
         const selectedOption = aiProvider.querySelector(`option[value=${searchEngine.aiProvider}]`);
