@@ -34,7 +34,6 @@ let textSelection = '';
 let navEntered = false;
 let xPos;
 let yPos;
-let targetUrlSent = false;
 
 // Current state
 if (logToConsole) {
@@ -58,6 +57,9 @@ document.onreadystatechange = function () {
 
 // Text selection change event listener
 document.addEventListener('selectionchange', handleTextSelection);
+
+// Mouseover event listener
+document.addEventListener('mouseover', handleMouseOver);
 
 // Right-click event listener
 document.addEventListener('contextmenu', handleRightClickWithoutGrid);
@@ -515,70 +517,45 @@ function getSelectionEndPosition() {
     return { x: 0, y: 0 };
 }
 
-async function handleRightClickWithoutGrid(e) {
-    if (logToConsole) console.log(`Target url sent: ${targetUrlSent}`);
+async function handleMouseOver(e) {
+    if (logToConsole) console.log(e);
+    const elementClicked = e.target;
+    const tag = elementClicked.tagName;
 
-    // If the target url has already been sent then do nothing
-    if (!targetUrlSent) {
-        //e.preventDefault();
-        const { clientX: x, clientY: y } = e;
-        if (logToConsole) console.log(e);
-
-        // If right click is on image
-        const elementClicked = e.target;
-        const tag = elementClicked.tagName;
-        //const className = elementClicked.className;
-        if (tag === 'IMG' || (tag === 'DIV' && elementClicked.classList.includes('iris-annotation-layer'))) {
-            if (domain.includes('youtube.com') || domain.includes('youtu.be') || domain.includes('youtube-nocookie.com') || domain.includes('vimeo.com')) {
-                // Get the video url
-                const videoUrl = absoluteUrl(getClosestAnchorHref(elementClicked));
-                //const videoId = new URL(videoUrl).searchParams.get('v');
-                //const downloadUrl = ytDownloadUrl + videoId;
-                await sendMessage('setTargetUrl', videoUrl);
-                if (logToConsole) console.log(`Video url: ${videoUrl}`);
-            } else {
-                if (window.getSelection) {
-                    window.getSelection().removeAllRanges();
-                }
-                // Get the image url
-                const imgUrl = absoluteUrl(elementClicked.getAttribute('src'));
-                await sendMessage('setTargetUrl', imgUrl);
-                if (logToConsole) console.log(`Image url: ${imgUrl}`);
-            }
-            targetUrlSent = true;
+    // If right click is on image or a div with class 'iris-annotation-layer' then send the target url
+    if (tag === 'IMG' || (tag === 'DIV' && elementClicked.classList.includes('iris-annotation-layer'))) {
+        if (domain.includes('youtube.com') || domain.includes('youtu.be') || domain.includes('youtube-nocookie.com') || domain.includes('vimeo.com')) {
+            // Get the video url
+            const videoUrl = absoluteUrl(getClosestAnchorHref(elementClicked));
+            //const videoId = new URL(videoUrl).searchParams.get('v');
+            //const downloadUrl = ytDownloadUrl + videoId;
+            await sendMessage('setTargetUrl', videoUrl);
+            if (logToConsole) console.log(`Video url: ${videoUrl}`);
         } else {
-            const selectedText = getSelectedText();
-            if (logToConsole) console.log(selectedText);
-            // Send the selected text to background.js
-            await sendMessage('setSelection', { selection: selectedText });
+            // Get the image url
+            const imgUrl = absoluteUrl(elementClicked.getAttribute('src'));
+            await sendMessage('setTargetUrl', imgUrl);
+            if (logToConsole) console.log(`Image url: ${imgUrl}`);
         }
+    }
+}
 
-        // Dispatch the new event on the original target element
-        if (targetUrlSent) {
+async function handleRightClickWithoutGrid(e) {
+    if (logToConsole) console.log(e);
 
-            // Dispatch the new event on the original target element
-            setTimeout(() => {
-                // Create a new context menu event
-                const newEvent = new MouseEvent('contextmenu', {
-                    bubbles: true,
-                    cancelable: false,
-                    view: window,
-                    button: 2,
-                    buttons: 2,
-                    clientX: x,
-                    clientY: y
-                });
+    const elementClicked = e.target;
+    const tag = elementClicked.tagName;
 
-                // Dispatch the new event
-                elementClicked.dispatchEvent(newEvent);
-                if (logToConsole) console.log('New contextmenu event fired.');
-                if (logToConsole) console.log(`Default prevented: ${newEvent.defaultPrevented}`);
-                if (logToConsole) console.log(newEvent.target);
-            }, 100); // Small delay to ensure proper event handling
-        }
-
+    // If right click is NOT on image or a div with class 'iris-annotation-layer' then send the target url
+    if (!(tag === 'IMG' || (tag === 'DIV' && elementClicked.classList.includes('iris-annotation-layer')))) {
+        const selectedText = getSelectedText();
+        if (logToConsole) console.log(selectedText);
+        // Send the selected text to background.js
+        await sendMessage('setSelection', { selection: selectedText });
     } else {
-        targetUrlSent = false;
+        if (window.getSelection) {
+            window.getSelection().removeAllRanges();
+        }
     }
 }
 

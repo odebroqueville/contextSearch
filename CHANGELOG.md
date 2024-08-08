@@ -1,5 +1,10 @@
-5.0.7
+5.0.8
 =========
+
+* Bug fix: context menu items were not being displayed properly when visiting YouTube or Vimeo websites
+
+5.0.7
+---------
 
 * Bug fix [#183](https://github.com/odebroqueville/contextSearch/issues/183): context menu item 'Download video' should only appear on YouTube or Vimeo websites
 * Bug fix [#185](https://github.com/odebroqueville/contextSearch/issues/185): separators should now be correctly positioned
