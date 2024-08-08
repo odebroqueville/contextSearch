@@ -1,5 +1,10 @@
-5.0.8
+5.1.0
 =========
+
+* Updated AI engines
+
+5.0.8
+---------
 
 * Bug fix: context menu items were not being displayed properly when visiting YouTube or Vimeo websites
 
