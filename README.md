@@ -70,11 +70,9 @@ You can also import a JSON file containing your own list of search engines. It i
 
 ## How to add an AI prompt to your custom list of search engines
 
-Prior to using an AI provider, ensure that you have logged in to their website. At the bottom of the Options page, select the tab to 'Add a new AI prompt'. Chose the AI provider you'd like to use, add a name for your prompt and enter your prompt by inserting %s where you'd like your text selection to appear (e.g. 'Comprehensively explain the following for a 10 year old: %s'). 
+Prior to using an AI provider, **ensure that you have logged in** to their website. At the bottom of the Options page, select the tab to 'Add a new AI prompt'. Chose the AI provider you'd like to use, add a name for your prompt and enter your prompt by inserting %s where you'd like your text selection to appear (e.g. 'Comprehensively explain the following for a 10 year old: %s'). 
 
-In most cases, after selecting text on a web page and selecting your prompt in the context menu, a new tab will open with the prompt pasted in the search box. However, pressing the ENTER key will not work! You have to place the cursor in the search box, then press the SPACE bar and finally press the ENTER key. The search results should then appear.
-
-At any time, you may press CMD + V to paste you prompt if it doesn't appear.
+In most cases, after selecting text on a web page and selecting your prompt in the context menu, a new tab will open with the relevant AI engine. When possible, the prompt will be pasted in the search box and automatically submitted to the AI engine, except for Poe so that users can choose their preferred model. The search results should then appear.
 
 ## How to add a separator (horizontal line) in the context menu
 

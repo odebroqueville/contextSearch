@@ -46,9 +46,7 @@ if (document.readyState === "complete") {
 /// Event handlers
 // Run init function when readyState is complete
 document.onreadystatechange = function () {
-    if (logToConsole) {
-        console.log(document.readyState);
-    }
+    if (logToConsole) console.log(document.readyState);
     if (document.readyState === "complete") {
         init();
     }
@@ -140,58 +138,94 @@ async function ask(url, promptText) {
     if (logToConsole) console.log(`Prompt is: ${promptText}`);
     if (logToConsole) console.log(`URL is: ${url}`);
     if (logToConsole) console.log(`Ready state is: ${document.readyState}`);
-    await navigator.clipboard.writeText(promptText);
-    let someDiv, textarea, submit;
-    let observer = new MutationObserver((mutations, mutationInstance) => {
-        if (logToConsole) console.log(mutations);
-        if (url.includes('chatgpt.com')) {
-            someDiv = document.getElementsByTagName("h1")[0];
+
+    let submissionMade = false;
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    const handleChatInput = async () => {
+        if (submissionMade) return; // Prevent multiple submissions
+
+        let textarea, submit;
+
+        // Get the text area and submit button based on the AI chat engine
+        if (url.includes('aistudio.google.com')) {
+            if (logToConsole) console.log("AI Studio detected.");
+            textarea = document.querySelector('textarea[aria-label="User text input"]');
+            submit = document.querySelector("button[class*='run-button']");
+        } else if (url.includes('www.perplexity.ai/')) {
+            textarea = document.querySelector('textarea[placeholder="Ask anything..."]');
+            submit = document.querySelector('button[aria-label="Submit"]');
+        } else if (url.includes('poe.com')) {
+            textarea = document.querySelector('textarea[placeholder="Start a new chat"]');
+            //submit = document.querySelector("button[class*='ChatMessageSendButton']");
+            submit = false;
+        } else if (url.includes('chatgpt.com')) {
+            textarea = document.getElementById('prompt-textarea');
+            submit = textarea.parentElement.nextSibling;
+        } else if (url.includes('claude.ai')) {
+            textarea = document.querySelector('div[contenteditable="true"]');
         } else {
-            someDiv = document.getElementsByTagName("span")[0];
-            if (logToConsole) console.log(someDiv);
+            const textareas = document.getElementsByTagName("textarea");
+            textarea = textareas[textareas.length - 1];
+            const buttons = document.getElementsByTagName("button");
+            submit = buttons[buttons.length - 1];
         }
-        if (someDiv) {
-            if (url.includes('aistudio.google.com')) {
-                // mutationInstance.disconnect();
-                // return;
-                textarea = document.getElementById('mat-input-0');
-                const buttons = document.getElementsByTagName("button");
-                submit = buttons[buttons.length - 1];
-            } else if (url.includes('www.perplexity.ai/')) {
-                const textareas = document.getElementsByTagName("textarea");
-                textarea = textareas[0];
-                const buttons = document.getElementsByTagName("button");
-                submit = buttons[5];
-            } else if (url.includes('poe.com')) {
-                const textareas = document.getElementsByTagName("textarea");
-                textarea = textareas[textareas.length - 1];
-                submit = textarea.parentElement.nextSibling;
-            } else if (url.includes('chatgpt.com')) {
-                textarea = document.getElementById('prompt-textarea');
-                submit = textarea.nextSibling;
+
+        if (logToConsole) console.log(`Text area:`);
+        if (logToConsole) console.log(textarea);
+        if (logToConsole) console.log(`Submit button:`);
+        if (logToConsole) console.log(submit);
+
+        if (textarea) {
+            textarea.focus();
+            if (logToConsole) console.log("Text area found.");
+            if (url.includes('claude.ai')) {
+                textarea.textContent = promptText;
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                submit = document.querySelector('button[aria-label="Send Message"]');
             } else {
-                const textareas = document.getElementsByTagName("textarea");
-                textarea = textareas[textareas.length - 1];
-                const buttons = document.getElementsByTagName("button");
-                submit = buttons[buttons.length - 1];
-            }
-
-            if (logToConsole) console.log(textarea);
-            if (logToConsole) console.log(submit);
-            if (textarea) {
-                textarea.focus();
                 textarea.value = promptText;
-                submit.disabled = false;
-                submit.click();
-                mutationInstance.disconnect();
             }
-        }
-    });
 
-    observer.observe(document, {
-        childList: true,
-        subtree: true
-    });
+            // Dispatching the necessary events to simulate user input
+            textarea.dispatchEvent(new InputEvent('input', { bubbles: true }));
+            //textarea.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+            //textarea.dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter', bubbles: true }));
+        }
+
+        // Wait for a moment to allow the page to process the input
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        if (submit && !submit.disabled) {
+            submit.click();
+            submissionMade = true; // Mark the submission as done
+            if (logToConsole) console.log("Submission clicked.");
+        } else {
+            if (logToConsole) console.log("Submit button not found or disabled.");
+        }
+    };
+
+    // let observer = new MutationObserver(async (mutations, mutationInstance) => {
+    //     if (url.includes('chatgpt.com') && !submissionMade) {
+    //         if (logToConsole) console.log("Found ChatGPT URL, handling it from mutation observer...");
+    //         await handleChatGPT();
+    //         mutationInstance.disconnect(); // Stop observing after the first submission
+    //     }
+    //     // Add similar handlers for other URLs as necessary
+    // });
+
+    // // Start observing changes in the document
+    // observer.observe(document, {
+    //     childList: true,
+    //     subtree: true
+    // });
+
+    // Run the handler directly if the page is already loaded and doesn't need waiting for mutations
+    if ((document.readyState === 'complete') && !submissionMade) {
+        if (logToConsole) console.log("Page is ready, handling it directly...");
+        await handleChatInput();
+    }
 }
 
 async function init() {

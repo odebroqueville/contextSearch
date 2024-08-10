@@ -308,6 +308,17 @@ async function handleSaveSearchEngines(data) {
     await initSearchEngines();
 }
 
+async function handleSaveAIEngine(data) {
+    const id = data.id;
+    const aiProvider = data.aiProvider;
+    const { imageFormat, base64 } = getFaviconForPrompt(id, aiProvider);
+
+    searchEngines[id]['aiProvider'] = aiProvider;
+    searchEngines[id]['imageFormat'] = imageFormat;
+    searchEngines[id]['base64'] = base64;
+    await initSearchEngines();
+}
+
 async function handleAddNewSearchEngine(data) {
     const id = data.id;
     let domain = null;
@@ -487,6 +498,9 @@ browser.runtime.onMessage.addListener((message, sender) => {
             break;
         case 'saveSearchEngines':
             handleSaveSearchEngines(data);
+            break;
+        case 'saveAIEngine':
+            handleSaveAIEngine(data);
             break;
         case 'addNewSearchEngine':
             handleAddNewSearchEngine(data);
@@ -914,7 +928,8 @@ async function getFaviconsAsBase64Strings() {
 
 async function getNewFavicon(id, domain) {
     if (id.startsWith('chatgpt-')) {
-        return getFaviconForPrompt(id)
+        const aiProvider = searchEngines[id].aiProvider;
+        return getFaviconForPrompt(id, aiProvider);
     }
     if (searchEngines[id].isFolder) {
         const imageFormat = 'image/png';
@@ -954,10 +969,9 @@ async function getNewFavicon(id, domain) {
     }
 }
 
-function getFaviconForPrompt(id) {
-    const provider = searchEngines[id].aiProvider;
+function getFaviconForPrompt(id, aiProvider) {
     let imageFormat, b64;
-    switch (provider) {
+    switch (aiProvider) {
         case 'chatgpt':
             imageFormat = 'image/png';
             b64 = base64chatGPT;
@@ -983,45 +997,6 @@ function getFaviconForPrompt(id) {
             b64 = base64ContextSearchIcon;
     }
     return { id: id, imageFormat: imageFormat, base64: b64 };
-}
-
-function convertUrl2AbsUrl(href, domain) {
-    let url = href;
-    let absUrl = domain;
-    let urlParts = [];
-
-    // If the url is absolute, i.e. begins with either'http' or 'https', there's nothing to do!
-    if (/^(https?:\/\/)/.test(url)) return url;
-
-    if (url.includes('moz-extension://')) {
-        let i = url.lastIndexOf('moz-extension://') + 16;
-        url = url.substr(i);
-        urlParts = url.split(/\//);
-        urlParts.shift();
-        for (let urlPart of urlParts) {
-            absUrl += '/' + urlPart;
-        }
-        return absUrl;
-    }
-
-    // If url begins with '//'
-    if (/^(\/\/)/.test(url)) {
-        return 'https:' + url;
-    }
-
-    // If url is relative...
-    // If url begings with either './' or '/' (excluding './/' or '//')
-    if (/^([.]\/|\/)[^/]/.test(url)) {
-        urlParts = url.split(/\//);
-        urlParts.shift();
-    } else if (/^[^/]/.test(url)) {
-        // url does not begin with '/'
-        urlParts = url.split(/\//);
-    }
-    for (let urlPart of urlParts) {
-        absUrl += '/' + urlPart;
-    }
-    return absUrl;
 }
 
 /// Rebuild the context menu using the search engines from local storage
@@ -1949,14 +1924,6 @@ function isEncoded(uri) {
         return test;
     } catch (e) {
         return false;
-    }
-}
-
-// Send message to tabs
-async function sendMessageToTabs(message) {
-    const tabs = await browser.tabs.query({});
-    for (const tab of tabs) {
-        sendMessageToTab(tab, message);
     }
 }
 

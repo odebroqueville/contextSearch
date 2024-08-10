@@ -290,8 +290,8 @@ function displaySearchEngines() {
             put: true
         },
         animation: 150,
-        filter: "input",
-        preventOnFilter: false,
+        filter: 'input, textarea',// Prevent dragging on input and textarea elements
+        preventOnFilter: false,// Allow events to propagate to input and textarea
         // On element drag ended, save search engines
         onEnd: saveSearchEnginesOnDragEnded
     };
@@ -1169,7 +1169,11 @@ function saveChanges(e, property) {
 
     searchEngines[id][property] = newValue;
 
-    sendMessage('saveSearchEngines', searchEngines);
+    if (property === 'aiProvider') {
+        sendMessage('saveAIEngine', { 'id': id, 'aiProvider': newValue });
+    } else {
+        sendMessage('saveSearchEngines', searchEngines);
+    }
 }
 
 // End of user event handlers

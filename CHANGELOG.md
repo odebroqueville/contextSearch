@@ -1,5 +1,14 @@
-5.1.0
+5.1.1
 =========
+
+* AI engine improvements: AI engine search results should now automatically be displayed except for Poe
+* Bug fix: changing an existing AI provider in the Options page should now update the favicon as well
+* Bug fix: it's now easier to modify an AI prompt in the Options page with your mouse
+* Updated list of default seaarch engines with some AI prompt examples
+* Removed clipboardWrite permission requirement
+
+5.1.0
+---------
 
 * Updated AI engines
 
