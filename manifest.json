@@ -3,7 +3,7 @@
     "default_locale": "en",
     "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
-    "version": "5.1.1",
+    "version": "5.1.2",
     "author": "Olivier de Broqueville",
     "browser_specific_settings": {
         "gecko": {
@@ -17,11 +17,15 @@
         "/bookmarks.html",
         "/images/*.png",
         "/scripts/modal.js",
+        "/scripts/popup.js",
         "/scripts/Sortable.min.js",
         "/sidebar/search_results.html",
         "/scripts/search_results.js"
     ],
     "content_security_policy": "script-src 'self'; object-src 'self'; img-src 'self' data:;",
+    "browser_action": {
+        "default_popup": "popup.html"
+    },
     "page_action": {
         "show_matches": [
             "<all_urls>"
@@ -82,6 +86,13 @@
                 "default": "Alt+Shift+G"
             },
             "description": "Launch the icons grid"
+        },
+        "open-popup": {
+            "suggested_key": {
+                "default": "Ctrl+0",
+                "mac": "Command+0"
+            },
+            "description": "Open the popup window"
         }
     },
     "icons": {

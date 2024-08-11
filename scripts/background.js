@@ -143,6 +143,8 @@ browser.commands.onCommand.addListener(async (command) => {
         const tabs = await queryAllTabs();
         const activeTab = tabs.filter(isActive)[0];
         sendMessageToTab(activeTab, { action: "launchIconsGrid" });
+    } else if (command === "open-popup") {
+        openPopup();
     }
 });
 
@@ -463,6 +465,22 @@ async function handleSetTargetUrl(data) {
     });
 }
 
+async function handleExecuteAISearch(data) {
+    const { aiEngine, prompt } = data;
+    const id = 'chatgpt-direct';
+    const tabs = await queryAllTabs();
+    const activeTab = tabs.filter(isActive)[0];
+    const tabIndex = activeTab.index + 1;
+    const url = getAIProviderBaseUrl(aiEngine);
+    if (aiEngine && prompt) {
+        setupTabUpdatedListener(id, prompt)
+    }
+    browser.tabs.create({
+        url: url,
+        index: tabIndex
+    });
+}
+
 // Listen for messages from the content or options script
 browser.runtime.onMessage.addListener((message, sender) => {
     const action = message.action;
@@ -476,6 +494,9 @@ browser.runtime.onMessage.addListener((message, sender) => {
             break;
         case 'doSearch':
             handleDoSearch(data);
+            break;
+        case 'executeAISearch':
+            handleExecuteAISearch(data);
             break;
         case 'notify':
             if (notificationsEnabled) notify(data);
@@ -1410,13 +1431,13 @@ function getAIProviderBaseUrl(provider) {
         case 'chatgpt':
             providerUrl = chatGPTUrl;
             break;
-        case 'google-ai-studio':
+        case 'google' || 'google-ai-studio':
             providerUrl = googleAIStudioUrl;
             break;
         case 'perplexity':
             providerUrl = perplexityAIUrl;
             break;
-        case 'llama31':
+        case 'poe' || 'llama31':
             providerUrl = llama31Url;
             break;
         case 'claude':
@@ -1450,7 +1471,7 @@ async function displaySearchResults(id, targetUrl, tabPosition, multisearch) {
     // const windowInfo = await browser.windows.getCurrent({ populate: false });
     // const currentWindowID = windowInfo.id;
 
-    setupTabUpdatedListener(id);
+    setupTabUpdatedListener(id, prompt);
 
     if (!multisearch && contextsearch_openSearchResultsInNewWindow) {
         if (searchEngines[id] !== undefined || !searchEngines[id].formData) {
@@ -1504,24 +1525,14 @@ async function displaySearchResults(id, targetUrl, tabPosition, multisearch) {
 }
 
 
-function setupTabUpdatedListener(id) {
+function setupTabUpdatedListener(id, prompt) {
     if (id.startsWith('chatgpt-')) {
-        const aiUrls = [chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, llama31Url, claudeUrl];
-        const urls = aiUrls.map((aiUrl) => {
-            if (aiUrl.endsWith('/')) {
-                return aiUrl + '*';
-            } else {
-                return aiUrl;
-            }
-        });
-        const filter = {
-            urls: urls
-        };
-        if (logToConsole) console.log(filter);
         if (id === 'chatgpt-') {
             promptText = 'How old is the Universe';
         } else {
-            promptText = searchEngines[id].prompt;
+            if (id === 'chatgpt-direct') {
+                promptText = prompt;
+            } else promptText = searchEngines[id].prompt;
             if (promptText.includes('{searchTerms}')) {
                 promptText = promptText.replace(/{searchTerms}/g, selection);
             } else if (promptText.includes('%s')) {
@@ -2012,5 +2023,20 @@ function sendMessageToHostScript(url) {
     });
 }
 
+function openPopup() {
+    let width = 700;
+    let height = 20;
+    let left = (screen.width / 2) - (width / 2);
+    let top = (screen.height / 2) - (height / 2);
+
+    browser.windows.create({
+        url: "popup.html",
+        type: "popup",
+        width: width,
+        height: height,
+        left: left,
+        top: top
+    });
+}
 
 init();

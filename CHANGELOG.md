@@ -1,5 +1,10 @@
-5.1.1
+5.1.2
 =========
+
+* New feature: 'CTRL+0' (Windows) or 'CMD+0' (Mac) now opens a command window from which to carry out an AI search
+
+5.1.1
+---------
 
 * AI engine improvements: AI engine search results should now automatically be displayed except for Poe
 * Bug fix: changing an existing AI provider in the Options page should now update the favicon as well
