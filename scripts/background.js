@@ -11,7 +11,6 @@ let selection = '';
 let targetUrl = '';
 let lastAddressBarKeyword = '';
 let historyItems, bookmarkItems;
-let promptText = '';
 let messageSent = false;
 let CORS_API_URL;
 let CORS_API_KEY;
@@ -55,6 +54,7 @@ const requestFilter = {
 const titleMultipleSearchEngines = browser.i18n.getMessage(
     'titleMultipleSearchEngines'
 );
+const titleAISearch = browser.i18n.getMessage('titleAISearch');
 const titleSiteSearch = browser.i18n.getMessage('titleSiteSearch');
 const titleExactMatch = browser.i18n.getMessage('exactMatch');
 const titleOptions = browser.i18n.getMessage('titleOptions');
@@ -102,9 +102,9 @@ let notificationsEnabled = false;
 const defaultOptions = {
     exactMatch: contextsearch_exactMatch,
     tabMode: contextsearch_tabMode,
+    optionsMenuLocation: contextsearch_optionsMenuLocation,
     tabActive: contextsearch_makeNewTabOrWindowActive,
     lastTab: contextsearch_openSearchResultsInLastTab,
-    optionsMenuLocation: contextsearch_optionsMenuLocation,
     displayFavicons: contextsearch_displayFavicons,
     quickIconGrid: contextsearch_quickIconGrid,
     closeGridOnMouseOut: contextsearch_closeGridOnMouseOut,
@@ -121,7 +121,7 @@ const defaultOptions = {
 };
 
 /// Handle Debugging
-browser.runtime.onInstalled.addListener((details) => {
+browser.runtime.onInstalled.addListener(async (details) => {
     if (details.temporary) {
         logToConsole = true;
     } else {
@@ -131,7 +131,25 @@ browser.runtime.onInstalled.addListener((details) => {
         console.log('Debugging enabled.');
         console.log(details);
     }
+    if (details.reason === "install" || details.reason === "update") {
+        await init();
+    }
 })
+
+/// Listen for changes to permissions
+browser.permissions.onAdded.addListener(async (permissions) => {
+    if (permissions.permissions.includes("notifications")) {
+        notificationsEnabled = true;
+        if (logToConsole) console.log("Notifications permission granted.");
+    }
+});
+
+browser.permissions.onRemoved.addListener(async (permissions) => {
+    if (permissions.permissions.includes("notifications")) {
+        notificationsEnabled = false;
+        if (logToConsole) console.log("Notifications permission revoked.");
+    }
+});
 
 /// Handle Page Action click
 browser.pageAction.onClicked.addListener(handlePageAction);
@@ -140,8 +158,7 @@ browser.pageAction.onClicked.addListener(handlePageAction);
 browser.commands.onCommand.addListener(async (command) => {
     if (command === "launch-icons-grid") {
         if (logToConsole) console.log('Launching Icons Grid...');
-        const tabs = await queryAllTabs();
-        const activeTab = tabs.filter(isActive)[0];
+        const activeTab = await getActiveTab();
         sendMessageToTab(activeTab, { action: "launchIconsGrid" });
     } else if (command === "open-popup") {
         openPopup();
@@ -164,10 +181,6 @@ async function rewriteUserAgentHeader(e) {
         return {};
     }
     if (logToConsole) {
-        const tabs = await queryAllTabs();
-        const activeTab = tabs.filter(isActive)[0];
-        console.log('Active tab: ');
-        console.log(activeTab);
         console.log('Intercepted header:');
         console.log(e.requestHeaders);
     }
@@ -189,8 +202,13 @@ function isActive(tab) {
     return tab.active;
 }
 
-function queryAllTabs() {
-    return browser.tabs.query({ currentWindow: true });
+async function queryAllTabs() {
+    return await browser.tabs.query({ currentWindow: true });
+}
+
+async function getActiveTab() {
+    const tabs = await queryAllTabs();
+    return tabs.filter(isActive)[0];
 }
 
 async function isIdUnique(testId) {
@@ -261,41 +279,32 @@ function handleAddNewPostSearchEngine(data) {
 }
 
 async function handleDoSearch(data) {
+    // The id of the search engine, folder, AI prompt or 'multisearch'
+    // The source is either the grid of icons (for multisearch) or a keyboard shortcut
     const id = data.id;
     let multiTabArray = [];
-    let multisearch = false;
     if (logToConsole) console.log('Search engine id: ' + id);
     if (logToConsole) console.log(contextsearch_openSearchResultsInSidebar);
     const tabs = await queryAllTabs();
-    const activeTab = tabs.filter(isActive)[0];
+    const activeTab = await getActiveTab();
     const lastTab = tabs[tabs.length - 1];
     let tabPosition = activeTab.index + 1;
     if (contextsearch_multiMode === 'multiAfterLastTab' || contextsearch_openSearchResultsInLastTab) {
         tabPosition = lastTab.index + 1;
     }
+    // If the search engine is a folder
     if (searchEngines[id] && searchEngines[id].isFolder) {
-        multisearch = true;
-        for (const childId of searchEngines[id].children) {
-            if (searchEngines[childId].isFolder || !searchEngines[childId].show) continue;
-            if (id.startsWith('chatgpt-')) {
-                // If AI prompt
-                multiTabArray.push(childId);
-            } else {
-                const searchEngineUrl = searchEngines[childId].url;
-                if (!searchEngines[childId].formData) {
-                    // If not a search engine using POST
-                    multiTabArray.push(getSearchEngineUrl(searchEngineUrl, selection));
-                } else {
-                    // If search engine using POST
-                    multiTabArray.push({ id: childId, url: searchEngineUrl });
-                }
-            }
-        }
+        multiTabArray.push(...processFolder(id, selection));
     }
+
     if (id === 'multisearch' || searchEngines[id].isFolder) {
-        processMultiTabSearch(multiTabArray, tabPosition);
+        // If multisearch or the search engine is a folder
+        processMultisearch(multiTabArray, tabPosition);
     } else {
-        searchUsing(id, tabPosition, multisearch);
+        // If single search and search engine is a link, HTTP GET or HTTP POST request or AI prompt
+        const multisearch = false;
+        const windowInfo = await browser.windows.getCurrent();
+        displaySearchResults(id, tabPosition, multisearch, windowInfo.id);
     }
 }
 
@@ -433,22 +442,20 @@ function testSearchEngine(engineData) {
 }
 
 // test if an AI search engine perfoming an AI request with the prompt 'How old is the Universe' returns valid results
-async function testPrompt(data) {
+async function testPrompt() {
     const id = 'chatgpt-';
     const multisearch = false;
-    const providerUrl = getAIProviderBaseUrl(data.provider);
-    const tabs = await queryAllTabs();
-    const activeTab = tabs.filter(isActive)[0];
+    const activeTab = await getActiveTab();
     const tabPosition = activeTab.index + 1;
-    displaySearchResults(id, providerUrl, tabPosition, multisearch);
+    const windowInfo = await browser.windows.getCurrent();
+    displaySearchResults(id, tabPosition, multisearch, windowInfo.id);
 }
 
 async function handleSetTargetUrl(data) {
     const nativeMessagingEnabled = await browser.permissions.contains({ permissions: ['nativeMessaging'] });
     let showVideoDownloadMenu;
-    if (logToConsole) console.log(`nativeMessaging permisssion: ${nativeMessagingEnabled}`);
-    if (logToConsole) console.log(`TargetUrl: ${data}`);
     if (data) targetUrl = data;
+    if (logToConsole) console.log(`TargetUrl: ${targetUrl}`);
     if (targetUrl.includes('youtube.com') || targetUrl.includes('youtu.be') || targetUrl.includes('youtube-nocookie.com') || targetUrl.includes('vimeo.com')) {
         showVideoDownloadMenu = true;
     } else {
@@ -468,12 +475,11 @@ async function handleSetTargetUrl(data) {
 async function handleExecuteAISearch(data) {
     const { aiEngine, prompt } = data;
     const id = 'chatgpt-direct';
-    const tabs = await queryAllTabs();
-    const activeTab = tabs.filter(isActive)[0];
+    const activeTab = await getActiveTab();
     const tabIndex = activeTab.index + 1;
     const url = getAIProviderBaseUrl(aiEngine);
     if (aiEngine && prompt) {
-        setupTabUpdatedListener(id, prompt)
+        setupTabUpdatedListeners(id, prompt)
     }
     browser.tabs.create({
         url: url,
@@ -504,6 +510,8 @@ browser.runtime.onMessage.addListener((message, sender) => {
         case 'setSelection':
             if (data) selection = data.selection;
             if (logToConsole) console.log(`Selected text: ${selection}`);
+            //if (data) selections[sender.tab.id] = data.selection;
+            //if (logToConsole) console.log(`Selected text from tab ${sender.tab.id}: ${selections[sender.tab.id]}`);
             break;
         case 'reset':
             handleReset();
@@ -515,7 +523,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
             testSearchEngine(data);
             break;
         case 'testPrompt':
-            testPrompt(data);
+            testPrompt();
             break;
         case 'saveSearchEngines':
             handleSaveSearchEngines(data);
@@ -602,9 +610,7 @@ async function init() {
         );
     }
 
-    notificationsEnabled =
-        (await navigator.permissions.query({ name: 'notifications' })).state ===
-        'granted';
+    checkNotificationsPermission();
 
     // Fetch CORS API URL and key from config file
     const config = await fetchConfig();
@@ -613,6 +619,13 @@ async function init() {
 
     // Initialize options and search engines
     await initialiseOptionsAndSearchEngines();
+}
+
+// Check if notifications are enabled
+async function checkNotificationsPermission() {
+    const result = await navigator.permissions.query({ name: 'notifications' });
+    notificationsEnabled = result.state === 'granted';
+    if (logToConsole) console.log(`${notificationsEnabled ? 'Notifications enabled.' : 'Notifications disabled.'}`);
 }
 
 /// Reset extension
@@ -796,6 +809,8 @@ async function setOptions(options, save, rebuildContextMenu) {
         default:
             break;
     }
+
+    contextsearch_tabMode = options.tabMode;
 
     if (logToConsole) console.log(
         `Setting the position of options in the context menu to ${options.optionsMenuLocation}`
@@ -1050,7 +1065,15 @@ async function rebuildContextMenu() {
         rebuildContextOptionsMenu();
     }
 
-    browser.menus.onClicked.addListener(processSearch);
+    browser.menus.onClicked.addListener(async (info, tab) => {
+        if (
+            contextsearch_openSearchResultsInSidebar
+        ) {
+            await browser.sidebarAction.open();
+            await browser.sidebarAction.setPanel({ panel: '' });
+        }
+        await processSearch(info, tab);
+    });
 }
 
 function rebuildContextOptionsMenu() {
@@ -1072,6 +1095,11 @@ function rebuildContextOptionsMenu() {
         id: 'cs-multitab',
         title: titleMultipleSearchEngines,
         contexts: ['selection'],
+    });
+    browser.menus.create({
+        id: 'cs-ai-search',
+        title: titleAISearch + '...',
+        contexts: ['all'],
     });
     browser.menus.create({
         id: 'cs-site-search',
@@ -1203,34 +1231,39 @@ function onCreated(id) {
 // Perform search based on selected search engine, i.e. selected context menu item
 async function processSearch(info, tab) {
     if (logToConsole) console.log(info);
+    const windowInfo = await browser.windows.getCurrent();
     const multisearch = false;
     const id = (info.menuItemId.startsWith('cs-')) ? info.menuItemId.replace('cs-', '') : info.menuItemId;
+
+    // By default, open the search results right after the active tab
     let tabIndex = tab.index + 1;
 
+    // Cancel search if the selected search engine is a folder
+    // This is a precautionary measure as folders can't be clicked in the context menu
     if (searchEngines[id] !== undefined && searchEngines[id].isFolder) return;
 
-    if (info.selectionText !== undefined) {
-        // Prefer info.selectionText over selection received by content script for these lengths (more reliable)
-        if (info.selectionText.length < 150 || info.selectionText.length > 150) {
-            selection = info.selectionText.trim();
-        }
-    }
+    /*    if (info.selectionText !== undefined) {
+            // Prefer info.selectionText over selection received by content script for these lengths (more reliable)
+            if (info.selectionText.length < 150 || info.selectionText.length > 150) {
+                selection = info.selectionText.trim();
+            }
+        }*/
 
-    if (
-        contextsearch_openSearchResultsInSidebar &&
-        id !== 'reverse-image-search' &&
-        id !== 'google-lens'
-    ) {
-        await browser.sidebarAction.open();
-        await browser.sidebarAction.setPanel({ panel: '' });
-    } else {
-        await browser.sidebarAction.close();
-    }
+    /*     if (
+            contextsearch_openSearchResultsInSidebar &&
+            id !== 'reverse-image-search' &&
+            id !== 'google-lens'
+        ) {
+            await browser.sidebarAction.open();
+            await browser.sidebarAction.setPanel({ panel: '' });
+        } */
+
+    // If search engines are set to be opened after the last tab, then adjust the tabIndex
     const tabs = await queryAllTabs();
     // Get the index of the last tab and add 1 to define lastTab
-    const lastTab = tabs[tabs.length - 1].index + 1;
+    const lastTab = tabs.length - 1;
     if (contextsearch_openSearchResultsInLastTab || contextsearch_multiMode === 'multiAfterLastTab') {
-        tabIndex = lastTab;
+        tabIndex = lastTab.index + 1;
     }
     if (id === 'download-video') {
         let url = info.linkUrl
@@ -1240,39 +1273,26 @@ async function processSearch(info, tab) {
         return;
     }
     if (id === 'reverse-image-search') {
-        if (logToConsole) console.log(targetUrl);
-        displaySearchResults(id, googleReverseImageSearchUrl + targetUrl, tabIndex, multisearch);
+        displaySearchResults(id, tabIndex, multisearch, windowInfo.id);
         return;
     }
     if (id === 'google-lens') {
-        if (logToConsole) console.log(targetUrl);
-        displaySearchResults(id, googleLensUrl + targetUrl, tabIndex, multisearch);
+        displaySearchResults(id, tabIndex, multisearch, windowInfo.id);
         return;
     }
     if (id === 'site-search') {
-        let quote = '';
-        if (contextsearch_exactMatch) quote = '%22';
-        const domain = getDomain(tab.url).replace(/https?:\/\//, '');
-        const options = await getOptions();
-        targetUrl =
-            options.siteSearchUrl +
-            encodeUrl(`site:https://${domain} ${quote}${selection}${quote}`);
-        if (logToConsole) console.log(targetUrl);
-        if (contextsearch_openSearchResultsInSidebar) {
-            browser.sidebarAction.setPanel({ panel: targetUrl });
-            browser.sidebarAction.setTitle({ title: 'Search results' });
-            return;
-        } else {
-            displaySearchResults(id, targetUrl, tabIndex, multisearch);
-            return;
-        }
-    } else if (id === 'options') {
+        displaySearchResults(id, tabIndex, multisearch, windowInfo.id);
+        return;
+    }
+    if (id === 'options') {
         await browser.runtime.openOptionsPage();
         return;
-    } else if (id === 'multitab') {
-        await processMultiTabSearch([], tabIndex);
+    }
+    if (id === 'multitab') {
+        await processMultisearch([], tabIndex);
         return;
-    } else if (id === 'match') {
+    }
+    if (id === 'match') {
         let options = await getOptions();
         if (logToConsole) {
             console.log(
@@ -1283,110 +1303,151 @@ async function processSearch(info, tab) {
         setOptions(options, true, true);
         return;
     }
-
-    if (!id.startsWith("separator-")) {
-        searchUsing(id, tabIndex, multisearch);
-    }
-}
-
-async function processMultiTabSearch(arraySearchEngineUrls, tabPosition) {
-    const searchEngines = await browser.storage.local.get();
-    let searchEngineUrl = '';
-    let multiTabArray = [];
-    let windowInfo, tab;
-    if (arraySearchEngineUrls.length > 0) {
-        multiTabArray = arraySearchEngineUrls;
-    } else {
-        for (let id in searchEngines) {
-            if (logToConsole) console.log(id);
-            if (searchEngines[id].multitab) {
-                if (id.startsWith('chatgpt-')) {
-                    // If AI prompt
-                    multiTabArray.push(id);
-                } else {
-                    searchEngineUrl = searchEngines[id].url;
-                    if (!searchEngines[id].formData) {
-                        // If not a search engine using POST
-                        multiTabArray.push(getSearchEngineUrl(searchEngineUrl, selection));
-                    } else {
-                        // If search engine using POST
-                        multiTabArray.push({ id: id, url: searchEngineUrl });
-                    }
-                }
-            }
-        }
-    }
-
-    if (notificationsEnabled && isEmpty(multiTabArray)) {
-        notify('Search engines have not been selected for a multi-search.');
+    if (id === 'ai-search') {
+        openPopup();
         return;
     }
 
-    if (logToConsole) console.log(multiTabArray);
+    // If search engine is none of the above and not a folder, then perform search
+    // The search engine corresponds to an HTTP GET or POST request or an AI prompt
+    if (!id.startsWith("separator-")) {
+        displaySearchResults(id, tabIndex, multisearch, windowInfo.id);
+    }
+}
 
+async function processMultisearch(arraySearchEngineUrls, tabPosition) {
+    const searchEngines = await browser.storage.local.get();
+    const activeTab = await getActiveTab();
+    let windowInfo = await browser.windows.getCurrent();
+    let multisearchArray = [];
+    let urlArray = [];
+    let nonUrlArray = [];
+    let postArray = [];
+    let aiArray = [];
+    if (arraySearchEngineUrls.length > 0) {
+        multisearchArray = arraySearchEngineUrls;
+        // Split multisearchArray into 2 separate arrays: 
+        // urlArray for links and search engines using HTTP GET requests; items in multisearchArray corresponding to urls
+        // nonUrlArray for AI prompts and search engines using HTTP POST requests; items in multisearchArray starting with 'chatgpt-' and items in multisearchArray saved as {id, url}
+        for (let i = 0; i < multisearchArray.length; i++) {
+            if (typeof multisearchArray[i] === 'string' && multisearchArray[i].startsWith("http")) {
+                urlArray.push(multisearchArray[i]);
+            } else if (typeof multisearchArray[i] === 'string' && multisearchArray[i].startsWith("chatgpt-")) {
+                aiArray.push(multisearchArray[i]);
+            } else if (typeof multisearchArray[i] === 'object' && multisearchArray[i].id && multisearchArray[i].url) {
+                postArray.push(multisearchArray[i]);
+            }
+        }
+        nonUrlArray = joinArrays(postArray, aiArray);
+    } else {
+        // Create an array of search engine URLs for all multisearch engines (using HTTP GET requests or AI prompts)
+        // If the search engine uses an HTTP POST request, then the array will contain {id, url} for that search engine instead of just a url
+        for (let id in searchEngines) {
+            if (logToConsole) console.log(id);
+            // If id is for a folder or a separator, then skip it
+            if (id.startsWith("separator-") || searchEngines[id].isFolder) continue;
+            if (searchEngines[id].multitab) {
+                if (searchEngines[id].aiProvider) {
+                    // This array will contain id items
+                    aiArray.push(processSearchEngine(id, selection));
+                } else if (searchEngines[id].formData) {
+                    // This array will contain {id, url} items
+                    postArray.push(processSearchEngine(id, selection));
+                } else {
+                    // This array will contain url items
+                    urlArray.push(processSearchEngine(id, selection));
+                }
+            }
+        }
+        nonUrlArray = joinArrays(postArray, aiArray);
+        multisearchArray = joinArrays(urlArray, nonUrlArray);
+    }
+
+    if (notificationsEnabled && isEmpty(multisearchArray)) {
+        notify('No search engines have been selected for a multisearch.');
+        return;
+    }
+
+    if (logToConsole) console.log(urlArray);
+    if (logToConsole) console.log(nonUrlArray);
+    if (logToConsole) console.log(multisearchArray);
+
+    if (isEmpty(multisearchArray)) return;
+
+    // Open search results in a new window
     if (contextsearch_multiMode === 'multiNewWindow') {
-        tabPosition = 0;
         windowInfo = await browser.windows.create({
             allowScriptsToClose: true,
             titlePreface: windowTitle + "'" + selection + "'",
             focused: contextsearch_makeNewTabOrWindowActive,
             incognito: contextsearch_privateMode,
+            url: urlArray
         });
-        tab = windowInfo.tabs[0];
-    } else {
-        windowInfo = await browser.windows.getCurrent();
+        // Set the tab position in the new window to the last tab
+        tabPosition = windowInfo.tabs.length;
+    } else if (contextsearch_multiMode !== 'multiNewWindow') {
+        // Open search results in the current window
+        const tabs = await queryAllTabs();
+        const activeTab = await getActiveTab();
+        if (logToConsole) console.log(tabs);
+        if (contextsearch_multiMode === 'multiAfterLastTab') {
+            // After the last tab
+            tabPosition = tabs.length;
+        } else {
+            // Right after the active tab
+            tabPosition = activeTab.index + 1;
+        }
+        if (logToConsole) console.log(tabPosition);
+        if (urlArray.length > 0) {
+            await openTabsForUrls(urlArray, tabPosition);
+            tabPosition += urlArray.length;
+        }
     }
-    await displayMultiTabs(multiTabArray, tabPosition, windowInfo.id);
-    if (tab) await browser.tabs.remove(tab.id);
+    if (logToConsole) console.log(`Opening POST & AI search results in window ${windowInfo.id} at tab position ${tabPosition}`);
+    // Process the remaaining non-URL array of search engines (using HTTP POST requests or AI prompts)
+    if (nonUrlArray.length > 0) await processNonUrlArray(nonUrlArray, tabPosition, windowInfo.id);
 }
 
-async function displayMultiTabs(multiTabArray, tabPosition, windowId) {
-    // const firstTab = multiTabArray[0];
+function joinArrays(...arrays) {
+    return [...new Set(arrays.flat())];
+}
+
+async function openTabsForUrls(urls, tabPosition) {
+    for (let i = 0; i < urls.length; i++) {
+        const url = urls[i];
+        const newTabIndex = tabPosition + i;
+
+        try {
+            await browser.tabs.create({
+                url: url,
+                active: false,
+                index: newTabIndex
+            });
+        } catch (error) {
+            console.error(`Error opening tab for URL ${url}:`, error);
+        }
+    }
+}
+
+async function processNonUrlArray(nonUrlArray, tabPosition, windowId) {
     const multisearch = true;
-
-    /*     if (!firstTab.startsWith('chatgpt-') && contextsearch_multiMode === 'multiNewWindow') {
-            multiTabArray.shift();
-            tabPosition++;
-        } */
-
-    if (logToConsole) console.log(multiTabArray);
-    const n = multiTabArray.length;
+    const activeTab = await getActiveTab();
+    const n = nonUrlArray.length;
     if (logToConsole) console.log(n);
     for (let i = 0; i < n; i++) {
         if (logToConsole) console.log(i);
-        const idOrUrl = multiTabArray[i]; // id or url or {id, url}
         const tabIndex = tabPosition + i;
-        if (typeof (idOrUrl) === 'string') {
-            if (idOrUrl.startsWith('chatgpt-')) {
-                // If the search engine is an AI search engine
-                await searchUsing(idOrUrl, tabIndex, multisearch);
-            } else {
-                // If the search engine uses HTTP GET
-                await browser.tabs.create({
-                    windowId: windowId,
-                    index: tabIndex,
-                    url: idOrUrl,
-                });
-            }
+        if (!nonUrlArray[i].id) {
+            // If the search engine is an AI search engine
+            const id = nonUrlArray[i];
+            await displaySearchResults(id, tabIndex, multisearch, windowId);
+            await new Promise(resolve => setTimeout(resolve, 1000));
         } else {
-            // If the search engine uses HTTP POST
-            const id = idOrUrl.id;
-            const url = idOrUrl.url;
-            let formDataString = searchEngines[id].formData;
-            if (formDataString.includes('{searchTerms}')) {
-                formDataString = formDataString.replace('{searchTerms}', selection);
-            } else if (formDataString.includes('%s')) {
-                formDataString = formDataString.replace('%s', selection);
-            }
-            if (logToConsole) console.log(formDataString);
-            if (logToConsole) console.log(`selection: ${selection}`);
-            if (logToConsole) console.log('Tab position: ' + tabIndex);
-            if (logToConsole) console.log(`id: ${id}`);
-
-            const jsonFormData = JSON.parse(formDataString);
-            const finalFormData = jsonToFormData(jsonFormData);
-
-            await submitForm(url, finalFormData, tabIndex, multisearch);
+            // If the search engine uses HTTP POST request
+            const id = nonUrlArray[i].id;
+            const url = nonUrlArray[i].url;
+            targetUrl = url.replace('{searchTerms}', encodeUrl(selection));
+            await displaySearchResults(id, tabIndex, multisearch, windowId);
         }
     }
 }
@@ -1404,25 +1465,38 @@ function getSearchEngineUrl(searchEngineUrl, sel) {
     }
 }
 
-async function searchUsing(id, tabIndex, multisearch) {
+async function setTargetUrl(id) {
     const searchEngineUrl = searchEngines[id].url;
+    const activeTab = await getActiveTab();
+    if (logToConsole) console.log('Active tab is:');
+    if (logToConsole) console.log(activeTab);
+    if (id === 'reverse-image-search') {
+        return googleReverseImageSearchUrl + targetUrl;
+    }
+    if (id === 'google-lens') {
+        return googleLensUrl + targetUrl;
+    }
+    if (id === 'site-search') {
+        let quote = '';
+        if (contextsearch_exactMatch) quote = '%22';
+        const domain = getDomain(activeTab.url).replace(/https?:\/\//, '');
+        const options = await getOptions();
+        return options.siteSearchUrl +
+            encodeUrl(`site:https://${domain} ${quote}${selection}${quote}`);
+    }
     if (!id.startsWith('chatgpt-')) {
-        if (!searchEngines[id].formData) {
-            targetUrl = getSearchEngineUrl(searchEngineUrl, selection);
+        if (!id.startsWith('link-') && !searchEngines[id].formData) {
+            // If the search engine uses HTTP GET
+            return getSearchEngineUrl(searchEngineUrl, selection);
         } else {
-            targetUrl = searchEngines[id].url;
+            // If the search engine uses HTTP POST or is a link
+            return searchEngines[id].url;
         }
     } else {
+        // If the search engine is an AI search engine
         const provider = searchEngines[id].aiProvider;
-        targetUrl = getAIProviderBaseUrl(provider);
+        return getAIProviderBaseUrl(provider);
     }
-    if (logToConsole) console.log(`Target url: ${targetUrl}`);
-    if (!multisearch && contextsearch_openSearchResultsInSidebar && !searchEngines[id].formData) {
-        browser.sidebarAction.setPanel({ panel: targetUrl + '#_sidebar' });
-        browser.sidebarAction.setTitle({ title: 'Search results' });
-        return;
-    }
-    await displaySearchResults(id, targetUrl, tabIndex, multisearch);
 }
 
 function getAIProviderBaseUrl(provider) {
@@ -1431,13 +1505,15 @@ function getAIProviderBaseUrl(provider) {
         case 'chatgpt':
             providerUrl = chatGPTUrl;
             break;
-        case 'google' || 'google-ai-studio':
+        case 'google':
+        case 'google-ai-studio':
             providerUrl = googleAIStudioUrl;
             break;
         case 'perplexity':
             providerUrl = perplexityAIUrl;
             break;
-        case 'poe' || 'llama31':
+        case 'poe':
+        case 'llama31':
             providerUrl = llama31Url;
             break;
         case 'claude':
@@ -1449,109 +1525,143 @@ function getAIProviderBaseUrl(provider) {
     return providerUrl;
 }
 
-// Display the search results
-async function displaySearchResults(id, targetUrl, tabPosition, multisearch) {
-    let formDataString, jsonFormData, finalFormData;
-    if (searchEngines[id] !== undefined && searchEngines[id].formData) {
-        formDataString = searchEngines[id].formData;
-        if (formDataString.includes('{searchTerms}')) {
-            formDataString = formDataString.replace('{searchTerms}', selection);
-        } else if (formDataString.includes('%s')) {
-            formDataString = formDataString.replace('%s', selection);
-        }
-        if (logToConsole) console.log(formDataString);
-        if (logToConsole) console.log(`selection: ${selection}`);
-        if (logToConsole) console.log('Tab position: ' + tabPosition);
-        if (logToConsole) console.log(`id: ${id}`);
+// Display the search results for a single search (link, HTTP POST or GET request, or AI prompt)
+async function displaySearchResults(id, tabPosition, multisearch, windowId) {
+    const activeTab = await getActiveTab();
+    const postDomain = getDomain(targetUrl);
+    targetUrl = await setTargetUrl(id);
+    const searchEngine = searchEngines[id];
+    const url = searchEngine.formData ? postDomain : targetUrl;
+    messageSent = false;
 
-        jsonFormData = JSON.parse(formDataString);
-        finalFormData = jsonToFormData(jsonFormData);
-    }
+    if (logToConsole) console.log(`Opening tab at index ${tabPosition} for ${searchEngine.name} at ${url} in window ${windowId}`);
 
-    // const windowInfo = await browser.windows.getCurrent({ populate: false });
-    // const currentWindowID = windowInfo.id;
+    // Listen for tab updates and handle AI prompts and form submissions (HTTP POST requests)
+    if (!contextsearch_openSearchResultsInSidebar && (id.startsWith('chatgpt-') || searchEngine.formData)) setupTabUpdatedListeners(id);
 
-    setupTabUpdatedListener(id, prompt);
+    if (!multisearch && contextsearch_openSearchResultsInSidebar) {
+        let tabUrl = url + '#_sidebar';
 
-    if (!multisearch && contextsearch_openSearchResultsInNewWindow) {
-        if (searchEngines[id] !== undefined || !searchEngines[id].formData) {
-            await browser.windows.create({
-                titlePreface: windowTitle + "'" + selection + "'",
-                focused: contextsearch_makeNewTabOrWindowActive,
-                url: targetUrl,
-                incognito: contextsearch_privateMode
-            });
-        } else {
-            submitForm(targetUrl, finalFormData, tabPosition, multisearch);
-        }
+        // If single search and open in sidebar
+        browser.sidebarAction.setPanel({ panel: tabUrl });
+        browser.sidebarAction.setTitle({ title: 'Search results' });
 
-    } else if (multisearch || contextsearch_openSearchResultsInNewTab) {
-        if (multisearch && id.startsWith('chatgpt-') && tabPosition === 0) {
-            await browser.tabs.update({
-                url: targetUrl
-            });
-        } else {
-            if (searchEngines[id] === undefined || !searchEngines[id].formData) {
-                const newTab = await browser.tabs.create({
-                    active: false,
-                    index: tabPosition,
-                    url: targetUrl
+        if (id.startsWith('chatgpt-')) {
+            if (logToConsole) console.log(id);
+            await new Promise(resolve => setTimeout(resolve, 3000));
+            // Once the content script is ready, trigger the ask function
+            const promptText = getPromptText(id, prompt);
+            const tabs = await browser.tabs.query({ url: tabUrl });
+            const tab = tabs[0];
+            const tabId = tab.id;
+            if (logToConsole) console.log(tabId, tab);
+            try {
+                if (logToConsole) console.log('Content script loaded, sending message.');
+                await sendMessageToTab(tab, {
+                    action: "askPrompt",
+                    data: { url: tabUrl, prompt: promptText }
                 });
-                const newTabId = newTab.id;
-                browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-                    if (changeInfo.status === 'complete' && tabId === newTabId) {
-                        browser.tabs.update(newTabId, { active: contextsearch_makeNewTabOrWindowActive });
-                    }
-                });
-            } else {
-                if (logToConsole) {
-                    console.log('Opening search results in new tab, url is ' + targetUrl);
-                    console.log(finalFormData);
-                }
-                submitForm(targetUrl, finalFormData, tabPosition, multisearch);
+            } catch (error) {
+                if (logToConsole) console.log('Error: Content script not loaded or could not execute script:', error);
             }
         }
+    } else if (!multisearch && contextsearch_openSearchResultsInNewWindow) {
+        // If single search and open in new window
+        // If search engine is link, uses HTTP GET or POST request or is AI prompt
+        if (logToConsole) console.log(`Make new tab or window active: ${contextsearch_makeNewTabOrWindowActive}`);
+        await browser.windows.create({
+            titlePreface: windowTitle + "'" + selection + "'",
+            focused: contextsearch_makeNewTabOrWindowActive,
+            url: url,
+            incognito: contextsearch_privateMode
+        });
+        // If the new window shouldn't be active, then make the old window active
+        if (!contextsearch_makeNewTabOrWindowActive) {
+            browser.windows.update(windowId, { focused: true });
+        }
+    } else if (!multisearch && contextsearch_openSearchResultsInNewTab) {
+        // If single search and open in current window
+        // If search engine is a link, uses HTTP GET or POST request or is AI prompt
+        if (logToConsole) {
+            console.log(contextsearch_openSearchResultsInNewTab);
+            console.log(`Opening search results in a new tab, url is ${url}`);
+        }
+        await browser.tabs.create({
+            active: contextsearch_makeNewTabOrWindowActive,
+            index: tabPosition,
+            url: url
+        });
+    } else if (multisearch) {
+        await browser.tabs.create({
+            active: contextsearch_makeNewTabOrWindowActive,
+            index: tabPosition,
+            url: url,
+            windowId: windowId
+        });
     } else {
         // Open search results in the same tab
         if (logToConsole) {
-            console.log('Opening search results in same tab, url is ' + targetUrl);
+            console.log(`Opening search results in same tab, url is ${url}`);
         }
-        if (searchEngines[id] === undefined || !searchEngines[id].formData) {
-            await browser.tabs.update({ url: targetUrl });
-        } else {
-            submitForm(targetUrl, finalFormData, tabPosition, multisearch);
-        }
+        await browser.tabs.update(activeTab.id, {
+            url: url
+        });
     }
 }
 
+// Setup the unified tab update listener with a prompt parameter
+function setupTabUpdatedListeners(id, prompt = '') {
+    browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => onTabUpdated(tabId, changeInfo, tab, id, prompt));
+}
 
-function setupTabUpdatedListener(id, prompt) {
-    if (id.startsWith('chatgpt-')) {
-        if (id === 'chatgpt-') {
-            promptText = 'How old is the Universe';
-        } else {
-            if (id === 'chatgpt-direct') {
-                promptText = prompt;
-            } else promptText = searchEngines[id].prompt;
-            if (promptText.includes('{searchTerms}')) {
-                promptText = promptText.replace(/{searchTerms}/g, selection);
-            } else if (promptText.includes('%s')) {
-                promptText = promptText.replace(/%s/g, selection);
-            }
-        }
-        if (logToConsole) console.log(promptText);
-        messageSent = false;
-        browser.tabs.onUpdated.addListener(onTabUpdated);
+// Main listener function for tab updates
+function onTabUpdated(tabId, changeInfo, tab, id, prompt) {
+    if (logToConsole) console.log(`Updated tab: ${tab.url}`);
+
+    const aiUrls = [chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, llama31Url, claudeUrl];
+    const isAITab = aiUrls.some(url => tab.url.startsWith(url));
+    const searchEngine = searchEngines[id];
+
+    // Handle AI engine tab update
+    if (isAITab && !messageSent) {
+        handleAITabUpdate(tabId, changeInfo, tab, id, prompt);
+    }
+
+    // Handle form submission tab update
+    if (searchEngine && searchEngine.formData && !messageSent) {
+        handleSubmitFormUpdate(tabId, changeInfo, tab, id);
     }
 }
 
-async function tabUpdatedListener(tabId, changeInfo, tab) {
-    if (logToConsole) console.log('Tab updated: ', tab.url);
+function getPromptText(id, prompt) {
+    const searchEngine = searchEngines[id];
+    let promptText = '';
 
+    if (id === 'chatgpt-') {
+        promptText = 'How old is the Universe';
+    } else if (id === 'chatgpt-direct') {
+        promptText = prompt;
+    } else {
+        promptText = searchEngine.prompt;
+    }
+
+    if (promptText.includes('{searchTerms}')) {
+        promptText = promptText.replace(/{searchTerms}/g, selection);
+    } else if (promptText.includes('%s')) {
+        promptText = promptText.replace(/%s/g, selection);
+    }
+
+    if (logToConsole) console.log(promptText);
+    return promptText;
+}
+
+// Handle AI engine tab update
+async function handleAITabUpdate(tabId, changeInfo, tab, id, prompt) {
     if (changeInfo.status === 'complete') {
-        // Ensure content script is fully loaded
+        const promptText = getPromptText(id, prompt);
+
         try {
-            // Attempt to run a script to confirm content script is loaded
+            // Ensure content script is fully loaded
             await browser.tabs.executeScript(tabId, {
                 code: 'typeof browser.runtime !== "undefined";'
             });
@@ -1564,8 +1674,6 @@ async function tabUpdatedListener(tabId, changeInfo, tab) {
             });
 
             messageSent = true;
-
-            // Remove the listener after the message has been sent
             browser.tabs.onUpdated.removeListener(onTabUpdated);
         } catch (error) {
             if (logToConsole) console.log('Error: Content script not loaded or could not execute script:', error);
@@ -1573,13 +1681,89 @@ async function tabUpdatedListener(tabId, changeInfo, tab) {
     }
 }
 
-function onTabUpdated(tabId, changeInfo, tab) {
-    if (logToConsole) console.log(`Updated tab: ${tab.url}`);
-    const aiUrls = [chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, llama31Url, claudeUrl];
-    const isAITab = aiUrls.some(url => tab.url.startsWith(url));
+// Handle form submission tab update
+async function handleSubmitFormUpdate(tabId, changeInfo, tab, id) {
+    const searchEngine = searchEngines[id];
+    if (changeInfo.status === 'complete' && tab.status === 'complete' && !messageSent) {
+        let finalFormData;
+        if (searchEngine !== undefined && searchEngine.formData) {
+            let formDataString = searchEngine.formData;
+            if (formDataString.includes('{searchTerms}')) {
+                formDataString = formDataString.replace('{searchTerms}', selection);
+            } else if (formDataString.includes('%s')) {
+                formDataString = formDataString.replace('%s', selection);
+            }
+            const jsonFormData = JSON.parse(formDataString);
+            finalFormData = jsonToFormData(jsonFormData);
 
-    if (isAITab && !messageSent) {
-        tabUpdatedListener(tabId, changeInfo, tab);
+            if (logToConsole) {
+                console.log('Form data string:');
+                console.log(formDataString);
+                console.log(`Selection: ${selection}`);
+                console.log(`id: ${id}`);
+            }
+        }
+        const data = await submitForm(finalFormData);
+        await sendMessageToTab(tab, {
+            action: "displaySearchResults",
+            data: data
+        });
+
+        if (logToConsole) console.log(tabId);
+
+        messageSent = true;
+        browser.tabs.onUpdated.removeListener(onTabUpdated);
+    }
+}
+
+// Listener function for sidebar updates
+function onSidebarUpdated(tabId, details, id) {
+    if (logToConsole) console.log(`Sidebar updated: ${details.url}`);
+
+    const aiUrls = [chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, llama31Url, claudeUrl];
+    const isAISidebar = aiUrls.some(url => details.url.startsWith(url));
+    const searchEngine = searchEngines[id];
+
+    // Handle AI engine sidebar update
+    if (isAISidebar && !messageSent) {
+        handleAISidebarUpdate(tabId, details, id);
+    }
+
+    // Handle form submission sidebar update
+    if (searchEngine && searchEngine.formData && !messageSent) {
+        handleSubmitFormUpdate(tabId, details, id);
+    }
+}
+
+// Handle AI engine sidebar update
+async function handleAISidebarUpdate(tabId, details, id) {
+    const searchEngine = searchEngines[id];
+    let promptText = searchEngine.prompt;
+
+    if (promptText.includes('{searchTerms}')) {
+        promptText = promptText.replace(/{searchTerms}/g, selection);
+    } else if (promptText.includes('%s')) {
+        promptText = promptText.replace(/%s/g, selection);
+    }
+
+    if (logToConsole) console.log(promptText);
+
+    try {
+        await browser.tabs.executeScript(tabId, {
+            code: 'typeof browser.runtime !== "undefined";'
+        });
+
+        if (logToConsole) console.log('Content script loaded, sending message.');
+
+        await sendMessageToTab({ id: tabId, url: details.url }, {
+            action: "askPrompt",
+            data: { url: details.url, prompt: promptText }
+        });
+
+        messageSent = true;
+        browser.webNavigation.onCompleted.removeListener(onSidebarUpdated);
+    } catch (error) {
+        if (logToConsole) console.log('Error: Content script not loaded or could not execute script:', error);
     }
 }
 
@@ -1596,57 +1780,26 @@ function jsonToFormData(jsonData) {
     return formData;
 }
 
-async function submitForm(url, formData, tabPosition, multisearch) {
+async function submitForm(finalFormData) {
     let data = '';
-    let newTabId;
-    messageSent = false;
-    const searchResultsUrl = getDomain(url);
-    if (logToConsole) console.log(tabPosition);
-    if (logToConsole) console.log(formData);
     try {
         browser.tabs.onUpdated.removeListener(() => { });
 
         // Fetch request using the form data
-        const response = await fetch(url, {
+        const response = await fetch(targetUrl, {
             method: 'POST',
-            body: formData
+            body: finalFormData
         })
         data = await response.text();
-
-        if (contextsearch_openSearchResultsInNewWindow && !multisearch) {
-            // Create a new window and load the fetched HTML content as a data URL
-            await browser.windows.create({
-                titlePreface: windowTitle + "'" + selection + "'",
-                focused: contextsearch_makeNewTabOrWindowActive,
-                url: searchResultsUrl,
-                incognito: contextsearch_privateMode
-            });
-        } else if (contextsearch_openSearchResultsInNewTab || multisearch) {
-            // Create a new tab and load the fetched HTML content as a data URL
-            const newTab = await browser.tabs.create({
-                active: false,
-                index: tabPosition,
-                url: searchResultsUrl
-            });
-            newTabId = newTab.id;
-        } else {
-            // Open search results in the same tab
-            await browser.tabs.update({ url: searchResultsUrl });
-        }
-
-        browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-            if (tab.status !== 'complete' || tabId !== newTabId) return;
-            if (messageSent) {
-                browser.tabs.update(newTabId, { active: contextsearch_makeNewTabOrWindowActive });
-            } else {
-                handleSubmitFormUpdate(tabId, changeInfo, tab, data);
-                if (logToConsole) console.log(tab);
-                if (logToConsole) console.log(data);
-            }
-        });
-
+        return data;
     } catch (error) {
         console.error(error);
+    }
+}
+/* 
+function handleSubmitFormUpdate(tabId, changeInfo, tab, data) {
+    if (!messageSent) {
+        submitFormListener(tabId, changeInfo, tab, data);
     }
 }
 
@@ -1658,13 +1811,7 @@ async function submitFormListener(tabId, changeInfo, tab, data) {
         messageSent = true;
         browser.tabs.onUpdated.removeListener(handleSubmitFormUpdate);
     }
-}
-
-function handleSubmitFormUpdate(tabId, changeInfo, tab, data) {
-    if (!messageSent) {
-        submitFormListener(tabId, changeInfo, tab, data);
-    }
-}
+} */
 
 /// OMNIBOX
 // Provide help text to the user
@@ -1675,7 +1822,7 @@ browser.omnibox.setDefaultSuggestion({
 // Update the suggestions whenever the input is changed
 browser.omnibox.onInputChanged.addListener((input, suggest) => {
     if (input.indexOf(' ') > 0) {
-        let suggestion = buildSuggestion(input);
+        const suggestion = buildSuggestion(input);
         if (suggestion.length === 1) {
             suggest(suggestion);
         }
@@ -1684,15 +1831,22 @@ browser.omnibox.onInputChanged.addListener((input, suggest) => {
 
 // Open the page based on how the user clicks on a suggestion
 browser.omnibox.onInputEntered.addListener(async (input) => {
-    if (logToConsole) console.log(input);
+    if (logToConsole) console.log(`Input entered: ${input}`);
     const multisearch = false;
     const keyword = input.split(' ')[0];
     const searchTerms = input.replace(keyword, '').trim();
     const suggestion = buildSuggestion(input);
+    const windowInfo = await browser.windows.getCurrent();
+
+    // tabPosition is used to determine where to open the search results for a multisearch
     let tabIndex, tabPosition, tabId, id;
 
+    if (logToConsole) console.log(`Keyword is: ${keyword}`);
+    if (logToConsole) console.log(`Search terms are: ${searchTerms}`);
+    if (logToConsole) console.log('Suggestion is: ');
     if (logToConsole) console.log(suggestion);
 
+    // Get the id of the search engine based on the keyword
     for (const se in searchEngines) {
         if (searchEngines[se].keyword === keyword) {
             id = se;
@@ -1702,17 +1856,17 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
 
     // Get active tab's index and id
     const tabs = await queryAllTabs();
-    const activeTab = tabs.filter(isActive)[0];
+    const activeTab = await getActiveTab();
     tabIndex = activeTab.index;
     tabId = activeTab.id;
 
     if (contextsearch_openSearchResultsInLastTab) {
-        tabIndex = tabs.length + 1;
+        tabIndex = tabs.length;
     }
 
     if (logToConsole) console.log(contextsearch_multiMode);
     if (contextsearch_multiMode === 'multiAfterLastTab') {
-        tabPosition = tabs.length + 1;
+        tabPosition = tabs.length;
     } else {
         tabPosition = tabIndex + 1;
     }
@@ -1723,7 +1877,7 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
     // Only display search results when there is a valid link inside of the url variable
     if (input.indexOf('://') > -1) {
         if (logToConsole) console.log('Processing search...');
-        displaySearchResults(id, input, tabIndex, multisearch);
+        displaySearchResults(id, tabIndex, multisearch, windowInfo.id);
     } else {
         try {
             switch (keyword) {
@@ -1731,7 +1885,7 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                     browser.runtime.openOptionsPage();
                     break;
                 case '!':
-                    processMultiTabSearch([], tabPosition);
+                    processMultisearch([], tabPosition);
                     break;
                 case 'bookmarks':
                 case '!b':
@@ -1772,34 +1926,17 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                         for (const s of suggestion) {
                             arraySearchEngineUrls.push(s.content);
                         }
-                        processMultiTabSearch(arraySearchEngineUrls, tabPosition);
+                        processMultisearch(arraySearchEngineUrls, tabPosition);
                     }
                     else if (suggestion.length === 1 && !searchEngines[id].isFolder) {
                         if (typeof (suggestion[0].content) === 'string') {
-                            displaySearchResults(id, suggestion[0].content, tabIndex, multisearch);
-                        } else {
-                            displaySearchResults(id, suggestion[0].content.url, tabIndex, multisearch);
+                            // If AI prompt or search engine uses HTTP GET or POST request
+                            displaySearchResults(id, tabIndex, multisearch, windowInfo.id);
                         }
                     } else if (suggestion.length === 1 && searchEngines[id].isFolder) {
-                        const multiTabArray = [];
-                        const selection = searchTerms;
-                        for (const childId of searchEngines[id].children) {
-                            if (searchEngines[childId].isFolder || !searchEngines[childId].show) continue;
-                            if (id.startsWith('chatgpt-')) {
-                                // If AI prompt
-                                multiTabArray.push(childId);
-                            } else {
-                                const searchEngineUrl = searchEngines[childId].url;
-                                if (!searchEngines[childId].formData) {
-                                    // If not a search engine using POST
-                                    multiTabArray.push(getSearchEngineUrl(searchEngineUrl, selection));
-                                } else {
-                                    // If search engine using POST
-                                    multiTabArray.push({ id: childId, url: searchEngineUrl });
-                                }
-                            }
-                        }
-                        processMultiTabSearch(multiTabArray, tabPosition);
+                        // If search engine is a folder
+                        const multiTabArray = processFolder(id, searchTerms);
+                        processMultisearch(multiTabArray, tabPosition);
                     } else {
                         browser.search.search({ query: searchTerms, tabId: tabId });
                         if (notificationsEnabled) notify(notifyUsage);
@@ -1813,6 +1950,40 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
     }
 });
 
+function processFolder(id, searchTerms) {
+    let multiTabArray = [];
+    for (const childId of searchEngines[id].children) {
+        if (searchEngines[childId].isFolder) {
+            // If search engine is a folder
+            multiTabArray.push(...processFolder(childId, searchTerms));
+        } else {
+            multiTabArray.push(processSearchEngine(childId, searchTerms));
+        }
+    }
+    return multiTabArray;
+}
+
+function processSearchEngine(id, searchTerms) {
+    let result;
+    if (id.startsWith('chatgpt-')) {
+        // If the search engine is an AI search engine
+        result = id;
+    } else {
+        const searchEngineUrl = searchEngines[id].url;
+        // If search engine is a link
+        if (id.startsWith('link-')) {
+            result = searchEngineUrl;
+        } else if (!searchEngines[id].formData) {
+            // If search engine uses HTTP GET request
+            result = getSearchEngineUrl(searchEngineUrl, searchTerms);
+        } else {
+            // If search engine uses HTTP POST request
+            result = { id: id, url: searchEngineUrl };
+        }
+    }
+    return result;
+}
+
 function buildSuggestion(text) {
     const keyword = text.split(' ')[0];
     const searchTerms = text.replace(keyword, '').trim();
@@ -1820,23 +1991,21 @@ function buildSuggestion(text) {
     let quote = '';
     let showNotification = true;
 
-    if (logToConsole) console.log(searchTerms);
-
     if (contextsearch_exactMatch) quote = '%22';
 
     // Only make suggestions available and check for existence of a search engine when there is a space
     if (text.indexOf(' ') === -1) {
+        if (logToConsole) console.log('No space found');
         lastAddressBarKeyword = '';
         return result;
     }
 
     // Don't notify for the same keyword
-    if (lastAddressBarKeyword == keyword) showNotification = false;
+    if (lastAddressBarKeyword === keyword) showNotification = false;
     lastAddressBarKeyword = keyword;
 
     if (keyword === '!') {
-        selection = searchTerms;
-        let suggestion = [
+        const suggestion = [
             {
                 content: '',
                 description: 'Perform multisearch for ' + searchTerms,
@@ -1844,7 +2013,7 @@ function buildSuggestion(text) {
         ];
         return suggestion;
     } else if (keyword === '.') {
-        let suggestion = [
+        const suggestion = [
             {
                 content: '',
                 description: 'Open options page',
@@ -1852,7 +2021,7 @@ function buildSuggestion(text) {
         ];
         return suggestion;
     } else if (keyword === '!b' || keyword === 'bookmarks') {
-        let suggestion = [
+        const suggestion = [
             {
                 content: '',
                 description: 'Search bookmarks',
@@ -1860,7 +2029,7 @@ function buildSuggestion(text) {
         ];
         return suggestion;
     } else if (keyword === '!h' || keyword === 'history') {
-        let suggestion = [
+        const suggestion = [
             {
                 content: '',
                 description: 'Search history',
@@ -1869,17 +2038,20 @@ function buildSuggestion(text) {
         return suggestion;
     }
 
+    // Check if keyword is that of a search engine
+    // A same keyword may be used for different search engines
     for (let id in searchEngines) {
         if (searchEngines[id].keyword === keyword) {
             let suggestion = {};
             if (id.startsWith('chatgpt-')) {
+                // If AI prompt
                 const provider = searchEngines[id].aiProvider;
                 targetUrl = getAIProviderBaseUrl(provider);
-                selection = searchTerms;
                 suggestion['description'] =
                     'Search ' + searchEngines[id].name + ' ' + searchTerms;
-                suggestion['content'] = targetUrl;
+                suggestion['content'] = targetUrl; // AI provider URL
             } else if (searchEngines[id].isFolder) {
+                // If search engine is a folder
                 suggestion['description'] =
                     'Perform multisearch using search engines in ' + searchEngines[id].name + ' for ' + searchTerms;
                 suggestion['content'] = '';
@@ -1888,6 +2060,7 @@ function buildSuggestion(text) {
                 suggestion['description'] =
                     'Search ' + searchEngines[id].name + ' for ' + searchTerms;
                 if (!searchEngines[id].formData) {
+                    // If search engine uses GET request
                     if (searchEngineUrl.includes('{searchTerms}')) {
                         targetUrl = searchEngineUrl.replace(
                             /{searchTerms}/g,
@@ -1900,7 +2073,7 @@ function buildSuggestion(text) {
                     }
                     suggestion['content'] = targetUrl;
                 } else {
-                    selection = searchTerms;
+                    // If search engine uses POST request
                     targetUrl = searchEngineUrl;
                     suggestion['content'] = { id: id, url: targetUrl };
                 }
@@ -1911,10 +2084,11 @@ function buildSuggestion(text) {
     }
 
     // If no known keyword was found
-    if (notificationsEnabled && showNotification) {
+    if (notificationsEnabled && showNotification && result.length === 0) {
         notify(notifySearchEngineWithKeyword + ' ' + keyword + ' ' + notifyUnknown);
     }
 
+    // Return an array of suggestions
     return result;
 }
 
@@ -2038,5 +2212,3 @@ function openPopup() {
         top: top
     });
 }
-
-init();

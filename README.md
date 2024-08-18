@@ -84,7 +84,7 @@ From the Options page, click on the favicon right before the search engine's nam
 
 ## How to perform an AI search using the command window
 
-Prior to using this feature, **ensure that you have logged in** to the website(s) oof the AI engine(s) that you'd like to use. 'CTRL+0' (Windows) or 'CMD+0' (Mac) now opens a command window from which to carry out an AI search. Start by typing the keyword ccorresponding to the AI engine that you'd like to use followed by a 'Space' character. The current list of valid keywords is:
+Prior to using this feature, **ensure that you have logged in** to the website(s) oof the AI engine(s) that you'd like to use. 'CTRL+ALT+0' (Windows) or 'CMD+ALT+0' (Mac) now opens a command window from which to carry out an AI search. Start by typing the keyword corresponding to the AI engine that you'd like to use followed by a 'Space' character. The current list of valid keywords is:
 
 - chatgpt
 - claude
@@ -92,7 +92,7 @@ Prior to using this feature, **ensure that you have logged in** to the website(s
 - perplexity
 - poe (where you can choose amongst different LL models, namely Llama 3.1)
 
- If the AI engine is recognized, then it will automatically be styled as a tag. You can then  continue typing your prompt completed by 'Enter'. The command window should then close and the search results be displayed. Unless you are using poe, then  an additional step is required: select the LLM and submit the prompt.
+ If the AI engine is recognized, then it will automatically be styled as a tag. You can then continue typing your prompt completed by 'Enter'. The command window should then close and the search results be displayed. Unless you are using poe, then  an additional step is required: select the LLM and submit the prompt.
 
 ## How to perform a search in the omnibox
 

@@ -21,6 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (event.key === 'Enter') {
             event.preventDefault();
             executeAISearch();
+        } else if (event.key === 'Escape') {
+            window.close();
         }
     });
 
@@ -43,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
             outputArea.innerHTML = '';
         }
         inputArea.value = aiEngine + inputArea.value.trim();
-        inputArea.focus();
         tagStyled = false;
     }
 

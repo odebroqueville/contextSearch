@@ -1694,14 +1694,14 @@ async function restoreOptionsPage() {
     }
 }
 
-function saveToLocalDisk() {
+async function saveToLocalDisk() {
     saveSearchEngines();
     let fileToDownload = new Blob([JSON.stringify(searchEngines, null, 2)], {
         type: 'text/json',
         name: 'searchEngines.json'
     });
 
-    sendMessage('saveSearchEnginesToDisk', window.URL.createObjectURL(fileToDownload));
+    await sendMessage('saveSearchEnginesToDisk', window.URL.createObjectURL(fileToDownload));
 }
 
 async function handleFileUpload() {
@@ -1721,12 +1721,12 @@ async function handleFileUpload() {
     displaySearchEngines();
 }
 
-function updateSearchOptions() {
+async function updateSearchOptions() {
     let em = exactMatch.checked;
-    sendMessage('updateSearchOptions', { exactMatch: em });
+    await sendMessage('updateSearchOptions', { exactMatch: em });
 }
 
-function updateTabMode() {
+async function updateTabMode() {
     if (sameTab.checked || openSidebar.checked) {
         active.style.visibility = 'hidden';
         position.style.visibility = 'hidden';
@@ -1747,60 +1747,60 @@ function updateTabMode() {
     data['tabActive'] = tabActive.checked;
     data['lastTab'] = lastTab.checked;
     data['privateMode'] = privateMode.checked;
-    sendMessage('updateTabMode', data);
+    await sendMessage('updateTabMode', data);
 }
 
-function updateMultiMode() {
+async function updateMultiMode() {
     let data = {};
     data['multiMode'] = document.querySelector('input[name="ms_results"]:checked').value;
-    sendMessage('updateMultiMode', data);
+    await sendMessage('updateMultiMode', data);
 }
 
 // Check if the favicons should be displayed in the context menu
-function updateDisplayFavicons() {
+async function updateDisplayFavicons() {
     let fav = displayFavicons.checked;
-    sendMessage('updateDisplayFavicons', { displayFavicons: fav });
+    await sendMessage('updateDisplayFavicons', { displayFavicons: fav });
 }
 
-function updateQuickIconGrid() {
-    sendMessage('updateQuickIconGrid', { quickIconGrid: quickIconGrid.checked });
+async function updateQuickIconGrid() {
+    await sendMessage('updateQuickIconGrid', { quickIconGrid: quickIconGrid.checked });
 }
 
-function updateCloseGridOnMouseOut() {
-    sendMessage('updateCloseGridOnMouseOut', { closeGridOnMouseOut: closeGridOnMouseOut.checked });
+async function updateCloseGridOnMouseOut() {
+    await sendMessage('updateCloseGridOnMouseOut', { closeGridOnMouseOut: closeGridOnMouseOut.checked });
 }
 
-function updateXOffset() {
-    sendMessage('updateXOffset', { offsetX: xOffset.value });
+async function updateXOffset() {
+    await sendMessage('updateXOffset', { offsetX: xOffset.value });
 }
 
-function updateYOffset() {
-    sendMessage('updateYOffset', { offsetY: yOffset.value });
+async function updateYOffset() {
+    await sendMessage('updateYOffset', { offsetY: yOffset.value });
 }
 
-function updateDisableAltClick() {
-    sendMessage('updateDisableAltClick', { disableAltClick: disableAltClick.checked });
+async function updateDisableAltClick() {
+    await sendMessage('updateDisableAltClick', { disableAltClick: disableAltClick.checked });
 }
 
-function updateOptionsMenuLocation() {
+async function updateOptionsMenuLocation() {
     let omat = optionsMenuLocation.value;
-    sendMessage('updateOptionsMenuLocation', { optionsMenuLocation: omat });
+    await sendMessage('updateOptionsMenuLocation', { optionsMenuLocation: omat });
 }
 
-function updateSiteSearchSetting() {
-    sendMessage('updateSiteSearchSetting', {
+async function updateSiteSearchSetting() {
+    await sendMessage('updateSiteSearchSetting', {
         siteSearch: searchEngineSiteSearch.value,
         siteSearchUrl: searchEngineSiteSearch.selectedOptions[0].dataset.url
     });
 }
 
-function updateResetOptions() {
+async function updateResetOptions() {
     let resetOptions = {
         forceSearchEnginesReload: forceSearchEnginesReload.checked,
         resetPreferences: resetPreferences.checked,
         forceFaviconsReload: forceFaviconsReload.checked
     };
-    sendMessage('updateResetOptions', { resetOptions: resetOptions });
+    await sendMessage('updateResetOptions', { resetOptions: resetOptions });
 }
 
 // Ensure the ID generated is unique

@@ -258,6 +258,10 @@
 		"message": "Zoeken met meerdere zoekmachines",
 		"hash": "016e3015d7461d1d0fbf20c60bd9ff0f"
 	},
+	"titleAISearch": {
+		"message": "AI-zoekopdracht",
+		"hash": "6ae434bff120e9ce2a6e459af56f4db3"
+	},
 	"titleSiteSearch": {
 		"message": "Zoek op deze site met",
 		"hash": "5a76bc5c095707f27e2ed235d2f3ccb6"

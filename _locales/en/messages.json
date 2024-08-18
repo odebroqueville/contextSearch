@@ -194,6 +194,9 @@
     "titleMultipleSearchEngines": {
         "message": "Multiple search engines search"
     },
+    "titleAISearch": {
+        "message": "AI Search"
+    },
     "titleSiteSearch": {
         "message": "Search this site with"
     },

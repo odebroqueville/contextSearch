@@ -1,13 +1,13 @@
 {
     "name": "contextsearch",
     "title": "Context Search",
-    "version": "5.1.2",
+    "version": "5.2.0",
     "description": "Firefox add-on to search selected text in a web page using your favorite search engines.",
     "browserslist": [
         "Firefox >= 79"
     ],
     "scripts": {
-        "build-ext": "web-ext build",
+        "build": "web-ext build",
         "test": "eslint .",
         "lint": "eslint ."
     },

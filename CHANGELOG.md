@@ -1,5 +1,12 @@
-5.1.2
+5.2.0
 =========
+
+* Bug fixes and code refactoring
+* Changed the keyboard shortcut to open the command window from which to carry out an AI search to 'CTRL+ALT+0' (Windows) or 'CMD+ALT+0' (Mac)
+* Added option to launch AI Search from the context menu
+
+5.1.2
+---------
 
 * New feature: 'CTRL+0' (Windows) or 'CMD+0' (Mac) now opens a command window from which to carry out an AI search
 

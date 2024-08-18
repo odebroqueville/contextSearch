@@ -3,7 +3,7 @@
     "default_locale": "en",
     "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
-    "version": "5.1.2",
+    "version": "5.2.0",
     "author": "Olivier de Broqueville",
     "browser_specific_settings": {
         "gecko": {
@@ -89,8 +89,8 @@
         },
         "open-popup": {
             "suggested_key": {
-                "default": "Ctrl+0",
-                "mac": "Command+0"
+                "default": "Ctrl+Alt+0",
+                "mac": "Command+Alt+0"
             },
             "description": "Open the popup window"
         }

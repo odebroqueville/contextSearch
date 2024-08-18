@@ -27,7 +27,6 @@ if (os === 'macOS') {
 let tabUrl = '';
 let domain = '';
 let pn = '';
-let range = null;
 let keysPressed = {};
 let textSelection = '';
 let navEntered = false;
@@ -206,25 +205,17 @@ async function ask(url, promptText) {
         }
     };
 
-    // let observer = new MutationObserver(async (mutations, mutationInstance) => {
-    //     if (url.includes('chatgpt.com') && !submissionMade) {
-    //         if (logToConsole) console.log("Found ChatGPT URL, handling it from mutation observer...");
-    //         await handleChatGPT();
-    //         mutationInstance.disconnect(); // Stop observing after the first submission
-    //     }
-    //     // Add similar handlers for other URLs as necessary
-    // });
-
-    // // Start observing changes in the document
-    // observer.observe(document, {
-    //     childList: true,
-    //     subtree: true
-    // });
-
     // Run the handler directly if the page is already loaded and doesn't need waiting for mutations
-    if ((document.readyState === 'complete') && !submissionMade) {
+    if (document.readyState === 'complete' && !submissionMade && !window.location.href.includes('#_sidebar')) {
         if (logToConsole) console.log("Page is ready, handling it directly...");
         await handleChatInput();
+    } else if (document.readyState === 'complete' && !submissionMade && window.location.href.includes('#_sidebar')) {
+        // Wait for the page to load and then handle the input
+        new MutationObserver(() => {
+            if (logToConsole) console.log("Sidebar content script loaded, handling it...");
+            handleChatInput();
+            //browser.runtime.sendMessage({ action: "sidebarContentUpdated", url: window.location.href });
+        }).observe(document.documentElement, { childList: true, subtree: true });
     }
 }
 
@@ -262,6 +253,7 @@ async function init() {
         link.setAttribute('rel', 'stylesheet');
         link.setAttribute('href', stylesheetUrl);
         document.head.appendChild(link);
+        sendMessage({ action: 'sidebarContentLoaded', data: { tabUrl } });
     }
 
     // If the website doesn't contain an opensearch plugin, then hide the Page action
@@ -551,12 +543,24 @@ function getSelectionEndPosition() {
 }
 
 async function handleMouseOver(e) {
-    if (logToConsole) console.log(e);
     const elementOver = e.target;
     const tag = elementOver.tagName;
 
+    // Traverse up the DOM tree to check if a parent has the ID 'context-search-icon-grid'
+    let target = elementOver;
+    let level = 0;
+    while (target && level < 3) {
+        if (target.id === 'context-search-icon-grid') {
+            return; // Exit the function if a parent has the ID
+        }
+        target = target.parentElement;
+        level++;
+    }
+
     // If right click is on image or a div with class 'iris-annotation-layer' then send the target url
     if (tag === 'IMG' || (tag === 'DIV' && [...elementOver.classList].includes('iris-annotation-layer'))) {
+        if (logToConsole) console.log(e);
+        if (elementOver.parentId === 'context-search-icon-grid') return;
         if (domain.includes('youtube.com') || domain.includes('youtu.be') || domain.includes('youtube-nocookie.com') || domain.includes('vimeo.com')) {
             // Get the video url
             const videoUrl = absoluteUrl(getClosestAnchorHref(elementOver));
@@ -666,7 +670,6 @@ function getSelectedText() {
 
     const controlCharactersRegex = /[\x00-\x1f\x7f-\x9f]/g;
     let plaintext = '';
-    let ranges = [];
 
     if (window.getSelection) {
         // Get the Selection object.
@@ -675,50 +678,32 @@ function getSelectedText() {
         // Check if the Selection object has any ranges.
         if (sel.rangeCount > 0) {
             for (let i = 0; i < sel.rangeCount; i++) {
-                ranges[i] = sel.getRangeAt(i);
-                plaintext += getPlainTextContentOfRange(ranges[i]);
-                range += ranges[i];
+                const range = sel.getRangeAt(i);
+                plaintext += getPlainTextContentOfRange(range);
             }
         }
     }
 
-    let concatenatedRange = null;
-
-    for (const range of ranges) {
-        if (concatenatedRange === null) {
-            concatenatedRange = range;
-        } else {
-            concatenatedRange = concatenatedRange.union(range);
-        }
-    }
-
+    // Replace control characters with a space
     plaintext = plaintext.replace(controlCharactersRegex, ' ');
-    range = concatenatedRange;
 
     return plaintext.trim();
 }
 
 function getPlainTextContentOfRange(range) {
-    // Check if the range is empty.
-    if (range.collapsed) {
-        return '';
-    }
-
-    // Get the plain text content of the range.
-    const plainTextContent = range.toString();
-
-    // Remove any HTML tags from the plain text content.
-    const plainTextContentWithoutHtmlTags = plainTextContent.replace(/<[^>]*>/g, '');
-
-    // Return the plain text content without HTML tags.
-    return plainTextContentWithoutHtmlTags;
+    const div = document.createElement('div');
+    div.appendChild(range.cloneContents());
+    const plainText = div.textContent.trim();
+    div.remove();
+    return plainText || '';
 }
 
-
 async function sendSelectionToBackgroundScript(selectedText) {
-    const data = await browser.storage.sync.get(null);
+    const data = await browser.storage.sync.get();
     const options = data.options;
     if (logToConsole) console.log(options);
+
+    // Set the target URL for a site search based on the current domain and selected text
     const targetUrl = options.siteSearchUrl + encodeUrl(`site:https://${domain} ${selectedText}`);
     sendMessage('setTargetUrl', targetUrl);
 
@@ -769,8 +754,6 @@ async function createIconsGrid(x, y, folderId) {
             icons.push({ id: id, src: src, title: title });
         }
     }
-
-    if (logToConsole) console.log(icons);
 
     // Grid dimensions
     const n = icons.length;
@@ -854,13 +837,11 @@ async function onGridClick(e, folderId) {
 
     if (id === 'back') {
         const parentId = getParentFolderOf(searchEngines, folderId, 'root');
-        console.log('Parent folder of ' + folderId + ' is ' + parentId);
+        if (logToConsole) console.log('Parent folder of ' + folderId + ' is ' + parentId);
         createIconsGrid(xPos, yPos, parentId);
         return;
     }
 
-    const selection = window.getSelection();
-    selection.addRange(range);
     if (id === 'multisearch' || !searchEngines[id].isFolder) {
         sendMessage('doSearch', { id: id });
     } else {
@@ -942,7 +923,7 @@ function absoluteUrl(url) {
      * Only data-image URLs are accepted, Exotic flavours (escaped slash,
      * html-entitied characters) are not supported to keep the function fast */
     if (/^(https?|file|ftps?|mailto|javascript|data:image\/[^;]{2,9};):/i.test(url))
-        return url; //Url is already absolute
+        return url; // Url is already absolute
 
     var base_url = location.href.match(/^(.+)\/?(?:#.+)?$/)[0] + "/";
     if (url.substring(0, 2) == "//")
@@ -952,18 +933,28 @@ function absoluteUrl(url) {
     else if (url.substring(0, 2) == "./")
         url = "." + url;
     else if (/^\s*$/.test(url))
-        return ""; //Empty = Return nothing
-    else url = "../" + url;
+        return ""; // Empty = Return nothing
+    else
+        url = "../" + url;
 
     url = base_url + url;
 
-    while (/\/\.\.\//.test(url = url.replace(/[^/]+\/+\.\.\//g, "")));
+    // Resolve /folder/../ patterns safely
+    while (url.indexOf('/../') > -1) {
+        url = url.replace(/\/[^/]+\/\.\.\//g, '/');
+    }
 
     /* Escape certain characters to prevent XSS */
-    url = url.replace(/\.$/, "").replace(/\/\./g, "").replace(/"/g, "%22")
-        .replace(/'/g, "%27").replace(/</g, "%3C").replace(/>/g, "%3E");
+    url = url.replace(/\.$/, "")
+        .replace(/\/\./g, "")
+        .replace(/"/g, "%22")
+        .replace(/'/g, "%27")
+        .replace(/</g, "%3C")
+        .replace(/>/g, "%3E");
+
     return url;
 }
+
 
 async function getNewSearchEngine(url) {
     const xml = await fetchXML(url);
