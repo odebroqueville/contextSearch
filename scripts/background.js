@@ -1043,12 +1043,20 @@ async function rebuildContextMenu() {
     const browserVersion = parseInt(v.slice(0, v.search('.') - 1));
     const rootChildren = searchEngines['root'].children;
 
+    const handleMenuClick = async (info, tab) => {
+        if (contextsearch_openSearchResultsInSidebar) {
+            await browser.sidebarAction.open();
+            await browser.sidebarAction.setPanel({ panel: '' });
+        }
+        await processSearch(info, tab);
+    };
+
     if (logToConsole) console.log(`Search engines:`);
     if (logToConsole) console.log(searchEngines);
     if (logToConsole) console.log(`Root children: ${rootChildren}`);
 
     browser.menus.removeAll();
-    browser.menus.onClicked.removeListener(processSearch);
+    browser.menus.onClicked.removeListener(handleMenuClick);
 
     if (contextsearch_optionsMenuLocation === 'top') {
         rebuildContextOptionsMenu();
@@ -1065,15 +1073,7 @@ async function rebuildContextMenu() {
         rebuildContextOptionsMenu();
     }
 
-    browser.menus.onClicked.addListener(async (info, tab) => {
-        if (
-            contextsearch_openSearchResultsInSidebar
-        ) {
-            await browser.sidebarAction.open();
-            await browser.sidebarAction.setPanel({ panel: '' });
-        }
-        await processSearch(info, tab);
-    });
+    browser.menus.onClicked.addListener(handleMenuClick);
 }
 
 function rebuildContextOptionsMenu() {
@@ -1261,9 +1261,9 @@ async function processSearch(info, tab) {
     // If search engines are set to be opened after the last tab, then adjust the tabIndex
     const tabs = await queryAllTabs();
     // Get the index of the last tab and add 1 to define lastTab
-    const lastTab = tabs.length - 1;
+    const lastTab = tabs.length;
     if (contextsearch_openSearchResultsInLastTab || contextsearch_multiMode === 'multiAfterLastTab') {
-        tabIndex = lastTab.index + 1;
+        tabIndex = lastTab;
     }
     if (id === 'download-video') {
         let url = info.linkUrl
@@ -1317,7 +1317,28 @@ async function processSearch(info, tab) {
 
 async function processMultisearch(arraySearchEngineUrls, tabPosition) {
     const searchEngines = await browser.storage.local.get();
-    const activeTab = await getActiveTab();
+    const getSearchEnginesFromFolder = (folderId) => {
+        for (let id of searchEngines[folderId].children) {
+            if (logToConsole) console.log(folderId, id);
+            // If id is for a folder or a separator, then skip it
+            if (id.startsWith("separator-")) continue;
+            if (searchEngines[id].isFolder) {
+                getSearchEnginesFromFolder(id);
+            }
+            if (searchEngines[id].multitab) {
+                if (searchEngines[id].aiProvider) {
+                    // This array will contain id items
+                    aiArray.push(processSearchEngine(id, selection));
+                } else if (searchEngines[id].formData) {
+                    // This array will contain {id, url} items
+                    postArray.push(processSearchEngine(id, selection));
+                } else {
+                    // This array will contain url items
+                    urlArray.push(processSearchEngine(id, selection));
+                }
+            }
+        }
+    }
     let windowInfo = await browser.windows.getCurrent();
     let multisearchArray = [];
     let urlArray = [];
@@ -1342,23 +1363,27 @@ async function processMultisearch(arraySearchEngineUrls, tabPosition) {
     } else {
         // Create an array of search engine URLs for all multisearch engines (using HTTP GET requests or AI prompts)
         // If the search engine uses an HTTP POST request, then the array will contain {id, url} for that search engine instead of just a url
-        for (let id in searchEngines) {
-            if (logToConsole) console.log(id);
-            // If id is for a folder or a separator, then skip it
-            if (id.startsWith("separator-") || searchEngines[id].isFolder) continue;
-            if (searchEngines[id].multitab) {
-                if (searchEngines[id].aiProvider) {
-                    // This array will contain id items
-                    aiArray.push(processSearchEngine(id, selection));
-                } else if (searchEngines[id].formData) {
-                    // This array will contain {id, url} items
-                    postArray.push(processSearchEngine(id, selection));
-                } else {
-                    // This array will contain url items
-                    urlArray.push(processSearchEngine(id, selection));
-                }
-            }
-        }
+        // Sort search results in the order that search engines appear in the options page
+        getSearchEnginesFromFolder('root');
+
+        // Sort multisearch search results alphabetically
+        /*         for (let id in searchEngines) {
+                    if (logToConsole) console.log(id);
+                    // If id is for a folder or a separator, then skip it
+                    if (id.startsWith("separator-") || searchEngines[id].isFolder) continue;
+                    if (searchEngines[id].multitab) {
+                        if (searchEngines[id].aiProvider) {
+                            // This array will contain id items
+                            aiArray.push(processSearchEngine(id, selection));
+                        } else if (searchEngines[id].formData) {
+                            // This array will contain {id, url} items
+                            postArray.push(processSearchEngine(id, selection));
+                        } else {
+                            // This array will contain url items
+                            urlArray.push(processSearchEngine(id, selection));
+                        }
+                    }
+                } */
         nonUrlArray = joinArrays(postArray, aiArray);
         multisearchArray = joinArrays(urlArray, nonUrlArray);
     }
