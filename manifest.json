@@ -4,6 +4,7 @@
     "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
     "version": "5.2.2",
+    "homepage_url": "https://github.com/odebroqueville/contextSearch",
     "author": "Olivier de Broqueville",
     "browser_specific_settings": {
         "gecko": {
@@ -12,14 +13,15 @@
         }
     },
     "web_accessible_resources": [
-        "/modal.html",
-        "/history.html",
-        "/bookmarks.html",
+        "/html/bookmarks.html",
+        "/html/history.html",
+        "/html/modal.html",
+        "/html/popup.html",
+        "/html/search_results.html",
         "/images/*.png",
         "/scripts/modal.js",
         "/scripts/popup.js",
         "/scripts/Sortable.min.js",
-        "/sidebar/search_results.html",
         "/scripts/search_results.js"
     ],
     "content_security_policy": "script-src 'self'; object-src 'self'; img-src 'self' data:;",
@@ -52,7 +54,7 @@
         "browser_style": false,
         "default_icon": "/icons/context-search.svg",
         "default_title": "Search results",
-        "default_panel": "/sidebar/search_results.html",
+        "default_panel": "/html/search_results.html",
         "open_at_install": false
     },
     "background": {
@@ -108,7 +110,7 @@
         "512": "icons/icon_512.png"
     },
     "options_ui": {
-        "page": "options.html",
+        "page": "/html/options.html",
         "open_in_tab": true,
         "browser_style": true
     },
