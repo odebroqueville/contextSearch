@@ -1,7 +1,7 @@
 {
     "name": "contextsearch",
     "title": "Context Search",
-    "version": "5.2.0",
+    "version": "5.2.2",
     "description": "Firefox add-on to search selected text in a web page using your favorite search engines.",
     "browserslist": [
         "Firefox >= 79"
@@ -33,7 +33,6 @@
         "sortablejs": "^1.15.2"
     },
     "devDependencies": {
-        "eslint": "^8.29.0",
-        "web-ext": "^8.1.0"
+        "eslint": "^8.29.0"
     }
 }
