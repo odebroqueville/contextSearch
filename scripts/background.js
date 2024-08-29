@@ -1327,7 +1327,6 @@ async function getSearchEngineUrl(searchEngineUrl, sel) {
 }
 
 async function setTargetUrl(id) {
-    let searchEngineUrl = searchEngines[id].url;
     const activeTab = await getActiveTab();
     const options = await getOptions();
     if (logToConsole) console.log('Active tab is:');
@@ -1346,6 +1345,7 @@ async function setTargetUrl(id) {
             encodeUrl(`site:https://${domain} ${quote}${selection}${quote}`);
     }
     if (!id.startsWith('chatgpt-')) {
+        let searchEngineUrl = searchEngines[id].url;
         if (!id.startsWith('link-') && !searchEngines[id].formData) {
             // If the search engine uses HTTP GET
             searchEngineUrl = await getSearchEngineUrl(searchEngineUrl, selection);
@@ -1393,14 +1393,19 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId) {
     targetUrl = await setTargetUrl(id);
     const postDomain = getDomain(targetUrl);
     const searchEngine = searchEngines[id];
-    const url = searchEngine.formData ? postDomain : targetUrl;
+    let url;
+    if (searchEngine && searchEngine.formData) {
+        url = postDomain;
+    } else {
+        url = targetUrl;
+    }
     messageSent = false;
     const options = await getOptions();
 
-    if (logToConsole) console.log(`Opening tab at index ${tabPosition} for ${searchEngine.name} at ${url} in window ${windowId}`);
+    if (logToConsole && searchEngine) console.log(`Opening tab at index ${tabPosition} for ${searchEngine.name} at ${url} in window ${windowId}`);
 
     // Listen for tab updates and handle AI prompts and form submissions (HTTP POST requests)
-    if (options.tabMode !== 'openSidebar' && (id.startsWith('chatgpt-') || searchEngine.formData)) setupTabUpdatedListeners(id);
+    if (options.tabMode !== 'openSidebar' && (id.startsWith('chatgpt-') || (searchEngine && searchEngine.formData))) setupTabUpdatedListeners(id);
 
     if (!multisearch && options.tabMode === 'openSidebar') {
         let tabUrl = url + '#_sidebar';
