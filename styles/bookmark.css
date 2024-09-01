@@ -1,0 +1,47 @@
+body {
+    font-family: 'Raleway', Helvetica, Arial, sans-serif;
+    margin: 10px;
+    width: 680px;
+    /* Adjust the width to be slightly less than the popup width */
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="url"],
+select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+#buttonContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#cancelButton {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+}
+
+#addBookmarkButton {
+    background-color: #0078D7;
+    border: none;
+    color: white;
+}
+
+#addBookmarkButton:hover {
+    background-color: #005A9E;
+}

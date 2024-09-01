@@ -70,7 +70,7 @@ You can also import a JSON file containing your own list of search engines. It i
 
 ## How to add an AI prompt to your custom list of search engines
 
-Prior to using an AI provider, **ensure that you have logged in** to their website. At the bottom of the Options page, select the tab to 'Add a new AI prompt'. Chose the AI provider you'd like to use, add a name for your prompt and enter your prompt by inserting %s where you'd like your text selection to appear (e.g. 'Comprehensively explain the following for a 10 year old: %s'). 
+Prior to using an AI provider, **ensure that you have logged in** to their website. This is required when using ChatGPT, Calude, Google AI Studio and Poe. At the bottom of the Options page, select the tab to 'Add a new AI prompt'. Chose the AI provider you'd like to use, add a name for your prompt and enter your prompt by inserting %s where you'd like your text selection to appear (e.g. 'Comprehensively explain the following for a 10 year old: %s'). 
 
 In most cases, after selecting text on a web page and selecting your prompt in the context menu, a new tab will open with the relevant AI engine. When possible, the prompt will be pasted in the search box and automatically submitted to the AI engine, except for Poe so that users can choose their preferred model. The search results should then appear.
 
@@ -84,13 +84,16 @@ From the Options page, click on the favicon right before the search engine's nam
 
 ## How to perform an AI search using the command window
 
-Prior to using this feature, **ensure that you have logged in** to the website(s) oof the AI engine(s) that you'd like to use. 'CTRL+ALT+0' (Windows) or 'CMD+ALT+0' (Mac) now opens a command window from which to carry out an AI search. Start by typing the keyword corresponding to the AI engine that you'd like to use followed by a 'Space' character. The current list of valid keywords is:
+Prior to using this feature, **ensure that you have logged in** to the website(s) of the AI engine(s) that you'd like to use. This is required when using ChatGPT, Calude, Google AI Studio and Poe. 'CTRL+ALT+0' (Windows) or 'CMD+ALT+0' (Mac) now opens a command window from which to carry out a direct AI search. Start by typing the keyword corresponding to the AI engine that you'd like to use followed by a 'Space' character. The current list of valid keywords is:
 
 - chatgpt
 - claude
 - google (for Google AI Studio where different models are available)
 - perplexity
 - poe (where you can choose amongst different LL models, namely Llama 3.1)
+- exa
+- andi
+- you
 
  If the AI engine is recognized, then it will automatically be styled as a tag. You can then continue typing your prompt completed by 'Enter'. The command window should then close and the search results be displayed. Unless you are using poe, then  an additional step is required: select the LLM and submit the prompt.
 
@@ -109,10 +112,10 @@ will open the Options page
 **cs ! cold fusion**
 will perform a multi-search for the search terms 'cold fusion'
 
-**cs !h** or c**s history**
+**cs !h** or **cs history**
 will display all your history
 
-**cs !b Mozilla** or c**s bookmarks Mozilla**
+**cs !b Mozilla** or **cs bookmarks Mozilla**
 will display all bookmarks that include the term Mozilla
 
 **cs !b recent** or **cs bookmarks recent**

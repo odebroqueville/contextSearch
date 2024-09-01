@@ -22,11 +22,13 @@
         "/scripts/modal.js",
         "/scripts/popup.js",
         "/scripts/Sortable.min.js",
-        "/scripts/search_results.js"
+        "/scripts/search_results.js",
+        "/styles/popup.css"
     ],
     "content_security_policy": "script-src 'self'; object-src 'self'; img-src 'self' data:;",
     "browser_action": {
-        "default_popup": "popup.html"
+        "default_icon": "/icons/bookmark-grey-48.png",
+        "default_title": "Bookmark the active tab to Context Search"
     },
     "page_action": {
         "show_matches": [
@@ -59,7 +61,9 @@
     },
     "background": {
         "scripts": [
-            "/scripts/background.js"
+            "/scripts/background.js",
+            "/scripts/favicons.js",
+            "/scripts/hosts.js"
         ],
         "type": "module"
     },

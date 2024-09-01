@@ -2,24 +2,13 @@
 body {
     color: #ccc;
     background-color: #333;
+    font-family: 'Raleway', Helvetica, Arial, sans-serif;
 }
 
-#popupContainer {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Header styling */
-#popupHeader {
-    background-color: #03d;
-    color: #ddd;
-    padding: 10px;
-    text-align: center;
-    font-size: 16px;
-    font-weight: bold;
-    border-bottom: 1px solid #ddd;
+p {
+    color: #ccc;
+    padding: 5px;
+    font-size: 11px;
 }
 
 /* Styling the button */
@@ -48,7 +37,7 @@ body {
     display: flex;
     align-items: baseline;
     width: 100%;
-    height: 100%;
+    height: 35px;
     /* Fill the remaining height */
 }
 

@@ -4,8 +4,8 @@
 globalThis.browser ??= chrome;
 
 /// Import constants
-import { googleReverseImageSearchUrl, googleLensUrl, chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, poeUrl, claudeUrl } from './hosts.js';
-import { base64chatGPT, base64GoogleAIStudio, base64perplexity, base64poe, base64claude, base64ContextSearchIcon, base64FolderIcon } from './favicons.js';
+import { googleReverseImageSearchUrl, googleLensUrl, chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, poeUrl, claudeUrl, youUrl, andiUrl, exaUrl } from './hosts.js';
+import { base64chatGPT, base64GoogleAIStudio, base64perplexity, base64poe, base64claude, base64you, base64andi, base64exa, base64ContextSearchIcon, base64FolderIcon } from './favicons.js';
 import { USER_AGENT_FOR_SIDEBAR, DEFAULT_SEARCH_ENGINES, REQUEST_FILTER, titleMultipleSearchEngines, titleAISearch, titleSiteSearch, titleExactMatch, titleOptions, windowTitle, omniboxDescription, notifySearchEnginesLoaded, notifySearchEngineAdded, notifyUsage, notifySearchEngineWithKeyword, notifyUnknown, notifySearchEngineUrlRequired, DEFAULT_OPTIONS } from './constants.js';
 
 /// Global variables
@@ -59,6 +59,9 @@ browser.permissions.onRemoved.addListener(async (permissions) => {
     }
 });
 
+// Handle browser action click
+browser.browserAction.onClicked.addListener(openBookmarkPopup);
+
 // Handle Page Action click
 browser.pageAction.onClicked.addListener(handlePageAction);
 
@@ -69,7 +72,7 @@ browser.commands.onCommand.addListener(async (command) => {
         const activeTab = await getActiveTab();
         await sendMessageToTab(activeTab, { action: "launchIconsGrid" });
     } else if (command === "open-popup") {
-        openPopup();
+        openAISearchPopup();
     }
 });
 
@@ -485,16 +488,20 @@ async function handleSetTargetUrl(data) {
 async function handleExecuteAISearch(data) {
     const { aiEngine, prompt } = data;
     const id = 'chatgpt-direct';
+    const options = await getOptions();
+    const windowInfo = await browser.windows.getCurrent();
+    const tabs = await queryAllTabs();
     const activeTab = await getActiveTab();
-    const tabIndex = activeTab.index + 1;
-    const url = getAIProviderBaseUrl(aiEngine);
-    if (aiEngine && prompt) {
-        setupTabUpdatedListeners(id, prompt)
+    let tabPosition;
+    if (logToConsole) console.log(tabs);
+    if (options.multiMode === 'multiAfterLastTab') {
+        // After the last tab
+        tabPosition = tabs.length;
+    } else {
+        // Right after the active tab
+        tabPosition = activeTab.index + 1;
     }
-    browser.tabs.create({
-        url: url,
-        index: tabIndex
-    });
+    displaySearchResults(id, tabPosition, false, windowInfo.id, aiEngine, prompt);
 }
 
 // Initialize extension
@@ -861,6 +868,18 @@ function getFaviconForPrompt(id, aiProvider) {
             imageFormat = 'image/png';
             b64 = base64claude;
             break;
+        case 'you':
+            imageFormat = 'image/png';
+            b64 = base64you;
+            break;
+        case 'andi':
+            imageFormat = 'image/png';
+            b64 = base64andi;
+            break;
+        case 'exa':
+            imageFormat = 'image/x-icon';
+            b64 = base64exa;
+            break;
         default:
             imageFormat = 'image/svg+xml';
             b64 = base64ContextSearchIcon;
@@ -1145,7 +1164,7 @@ async function processSearch(info, tab) {
         return;
     }
     if (id === 'ai-search') {
-        openPopup();
+        openAISearchPopup();
         return;
     }
 
@@ -1326,7 +1345,7 @@ async function getSearchEngineUrl(searchEngineUrl, sel) {
     }
 }
 
-async function setTargetUrl(id) {
+async function setTargetUrl(id, aiEngine = '') {
     const activeTab = await getActiveTab();
     const options = await getOptions();
     if (logToConsole) console.log('Active tab is:');
@@ -1354,6 +1373,8 @@ async function setTargetUrl(id) {
             // If the search engine uses HTTP POST or is a link
             return searchEngineUrl;
         }
+    } else if (id === 'chatgpt-direct') {
+        return getAIProviderBaseUrl(aiEngine);
     } else {
         // If the search engine is an AI search engine
         const provider = searchEngines[id].aiProvider;
@@ -1381,6 +1402,15 @@ function getAIProviderBaseUrl(provider) {
         case 'claude':
             providerUrl = claudeUrl;
             break;
+        case 'you':
+            providerUrl = youUrl;
+            break;
+        case 'andi':
+            providerUrl = andiUrl;
+            break;
+        case 'exa':
+            providerUrl = exaUrl;
+            break;
         default:
             providerUrl = chatGPTUrl;
     }
@@ -1388,11 +1418,12 @@ function getAIProviderBaseUrl(provider) {
 }
 
 // Display the search results for a single search (link, HTTP POST or GET request, or AI prompt)
-async function displaySearchResults(id, tabPosition, multisearch, windowId) {
+async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEngine = '', prompt = '') {
     const activeTab = await getActiveTab();
-    targetUrl = await setTargetUrl(id);
+    targetUrl = await setTargetUrl(id, aiEngine);
     const postDomain = getDomain(targetUrl);
-    const searchEngine = searchEngines[id];
+    let searchEngine;
+    if (id !== 'chatgpt-direct') searchEngine = searchEngines[id];
     let url;
     if (searchEngine && searchEngine.formData) {
         url = postDomain;
@@ -1405,7 +1436,7 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId) {
     if (logToConsole && searchEngine) console.log(`Opening tab at index ${tabPosition} for ${searchEngine.name} at ${url} in window ${windowId}`);
 
     // Listen for tab updates and handle AI prompts and form submissions (HTTP POST requests)
-    if (options.tabMode !== 'openSidebar' && (id.startsWith('chatgpt-') || (searchEngine && searchEngine.formData))) setupTabUpdatedListeners(id);
+    if (options.tabMode !== 'openSidebar' && (id.startsWith('chatgpt-') || (searchEngine && searchEngine.formData))) setupTabUpdatedListeners(id, prompt);
 
     if (!multisearch && options.tabMode === 'openSidebar') {
         let tabUrl = url + '#_sidebar';
@@ -1486,7 +1517,7 @@ function setupTabUpdatedListeners(id, prompt = '') {
 function onTabUpdated(tabId, changeInfo, tab, id, prompt) {
     if (logToConsole) console.log(`Updated tab: ${tab.url}`);
 
-    const aiUrls = [chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, poeUrl, claudeUrl];
+    const aiUrls = [chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, poeUrl, claudeUrl, youUrl, andiUrl, exaUrl];
     const isAITab = aiUrls.some(url => tab.url.startsWith(url));
     const searchEngine = searchEngines[id];
 
@@ -1588,7 +1619,7 @@ async function handleSubmitFormUpdate(tabId, changeInfo, tab, id) {
 function onSidebarUpdated(tabId, details, id) {
     if (logToConsole) console.log(`Sidebar updated: ${details.url}`);
 
-    const aiUrls = [chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, poeUrl, claudeUrl];
+    const aiUrls = [chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, poeUrl, claudeUrl, youUrl, andiUrl, exaUrl];
     const isAISidebar = aiUrls.some(url => details.url.startsWith(url));
     const searchEngine = searchEngines[id];
 
@@ -1672,9 +1703,9 @@ browser.omnibox.setDefaultSuggestion({
 });
 
 // Update the suggestions whenever the input is changed
-browser.omnibox.onInputChanged.addListener((input, suggest) => {
+browser.omnibox.onInputChanged.addListener(async (input, suggest) => {
     if (input.indexOf(' ') > 0) {
-        const suggestion = buildSuggestion(input);
+        const suggestion = await buildSuggestion(input);
         if (suggestion.length === 1) {
             suggest(suggestion);
         }
@@ -1684,15 +1715,25 @@ browser.omnibox.onInputChanged.addListener((input, suggest) => {
 // Open the page based on how the user clicks on a suggestion
 browser.omnibox.onInputEntered.addListener(async (input) => {
     if (logToConsole) console.log(`Input entered: ${input}`);
+    const aiEngines = ['chatgpt', 'google', 'perplexity', 'poe', 'claude', 'you', 'andi', 'exa'];
     const multisearch = false;
     const keyword = input.split(' ')[0];
-    const searchTerms = input.replace(keyword, '').trim();
-    const suggestion = buildSuggestion(input);
+    const suggestion = await buildSuggestion(input);
     const windowInfo = await browser.windows.getCurrent();
-    const options = getOptions();
+    const options = await getOptions();
+    let searchTerms = input.replace(keyword, '').trim();
+
+    // Check if the search terms contain '%s' or '{searchTerms}'
+    if (searchTerms.includes('{searchTerms}')) {
+        searchTerms = searchTerms.replace(/{searchTerms}/g, selection);
+    } else if (searchTerms.includes('%s')) {
+        searchTerms = searchTerms.replace(/%s/g, selection);
+    }
+
+    selection = searchTerms.trim();
 
     // tabPosition is used to determine where to open the search results for a multisearch
-    let tabIndex, tabPosition, tabId, id;
+    let tabIndex, tabPosition, tabId, id, aiEngine = '';
 
     if (logToConsole) console.log(`Keyword is: ${keyword}`);
     if (logToConsole) console.log(`Search terms are: ${searchTerms}`);
@@ -1707,21 +1748,24 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
         }
     }
 
+    // If id isn't found, then check if the search engine corresponds to an AI engine
+    if (id === undefined) {
+        if (aiEngines.includes(keyword)) {
+            id = 'chatgpt-direct';
+            aiEngine = keyword;
+        }
+    }
+
     // Get active tab's index and id
     const tabs = await queryAllTabs();
     const activeTab = await getActiveTab();
     tabIndex = activeTab.index;
     tabId = activeTab.id;
 
-    if (options.lastTab) {
-        tabIndex = tabs.length;
-    }
+    tabPosition = tabIndex + 1;
 
-    if (logToConsole) console.log(options.multiMode);
-    if (options.multiMode === 'multiAfterLastTab') {
+    if (options.lastTab || options.multiMode === 'multiAfterLastTab') {
         tabPosition = tabs.length;
-    } else {
-        tabPosition = tabIndex + 1;
     }
 
     if (logToConsole) console.log(tabPosition);
@@ -1730,7 +1774,7 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
     // Only display search results when there is a valid link inside of the url variable
     if (input.indexOf('://') > -1) {
         if (logToConsole) console.log('Processing search...');
-        await displaySearchResults(id, tabIndex, multisearch, windowInfo.id);
+        await displaySearchResults(id, tabPosition, multisearch, windowInfo.id);
     } else {
         try {
             switch (keyword) {
@@ -1757,7 +1801,7 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                     await browser.tabs.create({
                         active: options.tabActive,
                         index: tabPosition,
-                        url: '/bookmarks.html',
+                        url: '/html/bookmarks.html',
                     });
                     break;
                 case 'history':
@@ -1770,7 +1814,7 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                     await browser.tabs.create({
                         active: options.tabActive,
                         index: tabPosition,
-                        url: '/history.html',
+                        url: '/html/history.html',
                     });
                     break;
                 default:
@@ -1781,10 +1825,10 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                         }
                         await processMultisearch(arraySearchEngineUrls, tabPosition);
                     }
-                    else if (suggestion.length === 1 && !searchEngines[id].isFolder) {
+                    else if (suggestion.length === 1 && ((searchEngines[id] && !searchEngines[id].isFolder) || aiEngines.includes(suggestion[0].content))) {
                         if (typeof (suggestion[0].content) === 'string') {
                             // If AI prompt or search engine uses HTTP GET or POST request
-                            await displaySearchResults(id, tabIndex, multisearch, windowInfo.id);
+                            await displaySearchResults(id, tabPosition, multisearch, windowInfo.id, aiEngine, searchTerms);
                         }
                     } else if (suggestion.length === 1 && searchEngines[id].isFolder) {
                         // If search engine is a folder
@@ -1837,10 +1881,11 @@ async function processSearchEngine(id, searchTerms) {
     return result;
 }
 
-function buildSuggestion(text) {
+async function buildSuggestion(text) {
+    const aiEngines = ['chatgpt', 'google', 'perplexity', 'poe', 'claude', 'you', 'andi', 'exa'];
     const keyword = text.split(' ')[0];
     const searchTerms = text.replace(keyword, '').trim();
-    const options = getOptions();
+    const options = await getOptions();
     let result = [];
     let quote = '';
     let showNotification = true;
@@ -1935,6 +1980,15 @@ function buildSuggestion(text) {
 
             result.push(suggestion);
         }
+    }
+
+    // If no known search engine was found, then check if AI engine
+    if (result.length === 0 && aiEngines.includes(keyword)) {
+        const suggestion = {
+            description: 'Search for ' + searchTerms + ' using ' + keyword,
+            content: keyword,
+        };
+        result.push(suggestion);
     }
 
     // If no known keyword was found
@@ -2051,14 +2105,39 @@ function sendMessageToHostScript(url) {
     });
 }
 
-function openPopup() {
-    let width = 700;
-    let height = 20;
-    let left = (screen.width / 2) - (width / 2);
-    let top = (screen.height / 2) - (height / 2);
+function openAISearchPopup() {
+    const width = 700;
+    const height = 50;
+
+    // Calculate the position to center the window with a vertical offset of 200px
+    const left = Math.round((screen.width - width) / 2);
+    const top = Math.round((screen.height - height) / 2) - 200;
 
     browser.windows.create({
-        url: "popup.html",
+        url: "/html/popup.html",
+        type: "popup",
+        width: width,
+        height: height,
+        left: left,
+        top: top
+    });
+}
+
+async function openBookmarkPopup() {
+    const width = 700;
+    const height = 500; // Adjust the height as needed
+
+    // Calculate the position to center the window with a small offset
+    const left = Math.round((screen.width - width) / 2) + 50;
+    const top = Math.round((screen.height - height) / 2) - 150;
+
+
+    const currentWindow = await browser.windows.getCurrent();
+    const currentWindowId = currentWindow.id;
+
+    // Open a new window with the specified dimensions and position
+    browser.windows.create({
+        url: `/html/bookmark.html?parentWindowId=${currentWindowId}`,
         type: "popup",
         width: width,
         height: height,

@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const aiEngines = ['chatgpt', 'google', 'perplexity', 'poe', 'claude'];
+    const aiEngines = ['chatgpt', 'google', 'perplexity', 'poe', 'claude', 'you', 'andi', 'exa'];
     const inputArea = document.getElementById('inputArea');
     const outputArea = document.getElementById('outputArea');
     let tagStyled = false;
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     inputArea.addEventListener('keyup', (event) => {
         if (event.key === ' ') {
             const words = inputArea.value.trim().split(/\s+/);
-            const firstWord = words[0];
+            const firstWord = words[0].toLowerCase();
 
             if (aiEngines.includes(firstWord) && !tagStyled) {
                 styleAsTag(firstWord);

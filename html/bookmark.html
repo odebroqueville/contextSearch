@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookmark active tab to Context Search</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway">
+    <link rel="stylesheet" href="/styles/bookmark.css">
+</head>
+
+<body>
+    <label for="title">Title:</label>
+    <input type="text" id="title" placeholder="Enter bookmark title">
+
+    <label for="url">URL:</label>
+    <input type="url" id="url" placeholder="Enter bookmark URL">
+
+    <label for="keyword">Keyword:</label>
+    <input type="text" id="keyword" placeholder="Enter bookmark keyword for the Omnibox">
+
+    <label for="keyboardShortcut">Keyboard shortcut:</label>
+    <input type="text" id="keyboardShortcut" placeholder="Enter bookmark keyboard shortcut">
+
+    <label for="folder">Folder:</label>
+    <select id="folder">
+        <!-- Options will be populated dynamically -->
+    </select>
+
+    <div id="buttonContainer">
+        <button id="cancelButton">Cancel</button>
+        <button id="addBookmarkButton">Add Bookmark</button>
+    </div>
+    <script src="/scripts/bookmark.js"></script>
+</body>
+
+</html>

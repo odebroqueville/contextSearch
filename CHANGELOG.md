@@ -1,5 +1,17 @@
-5.2.0
+5.2.2
 =========
+
+* Bug fix #189 : Context menu would no longer open because onclick listener removed unknown listener and lastTab was incorrectly treated as an object instead of an integer
+* Feature request [#191](https://github.com/odebroqueville/contextSearch/issues/191)
+
+5.2.1
+---------
+
+* Temporary copy of 5.1.2 because 5.2.0 breaks the extension
+* Changed the keyboard shortcut to open the command window from which to carry out an AI search to 'CTRL+ALT+0' (Windows) or 'CMD+ALT+0' (Mac)
+
+5.2.0
+---------
 
 * Bug fixes and code refactoring
 * Changed the keyboard shortcut to open the command window from which to carry out an AI search to 'CTRL+ALT+0' (Windows) or 'CMD+ALT+0' (Mac)

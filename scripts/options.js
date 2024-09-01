@@ -1,3 +1,6 @@
+/// Import constants
+import { base64FolderIcon } from './favicons.js';
+
 /// Global variables
 /* global Sortable */
 // Debug
@@ -14,9 +17,6 @@ if (os === 'macOS') {
 } else if (os === 'Linux') {
     meta = 'super+';
 } else meta = 'meta+';
-
-// Folder icon download link: https://icons8.com/icon/12160/folder
-const base64FolderIcon = 'iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAABCUlEQVR4nO2VMWrDQBBFp8gRQhoFV5a0pM0Zci/fRAK7CcJd0gXcRfKALxFIZ4OdA+gbxZ1A3nU1A/4Pfv/f7OyuCCGEEDICS3lGJQ1q+UMtSEolC3FTvpZDcnFvErhM/vbyXiRwy9p4lMBQYPUAfGVAVwAabNMVPTazX3w+vaUJDOXb3L64jtLmPT4eX+MCw+Sty+pENrOfuICHtdGpUyj6uIB1Sb0eCoAnELhCV7FeEfASq/2UwWdU7ScNfmTqMxLDuiAooPZTBldI7ScNXmL1GbmHZ/RkXRJT2YZjXGBbrh0LNAkCoYCWe/OyOk55wO5lHhX4l/jOM2h4d7JOp2HyyeUJIYTcFWcLXG7i+rfwxwAAAABJRU5ErkJggg==';
 
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById('container');
@@ -486,14 +486,29 @@ function createLineItem(id) {
         option6.value = "claude";
         option6.text = "Claude.ai";
 
+        const option7 = document.createElement("option");
+        option7.value = "you";
+        option7.text = "You.com";
+
+        const option8 = document.createElement("option");
+        option8.value = "andi";
+        option8.text = "Andi";
+
+        const option9 = document.createElement("option");
+        option9.value = "exa";
+        option9.text = "Exa.ai";
+
         aiProvider.appendChild(option1);
         aiProvider.appendChild(option2);
         aiProvider.appendChild(option3);
         aiProvider.appendChild(option4);
         aiProvider.appendChild(option5);
         aiProvider.appendChild(option6);
+        aiProvider.appendChild(option7);
+        aiProvider.appendChild(option8);
+        aiProvider.appendChild(option9);
 
-        // Get the option with the value "chatgpt"
+        // Get the selected option
         const selectedOption = aiProvider.querySelector(`option[value=${searchEngine.aiProvider}]`);
 
         // Set the selected property of the option to true
@@ -1911,6 +1926,7 @@ function isInFocus(element) {
     return (document.activeElement === element);
 }
 
+// Function to check if a key is allowed
 function isKeyAllowed(event) {
     const disallowedKeys = [
         'Tab', 'Enter', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
