@@ -30,7 +30,7 @@
     },
     "homepage": "https://github.com/odebroqueville/contextSearch#readme",
     "dependencies": {
-        "sortablejs": "^1.15.2"
+        "sortablejs": "^1.15.3"
     },
     "devDependencies": {
         "eslint": "^8.29.0"

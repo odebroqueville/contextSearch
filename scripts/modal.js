@@ -2,10 +2,6 @@
 document.getElementById('cancel').addEventListener('click', closePopup);
 document.getElementById('ok').addEventListener('click', submitForm);
 
-function closePopup() {
-    window.close();
-}
-
 function submitForm() {
     const searchEngineName = document.getElementById('searchEngineName').value;
     const keyword = document.getElementById('keyword').value;

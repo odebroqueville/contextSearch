@@ -1,0 +1,44 @@
+body {
+    font-family: 'Raleway', Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+
+p {
+    margin-bottom: 20px;
+}
+
+.button-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-family: 'Raleway', sans-serif;
+}
+
+#noBtn {
+    margin-left: 20px;
+    background-color: #f44336;
+    /* Red */
+    color: white;
+}
+
+#yesBtn {
+    margin-right: 20px;
+    background-color: #4CAF50;
+    /* Green */
+    color: white;
+}

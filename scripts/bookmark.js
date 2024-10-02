@@ -53,8 +53,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Add Bookmark button functionality
     addBookmarkButton.addEventListener('click', async () => {
-        await addBookmark(folderSelect, searchEngines);
-        window.close();
+        if (isSupportedProtocol(url.value)) {
+            await addBookmark(folderSelect, searchEngines);
+            window.close();
+        } else {
+            // Display an error message for 4 seconds if the URL is not supported
+            const warning = document.getElementById('warning');
+            setTimeout(() => {
+                warning.style.color = 'red';
+                warning.style.weight = 'bold';
+                warning.textContent = 'Invalid URL. Please enter a valid bookmark URL.';
+            }, 4000);
+            warning.textContent = '';
+        }
     });
 
     // Populate the folder select with bookmark folders
@@ -83,9 +94,10 @@ async function addBookmark(folderSelect, searchEngines) {
     const i = children.length;
 
     // Generate a unique id for the bookmark
-    let id = 'link-' + title.trim().replace(' ', '-').toLowerCase();
+    let id = 'link-' + title.trim().replaceAll(' ', '-').toLowerCase();
+    id = id.substring(0, 25); // Limit id length to 25 characters
     while (!isIdUnique(id, searchEngines)) {
-        id = 'link-' + title.trim().replace(' ', '-').toLowerCase() + '-' + Math.floor(Math.random() * 1000000000000);
+        id = 'link-' + title.trim().replaceAll(' ', '-').toLowerCase() + '-' + Math.floor(Math.random() * 1000000000000);
     }
 
     // Add the bookmark id to the children array of the selected folder
@@ -130,6 +142,13 @@ function isIdUnique(testId, searchEngines) {
         }
     }
     return true;
+}
+
+function isSupportedProtocol(urlString) {
+    const supportedProtocols = ["https:", "http:", "ftp:", "file:", "javascript:"];
+    const url = document.createElement('a');
+    url.href = urlString;
+    return supportedProtocols.indexOf(url.protocol) !== -1;
 }
 
 // Handle the input of a keyboard shortcut for a search engine in the Options page

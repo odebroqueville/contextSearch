@@ -2,7 +2,9 @@
 =========
 
 * Bug fix #189 : Context menu would no longer open because onclick listener removed unknown listener and lastTab was incorrectly treated as an object instead of an integer
+* Bug fix [#193](https://github.com/odebroqueville/contextSearch/issues/193)
 * Feature request [#191](https://github.com/odebroqueville/contextSearch/issues/191)
+* New features: it is now possible to add a link/bookmark or a bookmarklet to the list of search engines
 
 5.2.1
 ---------
