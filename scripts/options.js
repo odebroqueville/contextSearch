@@ -316,7 +316,7 @@ function displaySearchEngines() {
     }
 }
 
-function saveSearchEnginesOnDragEnded(evt) {
+async function saveSearchEnginesOnDragEnded(evt) {
     const draggedElement = evt.item;
     const oldParent = evt.from;
     const newParent = evt.to;
@@ -377,7 +377,7 @@ function saveSearchEnginesOnDragEnded(evt) {
         updateIndices('root');
     }
     if (logToConsole) console.log(searchEngines);
-    sendMessage('saveSearchEngines', searchEngines);
+    await sendMessage('saveSearchEngines', searchEngines);
 }
 
 function expand(folderId, parentDiv) {
@@ -654,6 +654,14 @@ function createLineItem(id) {
     return lineItem;
 }
 
+function updatePopupStyles(popup, darkMode) {
+    popup.document.body.style.backgroundColor = darkMode ? '#222' : '#fff';
+    const faviconTitle = popup.document.querySelector('h3');
+    faviconTitle.style.color = darkMode ? '#ddd' : '#333';
+    const helpText = popup.document.querySelector('em');
+    helpText.style.color = darkMode ? '#ddd' : '#333';
+}
+
 function editFavicon(e) {
     if (logToConsole) console.log(e);
     // Find closest <li> parent
@@ -668,11 +676,21 @@ function editFavicon(e) {
     const left = Math.floor((window.screen.width - popupWidth) / 2);
     const top = Math.floor((window.screen.height - popupHeight) / 2);
     const windowFeatures = `popup, width=${popupWidth}, height=${popupHeight}, left=${left}, top=${top}`;
+    const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
     let newBase64;
     let contentType;
 
     // Create the popup window
     const popup = window.open('', '_blank', windowFeatures);
+
+    // Update initial styles
+    const darkMode = mediaQueryList.matches;
+
+    // Listen for changes in color scheme preference
+    mediaQueryList.addEventListener('change', (event) => {
+        const darkMode = event.matches;
+        updatePopupStyles(popup, darkMode);
+    });
 
     // Set the CSS rule for the body of the popup
     popup.document.body.style.display = 'grid';
@@ -698,10 +716,8 @@ function editFavicon(e) {
     // Create a title containing the search engine name
     const imageTitle = document.createElement('h3');
     imageTitle.textContent = searchEngineName;
-    //imageTitle.style.fontFamily = 'Raleway, Helvetica, sans-serif';
     imageTitle.style.padding = '10px';
     imageTitle.style.margin = '0';
-    imageTitle.style.color = 'white';
 
     // Add a section to instruct users how to change the favicon image
     const help = document.createElement('em');
@@ -709,7 +725,6 @@ function editFavicon(e) {
     help.style.display = 'inline-block';
     help.style.padding = '10px';
     help.style.lineHeight = '1.3em';
-    help.style.color = 'white';
 
     // Append the image to the first cell
     faviconCell.appendChild(faviconImg);
@@ -831,6 +846,7 @@ function editFavicon(e) {
     popup.document.body.appendChild(editableDivCell);
     popup.document.body.appendChild(buttonCell);
 
+    updatePopupStyles(popup, darkMode);
 }
 
 function createFolderItem(id) {
@@ -1379,10 +1395,11 @@ function addSeparator() {
 
 function addSearchEngine() {
     const n = searchEngines['root'].children.length;
-    const id = sename.value.replace(' ', '-').toLowerCase();
     const divSearchEngines = document.getElementById('searchEngines');
     let strUrl = url.value;
     let testUrl = '';
+    let id = sename.value.trim().replaceAll(' ', '-').toLowerCase();
+    id = id.substring(0, 25);
 
     // Make certain that query string url starts with "https" to enforce SSL
     if (!strUrl.startsWith('https://')) {
@@ -1485,11 +1502,11 @@ function addFolder() {
     const name = folderName.value;
     const keyword = folderKeyword.value || '';
     const keyboardShortcut = folderKbsc.value || '';
-    let id = name.replace(' ', '-').toLowerCase();
+    let id = name.trim().replaceAll(' ', '-').toLowerCase();
 
     // Ensure new id is unique
     while (!isIdUnique(id)) {
-        id = name.replace(' ', '-').toLowerCase() + '-' + Math.floor(Math.random() * 1000000000000);
+        id = name.trim().replaceAll(' ', '-').toLowerCase() + '-' + Math.floor(Math.random() * 1000000000000);
     }
 
     // The new folder will be saved as a search engine entry
