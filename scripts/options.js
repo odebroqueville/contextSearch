@@ -71,6 +71,7 @@ const multiNewWindow = document.getElementById('multiNewWindow');
 const multiActiveTab = document.getElementById('multiActiveTab');
 const multiAfterLastTab = document.getElementById('multiAfterLastTab');
 const multiMode = document.getElementById('multiMode');
+const overwriteSearchEngines = document.getElementById('overwriteSearchEngines');
 
 // All search engine buttons
 const btnClearAll = document.getElementById('clearAll');
@@ -127,6 +128,7 @@ resetPreferences.addEventListener('click', updateResetOptions);
 forceSearchEnginesReload.addEventListener('click', updateResetOptions);
 forceFaviconsReload.addEventListener('click', updateResetOptions);
 multiMode.addEventListener('click', updateMultiMode);
+overwriteSearchEngines.addEventListener('click', updateOverwriteSearchEngines);
 
 /// All button click handlers
 btnClearAll.addEventListener('click', clearAll);
@@ -638,7 +640,9 @@ function createLineItem(id) {
     lineItem.appendChild(inputSearchEngineName);
     lineItem.appendChild(inputKeyword);
     lineItem.appendChild(inputKeyboardShortcut);
-    lineItem.appendChild(chkMultiSearch);
+    if (!(id.startsWith("link-") && searchEngine.url.startsWith('javascript:'))) {
+        lineItem.appendChild(chkMultiSearch);
+    }
     if (!id.startsWith("chatgpt-")) {
         lineItem.appendChild(inputQueryString);
     } else {
@@ -647,9 +651,7 @@ function createLineItem(id) {
     if (textareaFormData) {
         lineItem.appendChild(textareaFormData);
     }
-    //secondRow.appendChild(sortTarget);
     lineItem.appendChild(removeButton);
-    //lineItem.appendChild(secondRow);
 
     return lineItem;
 }
@@ -1325,15 +1327,20 @@ function readLineItem(lineItem, i) {
         const label = icon.nextSibling;
         const keyword = label.nextSibling;
         const keyboardShortcut = keyword.nextSibling;
-        const multiTab = keyboardShortcut.nextSibling;
-        const url = multiTab.nextSibling;
-        const formData = (!url.nextSibling.classList.contains('remove') ? url.nextSibling : null);
+        let url, multiTab, formData;
+        if (keyboardShortcut.nextSibling.value.startsWith('javascript:')) {
+            url = keyboardShortcut.nextSibling;
+        } else {
+            multiTab = keyboardShortcut.nextSibling;
+            url = multiTab.nextSibling;
+            formData = (!url.nextSibling.classList.contains('remove') ? url.nextSibling : null);
+        }
         searchEngines[id] = {};
         searchEngines[id]['index'] = i;
         searchEngines[id]['name'] = label.value;
         searchEngines[id]['keyword'] = keyword.value;
         searchEngines[id]['keyboardShortcut'] = keyboardShortcut.value;
-        searchEngines[id]['multitab'] = multiTab.checked;
+        if (multiTab && typeof (multiTab.checked) === 'boolean') searchEngines[id]['multitab'] = multiTab.checked;
         searchEngines[id]['url'] = url.value;
         searchEngines[id]['show'] = input.checked;
         searchEngines[id]['imageFormat'] = imageFormat;
@@ -1628,6 +1635,13 @@ async function setOptions(options) {
         lastTab.checked = false;
     }
 
+    if (options.overwriteSearchEngines === true) {
+        overwriteSearchEngines.checked = true;
+    } else {
+        // Default value for overwriteSearchEngines is false
+        overwriteSearchEngines.checked = false;
+    }
+
     if (options.privateMode === true) {
         privateMode.checked = true;
     } else {
@@ -1737,7 +1751,8 @@ async function saveToLocalDisk() {
 }
 
 async function handleFileUpload() {
-    searchEngines = {};
+    const data = await browser.storage.sync.get();
+    const options = data.options;
     const upload = document.getElementById('upload');
     const jsonFile = upload.files[0];
 
@@ -1748,7 +1763,59 @@ async function handleFileUpload() {
         reader.readAsText(jsonFile);
     });
 
-    searchEngines = JSON.parse(fileContent);
+    let newSearchEngines = {};
+    newSearchEngines = JSON.parse(fileContent);
+    if (options.overwriteSearchEngines) {
+        searchEngines = {};
+        searchEngines = newSearchEngines;
+    } else {
+        // Add the imported search engines to the existing ones avoiding duplicated IDs
+        if (newSearchEngines.root?.children) {
+
+            // 1. Identify duplicate IDs
+            let duplicateIds = {};
+            for (let id in newSearchEngines) {
+                if (!searchEngines[id] || id === 'root') continue;
+                const oldId = id;
+                while (!isIdUnique(id)) {
+                    id = id + "-" + Math.floor(Math.random() * 1000000000000);
+                }
+                id = id.trim();
+                duplicateIds[oldId] = id;
+            }
+
+            // 2. Replace duplicate IDs in children arrays
+            for (let id in newSearchEngines) {
+                if (!newSearchEngines[id].children) continue;
+                for (let childId of newSearchEngines[id].children) {
+                    if (duplicateIds[childId]) {
+                        newSearchEngines[id].children[newSearchEngines[id].children.indexOf(childId)] = duplicateIds[childId];
+                    }
+                }
+            }
+
+            // 3. Replace duplicate IDs in the main object
+            for (let id in newSearchEngines) {
+                if (duplicateIds[id]) {
+                    newSearchEngines[duplicateIds[id]] = newSearchEngines[id];
+                    delete newSearchEngines[id];
+                }
+            }
+
+            // 4. Update children of the root folder of search engines
+            for (let childId of newSearchEngines.root.children) {
+                if (!searchEngines['root'].children.includes(childId)) {
+                    searchEngines['root'].children.push(childId);
+                }
+            }
+
+            // 5. Remove root folder from new search engines
+            delete newSearchEngines.root;
+
+            // 6. Merge the new search engines with the existing ones
+            searchEngines = { ...searchEngines, ...newSearchEngines };
+        }
+    }
     await sendMessage('saveSearchEngines', searchEngines);
     displaySearchEngines();
 }
@@ -1780,6 +1847,11 @@ async function updateTabMode() {
     data['lastTab'] = lastTab.checked;
     data['privateMode'] = privateMode.checked;
     await sendMessage('updateTabMode', data);
+}
+
+async function updateOverwriteSearchEngines() {
+    const ose = overwriteSearchEngines.checked;
+    await sendMessage('updateOverwriteSearchEngines', { overwriteSearchEngines: ose });
 }
 
 async function updateMultiMode() {

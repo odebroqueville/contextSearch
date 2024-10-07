@@ -20,6 +20,7 @@ let historyItems, bookmarkItems;
 let messageSent = false;
 let bookmarked = false;
 let activeTab;
+let menuClickListenerAdded = false;
 let CORS_API_URL;
 let CORS_API_KEY;
 
@@ -28,6 +29,9 @@ let logToConsole = false;
 
 // Notifications
 let notificationsEnabled = false;
+
+// Store the listener function for tab updates in a variable
+let tabUpdatedListener = null;
 
 /// Listeners
 // Handle Debugging
@@ -168,6 +172,9 @@ browser.runtime.onMessage.addListener((message, sender) => {
             break;
         case 'updateTabMode':
             handleUpdateTabMode(data);
+            break;
+        case 'updateOverwriteSearchEngines':
+            handleUpdateOverwriteSearchEngines(data);
             break;
         case 'updateMultiMode':
             handleUpdateMultiMode(data);
@@ -417,6 +424,12 @@ async function handleUpdateTabMode(data) {
     options.tabActive = data.tabActive;
     options.lastTab = data.lastTab;
     options.privateMode = data.privateMode;
+    await saveOptions(options, false);
+}
+
+async function handleUpdateOverwriteSearchEngines(data) {
+    let options = await getOptions();
+    options.overwriteSearchEngines = data.overwriteSearchEngines;
     await saveOptions(options, false);
 }
 
@@ -903,37 +916,48 @@ function getFaviconForPrompt(id, aiProvider) {
     return { id: id, imageFormat: imageFormat, base64: b64 };
 }
 
-/// Rebuild the context menu using the search engines from local storage
+function addClickListener() {
+    if (!menuClickListenerAdded) {
+        browser.menus.onClicked.addListener(handleMenuClick);
+        menuClickListenerAdded = true;
+    }
+}
+
+function removeClickListener() {
+    if (menuClickListenerAdded) {
+        browser.menus.onClicked.removeListener(handleMenuClick);
+        menuClickListenerAdded = false;
+    }
+}
+
+async function handleMenuClick(info, tab) {
+    const id = (info.menuItemId.startsWith('cs-')) ? info.menuItemId.replace('cs-', '') : info.menuItemId;
+    const ignoreIds = ['download-video', 'reverse-image-search', 'google-lens', 'options', 'multitab', 'match', 'ai-search'];
+    const options = await getOptions();
+
+    if (logToConsole) console.log('Clicked on ' + id);
+
+    if (options.tabMode === 'openSidebar' && !ignoreIds.includes(id)) {
+        if (logToConsole) console.log('Opening the sidebar.');
+        await browser.sidebarAction.open();
+        await browser.sidebarAction.setPanel({ panel: '' });
+    } else {
+        if (logToConsole) console.log('Not opening the sidebar.');
+    }
+
+    await processSearch(info, tab);
+}
+
+// Build the context menu using the search engines from local storage
 async function buildContextMenu() {
-    if (logToConsole) console.log('Rebuilding context menu..');
+    if (logToConsole) console.log('Building context menu..');
     // const info = await browser.runtime.getBrowserInfo();
     // const v = info.version;
     // const browserVersion = parseInt(v.slice(0, v.search('.') - 1));
     const rootChildren = searchEngines['root'].children;
     const options = await getOptions();
-    let debounceTimeout;
 
-    // Functions
-    const handleMenuClick = async (info, tab) => {
-        clearTimeout(debounceTimeout);
-        const options = await getOptions();
-        const id = (info.menuItemId.startsWith('cs-')) ? info.menuItemId.replace('cs-', '') : info.menuItemId;
-        const ignoreIds = ['download-video', 'reverse-image-search', 'google-lens', 'options', 'multitab', 'match', 'ai-search'];
-
-        if (logToConsole) console.log('Clicked on ' + id);
-
-        if (options.tabMode === 'openSidebar' && !ignoreIds.includes(id)) {
-            if (logToConsole) console.log('Opening the sidebar.');
-            await browser.sidebarAction.open();
-            await browser.sidebarAction.setPanel({ panel: '' });
-        } else {
-            if (logToConsole) console.log('Not opening the sidebar.');
-        }
-
-        debounceTimeout = setTimeout(async () => {
-            await processSearch(info, tab);
-        }, 300); // 300 ms debounce
-    };
+    // Start of functions for building the context menu
 
     const buildContextOptionsMenu = () => {
         if (options.optionsMenuLocation === 'bottom') {
@@ -1082,13 +1106,17 @@ async function buildContextMenu() {
             contexts: ['all']
         });
     }
+    // End of functions for building the context menu
 
     if (logToConsole) console.log(`Search engines:`);
     if (logToConsole) console.log(searchEngines);
     if (logToConsole) console.log(`Root children: ${rootChildren}`);
 
+    // Remove listener for context menu clicks
+    removeClickListener();
+
+    // Remove all existing context menu items
     browser.menus.removeAll();
-    browser.menus.onClicked.removeListener(handleMenuClick);
 
     if (options.optionsMenuLocation === 'top') {
         buildContextOptionsMenu();
@@ -1105,7 +1133,8 @@ async function buildContextMenu() {
         buildContextOptionsMenu();
     }
 
-    browser.menus.onClicked.addListener(handleMenuClick);
+    // Add listener for context menu clicks
+    addClickListener();
 }
 
 function onCreated(id) {
@@ -1214,7 +1243,7 @@ async function processMultisearch(arraySearchEngineUrls, tabPosition) {
     const getSearchEnginesFromFolder = async (folderId) => {
         for (let id of searchEngines[folderId].children) {
             if (logToConsole) console.log(folderId, id);
-            // If id is for a folder or a separator, then skip it
+            // If id is for a separator, then skip it
             if (id.startsWith("separator-")) continue;
             if (searchEngines[id].isFolder) {
                 await getSearchEnginesFromFolder(id);
@@ -1263,9 +1292,10 @@ async function processMultisearch(arraySearchEngineUrls, tabPosition) {
     logArrayContents('aiArray', aiArray);
 
     // Directly concatenate arrays
-    nonUrlArray = joinArrays(postArray, aiArray);
-    multisearchArray = joinArrays(urlArray, nonUrlArray);
     if (logToConsole) console.log('After concatenation:');
+    nonUrlArray = joinArrays(postArray, aiArray);
+    logArrayContents('nonUrlArray', nonUrlArray);
+    multisearchArray = joinArrays(urlArray, nonUrlArray);
     logArrayContents('multisearchArray', multisearchArray);
 
     if (notificationsEnabled && isEmpty(multisearchArray)) {
@@ -1303,9 +1333,12 @@ async function processMultisearch(arraySearchEngineUrls, tabPosition) {
             tabPosition += urlArray.length;
         }
     }
-    if (logToConsole) console.log(`Opening POST & AI search results in window ${windowInfo.id} at tab position ${tabPosition}`);
+
     // Process the remaaining non-URL array of search engines (using HTTP POST requests or AI prompts)
-    if (nonUrlArray.length > 0) await processNonUrlArray(nonUrlArray, tabPosition, windowInfo.id);
+    if (nonUrlArray.length > 0) {
+        if (logToConsole) console.log(`Opening POST requests & AI search results in window ${windowInfo.id} at tab position ${tabPosition}`);
+        await processNonUrlArray(nonUrlArray, tabPosition, windowInfo.id);
+    }
 }
 
 function joinArrays(...arrays) {
@@ -1332,9 +1365,9 @@ async function openTabsForUrls(urls, tabPosition) {
 async function processNonUrlArray(nonUrlArray, tabPosition, windowId) {
     const multisearch = true;
     const n = nonUrlArray.length;
-    if (logToConsole) console.log(n);
+    if (logToConsole) console.log(`Number of items (AI prompts & HTTP POST requests) left to process: ${n}`);
     for (let i = 0; i < n; i++) {
-        if (logToConsole) console.log(i);
+        if (logToConsole) console.log(`Processing item ${i + 1}...`);
         const tabIndex = tabPosition + i;
         if (!nonUrlArray[i].id) {
             // If the search engine is an AI search engine
@@ -1376,7 +1409,7 @@ async function setTargetUrl(id, aiEngine = '') {
     if (id === 'google-lens') {
         return googleLensUrl + targetUrl;
     }
-    if (id === 'site-search') {
+    if (id === 'site-search' || (id.startsWith('link-') && !searchEngines[id].url.startsWith('javascript:'))) {
         let quote = '';
         if (options.exactMatch) quote = '%22';
         const domain = getDomain(activeTab.url).replace(/https?:\/\//, '');
@@ -1453,6 +1486,9 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEn
     messageSent = false;
     const options = await getOptions();
 
+    // Ignore bookmarklets in multi-search
+    if (multisearch && id.startsWith('link-') && url.startsWith('javascript:')) return;
+
     if (id.startsWith('link-') && url.startsWith('javascript:')) {
         url = url.replace('javascript:', '');
         if (url.includes('%s')) {
@@ -1469,7 +1505,9 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEn
     if (logToConsole && searchEngine) console.log(`Opening tab at index ${tabPosition} for ${searchEngine.name} at ${url} in window ${windowId}`);
 
     // Listen for tab updates and handle AI prompts and form submissions (HTTP POST requests)
-    if (options.tabMode !== 'openSidebar' && (id.startsWith('chatgpt-') || (searchEngine && searchEngine.formData))) setupTabUpdatedListeners(id, prompt);
+    if (options.tabMode !== 'openSidebar' && (id.startsWith('chatgpt-') || (searchEngine && searchEngine.formData))) {
+        setupTabUpdatedListeners(id, prompt);
+    }
 
     if (!multisearch && options.tabMode === 'openSidebar') {
         let tabUrl = url + '#_sidebar';
@@ -1488,7 +1526,13 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEn
             const tabId = tab.id;
             if (logToConsole) console.log(tabId, tab);
             try {
+                // Ensure content script is fully loaded
+                await browser.tabs.executeScript(tabId, {
+                    code: 'typeof browser.runtime !== "undefined";'
+                });
+
                 if (logToConsole) console.log('Content script loaded, sending message.');
+
                 await sendMessageToTab(tab, {
                     action: "askPrompt",
                     data: { url: tabUrl, prompt: promptText }
@@ -1507,6 +1551,7 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEn
             url: url,
             incognito: options.privateMode
         });
+
         // If the new window shouldn't be active, then make the old window active
         if (!options.tabActive) {
             browser.windows.update(windowId, { focused: true });
@@ -1543,11 +1588,20 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEn
 
 // Setup the unified tab update listener with a prompt parameter
 function setupTabUpdatedListeners(id, prompt = '') {
-    browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => onTabUpdated(tabId, changeInfo, tab, id, prompt));
+    tabUpdatedListener = (tabId, changeInfo, tab) => onTabUpdated(tabId, changeInfo, tab, id, prompt);
+    browser.tabs.onUpdated.addListener(tabUpdatedListener);
+}
+
+// Remove the unified tab update listener
+function removeTabUpdatedListeners() {
+    if (tabUpdatedListener) {
+        browser.tabs.onUpdated.removeListener(tabUpdatedListener);
+        tabUpdatedListener = null; // Clear the reference
+    }
 }
 
 // Main listener function for tab updates
-function onTabUpdated(tabId, changeInfo, tab, id, prompt) {
+async function onTabUpdated(tabId, changeInfo, tab, id, prompt) {
     if (logToConsole) console.log(`Updated tab: ${tab.url}`);
 
     const aiUrls = [chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, poeUrl, claudeUrl, youUrl, andiUrl, exaUrl];
@@ -1556,12 +1610,12 @@ function onTabUpdated(tabId, changeInfo, tab, id, prompt) {
 
     // Handle AI engine tab update
     if (isAITab && !messageSent) {
-        handleAITabUpdate(tabId, changeInfo, tab, id, prompt);
+        await handleAITabUpdate(tabId, changeInfo, tab, id, prompt);
     }
 
     // Handle form submission tab update
     if (searchEngine && searchEngine.formData && !messageSent) {
-        handleSubmitFormUpdate(tabId, changeInfo, tab, id);
+        await handleSubmitFormUpdate(tabId, changeInfo, tab, id);
     }
 }
 
@@ -1606,7 +1660,7 @@ async function handleAITabUpdate(tabId, changeInfo, tab, id, prompt) {
             });
 
             messageSent = true;
-            browser.tabs.onUpdated.removeListener(onTabUpdated);
+            removeTabUpdatedListeners();
         } catch (error) {
             if (logToConsole) console.log('Error: Content script not loaded or could not execute script:', error);
         }
@@ -1644,7 +1698,7 @@ async function handleSubmitFormUpdate(tabId, changeInfo, tab, id) {
         if (logToConsole) console.log(tabId);
 
         messageSent = true;
-        browser.tabs.onUpdated.removeListener(onTabUpdated);
+        removeTabUpdatedListeners();
     }
 }
 
@@ -1901,8 +1955,13 @@ async function processSearchEngine(id, searchTerms) {
     } else {
         const searchEngineUrl = searchEngines[id].url;
         // If search engine is a link
-        if (id.startsWith('link-')) {
-            result = searchEngineUrl;
+        if (id.startsWith('link-') && !searchEngineUrl.startsWith('javascript:')) {
+            const options = await getOptions();
+            let quote = '';
+            if (options.exactMatch) quote = '%22';
+            const domain = getDomain(searchEngineUrl).replace(/https?:\/\//, '');
+            result = options.siteSearchUrl +
+                encodeUrl(`site:https://${domain} ${quote}${selection}${quote}`);
         } else if (!searchEngines[id].formData) {
             // If search engine uses HTTP GET request
             result = await getSearchEngineUrl(searchEngineUrl, searchTerms);
@@ -2245,7 +2304,7 @@ async function updateAddonStateForActiveTab() {
                 }
                 updateIcon();
             } else {
-                if (logToConsole) console.log(`The '${activeTab.url}' URL cannot be bookmarked.`)
+                if (logToConsole && activeTab.url !== 'about:blank') console.log(`The '${activeTab.url}' URL cannot be bookmarked.`)
             }
         }
     }
