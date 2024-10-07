@@ -430,6 +430,10 @@
 		"message": "Borrar todos los atajos de teclado",
 		"hash": "3745c3c2b77449e9606d8bf4e137e94f"
 	},
+	"overwriteSearchEngines": {
+		"message": "Sobrescribir los motores de búsqueda existentes con los motores de búsqueda importados",
+		"hash": "298f419a9e5661db408338fe08cc8ee0"
+	},
 
 	"__WET_LOCALE__": { "message": "es" }
 }

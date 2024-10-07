@@ -430,6 +430,10 @@
 		"message": "모든 키보드 단축키 지우기",
 		"hash": "3745c3c2b77449e9606d8bf4e137e94f"
 	},
+	"overwriteSearchEngines": {
+		"message": "기존 검색엔진을 가져온 검색엔진으로 덮어쓰기",
+		"hash": "298f419a9e5661db408338fe08cc8ee0"
+	},
 
 	"__WET_LOCALE__": { "message": "ko" }
 }

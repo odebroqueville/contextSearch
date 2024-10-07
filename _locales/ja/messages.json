@@ -430,6 +430,10 @@
 		"message": "すべてのキーボード ショートカットをクリアする",
 		"hash": "3745c3c2b77449e9606d8bf4e137e94f"
 	},
+	"overwriteSearchEngines": {
+		"message": "既存の検索エンジンをインポートした検索エンジンで上書きする",
+		"hash": "298f419a9e5661db408338fe08cc8ee0"
+	},
 
 	"__WET_LOCALE__": { "message": "ja" }
 }

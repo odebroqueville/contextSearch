@@ -323,27 +323,6 @@
     "clearKeyboardShortcuts": {
         "message": "Clear all keyboard shortcuts"
     },
-    "header12": {
-        "message": "ChatGPT Setup"
-    },
-    "openaiAPIKey": {
-        "message": "OpenAI API Key:"
-    },
-    "model": {
-        "message": "Model:"
-    },
-    "role": {
-        "message": "Role:"
-    },
-    "temperature": {
-        "message": "Temperature (0-100%):"
-    },
-    "imageSize": {
-        "message": "Image size:"
-    },
-    "numberOfImages": {
-        "message": "Number of images (1-10):"
-    },
     "subheader63": {
         "message": "Add a new AI prompt"
     },
@@ -364,6 +343,9 @@
     },
     "prompt": {
         "message": "Prompt"
+    },
+    "overwriteSearchEngines": {
+        "message": "Overwrite the existing search engines with the imported search engines"
     },
     "__WET_LOCALE__": { "message": "en" }
 }

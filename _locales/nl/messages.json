@@ -430,6 +430,10 @@
 		"message": "Wis alle sneltoetsen",
 		"hash": "3745c3c2b77449e9606d8bf4e137e94f"
 	},
+	"overwriteSearchEngines": {
+		"message": "Overschrijf de bestaande zoekmachines met de geïmporteerde zoekmachines",
+		"hash": "298f419a9e5661db408338fe08cc8ee0"
+	},
 
 	"__WET_LOCALE__": { "message": "nl" }
 }

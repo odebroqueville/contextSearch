@@ -430,6 +430,10 @@
 		"message": "清除所有鍵盤快速鍵",
 		"hash": "3745c3c2b77449e9606d8bf4e137e94f"
 	},
+	"overwriteSearchEngines": {
+		"message": "使用導入的搜尋引擎覆蓋現有搜尋引擎",
+		"hash": "298f419a9e5661db408338fe08cc8ee0"
+	},
 
 	"__WET_LOCALE__": { "message": "zh-tw" }
 }

@@ -430,6 +430,10 @@
 		"message": "Löschen Sie alle Tastaturkürzel",
 		"hash": "3745c3c2b77449e9606d8bf4e137e94f"
 	},
+	"overwriteSearchEngines": {
+		"message": "Überschreiben Sie die vorhandenen Suchmaschinen mit den importierten Suchmaschinen",
+		"hash": "298f419a9e5661db408338fe08cc8ee0"
+	},
 
 	"__WET_LOCALE__": { "message": "de" }
 }

@@ -430,6 +430,10 @@
 		"message": "清除所有键盘快捷键",
 		"hash": "3745c3c2b77449e9606d8bf4e137e94f"
 	},
+	"overwriteSearchEngines": {
+		"message": "使用导入的搜索引擎覆盖现有搜索引擎",
+		"hash": "298f419a9e5661db408338fe08cc8ee0"
+	},
 
 	"__WET_LOCALE__": { "message": "zh-cn" }
 }
