@@ -84,11 +84,11 @@ browser.storage.onChanged.addListener(handleStorageChange);
 
 /// Handle Incoming Messages
 // Listen for messages from the background script
-browser.runtime.onMessage.addListener((message) => {
+browser.runtime.onMessage.addListener(async (message) => {
     switch (message.action) {
         case 'launchIconsGrid':
             if (logToConsole) console.log(message.action);
-            handleAltClickWithGrid(null);
+            await handleAltClickWithGrid(null);
             break;
         case 'displaySearchResults':
             const html = document.getElementsByTagName('html')[0];
@@ -105,20 +105,20 @@ browser.runtime.onMessage.addListener((message) => {
             break;
         case 'getSearchEngine':
             try {
-                getOpenSearchEngine();
+                await getOpenSearchEngine();
             } catch (err) {
                 if (logToConsole) console.log(err);
-                sendMessage('notify', notifySearchEngineNotFound);
+                await sendMessage('notify', notifySearchEngineNotFound);
             }
             break;
         case 'askPrompt':
             try {
                 const prompt = message.data.prompt;
                 const url = message.data.url;
-                ask(url, prompt);
+                await ask(url, prompt);
             } catch (err) {
                 if (logToConsole) console.log(err);
-                sendMessage('notify', notifySearchEngineNotFound);
+                await sendMessage('notify', notifySearchEngineNotFound);
             }
             break;
         default:
@@ -132,7 +132,7 @@ async function getOpenSearchEngine() {
     // Fetch search engine data
     const result = await getNewSearchEngine(url);
     // Send msg to background script to get the new search engine added
-    if (result !== null) sendMessage('addNewSearchEngine', result);
+    if (result !== null) await sendMessage('addNewSearchEngine', result);
 }
 
 async function ask(url, promptText) {
@@ -266,7 +266,7 @@ async function init() {
         link.setAttribute('rel', 'stylesheet');
         link.setAttribute('href', stylesheetUrl);
         document.head.appendChild(link);
-        sendMessage({ action: 'sidebarContentLoaded', data: { tabUrl } });
+        await sendMessage({ action: 'sidebarContentLoaded', data: { tabUrl } });
     }
 
     // If the website doesn't contain an opensearch plugin, then hide the Page action
@@ -288,7 +288,7 @@ async function init() {
         if (id.startsWith("separator-") || id.startsWith("chatgpt-") || searchEngines[id].isFolder) continue;
         if (searchEngines[id].url.includes(domain)) {
             if (logToConsole) console.log('This web page has already been added to your list of search engines.');
-            sendMessage('hidePageAction', null);
+            await sendMessage('hidePageAction', null);
             break;
         }
     }
@@ -447,7 +447,7 @@ async function handleKeyUp(e) {
         const keyboardShortcut = searchEngines[id].keyboardShortcut;
         if (logToConsole) console.log(keyboardShortcut);
         if (keyboardShortcut && keyboardShortcut === input) {
-            sendMessage('doSearch', { id: id });
+            await sendMessage('doSearch', { id: id });
             break;
         }
     }
@@ -472,9 +472,9 @@ async function handleStorageChange(changes, area) {
             const searchEngines = await browser.storage.local.get();
             // If the website doesn't contain an opensearch plugin, then hide the Page action
             if (document.querySelector('link[type="application/opensearchdescription+xml"]') == null) {
-                sendMessage('hidePageAction', null);
+                await sendMessage('hidePageAction', null);
             } else {
-                sendMessage('showPageAction', null);
+                await sendMessage('showPageAction', null);
             }
             // The following test has to be carried out when a new search engine is added...
             // If there exists a search engine with a query string that includes the domain of the visited web page, then hide the Page action
@@ -482,7 +482,7 @@ async function handleStorageChange(changes, area) {
                 if (id.startsWith("separator-") || id.startsWith("chatgpt-") || searchEngines[id].isFolder) continue;
                 if (searchEngines[id].url.includes(domain)) {
                     if (logToConsole) console.log('This web page has already been added to your list of search engines.');
-                    sendMessage('hidePageAction', null);
+                    await sendMessage('hidePageAction', null);
                     break;
                 }
             }
@@ -642,7 +642,7 @@ async function showButtons() {
             const result = await getNewSearchEngine(url);
             // Send msg to background script to get the new search engine added
             if (result !== null) {
-                sendMessage('addNewSearchEngine', result);
+                await sendMessage('addNewSearchEngine', result);
             }
         }
 
@@ -718,10 +718,10 @@ async function sendSelectionToBackgroundScript(selectedText) {
 
     // Set the target URL for a site search based on the current domain and selected text
     const targetUrl = options.siteSearchUrl + encodeUrl(`site:https://${domain} ${selectedText}`);
-    sendMessage('setTargetUrl', targetUrl);
+    await sendMessage('setTargetUrl', targetUrl);
 
     // Send the selected text to background.js
-    sendMessage('setSelection', { selection: selectedText });
+    await sendMessage('setSelection', { selection: selectedText });
 }
 
 async function createIconsGrid(x, y, folderId) {
@@ -851,14 +851,14 @@ async function onGridClick(e, folderId) {
     if (id === 'back') {
         const parentId = getParentFolderOf(searchEngines, folderId, 'root');
         if (logToConsole) console.log('Parent folder of ' + folderId + ' is ' + parentId);
-        createIconsGrid(xPos, yPos, parentId);
+        await createIconsGrid(xPos, yPos, parentId);
         return;
     }
 
     if (id === 'multisearch' || !searchEngines[id].isFolder) {
-        sendMessage('doSearch', { id: id });
+        await sendMessage('doSearch', { id: id });
     } else {
-        createIconsGrid(xPos, yPos, id);
+        await createIconsGrid(xPos, yPos, id);
     }
 }
 
