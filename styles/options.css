@@ -39,8 +39,7 @@ div#multiMode {
 }
 
 .icon {
-    font-size: 1.5em;
-    margin-left: 3px;
+    font-size: 1.3em;
 }
 
 div.nav {
@@ -75,6 +74,12 @@ input[type="number"] {
     margin-right: 10px;
 }
 
+.cell label,
+.cell input {
+    display: inline-block;
+    width: 45%;
+}
+
 #searchEngines div {
     /* Set the default cursor style */
     cursor: default;
@@ -102,12 +107,12 @@ html[theme=dark] #searchEngines div.folder:hover {
 }
 
 #searchEngines div textarea {
-    margin-top: 10px;
-    margin-left: 55px;
+    margin: 0px;
+    padding: 5px;
 }
 
-.remove {
-    margin-top: 10px;
+button.remove {
+    text-align: center;
 }
 
 div,
@@ -120,11 +125,11 @@ textarea {
 }
 
 div input[type="checkbox"] {
-    margin-left: 10px;
+    margin-left: 5px;
 }
 
 div img {
-    vertical-align: baseline;
+    vertical-align: middle;
     width: 20px;
     height: 20px;
     margin-left: 5px;
@@ -208,10 +213,14 @@ h4 {
 }
 
 p,
-button,
+.right button,
 select {
     margin-top: 5px;
     margin-bottom: 5px;
+}
+
+select {
+    margin-right: 5px;
 }
 
 #flexbox-container {

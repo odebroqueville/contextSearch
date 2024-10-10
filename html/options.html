@@ -270,30 +270,26 @@
                             <h4 data-i18n="header5">Import/export search engines</h4>
                         </legend>
                         <div>
-                            <table>
-                                <tr>
-                                    <td><label for="upload" id="upl" data-i18n="import">Import JSON from
-                                            local
-                                            disk</label></td>
-                                    <td><input type="file" id="upload" /></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" id="overwriteSearchEngines"><label
-                                            for="overwriteSearchEngines" data-i18n="overwriteSearchEngines">Overwrite
-                                            the
-                                            existing search engines with the imported search engines</label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label for="download" data-i18n="export">Export search engines to
-                                            JSON</label>
-                                    </td>
-                                    <td><button type="button" id="download" data-i18n="download">Export to
-                                            local
-                                            disk</button></td>
-                                </tr>
-                            </table>
+                            <div>
+                                <span class="cell"><label for="upload" id="upl" data-i18n="import">Import JSON from
+                                        local
+                                        disk</label></span>
+                                <span class="cell"><input type="file" id="upload" /></span>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="overwriteSearchEngines"><label for="overwriteSearchEngines"
+                                    data-i18n="overwriteSearchEngines">Overwrite
+                                    the
+                                    existing search engines with the imported search engines</label>
+                            </div>
+                            <div>
+                                <span class="cell"><label for="download" data-i18n="export">Export search engines to
+                                        JSON</label>
+                                </span>
+                                <span class="cell"><button type="button" id="download" data-i18n="download">Export to
+                                        local
+                                        disk</button></span>
+                            </div>
                         </div>
                         <p><b><span data-i18n="reminder">Reminder</span></b>:
                             <span data-i18n="enableDownloadsReminder">enable Downloads permissions to export

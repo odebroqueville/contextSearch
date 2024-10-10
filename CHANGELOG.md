@@ -1,4 +1,4 @@
-5.2.2
+5.3.0
 =========
 
 * Bug fix #189 : Context menu would no longer open because onclick listener removed unknown listener and lastTab was incorrectly treated as an object instead of an integer

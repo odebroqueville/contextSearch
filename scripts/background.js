@@ -20,7 +20,6 @@ let historyItems, bookmarkItems;
 let messageSent = false;
 let bookmarked = false;
 let activeTab;
-let menuClickListenerAdded = false;
 let CORS_API_URL;
 let CORS_API_KEY;
 
@@ -29,6 +28,9 @@ let logToConsole = false;
 
 // Notifications
 let notificationsEnabled = false;
+
+// Store the listener function for context menu clicks in a variable
+let menuClickHandler = null;
 
 // Store the listener function for tab updates in a variable
 let tabUpdatedListener = null;
@@ -70,6 +72,9 @@ browser.tabs.onUpdated.addListener(updateAddonStateForActiveTab);
 
 // listen to tab switching
 browser.tabs.onActivated.addListener(updateAddonStateForActiveTab);
+
+// Listen for tab moves
+browser.tabs.onMoved.addListener(updateAddonStateForActiveTab);
 
 // listen for window switching
 browser.windows.onFocusChanged.addListener(updateAddonStateForActiveTab);
@@ -568,8 +573,7 @@ async function init() {
 
 // Check if notifications are enabled
 async function checkNotificationsPermission() {
-    const result = await navigator.permissions.query({ name: 'notifications' });
-    notificationsEnabled = result.state === 'granted';
+    notificationsEnabled = await browser.permissions.contains({ permissions: ["notifications"] });
     if (logToConsole) console.log(`${notificationsEnabled ? 'Notifications enabled.' : 'Notifications disabled.'}`);
 }
 
@@ -917,16 +921,18 @@ function getFaviconForPrompt(id, aiProvider) {
 }
 
 function addClickListener() {
-    if (!menuClickListenerAdded) {
-        browser.menus.onClicked.addListener(handleMenuClick);
-        menuClickListenerAdded = true;
+    menuClickHandler = async (info, tab) => {
+        if (logToConsole) console.log('Opening the sidebar.');
+        browser.sidebarAction.open();
+        await handleMenuClick(info, tab);
     }
+    browser.menus.onClicked.addListener(menuClickHandler);
 }
 
 function removeClickListener() {
-    if (menuClickListenerAdded) {
-        browser.menus.onClicked.removeListener(handleMenuClick);
-        menuClickListenerAdded = false;
+    if (menuClickHandler) {
+        browser.menus.onClicked.removeListener(menuClickHandler);
+        menuClickHandler = null;
     }
 }
 
@@ -938,11 +944,7 @@ async function handleMenuClick(info, tab) {
     if (logToConsole) console.log('Clicked on ' + id);
 
     if (options.tabMode === 'openSidebar' && !ignoreIds.includes(id)) {
-        if (logToConsole) console.log('Opening the sidebar.');
-        await browser.sidebarAction.open();
         await browser.sidebarAction.setPanel({ panel: '' });
-    } else {
-        if (logToConsole) console.log('Not opening the sidebar.');
     }
 
     await processSearch(info, tab);
@@ -1171,7 +1173,7 @@ async function processSearch(info, tab) {
     const tabs = await queryAllTabs();
     // Get the index of the last tab and add 1 to define lastTab
     const lastTab = tabs.length;
-    if (options.lastTab || options.multiMode === 'multiAfterLastTab') {
+    if ((options.tabMode === 'openNewTab' && options.lastTab) || (options.multiMode === 'multiAfterLastTab' && options.tabMode !== 'openNewTab')) {
         tabIndex = lastTab;
     }
     if (id === 'download-video') {
@@ -1336,7 +1338,7 @@ async function processMultisearch(arraySearchEngineUrls, tabPosition) {
 
     // Process the remaaining non-URL array of search engines (using HTTP POST requests or AI prompts)
     if (nonUrlArray.length > 0) {
-        if (logToConsole) console.log(`Opening POST requests & AI search results in window ${windowInfo.id} at tab position ${tabPosition}`);
+        if (logToConsole) console.log(`Opening HTTP POST requests & AI search results in window ${windowInfo.id} at tab position ${tabPosition}`);
         await processNonUrlArray(nonUrlArray, tabPosition, windowInfo.id);
     }
 }
@@ -1472,19 +1474,25 @@ function getAIProviderBaseUrl(provider) {
 
 // Display the search results for a single search (link, HTTP POST or GET request, or AI prompt)
 async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEngine = '', prompt = '') {
-    //const activeTab = await getActiveTab();
-    targetUrl = await setTargetUrl(id, aiEngine);
     const postDomain = getDomain(targetUrl);
-    let searchEngine;
-    if (id !== 'chatgpt-direct') searchEngine = searchEngines[id];
-    let url;
+    const options = await getOptions();
+    targetUrl = await setTargetUrl(id, aiEngine);
+    let searchEngine, promptText, url;
+    if (prompt !== '' && id.startsWith('chatgpt-')) {
+        promptText = getPromptText(id, prompt);
+    }
+    if (id !== 'chatgpt-direct') {
+        searchEngine = searchEngines[id];
+    }
     if (searchEngine && searchEngine.formData) {
         url = postDomain;
     } else {
         url = targetUrl;
     }
     messageSent = false;
-    const options = await getOptions();
+    if (logToConsole) console.log(`id: ${id}`);
+    if (logToConsole) console.log(`prompt: ${promptText}`);
+    if (logToConsole) console.log(`selection: ${selection}`);
 
     // Ignore bookmarklets in multi-search
     if (multisearch && id.startsWith('link-') && url.startsWith('javascript:')) return;
@@ -1506,7 +1514,7 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEn
 
     // Listen for tab updates and handle AI prompts and form submissions (HTTP POST requests)
     if (options.tabMode !== 'openSidebar' && (id.startsWith('chatgpt-') || (searchEngine && searchEngine.formData))) {
-        setupTabUpdatedListeners(id, prompt);
+        setupTabUpdatedListeners(id, promptText);
     }
 
     if (!multisearch && options.tabMode === 'openSidebar') {
@@ -1520,7 +1528,6 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEn
             if (logToConsole) console.log(id);
             await new Promise(resolve => setTimeout(resolve, 3000));
             // Once the content script is ready, trigger the ask function
-            const promptText = getPromptText(id, prompt);
             const tabs = await browser.tabs.query({ url: tabUrl });
             const tab = tabs[0];
             const tabId = tab.id;
@@ -1560,7 +1567,6 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEn
         // If single search and open in current window
         // If search engine is a link, uses HTTP GET or POST request or is AI prompt
         if (logToConsole) {
-            console.log(options.tabMode === 'openNewTab');
             console.log(`Opening search results in a new tab, url is ${url}`);
         }
         await browser.tabs.create({
@@ -1588,7 +1594,9 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEn
 
 // Setup the unified tab update listener with a prompt parameter
 function setupTabUpdatedListeners(id, prompt = '') {
-    tabUpdatedListener = (tabId, changeInfo, tab) => onTabUpdated(tabId, changeInfo, tab, id, prompt);
+    tabUpdatedListener = async (tabId, changeInfo, tab) => {
+        await onTabUpdated(tabId, changeInfo, tab, id, prompt);
+    }
     browser.tabs.onUpdated.addListener(tabUpdatedListener);
 }
 
@@ -1644,7 +1652,6 @@ function getPromptText(id, prompt) {
 // Handle AI engine tab update
 async function handleAITabUpdate(tabId, changeInfo, tab, id, prompt) {
     if (changeInfo.status === 'complete') {
-        const promptText = getPromptText(id, prompt);
 
         try {
             // Ensure content script is fully loaded
@@ -1656,7 +1663,7 @@ async function handleAITabUpdate(tabId, changeInfo, tab, id, prompt) {
 
             await sendMessageToTab(tab, {
                 action: "askPrompt",
-                data: { url: tab.url, prompt: promptText }
+                data: { url: tab.url, prompt: prompt }
             });
 
             messageSent = true;

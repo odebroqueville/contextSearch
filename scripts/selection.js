@@ -253,6 +253,9 @@ async function init() {
         console.log(`Domain: ${domain}`);
     }
 
+    // If the web page contains selected text, then sent it to the background script
+    await handleTextSelection();
+
     // For all input elements on the page that are descendants of a form element, except for input elements with the type "hidden" or without any type, add a double click event listener
     document.querySelectorAll('form input:not([type]):not([type="hidden"])').forEach(inputTextField => {
         inputTextField.addEventListener('dblclick', handleInputDblclick);
@@ -272,11 +275,13 @@ async function init() {
     // If the website doesn't contain an opensearch plugin, then hide the Page action
     const linkElement = document.querySelector('link[type="application/opensearchdescription+xml"]');
     const isLinkElement = linkElement instanceof HTMLLinkElement;
+    let pageActionHidden = false;
 
     if (isLinkElement) {
         await sendMessage('showPageAction', null);
     } else {
         await sendMessage('hidePageAction', null);
+        pageActionHidden = true;
     }
 
     // Retrieve search engines from local storage
@@ -288,13 +293,24 @@ async function init() {
         if (id.startsWith("separator-") || id.startsWith("chatgpt-") || searchEngines[id].isFolder) continue;
         if (searchEngines[id].url.includes(domain)) {
             if (logToConsole) console.log('This web page has already been added to your list of search engines.');
-            await sendMessage('hidePageAction', null);
+            if (!pageActionHidden) await sendMessage('hidePageAction', null);
             break;
         }
     }
 
     // Display clickable icons (buttons) for mycroftproject.com
-    showButtons();
+    if (!hasContextSearchImage) showButtons();
+}
+
+// Check if the current web page contains a 'Context Search' icon
+function hasContextSearchImage() {
+    // Get all img elements on the page
+    const images = document.getElementsByTagName('img');
+
+    // Convert the HTMLCollection to an array and use some() to check
+    return Array.from(images).some(img =>
+        img.src.includes('context-search.svg')
+    );
 }
 
 // Handle double click event on input elements for websites that use HTTP POST method
@@ -650,12 +666,12 @@ async function showButtons() {
     });
 }
 
-function handleTextSelection() {
+async function handleTextSelection() {
     const selectedText = getSelectedText();
     if (logToConsole) console.log(`Selected text: ${selectedText}`);
-    if (selectedText !== null && selectedText !== undefined && selectedText !== "") {
+    if (selectedText) {
         textSelection = selectedText;
-        sendSelectionToBackgroundScript(textSelection);
+        await sendSelectionToBackgroundScript(textSelection);
     }
 }
 

@@ -3,7 +3,7 @@
     "default_locale": "en",
     "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
-    "version": "5.2.2",
+    "version": "5.3.0",
     "homepage_url": "https://github.com/odebroqueville/contextSearch",
     "author": "Olivier de Broqueville",
     "browser_specific_settings": {
@@ -12,19 +12,6 @@
             "strict_min_version": "79.0"
         }
     },
-    "web_accessible_resources": [
-        "/html/bookmarks.html",
-        "/html/history.html",
-        "/html/modal.html",
-        "/html/popup.html",
-        "/html/search_results.html",
-        "/images/*.png",
-        "/scripts/modal.js",
-        "/scripts/popup.js",
-        "/scripts/Sortable.min.js",
-        "/scripts/search_results.js",
-        "/styles/popup.css"
-    ],
     "content_security_policy": "script-src 'self'; object-src 'self'; img-src 'self' data:;",
     "browser_action": {
         "default_icon": "/icons/bookmark-grey-icon.svg",

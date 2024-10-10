@@ -188,8 +188,8 @@ btnUpload.addEventListener('change', handleFileUpload);
 
 // Handle incoming messages
 function handleMessage(message) {
-    if (logToConsole) console.log(message);
     if (message.action === 'resetCompleted') {
+        if (logToConsole) console.log(message);
         restoreOptionsPage();
     }
     if (message.action === 'logToConsole') {
@@ -1591,33 +1591,33 @@ async function setOptions(options) {
     switch (options.tabMode) {
         case 'openNewTab':
             openNewTab.checked = true;
-            active.style.visibility = 'visible';
-            position.style.visibility = 'visible';
-            privacy.style.visibility = 'hidden';
+            active.style.display = 'block';
+            position.style.display = 'block';
+            privacy.style.display = 'none';
             break;
         case 'sameTab':
             sameTab.checked = true;
-            active.style.visibility = 'hidden';
-            position.style.visibility = 'hidden';
-            privacy.style.visibility = 'hidden';
+            active.style.display = 'none';
+            position.style.display = 'none';
+            privacy.style.display = 'none';
             break;
         case 'openNewWindow':
             openNewWindow.checked = true;
-            active.style.visibility = 'visible';
-            position.style.visibility = 'hidden';
-            privacy.style.visibility = 'visible';
+            active.style.display = 'block';
+            position.style.display = 'none';
+            privacy.style.display = 'block';
             break;
         case 'openSidebar':
             openSidebar.checked = true;
-            active.style.visibility = 'hidden';
-            position.style.visibility = 'hidden';
-            privacy.style.visibility = 'hidden';
+            active.style.display = 'none';
+            position.style.display = 'none';
+            privacy.style.display = 'none';
             break;
         default:
             openNewTab.checked = true;
-            active.style.visibility = 'visible';
-            position.style.visibility = 'visible';
-            privacy.style.visibility = 'hidden';
+            active.style.display = 'block';
+            position.style.display = 'block';
+            privacy.style.display = 'none';
             break;
     }
 
@@ -1827,17 +1827,17 @@ async function updateSearchOptions() {
 
 async function updateTabMode() {
     if (sameTab.checked || openSidebar.checked) {
-        active.style.visibility = 'hidden';
-        position.style.visibility = 'hidden';
-        privacy.style.visibility = 'hidden';
+        active.style.display = 'none';
+        position.style.display = 'none';
+        privacy.style.display = 'none';
     } else {
-        active.style.visibility = 'visible';
+        active.style.display = 'block';
         if (openNewWindow.checked) {
-            position.style.visibility = 'hidden';
-            privacy.style.visibility = 'visible';
+            position.style.display = 'none';
+            privacy.style.display = 'block';
         } else {
-            position.style.visibility = 'visible';
-            privacy.style.visibility = 'hidden';
+            position.style.display = 'block';
+            privacy.style.display = 'none';
         }
     }
 
