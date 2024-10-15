@@ -9,3 +9,4 @@ export const claudeUrl = 'https://claude.ai';
 export const youUrl = 'https://you.com';
 export const andiUrl = 'https://andisearch.com';
 export const exaUrl = 'https://exa.ai/search';
+export const aiUrls = [chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, poeUrl, claudeUrl, youUrl, andiUrl, exaUrl];
