@@ -48,7 +48,7 @@
     },
     "background": {
         "scripts": [
-            "/scripts/background.js",
+            "/scripts/background-cs.js",
             "/scripts/favicons.js",
             "/scripts/hosts.js"
         ],

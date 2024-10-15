@@ -4,7 +4,7 @@
 globalThis.browser ??= chrome;
 
 /// Import constants
-import { googleReverseImageSearchUrl, googleLensUrl, chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, poeUrl, claudeUrl, youUrl, andiUrl, exaUrl } from './hosts.js';
+import { googleReverseImageSearchUrl, googleLensUrl, chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, poeUrl, claudeUrl, youUrl, andiUrl, exaUrl, aiUrls } from './hosts.js';
 import { base64chatGPT, base64GoogleAIStudio, base64perplexity, base64poe, base64claude, base64you, base64andi, base64exa, base64ContextSearchIcon, base64FolderIcon } from './favicons.js';
 import { USER_AGENT_FOR_SIDEBAR, DEFAULT_SEARCH_ENGINES, REQUEST_FILTER, titleMultipleSearchEngines, titleAISearch, titleSiteSearch, titleExactMatch, titleOptions, windowTitle, omniboxDescription, notifySearchEnginesLoaded, notifySearchEngineAdded, notifyUsage, notifySearchEngineWithKeyword, notifyUnknown, notifySearchEngineUrlRequired, DEFAULT_OPTIONS } from './constants.js';
 
@@ -17,9 +17,9 @@ let selection = '';
 let targetUrl = '';
 let lastAddressBarKeyword = '';
 let historyItems, bookmarkItems;
-let messageSent = false;
 let bookmarked = false;
 let activeTab;
+let promptText;
 let CORS_API_URL;
 let CORS_API_KEY;
 
@@ -31,9 +31,6 @@ let notificationsEnabled = false;
 
 // Store the listener function for context menu clicks in a variable
 let menuClickHandler = null;
-
-// Store the listener function for tab updates in a variable
-let tabUpdatedListener = null;
 
 /// Listeners
 // Handle Debugging
@@ -107,6 +104,7 @@ browser.webRequest.onBeforeSendHeaders.addListener(
 browser.runtime.onMessage.addListener((message, sender) => {
     const action = message.action;
     const data = message.data;
+    if (logToConsole) console.log(`Message received: action=${action}, data=${JSON.stringify(data)}`);
     switch (action) {
         case 'openModal':
             handleOpenModal(data);
@@ -134,8 +132,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
             handleReset();
             break;
         case 'setTargetUrl':
-            handleSetTargetUrl(data);
-            break;
+            return handleSetTargetUrl(data);
         case 'testSearchEngine':
             testSearchEngine(data);
             break;
@@ -197,13 +194,14 @@ browser.runtime.onMessage.addListener((message, sender) => {
             handleSaveSearchEnginesToDisk(data);
             break;
         case 'hidePageAction':
-            browser.pageAction.hide(sender.tab.id);
-            break;
+            return browser.pageAction.hide(sender.tab.id);
         case 'showPageAction':
-            browser.pageAction.show(sender.tab.id);
-            break;
+            return browser.pageAction.show(sender.tab.id);
+        case 'contentScriptLoaded':
+            return handleContentScriptLoaded(data);
         default:
-            break;
+            console.error('Unexpected action:', action);
+            return false;
     }
 });
 
@@ -262,7 +260,7 @@ async function isIdUnique(testId) {
 function handleOpenModal(data) {
     newSearchEngineUrl = data.url;
     formData = data.formData;
-    const modalURL = browser.runtime.getURL('/modal.html');
+    const modalURL = browser.runtime.getURL('/html/addSearchEngineForPostRequest.html');
     const popupWidth = 400; // Width of the popup window
     const popupHeight = 420; // Height of the popup window
     const left = Math.floor((window.screen.width - popupWidth) / 2);
@@ -471,6 +469,47 @@ async function handleSaveSearchEnginesToDisk(data) {
         saveAs: true,
         filename: 'searchEngines.json',
     });
+}
+
+async function handleContentScriptLoaded(data) {
+    if (logToConsole) console.log('Content script loaded. Sending response.');
+    // Send a response to the content script
+    const { domain, tabUrl } = data;
+    if (logToConsole) console.log(`Tab url: ${tabUrl}`);
+
+    if (aiUrls.includes('https://' + domain)) {
+        if (logToConsole) console.log(`Prompt: ${promptText}`);
+        return {
+            action: "askPrompt",
+            data: { url: tabUrl, prompt: promptText }
+        };
+    }
+
+    // Check if tabUrl is in the list of search engine URLs 
+    for (let id in searchEngines) {
+        if (id.startsWith('separator-') || id.startsWith('link-') || id.startsWith('chatgpt-') || searchEngines[id].isFolder) continue;
+        const searchEngine = searchEngines[id];
+        if (searchEngine.url.startsWith(tabUrl) && searchEngine.formData) {
+            let finalFormData;
+            let formDataString = searchEngine.formData;
+            if (formDataString.includes('{searchTerms}')) {
+                formDataString = formDataString.replace('{searchTerms}', selection);
+            } else if (formDataString.includes('%s')) {
+                formDataString = formDataString.replace('%s', selection);
+            }
+            const jsonFormData = JSON.parse(formDataString);
+            finalFormData = jsonToFormData(jsonFormData);
+
+            if (logToConsole) {
+                console.log(`id: ${id}`);
+                console.log('Form data string:');
+                console.log(formDataString);
+                console.log(`Selection: ${selection}`);
+            }
+            return submitForm(finalFormData);
+        }
+    }
+    return false;
 }
 
 // Test if a search engine performing a search for the keyword 'test' returns valid results
@@ -1401,7 +1440,6 @@ async function getSearchEngineUrl(searchEngineUrl, sel) {
 }
 
 async function setTargetUrl(id, aiEngine = '') {
-    //const activeTab = await getActiveTab();
     const options = await getOptions();
     if (logToConsole) console.log('Active tab is:');
     if (logToConsole) console.log(activeTab);
@@ -1474,11 +1512,11 @@ function getAIProviderBaseUrl(provider) {
 
 // Display the search results for a single search (link, HTTP POST or GET request, or AI prompt)
 async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEngine = '', prompt = '') {
-    const postDomain = getDomain(targetUrl);
     const options = await getOptions();
     targetUrl = await setTargetUrl(id, aiEngine);
-    let searchEngine, promptText, url;
-    if (prompt !== '' && id.startsWith('chatgpt-')) {
+    const postDomain = getDomain(targetUrl);
+    let searchEngine, url;
+    if (id.startsWith('chatgpt-')) {
         promptText = getPromptText(id, prompt);
     }
     if (id !== 'chatgpt-direct') {
@@ -1489,7 +1527,6 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEn
     } else {
         url = targetUrl;
     }
-    messageSent = false;
     if (logToConsole) console.log(`id: ${id}`);
     if (logToConsole) console.log(`prompt: ${promptText}`);
     if (logToConsole) console.log(`selection: ${selection}`);
@@ -1512,42 +1549,15 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEn
 
     if (logToConsole && searchEngine) console.log(`Opening tab at index ${tabPosition} for ${searchEngine.name} at ${url} in window ${windowId}`);
 
-    // Listen for tab updates and handle AI prompts and form submissions (HTTP POST requests)
-    if (options.tabMode !== 'openSidebar' && (id.startsWith('chatgpt-') || (searchEngine && searchEngine.formData))) {
-        setupTabUpdatedListeners(id, promptText);
-    }
-
     if (!multisearch && options.tabMode === 'openSidebar') {
+        if (url === getDomain(url)) {
+            url += '/';
+        }
         let tabUrl = url + '#_sidebar';
 
         // If single search and open in sidebar
         browser.sidebarAction.setPanel({ panel: tabUrl });
         browser.sidebarAction.setTitle({ title: 'Search results' });
-
-        if (id.startsWith('chatgpt-')) {
-            if (logToConsole) console.log(id);
-            await new Promise(resolve => setTimeout(resolve, 3000));
-            // Once the content script is ready, trigger the ask function
-            const tabs = await browser.tabs.query({ url: tabUrl });
-            const tab = tabs[0];
-            const tabId = tab.id;
-            if (logToConsole) console.log(tabId, tab);
-            try {
-                // Ensure content script is fully loaded
-                await browser.tabs.executeScript(tabId, {
-                    code: 'typeof browser.runtime !== "undefined";'
-                });
-
-                if (logToConsole) console.log('Content script loaded, sending message.');
-
-                await sendMessageToTab(tab, {
-                    action: "askPrompt",
-                    data: { url: tabUrl, prompt: promptText }
-                });
-            } catch (error) {
-                if (logToConsole) console.log('Error: Content script not loaded or could not execute script:', error);
-            }
-        }
     } else if (!multisearch && options.tabMode === 'openNewWindow') {
         // If single search and open in new window
         // If search engine is link, uses HTTP GET or POST request or is AI prompt
@@ -1592,41 +1602,6 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEn
     }
 }
 
-// Setup the unified tab update listener with a prompt parameter
-function setupTabUpdatedListeners(id, prompt = '') {
-    tabUpdatedListener = async (tabId, changeInfo, tab) => {
-        await onTabUpdated(tabId, changeInfo, tab, id, prompt);
-    }
-    browser.tabs.onUpdated.addListener(tabUpdatedListener);
-}
-
-// Remove the unified tab update listener
-function removeTabUpdatedListeners() {
-    if (tabUpdatedListener) {
-        browser.tabs.onUpdated.removeListener(tabUpdatedListener);
-        tabUpdatedListener = null; // Clear the reference
-    }
-}
-
-// Main listener function for tab updates
-async function onTabUpdated(tabId, changeInfo, tab, id, prompt) {
-    if (logToConsole) console.log(`Updated tab: ${tab.url}`);
-
-    const aiUrls = [chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, poeUrl, claudeUrl, youUrl, andiUrl, exaUrl];
-    const isAITab = aiUrls.some(url => tab.url.startsWith(url));
-    const searchEngine = searchEngines[id];
-
-    // Handle AI engine tab update
-    if (isAITab && !messageSent) {
-        await handleAITabUpdate(tabId, changeInfo, tab, id, prompt);
-    }
-
-    // Handle form submission tab update
-    if (searchEngine && searchEngine.formData && !messageSent) {
-        await handleSubmitFormUpdate(tabId, changeInfo, tab, id);
-    }
-}
-
 function getPromptText(id, prompt) {
     const searchEngine = searchEngines[id];
     let promptText = '';
@@ -1649,117 +1624,6 @@ function getPromptText(id, prompt) {
     return promptText;
 }
 
-// Handle AI engine tab update
-async function handleAITabUpdate(tabId, changeInfo, tab, id, prompt) {
-    if (changeInfo.status === 'complete') {
-
-        try {
-            // Ensure content script is fully loaded
-            await browser.tabs.executeScript(tabId, {
-                code: 'typeof browser.runtime !== "undefined";'
-            });
-
-            if (logToConsole) console.log('Content script loaded, sending message.');
-
-            await sendMessageToTab(tab, {
-                action: "askPrompt",
-                data: { url: tab.url, prompt: prompt }
-            });
-
-            messageSent = true;
-            removeTabUpdatedListeners();
-        } catch (error) {
-            if (logToConsole) console.log('Error: Content script not loaded or could not execute script:', error);
-        }
-    }
-}
-
-// Handle form submission tab update
-async function handleSubmitFormUpdate(tabId, changeInfo, tab, id) {
-    const searchEngine = searchEngines[id];
-    if (changeInfo.status === 'complete' && tab.status === 'complete' && !messageSent) {
-        let finalFormData;
-        if (searchEngine !== undefined && searchEngine.formData) {
-            let formDataString = searchEngine.formData;
-            if (formDataString.includes('{searchTerms}')) {
-                formDataString = formDataString.replace('{searchTerms}', selection);
-            } else if (formDataString.includes('%s')) {
-                formDataString = formDataString.replace('%s', selection);
-            }
-            const jsonFormData = JSON.parse(formDataString);
-            finalFormData = jsonToFormData(jsonFormData);
-
-            if (logToConsole) {
-                console.log('Form data string:');
-                console.log(formDataString);
-                console.log(`Selection: ${selection}`);
-                console.log(`id: ${id}`);
-            }
-        }
-        const data = await submitForm(finalFormData);
-        await sendMessageToTab(tab, {
-            action: "displaySearchResults",
-            data: data
-        });
-
-        if (logToConsole) console.log(tabId);
-
-        messageSent = true;
-        removeTabUpdatedListeners();
-    }
-}
-
-// Listener function for sidebar updates
-function onSidebarUpdated(tabId, details, id) {
-    if (logToConsole) console.log(`Sidebar updated: ${details.url}`);
-
-    const aiUrls = [chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, poeUrl, claudeUrl, youUrl, andiUrl, exaUrl];
-    const isAISidebar = aiUrls.some(url => details.url.startsWith(url));
-    const searchEngine = searchEngines[id];
-
-    // Handle AI engine sidebar update
-    if (isAISidebar && !messageSent) {
-        handleAISidebarUpdate(tabId, details, id);
-    }
-
-    // Handle form submission sidebar update
-    if (searchEngine && searchEngine.formData && !messageSent) {
-        handleSubmitFormUpdate(tabId, details, id);
-    }
-}
-
-// Handle AI engine sidebar update
-async function handleAISidebarUpdate(tabId, details, id) {
-    const searchEngine = searchEngines[id];
-    let promptText = searchEngine.prompt;
-
-    if (promptText.includes('{searchTerms}')) {
-        promptText = promptText.replace(/{searchTerms}/g, selection);
-    } else if (promptText.includes('%s')) {
-        promptText = promptText.replace(/%s/g, selection);
-    }
-
-    if (logToConsole) console.log(promptText);
-
-    try {
-        await browser.tabs.executeScript(tabId, {
-            code: 'typeof browser.runtime !== "undefined";'
-        });
-
-        if (logToConsole) console.log('Content script loaded, sending message.');
-
-        await sendMessageToTab({ id: tabId, url: details.url }, {
-            action: "askPrompt",
-            data: { url: details.url, prompt: promptText }
-        });
-
-        messageSent = true;
-        browser.webNavigation.onCompleted.removeListener(onSidebarUpdated);
-    } catch (error) {
-        if (logToConsole) console.log('Error: Content script not loaded or could not execute script:', error);
-    }
-}
-
 function jsonToFormData(jsonData) {
     const formData = new FormData();
 
@@ -1775,18 +1639,41 @@ function jsonToFormData(jsonData) {
 
 async function submitForm(finalFormData) {
     let data = '';
-    try {
-        browser.tabs.onUpdated.removeListener(() => { });
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // Timeout set to 10 seconds
 
-        // Fetch request using the form data
+    try {
         const response = await fetch(targetUrl, {
             method: 'POST',
-            body: finalFormData
-        })
+            body: finalFormData,
+            signal: controller.signal // Signal for aborting the fetch on timeout
+        });
+
+        clearTimeout(timeoutId); // Clear timeout once response is received
+
+        // Check if the response is successful (status code in the 200–299 range)
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+
         data = await response.text();
-        return data;
+        if (logToConsole) console.log('Data:', data);
+        if (data) {
+            return {
+                action: "displaySearchResults",
+                data: data
+            };
+        } else {
+            return false;
+        }
+
     } catch (error) {
-        console.error(error);
+        if (error.name === 'AbortError') {
+            console.error('Request timed out');
+        } else {
+            console.error('Fetch error:', error);
+        }
+        throw error; // Re-throw the error to ensure the calling code handles it
     }
 }
 
