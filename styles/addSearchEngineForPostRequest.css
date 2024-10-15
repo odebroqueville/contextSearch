@@ -1,0 +1,26 @@
+body {
+    font-family: 'Raleway', Helvetica, Arial, sans-serif;
+    padding: 20px;
+}
+
+label {
+    margin-bottom: 5px;
+    display: block;
+}
+
+input {
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 5px;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+button {
+    padding: 8px 15px;
+    margin-left: 10px;
+}

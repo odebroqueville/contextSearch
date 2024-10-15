@@ -1,5 +1,5 @@
 // Add event listeners to the Cancel and OK buttons.
-document.getElementById('cancel').addEventListener('click', closePopup);
+document.getElementById('cancel').addEventListener('click', closeModal);
 document.getElementById('ok').addEventListener('click', submitForm);
 
 function submitForm() {
@@ -15,5 +15,9 @@ function submitForm() {
     // Send the data back to the background script
     browser.runtime.sendMessage({ action: 'addNewPostSearchEngine', data: { searchEngineName, keyword, keyboardShortcut } });
 
+    closeModal();
+}
+
+function closeModal() {
     window.close();
 }
