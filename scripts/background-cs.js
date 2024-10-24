@@ -564,7 +564,7 @@ async function handleExecuteAISearch(data) {
     //const activeTab = await getActiveTab();
     let tabPosition;
     if (logToConsole) console.log(tabs);
-    if (options.multiMode === 'multiAfterLastTab') {
+    if (options.tabMode === 'openNewTab' && options.lastTab) {
         // After the last tab
         tabPosition = tabs.length;
     } else {
