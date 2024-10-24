@@ -1604,7 +1604,6 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEn
 
 function getPromptText(id, prompt) {
     const searchEngine = searchEngines[id];
-    let promptText = '';
 
     if (id === 'chatgpt-') {
         promptText = 'How old is the Universe';
