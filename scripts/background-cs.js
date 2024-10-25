@@ -212,22 +212,28 @@ Rewrite the User-Agent header to USER_AGENT_FOR_SIDEBAR
 async function rewriteUserAgentHeader(e) {
     if (logToConsole) console.log(e);
     const options = await getOptions();
-    if (!options.tabMode === 'openSidebar') {
-        return {};
+
+    // Only proceed if we're in sidebar mode
+    if (options.tabMode !== 'openSidebar') {
+        return { requestHeaders: e.requestHeaders };
     }
+
     if (logToConsole) {
         console.log('Intercepted header:');
         console.log(e.requestHeaders);
     }
+
     for (const header of e.requestHeaders) {
         if (header.name.toLowerCase() === 'user-agent') {
             header.value = USER_AGENT_FOR_SIDEBAR;
         }
     }
+
     if (logToConsole) {
         console.log('Modified header:');
         console.log(e.requestHeaders);
     }
+
     return { requestHeaders: e.requestHeaders };
 }
 
