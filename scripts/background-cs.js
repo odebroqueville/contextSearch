@@ -489,7 +489,7 @@ async function handleContentScriptLoaded(data) {
     for (let id in searchEngines) {
         if (id.startsWith('separator-') || id.startsWith('link-') || id.startsWith('chatgpt-') || searchEngines[id].isFolder) continue;
         const searchEngine = searchEngines[id];
-        if (searchEngine.url.startsWith(tabUrl) && searchEngine.formData) {
+        if (searchEngine.url.startsWith('https://' + domain) && searchEngine.formData) {
             let finalFormData;
             let formDataString = searchEngine.formData;
             if (formDataString.includes('{searchTerms}')) {
@@ -561,7 +561,6 @@ async function handleExecuteAISearch(data) {
     const options = await getOptions();
     const windowInfo = await browser.windows.getCurrent();
     const tabs = await queryAllTabs();
-    //const activeTab = await getActiveTab();
     let tabPosition;
     if (logToConsole) console.log(tabs);
     if (options.tabMode === 'openNewTab' && options.lastTab) {
