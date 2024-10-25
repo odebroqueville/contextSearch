@@ -220,6 +220,7 @@ async function init() {
     tabUrl = window.location.href;
     pn = window.location.pathname;
     domain = window.location.hostname;
+    let postRequest = false;
 
     // Set debugging mode
     const data = await browser.storage.sync.get();
@@ -236,7 +237,22 @@ async function init() {
         console.log(`Path name: ${pn}`);
         console.log(`Domain: ${domain}`);
     }
-    if (aiUrls.includes(domain)) console.log(`AI search engine detected: ${domain}`);
+
+    // Retrieve search engines from local storage
+    const searchEngines = await browser.storage.local.get();
+    if (logToConsole) console.log(searchEngines);
+
+    // Identify the search engine corresponding to the domain
+    for (let id in searchEngines) {
+        if (id.startsWith('separator-') || id.startsWith('link-') || id.startsWith('chatgpt-') || searchEngines[id].isFolder) continue;
+        const url = searchEngines[id].url;
+        const post = searchEngines[id].formData;
+        if (url.startsWith('https://' + domain) && post) {
+            postRequest = true;
+            break;
+        }
+    }
+
     // If the web page contains selected text, then sent it to the background script
     await handleTextSelection();
 
@@ -255,37 +271,39 @@ async function init() {
         document.head.appendChild(link);
     }
 
-    // If the web page is for an AI search, then send a message to the background script and wait for a response
-    if (logToConsole && aiUrls.includes('https://' + domain)) console.log(`AI search engine detected: ${domain}`);
-    const response = await sendMessage('contentScriptLoaded', { domain, tabUrl });
-    if (response.action === 'askPrompt') {
-        try {
-            const { url, prompt } = response.data;
-            await ask(url, prompt);
-        } catch (err) {
-            if (logToConsole) console.log(err);
-            await sendMessage('notify', notifySearchEngineNotFound);
+    // If the web page is for an AI search or a HTTP POST request, then send a message to the background script and wait for a response
+    if (aiUrls.includes(domain) || postRequest) {
+        if (logToConsole && !postRequest) console.log(`AI search engine detected: ${domain}`);
+        const response = await sendMessage('contentScriptLoaded', { domain, tabUrl });
+        if (response.action === 'askPrompt') {
+            try {
+                const { url, prompt } = response.data;
+                await ask(url, prompt);
+            } catch (err) {
+                if (logToConsole) console.log(err);
+                await sendMessage('notify', notifySearchEngineNotFound);
+            }
+        } else if (response.action === 'displaySearchResults') {
+            try {
+                const results = response.data;
+                const html = document.getElementsByTagName('html')[0];
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(results, 'text/html');
+                if (logToConsole) console.log(results);
+                if (logToConsole) console.log(doc.head);
+                if (logToConsole) console.log(doc.body);
+                html.removeChild(document.head);
+                html.removeChild(document.body);
+                html.appendChild(doc.head);
+                html.appendChild(doc.body);
+            } catch (err) {
+                if (logToConsole) console.log(err);
+                await sendMessage('notify', notifySearchEngineNotFound);
+            }
+        } else {
+            if (logToConsole) console.error("Received undefined response or unexpected action from background script.");
+            if (logToConsole) console.log(`Response: ${response}`);
         }
-    } else if (response.action === 'displaySearchResults') {
-        try {
-            const results = response.data;
-            const html = document.getElementsByTagName('html')[0];
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(results, 'text/html');
-            if (logToConsole) console.log(results);
-            if (logToConsole) console.log(doc.head);
-            if (logToConsole) console.log(doc.body);
-            html.removeChild(document.head);
-            html.removeChild(document.body);
-            html.appendChild(doc.head);
-            html.appendChild(doc.body);
-        } catch (err) {
-            if (logToConsole) console.log(err);
-            await sendMessage('notify', notifySearchEngineNotFound);
-        }
-    } else {
-        if (logToConsole) console.error("Received undefined response or unexpected action from background script.");
-        if (logToConsole) console.log(`Response: ${response}`);
     }
 
     // If the website doesn't contain an opensearch plugin, then hide the Page action
@@ -299,10 +317,6 @@ async function init() {
         await sendMessage('hidePageAction', null);
         pageActionHidden = true;
     }
-
-    // Retrieve search engines from local storage
-    const searchEngines = await browser.storage.local.get();
-    if (logToConsole) console.log(searchEngines);
 
     // If there exists a search engine with a query string that includes the domain of the visited web page, then hide the Page action
     for (let id in searchEngines) {
