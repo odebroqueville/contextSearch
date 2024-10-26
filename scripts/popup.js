@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const aiEngines = ['chatgpt', 'google', 'perplexity', 'poe', 'claude', 'you', 'andi', 'exa'];
+    const aiEngines = ['chatgpt', 'google', 'perplexity', 'poe', 'claude', 'you', 'andi'];
     const inputArea = document.getElementById('inputArea');
     const outputArea = document.getElementById('outputArea');
     let tagStyled = false;
