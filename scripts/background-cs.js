@@ -4,7 +4,7 @@
 globalThis.browser ??= chrome;
 
 /// Import constants
-import { googleReverseImageSearchUrl, googleLensUrl, chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, poeUrl, claudeUrl, youUrl, andiUrl, exaUrl, aiUrls } from './hosts.js';
+import { googleReverseImageSearchUrl, googleLensUrl, chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, poeUrl, claudeUrl, youUrl, andiUrl, aiUrls } from './hosts.js';
 import { base64chatGPT, base64GoogleAIStudio, base64perplexity, base64poe, base64claude, base64you, base64andi, base64exa, base64ContextSearchIcon, base64FolderIcon } from './favicons.js';
 import { USER_AGENT_FOR_SIDEBAR, USER_AGENT_FOR_GOOGLE, DEFAULT_SEARCH_ENGINES, REQUEST_FILTER, titleMultipleSearchEngines, titleAISearch, titleSiteSearch, titleExactMatch, titleOptions, windowTitle, omniboxDescription, notifySearchEnginesLoaded, notifySearchEngineAdded, notifyUsage, notifySearchEngineWithKeyword, notifyUnknown, notifySearchEngineUrlRequired, DEFAULT_OPTIONS } from './constants.js';
 
@@ -498,7 +498,14 @@ async function handleContentScriptLoaded(data) {
     const { domain, tabUrl } = data;
     if (logToConsole) console.log(`Tab url: ${tabUrl}`);
 
-    if (aiUrls.includes('https://' + domain)) {
+    let trimmedUrl;
+    if (tabUrl.endsWith('/')) {
+        trimmedUrl = tabUrl.slice(0, -1);
+    } else {
+        trimmedUrl = tabUrl;
+    }
+
+    if (aiUrls.includes(trimmedUrl)) {
         if (logToConsole) console.log(`Prompt: ${promptText}`);
         return {
             action: "askPrompt",
@@ -1573,7 +1580,7 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEn
         if (url === getDomain(url)) {
             url += '/';
         }
-        let suffix = (id === 'reverse-image-search' || id === 'google-lens') ? '' : '#_sidebar';
+        let suffix = (id === 'reverse-image-search' || id === 'google-lens' || id.startsWith('chatgpt-')) ? '' : '#_sidebar';
         let tabUrl = url + suffix;
 
         if (logToConsole) console.log(tabUrl);
