@@ -6,7 +6,7 @@ globalThis.browser ??= chrome;
 /// Import constants
 import { googleReverseImageSearchUrl, googleLensUrl, chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, poeUrl, claudeUrl, youUrl, andiUrl, exaUrl, aiUrls } from './hosts.js';
 import { base64chatGPT, base64GoogleAIStudio, base64perplexity, base64poe, base64claude, base64you, base64andi, base64exa, base64ContextSearchIcon, base64FolderIcon } from './favicons.js';
-import { USER_AGENT_FOR_SIDEBAR, DEFAULT_SEARCH_ENGINES, REQUEST_FILTER, titleMultipleSearchEngines, titleAISearch, titleSiteSearch, titleExactMatch, titleOptions, windowTitle, omniboxDescription, notifySearchEnginesLoaded, notifySearchEngineAdded, notifyUsage, notifySearchEngineWithKeyword, notifyUnknown, notifySearchEngineUrlRequired, DEFAULT_OPTIONS } from './constants.js';
+import { USER_AGENT_FOR_SIDEBAR, USER_AGENT_FOR_GOOGLE, DEFAULT_SEARCH_ENGINES, REQUEST_FILTER, titleMultipleSearchEngines, titleAISearch, titleSiteSearch, titleExactMatch, titleOptions, windowTitle, omniboxDescription, notifySearchEnginesLoaded, notifySearchEngineAdded, notifyUsage, notifySearchEngineWithKeyword, notifyUnknown, notifySearchEngineUrlRequired, DEFAULT_OPTIONS } from './constants.js';
 
 /// Global variables
 /* global  */
@@ -213,8 +213,19 @@ async function rewriteUserAgentHeader(e) {
     if (logToConsole) console.log(e);
     const options = await getOptions();
 
+    // Check if this is a Google image search URL (including redirects)
+    const isGoogleImageSearch = e.url.includes('google.com/') &&
+        (e.url.includes('searchbyimage') ||
+            e.url.includes('tbs=sbi:') ||
+            (e.url.includes('webhp') && e.url.includes('tbs=sbi:')));
+
+    // Check if this is a Google Lens search
+    const isGoogleLensSearch = e.url.includes('lens.google.com/');
+
+    const isYouTube = e.url.includes('youtube.com/');
+
     // Only proceed if we're in sidebar mode
-    if (options.tabMode !== 'openSidebar') {
+    if (options.tabMode !== 'openSidebar' || isGoogleLensSearch) {
         return { requestHeaders: e.requestHeaders };
     }
 
@@ -225,7 +236,11 @@ async function rewriteUserAgentHeader(e) {
 
     for (const header of e.requestHeaders) {
         if (header.name.toLowerCase() === 'user-agent') {
-            header.value = USER_AGENT_FOR_SIDEBAR;
+            if (isGoogleImageSearch || isYouTube) {
+                header.value = USER_AGENT_FOR_GOOGLE;
+            } else {
+                header.value = USER_AGENT_FOR_SIDEBAR;
+            }
         }
     }
 
@@ -1558,7 +1573,10 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEn
         if (url === getDomain(url)) {
             url += '/';
         }
-        let tabUrl = url + '#_sidebar';
+        let suffix = (id === 'reverse-image-search' || id === 'google-lens') ? '' : '#_sidebar';
+        let tabUrl = url + suffix;
+
+        if (logToConsole) console.log(tabUrl);
 
         // If single search and open in sidebar
         browser.sidebarAction.setPanel({ panel: tabUrl });
