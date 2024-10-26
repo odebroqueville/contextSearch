@@ -590,7 +590,7 @@ function createLineItem(id) {
             return;
         }
         const key = e.key;
-        if (isKeyAllowed(e)) keysPressed[key] = e.code;
+        if (isKeyAllowed(key)) keysPressed[key] = key;
         if (logToConsole) console.log(keysPressed);
     });
     inputKeyboardShortcut.addEventListener('change', handleKeyboardShortcutChange);
@@ -1154,11 +1154,7 @@ function handleKeyboardShortcut(e) {
 
     // Identify the remaining non-modifier keys pressed
     for (let key in keysPressed) {
-        if (os === 'macOS') {
-            keyboardShortcut += keysPressed[key].substring(3).toLowerCase();
-        } else {
-            keyboardShortcut += key.toLowerCase();
-        }
+        keyboardShortcut += key.toLowerCase();
     }
 
     // Save the identified keyboard shortcut
@@ -2016,12 +2012,12 @@ function isInFocus(element) {
 }
 
 // Function to check if a key is allowed
-function isKeyAllowed(event) {
+function isKeyAllowed(key) {
     const disallowedKeys = [
         'Tab', 'Enter', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
         'Escape', ' ', 'Delete', 'Backspace', 'Home', 'End',
-        'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12',
+        'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12', 'F13', 'F14', 'F15', 'F16', 'F17', 'F18', 'F19'
     ];
 
-    return !disallowedKeys.includes(event.key);
+    return !disallowedKeys.includes(key);
 }
