@@ -253,17 +253,8 @@ async function rewriteUserAgentHeader(e) {
 }
 
 // Functions used to handle incoming messages
-function isActive(tab) {
-    return tab.active;
-}
-
 async function queryAllTabs() {
     return await browser.tabs.query({ currentWindow: true });
-}
-
-async function getActiveTab() {
-    const tabs = await queryAllTabs();
-    return tabs.filter(isActive)[0];
 }
 
 async function isIdUnique(testId) {
@@ -1527,9 +1518,6 @@ function getAIProviderBaseUrl(provider) {
             break;
         case 'andi':
             providerUrl = andiUrl;
-            break;
-        case 'exa':
-            providerUrl = exaUrl;
             break;
         default:
             providerUrl = chatGPTUrl;
