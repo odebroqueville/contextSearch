@@ -27,8 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function styleAsTag(firstWord) {
-        const buttonHTML = `<span class="button">${firstWord}</span>`;
-        outputArea.innerHTML += buttonHTML;
+        const buttonSpan = document.createElement('span');
+        buttonSpan.className = 'button';
+        buttonSpan.textContent = firstWord;
+        outputArea.appendChild(buttonSpan);
         inputArea.value = inputArea.value.replace(firstWord, '').trim();
         inputArea.focus();
         tagStyled = true;
