@@ -6,6 +6,12 @@
     "version": "5.3.0",
     "homepage_url": "https://github.com/odebroqueville/contextSearch",
     "author": "Olivier de Broqueville",
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "contextsearch.help@gmail.com",
+            "strict_min_version": "79.0"
+        }
+    },
     "content_security_policy": "script-src 'self'; object-src 'self'; img-src 'self' data:;",
     "browser_action": {
         "default_icon": "/icons/bookmark-grey-icon.svg",
