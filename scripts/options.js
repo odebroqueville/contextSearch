@@ -310,6 +310,7 @@ function displaySearchEngines() {
     if (logToConsole) console.log(searchEngines);
 
     expand('root', null);
+    i18n();
 
     let folders = null;
     folders = document.querySelectorAll(".folder");
@@ -496,10 +497,6 @@ function createLineItem(id) {
         option8.value = "andi";
         option8.text = "Andi";
 
-        const option9 = document.createElement("option");
-        option9.value = "exa";
-        option9.text = "Exa.ai";
-
         aiProvider.appendChild(option1);
         aiProvider.appendChild(option2);
         aiProvider.appendChild(option3);
@@ -508,7 +505,6 @@ function createLineItem(id) {
         aiProvider.appendChild(option6);
         aiProvider.appendChild(option7);
         aiProvider.appendChild(option8);
-        aiProvider.appendChild(option9);
 
         // Get the selected option
         const selectedOption = aiProvider.querySelector(`option[value=${searchEngine.aiProvider}]`);
@@ -1949,7 +1945,6 @@ function sortAlphabetically(array) {
 function init() {
     restoreOptionsPage();
     checkForDownloadsPermission();
-    i18n();
 }
 
 async function checkForDownloadsPermission() {
@@ -1971,20 +1966,19 @@ function i18n() {
 function translateContent(attribute, type) {
     let i18nElements = document.querySelectorAll('[' + attribute + ']');
 
-    for (let i in i18nElements) {
+    i18nElements.forEach(i => {
         try {
-            if (i18nElements[i].getAttribute == null) continue;
-            const i18n_attrib = i18nElements[i].getAttribute(attribute);
+            const i18n_attrib = i.getAttribute(attribute);
             const message = browser.i18n.getMessage(i18n_attrib);
             switch (type) {
                 case 'textContent':
-                    i18nElements[i].textContent = message;
+                    i.textContent = message;
                     break;
                 case 'placeholder':
-                    i18nElements[i].placeholder = message;
+                    i.placeholder = message;
                     break;
                 case 'title':
-                    i18nElements[i].title = message;
+                    i.title = message;
                     break;
                 default:
                     break;
@@ -1992,7 +1986,7 @@ function translateContent(attribute, type) {
         } catch (ex) {
             if (logToConsole) console.error(`Translation for ${i18nElements[i]} could not be found`);
         }
-    }
+    });
 }
 
 // Test if an object is empty
