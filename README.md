@@ -1,12 +1,12 @@
 # Context Search
 
-Firefox add-on to search selected text in a web page using your favorite search engines.
+Firefox add-on to search selected text in a web page using your favorite search engines or your preferred AI chat engines and prompts.
 
 ## Features
 
 * Access search engines from the Context Menu
 * Access search engines from an Icons Grid
-* Compatible with search engines using either GET or POST requests
+* Compatible with search engines using either HTTP GET or HTTP POST requests
 * Reverse-image search
 * Site search
 * Carry out multiple searches at once using multisearch
@@ -23,7 +23,12 @@ Firefox add-on to search selected text in a web page using your favorite search 
 
 ## Permissions
 
-**Notifications**, **Downloads**, **History** and **Bookmarks** are now optional permissions. They are disabled by default. If you'd like to show notifications and/or save your list of search engines to your local disk, or search your history or bookmarks from the Omnibox, then open the extensions manager, select Context Search and, under the Permissions tab, enable the appropriate permissions.
+**Notifications**, **Downloads**, **History**, **Bookmarks** and **Native Messaging** are optional permissions. They are disabled by default. If you'd like to:
+- show notifications and/or 
+- save your list of search engines to your local disk, or 
+- search your history or bookmarks from the Omnibox, or
+- download videos from YouTube (using native messaging) 
+then open the extensions manager, select Context Search and, under the Permissions tab, enable the appropriate permissions.
 
 To open search results in a new private window, in the extensions manager, allow Context Search to <em>"Run in Private Windows"</em>.
 
@@ -91,7 +96,6 @@ Prior to using this feature, **ensure that you have logged in** to the website(s
 - google (for Google AI Studio where different models are available)
 - perplexity
 - poe (where you can choose amongst different LL models, namely Llama 3.1)
-- exa
 - andi
 - you
 
@@ -123,7 +127,8 @@ will display your 10 most recent bookmarks
 
 Please note that permissions for History and/or Bookmarks need to be anabled for the latter features to work.
 
-## Advanced features for macOS users
+
+## Advanced features for macOS users
 
 To download videos from YouTube or Vimeo, Homebrew, yt-dlp, ffmpeg and Python are required. You'll also need to disable video previews from your YouTube settings for video downloads to work.
 
@@ -165,6 +170,7 @@ check=True)
 Formating parameters available for yt-dlp may be found on the [yt-dlp GitHub repo](https://github.com/yt-dlp/yt-dlp?tab=readme-ov-file#format-selection)
 
 N.B. Please note that the context menu option to download the videos will only work when right-clicking on ==video thumbnails==.
+
 
 ## Advanced features for Windows users
 
