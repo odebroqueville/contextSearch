@@ -1,5 +1,10 @@
-5.3.0
+5.3.1
 =========
+
+* Added TinEye to list of search engines for reverse image search
+
+5.3.0
+---------
 
 * Bug fix #189 : Context menu would no longer open because onclick listener removed unknown listener and lastTab was incorrectly treated as an object instead of an integer
 * Bug fix [#193](https://github.com/odebroqueville/contextSearch/issues/193)

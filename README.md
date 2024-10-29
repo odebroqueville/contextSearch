@@ -4,10 +4,11 @@ Firefox add-on to search selected text in a web page using your favorite search 
 
 ## Features
 
+* Added dark theme for the Options page
 * Access search engines from the Context Menu
 * Access search engines from an Icons Grid
 * Compatible with search engines using either HTTP GET or HTTP POST requests
-* Reverse-image search
+* Reverse-image search using Google, Google Lens or TinEye
 * Site search
 * Carry out multiple searches at once using multisearch
 * Manage your search engines from the extension's Options page
