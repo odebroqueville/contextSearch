@@ -4,7 +4,7 @@
 globalThis.browser ??= chrome;
 
 /// Import constants
-import { googleReverseImageSearchUrl, googleLensUrl, chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, poeUrl, claudeUrl, youUrl, andiUrl, aiUrls } from './hosts.js';
+import { googleReverseImageSearchUrl, googleLensUrl, tineyeUrl, chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, poeUrl, claudeUrl, youUrl, andiUrl, aiUrls } from './hosts.js';
 import { base64chatGPT, base64GoogleAIStudio, base64perplexity, base64poe, base64claude, base64you, base64andi, base64exa, base64ContextSearchIcon, base64FolderIcon } from './favicons.js';
 import { USER_AGENT_FOR_SIDEBAR, USER_AGENT_FOR_GOOGLE, DEFAULT_SEARCH_ENGINES, REQUEST_FILTER, titleMultipleSearchEngines, titleAISearch, titleSiteSearch, titleExactMatch, titleOptions, windowTitle, omniboxDescription, notifySearchEnginesLoaded, notifySearchEngineAdded, notifyUsage, notifySearchEngineWithKeyword, notifyUnknown, notifySearchEngineUrlRequired, DEFAULT_OPTIONS } from './constants.js';
 
@@ -15,6 +15,7 @@ let newSearchEngineUrl;
 let formData;
 let selection = '';
 let targetUrl = '';
+let imageUrl = '';
 let lastAddressBarKeyword = '';
 let historyItems, bookmarkItems;
 let bookmarked = false;
@@ -199,6 +200,8 @@ browser.runtime.onMessage.addListener((message, sender) => {
             return browser.pageAction.show(sender.tab.id);
         case 'contentScriptLoaded':
             return handleContentScriptLoaded(data);
+        case 'getTineyeImageUrl':
+            return sendTineyeImageUrl();
         default:
             console.error('Unexpected action:', action);
             return false;
@@ -529,6 +532,16 @@ async function handleContentScriptLoaded(data) {
         }
     }
     return false;
+}
+
+async function sendTineyeImageUrl() {
+    if (targetUrl) {
+        if (logToConsole) console.log(`Sending Tineye image URL: ${targetUrl}`);
+        return {
+            action: "fillTineyeForm",
+            data: { imageUrl: imageUrl }
+        };
+    }
 }
 
 // Test if a search engine performing a search for the keyword 'test' returns valid results
@@ -1154,6 +1167,11 @@ async function buildContextMenu() {
             title: 'Google Lens',
             contexts: ['image'],
         });
+        browser.menus.create({
+            id: 'cs-tineye',
+            title: 'TinEye',
+            contexts: ['image'],
+        });
     }
 
     // Build the context menu for YouTube video downloads
@@ -1245,6 +1263,10 @@ async function processSearch(info, tab) {
         return;
     }
     if (id === 'google-lens') {
+        await displaySearchResults(id, tabIndex, multisearch, windowInfo.id);
+        return;
+    }
+    if (id === 'tineye') {
         await displaySearchResults(id, tabIndex, multisearch, windowInfo.id);
         return;
     }
@@ -1467,6 +1489,9 @@ async function setTargetUrl(id, aiEngine = '') {
     if (id === 'google-lens') {
         return googleLensUrl + targetUrl;
     }
+    if (id === 'tineye') {
+        return tineyeUrl;
+    }
     if (id === 'site-search' || (id.startsWith('link-') && !searchEngines[id].url.startsWith('javascript:'))) {
         let quote = '';
         if (options.exactMatch) quote = '%22';
@@ -1528,6 +1553,7 @@ function getAIProviderBaseUrl(provider) {
 // Display the search results for a single search (link, HTTP POST or GET request, or AI prompt)
 async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEngine = '', prompt = '') {
     const options = await getOptions();
+    imageUrl = targetUrl;
     targetUrl = await setTargetUrl(id, aiEngine);
     const postDomain = getDomain(targetUrl);
     let searchEngine, url;
@@ -1565,11 +1591,11 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEn
     if (logToConsole && searchEngine) console.log(`Opening tab at index ${tabPosition} for ${searchEngine.name} at ${url} in window ${windowId}`);
 
     if (!multisearch && options.tabMode === 'openSidebar') {
-        if (url === getDomain(url)) {
+        const suffix = (id === 'reverse-image-search' || id === 'google-lens' || id === 'tineye' || id.startsWith('chatgpt-')) ? '' : '#_sidebar';
+        if (suffix && url === getDomain(url)) {
             url += '/';
         }
-        let suffix = (id === 'reverse-image-search' || id === 'google-lens' || id.startsWith('chatgpt-')) ? '' : '#_sidebar';
-        let tabUrl = url + suffix;
+        const tabUrl = url + suffix;
 
         if (logToConsole) console.log(tabUrl);
 
