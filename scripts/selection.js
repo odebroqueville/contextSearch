@@ -3,8 +3,10 @@
 
 /// Global Constants
 const mycroftUrl = 'https://mycroftproject.com/installos.php/';
+const bingUrl = 'https://www.bing.com/visualsearch';
 const googleReverseImageSearchUrl = 'https://www.google.com/searchbyimage?sbisrc=1&safe=off&image_url=';
 const googleLensUrl = 'https://lens.google.com/uploadbyurl?url=';
+const yandexUrl = 'https://www.yandex.com/images';
 const tineyeUrl = 'https://www.tineye.com';
 const chatGPTUrl = 'https://chatgpt.com';
 const googleAIStudioUrl = 'https://aistudio.google.com/app/prompts/new_chat';
@@ -253,8 +255,8 @@ async function init() {
 
     // Handle reverse image searches from Tineye
     if (tineyeUrl.startsWith(trimmedUrl)) {
-        const response = await sendMessage('getTineyeImageUrl', null);
-        if (response.action === 'fillTineyeForm' && response.data) {
+        const response = await sendMessage('getImageUrl', null);
+        if (response.action === 'fillFormWithImageUrl' && response.data) {
             const { imageUrl } = response.data;
             const urlBox = document.getElementById('url_box');
             const submitButton = document.getElementById('url_submit');
@@ -293,7 +295,52 @@ async function init() {
                 }
             }
         }
-    } else if (!googleReverseImageSearchUrl.startsWith(trimmedUrl) && !googleLensUrl.startsWith(trimmedUrl)) {
+    } else if (trimmedUrl === bingUrl) {
+        const response = await sendMessage('getImageUrl', null);
+        if (response.action === 'fillFormWithImageUrl' && response.data) {
+            const { imageUrl } = response.data;
+            // Find the input element
+            const inputField = document.getElementById('vsk_imgpst');
+            inputField.focus();
+            inputField.value = imageUrl;
+
+            // Create an input event to trigger any listeners
+            const event = new InputEvent('input', {
+                bubbles: true,
+                cancelable: true,
+            });
+            inputField.dispatchEvent(event);
+
+            // Simulate Enter key press
+            const enterEvent = new KeyboardEvent('keypress', {
+                bubbles: true,
+                cancelable: true,
+                key: 'Enter',
+                keyCode: 13,
+                which: 13
+            });
+            inputField.dispatchEvent(enterEvent);
+        }
+    } /*else if (trimmedUrl === yandexUrl) {
+        const response = await sendMessage('getImageUrl', null);
+        if (response.action === 'fillFormWithImageUrl' && response.data) {
+            const { imageUrl } = response.data;
+            const button = document.getElementsByClassName('button2 button2_theme_clear button2_size_l button2_view_classic input__button input__cbir-button i-bem')[0];
+            button.click();
+
+            // Wait for the popup to open and the input field to be available
+            await new Promise(resolve => setTimeout(resolve, 3000));
+
+            // Find the input element
+            const inputField = document.querySelectorAll('input[class="Textinput-Control"]')[0];
+            inputField.focus();
+            inputField.value = imageUrl;
+
+            const submitButton = document.getElementsByClassName('Button2 Button2_view_default Button2_size_m Button2_width_auto CbirPanel-UrlFormButton')[0];
+            submitButton.click();
+        }
+    } */
+    else if (!googleReverseImageSearchUrl.startsWith(trimmedUrl) && !googleLensUrl.startsWith(trimmedUrl)) {
         // Identify the search engine corresponding to the domain and determine if it uses an HTTP POST request
         for (let id in searchEngines) {
             if (id.startsWith('separator-') || id.startsWith('link-') || id.startsWith('chatgpt-') || searchEngines[id].isFolder) continue;

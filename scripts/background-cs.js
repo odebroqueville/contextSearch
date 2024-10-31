@@ -4,7 +4,7 @@
 globalThis.browser ??= chrome;
 
 /// Import constants
-import { googleReverseImageSearchUrl, googleLensUrl, tineyeUrl, chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, poeUrl, claudeUrl, youUrl, andiUrl, aiUrls } from './hosts.js';
+import { bingUrl, googleReverseImageSearchUrl, googleLensUrl, yandexUrl, tineyeUrl, chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, poeUrl, claudeUrl, youUrl, andiUrl, aiUrls } from './hosts.js';
 import { base64chatGPT, base64GoogleAIStudio, base64perplexity, base64poe, base64claude, base64you, base64andi, base64exa, base64ContextSearchIcon, base64FolderIcon } from './favicons.js';
 import { USER_AGENT_FOR_SIDEBAR, USER_AGENT_FOR_GOOGLE, DEFAULT_SEARCH_ENGINES, REQUEST_FILTER, titleMultipleSearchEngines, titleAISearch, titleSiteSearch, titleExactMatch, titleOptions, windowTitle, omniboxDescription, notifySearchEnginesLoaded, notifySearchEngineAdded, notifyUsage, notifySearchEngineWithKeyword, notifyUnknown, notifySearchEngineUrlRequired, DEFAULT_OPTIONS } from './constants.js';
 
@@ -204,8 +204,8 @@ browser.runtime.onMessage.addListener((message, sender) => {
             return browser.pageAction.show(sender.tab.id);
         case 'contentScriptLoaded':
             return handleContentScriptLoaded(data);
-        case 'getTineyeImageUrl':
-            return sendTineyeImageUrl();
+        case 'getImageUrl':
+            return sendImageUrl();
         default:
             console.error('Unexpected action:', action);
             return false;
@@ -528,11 +528,11 @@ async function handleContentScriptLoaded(data) {
     return false;
 }
 
-async function sendTineyeImageUrl() {
+async function sendImageUrl() {
     if (targetUrl) {
-        if (logToConsole) console.log(`Sending Tineye image URL: ${targetUrl}`);
+        if (logToConsole) console.log(`Sending image URL: ${targetUrl}`);
         return {
-            action: "fillTineyeForm",
+            action: "fillFormWithImageUrl",
             data: { imageUrl: imageUrl }
         };
     }
@@ -577,6 +577,15 @@ async function handleSetTargetUrl(data) {
         visible: !showVideoDownloadMenu
     });
     await browser.menus.update('cs-google-lens', {
+        visible: !showVideoDownloadMenu
+    });
+    await browser.menus.update('cs-bing-image-search', {
+        visible: !showVideoDownloadMenu
+    });
+    await browser.menus.update('cs-yandex-image-search', {
+        visible: !showVideoDownloadMenu
+    });
+    await browser.menus.update('cs-tineye', {
         visible: !showVideoDownloadMenu
     });
 }
@@ -1152,6 +1161,11 @@ async function buildContextMenu() {
     // Build the context menu for image searches
     const buildContextMenuForImages = () => {
         browser.menus.create({
+            id: 'cs-bing-image-search',
+            title: 'Bing Image Search',
+            contexts: ['image'],
+        });
+        browser.menus.create({
             id: 'cs-reverse-image-search',
             title: 'Google Reverse Image Search',
             contexts: ['image'],
@@ -1161,6 +1175,11 @@ async function buildContextMenu() {
             title: 'Google Lens',
             contexts: ['image'],
         });
+        /* browser.menus.create({
+            id: 'cs-yandex-image-search',
+            title: 'Yandex Image Search',
+            contexts: ['image'],
+        }); */
         browser.menus.create({
             id: 'cs-tineye',
             title: 'TinEye',
@@ -1260,6 +1279,14 @@ async function processSearch(info, tab) {
         return;
     }
     if (id === 'tineye') {
+        await displaySearchResults(id, tabIndex, multisearch, windowInfo.id);
+        return;
+    }
+    if (id === 'bing-image-search') {
+        await displaySearchResults(id, tabIndex, multisearch, windowInfo.id);
+        return;
+    }
+    if (id === 'yandex-image-search') {
         await displaySearchResults(id, tabIndex, multisearch, windowInfo.id);
         return;
     }
@@ -1481,6 +1508,12 @@ async function setTargetUrl(id, aiEngine = '') {
     if (id === 'tineye') {
         return tineyeUrl;
     }
+    if (id === 'bing-image-search') {
+        return bingUrl;
+    }
+    if (id === 'yandex-image-search') {
+        return yandexUrl;
+    }
     if (id === 'site-search' || (id.startsWith('link-') && !searchEngines[id].url.startsWith('javascript:'))) {
         let quote = '';
         if (options.exactMatch) quote = '%22';
@@ -1579,7 +1612,7 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEn
     if (logToConsole && searchEngine) console.log(`Opening tab at index ${tabPosition} for ${searchEngine.name} at ${url} in window ${windowId}`);
 
     if (!multisearch && options.tabMode === 'openSidebar') {
-        const suffix = (id === 'reverse-image-search' || id === 'google-lens' || id === 'tineye' || id.startsWith('chatgpt-')) ? '' : '#_sidebar';
+        const suffix = (id === 'reverse-image-search' || id === 'google-lens' || id === 'tineye' || id === 'bing-image-search' || id.startsWith('chatgpt-')) ? '' : '#_sidebar';
         if (suffix && url === getDomain(url)) {
             url += '/';
         }
