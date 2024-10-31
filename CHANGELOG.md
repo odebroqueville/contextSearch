@@ -1,5 +1,10 @@
-5.3.1
+5.3.2
 =========
+
+* Bug fix [#195](https://github.com/odebroqueville/contextSearch/issues/195)
+
+5.3.1
+---------
 
 * Added TinEye to list of search engines for reverse image search
 

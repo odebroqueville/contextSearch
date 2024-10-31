@@ -10,6 +10,7 @@ import { USER_AGENT_FOR_SIDEBAR, USER_AGENT_FOR_GOOGLE, DEFAULT_SEARCH_ENGINES, 
 
 /// Global variables
 /* global  */
+let options;
 let searchEngines = {};
 let newSearchEngineUrl;
 let formData;
@@ -76,6 +77,9 @@ browser.tabs.onMoved.addListener(updateAddonStateForActiveTab);
 
 // listen for window switching
 browser.windows.onFocusChanged.addListener(updateAddonStateForActiveTab);
+
+// Listen for storage sync changes
+browser.storage.sync.onChanged.addListener(handleStorageChange);
 
 // Handle browser action click
 browser.browserAction.onClicked.addListener(toggleBookmark);
@@ -214,7 +218,6 @@ Rewrite the User-Agent header to USER_AGENT_FOR_SIDEBAR
 */
 async function rewriteUserAgentHeader(e) {
     if (logToConsole) console.log(e);
-    const options = await getOptions();
 
     // Check if this is a Google image search URL (including redirects)
     const isGoogleImageSearch = e.url.includes('google.com/') &&
@@ -253,6 +256,10 @@ async function rewriteUserAgentHeader(e) {
     }
 
     return { requestHeaders: e.requestHeaders };
+}
+
+async function handleStorageChange() {
+    options = await getOptions();
 }
 
 // Functions used to handle incoming messages
@@ -332,7 +339,6 @@ async function handleDoSearch(data) {
     // The id of the search engine, folder, AI prompt or 'multisearch'
     // The source is either the grid of icons (for multisearch) or a keyboard shortcut
     const id = data.id;
-    const options = await getOptions();
     let multiTabArray = [];
     if (logToConsole) console.log('Search engine id: ' + id);
     if (logToConsole) console.log(options.tabMode === 'openSidebar');
@@ -400,44 +406,37 @@ async function handleAddNewPrompt(data) {
 }
 
 async function handleUpdateSearchOptions(data) {
-    let options = await getOptions();
     options.exactMatch = data.exactMatch;
     await saveOptions(options, true);
 }
 
 async function handleUpdateDisplayFavicons(data) {
-    let options = await getOptions();
     options.displayFavicons = data.displayFavicons;
     await saveOptions(options, true);
 }
 
 async function handleUpdateQuickIconGrid(data) {
-    let options = await getOptions();
     options.quickIconGrid = data.quickIconGrid;
     await saveOptions(options, false);
 }
 
 async function handleUpdateCloseGridOnMouseOut(data) {
-    let options = await getOptions();
     options.closeGridOnMouseOut = data.closeGridOnMouseOut;
     await saveOptions(options, false);
 }
 
 async function handleOffsetUpdate(data) {
-    let options = await getOptions();
     if (data.offsetX) options.offsetX = data.offsetX;
     if (data.offsetY) options.offsetY = data.offsetY;
     await saveOptions(options, false);
 }
 
 async function handleUpdateDisableAltClick(data) {
-    let options = await getOptions();
     options.disableAltClick = data.disableAltClick;
     await saveOptions(options, false);
 }
 
 async function handleUpdateTabMode(data) {
-    let options = await getOptions();
     options.tabMode = data.tabMode;
     options.tabActive = data.tabActive;
     options.lastTab = data.lastTab;
@@ -446,32 +445,27 @@ async function handleUpdateTabMode(data) {
 }
 
 async function handleUpdateOverwriteSearchEngines(data) {
-    let options = await getOptions();
     options.overwriteSearchEngines = data.overwriteSearchEngines;
     await saveOptions(options, false);
 }
 
 async function handleUpdateMultiMode(data) {
-    let options = await getOptions();
     options.multiMode = data.multiMode;
     await saveOptions(options, false);
 }
 
 async function handleUpdateOptionsMenuLocation(data) {
-    let options = await getOptions();
     options.optionsMenuLocation = data.optionsMenuLocation;
     await saveOptions(options, true);
 }
 
 async function handleUpdateSiteSearchSetting(data) {
-    let options = await getOptions();
     options.siteSearch = data.siteSearch;
     options.siteSearchUrl = data.siteSearchUrl;
     await saveOptions(options, true);
 }
 
 async function handleUpdateResetOptions(data) {
-    let options = await getOptions();
     options.forceSearchEnginesReload = data.resetOptions.forceSearchEnginesReload;
     options.resetPreferences = data.resetOptions.resetPreferences;
     options.forceFaviconsReload = data.resetOptions.forceFaviconsReload;
@@ -590,7 +584,6 @@ async function handleSetTargetUrl(data) {
 async function handleExecuteAISearch(data) {
     const { aiEngine, prompt } = data;
     const id = 'chatgpt-direct';
-    const options = await getOptions();
     const windowInfo = await browser.windows.getCurrent();
     const tabs = await queryAllTabs();
     let tabPosition;
@@ -688,7 +681,7 @@ async function handlePageAction(tab) {
 
 async function initialiseOptionsAndSearchEngines() {
     /// Initialise options
-    let options = {};
+    options = {};
     let data = await browser.storage.sync.get().catch((err) => {
         if (logToConsole) {
             console.error(err);
@@ -779,8 +772,7 @@ function setKeyboardShortcuts() {
 
 async function getOptions() {
     const data = await browser.storage.sync.get();
-    const options = data.options;
-    return options;
+    return data.options;
 }
 
 async function saveOptions(options, blnBuildContextMenu) {
@@ -848,7 +840,6 @@ async function saveSearchEnginesToLocalStorage() {
 /// Fetch and store favicon image format and base64 representation to searchEngines
 async function getFaviconsAsBase64Strings() {
     if (logToConsole) console.log('Fetching favicons..');
-    const options = await getOptions();
     let arrayOfPromises = [];
 
     for (let id in searchEngines) {
@@ -992,8 +983,13 @@ function getFaviconForPrompt(id, aiProvider) {
 
 function addClickListener() {
     menuClickHandler = async (info, tab) => {
-        if (logToConsole) console.log('Opening the sidebar.');
-        browser.sidebarAction.open();
+        if (options.tabMode === 'openSidebar') {
+            if (logToConsole) console.log('Opening the sidebar.');
+            await browser.sidebarAction.open();
+        } else {
+            if (logToConsole) console.log('Closing the sidebar.');
+            await browser.sidebarAction.close();
+        }
         await handleMenuClick(info, tab);
     }
     browser.menus.onClicked.addListener(menuClickHandler);
@@ -1009,7 +1005,6 @@ function removeClickListener() {
 async function handleMenuClick(info, tab) {
     const id = (info.menuItemId.startsWith('cs-')) ? info.menuItemId.replace('cs-', '') : info.menuItemId;
     const ignoreIds = ['download-video', 'reverse-image-search', 'google-lens', 'options', 'multitab', 'match', 'ai-search'];
-    const options = await getOptions();
 
     if (logToConsole) console.log('Clicked on ' + id);
 
@@ -1027,7 +1022,6 @@ async function buildContextMenu() {
     // const v = info.version;
     // const browserVersion = parseInt(v.slice(0, v.search('.') - 1));
     const rootChildren = searchEngines['root'].children;
-    const options = await getOptions();
 
     // Start of functions for building the context menu
 
@@ -1228,7 +1222,6 @@ async function processSearch(info, tab) {
     const windowInfo = await browser.windows.getCurrent();
     const multisearch = false;
     const id = (info.menuItemId.startsWith('cs-')) ? info.menuItemId.replace('cs-', '') : info.menuItemId;
-    const options = await getOptions();
 
     // By default, open the search results right after the active tab
     let tabIndex = tab.index + 1;
@@ -1283,7 +1276,6 @@ async function processSearch(info, tab) {
         return;
     }
     if (id === 'match') {
-        let options = await getOptions();
         if (logToConsole) {
             console.log(
                 `Preferences retrieved from sync storage: ${JSON.stringify(options)}`
@@ -1314,7 +1306,6 @@ async function processMultisearch(arraySearchEngineUrls, tabPosition) {
     let urlArray = [];
 
     const searchEngines = await browser.storage.local.get();
-    const options = await getOptions();
 
     // Helper function to log array contents
     const logArrayContents = (label, array) => {
@@ -1467,7 +1458,6 @@ async function processNonUrlArray(nonUrlArray, tabPosition, windowId) {
 
 // Handle search terms if there are any
 async function getSearchEngineUrl(searchEngineUrl, sel) {
-    const options = await getOptions();
     let quote = '';
     if (options.exactMatch) quote = '%22';
     if (searchEngineUrl.includes('{searchTerms}')) {
@@ -1480,7 +1470,6 @@ async function getSearchEngineUrl(searchEngineUrl, sel) {
 }
 
 async function setTargetUrl(id, aiEngine = '') {
-    const options = await getOptions();
     if (logToConsole) console.log('Active tab is:');
     if (logToConsole) console.log(activeTab);
     if (id === 'reverse-image-search') {
@@ -1552,7 +1541,6 @@ function getAIProviderBaseUrl(provider) {
 
 // Display the search results for a single search (link, HTTP POST or GET request, or AI prompt)
 async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEngine = '', prompt = '') {
-    const options = await getOptions();
     imageUrl = targetUrl;
     targetUrl = await setTargetUrl(id, aiEngine);
     const postDomain = getDomain(targetUrl);
@@ -1744,7 +1732,6 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
     const keyword = input.split(' ')[0];
     const suggestion = await buildSuggestion(input);
     const windowInfo = await browser.windows.getCurrent();
-    const options = await getOptions();
     let searchTerms = input.replace(keyword, '').trim();
 
     // Check if the search terms contain '%s' or '{searchTerms}'
@@ -1893,7 +1880,6 @@ async function processSearchEngine(id, searchTerms) {
         const searchEngineUrl = searchEngines[id].url;
         // If search engine is a link
         if (id.startsWith('link-') && !searchEngineUrl.startsWith('javascript:')) {
-            const options = await getOptions();
             let quote = '';
             if (options.exactMatch) quote = '%22';
             const domain = getDomain(searchEngineUrl).replace(/https?:\/\//, '');
@@ -1914,7 +1900,6 @@ async function buildSuggestion(text) {
     const aiEngines = ['chatgpt', 'google', 'perplexity', 'poe', 'claude', 'you', 'andi', 'exa'];
     const keyword = text.split(' ')[0];
     const searchTerms = text.replace(keyword, '').trim();
-    const options = await getOptions();
     let result = [];
     let quote = '';
     let showNotification = true;
