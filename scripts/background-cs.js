@@ -46,9 +46,13 @@ browser.runtime.onInstalled.addListener(async (details) => {
         console.log('Debugging enabled.');
         console.log(details);
     }
-    if (details.reason === "install" || details.reason === "update") {
+    if (details.reason === "install" || details.reason === "update" || details.reason === "browser_update") {
         await init();
     }
+})
+
+browser.runtime.onStartup.addListener(async () => {
+    await init();
 })
 
 // Listen for changes to the notifications permission
@@ -78,8 +82,8 @@ browser.tabs.onMoved.addListener(updateAddonStateForActiveTab);
 // listen for window switching
 browser.windows.onFocusChanged.addListener(updateAddonStateForActiveTab);
 
-// Listen for storage sync changes
-browser.storage.sync.onChanged.addListener(handleStorageChange);
+// Listen for storage changes
+browser.storage.onChanged.addListener(handleStorageChange);
 
 // Handle browser action click
 browser.browserAction.onClicked.addListener(toggleBookmark);
@@ -258,8 +262,9 @@ async function rewriteUserAgentHeader(e) {
     return { requestHeaders: e.requestHeaders };
 }
 
-async function handleStorageChange() {
-    options = await getOptions();
+async function handleStorageChange(changes, areaName) {
+    if (areaName === 'sync' && changes) options = await getOptions();
+    if (areaName === 'local' && changes) searchEngines = await browser.storage.local.get();
 }
 
 // Functions used to handle incoming messages
@@ -615,7 +620,7 @@ async function init() {
     if (logToConsole) {
         // Inform on storage space being used by storage sync
         const bytesUsed = await browser.storage.sync
-            .getBytesInUse(null)
+            .getBytesInUse()
             .catch((err) => {
                 console.error(err);
                 console.log('Failed to retrieve storage space used by storage sync.');
@@ -623,7 +628,7 @@ async function init() {
         console.log(`Bytes used by storage sync: ${bytesUsed} bytes.`);
 
         // Inform on storage space being used by local storage
-        const items = await browser.storage.local.get(null);
+        const items = await browser.storage.local.get();
         console.log(
             `Bytes used by local storage: ${JSON.stringify(items).length} bytes.`
         );
@@ -727,7 +732,7 @@ async function initialiseOptionsAndSearchEngines() {
         }
     }
 
-    initSearchEngines();
+    await initSearchEngines();
 }
 
 async function initSearchEngines() {
@@ -1229,9 +1234,9 @@ async function buildContextMenu() {
 
 function onCreated(id) {
     if (browser.runtime.lastError) {
-        console.log(`Error: ${browser.runtime.lastError}`);
+        if (logToConsole) console.log(`Error: ${browser.runtime.lastError}`);
     } else {
-        console.log(`Menu Item ${id} created successfully`);
+        if (logToConsole) console.log(`Menu Item ${id} created successfully`);
     }
 }
 
@@ -1332,7 +1337,7 @@ async function processMultisearch(arraySearchEngineUrls, tabPosition) {
     let aiArray = [];
     let urlArray = [];
 
-    const searchEngines = await browser.storage.local.get();
+    // const searchEngines = await browser.storage.local.get();
 
     // Helper function to log array contents
     const logArrayContents = (label, array) => {
