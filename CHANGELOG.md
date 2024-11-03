@@ -1,5 +1,11 @@
-5.3.2
+5.3.3
 =========
+
+* Bug fix [#196](https://github.com/odebroqueville/contextSearch/issues/196)
+* Added Bing to list of reverse image search engines
+
+5.3.2
+---------
 
 * Bug fix [#195](https://github.com/odebroqueville/contextSearch/issues/195)
 
