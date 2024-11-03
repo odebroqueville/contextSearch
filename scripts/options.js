@@ -1001,8 +1001,14 @@ function clearKeyboardShortcuts() {
     saveSearchEngines();
 }
 
-function reset() {
-    sendMessage('reset', null);
+async function reset() {
+    await sendMessage('reset', null);
+
+    // Reset reset settings to theirr default state
+    resetPreferences.checked = false;
+    forceSearchEnginesReload.checked = false;
+    forceFaviconsReload.checked = false;
+    await updateResetOptions();
 }
 
 // Begin of user event handlers
@@ -1655,7 +1661,7 @@ async function setOptions(options) {
     if (options.displayFavicons === false) {
         displayFavicons.checked = false;
     } else {
-        // Default setting is to fetch favicons for context menu list
+        // Default setting is to fetch favicons for context menu search engines
         displayFavicons.checked = true;
     }
 
@@ -1666,25 +1672,25 @@ async function setOptions(options) {
     yOffset.value = options.offsetY;
     disableAltClick.checked = options.disableAltClick;
 
-    if (options.resetPreferences === false) {
-        resetPreferences.checked = false;
-    } else {
-        // Default setting is to cache favicons in storage sync
+    if (options.resetPreferences === true) {
         resetPreferences.checked = true;
+    } else {
+        // Default setting is to not reset preferences
+        resetPreferences.checked = false;
     }
 
-    if (options.forceSearchEnginesReload === false) {
-        forceSearchEnginesReload.checked = false;
-    } else {
-        // Default setting is to cache favicons in storage sync
+    if (options.forceSearchEnginesReload === true) {
         forceSearchEnginesReload.checked = true;
+    } else {
+        // Default setting is to not reload default search engines
+        forceSearchEnginesReload.checked = false;
     }
 
-    if (options.forceFaviconsReload === false) {
-        forceFaviconsReload.checked = false;
-    } else {
-        // Default setting is to cache favicons in storage sync
+    if (options.forceFaviconsReload === true) {
         forceFaviconsReload.checked = true;
+    } else {
+        // Default setting is to not reload default favicons
+        forceFaviconsReload.checked = false;
     }
 
     switch (options.multiMode) {
@@ -1891,7 +1897,7 @@ async function updateSiteSearchSetting() {
 }
 
 async function updateResetOptions() {
-    let resetOptions = {
+    const resetOptions = {
         forceSearchEnginesReload: forceSearchEnginesReload.checked,
         resetPreferences: resetPreferences.checked,
         forceFaviconsReload: forceFaviconsReload.checked

@@ -474,7 +474,7 @@ async function handleUpdateResetOptions(data) {
     options.forceSearchEnginesReload = data.resetOptions.forceSearchEnginesReload;
     options.resetPreferences = data.resetOptions.resetPreferences;
     options.forceFaviconsReload = data.resetOptions.forceFaviconsReload;
-    await saveOptions(options, false);
+    await saveOptions(options, true);
 }
 
 async function handleSaveSearchEnginesToDisk(data) {
@@ -720,16 +720,11 @@ async function initialiseOptionsAndSearchEngines() {
     await saveOptions(options, false);
 
     /// Initialise search engines
-    // If there were search engines stored in storage sync (legacy), move them to storage local
-    if (!isEmpty(data) && Object.keys(data).length > 1) {
-        searchEngines = data;
-    } else {
-        // Check for search engines in local storage
-        searchEngines = await browser.storage.local.get();
-        if (searchEngines === undefined || isEmpty(searchEngines) || options.forceSearchEnginesReload) {
-            // Load default search engines if force reload is set or if no search engines are stored in local storage
-            await loadDefaultSearchEngines(DEFAULT_SEARCH_ENGINES);
-        }
+    // Check for search engines in local storage
+    searchEngines = await browser.storage.local.get();
+    if (searchEngines === undefined || isEmpty(searchEngines) || options.forceSearchEnginesReload) {
+        // Load default search engines if force reload is set or if no search engines are stored in local storage
+        await loadDefaultSearchEngines(DEFAULT_SEARCH_ENGINES);
     }
 
     await initSearchEngines();

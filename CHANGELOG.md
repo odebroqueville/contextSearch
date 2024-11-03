@@ -1,5 +1,10 @@
-5.3.3
+5.3.4
 =========
+
+* Make reset a one-off action by resetting the reset settings to their default state (false) after a reset
+
+5.3.3
+---------
 
 * Bug fix [#196](https://github.com/odebroqueville/contextSearch/issues/196)
 * Added Bing to list of reverse image search engines
