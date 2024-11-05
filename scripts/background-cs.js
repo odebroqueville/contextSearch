@@ -138,8 +138,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
             //if (logToConsole) console.log(`Selected text from tab ${sender.tab.id}: ${selections[sender.tab.id]}`);
             break;
         case 'reset':
-            handleReset();
-            break;
+            return handleReset();
         case 'setTargetUrl':
             return handleSetTargetUrl(data);
         case 'testSearchEngine':
@@ -197,8 +196,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
             handleUpdateSiteSearchSetting(data);
             break;
         case 'updateResetOptions':
-            handleUpdateResetOptions(data);
-            break;
+            return handleUpdateResetOptions(data);
         case 'saveSearchEnginesToDisk':
             handleSaveSearchEnginesToDisk(data);
             break;
@@ -370,10 +368,18 @@ async function handleDoSearch(data) {
     }
 }
 
+/// Reset extension
+// Resets the options to the default settings if options.resetPreferences is set
+// Resets the list of search engines to the default list if options.forceSearchEnginesReload is set
+// Force favicons to be reloaded if options.forceFaviconsReload is set
 async function handleReset() {
-    const response = await reset();
-    if (logToConsole) console.log(response);
-    sendMessageToOptionsPage(response, null);
+    if (logToConsole) {
+        console.log(
+            "Resetting extension's preferences and search engines as per user reset preferences."
+        );
+    }
+    await initialiseOptionsAndSearchEngines();
+    return { action: "resetCompleted" };
 }
 
 async function handleSaveSearchEngines(data) {
@@ -474,7 +480,8 @@ async function handleUpdateResetOptions(data) {
     options.forceSearchEnginesReload = data.resetOptions.forceSearchEnginesReload;
     options.resetPreferences = data.resetOptions.resetPreferences;
     options.forceFaviconsReload = data.resetOptions.forceFaviconsReload;
-    await saveOptions(options, true);
+    await saveOptions(options, false);
+    return "updatedResetOptions";
 }
 
 async function handleSaveSearchEnginesToDisk(data) {
@@ -502,7 +509,7 @@ async function handleContentScriptLoaded(data) {
         if (logToConsole) console.log(`Prompt: ${promptText}`);
         return {
             action: "askPrompt",
-            data: { url: tabUrl, prompt: promptText }
+            data: { url: domain, prompt: promptText }
         };
     }
 
@@ -652,20 +659,6 @@ async function init() {
 async function checkNotificationsPermission() {
     notificationsEnabled = await browser.permissions.contains({ permissions: ["notifications"] });
     if (logToConsole) console.log(`${notificationsEnabled ? 'Notifications enabled.' : 'Notifications disabled.'}`);
-}
-
-/// Reset extension
-// Resets the options to the default list if options.resetPreferences is set
-// Resets the list of search engines to the default list if options.forceSearchEnginesReload is set
-// Force favicons to be reloaded if options.forceFaviconsReload is set
-async function reset() {
-    if (logToConsole) {
-        console.log(
-            "Resetting extension's preferences and search engines as per user reset preferences."
-        );
-    }
-    await initialiseOptionsAndSearchEngines();
-    return "resetCompleted";
 }
 
 // Fetches a favicon for the new search engine
@@ -1057,7 +1050,7 @@ async function buildContextMenu() {
         browser.menus.create({
             id: 'cs-ai-search',
             title: titleAISearch + '...',
-            contexts: ['all'],
+            contexts: ['editable', 'frame', 'page', 'selection'],
         });
         browser.menus.create({
             id: 'cs-site-search',
@@ -1268,30 +1261,6 @@ async function processSearch(info, tab) {
         if (url.includes('vimeo.com')) url = url.replace('https://', 'http://');
         if (logToConsole) console.log(url);
         sendMessageToHostScript(url);
-        return;
-    }
-    if (id === 'reverse-image-search') {
-        await displaySearchResults(id, tabIndex, multisearch, windowInfo.id);
-        return;
-    }
-    if (id === 'google-lens') {
-        await displaySearchResults(id, tabIndex, multisearch, windowInfo.id);
-        return;
-    }
-    if (id === 'tineye') {
-        await displaySearchResults(id, tabIndex, multisearch, windowInfo.id);
-        return;
-    }
-    if (id === 'bing-image-search') {
-        await displaySearchResults(id, tabIndex, multisearch, windowInfo.id);
-        return;
-    }
-    if (id === 'yandex-image-search') {
-        await displaySearchResults(id, tabIndex, multisearch, windowInfo.id);
-        return;
-    }
-    if (id === 'site-search') {
-        await displaySearchResults(id, tabIndex, multisearch, windowInfo.id);
         return;
     }
     if (id === 'options') {
@@ -1580,6 +1549,9 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEn
     let searchEngine, url;
     if (id.startsWith('chatgpt-')) {
         promptText = getPromptText(id, prompt);
+        if (searchEngines[id].aiProvider === 'chatgpt') {
+            writeClipboardText(promptText);
+        }
     }
     if (id !== 'chatgpt-direct') {
         searchEngine = searchEngines[id];
@@ -2277,5 +2249,13 @@ function toggleBookmark() {
         openBookmarkRemovalConfirmDialog();
     } else {
         openBookmarkPopup();
+    }
+}
+
+async function writeClipboardText(text) {
+    try {
+        await navigator.clipboard.writeText(text);
+    } catch (error) {
+        if (logToConsole) console.error(error.message);
     }
 }

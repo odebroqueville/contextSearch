@@ -128,8 +128,17 @@ async function ask(url, promptText) {
     if (logToConsole) console.log(`URL is: ${url}`);
     if (logToConsole) console.log(`Ready state is: ${document.readyState}`);
 
+    // Check if we're on the login page by looking for login-specific elements
+    const loginButton = document.querySelector('button[data-testid="login-button"]');
+    const loginForm = document.querySelector('form[data-testid="login-form"]');
+    if (loginButton || loginForm) {
+        if (logToConsole) console.log("Login page detected, cannot proceed.");
+        return;
+    }
+
     let submissionMade = false;
 
+    // Wait for the main chat interface to load
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     const handleChatInput = async () => {
@@ -142,8 +151,8 @@ async function ask(url, promptText) {
             if (logToConsole) console.log("AI Studio detected.");
             textarea = document.querySelector('textarea[aria-label="User text input"]');
             submit = document.querySelector("button[class*='run-button']");
-        } else if (url.includes('www.perplexity.ai/')) {
-            textarea = document.querySelector('textarea[placeholder="Ask anything..."]');
+        } else if (url.includes('www.perplexity.ai')) {
+            textarea = document.querySelector('textarea[placeholder="Search the internet..."]');
             submit = document.querySelector('button[aria-label="Submit"]');
         } else if (url.includes('poe.com')) {
             textarea = document.querySelector('textarea[placeholder="Start a new chat"]');
@@ -151,7 +160,13 @@ async function ask(url, promptText) {
             submit = false;
         } else if (url.includes('chatgpt.com')) {
             textarea = document.getElementById('prompt-textarea');
-            submit = textarea.parentElement.nextSibling;
+            if (!textarea) {
+                textarea = document.querySelector('textarea[tabindex="0"]');
+            }
+            if (!textarea) {
+                textarea = document.querySelector('form textarea');
+            }
+            submit = document.querySelector('button[data-testid="send-button"], button[aria-label="Send message"]');
         } else if (url.includes('claude.ai')) {
             textarea = document.querySelector('div[contenteditable="true"]');
         } else if (url.includes('you.com')) {
@@ -160,9 +175,6 @@ async function ask(url, promptText) {
         } else if (url.includes('andisearch.com')) {
             textarea = document.querySelector('input[name="message"]');
             submit = document.querySelector('button[type="submit"]');
-        } else if (url.includes('exa.ai/search')) {
-            textarea = document.querySelector('textarea[name="Search"]');
-            submit = textarea.nextSibling.querySelector('a');
         } else {
             const textareas = document.getElementsByTagName("textarea");
             textarea = textareas[textareas.length - 1];
@@ -176,33 +188,69 @@ async function ask(url, promptText) {
         if (logToConsole) console.log(submit);
 
         if (textarea) {
+            // Focus the textarea first
             textarea.focus();
+            textarea.click();
             if (logToConsole) console.log("Text area found.");
+
             if (url.includes('claude.ai')) {
                 textarea.textContent = promptText;
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 submit = document.querySelector('button[aria-label="Send Message"]');
             } else {
+                // Set the value directly
                 textarea.value = promptText;
             }
 
-            if (logToConsole) console.log(`Text entered: ${textarea.value}`);
+            // Create a keyboard event
+            const enterEvent = new KeyboardEvent('keydown', {
+                bubbles: true,
+                cancelable: true,
+                key: 'a',
+                code: 'KeyA',
+                keyCode: 65,
+                which: 65,
+                shiftKey: false,
+                ctrlKey: true,
+                metaKey: false
+            });
 
-            // Dispatching the necessary events to simulate user input
-            textarea.dispatchEvent(new InputEvent('input', { bubbles: true }));
-            //textarea.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
-            //textarea.dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter', bubbles: true }));
+            // Dispatch the event to trigger React's event handlers
+            textarea.dispatchEvent(enterEvent);
+
+            // Create and dispatch an input event
+            const inputEvent = new Event('input', {
+                bubbles: true,
+                cancelable: true
+            });
+            textarea.dispatchEvent(inputEvent);
+
+            if (logToConsole) console.log(`Text entered: ${textarea.value}`);
         }
 
         // Wait for a moment to allow the page to process the input
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        if (submit && !submit.disabled) {
-            submit.click();
-            submissionMade = true; // Mark the submission as done
-            if (logToConsole) console.log("Submission clicked.");
+        if (submit) {
+            // Ensure button is enabled
+            submit.disabled = false;
+
+            if (!submit.disabled) {
+                // Simulate a real click with mouse events
+                const clickEvent = new MouseEvent('click', {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window
+                });
+
+                submit.dispatchEvent(clickEvent);
+                submissionMade = true;
+                if (logToConsole) console.log("Submission clicked.");
+            } else {
+                if (logToConsole) console.log("Submit button is disabled.");
+            }
         } else {
-            if (logToConsole) console.log("Submit button not found or disabled.");
+            if (logToConsole) console.log("Submit button not found.");
         }
     };
 
@@ -857,17 +905,36 @@ function getPlainTextContentOfRange(range) {
     return plainText || '';
 }
 
+function truncateToFirst32Words(s) {
+    // Match up to the first 32 words, including any spaces or punctuation between them
+    const match = s.match(/^((\b\w+\b\W*){0,32})/);
+
+    // The match result at index 1 contains the truncated string with up to 32 words
+    const truncatedString = match ? match[1].trim() : '';
+
+    // Count the number of words in the truncated string
+    const wordCount = truncatedString.match(/\b\w+\b/g)?.length || 0;
+
+    return {
+        wordCount: wordCount,
+        truncatedText: truncatedString
+    };
+}
+
 async function sendSelectionToBackgroundScript(selectedText) {
     const data = await browser.storage.sync.get();
     const options = data.options;
+    const { wordCount, truncatedText } = truncateToFirst32Words(selectedText);
     if (logToConsole) console.log(options);
 
-    // Set the target URL for a site search based on the current domain and selected text
-    const targetUrl = options.siteSearchUrl + encodeUrl(`site:https://${domain} ${selectedText}`);
-    await sendMessage('setTargetUrl', targetUrl);
+    if (wordCount > 0) {
+        // Set the target URL for a site search based on the current domain and selected text
+        const targetUrl = options.siteSearchUrl + encodeUrl(`site:https://${domain} ${truncatedText}`);
+        await sendMessage('setTargetUrl', targetUrl);
 
-    // Send the selected text to background.js
-    await sendMessage('setSelection', { selection: selectedText });
+        // Send the selected text to background.js
+        await sendMessage('setSelection', { selection: selectedText });
+    }
 }
 
 async function createIconsGrid(x, y, folderId) {

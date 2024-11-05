@@ -74,11 +74,15 @@ You can also import a JSON file containing your own list of search engines. It i
 * add a search engine manually via the Options page (you can test the query string before adding the search engine)
 * to add a search engine that uses a submit form via an HTTP POST request, double click in the website's search text box, then at least enter a search engine name in the dialog box that appears
 
+[Here](https://youtu.be/_kV7JCgGQLk) is a video demonstrating the different ways that you can add a search engine to yout custom list of search engines.
+
 ## How to add an AI prompt to your custom list of search engines
 
-Prior to using an AI provider, **ensure that you have logged in** to their website. This is required when using ChatGPT, Calude, Google AI Studio and Poe. At the bottom of the Options page, select the tab to 'Add a new AI prompt'. Chose the AI provider you'd like to use, add a name for your prompt and enter your prompt by inserting %s where you'd like your text selection to appear (e.g. 'Comprehensively explain the following for a 10 year old: %s'). 
+For trouble-free use, **it is recommended that you log in** prior to using an AI provider. This is required when using Claude, Google AI Studio, Poe and You. At the bottom of the Options page, select the tab to 'Add a new AI prompt'. Chose the AI provider you'd like to use, add a name for your prompt and enter your prompt by inserting %s where you'd like your text selection to appear (e.g. 'Comprehensively explain the following for a 10 year old: %s'). 
 
-In most cases, after selecting text on a web page and selecting your prompt in the context menu, a new tab will open with the relevant AI engine. When possible, the prompt will be pasted in the search box and automatically submitted to the AI engine, except for Poe so that users can choose their preferred model. The search results should then appear.
+In most cases, after selecting text on a web page and selecting your prompt in the context menu, a new tab will open with the relevant AI engine. When possible, the prompt will be pasted in the search box and automatically submitted to the AI engine, except for Poe so that users can choose their preferred large language model. The search results should then appear.
+
+UPDATE November 2024: Chatgpt.com now prevents filling the text area with a prompt programmatically. Therefore, to use Chatgpt, you now have to paste the contents of the clipboard to which your prompt will have been copied. For this to work, you have to enable the Clipboard permission in the extension's preferences. Alternatively, it is possible to use Chatgpt's AI engines (GPT-4o) on Poe. However, the latest Chatgpt models (o1) require a subscription.
 
 ## How to add a separator (horizontal line) in the context menu
 

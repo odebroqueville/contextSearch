@@ -230,10 +230,15 @@ function getOS() {
 
 // Send a message to the background script
 async function sendMessage(action, data) {
-    await browser.runtime.sendMessage({ action: action, data: JSON.parse(JSON.stringify(data)) })
-        .catch(e => {
-            if (logToConsole) console.error(e);
-        });
+    try {
+        console.log(`Sending message: action=${action}, data=${JSON.stringify(data)}`);
+        const response = await browser.runtime.sendMessage({ action: action, data: data });
+        console.log(`Received response: ${JSON.stringify(response)}`);
+        return response;  // Return the response received from the background script
+    } catch (error) {
+        console.error(`Error sending message: ${error}`);
+        return null;
+    }
 }
 
 // Handle local and sync storage changes
@@ -260,11 +265,13 @@ function handleStorageChange(changes, area) {
             console.log(optionKeys);
         }
         for (let optionKey of optionKeys) {
-            if (changes[optionKey].newValue !== undefined) data[optionKey] = changes[optionKey].newValue;
-            if (logToConsole) {
-                console.log(optionKey);
-                console.log(changes[optionKey].newValue);
-                console.log('---------------------------------------');
+            if (changes[optionKey].newValue !== undefined) {
+                data[optionKey] = changes[optionKey].newValue;
+                if (logToConsole) {
+                    console.log(optionKey);
+                    console.log(changes[optionKey].newValue);
+                    console.log('---------------------------------------');
+                }
             }
         }
         if (logToConsole) console.log(data);
@@ -393,7 +400,7 @@ function expand(folderId, parentDiv) {
         parentDiv.appendChild(folderDiv);
     }
     folder.children.forEach(f => {
-        if (!searchEngines[f]) return;
+        if (!searchEngines[f] || searchEngines[f].aiProvider === 'exa') return;
         if (searchEngines[f].isFolder) {
             expand(f, folderDiv);
         } else {
@@ -445,6 +452,7 @@ function createLineItem(id) {
     let inputQueryString;
     let textareaPrompt;
     let aiProvider;
+    let selectedOption;
     let textareaFormData;
 
     // If line item is a separator
@@ -482,8 +490,8 @@ function createLineItem(id) {
         option4.text = "Perplexity.ai";
 
         const option5 = document.createElement("option");
-        option5.value = "llama31";
-        option5.text = "Llama3.1 on Poe";
+        option5.value = "poe";
+        option5.text = "Poe";
 
         const option6 = document.createElement("option");
         option6.value = "claude";
@@ -507,7 +515,11 @@ function createLineItem(id) {
         aiProvider.appendChild(option8);
 
         // Get the selected option
-        const selectedOption = aiProvider.querySelector(`option[value=${searchEngine.aiProvider}]`);
+        if (searchEngine.aiProvider === "llama31") {
+            selectedOption = aiProvider.querySelector(`option[value=poe]`);
+        } else {
+            selectedOption = aiProvider.querySelector(`option[value=${searchEngine.aiProvider}]`);
+        }
 
         // Set the selected property of the option to true
         selectedOption.selected = true;
@@ -1002,13 +1014,14 @@ function clearKeyboardShortcuts() {
 }
 
 async function reset() {
-    await sendMessage('reset', null);
-
-    // Reset reset settings to theirr default state
-    resetPreferences.checked = false;
-    forceSearchEnginesReload.checked = false;
-    forceFaviconsReload.checked = false;
-    await updateResetOptions();
+    const response = await sendMessage('reset', null);
+    if (response.action === "resetCompleted") {
+        // Reset reset settings to their default state and save changes to storage sync
+        resetPreferences.checked = false;
+        forceSearchEnginesReload.checked = false;
+        forceFaviconsReload.checked = false;
+        await updateResetOptions();
+    }
 }
 
 // Begin of user event handlers
@@ -1729,8 +1742,8 @@ async function restoreOptionsPage() {
         }
         if (!isEmpty(options)) setOptions(options);
         if (logToConsole) {
-            console.log(options);
             console.log('Options have been reset.');
+            console.log(options);
         }
         displaySearchEngines();
     } catch (err) {

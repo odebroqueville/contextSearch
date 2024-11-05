@@ -2,6 +2,10 @@
 =========
 
 * Make reset a one-off action by resetting the reset settings to their default state (false) after a reset
+* Renamed AI engine Llama31 to Poe as it provides many more models to choose from
+* Updated the favicon for Poe
+* Removed from the list of AI engines as it can be used with a search query string
+* Other minor bug fixes
 
 5.3.3
 ---------

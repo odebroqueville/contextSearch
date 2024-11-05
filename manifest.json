@@ -65,11 +65,12 @@
         "webRequestBlocking"
     ],
     "optional_permissions": [
-        "nativeMessaging",
-        "notifications",
-        "downloads",
         "bookmarks",
-        "history"
+        "clipboardWrite",
+        "downloads",
+        "history",
+        "nativeMessaging",
+        "notifications"
     ],
     "omnibox": {
         "keyword": "cs"
