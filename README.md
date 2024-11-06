@@ -177,8 +177,7 @@ Formating parameters available for yt-dlp may be found on the [yt-dlp GitHub rep
 N.B. Please note that the context menu option to download the videos will only work when right-clicking on ==video thumbnails==.
 
 
-## Advanced features for Windows users
-
+## Advanced features for Windows users
 
 ### Install Python, ffmpeg and yt-dlp
 
