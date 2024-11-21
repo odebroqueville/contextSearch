@@ -1,3 +1,6 @@
+/// Import polyfills
+import browser from './browser-polyfill.js';
+
 // Add event listeners to the Cancel and OK buttons.
 document.getElementById('cancel').addEventListener('click', closeModal);
 document.getElementById('ok').addEventListener('click', submitForm);

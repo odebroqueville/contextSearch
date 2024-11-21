@@ -1,3 +1,6 @@
+/// Import polyfills
+import browser from './browser-polyfill.js';
+
 const logToConsole = true;
 
 document.addEventListener('DOMContentLoaded', async () => {

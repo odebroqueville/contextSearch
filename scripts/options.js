@@ -1,3 +1,6 @@
+/// Import polyfills
+import browser from './browser-polyfill.js';
+
 /// Import constants
 import { base64FolderIcon } from './favicons.js';
 
@@ -1831,9 +1834,13 @@ async function handleFileUpload() {
     displaySearchEngines();
 }
 
+async function sendOptionUpdate(updateType, data) {
+    await sendMessage('updateOptions', { updateType, data });
+}
+
 async function updateSearchOptions() {
     let em = exactMatch.checked;
-    await sendMessage('updateSearchOptions', { exactMatch: em });
+    await sendOptionUpdate('searchOptions', { exactMatch: em });
 }
 
 async function updateTabMode() {
@@ -1857,53 +1864,53 @@ async function updateTabMode() {
     data['tabActive'] = tabActive.checked;
     data['lastTab'] = lastTab.checked;
     data['privateMode'] = privateMode.checked;
-    await sendMessage('updateTabMode', data);
+    await sendOptionUpdate('tabMode', data);
 }
 
 async function updateOverwriteSearchEngines() {
     const ose = overwriteSearchEngines.checked;
-    await sendMessage('updateOverwriteSearchEngines', { overwriteSearchEngines: ose });
+    await sendOptionUpdate('overwriteSearchEngines', { overwriteSearchEngines: ose });
 }
 
 async function updateMultiMode() {
     let data = {};
     data['multiMode'] = document.querySelector('input[name="ms_results"]:checked').value;
-    await sendMessage('updateMultiMode', data);
+    await sendOptionUpdate('multiMode', data);
 }
 
 // Check if the favicons should be displayed in the context menu
 async function updateDisplayFavicons() {
     let fav = displayFavicons.checked;
-    await sendMessage('updateDisplayFavicons', { displayFavicons: fav });
+    await sendOptionUpdate('displayFavicons', { displayFavicons: fav });
 }
 
 async function updateQuickIconGrid() {
-    await sendMessage('updateQuickIconGrid', { quickIconGrid: quickIconGrid.checked });
+    await sendOptionUpdate('quickIconGrid', { quickIconGrid: quickIconGrid.checked });
 }
 
 async function updateCloseGridOnMouseOut() {
-    await sendMessage('updateCloseGridOnMouseOut', { closeGridOnMouseOut: closeGridOnMouseOut.checked });
+    await sendOptionUpdate('closeGridOnMouseOut', { closeGridOnMouseOut: closeGridOnMouseOut.checked });
 }
 
 async function updateXOffset() {
-    await sendMessage('updateXOffset', { offsetX: xOffset.value });
+    await sendOptionUpdate('offset', { offsetX: xOffset.value });
 }
 
 async function updateYOffset() {
-    await sendMessage('updateYOffset', { offsetY: yOffset.value });
+    await sendOptionUpdate('offset', { offsetY: yOffset.value });
 }
 
 async function updateDisableAltClick() {
-    await sendMessage('updateDisableAltClick', { disableAltClick: disableAltClick.checked });
+    await sendOptionUpdate('disableAltClick', { disableAltClick: disableAltClick.checked });
 }
 
 async function updateOptionsMenuLocation() {
     let omat = optionsMenuLocation.value;
-    await sendMessage('updateOptionsMenuLocation', { optionsMenuLocation: omat });
+    await sendOptionUpdate('optionsMenuLocation', { optionsMenuLocation: omat });
 }
 
 async function updateSiteSearchSetting() {
-    await sendMessage('updateSiteSearchSetting', {
+    await sendOptionUpdate('siteSearch', {
         siteSearch: searchEngineSiteSearch.value,
         siteSearchUrl: searchEngineSiteSearch.selectedOptions[0].dataset.url
     });
@@ -1915,7 +1922,7 @@ async function updateResetOptions() {
         resetPreferences: resetPreferences.checked,
         forceFaviconsReload: forceFaviconsReload.checked
     };
-    await sendMessage('updateResetOptions', { resetOptions: resetOptions });
+    await sendOptionUpdate('resetOptions', { resetOptions });
 }
 
 // Ensure the ID generated is unique

@@ -1,18 +1,76 @@
 /// Constants
 // User agent for sidebar search results
-export const USER_AGENT_FOR_SIDEBAR =
+const USER_AGENT_FOR_SIDEBAR =
     'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/12.0 Mobile/15A372 Safari/604.1';
-export const USER_AGENT_FOR_GOOGLE = 'Mozilla/5.0 (Linux; Android 13; G8VOU Build/TP1A.220905.004;wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chromium/104.0.5112.97; Mobile Safari/537.36';
+const USER_AGENT_FOR_GOOGLE = 'Mozilla/5.0 (Linux; Android 13; G8VOU Build/TP1A.220905.004;wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chromium/104.0.5112.97; Mobile Safari/537.36';
+
+export const BACKUP_ALARM_NAME = 'persistDataAlarm';
+
+// File containing default list of search engines
 export const DEFAULT_SEARCH_ENGINES = 'defaultSearchEngines.json';
 
-// This is a RequestFilter: https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/webRequest/RequestFilter
-// It matches tabs that aren't attached to a normal location (like a sidebar)
-// It only matches embedded iframes
-export const REQUEST_FILTER = {
-    tabId: -1,
-    types: ['main_frame'],
-    urls: ['http://*/*', 'https://*/*'],
-};
+// Rules for modifying User-Agent headers based on URL patterns
+export const HEADER_RULES = [
+    {
+        // Rule for Google image search
+        id: 1,
+        priority: 2,
+        action: {
+            type: 'modifyHeaders',
+            requestHeaders: [
+                {
+                    header: 'User-Agent',
+                    operation: 'set',
+                    value: USER_AGENT_FOR_GOOGLE
+                }
+            ]
+        },
+        condition: {
+            urlFilter: '*google.com/*',
+            regexFilter: '.*(searchbyimage|tbs=sbi:|webhp.*tbs=sbi:).*',
+            resourceTypes: ['main_frame', 'sub_frame']
+        }
+    },
+    {
+        // Rule for YouTube
+        id: 2,
+        priority: 2,
+        action: {
+            type: 'modifyHeaders',
+            requestHeaders: [
+                {
+                    header: 'User-Agent',
+                    operation: 'set',
+                    value: USER_AGENT_FOR_GOOGLE
+                }
+            ]
+        },
+        condition: {
+            urlFilter: '*youtube.com/*',
+            resourceTypes: ['main_frame', 'sub_frame']
+        }
+    },
+    {
+        // Default rule for sidebar mode (lowest priority)
+        id: 3,
+        priority: 1,
+        action: {
+            type: 'modifyHeaders',
+            requestHeaders: [
+                {
+                    header: 'User-Agent',
+                    operation: 'set',
+                    value: USER_AGENT_FOR_SIDEBAR
+                }
+            ]
+        },
+        condition: {
+            urlFilter: '*',
+            excludedInitiatorDomains: ['lens.google.com'],
+            resourceTypes: ['main_frame', 'sub_frame']
+        }
+    }
+];
 
 // Constants for translations
 export const titleMultipleSearchEngines = browser.i18n.getMessage(
@@ -60,4 +118,57 @@ export const DEFAULT_OPTIONS = {
     multiMode: 'multiNewWindow',
     privateMode: false,
     overwriteSearchEngines: false
+};
+
+// Configuration for option updates
+export const UPDATE_CONFIG = {
+    searchOptions: {
+        fields: ['exactMatch'],
+        requiresMenuRebuild: true
+    },
+    displayFavicons: {
+        fields: ['displayFavicons'],
+        requiresMenuRebuild: true
+    },
+    quickIconGrid: {
+        fields: ['quickIconGrid'],
+        requiresMenuRebuild: false
+    },
+    closeGridOnMouseOut: {
+        fields: ['closeGridOnMouseOut'],
+        requiresMenuRebuild: false
+    },
+    offset: {
+        fields: ['offsetX', 'offsetY'],
+        requiresMenuRebuild: false
+    },
+    disableAltClick: {
+        fields: ['disableAltClick'],
+        requiresMenuRebuild: false
+    },
+    tabMode: {
+        fields: ['tabMode', 'tabActive', 'lastTab', 'privateMode'],
+        requiresMenuRebuild: false
+    },
+    overwriteSearchEngines: {
+        fields: ['overwriteSearchEngines'],
+        requiresMenuRebuild: false
+    },
+    multiMode: {
+        fields: ['multiMode'],
+        requiresMenuRebuild: false
+    },
+    optionsMenuLocation: {
+        fields: ['optionsMenuLocation'],
+        requiresMenuRebuild: true
+    },
+    siteSearch: {
+        fields: ['siteSearch', 'siteSearchUrl'],
+        requiresMenuRebuild: true
+    },
+    resetOptions: {
+        fields: ['forceSearchEnginesReload', 'resetPreferences', 'forceFaviconsReload'],
+        requiresMenuRebuild: false,
+        customReturn: 'updatedResetOptions'
+    }
 };

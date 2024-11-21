@@ -1,3 +1,6 @@
+/// Import polyfills
+import browser from './browser-polyfill.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const aiEngines = ['chatgpt', 'google', 'perplexity', 'poe', 'claude', 'you', 'andi'];
     const inputArea = document.getElementById('inputArea');

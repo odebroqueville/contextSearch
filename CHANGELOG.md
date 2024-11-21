@@ -1,5 +1,11 @@
-5.3.4
+6.0.0
 =========
+
+* The extension has been updated to support manifest version 3
+* The extension is now available for both Chrome and Firefox
+
+5.3.4
+---------
 
 * Make reset a one-off action by resetting the reset settings to their default state (false) after a reset
 * Renamed AI engine Llama31 to Poe as it provides many more models to choose from
@@ -29,10 +35,10 @@
 * Bug fix #189 : Context menu would no longer open because onclick listener removed unknown listener and lastTab was incorrectly treated as an object instead of an integer
 * Bug fix [#193](https://github.com/odebroqueville/contextSearch/issues/193)
 * Bug fix [#192](https://github.com/odebroqueville/contextSearch/issues/192)
-* Feature request [#191](https://github.com/odebroqueville/contextSearch/issues/191)
+* New features: [#191](https://github.com/odebroqueville/contextSearch/issues/191)
 * New features: it is now possible to add a link/bookmark or a bookmarklet to the list of search engines
-* Added option to overwrite the existing search engines with the imported search engines
-* It is now possible to open Google Lens and Google Reverse Image searches in the sidebar
+* New features: Added option to overwrite the existing search engines with the imported search engines
+* New features: It is now possible to open Google Lens and Google Reverse Image searches in the sidebar
 * Other minor bug fixes
 
 5.2.1

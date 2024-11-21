@@ -1,3 +1,6 @@
+/// Import polyfills
+import browser from './browser-polyfill.js';
+
 document.addEventListener('DOMContentLoaded', getHistoryItems);
 
 async function getHistoryItems() {
