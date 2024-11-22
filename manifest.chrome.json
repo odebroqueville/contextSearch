@@ -1,0 +1,88 @@
+{
+    "manifest_version": 3,
+    "name": "__MSG_extensionName__",
+    "description": "__MSG_extensionDescription__",
+    "version": "6.0.0",
+    "default_locale": "en",
+    "homepage_url": "https://github.com/odebroqueville/contextSearch",
+    "author": "Olivier de Broqueville",
+    "content_security_policy": {
+        "extension_pages": "default-src 'self'; img-src 'self' data:;"
+    },
+    "action": {
+        "default_icon": "/icons/context-search.svg",
+        "default_title": "Bookmark the active tab to Context Search"
+    },
+    "background": {
+        "service_worker": "/scripts/cs_service_worker.js"
+    },
+    "permissions": [
+        "activeTab",
+        "alarms",
+        "contextMenus",
+        "declarativeNetRequest",
+        "menus",
+        "scripting",
+        "storage",
+        "tabs"
+    ],
+    "optional_permissions": [
+        "bookmarks",
+        "clipboardWrite",
+        "downloads",
+        "history",
+        "nativeMessaging",
+        "notifications"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "omnibox": {
+        "keyword": "cs"
+    },
+    "commands": {
+        "launch-icons-grid": {
+            "suggested_key": {
+                "default": "Alt+Shift+G"
+            },
+            "description": "Launch the icons grid"
+        },
+        "open-popup": {
+            "suggested_key": {
+                "default": "Ctrl+Alt+0",
+                "mac": "Command+Alt+0"
+            },
+            "description": "Open the popup window"
+        }
+    },
+    "icons": {
+        "16": "icons/icon_16.png",
+        "20": "icons/icon_20.png",
+        "24": "icons/icon_24.png",
+        "32": "icons/icon_32.png",
+        "48": "icons/icon_48.png",
+        "64": "icons/icon_64.png",
+        "128": "icons/icon_128.png",
+        "256": "icons/icon_256.png",
+        "512": "icons/icon_512.png"
+    },
+    "options_ui": {
+        "page": "/html/options.html",
+        "open_in_tab": true,
+        "browser_style": true
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "http://*/*",
+                "https://*/*"
+            ],
+            "exclude_matches": [
+                "https://paypal.com/*"
+            ],
+            "js": [
+                "/scripts/selection.js"
+            ]
+        }
+    ]
+}

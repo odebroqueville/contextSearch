@@ -1,8 +1,10 @@
-/// Import polyfills
-import browser from './browser-polyfill.js';
-
 /// Import constants
 import { base64FolderIcon } from './favicons.js';
+
+// Simple polyfill for Chrome/Firefox compatibility
+if (typeof browser === 'undefined') {
+    globalThis.browser = chrome;
+}
 
 /// Global variables
 /* global Sortable */

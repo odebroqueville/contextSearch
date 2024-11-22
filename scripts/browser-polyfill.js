@@ -1,4 +1,6 @@
-// Simple polyfill for Chrome compatibility
-globalThis.browser ??= chrome;
+// Simple polyfill for Chrome/Firefox compatibility
+if (typeof browser === 'undefined') {
+    globalThis.browser = chrome;
+}
 
 export default browser;

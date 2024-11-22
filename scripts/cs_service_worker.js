@@ -1,6 +1,3 @@
-/// Import polyfills
-import browser from './browser-polyfill.js';
-
 /// Import constants
 import {
     bingUrl,
@@ -30,6 +27,7 @@ import {
     base64FolderIcon,
 } from "./favicons.js";
 import {
+    STORAGE_KEYS,
     BACKUP_ALARM_NAME,
     DEFAULT_SEARCH_ENGINES,
     DEFAULT_OPTIONS,
@@ -51,15 +49,9 @@ import {
 } from "./constants.js";
 
 /// Global variables
-/* global  */
 
-// Persistent data keys
-const STORAGE_KEYS = {
-    OPTIONS: 'options',
-    SEARCH_ENGINES: 'searchEngines',
-    NOTIFICATIONS_ENABLED: 'notificationsEnabled',
-    LOG_TO_CONSOLE: 'logToConsole',
-};
+// Helper for cross-browser context menu API
+const contextMenus = browser.menus || browser.contextMenus;
 
 // Module-level variables for persistent data
 let options = {};
@@ -88,11 +80,25 @@ let menuClickHandler = null;
 
 /// Listeners
 // Listen for alarm
-browser.alarms.onAlarm.addListener(async (alarm) => {
-    if (alarm.name === BACKUP_ALARM_NAME) {
-        await persistData();
+async function initializeExtension() {
+    try {
+        // Set up alarm listener
+        if (browser.alarms) {
+            browser.alarms.onAlarm.addListener(async (alarm) => {
+                if (alarm.name === BACKUP_ALARM_NAME) {
+                    await persistData();
+                }
+            });
+        } else {
+            console.warn('Alarms API not available');
+        }
+
+        // Continue with the rest of the initialization
+        await init();
+    } catch (error) {
+        console.error('Failed to initialize extension:', error);
     }
-});
+}
 
 // Set debugging mode and initialize when extension is installed or updated
 browser.runtime.onInstalled.addListener((details) => {
@@ -209,11 +215,35 @@ browser.runtime.onMessage.addListener((message) => {
             return handleContentScriptLoaded(data);
         case "getImageUrl":
             return sendImageUrl();
+        case "getStoredData":
+        case "setStoredData":
+            return handleStorageMessage(message);
         default:
             console.error("Unexpected action:", action);
             return false;
     }
 });
+
+// Add message listener for storage operations
+async function handleStorageMessage(message) {
+    if (message.action === 'getStoredData') {
+        try {
+            const data = await getStoredData(message.key);
+            return { data };
+        } catch (error) {
+            console.error('Error in getStoredData:', error);
+            return { error: error.message };
+        }
+    } else if (message.action === 'setStoredData') {
+        try {
+            await setStoredData(message.key, message.value);
+            return { success: true };
+        } catch (error) {
+            console.error('Error in setStoredData:', error);
+            return { error: error.message };
+        }
+    }
+}
 
 /// Main functions
 // Initialize header modification rules
@@ -252,7 +282,7 @@ async function handleServiceWorkerInit(reason = 'unknown') {
         if (logToConsole) {
             console.log(`Initializing service worker (reason: ${reason})`);
         }
-        await init();
+        await initializeExtension();
     } catch (error) {
         console.error(`Error during ${reason} initialization:`, error);
     }
@@ -262,6 +292,7 @@ async function handleServiceWorkerInit(reason = 'unknown') {
 async function getStoredData(key) {
     try {
         const result = await browser.storage.local.get(key);
+        if (logToConsole) console.log(`Getting ${key} from storage:`, result[key]);
         return result[key];
     } catch (error) {
         console.error(`Error getting ${key} from storage:`, error);
@@ -272,6 +303,7 @@ async function getStoredData(key) {
 // Function to set stored data
 async function setStoredData(key, value) {
     try {
+        if (logToConsole) console.log(`Setting ${key} in storage with value:`, value);
         await browser.storage.local.set({ [key]: value });
     } catch (error) {
         console.error(`Error setting ${key} in storage:`, error);
@@ -280,25 +312,50 @@ async function setStoredData(key, value) {
 
 // Initialize stored data
 async function initializeStoredData() {
-    // Initialize options if not exist
-    options = await getStoredData(STORAGE_KEYS.OPTIONS) || {};
+    if (logToConsole) console.log('Initializing stored data...');
+    try {
+        // Initialize notifications setting
+        let notifEnabled = await getStoredData(STORAGE_KEYS.NOTIFICATIONS_ENABLED);
+        if (!notifEnabled) {
+            await setStoredData(STORAGE_KEYS.NOTIFICATIONS_ENABLED, false);
+        }
+        notificationsEnabled = notifEnabled ?? false;
 
-    // Initialize search engines if not exist
-    searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES) || {};
+        // Initialize debug setting
+        let debugEnabled = await getStoredData(STORAGE_KEYS.LOG_TO_CONSOLE);
+        if (!debugEnabled) {
+            await setStoredData(STORAGE_KEYS.LOG_TO_CONSOLE, logToConsole);
+        }
+        logToConsole = debugEnabled ?? logToConsole;
 
-    // Initialize notifications setting
-    let notifEnabled = await getStoredData(STORAGE_KEYS.NOTIFICATIONS_ENABLED);
-    if (notifEnabled === null) {
-        await setStoredData(STORAGE_KEYS.NOTIFICATIONS_ENABLED, false);
+        // Initialize options if not exist
+        const storedOptions = await getStoredData(STORAGE_KEYS.OPTIONS);
+        if (!storedOptions || isEmpty(storedOptions)) {
+            const browser_type = getBrowserType();
+            options = { ...DEFAULT_OPTIONS };  // Use spread to create a new object
+            // Chrome does not support favicons in context menus
+            if (browser_type === 'chrome') options.displayFavicons = false;
+            options.logToConsole = logToConsole;
+            if (logToConsole) console.log('Options before initialization:', options);
+            await setStoredData(STORAGE_KEYS.OPTIONS, options);
+        } else {
+            options = storedOptions;  // Assign to global options
+        }
+
+        const retrievedOptions = await getStoredData(STORAGE_KEYS.OPTIONS);
+
+        if (logToConsole) console.log('Stored options:', storedOptions);
+        if (logToConsole) console.log('Retrieved options:', retrievedOptions);
+
+        // Initialize search engines if not exist
+        searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES) || {};
+
+        if (logToConsole) console.log('Options after initialization:', options);
+        if (logToConsole) console.log('Search engines after initialization:', searchEngines);
+    } catch (error) {
+        console.error('Error in initializeStoredData:', error);
+        throw error;
     }
-    notificationsEnabled = notifEnabled ?? false;
-
-    // Initialize debug setting
-    let debugEnabled = await getStoredData(STORAGE_KEYS.LOG_TO_CONSOLE);
-    if (debugEnabled === null) {
-        await setStoredData(STORAGE_KEYS.LOG_TO_CONSOLE, false);
-    }
-    logToConsole = debugEnabled ?? false;
 }
 
 // Function to persist critical data before service worker becomes inactive
@@ -447,7 +504,7 @@ async function handleReset() {
             "Resetting extension's preferences and search engines as per user reset preferences.",
         );
     }
-    await initialiseOptionsAndSearchEngines();
+    await initialiseSearchEngines();
     return { action: "resetCompleted" };
 }
 
@@ -530,7 +587,7 @@ function handleUpdateOpenSearchSupport(data) {
     const supportsOpenSearch = data.supportsOpenSearch;
 
     // Update menu visibility based on OpenSearch support
-    browser.contextMenus.update("add-search-engine", {
+    contextMenus.update("add-search-engine", {
         visible: supportsOpenSearch
     });
 }
@@ -649,22 +706,22 @@ async function handleSetTargetUrl(data) {
     } else {
         showVideoDownloadMenu = false;
     }
-    await browser.menus.update("cs-download-video", {
+    await contextMenus.update("cs-download-video", {
         visible: nativeMessagingEnabled && showVideoDownloadMenu,
     });
-    await browser.menus.update("cs-reverse-image-search", {
+    await contextMenus.update("cs-reverse-image-search", {
         visible: !showVideoDownloadMenu,
     });
-    await browser.menus.update("cs-google-lens", {
+    await contextMenus.update("cs-google-lens", {
         visible: !showVideoDownloadMenu,
     });
-    await browser.menus.update("cs-bing-image-search", {
+    await contextMenus.update("cs-bing-image-search", {
         visible: !showVideoDownloadMenu,
     });
-    await browser.menus.update("cs-yandex-image-search", {
+    await contextMenus.update("cs-yandex-image-search", {
         visible: !showVideoDownloadMenu,
     });
-    await browser.menus.update("cs-tineye", {
+    await contextMenus.update("cs-tineye", {
         visible: !showVideoDownloadMenu,
     });
 }
@@ -690,6 +747,7 @@ async function handleExecuteAISearch(data) {
 // Initialize search engines, only setting to default if not previously set
 // Check if options are set in sync storage and set to default if not
 async function init() {
+    if (logToConsole) console.log('Initializing search engines...');
     // Debug: verify that storage space occupied is within limits
     if (logToConsole) {
         // Inform on storage space being used by storage sync
@@ -710,24 +768,22 @@ async function init() {
 
     await checkNotificationsPermission();
 
-    // Set up periodic backup using alarms API
-    browser.alarms.create(BACKUP_ALARM_NAME, {
-        periodInMinutes: 5 // Backup every 5 minutes
-    });
-
     // Initialize when service worker starts
-    initializeStoredData().catch(error => {
-        console.error('Error initializing stored data:', error);
-    });
+    await initializeStoredData();
+
+    // Initialize search engines
+    await initialiseSearchEngines();
 
     // Update action context menu when the extension loads initially
     updateAddonStateForActiveTab();
 
-    // Initialize options and search engines
-    await initialiseOptionsAndSearchEngines();
-
     // Initialize header rules
     await initializeHeaderRules();
+
+    // Create backup alarm
+    browser.alarms.create(BACKUP_ALARM_NAME, {
+        periodInMinutes: 5 // Backup every 5 minutes
+    });
 }
 
 // Check if notifications are enabled
@@ -766,29 +822,23 @@ async function handlePageAction(tab) {
     await sendMessageToTab(tab, message);
 }
 
-async function initialiseOptionsAndSearchEngines() {
-    /// Initialise options
-    // If there are no options stored in storage sync or reset preferences is set, then use default options
-    // Otherwise clear storage sync and only save options in storage sync
-    if (isEmpty(options) || options.resetPreferences) {
-        options = DEFAULT_OPTIONS;
-    }
-    options["logToConsole"] = logToConsole;
-    if (logToConsole) console.log(options);
-    await saveOptions(false);
+async function initialiseSearchEngines() {
+    try {
+        // Check for search engines in local storage
+        if (
+            searchEngines === undefined ||
+            isEmpty(searchEngines) ||
+            options.forceSearchEnginesReload
+        ) {
+            // Load default search engines if force reload is set or if no search engines are stored in local storage
+            await loadDefaultSearchEngines(DEFAULT_SEARCH_ENGINES);
+        }
 
-    /// Initialise search engines
-    // Check for search engines in local storage
-    if (
-        searchEngines === undefined ||
-        isEmpty(searchEngines) ||
-        options.forceSearchEnginesReload
-    ) {
-        // Load default search engines if force reload is set or if no search engines are stored in local storage
-        await loadDefaultSearchEngines(DEFAULT_SEARCH_ENGINES);
+        await initSearchEngines();
+    } catch (error) {
+        console.error('Error in initialiseSearchEngines:', error);
+        throw error; // Re-throw to be caught by init()
     }
-
-    await initSearchEngines();
 }
 
 async function initSearchEngines() {
@@ -888,11 +938,8 @@ async function saveSearchEnginesToLocalStorage() {
     }
 
     try {
-        // Clear local storage
-        await browser.storage.local.clear();
-        if (logToConsole) console.log("Local storage cleared.");
         // Save search engines to local storage
-        await browser.storage.local.set(searchEngines);
+        await setStoredData(STORAGE_KEYS.SEARCH_ENGINES, searchEngines);
         if (notificationsEnabled) notify(notifySearchEnginesLoaded);
         if (logToConsole) {
             console.log(
@@ -1070,12 +1117,12 @@ function addClickListener() {
         }
         await handleMenuClick(info, tab);
     };
-    browser.menus.onClicked.addListener(menuClickHandler);
+    contextMenus.onClicked.addListener(menuClickHandler);
 }
 
 function removeClickListener() {
     if (menuClickHandler) {
-        browser.menus.onClicked.removeListener(menuClickHandler);
+        contextMenus.onClicked.removeListener(menuClickHandler);
         menuClickHandler = null;
     }
 }
@@ -1115,41 +1162,41 @@ async function buildContextMenu() {
     // Build the options context menu
     const buildContextOptionsMenu = () => {
         if (options.optionsMenuLocation === "bottom") {
-            browser.menus.create({
+            contextMenus.create({
                 id: "cs-separator",
                 type: "separator",
                 contexts: ["selection"],
             });
         }
-        browser.menus.create({
+        contextMenus.create({
             id: "cs-match",
             type: "checkbox",
             title: titleExactMatch,
             contexts: ["selection"],
             checked: options.exactMatch,
         });
-        browser.menus.create({
+        contextMenus.create({
             id: "cs-multitab",
             title: titleMultipleSearchEngines,
             contexts: ["selection"],
         });
-        browser.menus.create({
+        contextMenus.create({
             id: "cs-ai-search",
             title: titleAISearch + "...",
             contexts: ["editable", "frame", "page", "selection"],
         });
-        browser.menus.create({
+        contextMenus.create({
             id: "cs-site-search",
             title: `${titleSiteSearch} ${options.siteSearch}`,
             contexts: ["selection"],
         });
-        browser.menus.create({
+        contextMenus.create({
             id: "cs-options",
             title: titleOptions + "...",
             contexts: ["selection"],
         });
         if (options.optionsMenuLocation === "top") {
-            browser.menus.create({
+            contextMenus.create({
                 id: "cs-separator",
                 type: "separator",
                 contexts: ["selection"],
@@ -1162,7 +1209,7 @@ async function buildContextMenu() {
         const createMenuItem = (id, title, contexts, parentId, faviconUrl) => {
             if (options.displayFavicons === true) {
                 if (parentId === "root") {
-                    browser.menus.create(
+                    contextMenus.create(
                         {
                             id: id,
                             title: title,
@@ -1172,7 +1219,7 @@ async function buildContextMenu() {
                         () => onCreated(id),
                     );
                 } else {
-                    browser.menus.create(
+                    contextMenus.create(
                         {
                             id: id,
                             title: title,
@@ -1185,7 +1232,7 @@ async function buildContextMenu() {
                 }
             } else {
                 if (parentId === "root") {
-                    browser.menus.create(
+                    contextMenus.create(
                         {
                             id: id,
                             title: title,
@@ -1194,7 +1241,7 @@ async function buildContextMenu() {
                         () => onCreated(id),
                     );
                 } else {
-                    browser.menus.create(
+                    contextMenus.create(
                         {
                             id: id,
                             title: title,
@@ -1208,7 +1255,7 @@ async function buildContextMenu() {
         };
 
         if (id.startsWith("separator-") && parentId !== "root") {
-            browser.menus.create({
+            contextMenus.create({
                 id: "cs-" + id,
                 parentId: parentId,
                 type: "separator",
@@ -1216,7 +1263,7 @@ async function buildContextMenu() {
             });
             return;
         } else if (id.startsWith("separator-") && parentId === "root") {
-            browser.menus.create({
+            contextMenus.create({
                 id: "cs-" + id,
                 type: "separator",
                 contexts: ["selection"],
@@ -1255,27 +1302,27 @@ async function buildContextMenu() {
 
     // Build the context menu for image searches
     const buildContextMenuForImages = () => {
-        browser.menus.create({
+        contextMenus.create({
             id: "cs-bing-image-search",
             title: "Bing Image Search",
             contexts: ["image"],
         });
-        browser.menus.create({
+        contextMenus.create({
             id: "cs-reverse-image-search",
             title: "Google Reverse Image Search",
             contexts: ["image"],
         });
-        browser.menus.create({
+        contextMenus.create({
             id: "cs-google-lens",
             title: "Google Lens",
             contexts: ["image"],
         });
-        /* browser.menus.create({
+        /* contextMenus.create({
                 id: 'cs-yandex-image-search',
                 title: 'Yandex Image Search',
                 contexts: ['image'],
             }); */
-        browser.menus.create({
+        contextMenus.create({
             id: "cs-tineye",
             title: "TinEye",
             contexts: ["image"],
@@ -1284,7 +1331,7 @@ async function buildContextMenu() {
 
     // Build the context menu for YouTube video downloads
     const buildContextMenuForVideoDownload = () => {
-        browser.menus.create({
+        contextMenus.create({
             id: "cs-download-video",
             title: "Download Video",
             documentUrlPatterns: [
@@ -1299,14 +1346,14 @@ async function buildContextMenu() {
     /// End of functions for building the context menu
 
     // Build a context menu for the action button
-    browser.contextMenus.create({
+    contextMenus.create({
         id: "bookmark-page",
         title: "Bookmark This Page",
         contexts: ["action"],
         icons: { "16": "/icons/bookmark-grey-icon.svg" }
     });
 
-    browser.contextMenus.create({
+    contextMenus.create({
         id: "add-search-engine",
         title: "Add Search Engine",
         contexts: ["action"],
@@ -1322,7 +1369,7 @@ async function buildContextMenu() {
     removeClickListener();
 
     // Remove all existing context menu items
-    browser.menus.removeAll();
+    contextMenus.removeAll();
 
     if (options.optionsMenuLocation === "top") {
         buildContextOptionsMenu();
@@ -2428,7 +2475,7 @@ async function updateAddonStateForActiveTab() {
                     bookmarked = false;
                 }
                 // Update menu item for bookmarking
-                browser.contextMenus.update("bookmark-page", {
+                contextMenus.update("bookmark-page", {
                     title: bookmarked ? "Unbookmark This Page" : "Bookmark This Page",
                     icons: bookmarked
                         ? {
@@ -2440,7 +2487,7 @@ async function updateAddonStateForActiveTab() {
                 });
 
                 // Update menu item for adding a search engine
-                browser.contextMenus.update("add-search-engine", {
+                contextMenus.update("add-search-engine", {
                     visible: false,
                 });
             } else {

@@ -9,6 +9,14 @@ export const BACKUP_ALARM_NAME = 'persistDataAlarm';
 // File containing default list of search engines
 export const DEFAULT_SEARCH_ENGINES = 'defaultSearchEngines.json';
 
+// Persistent data keys
+export const STORAGE_KEYS = {
+    OPTIONS: 'options',
+    SEARCH_ENGINES: 'searchEngines',
+    NOTIFICATIONS_ENABLED: 'notificationsEnabled',
+    LOG_TO_CONSOLE: 'logToConsole',
+};
+
 // Rules for modifying User-Agent headers based on URL patterns
 export const HEADER_RULES = [
     {

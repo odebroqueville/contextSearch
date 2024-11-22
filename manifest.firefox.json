@@ -19,17 +19,29 @@
         "default_icon": "/icons/context-search.svg",
         "default_title": "Bookmark the active tab to Context Search"
     },
+    "sidebar_action": {
+        "default_icon": {
+            "16": "icons/context-search.svg",
+            "32": "icons/context-search.svg"
+        },
+        "default_title": "Search results",
+        "default_panel": "/html/sidebar.html",
+        "open_at_install": false
+    },
     "background": {
-        "service_worker": "/scripts/cs_service_worker.js",
+        "scripts": [
+            "/scripts/browser-polyfill.js",
+            "/scripts/cs_service_worker.js"
+        ],
         "type": "module"
     },
     "permissions": [
         "activeTab",
         "alarms",
+        "contextMenus",
         "declarativeNetRequest",
         "menus",
         "scripting",
-        "sidePanel",
         "storage",
         "search",
         "tabs"

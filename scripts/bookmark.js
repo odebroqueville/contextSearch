@@ -1,5 +1,7 @@
-/// Import polyfills
-import browser from './browser-polyfill.js';
+// Simple polyfill for Chrome/Firefox compatibility
+if (typeof browser === 'undefined') {
+    globalThis.browser = chrome;
+}
 
 const logToConsole = true;
 
