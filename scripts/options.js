@@ -8,20 +8,16 @@ if (typeof browser === 'undefined') {
 
 /// Global variables
 /* global Sortable */
-// Debug
-let logToConsole = false;
 
-// Other 
-const os = getOS();
-// const modifiers = ["Control", "Shift", "Alt", "Meta"];
-let meta = '';
-if (os === 'macOS') {
-    meta = 'cmd+';
-} else if (os === 'Windows') {
-    meta = 'win+';
-} else if (os === 'Linux') {
-    meta = 'super+';
-} else meta = 'meta+';
+// Storage keys (copied from constants.js)
+const STORAGE_KEYS = {
+    OPTIONS: 'options',
+    SEARCH_ENGINES: 'searchEngines',
+    NOTIFICATIONS_ENABLED: 'notificationsEnabled',
+    LOG_TO_CONSOLE: 'logToConsole',
+};
+
+const os = await getOS();
 
 // Settings container and div for addSearchEngine
 const divContainer = document.getElementById('container');
@@ -105,8 +101,12 @@ const remove = browser.i18n.getMessage('remove');
 const notifySearchEngineUrlRequired = browser.i18n.getMessage('notifySearchEngineUrlRequired');
 
 // Other variables
+let meta = '';
 let searchEngines = {};
 let keysPressed = {};
+
+// Debug
+let logToConsole = false;
 
 /// Event handlers
 document.addEventListener('DOMContentLoaded', init);
@@ -191,11 +191,25 @@ folderKbsc.addEventListener('keydown', (event) => {
 btnDownload.addEventListener('click', saveToLocalDisk);
 btnUpload.addEventListener('change', handleFileUpload);
 
+// Initialize meta key based on OS
+async function initMetaKey() {
+    const detectedOS = await getOS();
+    if (detectedOS === 'macOS') {
+        meta = 'cmd+';
+    } else if (detectedOS === 'Windows') {
+        meta = 'win+';
+    } else if (detectedOS === 'Linux') {
+        meta = 'super+';
+    } else {
+        meta = 'meta+';
+    }
+}
+
 // Handle incoming messages
-function handleMessage(message) {
+async function handleMessage(message) {
     if (message.action === 'resetCompleted') {
         if (logToConsole) console.log(message);
-        restoreOptionsPage();
+        await restoreOptionsPage();
     }
     if (message.action === 'logToConsole') {
         logToConsole = message.data;
@@ -210,27 +224,20 @@ function handlePermissionsChanges(Permissions) {
 }
 
 // Detect the underlying OS
-function getOS() {
-    const userAgent = window.navigator.userAgent;
-    const platform = window.navigator.platform;
-    // if (navigator.userAgentData.platform !== undefined) {
-    // 	platform = navigator.userAgentData.platform;
-    // } else {
-    // 	platform = window.navigator.platform;
-    // }
-
-    if (platform.toLowerCase().startsWith("mac")) {
+async function getOS() {
+    const platform = await browser.runtime.getPlatformInfo();
+    const os = platform.os;
+    if (os === 'mac') {
         return 'macOS';
-    } else if (platform.toLowerCase().startsWith("ip")) {
+    } else if (os === 'ios') {
         return 'iOS';
-    } else if (platform.toLowerCase().startsWith("win")) {
+    } else if (os === 'win') {
         return 'Windows';
-    } else if (/Android/.test(userAgent)) {
+    } else if (os === 'android') {
         return 'Android';
-    } else if (/Linux/.test(platform)) {
+    } else if (os === 'linux') {
         return 'Linux';
     } else return null;
-
 }
 
 // Send a message to the background script
@@ -242,6 +249,20 @@ async function sendMessage(action, data) {
         return response;  // Return the response received from the background script
     } catch (error) {
         console.error(`Error sending message: ${error}`);
+        return null;
+    }
+}
+
+// Storage utility functions that use runtime messaging
+async function getStoredData(key) {
+    try {
+        const response = await browser.runtime.sendMessage({
+            action: 'getStoredData',
+            key: key
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error getting stored data:', error);
         return null;
     }
 }
@@ -1731,8 +1752,7 @@ async function setOptions(options) {
 // Restore the list of search engines and the options to be displayed in the options page
 async function restoreOptionsPage() {
     try {
-        const data = await browser.storage.sync.get();
-        const options = data.options;
+        const options = await getStoredData(STORAGE_KEYS.OPTIONS);
         // Set debugging mode
         if (options !== undefined && options !== null) {
             if ('logToConsole' in options) {
@@ -1767,8 +1787,7 @@ async function saveToLocalDisk() {
 }
 
 async function handleFileUpload() {
-    const data = await browser.storage.sync.get();
-    const options = data.options;
+    const options = await getStoredData(STORAGE_KEYS.OPTIONS);
     const upload = document.getElementById('upload');
     const jsonFile = upload.files[0];
 
@@ -1970,9 +1989,10 @@ function sortAlphabetically(array) {
     return numbers.concat(alpha);
 }
 
-function init() {
-    restoreOptionsPage();
-    checkForDownloadsPermission();
+async function init() {
+    await initMetaKey();
+    await restoreOptionsPage();
+    await checkForDownloadsPermission();
 }
 
 async function checkForDownloadsPermission() {

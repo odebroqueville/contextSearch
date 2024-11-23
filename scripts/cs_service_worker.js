@@ -396,7 +396,6 @@ async function queryAllTabs() {
 
 async function isIdUnique(testId) {
     // Retrieve search engines from local storage
-    const searchEngines = await browser.storage.local.get(null);
     for (let id in searchEngines) {
         if (id === testId) {
             return false;
@@ -812,7 +811,7 @@ async function addNewSearchEngine(id, domain) {
     }
     searchEngines["root"]["children"].push(id);
     // Save the search engine to local storage
-    await browser.storage.local.set(searchEngines);
+    await setStoredData(STORAGE_KEYS.SEARCH_ENGINES, searchEngines);
     await buildContextMenu();
     if (notificationsEnabled) notify(notifySearchEngineAdded);
 }
@@ -1345,22 +1344,6 @@ async function buildContextMenu() {
     };
     /// End of functions for building the context menu
 
-    // Build a context menu for the action button
-    contextMenus.create({
-        id: "bookmark-page",
-        title: "Bookmark This Page",
-        contexts: ["action"],
-        icons: { "16": "/icons/bookmark-grey-icon.svg" }
-    });
-
-    contextMenus.create({
-        id: "add-search-engine",
-        title: "Add Search Engine",
-        contexts: ["action"],
-        icons: { "16": "/icons/search-icon.png" },
-        visible: false // Initially hidden
-    });
-
     if (logToConsole) console.log(`Search engines:`);
     if (logToConsole) console.log(searchEngines);
     if (logToConsole) console.log(`Root children: ${rootChildren}`);
@@ -1385,6 +1368,22 @@ async function buildContextMenu() {
     if (options.optionsMenuLocation === "bottom") {
         buildContextOptionsMenu();
     }
+
+    // Build a context menu for the action button
+    contextMenus.create({
+        id: "bookmark-page",
+        title: "Bookmark This Page",
+        contexts: ["action"],
+        icons: { "16": "/icons/bookmark-grey-icon.svg" }
+    });
+
+    contextMenus.create({
+        id: "add-search-engine",
+        title: "Add Search Engine",
+        contexts: ["action"],
+        icons: { "16": "/icons/search-icon.png" },
+        visible: false // Initially hidden
+    });
 
     // Add listener for context menu clicks
     addClickListener();
@@ -1477,8 +1476,6 @@ async function processMultisearch(arraySearchEngineUrls, tabPosition) {
     let postArray = [];
     let aiArray = [];
     let urlArray = [];
-
-    // const searchEngines = await browser.storage.local.get();
 
     // Helper function to log array contents
     const logArrayContents = (label, array) => {
