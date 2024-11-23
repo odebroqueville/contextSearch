@@ -1760,7 +1760,7 @@ async function restoreOptionsPage() {
             }
         }
 
-        searchEngines = await browser.storage.local.get();
+        searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES) || {};
         if (logToConsole) {
             console.log('Search engines retrieved from local storage:\n');
             console.log(searchEngines);

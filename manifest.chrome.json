@@ -7,7 +7,7 @@
     "homepage_url": "https://github.com/odebroqueville/contextSearch",
     "author": "Olivier de Broqueville",
     "content_security_policy": {
-        "extension_pages": "default-src 'self'; img-src 'self' data:;"
+        "extension_pages": "script-src 'self'; object-src 'self'; img-src 'self' data:;"
     },
     "action": {
         "default_icon": "/icons/context-search.svg",
@@ -23,6 +23,7 @@
         "declarativeNetRequest",
         "menus",
         "scripting",
+        "search",
         "storage",
         "tabs"
     ],

@@ -218,11 +218,15 @@ browser.runtime.onMessage.addListener((message) => {
         case "getStoredData":
         case "setStoredData":
             return handleStorageMessage(message);
+        case "getOS":
+            return getOS();
         default:
             console.error("Unexpected action:", action);
             return false;
     }
 });
+
+/// Main functions
 
 // Add message listener for storage operations
 async function handleStorageMessage(message) {
@@ -245,7 +249,30 @@ async function handleStorageMessage(message) {
     }
 }
 
-/// Main functions
+// Add platform detection handler
+async function getOS() {
+    try {
+        const platform = await browser.runtime.getPlatformInfo();
+        switch (platform.os) {
+            case 'mac':
+                return 'macOS';
+            case 'win':
+                return 'Windows';
+            case 'android':
+                return 'Android';
+            case 'linux':
+                return 'Linux';
+            case 'ios':
+                return 'iOS';
+            default:
+                return null;
+        }
+    } catch (error) {
+        console.error('Error detecting OS:', error);
+        return null;
+    }
+}
+
 // Initialize header modification rules
 async function initializeHeaderRules() {
     // Only set up rules if we're in sidebar mode
@@ -2440,7 +2467,7 @@ function openBookmarkRemovalConfirmDialog() {
 }
 
 /*
- * Switches currentTab and currentBookmark to reflect the currently active tab
+ * Update browser action context menu to reflect the currently active tab
  */
 async function updateAddonStateForActiveTab() {
     function isSupportedProtocol(urlString) {
@@ -2449,23 +2476,35 @@ async function updateAddonStateForActiveTab() {
             "http:",
             "ftp:",
             "file:",
-            "javascript:",
+            "javascript:"
         ];
-        const url = document.createElement("a");
-        url.href = urlString;
-        return supportedProtocols.indexOf(url.protocol) !== -1;
+        try {
+            const url = new URL(urlString);
+            return supportedProtocols.includes(url.protocol);
+        } catch (e) {
+            return false;
+        }
     }
 
     function updateActionMenu() {
         let links = [];
+        let searchEngineAdded = false;
         if (activeTab) {
+            const domain = getDomain(activeTab.url);
+            if (logToConsole) console.log(`Active tab url: ${activeTab.url}`);
             if (isSupportedProtocol(activeTab.url)) {
                 // Store all the bookmarks in the links array
                 for (const id in searchEngines) {
-                    if (id.startsWith("link-")) {
-                        links.push(searchEngines[id].url);
+                    if (!searchEngines[id].url) continue;
+                    const seUrl = searchEngines[id].url;
+                    if (id.startsWith("link-") && !seUrl.startsWith('javascript:')) {
+                        links.push(seUrl);
+                    }
+                    if (seUrl.startsWith(domain)) {
+                        searchEngineAdded = true;
                     }
                 }
+                if (logToConsole) console.log(`Links: ${links}`);
                 if (links.includes(activeTab.url)) {
                     bookmarked = true;
                 } else {
@@ -2485,7 +2524,7 @@ async function updateAddonStateForActiveTab() {
 
                 // Update menu item for adding a search engine
                 contextMenus.update("add-search-engine", {
-                    visible: false,
+                    visible: !searchEngineAdded,
                 });
             } else {
                 if (logToConsole && activeTab.url !== "about:blank")

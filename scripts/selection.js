@@ -68,7 +68,28 @@ async function getStoredData(key) {
     }
 }
 
-// Initialize meta key based on OS
+// Detect the underlying OS
+async function getOS() {
+    try {
+        // Send message to background script to get OS
+        const api = typeof browser !== 'undefined' ? browser : chrome;
+        const os = await api.runtime.sendMessage({ action: "getOS" });
+        if (os) return os;
+
+        // Fallback to user agent if background script detection fails
+        const ua = navigator.userAgent.toLowerCase();
+        if (ua.includes('mac os x')) return 'macOS';
+        if (ua.includes('windows')) return 'Windows';
+        if (ua.includes('android')) return 'Android';
+        if (ua.includes('linux')) return 'Linux';
+        if (ua.includes('iphone') || ua.includes('ipad') || ua.includes('ipod')) return 'iOS';
+        return null;
+    } catch (error) {
+        console.error('Error detecting OS:', error);
+        return null;
+    }
+}
+
 async function initMetaKey() {
     const detectedOS = await getOS();
     if (detectedOS === 'macOS') {
@@ -125,9 +146,6 @@ document.addEventListener('keydown', (event) => {
 
 // Key up event listener
 document.addEventListener('keyup', handleKeyUp);
-
-// Storage change event listener
-browser.storage.onChanged.addListener(handleStorageChange);
 
 /// Handle Incoming Messages
 // Listen for messages from the background script
@@ -584,31 +602,6 @@ function getClosestForm(element) {
     return null;
 }
 
-// Detect the underlying OS
-async function getOS() {
-    try {
-        // Ensure we're using the correct API based on the browser
-        const api = typeof browser !== 'undefined' ? browser : chrome;
-        const platform = await api.runtime.getPlatformInfo();
-        const os = platform.os;
-
-        if (os === 'mac') {
-            return 'macOS';
-        } else if (os === 'ios') {
-            return 'iOS';
-        } else if (os === 'win') {
-            return 'Windows';
-        } else if (os === 'android') {
-            return 'Android';
-        } else if (os === 'linux') {
-            return 'Linux';
-        } else return null;
-    } catch (error) {
-        console.error('Error detecting OS:', error);
-        return null;
-    }
-}
-
 // Handle keyboard shortcuts
 async function handleKeyUp(e) {
     const modifiers = ["Control", "Shift", "Alt", "Meta"];
@@ -678,42 +671,6 @@ async function handleKeyUp(e) {
         if (keyboardShortcut && keyboardShortcut === input) {
             await sendMessage('doSearch', { id: id });
             break;
-        }
-    }
-}
-
-async function handleStorageChange(changes, area) {
-    if (logToConsole) {
-        console.log('The following changes have occured:\n');
-        console.log(changes);
-    }
-    if (area === 'local') {
-        const options = await getStoredData(STORAGE_KEYS.OPTIONS);
-        if (options !== undefined && options !== null) {
-            if ('logToConsole' in options) {
-                logToConsole = options.logToConsole;
-            }
-        }
-
-        // If the website doesn't contain an opensearch plugin, then hide the Page action
-        if (document.querySelector('link[type="application/opensearchdescription+xml"]') == null) {
-            await sendMessage('hidePageAction', null);
-        } else {
-            await sendMessage('showPageAction', null);
-        }
-
-        // The following test has to be carried out when a new search engine is added...
-        // If there exists a search engine with a query string that includes the domain of the visited web page, then hide the Page action
-        const searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES);
-        if (searchEngines) {
-            for (let id in searchEngines) {
-                if (id.startsWith("separator-") || id.startsWith("chatgpt-") || searchEngines[id].isFolder) continue;
-                if (searchEngines[id].url.includes(domain)) {
-                    if (logToConsole) console.log('This web page has already been added to your list of search engines.');
-                    await sendMessage('hidePageAction', null);
-                    break;
-                }
-            }
         }
     }
 }
