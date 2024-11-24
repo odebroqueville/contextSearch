@@ -1,6 +1,19 @@
 const fs = require('fs');
 const path = require('path');
 
+// List of files/directories to exclude from the build
+const excludeList = [
+    'build',
+    'node_modules',
+    'web-ext-artifacts',
+    'web-ext-config.js',
+    'package.json',
+    'package-lock.json',
+    'build.js',
+    'manifest.chrome.json',
+    'manifest.firefox.json'
+];
+
 // Function to ensure directory exists
 function ensureDir(dirPath) {
     if (!fs.existsSync(dirPath)) {
@@ -33,16 +46,20 @@ function processHtmlFile(src, dest, browser) {
     fs.writeFileSync(dest, content);
 }
 
+// Function to check if a file/directory should be excluded
+function shouldExclude(name) {
+    return excludeList.includes(name) ||
+           name.startsWith('.') ||
+           name.startsWith('yt_dlp_host');
+}
+
 // Function to copy directory recursively
 function copyDir(src, dest, browser) {
     ensureDir(dest);
     const entries = fs.readdirSync(src, { withFileTypes: true });
 
     for (const entry of entries) {
-        // Skip build directory, node_modules, and hidden files/directories
-        if (entry.name === 'build' || 
-            entry.name === 'node_modules' || 
-            entry.name.startsWith('.')) {
+        if (shouldExclude(entry.name)) {
             continue;
         }
 
@@ -82,12 +99,7 @@ function buildForBrowser(browser) {
     // Copy all files except manifests and build-related files
     const files = fs.readdirSync(__dirname, { withFileTypes: true });
     for (const file of files) {
-        // Skip special files and directories
-        if (file.name === 'build' || 
-            file.name === 'node_modules' || 
-            file.name.startsWith('.') ||
-            file.name.startsWith('manifest') ||
-            ['build.js', 'package.json', 'package-lock.json'].includes(file.name)) {
+        if (shouldExclude(file.name)) {
             continue;
         }
 

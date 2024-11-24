@@ -299,4 +299,5 @@ It is not required to provide the base 64 string representation of any search en
 
 ## Code made by others used in this extension
 
+- Webextension-polyfill v0.12.0 minified with many contributors, which can be found on GitHub here: https://github.com/mozilla/webextension-polyfill
 - SortableJS v1.15.3 minified with many contributors, which can be found on GitHub here: https://github.com/SortableJS/Sortable/blob/1.15.3/Sortable.min.js
