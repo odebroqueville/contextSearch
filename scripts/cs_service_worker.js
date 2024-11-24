@@ -78,6 +78,9 @@ let notificationsEnabled = false;
 // Store the listener function for context menu clicks in a variable
 let menuClickHandler = null;
 
+// Track initialization state
+let isInitialized = false;
+
 /// Listeners
 // Listen for alarm
 async function initializeExtension() {
@@ -163,7 +166,7 @@ browser.commands.onCommand.addListener(async (command) => {
 });
 
 // Listen for messages from the content or options script
-browser.runtime.onMessage.addListener((message) => {
+browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const action = message.action;
     const data = message.data;
     if (logToConsole)
@@ -773,7 +776,12 @@ async function handleExecuteAISearch(data) {
 // Initialize search engines, only setting to default if not previously set
 // Check if options are set in sync storage and set to default if not
 async function init() {
-    if (logToConsole) console.log('Initializing search engines...');
+    if (isInitialized) {
+        if (logToConsole) console.log('Extension already initialized, skipping...');
+        return;
+    }
+
+    if (logToConsole) console.log('Starting service worker initialization...');
     // Debug: verify that storage space occupied is within limits
     if (logToConsole) {
         // Inform on storage space being used by storage sync
@@ -792,24 +800,30 @@ async function init() {
         );
     }
 
+    if (logToConsole) console.log('Checking notifications permission...');
     await checkNotificationsPermission();
 
+    if (logToConsole) console.log('Initializing stored data...');
     // Initialize when service worker starts
     await initializeStoredData();
 
+    if (logToConsole) console.log('Initializing search engines...');
     // Initialize search engines
     await initialiseSearchEngines();
 
-    // Update action context menu when the extension loads initially
+    if (logToConsole) console.log('Updating addon state...');
     updateAddonStateForActiveTab();
 
-    // Initialize header rules
+    if (logToConsole) console.log('Initializing header rules...');
     await initializeHeaderRules();
 
-    // Create backup alarm
+    if (logToConsole) console.log('Creating backup alarm...');
     browser.alarms.create(BACKUP_ALARM_NAME, {
         periodInMinutes: 5 // Backup every 5 minutes
     });
+
+    isInitialized = true;
+    if (logToConsole) console.log('Service worker initialization complete');
 }
 
 // Check if notifications are enabled
@@ -861,9 +875,10 @@ async function initialiseSearchEngines() {
         }
 
         await initSearchEngines();
+        if (logToConsole) console.log('Search engines initialization complete');
     } catch (error) {
-        console.error('Error in initialiseSearchEngines:', error);
-        throw error; // Re-throw to be caught by init()
+        console.error('Error initializing search engines:', error);
+        throw error;
     }
 }
 
@@ -1136,10 +1151,38 @@ function addClickListener() {
     menuClickHandler = async (info, tab) => {
         if (options.tabMode === "openSidebar") {
             if (logToConsole) console.log("Opening the sidebar.");
-            await openBrowserPanel();
+            // Open sidebar synchronously first
+            const browser_type = getBrowserType();
+            try {
+                if (browser_type === 'firefox') {
+                    await browser.sidebarAction.open();
+                } else if (browser_type === 'chrome' && chrome.sidePanel) {
+                    // Get current tab synchronously using the tab parameter
+                    await chrome.sidePanel.open({ tabId: tab.id });
+                }
+            } catch (error) {
+                console.error('Error opening browser panel:', error);
+            }
+            // Then do the async panel setup
+            await setBrowserPanel();
         } else {
             if (logToConsole) console.log("Closing the sidebar.");
-            await closeBrowserPanel();
+            // Close sidebar synchronously
+            const browser_type = getBrowserType();
+            try {
+                if (browser_type === 'firefox') {
+                    browser.sidebarAction.close();
+                } else if (browser_type === 'chrome' && chrome.sidePanel) {
+                    if (tab) {
+                        await chrome.sidePanel.setOptions({
+                            enabled: false,
+                            tabId: tab.id
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error closing browser panel:', error);
+            }
         }
         await handleMenuClick(info, tab);
     };
@@ -1168,10 +1211,6 @@ async function handleMenuClick(info, tab) {
     ];
 
     if (logToConsole) console.log("Clicked on " + id);
-
-    if (options.tabMode === "openSidebar" && !ignoreIds.includes(id)) {
-        await openBrowserPanel();
-    }
 
     await processSearch(info, tab);
 }
@@ -1803,7 +1842,7 @@ async function displaySearchResults(
             url = url.replace("%s", selection);
         }
         if (url.includes("{searchTerms}")) {
-            url = url.replace("{searchTerms}", selection);
+            url = url.replace(/{searchTerms}/g, selection);
         }
         if (logToConsole) console.log(`Code: ${url}`);
         await browser.tabs.executeScript(activeTab.id, { code: url });
@@ -1832,7 +1871,7 @@ async function displaySearchResults(
         if (logToConsole) console.log(tabUrl);
 
         // If single search and open in sidebar
-        await openBrowserPanel(tabUrl);
+        await setBrowserPanel(tabUrl);
     } else if (!multisearch && options.tabMode === "openNewWindow") {
         // If single search and open in new window
         // If search engine is link, uses HTTP GET or POST request or is AI prompt
@@ -1970,6 +2009,13 @@ browser.omnibox.onInputChanged.addListener(async (input, suggest) => {
 // Open the page based on how the user clicks on a suggestion
 browser.omnibox.onInputEntered.addListener(async (input) => {
     if (logToConsole) console.log(`Input entered: ${input}`);
+
+    // Ensure extension is initialized before processing any omnibox command
+    if (!isInitialized) {
+        if (logToConsole) console.log('Extension not initialized, initializing before processing omnibox command...');
+        await init();
+    }
+
     const aiEngines = [
         "chatgpt",
         "google",
@@ -2381,7 +2427,7 @@ function isEmpty(value) {
     else return !value;
 }
 
-//
+// Fetch API key and url
 async function fetchConfig() {
     const response = await fetch(browser.runtime.getURL("config.json"));
     const config = await response.json();
@@ -2558,21 +2604,16 @@ async function writeClipboardText(text) {
 }
 
 // Function to open sidebar/side panel across different browsers
-async function openBrowserPanel(url = 'about:blank', title = 'Search results') {
+async function setBrowserPanel(url = 'about:blank', title = 'Search results') {
     const browser_type = getBrowserType();
     try {
         if (browser_type === 'firefox') {
-            // Firefox uses sidebar API
-            const isOpen = await browser.sidebarAction.isOpen({});
             await browser.sidebarAction.setPanel({
                 panel: url
             });
             await browser.sidebarAction.setTitle({
                 title: title
             });
-            if (!isOpen) {
-                await browser.sidebarAction.open();
-            }
         } else if (browser_type === 'chrome') {
             // Chrome and other Chromium-based browsers use side panel API
             if (chrome.sidePanel) {
@@ -2582,43 +2623,17 @@ async function openBrowserPanel(url = 'about:blank', title = 'Search results') {
                     tabId: -1, // -1 means apply to all tabs
                     title: title
                 });
-                // Chrome requires tab ID to open side panel
-                const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-                if (tab) {
-                    await chrome.sidePanel.open({ tabId: tab.id });
-                }
             } else {
-                console.warn('Side panel API not available in this browser');
+                if (logToConsole) console.warn('Side panel API not available in this browser');
             }
         }
     } catch (error) {
-        console.error('Error opening browser panel:', error);
+        if (logToConsole) console.error('Error opening browser panel:', error);
     }
 }
 
-// Function to close sidebar/side panel across different browsers
-async function closeBrowserPanel() {
-    const browser_type = getBrowserType();
-    try {
-        if (browser_type === 'firefox') {
-            // Firefox uses sidebar API
-            await browser.sidebarAction.close();
-        } else if (browser_type === 'chrome') {
-            // Chrome and other Chromium-based browsers use side panel API
-            if (chrome.sidePanel) {
-                // Chrome requires tab ID to manipulate side panel
-                const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-                if (tab) {
-                    await chrome.sidePanel.setOptions({
-                        enabled: false,
-                        tabId: tab.id
-                    });
-                }
-            } else {
-                console.warn('Side panel API not available in this browser');
-            }
-        }
-    } catch (error) {
-        console.error('Error closing browser panel:', error);
-    }
-}
+// Reset initialization state when service worker is terminated
+browser.runtime.onSuspend.addListener(() => {
+    isInitialized = false;
+    if (logToConsole) console.log('Service worker suspended, resetting initialization state');
+});

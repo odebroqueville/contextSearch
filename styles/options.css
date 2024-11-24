@@ -464,3 +464,50 @@ html[theme=dark] .tab-switch:checked+.tab-label {
     color: #0000cc;
     border-right: 0.125rem solid #0000cc;
 }
+
+/* Loading and error states */
+.loading {
+    padding: 20px;
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    background: #f5f5f5;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.loading::after {
+    content: '...';
+    animation: dots 1.5s steps(5, end) infinite;
+}
+
+@keyframes dots {
+
+    0%,
+    20% {
+        content: '.';
+    }
+
+    40% {
+        content: '..';
+    }
+
+    60% {
+        content: '...';
+    }
+
+    80%,
+    100% {
+        content: '';
+    }
+}
+
+.error {
+    padding: 20px;
+    text-align: center;
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    margin: 10px 0;
+}

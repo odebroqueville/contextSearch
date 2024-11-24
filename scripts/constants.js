@@ -34,8 +34,7 @@ export const HEADER_RULES = [
             ]
         },
         condition: {
-            urlFilter: '*google.com/*',
-            regexFilter: '.*(searchbyimage|tbs=sbi:|webhp.*tbs=sbi:).*',
+            regexFilter: '.*google\\.com/.*(searchbyimage|tbs=sbi:|webhp.*tbs=sbi:).*',
             resourceTypes: ['main_frame', 'sub_frame']
         }
     },

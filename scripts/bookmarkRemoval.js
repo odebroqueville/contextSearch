@@ -1,3 +1,13 @@
+let logToConsole = false;
+
+// Storage keys (copied from constants.js)
+const STORAGE_KEYS = {
+    OPTIONS: 'options',
+    SEARCH_ENGINES: 'searchEngines',
+    NOTIFICATIONS_ENABLED: 'notificationsEnabled',
+    LOG_TO_CONSOLE: 'logToConsole',
+};
+
 document.addEventListener('DOMContentLoaded', async () => {
     // Focus on the No button by default to prevent accidental removal of a bookmark
     document.getElementById("noBtn").focus();
@@ -10,7 +20,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const yesBtn = document.getElementById("yesBtn");
     const noBtn = document.getElementById("noBtn");
 
-    let searchEngines = await browser.storage.local.get();
+    const options = await getStoredData(STORAGE_KEYS.OPTIONS);
+    const searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES);
+
+    logToConsole = options.logToConsole;
 
     // Handle Yes button click
     yesBtn.onclick = async () => {
@@ -45,4 +58,18 @@ async function sendMessage(action, data) {
         .catch(e => {
             if (logToConsole) console.error(e);
         });
+}
+
+// Storage utility functions that use runtime messaging
+async function getStoredData(key) {
+    try {
+        const response = await browser.runtime.sendMessage({
+            action: 'getStoredData',
+            key: key
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error getting stored data:', error);
+        return null;
+    }
 }

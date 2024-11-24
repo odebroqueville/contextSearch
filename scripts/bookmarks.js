@@ -1,8 +1,3 @@
-// Simple polyfill for Chrome/Firefox compatibility
-if (typeof browser === 'undefined') {
-    globalThis.browser = chrome;
-}
-
 document.addEventListener('DOMContentLoaded', getHistoryItems);
 
 async function getHistoryItems() {

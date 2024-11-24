@@ -1,9 +1,12 @@
-// Simple polyfill for Chrome/Firefox compatibility
-if (typeof browser === 'undefined') {
-    globalThis.browser = chrome;
-}
+let logToConsole = false;
 
-const logToConsole = true;
+// Storage keys (copied from constants.js)
+const STORAGE_KEYS = {
+    OPTIONS: 'options',
+    SEARCH_ENGINES: 'searchEngines',
+    NOTIFICATIONS_ENABLED: 'notificationsEnabled',
+    LOG_TO_CONSOLE: 'logToConsole',
+};
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Retrieve the parent window ID from the URL parameters
@@ -18,14 +21,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     const tabs = await browser.tabs.query({ active: true, windowId: parentWindowId });
     const activeTab = tabs[0];
     let keysPressed = {};
-    let searchEngines = await browser.storage.local.get();
+    const options = await getStoredData(STORAGE_KEYS.OPTIONS);
+    const searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES);
 
     // Determine the operating system
-    const userAgent = navigator.userAgent;
-    let os;
-    if (userAgent.includes('Mac')) os = 'macOS';
-    else if (userAgent.includes('Windows')) os = 'Windows';
-    else if (userAgent.includes('Linux')) os = 'Linux';
+    const os = await getOS();
+
+    logToConsole = options.logToConsole;
+
+    if (logToConsole) console.log(searchEngines);
+    if (logToConsole) console.log(activeTab);
+    if (logToConsole) console.log(os);
 
     // Fill in default values for the title & url
     title.value = activeTab.title;
@@ -76,6 +82,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Populate the folder select with bookmark folders
     populateFolderSelect(folderSelect, searchEngines);
 });
+
+// Detect the underlying OS
+async function getOS() {
+    try {
+        // Send message to background script to get OS
+        const api = typeof browser !== 'undefined' ? browser : chrome;
+        const os = await api.runtime.sendMessage({ action: "getOS" });
+        if (os) return os;
+
+        // Fallback to user agent if background script detection fails
+        const ua = navigator.userAgent.toLowerCase();
+        if (ua.includes('mac os x')) return 'macOS';
+        if (ua.includes('windows')) return 'Windows';
+        if (ua.includes('android')) return 'Android';
+        if (ua.includes('linux')) return 'Linux';
+        if (ua.includes('iphone') || ua.includes('ipad') || ua.includes('ipod')) return 'iOS';
+        return null;
+    } catch (error) {
+        console.error('Error detecting OS:', error);
+        return null;
+    }
+}
 
 function populateFolderSelect(selectElement, searchEngines) {
     for (const id in searchEngines) {
@@ -211,6 +239,20 @@ function getKeyboardShortcut(e, keysPressed, os) {
     // Save the identified keyboard shortcut
     if (logToConsole) console.log(keyboardShortcut);
     return keyboardShortcut;
+}
+
+// Storage utility functions that use runtime messaging
+async function getStoredData(key) {
+    try {
+        const response = await browser.runtime.sendMessage({
+            action: 'getStoredData',
+            key: key
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error getting stored data:', error);
+        return null;
+    }
 }
 
 // Send a message to the background script

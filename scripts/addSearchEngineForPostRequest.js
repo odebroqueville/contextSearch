@@ -1,8 +1,3 @@
-// Simple polyfill for Chrome/Firefox compatibility
-if (typeof browser === 'undefined') {
-    globalThis.browser = chrome;
-}
-
 // Add event listeners to the Cancel and OK buttons.
 document.getElementById('cancel').addEventListener('click', closeModal);
 document.getElementById('ok').addEventListener('click', submitForm);

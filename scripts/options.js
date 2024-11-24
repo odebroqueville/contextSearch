@@ -1,11 +1,6 @@
 /// Import constants
 import { base64FolderIcon } from './favicons.js';
 
-// Simple polyfill for Chrome/Firefox compatibility
-if (typeof browser === 'undefined') {
-    globalThis.browser = chrome;
-}
-
 /// Global variables
 /* global Sortable */
 
@@ -20,7 +15,7 @@ const STORAGE_KEYS = {
 const os = await getOS();
 
 // Settings container and div for addSearchEngine
-const divContainer = document.getElementById('container');
+const container = document.getElementById('container');
 
 // Add a New Search Engine
 const show = document.getElementById('show'); // Boolean
@@ -109,7 +104,12 @@ let keysPressed = {};
 let logToConsole = false;
 
 /// Event handlers
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', async () => {
+    if (logToConsole) console.log('DOMContentLoaded event fired');
+    showLoadingState();
+    await init();
+});
+
 browser.runtime.onMessage.addListener(handleMessage);
 browser.storage.onChanged.addListener(handleStorageChange);
 browser.permissions.onAdded.addListener(handlePermissionsChanges);
@@ -202,6 +202,102 @@ async function initMetaKey() {
         meta = 'super+';
     } else {
         meta = 'meta+';
+    }
+}
+
+async function init() {
+    try {
+        if (logToConsole) console.log('Starting options page initialization...');
+        await initMetaKey();
+        if (logToConsole) console.log('Meta key initialized');
+
+        await restoreOptionsPage();
+        if (logToConsole) console.log('Options page restored');
+
+        await checkForDownloadsPermission();
+        if (logToConsole) console.log('Downloads permission checked');
+
+        if (logToConsole) console.log('Initialization complete');
+    } catch (error) {
+        console.error('Error during initialization:', error);
+        showErrorState('Failed to initialize options page. Please refresh.');
+    }
+}
+
+function showLoadingState() {
+    const container = document.getElementById('container');
+    let div = document.getElementById('searchEngines');
+
+    if (!div && container) {
+        div = document.createElement('div');
+        div.setAttribute('id', 'searchEngines');
+        div.classList.add('folder');
+        container.appendChild(div);
+    }
+
+    if (div) {
+        // Clear existing content
+        while (div.firstChild) {
+            div.removeChild(div.firstChild);
+        }
+        // Add loading message
+        const loadingDiv = document.createElement('div');
+        loadingDiv.className = 'loading';
+        loadingDiv.textContent = 'Loading search engines';
+        div.appendChild(loadingDiv);
+        if (logToConsole) console.log('Loading state shown');
+    }
+}
+
+function showErrorState(message) {
+    const div = document.getElementById('searchEngines');
+    if (div) {
+        // Clear existing content
+        while (div.firstChild) {
+            div.removeChild(div.firstChild);
+        }
+        // Add error message
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error';
+        errorDiv.textContent = message;
+        div.appendChild(errorDiv);
+    }
+}
+
+// Restore the list of search engines and the options to be displayed in the options page
+async function restoreOptionsPage() {
+    if (logToConsole) console.log('Starting restoreOptionsPage...');
+    try {
+        // Get options first
+        const options = await getStoredData(STORAGE_KEYS.OPTIONS);
+        if (options?.logToConsole) logToConsole = options.logToConsole;
+        if (!isEmpty(options)) setOptions(options);
+        if (logToConsole) console.log('Options loaded:', options);
+
+        // Wait for search engines with timeout
+        let retries = 0;
+        const maxRetries = 50; // 5 seconds max
+        while (retries < maxRetries) {
+            searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES) || {};
+            if (!isEmpty(searchEngines)) {
+                if (logToConsole) console.log(`${Object.keys(searchEngines).length} search engines loaded.`);
+                break;
+            }
+            await new Promise(resolve => setTimeout(resolve, 100));
+            retries++;
+            if (logToConsole && retries % 10 === 0) console.log(`Still waiting for search engines... (${retries}/${maxRetries})`);
+        }
+
+        if (isEmpty(searchEngines)) {
+            throw new Error('Failed to load search engines after timeout');
+        }
+
+        displaySearchEngines();
+        if (logToConsole) console.log('Options page has been restored.');
+    } catch (err) {
+        console.error('Error in restoreOptionsPage:', err);
+        showErrorState('Error loading search engines. Please refresh.');
+        throw err; // Re-throw to be caught by init()
     }
 }
 
@@ -331,22 +427,29 @@ function displaySearchEngines() {
         onEnd: saveSearchEnginesOnDragEnded
     };
 
-    // Remove previous search engines
-    const div = document.getElementById('searchEngines');
-    if (!isEmpty(div)) divContainer.removeChild(div);
-    // Create new search engines div container
-    const divSearchEngines = document.createElement('div');
-    divSearchEngines.setAttribute('id', 'searchEngines');
-    divSearchEngines.classList.add('folder');
-    divContainer.appendChild(divSearchEngines);
+    // Get or create the searchEngines div
+    let div = document.getElementById('searchEngines');
+    const container = document.getElementById('container');
+
+    if (!div && container) {
+        // If searchEngines div doesn't exist, create it
+        div = document.createElement('div');
+        div.setAttribute('id', 'searchEngines');
+        div.classList.add('folder');
+        container.appendChild(div);
+    } else if (div) {
+        // Clear existing content if div exists
+        while (div.firstChild) {
+            div.removeChild(div.firstChild);
+        }
+    }
 
     if (logToConsole) console.log(searchEngines);
 
     expand('root', null);
     i18n();
 
-    let folders = null;
-    folders = document.querySelectorAll(".folder");
+    let folders = document.querySelectorAll(".folder");
     for (let folder of folders) {
         new Sortable(folder, sortableOptions);
     }
@@ -1293,7 +1396,7 @@ function readFolder(lineItem, i) {
         keyword: lineItem.querySelector('input.keyword').value,
         keyboardShortcut: lineItem.querySelector('input.kb-shortcut').value,
         isFolder: true,
-        children: [],
+        children: [], // Array of search engine and/or subfolder ids
         imageFormat: imageFormat,
         base64: base64String
     }
@@ -1749,33 +1852,6 @@ async function setOptions(options) {
     searchEngineSiteSearch.value = options.siteSearch || "Google";
 }
 
-// Restore the list of search engines and the options to be displayed in the options page
-async function restoreOptionsPage() {
-    try {
-        const options = await getStoredData(STORAGE_KEYS.OPTIONS);
-        // Set debugging mode
-        if (options !== undefined && options !== null) {
-            if ('logToConsole' in options) {
-                logToConsole = options.logToConsole;
-            }
-        }
-
-        searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES) || {};
-        if (logToConsole) {
-            console.log('Search engines retrieved from local storage:\n');
-            console.log(searchEngines);
-        }
-        if (!isEmpty(options)) setOptions(options);
-        if (logToConsole) {
-            console.log('Options have been reset.');
-            console.log(options);
-        }
-        displaySearchEngines();
-    } catch (err) {
-        if (logToConsole) console.error(err);
-    }
-}
-
 async function saveToLocalDisk() {
     saveSearchEngines();
     let fileToDownload = new Blob([JSON.stringify(searchEngines, null, 2)], {
@@ -1987,12 +2063,6 @@ function sortAlphabetically(array) {
     numbers = numbers.sort(compareNumbers);
     alpha = alpha.sort(compareStrings);
     return numbers.concat(alpha);
-}
-
-async function init() {
-    await initMetaKey();
-    await restoreOptionsPage();
-    await checkForDownloadsPermission();
 }
 
 async function checkForDownloadsPermission() {

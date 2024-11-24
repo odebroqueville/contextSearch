@@ -1,11 +1,6 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-control-regex */
 
-// Simple polyfill for Chrome/Firefox compatibility
-if (typeof browser === 'undefined') {
-    globalThis.browser = chrome;
-}
-
 // Global Constants
 const mycroftUrl = 'https://mycroftproject.com/installos.php/';
 const bingUrl = 'https://www.bing.com/visualsearch';
@@ -109,15 +104,15 @@ if (logToConsole) {
 }
 
 if (document.readyState === "complete") {
-    init();
+    await init();
 }
 
 /// Event handlers
 // Run init function when readyState is complete
-document.onreadystatechange = () => {
+document.onreadystatechange = async () => {
     if (logToConsole) console.log(document.readyState);
     if (document.readyState === "complete") {
-        init();
+        await init();
     }
 };
 
@@ -331,7 +326,7 @@ async function init() {
 
     // Set debugging mode
     const options = await getStoredData(STORAGE_KEYS.OPTIONS);
-    if (options !== undefined && options !== null) {
+    if (options) {
         if ('logToConsole' in options) {
             logToConsole = options.logToConsole;
         }

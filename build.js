@@ -21,8 +21,20 @@ function copyFile(src, dest) {
     }
 }
 
+// Function to process HTML files
+function processHtmlFile(src, dest, browser) {
+    let content = fs.readFileSync(src, 'utf8');
+    
+    if (browser === 'firefox') {
+        // Remove browser-polyfill.min.js script tag for Firefox
+        content = content.replace(/<script src="\/libs\/browser-polyfill\.min\.js"><\/script>\n?/g, '');
+    }
+    
+    fs.writeFileSync(dest, content);
+}
+
 // Function to copy directory recursively
-function copyDir(src, dest) {
+function copyDir(src, dest, browser) {
     ensureDir(dest);
     const entries = fs.readdirSync(src, { withFileTypes: true });
 
@@ -38,9 +50,14 @@ function copyDir(src, dest) {
         const destPath = path.join(dest, entry.name);
 
         if (entry.isDirectory()) {
-            copyDir(srcPath, destPath);
+            copyDir(srcPath, destPath, browser);
         } else if (entry.isFile()) {
-            copyFile(srcPath, destPath);
+            // Process HTML files differently
+            if (entry.name.endsWith('.html')) {
+                processHtmlFile(srcPath, destPath, browser);
+            } else {
+                copyFile(srcPath, destPath);
+            }
         }
     }
 }
@@ -78,9 +95,14 @@ function buildForBrowser(browser) {
         const destPath = path.join(buildDir, file.name);
 
         if (file.isDirectory()) {
-            copyDir(srcPath, destPath);
+            copyDir(srcPath, destPath, browser);
         } else if (file.isFile()) {
-            copyFile(srcPath, destPath);
+            // Process HTML files differently
+            if (file.name.endsWith('.html')) {
+                processHtmlFile(srcPath, destPath, browser);
+            } else {
+                copyFile(srcPath, destPath);
+            }
         }
     }
 
@@ -88,6 +110,22 @@ function buildForBrowser(browser) {
     const manifestSource = path.join(__dirname, `manifest.${browser}.json`);
     const manifestDest = path.join(buildDir, 'manifest.json');
     copyFile(manifestSource, manifestDest);
+
+    // Create libs directory
+    const libsDir = path.join(buildDir, 'libs');
+    ensureDir(libsDir);
+
+    // Copy Sortable.min.js for both browsers
+    const sortableSource = path.join(__dirname, 'node_modules', 'sortablejs', 'Sortable.min.js');
+    const sortableDest = path.join(libsDir, 'Sortable.min.js');
+    copyFile(sortableSource, sortableDest);
+
+    // Copy browser-polyfill.min.js for Chrome only
+    if (browser === 'chrome') {
+        const polyfillSource = path.join(__dirname, 'node_modules', 'webextension-polyfill', 'dist', 'browser-polyfill.min.js');
+        const polyfillDest = path.join(libsDir, 'browser-polyfill.min.js');
+        copyFile(polyfillSource, polyfillDest);
+    }
 
     console.log(`✅ Build completed for ${browser}. Output directory: ${buildDir}`);
 }

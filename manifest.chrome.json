@@ -14,7 +14,8 @@
         "default_title": "Bookmark the active tab to Context Search"
     },
     "background": {
-        "service_worker": "/scripts/cs_service_worker.js"
+        "service_worker": "/scripts/chrome_service_worker.js",
+        "type": "module"
     },
     "permissions": [
         "activeTab",
@@ -82,6 +83,7 @@
                 "https://paypal.com/*"
             ],
             "js": [
+                "/libs/browser-polyfill.min.js",
                 "/scripts/selection.js"
             ]
         }

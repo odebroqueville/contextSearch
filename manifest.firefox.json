@@ -30,7 +30,6 @@
     },
     "background": {
         "scripts": [
-            "/scripts/browser-polyfill.js",
             "/scripts/cs_service_worker.js"
         ],
         "type": "module"
