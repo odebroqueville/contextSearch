@@ -22,7 +22,6 @@
         "alarms",
         "contextMenus",
         "declarativeNetRequest",
-        "menus",
         "scripting",
         "search",
         "storage",
@@ -51,8 +50,8 @@
         },
         "open-popup": {
             "suggested_key": {
-                "default": "Ctrl+Alt+0",
-                "mac": "Command+Alt+0"
+                "default": "Alt+Shift+0",
+                "mac": "Alt+Shift+0"
             },
             "description": "Open the popup window"
         }

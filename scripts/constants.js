@@ -1,4 +1,7 @@
 /// Constants
+
+const api = typeof browser !== 'undefined' ? browser : chrome;
+
 // User agent for sidebar search results
 const USER_AGENT_FOR_SIDEBAR =
     'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/12.0 Mobile/15A372 Safari/604.1';
@@ -15,6 +18,9 @@ export const STORAGE_KEYS = {
     SEARCH_ENGINES: 'searchEngines',
     NOTIFICATIONS_ENABLED: 'notificationsEnabled',
     LOG_TO_CONSOLE: 'logToConsole',
+    BOOKMARKS: 'bookmarkItems',
+    HISTORY: 'historyItems',
+    SEARCH_TERMS: 'searchTerms'
 };
 
 // Rules for modifying User-Agent headers based on URL patterns
@@ -68,39 +74,69 @@ export const HEADER_RULES = [
                     header: 'User-Agent',
                     operation: 'set',
                     value: USER_AGENT_FOR_SIDEBAR
+                },
+                {
+                    header: 'Accept',
+                    operation: 'set',
+                    value: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
+                },
+                {
+                    header: 'Accept-Language',
+                    operation: 'set',
+                    value: 'en-US,en;q=0.5'
+                },
+                {
+                    header: 'X-Requested-With',
+                    operation: 'set',
+                    value: 'Mobile'
+                },
+                {
+                    header: 'Sec-CH-UA-Mobile',
+                    operation: 'set',
+                    value: '?1'
+                },
+                {
+                    header: 'Sec-CH-UA-Platform',
+                    operation: 'set',
+                    value: '"iOS"'
+                },
+                {
+                    header: 'DNT',
+                    operation: 'set',
+                    value: '1'
                 }
             ]
         },
         condition: {
             urlFilter: '*',
-            excludedInitiatorDomains: ['lens.google.com'],
+            excludedDomains: ['lens.google.com'],
             resourceTypes: ['main_frame', 'sub_frame']
         }
     }
 ];
 
 // Constants for translations
-export const titleMultipleSearchEngines = browser.i18n.getMessage(
+export const titleMultipleSearchEngines = api.i18n.getMessage(
     'titleMultipleSearchEngines'
 );
-export const titleAISearch = browser.i18n.getMessage('titleAISearch');
-export const titleSiteSearch = browser.i18n.getMessage('titleSiteSearch');
-export const titleExactMatch = browser.i18n.getMessage('exactMatch');
-export const titleOptions = browser.i18n.getMessage('titleOptions');
-export const windowTitle = browser.i18n.getMessage('windowTitle');
-export const omniboxDescription = browser.i18n.getMessage('omniboxDescription');
-export const notifySearchEnginesLoaded = browser.i18n.getMessage(
+export const titleAISearch = api.i18n.getMessage('titleAISearch');
+export const titleSiteSearch = api.i18n.getMessage('titleSiteSearch');
+export const titleExactMatch = api.i18n.getMessage('exactMatch');
+export const titleOptions = api.i18n.getMessage('titleOptions');
+export const windowTitle = api.i18n.getMessage('windowTitle');
+export const omniboxDescription = api.i18n.getMessage('omniboxDescription');
+export const notifySearchEnginesLoaded = api.i18n.getMessage(
     'notifySearchEnginesLoaded'
 );
-export const notifySearchEngineAdded = browser.i18n.getMessage(
+export const notifySearchEngineAdded = api.i18n.getMessage(
     'notifySearchEngineAdded'
 );
-export const notifyUsage = browser.i18n.getMessage('notifyUsage');
-export const notifySearchEngineWithKeyword = browser.i18n.getMessage(
+export const notifyUsage = api.i18n.getMessage('notifyUsage');
+export const notifySearchEngineWithKeyword = api.i18n.getMessage(
     'notifySearchEngineWithKeyword'
 );
-export const notifyUnknown = browser.i18n.getMessage('notifyUnknown');
-export const notifySearchEngineUrlRequired = browser.i18n.getMessage(
+export const notifyUnknown = api.i18n.getMessage('notifyUnknown');
+export const notifySearchEngineUrlRequired = api.i18n.getMessage(
     'notifySearchEngineUrlRequired'
 );
 

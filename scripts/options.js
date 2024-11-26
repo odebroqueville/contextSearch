@@ -101,7 +101,7 @@ let searchEngines = {};
 let keysPressed = {};
 
 // Debug
-let logToConsole = false;
+let logToConsole = true;
 
 /// Event handlers
 document.addEventListener('DOMContentLoaded', async () => {
@@ -225,7 +225,6 @@ async function init() {
 }
 
 function showLoadingState() {
-    const container = document.getElementById('container');
     let div = document.getElementById('searchEngines');
 
     if (!div && container) {
@@ -266,38 +265,28 @@ function showErrorState(message) {
 
 // Restore the list of search engines and the options to be displayed in the options page
 async function restoreOptionsPage() {
-    if (logToConsole) console.log('Starting restoreOptionsPage...');
     try {
+        if (logToConsole) console.log('Starting restoreOptionsPage...');
         // Get options first
         const options = await getStoredData(STORAGE_KEYS.OPTIONS);
         if (options?.logToConsole) logToConsole = options.logToConsole;
         if (!isEmpty(options)) setOptions(options);
         if (logToConsole) console.log('Options loaded:', options);
 
-        // Wait for search engines with timeout
-        let retries = 0;
-        const maxRetries = 50; // 5 seconds max
-        while (retries < maxRetries) {
-            searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES) || {};
-            if (!isEmpty(searchEngines)) {
-                if (logToConsole) console.log(`${Object.keys(searchEngines).length} search engines loaded.`);
-                break;
-            }
-            await new Promise(resolve => setTimeout(resolve, 100));
-            retries++;
-            if (logToConsole && retries % 10 === 0) console.log(`Still waiting for search engines... (${retries}/${maxRetries})`);
-        }
-
+        // Wait for search engines to be loaded
+        searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES);
         if (isEmpty(searchEngines)) {
-            throw new Error('Failed to load search engines after timeout');
+            throw new Error('Failed to load search engines.');
+        } else {
+            if (logToConsole) console.log(`${Object.keys(searchEngines).length} search engines loaded.`);
         }
 
         displaySearchEngines();
         if (logToConsole) console.log('Options page has been restored.');
     } catch (err) {
-        console.error('Error in restoreOptionsPage:', err);
-        showErrorState('Error loading search engines. Please refresh.');
-        throw err; // Re-throw to be caught by init()
+        if (logToConsole) console.error('Error in restoreOptionsPage:', err);
+        showErrorState('Error loading search engines. Please refresh the page.');
+        throw err; // Re-throw to ensure the error is caught by init()
     }
 }
 
@@ -429,7 +418,6 @@ function displaySearchEngines() {
 
     // Get or create the searchEngines div
     let div = document.getElementById('searchEngines');
-    const container = document.getElementById('container');
 
     if (!div && container) {
         // If searchEngines div doesn't exist, create it
@@ -520,6 +508,7 @@ async function saveSearchEnginesOnDragEnded(evt) {
 }
 
 function expand(folderId, parentDiv) {
+    if (logToConsole) console.log(folderId);
     const folder = searchEngines[folderId];
     let folderDiv;
     if (folderId === 'root') {
@@ -1495,7 +1484,6 @@ function readLineItem(lineItem, i) {
 
 // Save the list of search engines to be displayed in the context menu
 function saveSearchEngines() {
-    searchEngines = {};
     searchEngines = readData();
     if (logToConsole) console.log('Search engines READ from the Options page:\n', searchEngines);
     sendMessage('saveSearchEngines', searchEngines);
@@ -1877,7 +1865,6 @@ async function handleFileUpload() {
     let newSearchEngines = {};
     newSearchEngines = JSON.parse(fileContent);
     if (options.overwriteSearchEngines) {
-        searchEngines = {};
         searchEngines = newSearchEngines;
     } else {
         // Add the imported search engines to the existing ones avoiding duplicated IDs

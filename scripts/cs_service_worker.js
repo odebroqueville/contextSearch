@@ -82,6 +82,55 @@ let menuClickHandler = null;
 let isInitialized = false;
 
 /// Listeners
+
+// Service Worker Lifecycle Management
+
+// Triggered each time the browser starts up
+browser.runtime.onStartup.addListener(async () => {
+    if (logToConsole) console.log('Service worker starting up...');
+    await handleServiceWorkerInit('startup');
+});
+
+// Triggered when the extension/service worker is first installed
+browser.runtime.onInstalled.addListener(async (details) => {
+    if (logToConsole) console.log('Service worker installed/updated: ', details.reason);
+    // Enable debugging for temporary installations
+    if (details.temporary) {
+        logToConsole = true;
+    }
+    await handleServiceWorkerInit(details.reason);
+});
+
+// Triggered when the service worker is about to be suspended
+browser.runtime.onSuspend.addListener(async () => {
+    isInitialized = false;
+    await persistData();
+    if (logToConsole) console.log('Service worker suspended, resetting initialization state.');
+});
+
+// Triggered when a connection is made from another part of the extension, such as a content script or another extension page
+browser.runtime.onConnect.addListener(async (port) => {
+    if (logToConsole) console.log('Service worker connected on port: ', port.name);
+    if (!isInitialized) {
+        await handleServiceWorkerInit('connect');
+    }
+});
+
+// Triggered when the service worker is ready to take control of the pages and become the active worker
+self.addEventListener('activate', async () => await handleServiceWorkerInit('activate'));
+
+// Service Worker Lifecycle Management
+async function handleServiceWorkerInit(reason = 'unknown') {
+    try {
+        if (logToConsole) {
+            console.log(`Initializing service worker (reason: ${reason}).`);
+        }
+        await initializeExtension();
+    } catch (error) {
+        console.error(`Error during ${reason} initialization:`, error);
+    }
+}
+
 // Listen for alarm
 async function initializeExtension() {
     try {
@@ -102,28 +151,6 @@ async function initializeExtension() {
         console.error('Failed to initialize extension:', error);
     }
 }
-
-// Set debugging mode and initialize when extension is installed or updated
-browser.runtime.onInstalled.addListener((details) => {
-    // Enable debugging for temporary installations
-    if (details.temporary) {
-        logToConsole = true;
-        console.log("Debugging enabled for temporary installation");
-    }
-    handleServiceWorkerInit(`install: ${details.reason}`);
-});
-
-// Initialize when service worker starts
-browser.runtime.onStartup.addListener(() => handleServiceWorkerInit('startup'));
-
-// Initialize when service worker becomes active
-self.addEventListener('activate', () => handleServiceWorkerInit('activate'));
-
-// Listen for service worker termination
-self.addEventListener('freeze', async () => {
-    if (logToConsole) console.log("Service worker freezing, persisting data...");
-    await persistData();
-});
 
 // Listen for changes to the notifications permission
 browser.permissions.onAdded.addListener(async (permissions) => {
@@ -288,7 +315,7 @@ async function initializeHeaderRules() {
     }
 
     if (logToConsole) {
-        console.log("Initializing header rules for sidebar mode");
+        console.log("Initializing header rules for sidebar mode.");
     }
 
     // Remove any existing rules
@@ -302,19 +329,7 @@ async function initializeHeaderRules() {
     });
 
     if (logToConsole) {
-        console.log("Header rules initialized");
-    }
-}
-
-// Service Worker Lifecycle Management
-async function handleServiceWorkerInit(reason = 'unknown') {
-    try {
-        if (logToConsole) {
-            console.log(`Initializing service worker (reason: ${reason})`);
-        }
-        await initializeExtension();
-    } catch (error) {
-        console.error(`Error during ${reason} initialization:`, error);
+        console.log("Header rules initialized.");
     }
 }
 
@@ -866,7 +881,7 @@ async function initialiseSearchEngines() {
     try {
         // Check for search engines in local storage
         if (
-            searchEngines === undefined ||
+            !searchEngines ||
             isEmpty(searchEngines) ||
             options.forceSearchEnginesReload
         ) {
@@ -1112,6 +1127,7 @@ function getFaviconForPrompt(id, aiProvider) {
             imageFormat = "image/png";
             b64 = base64chatGPT;
             break;
+        case "google":
         case "google-ai-studio":
             imageFormat = "image/svg+xml";
             b64 = base64GoogleAIStudio;
@@ -1120,6 +1136,7 @@ function getFaviconForPrompt(id, aiProvider) {
             imageFormat = "image/png";
             b64 = base64perplexity;
             break;
+        case "llama31":
         case "poe":
             imageFormat = "image/png";
             b64 = base64poe;
@@ -1184,7 +1201,7 @@ function addClickListener() {
                 console.error('Error closing browser panel:', error);
             }
         }
-        await handleMenuClick(info, tab);
+        await processSearch(info, tab);
     };
     contextMenus.onClicked.addListener(menuClickHandler);
 }
@@ -1196,34 +1213,68 @@ function removeClickListener() {
     }
 }
 
-async function handleMenuClick(info, tab) {
-    const id = info.menuItemId.startsWith("cs-")
-        ? info.menuItemId.replace("cs-", "")
-        : info.menuItemId;
-    const ignoreIds = [
-        "download-video",
-        "reverse-image-search",
-        "google-lens",
-        "options",
-        "multitab",
-        "match",
-        "ai-search",
-    ];
-
-    if (logToConsole) console.log("Clicked on " + id);
-
-    await processSearch(info, tab);
-}
-
 // Build the context menu using the search engines from local storage
 async function buildContextMenu() {
     if (logToConsole) console.log("Building context menu..");
-    // const info = await browser.runtime.getBrowserInfo();
-    // const v = info.version;
-    // const browserVersion = parseInt(v.slice(0, v.search('.') - 1));
     const rootChildren = searchEngines["root"].children;
+    const isFirefox = getBrowserType() === "firefox";
 
     /// Functions used to build the context menu
+    const createMenuItem = (id, title, contexts, parentId, faviconUrl) => {
+        const menuItem = {
+            id: "cs-" + id,
+            title: title,
+            contexts: contexts,
+        };
+
+        if (parentId !== "root") {
+            menuItem.parentId = "cs-" + parentId;
+        }
+
+        if (options.displayFavicons === true && isFirefox) {
+            menuItem.icons = { 20: faviconUrl };
+        }
+
+        contextMenus.create(menuItem, () => onCreated());
+
+        if (logToConsole) console.log(`Menu Item ${id} created successfully`);
+    };
+
+    // Build a single context menu item
+    const buildContextMenuItem = (id, parentId) => {
+
+        if (id.startsWith("separator-")) {
+            const separatorItem = {
+                id: "cs-" + id,
+                type: "separator",
+                contexts: ["selection"]
+            };
+            if (parentId !== "root") {
+                separatorItem.parentId = "cs-" + parentId;
+            }
+            contextMenus.create(separatorItem);
+            return;
+        }
+
+        const searchEngine = searchEngines[id];
+        if (!searchEngine || !(searchEngine.show || searchEngine.isFolder)) return;
+
+        const title = searchEngine.name;
+        const imageFormat = searchEngine.imageFormat;
+        const base64String = searchEngine.base64;
+        const faviconUrl = `data:${imageFormat};base64,${base64String}`;
+        const contexts = id.startsWith("link-") ? ["all"] : ["selection"];
+
+        if (searchEngine.isFolder) {
+            createMenuItem(id, title, contexts, parentId, faviconUrl);
+            for (let child of searchEngine.children) {
+                buildContextMenuItem(child, id);
+            }
+        } else {
+            createMenuItem(id, title, contexts, parentId, faviconUrl);
+        }
+    };
+
     // Build the options context menu
     const buildContextOptionsMenu = () => {
         if (options.optionsMenuLocation === "bottom") {
@@ -1266,102 +1317,6 @@ async function buildContextMenu() {
                 type: "separator",
                 contexts: ["selection"],
             });
-        }
-    };
-
-    // Build a single context menu item
-    const buildContextMenuItem = (id, parentId) => {
-        const createMenuItem = (id, title, contexts, parentId, faviconUrl) => {
-            if (options.displayFavicons === true) {
-                if (parentId === "root") {
-                    contextMenus.create(
-                        {
-                            id: id,
-                            title: title,
-                            contexts: contexts,
-                            icons: { 20: faviconUrl },
-                        },
-                        () => onCreated(id),
-                    );
-                } else {
-                    contextMenus.create(
-                        {
-                            id: id,
-                            title: title,
-                            contexts: contexts,
-                            parentId: parentId,
-                            icons: { 20: faviconUrl },
-                        },
-                        () => onCreated(id),
-                    );
-                }
-            } else {
-                if (parentId === "root") {
-                    contextMenus.create(
-                        {
-                            id: id,
-                            title: title,
-                            contexts: contexts,
-                        },
-                        () => onCreated(id),
-                    );
-                } else {
-                    contextMenus.create(
-                        {
-                            id: id,
-                            title: title,
-                            contexts: contexts,
-                            parentId: parentId,
-                        },
-                        () => onCreated(id),
-                    );
-                }
-            }
-        };
-
-        if (id.startsWith("separator-") && parentId !== "root") {
-            contextMenus.create({
-                id: "cs-" + id,
-                parentId: parentId,
-                type: "separator",
-                contexts: ["selection"],
-            });
-            return;
-        } else if (id.startsWith("separator-") && parentId === "root") {
-            contextMenus.create({
-                id: "cs-" + id,
-                type: "separator",
-                contexts: ["selection"],
-            });
-            return;
-        }
-        const searchEngine = searchEngines[id];
-
-        if (
-            searchEngine === undefined ||
-            !(searchEngine.show || searchEngine.isFolder)
-        )
-            return;
-
-        //const index = 'cs-' + id;
-        const title = searchEngine.name;
-        const imageFormat = searchEngine.imageFormat;
-        const base64String = searchEngine.base64;
-        const faviconUrl = `data:${imageFormat};base64,${base64String}`;
-        let contexts;
-        if (id.startsWith("link-")) {
-            contexts = ["all"];
-        } else {
-            contexts = ["selection"];
-        }
-
-        if (searchEngine.isFolder) {
-            createMenuItem(id, title, contexts, parentId, faviconUrl);
-            for (let child of searchEngine.children) {
-                buildContextMenuItem(child, id);
-            }
-        } else {
-            createMenuItem(id, title, contexts, parentId, faviconUrl);
         }
     };
 
@@ -1412,18 +1367,20 @@ async function buildContextMenu() {
 
     if (logToConsole) console.log(`Search engines:`);
     if (logToConsole) console.log(searchEngines);
-    if (logToConsole) console.log(`Root children: ${rootChildren}`);
+    if (logToConsole) console.log('Root children:', rootChildren);
+    if (logToConsole) console.log(`Type of root children: ${typeof rootChildren}`);
 
     // Remove listener for context menu clicks
     removeClickListener();
 
     // Remove all existing context menu items
-    contextMenus.removeAll();
+    await contextMenus.removeAll();
 
     if (options.optionsMenuLocation === "top") {
         buildContextOptionsMenu();
     }
 
+    // Build root menu items
     for (let id of rootChildren) {
         buildContextMenuItem(id, "root");
     }
@@ -1436,37 +1393,45 @@ async function buildContextMenu() {
     }
 
     // Build a context menu for the action button
-    contextMenus.create({
+    const bookmarkMenuItem = {
         id: "bookmark-page",
         title: "Bookmark This Page",
-        contexts: ["action"],
-        icons: { "16": "/icons/bookmark-grey-icon.svg" }
-    });
+        contexts: ["action"]
+    };
 
-    contextMenus.create({
+    if (isFirefox) {
+        bookmarkMenuItem.icons = { "16": "/icons/bookmark-grey-icon.svg" };
+    }
+
+    contextMenus.create(bookmarkMenuItem);
+
+    const searchEngineMenuItem = {
         id: "add-search-engine",
         title: "Add Search Engine",
         contexts: ["action"],
-        icons: { "16": "/icons/search-icon.png" },
         visible: false // Initially hidden
-    });
+    };
+
+    if (isFirefox) {
+        searchEngineMenuItem.icons = { "16": "/icons/search-icon.png" };
+    }
+
+    contextMenus.create(searchEngineMenuItem);
 
     // Add listener for context menu clicks
     addClickListener();
 }
 
-function onCreated(id) {
-    if (browser.runtime.lastError) {
-        if (logToConsole) console.log(`Error: ${browser.runtime.lastError}`);
-    } else {
-        if (logToConsole) console.log(`Menu Item ${id} created successfully`);
+function onCreated() {
+    if (browser.runtime.lastError && logToConsole) {
+        console.log(`Error: ${browser.runtime.lastError}`);
     }
 }
 
 // Perform search based on selected search engine, i.e. selected context menu item
 async function processSearch(info, tab) {
     if (logToConsole) console.log(info);
-    const windowInfo = await browser.windows.getCurrent();
+    const currentWindow = await browser.windows.getCurrent({ populate: true });
     const multisearch = false;
     const id = info.menuItemId.startsWith("cs-")
         ? info.menuItemId.replace("cs-", "")
@@ -1477,22 +1442,18 @@ async function processSearch(info, tab) {
 
     // Cancel search if the selected search engine is a folder
     // This is a precautionary measure as folders can't be clicked in the context menu
-    if (searchEngines[id] !== undefined && searchEngines[id].isFolder) return;
+    if (searchEngines[id] && searchEngines[id].isFolder) return;
 
     // If search engines are set to be opened after the last tab, then adjust the tabIndex
-    const tabs = await queryAllTabs();
-    //const activeTab = await getActiveTab();
-    if (logToConsole) console.log(tabs);
-    if (options.multiMode === "multiAfterLastTab") {
-        // After the last tab
-        tabIndex = tabs.length;
-    } else {
-        // Right after the active tab
-        tabIndex = activeTab.index + 1;
+    if (options.multiMode === "multiAfterLastTab" || (options.tabMode === "openNewTab" && options.lastTab)) {
+        // Get current window info to find the number of tabs
+        if (currentWindow && currentWindow.tabs) {
+            tabIndex = currentWindow.tabs.length;
+        }
     }
     if (logToConsole) console.log(tabIndex);
     if (id === "bookmark-page") {
-        toggleBookmark();
+        await toggleBookmark();
         return;
     }
     if (id === "add-search-engine") {
@@ -1524,14 +1485,14 @@ async function processSearch(info, tab) {
         return;
     }
     if (id === "ai-search") {
-        openAISearchPopup();
+        await openAISearchPopup();
         return;
     }
 
     // If search engine is none of the above and not a folder, then perform search
     // The search engine corresponds to an HTTP GET or POST request or an AI prompt
     if (!id.startsWith("separator-")) {
-        await displaySearchResults(id, tabIndex, multisearch, windowInfo.id);
+        await displaySearchResults(id, tabIndex, multisearch, currentWindow.id);
     }
 }
 
@@ -2012,8 +1973,8 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
 
     // Ensure extension is initialized before processing any omnibox command
     if (!isInitialized) {
-        if (logToConsole) console.log('Extension not initialized, initializing before processing omnibox command...');
-        await init();
+        if (logToConsole) console.log('Extension not initialized, initializing...');
+        await handleServiceWorkerInit('omnibox');
     }
 
     const aiEngines = [
@@ -2023,13 +1984,12 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
         "poe",
         "claude",
         "you",
-        "andi",
-        "exa",
+        "andi"
     ];
     const multisearch = false;
     const keyword = input.split(" ")[0];
     const suggestion = await buildSuggestion(input);
-    const windowInfo = await browser.windows.getCurrent();
+    const windowInfo = await browser.windows.getCurrent({ populate: true });
     let searchTerms = input.replace(keyword, "").trim();
 
     // Check if the search terms contain '%s' or '{searchTerms}'
@@ -2070,15 +2030,13 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
     }
 
     // Get active tab's index and id
-    const tabs = await queryAllTabs();
-    //const activeTab = await getActiveTab();
     tabIndex = activeTab.index;
     tabId = activeTab.id;
 
     tabPosition = tabIndex + 1;
 
     if (options.lastTab || options.multiMode === "multiAfterLastTab") {
-        tabPosition = tabs.length;
+        tabPosition = windowInfo.tabs.length;
     }
 
     if (logToConsole) console.log(tabPosition);
@@ -2092,7 +2050,13 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
         try {
             switch (keyword) {
                 case ".":
-                    browser.runtime.openOptionsPage();
+                    // Ensure search engines are loaded before opening options page
+                    if (isEmpty(searchEngines)) {
+                        if (logToConsole) console.log('Search engines not loaded, initializing...');
+                        await initialiseSearchEngines();
+                        if (logToConsole) console.log('Search engines loaded successfully');
+                    }
+                    await browser.runtime.openOptionsPage();
                     break;
                 case "!":
                     await processMultisearch([], tabPosition);
@@ -2107,10 +2071,8 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                         });
                     }
                     if (logToConsole) console.log(bookmarkItems);
-                    await browser.storage.local.set({
-                        bookmarkItems: bookmarkItems,
-                        searchTerms: searchTerms,
-                    });
+                    await setStoredData(STORAGE_KEYS.BOOKMARKS, bookmarkItems);
+                    await setStoredData(STORAGE_KEYS.SEARCH_TERMS, searchTerms);
                     await browser.tabs.create({
                         active: options.tabActive,
                         index: tabPosition,
@@ -2120,10 +2082,8 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                 case "history":
                 case "!h":
                     historyItems = await browser.history.search({ text: searchTerms });
-                    await browser.storage.local.set({
-                        historyItems: historyItems,
-                        searchTerms: searchTerms,
-                    });
+                    await setStoredData(STORAGE_KEYS.HISTORY, historyItems);
+                    await setStoredData(STORAGE_KEYS.SEARCH_TERMS, searchTerms);
                     await browser.tabs.create({
                         active: options.tabActive,
                         index: tabPosition,
@@ -2454,7 +2414,7 @@ function sendMessageToHostScript(url) {
     });
 }
 
-function openAISearchPopup() {
+async function openAISearchPopup() {
     const width = 700;
     const height = 50;
 
@@ -2462,7 +2422,7 @@ function openAISearchPopup() {
     const left = Math.round((screen.width - width) / 2);
     const top = Math.round((screen.height - height) / 2) - 200;
 
-    browser.windows.create({
+    await browser.windows.create({
         url: "/html/popup.html",
         type: "popup",
         width: width,
@@ -2484,7 +2444,7 @@ async function openBookmarkPopup() {
     const currentWindowId = currentWindow.id;
 
     // Open a new window with the specified dimensions and position
-    browser.windows.create({
+    await browser.windows.create({
         url: `/html/bookmark.html?parentWindowId=${currentWindowId}`,
         type: "popup",
         width: width,
@@ -2494,7 +2454,7 @@ async function openBookmarkPopup() {
     });
 }
 
-function openBookmarkRemovalConfirmDialog() {
+async function openBookmarkRemovalConfirmDialog() {
     const width = 500;
     const height = 180;
 
@@ -2502,7 +2462,7 @@ function openBookmarkRemovalConfirmDialog() {
     const left = Math.round((screen.width - width) / 2);
     const top = Math.round((screen.height - height) / 2) - 200;
 
-    browser.windows.create({
+    await browser.windows.create({
         url: `/html/bookmarkRemoval.html?url=${activeTab.url}`,
         type: "popup",
         width: width,
@@ -2557,20 +2517,19 @@ async function updateAddonStateForActiveTab() {
                     bookmarked = false;
                 }
                 // Update menu item for bookmarking
-                contextMenus.update("bookmark-page", {
-                    title: bookmarked ? "Unbookmark This Page" : "Bookmark This Page",
-                    icons: bookmarked
-                        ? {
-                            16: "/icons/bookmark-red-icon.svg",
-                        }
-                        : {
-                            16: "/icons/bookmark-grey-icon.svg",
-                        },
-                });
-
+                const isFirefox = getBrowserType() === "firefox";
+                const updateProps = {
+                    title: bookmarked ? "Unbookmark This Page" : "Bookmark This Page"
+                };
+                if (isFirefox) {
+                    updateProps.icons = bookmarked
+                        ? { "16": "/icons/bookmark-red-icon.svg" }
+                        : { "16": "/icons/bookmark-grey-icon.svg" };
+                }
+                contextMenus.update("bookmark-page", updateProps);
                 // Update menu item for adding a search engine
                 contextMenus.update("add-search-engine", {
-                    visible: !searchEngineAdded,
+                    visible: !searchEngineAdded
                 });
             } else {
                 if (logToConsole && activeTab.url !== "about:blank")
@@ -2587,11 +2546,11 @@ async function updateAddonStateForActiveTab() {
 /*
  * Add or remove the bookmark on the current page.
  */
-function toggleBookmark() {
+async function toggleBookmark() {
     if (bookmarked) {
-        openBookmarkRemovalConfirmDialog();
+        await openBookmarkRemovalConfirmDialog();
     } else {
-        openBookmarkPopup();
+        await openBookmarkPopup();
     }
 }
 

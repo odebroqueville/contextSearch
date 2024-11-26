@@ -104,7 +104,9 @@ if (logToConsole) {
 }
 
 if (document.readyState === "complete") {
-    await init();
+    (async () => {
+        await init();
+    })();
 }
 
 /// Event handlers
@@ -457,7 +459,7 @@ async function init() {
 
     // If the web page is opened in the sidebar, then inject a stylesheet
     if (tabUrl.endsWith('#_sidebar')) {
-        const stylesheetUrl = browser.runtime.getURL('/styles/search_results.css');
+        const stylesheetUrl = browser.runtime.getURL('/styles/sidebar.css');
         const link = document.createElement('link');
         link.setAttribute('rel', 'stylesheet');
         link.setAttribute('href', stylesheetUrl);
