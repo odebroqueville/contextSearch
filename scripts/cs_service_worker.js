@@ -87,16 +87,25 @@ let isInitialized = false;
 
 // Triggered each time the browser starts up
 browser.runtime.onStartup.addListener(async () => {
+    // Load debug setting first before any logging
+    const debugEnabled = await getStoredData(STORAGE_KEYS.LOG_TO_CONSOLE);
+    logToConsole = debugEnabled ?? false;
+
     if (logToConsole) console.log('Service worker starting up...');
     await handleServiceWorkerInit('startup');
 });
 
 // Triggered when the extension/service worker is first installed
 browser.runtime.onInstalled.addListener(async (details) => {
+    // Load debug setting first before any logging
+    const debugEnabled = await getStoredData(STORAGE_KEYS.LOG_TO_CONSOLE);
+    logToConsole = debugEnabled ?? false;
+
     if (logToConsole) console.log('Service worker installed/updated: ', details.reason);
     // Enable debugging for temporary installations
     if (details.temporary) {
         logToConsole = true;
+        await setStoredData(STORAGE_KEYS.LOG_TO_CONSOLE, true);
     }
     await handleServiceWorkerInit(details.reason);
 });
@@ -250,6 +259,8 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             return handleStorageMessage(message);
         case "getOS":
             return getOS();
+        case "reloadSearchEngines":
+            return reloadSearchEngines();
         default:
             console.error("Unexpected action:", action);
             return false;
@@ -257,6 +268,12 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 /// Main functions
+
+async function reloadSearchEngines() {
+    if (logToConsole) console.log('Reloading search engines...');
+    await initialiseSearchEngines();
+    return { success: true };
+}
 
 // Add message listener for storage operations
 async function handleStorageMessage(message) {

@@ -1,20 +1,11 @@
 /// Import constants
 import { base64FolderIcon } from './favicons.js';
+import { STORAGE_KEYS } from './constants.js';
 
-/// Global variables
+/// Global constants
 /* global Sortable */
 
-// Storage keys (copied from constants.js)
-const STORAGE_KEYS = {
-    OPTIONS: 'options',
-    SEARCH_ENGINES: 'searchEngines',
-    NOTIFICATIONS_ENABLED: 'notificationsEnabled',
-    LOG_TO_CONSOLE: 'logToConsole',
-};
-
-const os = await getOS();
-
-// Settings container and div for addSearchEngine
+// Storage container and div for addSearchEngine
 const container = document.getElementById('container');
 
 // Add a New Search Engine
@@ -91,25 +82,34 @@ const btnAddSeparator = document.getElementById('addSeparator');
 const btnDownload = document.getElementById('download');
 const btnUpload = document.getElementById('upload');
 
-// Translation variables
+// Translations
 const remove = browser.i18n.getMessage('remove');
 const notifySearchEngineUrlRequired = browser.i18n.getMessage('notifySearchEngineUrlRequired');
 
-// Other variables
+/// Global variables
 let meta = '';
+let os = null;
 let searchEngines = {};
 let keysPressed = {};
-
-// Debug
 let logToConsole = true;
 
-/// Event handlers
+/// Event listeners
+
+// Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
-    if (logToConsole) console.log('DOMContentLoaded event fired');
-    showLoadingState();
-    await init();
+    try {
+        console.log('DOM Content Loaded in options.js');
+        showLoadingState();
+        os = await getOS();
+        await init();
+        console.log('Initialization complete');
+    } catch (err) {
+        console.error('Error during initialization:', err);
+        showErrorState('Error during initialization. Please try refreshing the page.');
+    }
 });
 
+// Message, Storage, and Permissions event handlers
 browser.runtime.onMessage.addListener(handleMessage);
 browser.storage.onChanged.addListener(handleStorageChange);
 browser.permissions.onAdded.addListener(handlePermissionsChanges);
@@ -267,25 +267,38 @@ function showErrorState(message) {
 async function restoreOptionsPage() {
     try {
         if (logToConsole) console.log('Starting restoreOptionsPage...');
-        // Get options first
+
+        // Get options first, including logToConsole setting
         const options = await getStoredData(STORAGE_KEYS.OPTIONS);
         if (options?.logToConsole) logToConsole = options.logToConsole;
-        if (!isEmpty(options)) setOptions(options);
-        if (logToConsole) console.log('Options loaded:', options);
+        if (!isEmpty(options)) {
+            setOptions(options);
+            if (logToConsole) console.log('Options loaded:', options);
+        } else {
+            console.warn('No options found in storage');
+        }
 
         // Wait for search engines to be loaded
         searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES);
         if (isEmpty(searchEngines)) {
-            throw new Error('Failed to load search engines.');
-        } else {
-            if (logToConsole) console.log(`${Object.keys(searchEngines).length} search engines loaded.`);
+            // Try to trigger a reload of search engines from the service worker
+            const reloadResult = await sendMessage('reloadSearchEngines');
+            if (reloadResult?.success) {
+                searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES);
+                if (logToConsole) console.log('Successfully reloaded search engines');
+            }
+
+            if (isEmpty(searchEngines)) {
+                throw new Error('Search engines not found in storage and reload attempt failed. Please try refreshing the page.');
+            }
         }
 
+        if (logToConsole) console.log(`${Object.keys(searchEngines).length} search engines loaded.`);
         displaySearchEngines();
         if (logToConsole) console.log('Options page has been restored.');
     } catch (err) {
-        if (logToConsole) console.error('Error in restoreOptionsPage:', err);
-        showErrorState('Error loading search engines. Please refresh the page.');
+        console.error('Error in restoreOptionsPage:', err);
+        showErrorState(`Error loading search engines: ${err.message}. If this is your first time opening the options page, please try refreshing. If the problem persists, try resetting the extension.`);
         throw err; // Re-throw to ensure the error is caught by init()
     }
 }
@@ -326,29 +339,36 @@ async function getOS() {
 }
 
 // Send a message to the background script
-async function sendMessage(action, data) {
+async function sendMessage(action, data = {}) {
     try {
-        console.log(`Sending message: action=${action}, data=${JSON.stringify(data)}`);
-        const response = await browser.runtime.sendMessage({ action: action, data: data });
-        console.log(`Received response: ${JSON.stringify(response)}`);
-        return response;  // Return the response received from the background script
+        if (logToConsole) console.log('Sending message:', action, data);
+        const response = await browser.runtime.sendMessage({ action, ...data });
+        if (logToConsole) console.log('Message response:', response);
+        return response;
     } catch (error) {
-        console.error(`Error sending message: ${error}`);
-        return null;
+        console.error('Error sending message:', error);
+        throw new Error(`Failed to send message ${action}: ${error.message}`);
     }
 }
 
 // Storage utility functions that use runtime messaging
 async function getStoredData(key) {
     try {
+        if (logToConsole) console.log('Getting stored data for key:', key);
         const response = await browser.runtime.sendMessage({
             action: 'getStoredData',
             key: key
         });
+
+        if (!response || response.error) {
+            throw new Error(response?.error || 'No response from service worker');
+        }
+
+        if (logToConsole) console.log('Got data for key:', key, response.data);
         return response.data;
     } catch (error) {
         console.error('Error getting stored data:', error);
-        return null;
+        throw new Error(`Failed to get data for ${key}: ${error.message}`);
     }
 }
 
