@@ -322,6 +322,7 @@ async function getOS() {
 
 // Initialize header modification rules
 async function initializeHeaderRules() {
+    if (logToConsole) console.log('Initializing header rules...');
     // Only set up rules if we're in sidebar mode
     if (options.tabMode !== "openSidebar") {
         // Remove any existing rules if not in sidebar mode
@@ -378,15 +379,15 @@ async function initializeStoredData() {
     try {
         // Initialize notifications setting
         let notifEnabled = await getStoredData(STORAGE_KEYS.NOTIFICATIONS_ENABLED);
-        if (!notifEnabled) {
+        if (!notifEnabled && notifEnabled !== false) {
             await setStoredData(STORAGE_KEYS.NOTIFICATIONS_ENABLED, false);
         }
         notificationsEnabled = notifEnabled ?? false;
 
         // Initialize debug setting
         let debugEnabled = await getStoredData(STORAGE_KEYS.LOG_TO_CONSOLE);
-        if (!debugEnabled) {
-            await setStoredData(STORAGE_KEYS.LOG_TO_CONSOLE, logToConsole);
+        if (!debugEnabled && debugEnabled !== false) {
+            await setStoredData(STORAGE_KEYS.LOG_TO_CONSOLE, false);
         }
         logToConsole = debugEnabled ?? logToConsole;
 
@@ -397,23 +398,15 @@ async function initializeStoredData() {
             options = { ...DEFAULT_OPTIONS };  // Use spread to create a new object
             // Chrome does not support favicons in context menus
             if (browser_type === 'chrome') options.displayFavicons = false;
-            options.logToConsole = logToConsole;
-            if (logToConsole) console.log('Options before initialization:', options);
             await setStoredData(STORAGE_KEYS.OPTIONS, options);
         } else {
-            options = storedOptions;  // Assign to global options
+            options = storedOptions;
         }
-
-        const retrievedOptions = await getStoredData(STORAGE_KEYS.OPTIONS);
-
-        if (logToConsole) console.log('Stored options:', storedOptions);
-        if (logToConsole) console.log('Retrieved options:', retrievedOptions);
+        if (logToConsole) console.log('Options:', options);
 
         // Initialize search engines if not exist
         searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES) || {};
-
-        if (logToConsole) console.log('Options after initialization:', options);
-        if (logToConsole) console.log('Search engines after initialization:', searchEngines);
+        if (logToConsole) console.log('Search engines:', searchEngines);
     } catch (error) {
         console.error('Error in initializeStoredData:', error);
         throw error;
@@ -422,6 +415,7 @@ async function initializeStoredData() {
 
 // Function to persist critical data before service worker becomes inactive
 async function persistData() {
+    if (logToConsole) console.log('Persisting data at time:', new Date());
     try {
         await Promise.all([
             setStoredData(STORAGE_KEYS.OPTIONS, options),
@@ -832,21 +826,16 @@ async function init() {
         );
     }
 
-    if (logToConsole) console.log('Checking notifications permission...');
     await checkNotificationsPermission();
 
-    if (logToConsole) console.log('Initializing stored data...');
     // Initialize when service worker starts
     await initializeStoredData();
 
-    if (logToConsole) console.log('Initializing search engines...');
     // Initialize search engines
     await initialiseSearchEngines();
 
-    if (logToConsole) console.log('Updating addon state...');
-    updateAddonStateForActiveTab();
+    await updateAddonStateForActiveTab();
 
-    if (logToConsole) console.log('Initializing header rules...');
     await initializeHeaderRules();
 
     if (logToConsole) console.log('Creating backup alarm...');
@@ -860,6 +849,7 @@ async function init() {
 
 // Check if notifications are enabled
 async function checkNotificationsPermission() {
+    if (logToConsole) console.log('Checking notifications permission...');
     notificationsEnabled = await browser.permissions.contains({
         permissions: ["notifications"],
     });
@@ -895,6 +885,7 @@ async function handlePageAction(tab) {
 }
 
 async function initialiseSearchEngines() {
+    if (logToConsole) console.log('Initializing search engines...');
     try {
         // Check for search engines in local storage
         if (
@@ -1007,7 +998,6 @@ async function loadDefaultSearchEngines(jsonFile) {
 async function saveSearchEnginesToLocalStorage() {
     if (logToConsole) {
         console.log("Saving search engines to local storage:\n");
-        console.log(searchEngines);
     }
 
     try {
@@ -2555,6 +2545,7 @@ async function updateAddonStateForActiveTab() {
         }
     }
 
+    if (logToConsole) console.log('Updating addon state...');
     const tabs = await browser.tabs.query({ active: true, currentWindow: true });
     activeTab = tabs[0];
     updateActionMenu();
