@@ -406,7 +406,6 @@ async function initializeStoredData() {
 
         // Initialize search engines if not exist
         searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES) || {};
-        if (logToConsole) console.log('Search engines:', searchEngines);
     } catch (error) {
         console.error('Error in initializeStoredData:', error);
         throw error;
@@ -997,7 +996,7 @@ async function loadDefaultSearchEngines(jsonFile) {
 
 async function saveSearchEnginesToLocalStorage() {
     if (logToConsole) {
-        console.log("Saving search engines to local storage:\n");
+        console.log("Saving search engines to local storage...");
     }
 
     try {
@@ -1372,10 +1371,7 @@ async function buildContextMenu() {
     };
     /// End of functions for building the context menu
 
-    if (logToConsole) console.log(`Search engines:`);
-    if (logToConsole) console.log(searchEngines);
     if (logToConsole) console.log('Root children:', rootChildren);
-    if (logToConsole) console.log(`Type of root children: ${typeof rootChildren}`);
 
     // Remove listener for context menu clicks
     removeClickListener();
