@@ -14,7 +14,7 @@
         "default_title": "Bookmark the active tab to Context Search"
     },
     "background": {
-        "service_worker": "/scripts/chrome_service_worker.js",
+        "service_worker": "chrome_service_worker.js",
         "type": "module"
     },
     "permissions": [
@@ -85,6 +85,17 @@
                 "/libs/browser-polyfill.min.js",
                 "/scripts/selection.js"
             ]
+        },
+        {
+            "matches": [
+                "http://*/*#_sidebar",
+                "https://*/*#_sidebar"
+            ],
+            "css": [
+                "/styles/sidebar.css"
+            ],
+            "run_at": "document_start",
+            "all_frames": true
         }
     ]
 }

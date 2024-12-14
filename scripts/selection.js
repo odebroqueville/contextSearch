@@ -2,6 +2,7 @@
 /* eslint-disable no-control-regex */
 
 // Global Constants
+const api = getAPI();
 const mycroftUrl = 'https://mycroftproject.com/installos.php/';
 const bingUrl = 'https://www.bing.com/visualsearch';
 const googleReverseImageSearchUrl = 'https://www.google.com/searchbyimage?sbisrc=1&safe=off&image_url=';
@@ -26,7 +27,7 @@ const base64BackIcon =
 const base64ContextSearchIcon =
     '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';
 
-const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
+const notifySearchEngineNotFound = api.i18n.getMessage('notifySearchEngineNotFound');
 const ICON32 = '32px'; // icon width is 32px
 
 // Storage keys (copied from constants.js)
@@ -52,36 +53,61 @@ let yPos;
 // Storage utility functions that use runtime messaging
 async function getStoredData(key) {
     try {
-        const response = await browser.runtime.sendMessage({
-            action: 'getStoredData',
-            key: key
-        });
-        return response.data;
+        const response = await sendMessage('getStoredData', { key });
+
+        // Check if response exists and has data property
+        if (response && typeof response.data !== 'undefined') {
+            return response.data;
+        }
+        return null;
     } catch (error) {
+        // Comprehensive error handling
         console.error('Error getting stored data:', error);
+
+        // Attempt to handle specific error scenarios
+        if (error.message.includes('invalidated')) {
+            // Optionally reload the extension
+            api.runtime.reload();
+        }
+
         return null;
     }
+}
+
+function getAPI() {
+    if (typeof browser !== 'undefined') {
+        return browser;
+    }
+    if (typeof chrome !== 'undefined' && chrome.runtime) {
+        return chrome;
+    }
+    console.warn('WebExtension API not available');
+    return null;
 }
 
 // Detect the underlying OS
 async function getOS() {
     try {
-        // Send message to background script to get OS
-        const api = typeof browser !== 'undefined' ? browser : chrome;
-        const os = await api.runtime.sendMessage({ action: "getOS" });
-        if (os) return os;
+        // Try modern userAgentData first (supported in modern browsers)
+        if (navigator.userAgentData) {
+            const platform = (await navigator.userAgentData.getHighEntropyValues(['platform'])).platform.toLowerCase();
+            if (platform.includes('macos')) return 'macOS';
+            if (platform.includes('windows')) return 'Windows';
+            if (platform.includes('linux')) return 'Linux';
+        }
 
         // Fallback to user agent if background script detection fails
         const ua = navigator.userAgent.toLowerCase();
+
         if (ua.includes('mac os x')) return 'macOS';
         if (ua.includes('windows')) return 'Windows';
-        if (ua.includes('android')) return 'Android';
         if (ua.includes('linux')) return 'Linux';
+        if (ua.includes('android')) return 'Android';
         if (ua.includes('iphone') || ua.includes('ipad') || ua.includes('ipod')) return 'iOS';
-        return null;
+        return 'Windows'; // Safe default
     } catch (error) {
         console.error('Error detecting OS:', error);
-        return null;
+        return 'Windows';
     }
 }
 
@@ -146,7 +172,7 @@ document.addEventListener('keyup', handleKeyUp);
 
 /// Handle Incoming Messages
 // Listen for messages from the background script
-browser.runtime.onMessage.addListener((message) => {
+api.runtime.onMessage.addListener((message) => {
     const action = message.action;
     if (logToConsole) console.log(message.action);
     switch (action) {
@@ -314,7 +340,7 @@ async function ask(url, promptText) {
         new MutationObserver(() => {
             if (logToConsole) console.log("Sidebar content script loaded, handling it...");
             handleChatInput();
-            //browser.runtime.sendMessage({ action: "sidebarContentUpdated", url: window.location.href });
+            //api.runtime.sendMessage({ action: "sidebarContentUpdated", url: window.location.href });
         }).observe(document.documentElement, { childList: true, subtree: true });
     }
 }
@@ -327,12 +353,7 @@ async function init() {
     let trimmedUrl;
 
     // Set debugging mode
-    const options = await getStoredData(STORAGE_KEYS.OPTIONS);
-    if (options) {
-        if ('logToConsole' in options) {
-            logToConsole = options.logToConsole;
-        }
-    }
+    logToConsole = await getStoredData(STORAGE_KEYS.LOG_TO_CONSOLE);
 
     // If debugging mode is enabled, log the tab url and domain
     if (logToConsole) {
@@ -396,7 +417,7 @@ async function init() {
                 }
             }
         }
-    } else if (trimmedUrl === bingUrl) {
+    } else if (trimmedUrl.startsWith(bingUrl)) {
         const response = await sendMessage('getImageUrl', null);
         if (response.action === 'fillFormWithImageUrl' && response.data) {
             const { imageUrl } = response.data;
@@ -456,15 +477,6 @@ async function init() {
 
     // If the web page contains selected text, then send it to the background script
     await handleTextSelection();
-
-    // If the web page is opened in the sidebar, then inject a stylesheet
-    if (tabUrl.endsWith('#_sidebar')) {
-        const stylesheetUrl = browser.runtime.getURL('/styles/sidebar.css');
-        const link = document.createElement('link');
-        link.setAttribute('rel', 'stylesheet');
-        link.setAttribute('href', stylesheetUrl);
-        document.head.appendChild(link);
-    }
 
     // If the web page is for an AI search or a HTTP POST request, then send a message to the background script and wait for a response
     if (aiUrls.includes(trimmedUrl) || postRequest) {
@@ -582,7 +594,7 @@ async function handleInputDblclick(e) {
 
 // This function opens a new window with your modal form
 async function openModal(url, formData) {
-    await browser.runtime.sendMessage({
+    await api.runtime.sendMessage({
         action: 'openModal',
         data: { url: url, formData: formData }
     });
@@ -696,11 +708,15 @@ async function handleAltClickWithGrid(e) {
         closeGrid();
     }
 
-    const options = await getStoredData(STORAGE_KEYS.OPTIONS);
-    if (logToConsole) console.log(options);
-
-    // If option is disabled then do nothing. Note: this intentionally comes after selected text is accessed as text can become unselected on click
-    if (options.disableAltClick) return;
+    let options;
+    // Use try-catch for options retrieval
+    try {
+        options = await getStoredData(STORAGE_KEYS.OPTIONS) || {};
+        if (options?.disableAltClick) return;
+    } catch (error) {
+        console.warn('Failed to get options, using defaults:', error);
+        // Continue with default behavior (as if disableAltClick is false)
+    }
 
     if (logToConsole) console.log(`Selected text: ${textSelection}`);
 
@@ -779,8 +795,15 @@ async function handleRightClickWithoutGrid(e) {
     if (!(tag === 'IMG' || (tag === 'DIV' && [...elementClicked.classList].includes('iris-annotation-layer')))) {
         const selectedText = getSelectedText();
         if (logToConsole) console.log(selectedText);
+
         // Send the selected text to background.js
-        await sendMessage('setSelection', { selection: selectedText });
+        try {
+            // Send the selected text to background.js
+            await sendMessage('setSelection', { selection: selectedText });
+        } catch (error) {
+            // Just log the error and continue - this is a non-critical operation
+            if (logToConsole) console.warn('Failed to send selection:', error);
+        }
     } else {
         if (window.getSelection) {
             window.getSelection().removeAllRanges();
@@ -806,12 +829,12 @@ async function showButtons() {
 
     links.forEach(link => {
         let img = new Image();
-        img.src = browser.runtime.getURL('/icons/context-search.svg');
+        img.src = api.runtime.getURL('/icons/context-search.svg');
         img.className = 'icon';
         img.height = '16px';
         img.style.marginRight = '5px';
         img.style.cursor = 'pointer';
-        img.title = browser.i18n.getMessage("AddSearchEngine");
+        img.title = api.i18n.getMessage("AddSearchEngine");
 
         img.onclick = async function () {
             const href = link.getAttribute('href');
@@ -1125,12 +1148,22 @@ function isEncoded(uri) {
 
 async function sendMessage(action, data) {
     try {
-        console.log(`Sending message: action=${action}, data=${JSON.stringify(data)}`);
-        const response = await browser.runtime.sendMessage({ action: action, data: data });
-        console.log(`Received response: ${JSON.stringify(response)}`);
+        // Check if browser/chrome API is available
+        if (!api?.runtime?.sendMessage) {
+            throw new Error('Browser API not available');
+        }
+        if (logToConsole) console.log(`Sending message: action=${action}, data=${JSON.stringify(data)}`);
+        const response = await api.runtime.sendMessage({ action: action, data: data });
+        if (logToConsole) console.log(`Received response: ${JSON.stringify(response)}`);
         return response;  // Return the response received from the background script
     } catch (error) {
-        console.error(`Error sending message: ${error}`);
+        if (logToConsole) console.error(`Error sending message: ${error}`);
+
+        // Return safe defaults for critical actions
+        if (action === 'setSelection') {
+            return { success: false };
+        }
+
         return null;
     }
 }

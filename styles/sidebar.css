@@ -1,9 +1,131 @@
-html,
-body {
-    font-family: Raleway, Helvetica, Arial, sans-serif;
-    font-size: 10pt;
+/* Mobile-friendly styles for search results in sidebar */
+:root {
+    --sidebar-width: 100%;
+    --sidebar-height: 100vh;
 }
 
-div#botstuff {
+/* Force viewport for mobile-friendly display */
+@viewport {
+    width: device-width;
+    zoom: 1.0;
+}
+
+/* Basic reset for mobile view */
+html {
+    width: 100% !important;
+    overflow-x: hidden !important;
+}
+
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    -webkit-text-size-adjust: 100%;
+}
+
+/* Force all elements to respect container width */
+*, *::before, *::after {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow-wrap: break-word !important;
+    word-wrap: break-word !important;
+}
+
+/* Responsive images and media */
+img, video, iframe {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+}
+
+/* Adjust text size and wrapping for readability */
+body, p, div, span, a {
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+}
+
+/* Search results container styles */
+#main, #b_content, #center_col, .content-area, #rso {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 10px !important;
+    overflow-x: hidden !important;
+}
+
+/* Individual search result styles */
+.g,                /* Google */
+.b_algo,           /* Bing */
+.result,           /* Generic */
+.srg,              /* Google */
+.bm_details_overlay, /* Bing */
+.b_widePag {       /* Bing */
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 10px 0 !important;
+    padding: 10px !important;
+    overflow-x: hidden !important;
+}
+
+/* Hide unnecessary elements that might break layout */
+header nav,
+#header,
+#navbar,
+#footcnt,
+#footer,
+.related-searches,
+aside,
+#b_header,        /* Bing header */
+#b_footer,        /* Bing footer */
+#b_context,       /* Bing sidebar */
+#rhs,             /* Google sidebar */
+.commercial       /* Ads */ {
     display: none !important;
+}
+
+/* Links and interactive elements */
+a {
+    padding: 8px 0 !important;
+    display: inline-block !important;
+    max-width: 100% !important;
+    overflow-wrap: break-word !important;
+}
+
+/* Tables */
+table, thead, tbody, tr, td, th {
+    max-width: 100% !important;
+    display: block !important;
+    word-break: break-word !important;
+}
+
+/* Force single column layout */
+div[role="main"],
+div[role="complementary"],
+div[role="navigation"] {
+    float: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Additional Bing-specific fixes */
+.b_searchbox,
+.b_searchboxForm,
+#b_results > li {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+}
+
+/* Additional Google-specific fixes */
+#search, 
+.srg, 
+.g, 
+.rc {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 10px !important;
 }

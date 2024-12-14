@@ -102,6 +102,17 @@
             "js": [
                 "/scripts/selection.js"
             ]
+        },
+        {
+            "matches": [
+                "http://*/*#_sidebar",
+                "https://*/*#_sidebar"
+            ],
+            "css": [
+                "/styles/sidebar.css"
+            ],
+            "run_at": "document_start",
+            "all_frames": true
         }
     ]
 }

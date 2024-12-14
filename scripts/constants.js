@@ -4,7 +4,7 @@ const api = typeof browser !== 'undefined' ? browser : chrome;
 
 // User agent for sidebar search results
 const USER_AGENT_FOR_SIDEBAR =
-    'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/12.0 Mobile/15A372 Safari/604.1';
+    'Mozilla/5.0 (iPhone; CPU iPhone OS 16_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5 Mobile/15E148 Safari/605.1.15';
 const USER_AGENT_FOR_GOOGLE = 'Mozilla/5.0 (Linux; Android 13; G8VOU Build/TP1A.220905.004;wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chromium/104.0.5112.97; Mobile Safari/537.36';
 
 export const BACKUP_ALARM_NAME = 'persistDataAlarm';
@@ -78,12 +78,12 @@ export const HEADER_RULES = [
                 {
                     header: 'Accept',
                     operation: 'set',
-                    value: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
+                    value: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'
                 },
                 {
                     header: 'Accept-Language',
                     operation: 'set',
-                    value: 'en-US,en;q=0.5'
+                    value: 'en-US,en;q=0.9'
                 },
                 {
                     header: 'X-Requested-With',
@@ -104,12 +104,22 @@ export const HEADER_RULES = [
                     header: 'DNT',
                     operation: 'set',
                     value: '1'
+                },
+                {
+                    header: 'Viewport-Width',
+                    operation: 'set',
+                    value: '375'
+                },
+                {
+                    header: 'Width',
+                    operation: 'set',
+                    value: '375'
                 }
             ]
         },
         condition: {
-            urlFilter: '*',
-            excludedDomains: ['lens.google.com'],
+            urlFilter: '*#_sidebar',
+            excludedRequestDomains: ['lens.google.com'],
             resourceTypes: ['main_frame', 'sub_frame']
         }
     }

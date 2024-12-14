@@ -50,6 +50,8 @@ import {
 
 /// Global variables
 
+globalThis.browser ??= chrome;
+
 // Helper for cross-browser context menu API
 const contextMenus = browser.menus || browser.contextMenus;
 
@@ -80,6 +82,8 @@ let menuClickHandler = null;
 
 // Track initialization state
 let isInitialized = false;
+
+let menuCreationInProgress = false;
 
 /// Listeners
 
@@ -245,7 +249,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
         case "addNewPrompt":
             return handleAddNewPrompt(data);
         case "updateOptions":
-            return handleOptionUpdate(data.updateType, data.data);
+            return handleOptionsUpdate(data.updateType, data.data);
         case "saveSearchEnginesToDisk":
             return handleSaveSearchEnginesToDisk(data);
         case "updateOpenSearchSupport":
@@ -608,7 +612,7 @@ async function handleAddNewPrompt(data) {
  * @param {Object} data - The data containing the new values
  * @returns {Promise<string|void>} Returns a custom string for certain update types
  */
-async function handleOptionUpdate(updateType, data) {
+async function handleOptionsUpdate(updateType, data) {
     const config = UPDATE_CONFIG[updateType];
     if (!config) {
         console.error(`Unknown update type: ${updateType}`);
@@ -770,9 +774,6 @@ async function handleSetTargetUrl(data) {
         visible: !showVideoDownloadMenu,
     });
     await contextMenus.update("cs-bing-image-search", {
-        visible: !showVideoDownloadMenu,
-    });
-    await contextMenus.update("cs-yandex-image-search", {
         visible: !showVideoDownloadMenu,
     });
     await contextMenus.update("cs-tineye", {
@@ -1219,37 +1220,39 @@ function removeClickListener() {
     }
 }
 
-// Build the context menu using the search engines from local storage
-async function buildContextMenu() {
-    if (logToConsole) console.log("Building context menu..");
-    const rootChildren = searchEngines["root"].children;
+/// Functions used to build the context menu
+async function createMenuItem(id, title, contexts, parentId, faviconUrl) {
     const isFirefox = getBrowserType() === "firefox";
-
-    /// Functions used to build the context menu
-    const createMenuItem = (id, title, contexts, parentId, faviconUrl) => {
-        const menuItem = {
-            id: "cs-" + id,
-            title: title,
-            contexts: contexts,
-        };
-
-        if (parentId !== "root") {
-            menuItem.parentId = "cs-" + parentId;
-        }
-
-        if (options.displayFavicons === true && isFirefox) {
-            menuItem.icons = { 20: faviconUrl };
-        }
-
-        contextMenus.create(menuItem, () => onCreated());
-
-        if (logToConsole) console.log(`Menu Item ${id} created successfully`);
+    const menuItem = {
+        id: "cs-" + id,
+        title: title,
+        contexts: contexts,
     };
 
-    // Build a single context menu item
-    const buildContextMenuItem = (id, parentId) => {
+    if (parentId !== "root") {
+        menuItem.parentId = "cs-" + parentId;
+    }
 
-        if (id.startsWith("separator-")) {
+    if (options.displayFavicons === true && isFirefox) {
+        menuItem.icons = { 20: faviconUrl };
+    }
+
+    await new Promise((resolve) => {
+        contextMenus.create(menuItem, () => {
+            if (browser.runtime.lastError) {
+                if (logToConsole) console.log(`Error creating menu item ${id}: ${browser.runtime.lastError.message}`);
+            } else {
+                if (logToConsole) console.log(`Menu Item ${id} created successfully`);
+            }
+            resolve();
+        });
+    });
+}
+
+// Build a single context menu item
+async function buildContextMenuItem(id, parentId) {
+    if (id.startsWith("separator-")) {
+        await new Promise((resolve) => {
             const separatorItem = {
                 id: "cs-" + id,
                 type: "separator",
@@ -1258,105 +1261,133 @@ async function buildContextMenu() {
             if (parentId !== "root") {
                 separatorItem.parentId = "cs-" + parentId;
             }
-            contextMenus.create(separatorItem);
-            return;
+            contextMenus.create(separatorItem, resolve);
+        });
+        return;
+    }
+
+    const searchEngine = searchEngines[id];
+    if (!searchEngine || !(searchEngine.show || searchEngine.isFolder)) return;
+
+    const title = searchEngine.name;
+    const imageFormat = searchEngine.imageFormat;
+    const base64String = searchEngine.base64;
+    const faviconUrl = `data:${imageFormat};base64,${base64String}`;
+    const contexts = id.startsWith("link-") ? ["all"] : ["selection"];
+
+    if (searchEngine.isFolder) {
+        await createMenuItem(id, title, contexts, parentId, faviconUrl);
+        for (let child of searchEngine.children) {
+            await buildContextMenuItem(child, id);
         }
+    } else {
+        await createMenuItem(id, title, contexts, parentId, faviconUrl);
+    }
+}
 
-        const searchEngine = searchEngines[id];
-        if (!searchEngine || !(searchEngine.show || searchEngine.isFolder)) return;
-
-        const title = searchEngine.name;
-        const imageFormat = searchEngine.imageFormat;
-        const base64String = searchEngine.base64;
-        const faviconUrl = `data:${imageFormat};base64,${base64String}`;
-        const contexts = id.startsWith("link-") ? ["all"] : ["selection"];
-
-        if (searchEngine.isFolder) {
-            createMenuItem(id, title, contexts, parentId, faviconUrl);
-            for (let child of searchEngine.children) {
-                buildContextMenuItem(child, id);
-            }
-        } else {
-            createMenuItem(id, title, contexts, parentId, faviconUrl);
-        }
-    };
-
-    // Build the options context menu
-    const buildContextOptionsMenu = () => {
-        if (options.optionsMenuLocation === "bottom") {
+// Build the options context menu
+async function buildContextOptionsMenu() {
+    if (options.optionsMenuLocation === "bottom") {
+        await new Promise((resolve) => {
             contextMenus.create({
-                id: "cs-separator",
+                id: "cs-separator-bottom",
                 type: "separator",
                 contexts: ["selection"],
-            });
-        }
+            }, resolve);
+        });
+    }
+
+    await new Promise((resolve) => {
         contextMenus.create({
             id: "cs-match",
             type: "checkbox",
             title: titleExactMatch,
             contexts: ["selection"],
             checked: options.exactMatch,
-        });
+        }, resolve);
+    });
+
+    await new Promise((resolve) => {
         contextMenus.create({
             id: "cs-multitab",
             title: titleMultipleSearchEngines,
             contexts: ["selection"],
-        });
+        }, resolve);
+    });
+
+    await new Promise((resolve) => {
         contextMenus.create({
             id: "cs-ai-search",
             title: titleAISearch + "...",
             contexts: ["editable", "frame", "page", "selection"],
-        });
+        }, resolve);
+    });
+
+    await new Promise((resolve) => {
         contextMenus.create({
             id: "cs-site-search",
             title: `${titleSiteSearch} ${options.siteSearch}`,
             contexts: ["selection"],
-        });
+        }, resolve);
+    });
+
+    await new Promise((resolve) => {
         contextMenus.create({
             id: "cs-options",
             title: titleOptions + "...",
             contexts: ["selection"],
-        });
-        if (options.optionsMenuLocation === "top") {
+        }, resolve);
+    });
+
+    if (options.optionsMenuLocation === "top") {
+        await new Promise((resolve) => {
             contextMenus.create({
-                id: "cs-separator",
+                id: "cs-separator-top",
                 type: "separator",
                 contexts: ["selection"],
-            });
-        }
-    };
+            }, resolve);
+        });
+    }
+}
 
-    // Build the context menu for image searches
-    const buildContextMenuForImages = () => {
+// Build the context menu for image searches
+async function buildContextMenuForImages() {
+    await new Promise((resolve) => {
         contextMenus.create({
             id: "cs-bing-image-search",
             title: "Bing Image Search",
             contexts: ["image"],
-        });
+        }, resolve);
+    });
+
+    await new Promise((resolve) => {
         contextMenus.create({
             id: "cs-reverse-image-search",
             title: "Google Reverse Image Search",
             contexts: ["image"],
-        });
+        }, resolve);
+    });
+
+    await new Promise((resolve) => {
         contextMenus.create({
             id: "cs-google-lens",
             title: "Google Lens",
             contexts: ["image"],
-        });
-        /* contextMenus.create({
-                id: 'cs-yandex-image-search',
-                title: 'Yandex Image Search',
-                contexts: ['image'],
-            }); */
+        }, resolve);
+    });
+
+    await new Promise((resolve) => {
         contextMenus.create({
             id: "cs-tineye",
             title: "TinEye",
             contexts: ["image"],
-        });
-    };
+        }, resolve);
+    });
+}
 
-    // Build the context menu for YouTube video downloads
-    const buildContextMenuForVideoDownload = () => {
+// Build the context menu for YouTube video downloads
+async function buildContextMenuForVideoDownload() {
+    await new Promise((resolve) => {
         contextMenus.create({
             id: "cs-download-video",
             title: "Download Video",
@@ -1367,67 +1398,89 @@ async function buildContextMenu() {
                 "*://*.vimeo.com/*",
             ],
             contexts: ["all"],
-        });
-    };
-    /// End of functions for building the context menu
-
-    if (logToConsole) console.log('Root children:', rootChildren);
-
-    // Remove listener for context menu clicks
-    removeClickListener();
-
-    // Remove all existing context menu items
-    await contextMenus.removeAll();
-
-    if (options.optionsMenuLocation === "top") {
-        buildContextOptionsMenu();
-    }
-
-    // Build root menu items
-    for (let id of rootChildren) {
-        buildContextMenuItem(id, "root");
-    }
-
-    buildContextMenuForImages();
-    buildContextMenuForVideoDownload();
-
-    if (options.optionsMenuLocation === "bottom") {
-        buildContextOptionsMenu();
-    }
-
-    // Build a context menu for the action button
-    const bookmarkMenuItem = {
-        id: "bookmark-page",
-        title: "Bookmark This Page",
-        contexts: ["action"]
-    };
-
-    if (isFirefox) {
-        bookmarkMenuItem.icons = { "16": "/icons/bookmark-grey-icon.svg" };
-    }
-
-    contextMenus.create(bookmarkMenuItem);
-
-    const searchEngineMenuItem = {
-        id: "add-search-engine",
-        title: "Add Search Engine",
-        contexts: ["action"],
-        visible: false // Initially hidden
-    };
-
-    if (isFirefox) {
-        searchEngineMenuItem.icons = { "16": "/icons/search-icon.png" };
-    }
-
-    contextMenus.create(searchEngineMenuItem);
-
-    // Add listener for context menu clicks
-    addClickListener();
+        }, resolve);
+    });
 }
+/// End of functions for building the context menu
 
-function onCreated() {
-    if (browser.runtime.lastError && logToConsole) {
-        console.log(`Error: ${browser.runtime.lastError}`);
+// Build the context menu using the search engines from local storage
+async function buildContextMenu() {
+    // Prevent concurrent menu creation
+    if (menuCreationInProgress) {
+        if (logToConsole) console.log("Menu creation already in progress, skipping...");
+        return;
+    }
+
+    try {
+        const rootChildren = searchEngines["root"]?.children || [];
+        const isFirefox = getBrowserType() === "firefox";
+
+        menuCreationInProgress = true;
+
+        if (logToConsole) console.log("Building context menu..");
+
+        // Remove listener for context menu clicks
+        removeClickListener();
+
+        // Remove all existing context menu items and wait for completion
+        await contextMenus.removeAll();
+
+        if (logToConsole) console.log('Root children:', rootChildren);
+
+        // Create menus in sequence
+        if (options.optionsMenuLocation === "top") {
+            await buildContextOptionsMenu();
+        }
+
+        // Build root menu items
+        for (let id of rootChildren) {
+            await buildContextMenuItem(id, "root");
+        }
+
+        await buildContextMenuForImages();
+        await buildContextMenuForVideoDownload();
+
+        if (options.optionsMenuLocation === "bottom") {
+            await buildContextOptionsMenu();
+        }
+
+        // Build a context menu for the action button
+        const bookmarkMenuItem = {
+            id: "bookmark-page",
+            title: "Bookmark This Page",
+            contexts: ["action"]
+        };
+
+        if (isFirefox) {
+            bookmarkMenuItem.icons = { "16": "/icons/bookmark-grey-icon.svg" };
+        }
+
+        await new Promise((resolve) => {
+            contextMenus.create(bookmarkMenuItem, resolve);
+        });
+
+        const searchEngineMenuItem = {
+            id: "add-search-engine",
+            title: "Add Search Engine",
+            contexts: ["action"],
+            visible: false // Initially hidden
+        };
+
+        if (isFirefox) {
+            searchEngineMenuItem.icons = { "16": "/icons/search-icon.png" };
+        }
+
+        await new Promise((resolve) => {
+            contextMenus.create(searchEngineMenuItem, resolve);
+        });
+
+        // Add listener for context menu clicks
+        addClickListener();
+
+    } catch (error) {
+        console.error('Error building context menu:', error);
+    } finally {
+        menuCreationInProgress = false;
     }
 }
 
@@ -1695,7 +1748,7 @@ async function setTargetUrl(id, aiEngine = "") {
         return googleLensUrl + targetUrl;
     }
     if (id === "tineye") {
-        return tineyeUrl;
+        return tineyeUrl + "/search?url=" + encodeURIComponent(targetUrl);
     }
     if (id === "bing-image-search") {
         return bingUrl;
@@ -1823,7 +1876,6 @@ async function displaySearchResults(
             id === "reverse-image-search" ||
                 id === "google-lens" ||
                 id === "tineye" ||
-                id === "bing-image-search" ||
                 id.startsWith("chatgpt-")
                 ? ""
                 : "#_sidebar";

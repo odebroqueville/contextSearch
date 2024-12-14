@@ -111,7 +111,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Message, Storage, and Permissions event handlers
 browser.runtime.onMessage.addListener(handleMessage);
-browser.storage.onChanged.addListener(handleStorageChange);
 browser.permissions.onAdded.addListener(handlePermissionsChanges);
 browser.permissions.onRemoved.addListener(handlePermissionsChanges);
 
@@ -342,7 +341,7 @@ async function getOS() {
 async function sendMessage(action, data = {}) {
     try {
         if (logToConsole) console.log('Sending message:', action, data);
-        const response = await browser.runtime.sendMessage({ action, ...data });
+        const response = await browser.runtime.sendMessage({ action, data });
         if (logToConsole) console.log('Message response:', response);
         return response;
     } catch (error) {
@@ -369,45 +368,6 @@ async function getStoredData(key) {
     } catch (error) {
         console.error('Error getting stored data:', error);
         throw new Error(`Failed to get data for ${key}: ${error.message}`);
-    }
-}
-
-// Handle local and sync storage changes
-function handleStorageChange(changes, area) {
-    if (area === 'local') {
-        const ids = Object.keys(changes);
-        for (const id of ids) {
-            if (changes[id].newValue === undefined) {
-                continue;
-            }
-            searchEngines[id] = changes[id].newValue;
-            if (logToConsole) {
-                console.log(`Search engine ${id}:\n`);
-                console.log(searchEngines[id]);
-            }
-        }
-        displaySearchEngines();
-    } else if (area === 'sync') {
-        let data = {};
-        let optionKeys = Object.keys(changes);
-        if (optionKeys.includes('logToConsole')) logToConsole = changes['logToConsole'].newValue;
-        if (logToConsole) {
-            console.log(changes);
-            console.log(optionKeys);
-        }
-        for (let optionKey of optionKeys) {
-            if (changes[optionKey].newValue !== undefined) {
-                data[optionKey] = changes[optionKey].newValue;
-                if (logToConsole) {
-                    console.log(optionKey);
-                    console.log(changes[optionKey].newValue);
-                    console.log('---------------------------------------');
-                }
-            }
-        }
-        if (logToConsole) console.log(data);
-        const options = data.options;
-        if (!isEmpty(options)) setOptions(options);
     }
 }
 
