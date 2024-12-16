@@ -1,5 +1,10 @@
-5.3.4
+5.3.5
 =========
+
+* Feature request [#197](https://github.com/odebroqueville/contextSearch/issues/197): Added option to disable double clicking to add a new search engine that uses HTTP POST requests
+
+5.3.4
+---------
 
 * Make reset a one-off action by resetting the reset settings to their default state (false) after a reset
 * Renamed AI engine Llama31 to Poe as it provides many more models to choose from

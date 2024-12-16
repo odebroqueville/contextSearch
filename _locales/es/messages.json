@@ -110,6 +110,10 @@
 		"message": "Buscar una coincidencia de cadena exacta",
 		"hash": "779d6b3e9f3fe9654fe3549a21a06550"
 	},
+	"disableDoubleClick": {
+		"message": "Deshabilitar el doble clic para agregar motores de búsqueda que utilizan solicitudes HTTP POST",
+		"hash": "79b3189e4af6def5c97597586cdd9881"
+	},
 	"gridMode": {
 		"message": "Mostrar el menú contextual como una cuadrícula de iconos y no como una lista",
 		"hash": "fb28a2f15ee692ae8862f2eed52cdede"

@@ -45,6 +45,7 @@ const folderKbsc = document.getElementById('folder-kb-shortcut');
 
 // Options
 const exactMatch = document.getElementById('exactMatch');
+const disableDoubleClick = document.getElementById('disableDoubleClick');
 const openNewTab = document.getElementById('openNewTab');
 const sameTab = document.getElementById('sameTab');
 const openNewWindow = document.getElementById('openNewWindow');
@@ -112,6 +113,7 @@ browser.permissions.onRemoved.addListener(handlePermissionsChanges);
 
 // Options changes event handlers
 exactMatch.addEventListener('click', updateSearchOptions);
+disableDoubleClick.addEventListener('click', updateSearchOptions);
 displayFavicons.addEventListener('click', updateDisplayFavicons);
 quickIconGrid.addEventListener('click', updateQuickIconGrid);
 closeGridOnMouseOut.addEventListener('click', updateCloseGridOnMouseOut);
@@ -1599,6 +1601,12 @@ async function setOptions(options) {
         exactMatch.checked = false;
     }
 
+    if (options.disableDoubleClick === true) {
+        disableDoubleClick.checked = true;
+    } else {
+        disableDoubleClick.checked = false;
+    }
+
     switch (options.tabMode) {
         case 'openNewTab':
             openNewTab.checked = true;
@@ -1832,8 +1840,9 @@ async function handleFileUpload() {
 }
 
 async function updateSearchOptions() {
-    let em = exactMatch.checked;
-    await sendMessage('updateSearchOptions', { exactMatch: em });
+    const em = exactMatch.checked;
+    const ddc = disableDoubleClick.checked;
+    await sendMessage('updateSearchOptions', { exactMatch: em, disableDoubleClick: ddc });
 }
 
 async function updateTabMode() {

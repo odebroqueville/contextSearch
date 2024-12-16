@@ -110,6 +110,10 @@
 		"message": "完全に一致する文字列を検索する",
 		"hash": "779d6b3e9f3fe9654fe3549a21a06550"
 	},
+	"disableDoubleClick": {
+		"message": "HTTP POSTリクエストを使用する検索エンジンを追加するためのダブルクリックを無効にする",
+		"hash": "79b3189e4af6def5c97597586cdd9881"
+	},
 	"gridMode": {
 		"message": "検索エンジンのリストの代わりにアイコンのグリッドを表示します",
 		"hash": "fb28a2f15ee692ae8862f2eed52cdede"

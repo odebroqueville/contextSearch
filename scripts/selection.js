@@ -474,9 +474,12 @@ async function init() {
     if (!hasContextSearchImage) showButtons();
 
     // For all input elements on the page that are descendants of a form element, except for input elements with the type "hidden" or without any type, add a double click event listener
-    document.querySelectorAll('form input:not([type="hidden"])').forEach(inputTextField => {
-        inputTextField.addEventListener('dblclick', handleInputDblclick);
-    });
+    if (!options.disableDoubleClick) {
+        document.querySelectorAll('form input:not([type="hidden"])').forEach(inputTextField => {
+            inputTextField.addEventListener('dblclick', handleInputDblclick);
+        });
+    }
+
 }
 
 // Check if the current web page contains a 'Context Search' icon

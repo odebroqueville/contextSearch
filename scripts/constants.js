@@ -42,6 +42,7 @@ export const notifySearchEngineUrlRequired = browser.i18n.getMessage(
 // Default settings
 export const DEFAULT_OPTIONS = {
     exactMatch: false,
+    disableDoubleClick: false,
     tabMode: 'openNewTab',
     optionsMenuLocation: 'bottom',
     tabActive: false,

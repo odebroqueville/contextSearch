@@ -10,7 +10,7 @@ import { USER_AGENT_FOR_SIDEBAR, USER_AGENT_FOR_GOOGLE, DEFAULT_SEARCH_ENGINES, 
 
 /// Global variables
 /* global  */
-let options;
+let options = {};
 let searchEngines = {};
 let newSearchEngineUrl;
 let formData;
@@ -418,6 +418,7 @@ async function handleAddNewPrompt(data) {
 
 async function handleUpdateSearchOptions(data) {
     options.exactMatch = data.exactMatch;
+    options.disableDoubleClick = data.disableDoubleClick;
     await saveOptions(options, true);
 }
 

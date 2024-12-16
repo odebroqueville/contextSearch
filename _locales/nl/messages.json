@@ -110,6 +110,10 @@
 		"message": "Zoek naar een exacte stringovereenkomst",
 		"hash": "779d6b3e9f3fe9654fe3549a21a06550"
 	},
+	"disableDoubleClick": {
+		"message": "Dubbelklikken uitschakelen voor het toevoegen van zoekmachines die HTTP POST-verzoeken gebruiken",
+		"hash": "79b3189e4af6def5c97597586cdd9881"
+	},
 	"gridMode": {
 		"message": "Toon een rooster van icoontjes in plaats van een lijst van zoekmachines",
 		"hash": "fb28a2f15ee692ae8862f2eed52cdede"

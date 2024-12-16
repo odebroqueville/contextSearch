@@ -83,6 +83,9 @@
     "exactMatch": {
         "message": "Search for an exact string match"
     },
+    "disableDoubleClick": {
+        "message": "Disable double click for adding search engines that use HTTP POST requests"
+    },
     "gridMode": {
         "message": "Display a grid of icons instead of a list of search engines"
     },

@@ -110,6 +110,10 @@
 		"message": "Rechercher une correspondance exacte de chaîne",
 		"hash": "779d6b3e9f3fe9654fe3549a21a06550"
 	},
+	"disableDoubleClick": {
+		"message": "Désactiver le double clic pour ajouter des moteurs de recherche qui utilisent des requêtes HTTP POST",
+		"hash": "79b3189e4af6def5c97597586cdd9881"
+	},
 	"gridMode": {
 		"message": "Afficher le menu contextuel sous la form de grille d'icones et non sous la forme de liste",
 		"hash": "fb28a2f15ee692ae8862f2eed52cdede"
