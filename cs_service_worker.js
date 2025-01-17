@@ -1,3 +1,6 @@
+/// Import browser polyfill for compatibility with Chrome and other browsers
+import '/libs/browser-polyfill.min.js';
+
 /// Import constants
 import {
     bingUrl,
@@ -13,7 +16,7 @@ import {
     youUrl,
     andiUrl,
     aiUrls,
-} from "./hosts.js";
+} from "./scripts/hosts.js";
 import {
     base64chatGPT,
     base64GoogleAIStudio,
@@ -25,7 +28,7 @@ import {
     base64exa,
     base64ContextSearchIcon,
     base64FolderIcon,
-} from "./favicons.js";
+} from "./scripts/favicons.js";
 import {
     STORAGE_KEYS,
     BACKUP_ALARM_NAME,
@@ -46,11 +49,9 @@ import {
     notifySearchEngineWithKeyword,
     notifyUnknown,
     notifySearchEngineUrlRequired
-} from "./constants.js";
+} from "./scripts/constants.js";
 
 /// Global variables
-
-globalThis.browser ??= chrome;
 
 // Helper for cross-browser context menu API
 const contextMenus = browser.menus || browser.contextMenus;
@@ -91,27 +92,37 @@ let menuCreationInProgress = false;
 
 // Triggered each time the browser starts up
 browser.runtime.onStartup.addListener(async () => {
-    // Load debug setting first before any logging
-    const debugEnabled = await getStoredData(STORAGE_KEYS.LOG_TO_CONSOLE);
-    logToConsole = debugEnabled ?? false;
+    try {
+        // Load debug setting first before any logging
+        const debugEnabled = await getStoredData(STORAGE_KEYS.LOG_TO_CONSOLE);
+        logToConsole = debugEnabled ?? false;
 
-    if (logToConsole) console.log('Service worker starting up...');
-    await handleServiceWorkerInit('startup');
+        if (logToConsole) console.log('Service worker starting up...');
+        await handleServiceWorkerInit('startup');
+    } catch (error) {
+        console.error('Failed to initialize storage:', error);
+    }
 });
 
 // Triggered when the extension/service worker is first installed
 browser.runtime.onInstalled.addListener(async (details) => {
-    // Load debug setting first before any logging
-    const debugEnabled = await getStoredData(STORAGE_KEYS.LOG_TO_CONSOLE);
-    logToConsole = debugEnabled ?? false;
+    try {
+        console.log(typeof browser); // Should output 'object' if the polyfill is loaded correctly
 
-    if (logToConsole) console.log('Service worker installed/updated: ', details.reason);
-    // Enable debugging for temporary installations
-    if (details.temporary) {
-        logToConsole = true;
-        await setStoredData(STORAGE_KEYS.LOG_TO_CONSOLE, true);
+        // Load debug setting first before any logging
+        const debugEnabled = await getStoredData(STORAGE_KEYS.LOG_TO_CONSOLE);
+        logToConsole = debugEnabled ?? false;
+
+        if (logToConsole) console.log('Service worker installed/updated: ', details.reason);
+        // Enable debugging for temporary installations
+        if (details.temporary) {
+            logToConsole = true;
+            await setStoredData(STORAGE_KEYS.LOG_TO_CONSOLE, true);
+        }
+        await handleServiceWorkerInit(details.reason);
+    } catch (error) {
+        console.error('Failed to initialize storage:', error);
     }
-    await handleServiceWorkerInit(details.reason);
 });
 
 // Triggered when the service worker is about to be suspended
@@ -215,60 +226,105 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
         );
     switch (action) {
         case "openModal":
-            return handleOpenModal(data);
+            handleOpenModal(data);
+            break;
         case "addNewPostSearchEngine":
-            return handleAddNewPostSearchEngine(data);
+            handleAddNewPostSearchEngine(data);
+            break;
         case "doSearch":
-            return handleDoSearch(data);
+            handleDoSearch(data);
+            break;
         case "executeAISearch":
-            return handleExecuteAISearch(data);
+            handleExecuteAISearch(data);
+            break;
         case "notify":
             if (notificationsEnabled) notify(data);
             break;
         case "setSelection":
             // Escape single and double quotes from the selection
             if (data) selection = data.selection.replace(/["']/g, "\\$&");
-            if (logToConsole) console.log(`Selected text: ${selection}`);
-            //if (data) selections[sender.tab.id] = data.selection;
-            //if (logToConsole) console.log(`Selected text from tab ${sender.tab.id}: ${selections[sender.tab.id]}`);
+            if (logToConsole) console.log(`Selected text from tab ${sender.tab.id}: ${selection}`);
             break;
         case "reset":
-            return handleReset();
+            handleReset().then(result => {
+                sendResponse(result);
+            }).catch(error => {
+                sendResponse({ error: error.message });
+            });
+            return true;
         case "setTargetUrl":
-            return handleSetTargetUrl(data);
+            handleSetTargetUrl(data);
+            break;
         case "testSearchEngine":
-            return testSearchEngine(data);
+            testSearchEngine(data);
+            break;
         case "testPrompt":
-            return testPrompt();
+            testPrompt();
+            break;
         case "saveSearchEngines":
-            return handleSaveSearchEngines(data);
+            handleSaveSearchEngines(data);
+            break;
         case "saveAIEngine":
-            return handleSaveAIEngine(data);
+            handleSaveAIEngine(data);
+            break;
         case "addNewSearchEngine":
-            return handleAddNewSearchEngine(data);
+            handleAddNewSearchEngine(data);
+            break;
         case "addNewPrompt":
-            return handleAddNewPrompt(data);
+            handleAddNewPrompt(data);
+            break;
         case "updateOptions":
-            return handleOptionsUpdate(data.updateType, data.data);
+            handleOptionsUpdate(data.updateType, data.data);
+            break;
         case "saveSearchEnginesToDisk":
-            return handleSaveSearchEnginesToDisk(data);
+            handleSaveSearchEnginesToDisk(data);
+            break;
         case "updateOpenSearchSupport":
-            return handleUpdateOpenSearchSupport(data);
+            handleUpdateOpenSearchSupport(data);
+            break;
         case "contentScriptLoaded":
-            return handleContentScriptLoaded(data);
+            handleContentScriptLoaded(data).then(result => {
+                if (result) {
+                    sendResponse(result);
+                } else {
+                    sendResponse({ success: false });
+                }
+            }).catch(error => {
+                sendResponse({ error: error.message });
+            });
+            return true;
         case "getImageUrl":
-            return sendImageUrl();
+            sendImageUrl().then(result => {
+                if (result) {
+                    sendResponse(result);
+                } else {
+                    sendResponse({ success: false });
+                }
+            }).catch(error => {
+                sendResponse({ error: error.message });
+            });
+            return true;
         case "getStoredData":
         case "setStoredData":
-            return handleStorageMessage(message);
+            handleStorageMessage(message).then(result => {
+                sendResponse(result);
+            });
+            return true;
         case "getOS":
-            return getOS();
+            getOS().then(result => {
+                sendResponse(result);
+            });
+            return true;
         case "reloadSearchEngines":
-            return reloadSearchEngines();
+            reloadSearchEngines();
+            break;
         default:
-            console.error("Unexpected action:", action);
+            if (logToConsole) console.error("Unexpected action:", action);
+            sendResponse({ success: false });
             return false;
     }
+    sendResponse({ success: true });
+    return true;
 });
 
 /// Main functions
@@ -276,14 +332,17 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 async function reloadSearchEngines() {
     if (logToConsole) console.log('Reloading search engines...');
     await initialiseSearchEngines();
-    return { success: true };
 }
 
 // Add message listener for storage operations
 async function handleStorageMessage(message) {
+    if (!message.data) {
+        return { error: 'No key provided for storage operation.' };
+    }
+    const key = message.data;
     if (message.action === 'getStoredData') {
         try {
-            const data = await getStoredData(message.key);
+            const data = await getStoredData(key);
             return { data };
         } catch (error) {
             console.error('Error in getStoredData:', error);
@@ -291,7 +350,7 @@ async function handleStorageMessage(message) {
         }
     } else if (message.action === 'setStoredData') {
         try {
-            await setStoredData(message.key, message.value);
+            await setStoredData(key, message.value);
             return { success: true };
         } catch (error) {
             console.error('Error in setStoredData:', error);
@@ -306,21 +365,21 @@ async function getOS() {
         const platform = await browser.runtime.getPlatformInfo();
         switch (platform.os) {
             case 'mac':
-                return 'macOS';
+                return { os: 'macOS' };
             case 'win':
-                return 'Windows';
+                return { os: 'Windows' };
             case 'android':
-                return 'Android';
+                return { os: 'Android' };
             case 'linux':
-                return 'Linux';
+                return { os: 'Linux' };
             case 'ios':
-                return 'iOS';
+                return { os: 'iOS' };
             default:
-                return null;
+                return { os: 'Unknown' };
         }
     } catch (error) {
         console.error('Error detecting OS:', error);
-        return null;
+        return { error: error.message };
     }
 }
 
@@ -638,7 +697,7 @@ async function handleOptionsUpdate(updateType, data) {
     }
 
     await saveOptions(config.requiresMenuRebuild);
-    return config.customReturn;
+    //return config.customReturn;
 }
 
 function handleUpdateOpenSearchSupport(data) {

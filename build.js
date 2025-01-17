@@ -22,7 +22,12 @@ function ensureDir(dirPath) {
 }
 
 // Function to copy a file
-function copyFile(src, dest) {
+function copyFile(src, dest, browser) {
+    // Skip browser-polyfill.js for Firefox
+    if (browser === 'firefox' && path.basename(src) === 'browser-polyfill.js') {
+        return;
+    }
+
     try {
         fs.copyFileSync(src, dest);
     } catch (error) {
@@ -37,20 +42,32 @@ function copyFile(src, dest) {
 // Function to process HTML files
 function processHtmlFile(src, dest, browser) {
     let content = fs.readFileSync(src, 'utf8');
-    
+
     if (browser === 'firefox') {
         // Remove browser-polyfill.min.js script tag for Firefox
         content = content.replace(/<script src="\/libs\/browser-polyfill\.min\.js"><\/script>\n?/g, '');
     }
-    
+
+    fs.writeFileSync(dest, content);
+}
+
+// Function to process JavaScript files
+function processJsFile(src, dest, browser) {
+    let content = fs.readFileSync(src, 'utf8');
+
+    if (browser === 'firefox' && src.includes('/scripts/')) {
+        // Remove specific lines for Firefox
+        content = content.replace(/\/\/\/ Import browser polyfill for compatibility with Chrome and other browsers\nimport '\/libs\/browser-polyfill\.min\.js';\n?/g, '');
+    }
+
     fs.writeFileSync(dest, content);
 }
 
 // Function to check if a file/directory should be excluded
 function shouldExclude(name) {
     return excludeList.includes(name) ||
-           name.startsWith('.') ||
-           name.startsWith('yt_dlp_host');
+        name.startsWith('.') ||
+        name.startsWith('yt_dlp_host');
 }
 
 // Function to copy directory recursively
@@ -69,11 +86,12 @@ function copyDir(src, dest, browser) {
         if (entry.isDirectory()) {
             copyDir(srcPath, destPath, browser);
         } else if (entry.isFile()) {
-            // Process HTML files differently
             if (entry.name.endsWith('.html')) {
                 processHtmlFile(srcPath, destPath, browser);
+            } else if (entry.name.endsWith('.js')) {
+                processJsFile(srcPath, destPath, browser);
             } else {
-                copyFile(srcPath, destPath);
+                copyFile(srcPath, destPath, browser);
             }
         }
     }
@@ -90,7 +108,7 @@ function cleanBuildDir(browser) {
 // Function to build for a specific browser
 function buildForBrowser(browser) {
     console.log(`Building for ${browser}...`);
-    
+
     // Clean and create build directory
     const buildDir = path.join(__dirname, 'build', browser);
     cleanBuildDir(browser);
@@ -112,8 +130,10 @@ function buildForBrowser(browser) {
             // Process HTML files differently
             if (file.name.endsWith('.html')) {
                 processHtmlFile(srcPath, destPath, browser);
+            } else if (file.name === 'cs_service_worker.js') {
+                processServiceWorkerFile(srcPath, destPath, browser);
             } else {
-                copyFile(srcPath, destPath);
+                copyFile(srcPath, destPath, browser);
             }
         }
     }
@@ -149,7 +169,7 @@ try {
     // Build for both browsers
     buildForBrowser('chrome');
     buildForBrowser('firefox');
-    
+
     console.log('✨ Build process completed successfully!');
     console.log('📁 Build outputs:');
     console.log('   - Chrome: ./build/chrome');

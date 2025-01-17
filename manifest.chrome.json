@@ -14,7 +14,7 @@
         "default_title": "Bookmark the active tab to Context Search"
     },
     "background": {
-        "service_worker": "chrome_service_worker.js",
+        "service_worker": "cs_service_worker.js",
         "type": "module"
     },
     "permissions": [

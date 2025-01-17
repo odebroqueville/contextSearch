@@ -1,3 +1,6 @@
+/// Import browser polyfill for compatibility with Chrome and other browsers
+import '/libs/browser-polyfill.min.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const aiEngines = ['chatgpt', 'google', 'perplexity', 'poe', 'claude', 'you', 'andi'];
     const inputArea = document.getElementById('inputArea');

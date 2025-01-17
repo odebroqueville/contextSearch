@@ -1,3 +1,6 @@
+/// Import browser polyfill for compatibility with Chrome and other browsers
+import '/libs/browser-polyfill.min.js';
+
 /// Import constants
 import { base64FolderIcon } from './favicons.js';
 import { STORAGE_KEYS } from './constants.js';
@@ -354,10 +357,10 @@ async function sendMessage(action, data = {}) {
 async function getStoredData(key) {
     try {
         if (logToConsole) console.log('Getting stored data for key:', key);
-        const response = await browser.runtime.sendMessage({
-            action: 'getStoredData',
-            key: key
-        });
+        if (!key) {
+            throw new Error('No key provided for storage operation.');
+        }
+        const response = await browser.runtime.sendMessage({ action: 'getStoredData', data: key });
 
         if (!response || response.error) {
             throw new Error(response?.error || 'No response from service worker');

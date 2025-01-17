@@ -1,3 +1,6 @@
+/// Import browser polyfill for compatibility with Chrome and other browsers
+import '/libs/browser-polyfill.min.js';
+
 document.addEventListener('DOMContentLoaded', getHistoryItems);
 
 async function getHistoryItems() {

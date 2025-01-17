@@ -1,3 +1,6 @@
+/// Import browser polyfill for compatibility with Chrome and other browsers
+import '/libs/browser-polyfill.min.js';
+
 let logToConsole = false;
 
 // Storage keys (copied from constants.js)

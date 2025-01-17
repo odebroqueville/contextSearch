@@ -1,3 +1,6 @@
+/// Import browser polyfill for compatibility with Chrome and other browsers
+import '/libs/browser-polyfill.min.js';
+
 let logToConsole = false;
 
 // Storage keys (copied from constants.js)
@@ -88,8 +91,8 @@ async function getOS() {
     try {
         // Send message to background script to get OS
         const api = typeof browser !== 'undefined' ? browser : chrome;
-        const os = await api.runtime.sendMessage({ action: "getOS" });
-        if (os) return os;
+        const { os } = await api.runtime.sendMessage({ action: "getOS" });
+        if (os && os !== "Unknown") return os;
 
         // Fallback to user agent if background script detection fails
         const ua = navigator.userAgent.toLowerCase();

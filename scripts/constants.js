@@ -1,7 +1,5 @@
 /// Constants
 
-const api = typeof browser !== 'undefined' ? browser : chrome;
-
 // User agent for sidebar search results
 const USER_AGENT_FOR_SIDEBAR =
     'Mozilla/5.0 (iPhone; CPU iPhone OS 16_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5 Mobile/15E148 Safari/605.1.15';
@@ -126,27 +124,27 @@ export const HEADER_RULES = [
 ];
 
 // Constants for translations
-export const titleMultipleSearchEngines = api.i18n.getMessage(
+export const titleMultipleSearchEngines = browser.i18n.getMessage(
     'titleMultipleSearchEngines'
 );
-export const titleAISearch = api.i18n.getMessage('titleAISearch');
-export const titleSiteSearch = api.i18n.getMessage('titleSiteSearch');
-export const titleExactMatch = api.i18n.getMessage('exactMatch');
-export const titleOptions = api.i18n.getMessage('titleOptions');
-export const windowTitle = api.i18n.getMessage('windowTitle');
-export const omniboxDescription = api.i18n.getMessage('omniboxDescription');
-export const notifySearchEnginesLoaded = api.i18n.getMessage(
+export const titleAISearch = browser.i18n.getMessage('titleAISearch');
+export const titleSiteSearch = browser.i18n.getMessage('titleSiteSearch');
+export const titleExactMatch = browser.i18n.getMessage('exactMatch');
+export const titleOptions = browser.i18n.getMessage('titleOptions');
+export const windowTitle = browser.i18n.getMessage('windowTitle');
+export const omniboxDescription = browser.i18n.getMessage('omniboxDescription');
+export const notifySearchEnginesLoaded = browser.i18n.getMessage(
     'notifySearchEnginesLoaded'
 );
-export const notifySearchEngineAdded = api.i18n.getMessage(
+export const notifySearchEngineAdded = browser.i18n.getMessage(
     'notifySearchEngineAdded'
 );
-export const notifyUsage = api.i18n.getMessage('notifyUsage');
-export const notifySearchEngineWithKeyword = api.i18n.getMessage(
+export const notifyUsage = browser.i18n.getMessage('notifyUsage');
+export const notifySearchEngineWithKeyword = browser.i18n.getMessage(
     'notifySearchEngineWithKeyword'
 );
-export const notifyUnknown = api.i18n.getMessage('notifyUnknown');
-export const notifySearchEngineUrlRequired = api.i18n.getMessage(
+export const notifyUnknown = browser.i18n.getMessage('notifyUnknown');
+export const notifySearchEngineUrlRequired = browser.i18n.getMessage(
     'notifySearchEngineUrlRequired'
 );
 

@@ -30,7 +30,7 @@
     },
     "background": {
         "scripts": [
-            "/scripts/cs_service_worker.js"
+            "cs_service_worker.js"
         ],
         "type": "module"
     },
