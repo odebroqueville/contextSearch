@@ -1,6 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
+// Get the current directory
+const currentDir = path.resolve();
+
 // List of files/directories to exclude from the build
 const excludeList = [
     'build',
@@ -63,6 +66,18 @@ function processJsFile(src, dest, browser) {
     fs.writeFileSync(dest, content);
 }
 
+// Function to process JavaScript service worker files
+function processServiceWorkerFile(src, dest, browser) {
+    let content = fs.readFileSync(src, 'utf8');
+
+    if (browser === 'firefox' && path.basename(src) === 'cs_service_worker.js') {
+        // Remove first 3 lines for Firefox
+        content = content.split('\n').slice(3).join('\n');
+    }
+
+    fs.writeFileSync(dest, content);
+}
+
 // Function to check if a file/directory should be excluded
 function shouldExclude(name) {
     return excludeList.includes(name) ||
@@ -88,6 +103,8 @@ function copyDir(src, dest, browser) {
         } else if (entry.isFile()) {
             if (entry.name.endsWith('.html')) {
                 processHtmlFile(srcPath, destPath, browser);
+            } else if (entry.name === 'cs_service_worker.js') {
+                processServiceWorkerFile(srcPath, destPath, browser);
             } else if (entry.name.endsWith('.js')) {
                 processJsFile(srcPath, destPath, browser);
             } else {
@@ -99,7 +116,7 @@ function copyDir(src, dest, browser) {
 
 // Clean build directory for browser
 function cleanBuildDir(browser) {
-    const buildDir = path.join(__dirname, 'build', browser);
+    const buildDir = path.join(currentDir, 'build', browser);
     if (fs.existsSync(buildDir)) {
         fs.rmSync(buildDir, { recursive: true, force: true });
     }
@@ -110,18 +127,18 @@ function buildForBrowser(browser) {
     console.log(`Building for ${browser}...`);
 
     // Clean and create build directory
-    const buildDir = path.join(__dirname, 'build', browser);
+    const buildDir = path.join(currentDir, 'build', browser);
     cleanBuildDir(browser);
     ensureDir(buildDir);
 
     // Copy all files except manifests and build-related files
-    const files = fs.readdirSync(__dirname, { withFileTypes: true });
+    const files = fs.readdirSync(currentDir, { withFileTypes: true });
     for (const file of files) {
         if (shouldExclude(file.name)) {
             continue;
         }
 
-        const srcPath = path.join(__dirname, file.name);
+        const srcPath = path.join(currentDir, file.name);
         const destPath = path.join(buildDir, file.name);
 
         if (file.isDirectory()) {
@@ -130,6 +147,8 @@ function buildForBrowser(browser) {
             // Process HTML files differently
             if (file.name.endsWith('.html')) {
                 processHtmlFile(srcPath, destPath, browser);
+            } else if (file.name === 'cs_service_worker.js') {
+                processServiceWorkerFile(srcPath, destPath, browser);
             } else if (file.name.endsWith('.js')) {
                 processJsFile(srcPath, destPath, browser);
             } else {
@@ -139,7 +158,7 @@ function buildForBrowser(browser) {
     }
 
     // Copy the appropriate manifest
-    const manifestSource = path.join(__dirname, `manifest.${browser}.json`);
+    const manifestSource = path.join(currentDir, `manifest.${browser}.json`);
     const manifestDest = path.join(buildDir, 'manifest.json');
     copyFile(manifestSource, manifestDest);
 
@@ -148,13 +167,13 @@ function buildForBrowser(browser) {
     ensureDir(libsDir);
 
     // Copy Sortable.min.js for both browsers
-    const sortableSource = path.join(__dirname, 'node_modules', 'sortablejs', 'Sortable.min.js');
+    const sortableSource = path.join(currentDir, 'node_modules', 'sortablejs', 'Sortable.min.js');
     const sortableDest = path.join(libsDir, 'Sortable.min.js');
     copyFile(sortableSource, sortableDest);
 
     // Copy browser-polyfill.min.js for Chrome only
     if (browser === 'chrome') {
-        const polyfillSource = path.join(__dirname, 'node_modules', 'webextension-polyfill', 'dist', 'browser-polyfill.min.js');
+        const polyfillSource = path.join(currentDir, 'node_modules', 'webextension-polyfill', 'dist', 'browser-polyfill.min.js');
         const polyfillDest = path.join(libsDir, 'browser-polyfill.min.js');
         copyFile(polyfillSource, polyfillDest);
     }
