@@ -130,8 +130,8 @@ function buildForBrowser(browser) {
             // Process HTML files differently
             if (file.name.endsWith('.html')) {
                 processHtmlFile(srcPath, destPath, browser);
-            } else if (file.name === 'cs_service_worker.js') {
-                processServiceWorkerFile(srcPath, destPath, browser);
+            } else if (file.name.endsWith('.js')) {
+                processJsFile(srcPath, destPath, browser);
             } else {
                 copyFile(srcPath, destPath, browser);
             }
