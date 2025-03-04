@@ -1,5 +1,8 @@
 /// Constants
 
+// Debug mode
+export const DEBUG = true;
+
 // User agent for sidebar search results
 const USER_AGENT_FOR_SIDEBAR =
     'Mozilla/5.0 (iPhone; CPU iPhone OS 16_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5 Mobile/15E148 Safari/605.1.15';

@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         showLoadingState();
         os = await getOS();
         await init();
-        console.log('Initialization complete');
+        console.log('Initialization complete.');
     } catch (err) {
         console.error('Error during initialization:', err);
         showErrorState('Error during initialization. Please try refreshing the page.');

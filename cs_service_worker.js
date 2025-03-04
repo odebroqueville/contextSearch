@@ -30,6 +30,7 @@ import {
     base64FolderIcon,
 } from "./scripts/favicons.js";
 import {
+    DEBUG,
     STORAGE_KEYS,
     BACKUP_ALARM_NAME,
     DEFAULT_SEARCH_ENGINES,
@@ -93,12 +94,13 @@ let menuCreationInProgress = false;
 // Triggered each time the browser starts up
 browser.runtime.onStartup.addListener(async () => {
     try {
+        console.log('Service worker starting up...');
+
         // Load debug setting first before any logging
         const debugEnabled = await getStoredData(STORAGE_KEYS.LOG_TO_CONSOLE);
-        logToConsole = debugEnabled ?? false;
-
-        if (logToConsole) console.log('Service worker starting up...');
-        await handleServiceWorkerInit('startup');
+        logToConsole = debugEnabled ?? DEBUG;
+        await setStoredData(STORAGE_KEYS.LOG_TO_CONSOLE, logToConsole);
+        await initializeServiceWorker('startup');
     } catch (error) {
         console.error('Failed to initialize storage:', error);
     }
@@ -107,19 +109,16 @@ browser.runtime.onStartup.addListener(async () => {
 // Triggered when the extension/service worker is first installed
 browser.runtime.onInstalled.addListener(async (details) => {
     try {
-        console.log(typeof browser); // Should output 'object' if the polyfill is loaded correctly
+        console.log('Service worker installed.');
 
         // Load debug setting first before any logging
         const debugEnabled = await getStoredData(STORAGE_KEYS.LOG_TO_CONSOLE);
-        logToConsole = debugEnabled ?? false;
+        logToConsole = debugEnabled ?? DEBUG;
+        await setStoredData(STORAGE_KEYS.LOG_TO_CONSOLE, logToConsole);
 
-        if (logToConsole) console.log('Service worker installed/updated: ', details.reason);
-        // Enable debugging for temporary installations
-        if (details.temporary) {
-            logToConsole = true;
-            await setStoredData(STORAGE_KEYS.LOG_TO_CONSOLE, true);
-        }
-        await handleServiceWorkerInit(details.reason);
+        if (logToConsole) console.log(typeof browser === 'object' ? 'Polyfill loaded correctly' : 'Polyfill loaded incorrectly');
+
+        await initializeServiceWorker(details.reason);
     } catch (error) {
         console.error('Failed to initialize storage:', error);
     }
@@ -127,38 +126,27 @@ browser.runtime.onInstalled.addListener(async (details) => {
 
 // Triggered when the service worker is about to be suspended
 browser.runtime.onSuspend.addListener(async () => {
+    if (logToConsole) console.log('Service worker suspended, resetting initialization state.');
     isInitialized = false;
     await persistData();
-    if (logToConsole) console.log('Service worker suspended, resetting initialization state.');
 });
 
 // Triggered when a connection is made from another part of the extension, such as a content script or another extension page
 browser.runtime.onConnect.addListener(async (port) => {
     if (logToConsole) console.log('Service worker connected on port: ', port.name);
     if (!isInitialized) {
-        await handleServiceWorkerInit('connect');
+        await initializeServiceWorker('connect');
     }
 });
 
 // Triggered when the service worker is ready to take control of the pages and become the active worker
-self.addEventListener('activate', async () => await handleServiceWorkerInit('activate'));
+self.addEventListener('activate', async () => await initializeServiceWorker('activate'));
 
-// Service Worker Lifecycle Management
-async function handleServiceWorkerInit(reason = 'unknown') {
+async function initializeServiceWorker(reason = 'unknown') {
     try {
-        if (logToConsole) {
-            console.log(`Initializing service worker (reason: ${reason}).`);
-        }
-        await initializeExtension();
-    } catch (error) {
-        console.error(`Error during ${reason} initialization:`, error);
-    }
-}
+        if (logToConsole) console.log(`Initializing service worker (reason: ${reason}).`);
 
-// Listen for alarm
-async function initializeExtension() {
-    try {
-        // Set up alarm listener
+        // Set up alarm listener to persist data
         if (browser.alarms) {
             browser.alarms.onAlarm.addListener(async (alarm) => {
                 if (alarm.name === BACKUP_ALARM_NAME) {
@@ -222,8 +210,36 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const data = message.data;
     if (logToConsole)
         console.log(
-            `Message received: action=${action}, data=${JSON.stringify(data)}`,
+            `Extension context valid: ${!browser.runtime.lastError}. Message received from ${sender.contextId} ${sender.documentId ? "(" + sender.documentId + ")" : ""
+            }:`,
+            message,
         );
+
+    // If the extension context is invalid, don't try to handle the message
+    if (browser.runtime.lastError) {
+        console.error("Extension context invalidated:", browser.runtime.lastError);
+        return;
+    }
+
+    // Handle initialization request (can be triggered by content scripts)
+    if (action === "initializeServiceWorker") {
+        if (!isInitialized || data.force) {
+            initializeServiceWorker(data.reason || "content_script_request")
+                .then(() => {
+                    if (sendResponse) sendResponse({ success: true });
+                })
+                .catch(error => {
+                    console.error("Error initializing service worker:", error);
+                    if (sendResponse) sendResponse({ success: false, error: error.message });
+                });
+            return true; // Indicates we will call sendResponse asynchronously
+        } else {
+            if (sendResponse) sendResponse({ success: true, alreadyInitialized: true });
+            return;
+        }
+    }
+
+    // Handle other actions
     switch (action) {
         case "openModal":
             handleOpenModal(data);
@@ -305,7 +321,6 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             });
             return true;
         case "getStoredData":
-        case "setStoredData":
             handleStorageMessage(message).then(result => {
                 sendResponse(result);
             });
@@ -348,14 +363,6 @@ async function handleStorageMessage(message) {
             console.error('Error in getStoredData:', error);
             return { error: error.message };
         }
-    } else if (message.action === 'setStoredData') {
-        try {
-            await setStoredData(key, message.value);
-            return { success: true };
-        } catch (error) {
-            console.error('Error in setStoredData:', error);
-            return { error: error.message };
-        }
     }
 }
 
@@ -386,32 +393,14 @@ async function getOS() {
 // Initialize header modification rules
 async function initializeHeaderRules() {
     if (logToConsole) console.log('Initializing header rules...');
-    // Only set up rules if we're in sidebar mode
-    if (options.tabMode !== "openSidebar") {
-        // Remove any existing rules if not in sidebar mode
-        await browser.declarativeNetRequest.updateDynamicRules({
-            removeRuleIds: HEADER_RULES.map(rule => rule.id)
-        });
-        return;
-    }
 
-    if (logToConsole) {
-        console.log("Initializing header rules for sidebar mode.");
-    }
-
-    // Remove any existing rules
+    // Remove any existing rules and add new ones
     await browser.declarativeNetRequest.updateDynamicRules({
-        removeRuleIds: HEADER_RULES.map(rule => rule.id)
-    });
-
-    // Add our new rules
-    await browser.declarativeNetRequest.updateDynamicRules({
+        removeRuleIds: HEADER_RULES.map(rule => rule.id),
         addRules: HEADER_RULES
     });
 
-    if (logToConsole) {
-        console.log("Header rules initialized.");
-    }
+    if (logToConsole) console.log("Header rules initialized.");
 }
 
 // Function to get stored data
@@ -443,6 +432,7 @@ async function initializeStoredData() {
         // Initialize notifications setting
         let notifEnabled = await getStoredData(STORAGE_KEYS.NOTIFICATIONS_ENABLED);
         if (!notifEnabled && notifEnabled !== false) {
+            // Default to false if not set
             await setStoredData(STORAGE_KEYS.NOTIFICATIONS_ENABLED, false);
         }
         notificationsEnabled = notifEnabled ?? false;
@@ -450,21 +440,23 @@ async function initializeStoredData() {
         // Initialize debug setting
         let debugEnabled = await getStoredData(STORAGE_KEYS.LOG_TO_CONSOLE);
         if (!debugEnabled && debugEnabled !== false) {
-            await setStoredData(STORAGE_KEYS.LOG_TO_CONSOLE, false);
+            // Default to DEBUG if not set
+            await setStoredData(STORAGE_KEYS.LOG_TO_CONSOLE, DEBUG);
         }
-        logToConsole = debugEnabled ?? logToConsole;
+        logToConsole = debugEnabled ?? DEBUG;
 
         // Initialize options if not exist
+        const browser_type = getBrowserType();
+        options = { ...DEFAULT_OPTIONS };  // Use spread to create a new object
+
+        // Chrome does not support favicons in context menus
+        if (browser_type === 'chrome') options.displayFavicons = false;
+
         const storedOptions = await getStoredData(STORAGE_KEYS.OPTIONS);
-        if (!storedOptions || isEmpty(storedOptions)) {
-            const browser_type = getBrowserType();
-            options = { ...DEFAULT_OPTIONS };  // Use spread to create a new object
-            // Chrome does not support favicons in context menus
-            if (browser_type === 'chrome') options.displayFavicons = false;
-            await setStoredData(STORAGE_KEYS.OPTIONS, options);
-        } else {
-            options = storedOptions;
+        for (const o in storedOptions) {
+            options[o] = storedOptions[o];
         }
+        await setStoredData(STORAGE_KEYS.OPTIONS, options);
         if (logToConsole) console.log('Options:', options);
 
         // Initialize search engines if not exist
@@ -866,7 +858,10 @@ async function init() {
         return;
     }
 
-    if (logToConsole) console.log('Starting service worker initialization...');
+    console.log("Initializing extension (init) unconditionally...");
+
+    await initializeHeaderRules();
+
     // Debug: verify that storage space occupied is within limits
     if (logToConsole) {
         // Inform on storage space being used by storage sync
@@ -895,15 +890,13 @@ async function init() {
 
     await updateAddonStateForActiveTab();
 
-    await initializeHeaderRules();
-
     if (logToConsole) console.log('Creating backup alarm...');
     browser.alarms.create(BACKUP_ALARM_NAME, {
         periodInMinutes: 5 // Backup every 5 minutes
     });
 
     isInitialized = true;
-    if (logToConsole) console.log('Service worker initialization complete');
+    if (logToConsole) console.log('Service worker initialization complete.');
 }
 
 // Check if notifications are enabled
@@ -1231,50 +1224,78 @@ function getFaviconForPrompt(id, aiProvider) {
 }
 
 function addClickListener() {
-    menuClickHandler = async (info, tab) => {
+    menuClickHandler = (info, tab) => {
+        const browser_type = getBrowserType();
         if (options.tabMode === "openSidebar") {
-            if (logToConsole) console.log("Opening the sidebar.");
-            // Open sidebar synchronously first
-            const browser_type = getBrowserType();
-            try {
-                if (browser_type === 'firefox') {
-                    await browser.sidebarAction.open();
-                } else if (browser_type === 'chrome' && chrome.sidePanel) {
-                    // Get current tab synchronously using the tab parameter
-                    await chrome.sidePanel.open({ tabId: tab.id });
+            if (browser_type === 'firefox') {
+                if (logToConsole) console.log("Opening the sidebar.");
+                browser.sidebarAction.open().then(() => {
+                    // After sidebar is open, set up panel and process search
+                    setBrowserPanel().then(() => {
+                        processSearch(info, tab);
+                    });
+                }).catch(error => {
+                    console.error('Error opening Firefox sidebar:', error);
+                    // Still try to process search even if sidebar fails
+                    processSearch(info, tab);
+                });
+            } else if (browser_type === 'chrome' && chrome.sidePanel) {
+                if (logToConsole) console.log("Opening the side panel.");
+
+                // Register the side panel first synchronously
+                try {
+                    // First, ensure global setup is done (not tab-specific)
+                    chrome.sidePanel.setOptions({
+                        path: 'html/sidebar.html',
+                        enabled: true
+                    });
+
+                    // Then try to open it immediately while we're still in the user gesture context
+                    chrome.sidePanel.open({
+                        tabId: tab.id, // The tabId is required
+                        windowId: tab.windowId  // Optional
+                    }).then(() => {
+                        return setBrowserPanel();
+                    }).then(() => {
+                        processSearch(info, tab);
+                    }).catch(error => {
+                        console.error('Error opening Chrome side panel:', error);
+                        processSearch(info, tab);
+                    });
+                } catch (error) {
+                    console.error('Error with Chrome side panel initial setup:', error);
+                    processSearch(info, tab);
                 }
-            } catch (error) {
-                console.error('Error opening browser panel:', error);
+            } else {
+                // No sidebar/panel support, just process the search
+                setBrowserPanel().then(() => {
+                    processSearch(info, tab);
+                });
             }
-            // Then do the async panel setup
-            await setBrowserPanel();
         } else {
-            if (logToConsole) console.log("Closing the sidebar.");
-            // Close sidebar synchronously
-            const browser_type = getBrowserType();
+            // Handle non-sidebar mode
             try {
                 if (browser_type === 'firefox') {
+                    if (logToConsole) console.log("Closing the sidebar.");
                     browser.sidebarAction.close();
                 } else if (browser_type === 'chrome' && chrome.sidePanel) {
-                    if (tab) {
-                        await chrome.sidePanel.setOptions({
-                            enabled: false,
-                            tabId: tab.id
-                        });
-                    }
+                    chrome.sidePanel.setOptions({
+                        enabled: false
+                    });
                 }
             } catch (error) {
                 console.error('Error closing browser panel:', error);
             }
+            // Process search directly
+            processSearch(info, tab);
         }
-        await processSearch(info, tab);
     };
-    contextMenus.onClicked.addListener(menuClickHandler);
+    browser.contextMenus.onClicked.addListener(menuClickHandler);
 }
 
 function removeClickListener() {
     if (menuClickHandler) {
-        contextMenus.onClicked.removeListener(menuClickHandler);
+        browser.contextMenus.onClicked.removeListener(menuClickHandler);
         menuClickHandler = null;
     }
 }
@@ -1625,24 +1646,24 @@ async function processMultisearch(arraySearchEngineUrls, tabPosition) {
     };
 
     const getSearchEnginesFromFolder = async (folderId) => {
-        for (let id of searchEngines[folderId].children) {
-            if (logToConsole) console.log(folderId, id);
+        for (const childId of searchEngines[folderId].children) {
+            if (logToConsole) console.log(folderId, childId);
             // If id is for a separator, then skip it
-            if (id.startsWith("separator-")) continue;
-            if (searchEngines[id].isFolder) {
-                await getSearchEnginesFromFolder(id);
+            if (childId.startsWith("separator-")) continue;
+            if (searchEngines[childId].isFolder) {
+                await getSearchEnginesFromFolder(childId);
             }
-            if (searchEngines[id].multitab) {
-                if (searchEngines[id].aiProvider) {
+            if (searchEngines[childId].multitab) {
+                if (searchEngines[childId].aiProvider) {
                     // This array will contain id items
-                    aiArray.push(id);
-                } else if (searchEngines[id].formData) {
+                    aiArray.push(childId);
+                } else if (searchEngines[childId].formData) {
                     // This array will contain {id, url} items
-                    const data = await processSearchEngine(id, selection);
+                    const data = await processSearchEngine(childId, selection);
                     postArray.push(data);
                 } else {
                     // This array will contain url items
-                    const url = await processSearchEngine(id, selection);
+                    const url = await processSearchEngine(childId, selection);
                     urlArray.push(url);
                 }
             }
@@ -1953,7 +1974,6 @@ async function displaySearchResults(
         if (logToConsole)
             console.log(`Make new tab or window active: ${options.tabActive}`);
         await browser.windows.create({
-            titlePreface: windowTitle + "'" + selection + "'",
             focused: options.tabActive,
             url: url,
             incognito: options.privateMode,
@@ -2088,7 +2108,7 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
     // Ensure extension is initialized before processing any omnibox command
     if (!isInitialized) {
         if (logToConsole) console.log('Extension not initialized, initializing...');
-        await handleServiceWorkerInit('omnibox');
+        await initializeServiceWorker('omnibox');
     }
 
     const aiEngines = [
@@ -2691,12 +2711,14 @@ async function setBrowserPanel(url = 'about:blank', title = 'Search results') {
         } else if (browser_type === 'chrome') {
             // Chrome and other Chromium-based browsers use side panel API
             if (chrome.sidePanel) {
-                await chrome.sidePanel.setOptions({
-                    path: url,
-                    enabled: true,
-                    tabId: -1, // -1 means apply to all tabs
-                    title: title
-                });
+                try {
+                    await chrome.sidePanel.setOptions({
+                        path: url,
+                        enabled: true
+                    });
+                } catch (error) {
+                    console.error("Error setting side panel options:", error);
+                }
             } else {
                 if (logToConsole) console.warn('Side panel API not available in this browser');
             }

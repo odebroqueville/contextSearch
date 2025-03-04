@@ -17,6 +17,9 @@
         "service_worker": "cs_service_worker.js",
         "type": "module"
     },
+    "side_panel": {
+        "default_path": "html/sidebar.html"
+    },
     "permissions": [
         "activeTab",
         "alarms",
@@ -24,6 +27,7 @@
         "declarativeNetRequest",
         "scripting",
         "search",
+        "sidePanel",
         "storage",
         "tabs"
     ],
