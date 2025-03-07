@@ -29,16 +29,21 @@ const base64ContextSearchIcon =
 const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
 const ICON32 = '32px'; // icon width is 32px
 
-// Storage keys (copied from constants.js)
+// Persistent data keys
 const STORAGE_KEYS = {
     OPTIONS: 'options',
     SEARCH_ENGINES: 'searchEngines',
     NOTIFICATIONS_ENABLED: 'notificationsEnabled',
     LOG_TO_CONSOLE: 'logToConsole',
+    BOOKMARKS: 'bookmarkItems',
+    HISTORY: 'historyItems',
+    SEARCH_TERMS: 'searchTerms',
+    SELECTION: 'selection',
+    TARGET_URL: 'targetUrl'
 };
 
 // Global variables
-let logToConsole = false; // Debug
+let logToConsole = true; // Debug
 let meta = ''; // meta key: cmd for macOS, win for Windows, super for Linux
 let tabUrl = '';
 let domain = '';
@@ -49,27 +54,28 @@ let navEntered = false;
 let xPos;
 let yPos;
 
+// Track selection state
+let selectionActive = false;
+
 // Storage utility functions that use runtime messaging
 async function getStoredData(key) {
     try {
-        const response = await sendMessage('getStoredData', key);
-
-        // Check if response exists and has data property
-        if (response && typeof response.data !== 'undefined') {
-            return response.data;
-        }
-        return null;
+        const result = await browser.storage.local.get(key);
+        if (logToConsole) console.log(`Getting ${key} from storage:`, result[key]);
+        return result[key];
     } catch (error) {
-        // Comprehensive error handling
-        console.error('Error getting stored data:', error);
-
-        // Attempt to handle specific error scenarios
-        if (error.message.includes('invalidated')) {
-            // Optionally reload the extension
-            browser.runtime.reload();
-        }
-
+        console.error(`Error getting ${key} from storage:`, error);
         return null;
+    }
+}
+
+// Function to set stored data
+async function setStoredData(key, value) {
+    try {
+        if (logToConsole) console.log(`Setting ${key} in storage with value:`, value);
+        await browser.storage.local.set({ [key]: value });
+    } catch (error) {
+        console.error(`Error setting ${key} in storage:`, error);
     }
 }
 
@@ -132,17 +138,14 @@ document.onreadystatechange = async () => {
     }
 };
 
-// Text selection change event listener
-document.addEventListener('selectionchange', handleTextSelection);
-
 // Mouseover event listener
 document.addEventListener('mouseover', handleMouseOver);
 
 // Right-click event listener
-document.addEventListener('contextmenu', handleRightClickWithoutGrid);
+//document.addEventListener('contextmenu', handleRightClickWithoutGrid);
 
 // Mouse down event listener
-document.addEventListener('mousedown', setTextSelection);
+document.addEventListener('mousedown', startSelection);
 
 // Mouse up event listener
 document.addEventListener('mouseup', handleAltClickWithGrid);
@@ -496,7 +499,10 @@ async function init() {
     }
 
     // If the web page contains selected text, then send it to the background script
-    await handleTextSelection();
+    const hasSelection = window.getSelection()?.rangeCount > 0;
+    if (hasSelection) {
+        handleSelectionEnd();
+    }
 
     // If the web page is for an AI search or a HTTP POST request, then send a message to the background script and wait for a response
     if (aiUrls.includes(trimmedUrl) || postRequest) {
@@ -640,13 +646,10 @@ async function handleKeyUp(e) {
     if (!Object.keys(keysPressed).length > 0 || e.target.nodeName === 'INPUT' || !isKeyAllowed(e)) return;
     // if (e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey) return;
 
-    // If no text has been selected then discontinue
-    const selectedText = getSelectedText();
-    if (selectedText) {
-        e.preventDefault();
-        sendSelectionToBackgroundScript(selectedText);
-    } else {
-        return;
+    // On keyup, if the control key is released and there's a text selection, handle selection end
+    const hasSelection = window.getSelection()?.rangeCount > 0;
+    if (hasSelection && !selectionActive && e.ctrlKey) {
+        handleSelectionEnd();
     }
 
     // Retrieve search engines from local storage
@@ -689,10 +692,17 @@ async function handleKeyUp(e) {
             input += key.toLowerCase();
         }
     }
-    if (logToConsole) console.log(`keys pressed: ${input}`);
+
+    // Reset keys pressed
     keysPressed = {};
-    // If only the alt key was pressed then discontinue
-    if (input === "alt+") return;
+
+    // If only modifier keys were pressed then discontinue
+    const inputWithoutModifiers = input.replace(/ctrl\+|shift\+|alt\+/g, '');
+    if (inputWithoutModifiers === "") return;
+
+    if (logToConsole) console.log(`keys pressed: ${input}`);
+
+    // Check if the input text matches any search engine keyboard shortcut
     for (let id in searchEngines) {
         if (logToConsole) console.log(id);
         const keyboardShortcut = searchEngines[id].keyboardShortcut;
@@ -705,9 +715,10 @@ async function handleKeyUp(e) {
 }
 
 // Use mouse down to store selected text
-function setTextSelection() {
-    textSelection = getSelectedText();
-    if (logToConsole) console.log(`Selected text: ${textSelection}`);
+function startSelection(event) {
+    if (event.button === 0) { // 0 indicates the left mouse button
+        selectionActive = true;
+    }
 }
 
 // Triggered by mouse up event
@@ -717,6 +728,16 @@ async function handleAltClickWithGrid(e) {
 
     // If mouse up is not done with left mouse button then do nothing
     if (e !== undefined && e !== null && e.button > 0) return;
+
+    // On mouse up, if there's a text selection, handle selection end
+    const hasSelection = window.getSelection()?.rangeCount > 0;
+    if (hasSelection && selectionActive && !e.ctrlKey) {
+        handleSelectionEnd();
+    }
+
+    if (e.button === 0) { // 0 indicates the left mouse button
+        selectionActive = false;
+    }
 
     // If the grid of icons is alreadey displayed, then close the grid and empty the text selection
     const nav = document.getElementById('context-search-icon-grid');
@@ -794,18 +815,18 @@ async function handleMouseOver(e) {
             const videoUrl = absoluteUrl(getClosestAnchorHref(elementOver));
             //const videoId = new URL(videoUrl).searchParams.get('v');
             //const downloadUrl = ytDownloadUrl + videoId;
-            await sendMessage('setTargetUrl', videoUrl);
+            await setStoredData(STORAGE_KEYS.TARGET_URL, videoUrl);
             if (logToConsole) console.log(`Video url: ${videoUrl}`);
         } else {
             // Get the image url
             const imgUrl = absoluteUrl(elementOver.getAttribute('src'));
-            await sendMessage('setTargetUrl', imgUrl);
+            await setStoredData(STORAGE_KEYS.TARGET_URL, imgUrl);
             if (logToConsole) console.log(`Image url: ${imgUrl}`);
         }
     }
 }
 
-async function handleRightClickWithoutGrid(e) {
+/* async function handleRightClickWithoutGrid(e) {
     if (logToConsole) console.log(e);
 
     const elementClicked = e.target;
@@ -829,7 +850,7 @@ async function handleRightClickWithoutGrid(e) {
             window.getSelection().removeAllRanges();
         }
     }
-}
+} */
 
 function getClosestAnchorHref(imgElement) {
     if (!imgElement || imgElement.tagName !== 'IMG') {
@@ -872,12 +893,41 @@ async function showButtons() {
     });
 }
 
-async function handleTextSelection() {
-    const selectedText = getSelectedText();
-    if (logToConsole) console.log(`Selected text: ${selectedText}`);
-    if (selectedText) {
-        textSelection = selectedText;
-        await sendSelectionToBackgroundScript(textSelection);
+async function handleSelectionEnd() {
+    const controlCharactersRegex = /[\x00-\x1f\x7f-\x9f]/g;
+    let plaintext = '';
+
+    // If selection is made in Textarea or Input field
+    if (
+        document.activeElement != null &&
+        (document.activeElement.tagName === 'TEXTAREA' || document.activeElement.tagName === 'INPUT')
+    ) {
+        const selectedTextInput = document.activeElement.value.substring(
+            document.activeElement.selectionStart,
+            document.activeElement.selectionEnd
+        );
+        if (selectedTextInput !== '') plaintext = selectedTextInput;
+    } else {
+        // Get the Selection object
+        const sel = window.getSelection();
+
+        // Check if the Selection object has any ranges
+        if (sel.rangeCount > 0) {
+            for (let i = 0; i < sel.rangeCount; i++) {
+                const range = sel.getRangeAt(i);
+                plaintext += range.toString();
+            }
+        }
+    }
+
+    // Replace control characters with a space and escape single and double quotes
+    plaintext = plaintext.replace(controlCharactersRegex, ' ').replace(/['"]+/g, "\\$&").trim();
+
+    if (plaintext) {
+        if (logToConsole) console.log(`Selected text: ${plaintext}`);
+        textSelection = plaintext;
+        await setStoredData(STORAGE_KEYS.SELECTION, plaintext);
+        await storeTargetUrl(plaintext);
     }
 }
 
@@ -888,49 +938,6 @@ function getPidAndName(string) {
     const pid = urlParams.get('id');
     const name = urlParams.get('name');
     return { pid: pid, name: name };
-}
-
-function getSelectedText() {
-    // If selection is made in Textarea or Input field
-    if (
-        document.activeElement != null &&
-        (document.activeElement.tagName === 'TEXTAREA' || document.activeElement.tagName === 'INPUT')
-    ) {
-        const selectedTextInput = document.activeElement.value.substring(
-            document.activeElement.selectionStart,
-            document.activeElement.selectionEnd
-        );
-        if (selectedTextInput !== '') return selectedTextInput;
-    }
-
-    const controlCharactersRegex = /[\x00-\x1f\x7f-\x9f]/g;
-    let plaintext = '';
-
-    if (window.getSelection) {
-        // Get the Selection object.
-        const sel = window.getSelection();
-
-        // Check if the Selection object has any ranges.
-        if (sel.rangeCount > 0) {
-            for (let i = 0; i < sel.rangeCount; i++) {
-                const range = sel.getRangeAt(i);
-                plaintext += getPlainTextContentOfRange(range);
-            }
-        }
-    }
-
-    // Replace control characters with a space
-    plaintext = plaintext.replace(controlCharactersRegex, ' ');
-
-    return plaintext.trim();
-}
-
-function getPlainTextContentOfRange(range) {
-    const div = document.createElement('div');
-    div.appendChild(range.cloneContents());
-    const plainText = div.textContent.trim();
-    div.remove();
-    return plainText || '';
 }
 
 function truncateToFirst32Words(s) {
@@ -949,24 +956,33 @@ function truncateToFirst32Words(s) {
     };
 }
 
-async function sendSelectionToBackgroundScript(selectedText) {
-    const options = await getStoredData(STORAGE_KEYS.OPTIONS);
-    if (!options) {
-        if (logToConsole) console.error('Options not found in storage');
+async function storeTargetUrl(selectedText) {
+    let options;
+    try {
+        options = await getStoredData(STORAGE_KEYS.OPTIONS);
+    } catch (error) {
+        if (logToConsole) console.error('Error retrieving options from storage:', error);
         return;
     }
 
-    const { wordCount, truncatedText } = truncateToFirst32Words(selectedText);
-    if (logToConsole) console.log(options);
+    if (!options) {
+        if (logToConsole) console.error('Options not found in storage');
+        return;
+    } else if (options && logToConsole) {
+        console.log(options);
+    }
 
+    const { wordCount, truncatedText } = truncateToFirst32Words(selectedText);
     if (wordCount > 0) {
         // Set the target URL for a site search based on the current domain and selected text
         const siteSearchUrl = options.siteSearchUrl || 'https://www.google.com/search?q=';
         const targetUrl = siteSearchUrl + encodeUrl(`site:https://${domain} ${truncatedText}`);
-        await sendMessage('setTargetUrl', targetUrl);
-
-        // Send the selected text to background.js
-        await sendMessage('setSelection', { selection: selectedText });
+        // Try to store the target URL
+        try {
+            await setStoredData(STORAGE_KEYS.TARGET_URL, targetUrl);
+        } catch (error) {
+            if (logToConsole) console.error('Error storing target URL in storage:', error);
+        }
     }
 }
 
@@ -1183,7 +1199,11 @@ async function sendMessage(action, data) {
         if (logToConsole) console.log(`Received response: ${JSON.stringify(response)}`);
         return response;  // Return the response received from the background script
     } catch (error) {
-        if (logToConsole) console.error(`Error sending message: ${error}`);
+        if (logToConsole) {
+            if (!(error && error.message && error.message.includes("Extension context invalidated"))) {
+                console.error(`Error sending message: ${error}`);
+            }
+        }
         return { success: false };
     }
 }

@@ -21,7 +21,9 @@ export const STORAGE_KEYS = {
     LOG_TO_CONSOLE: 'logToConsole',
     BOOKMARKS: 'bookmarkItems',
     HISTORY: 'historyItems',
-    SEARCH_TERMS: 'searchTerms'
+    SEARCH_TERMS: 'searchTerms',
+    SELECTION: 'selection',
+    TARGET_URL: 'targetUrl'
 };
 
 // Rules for modifying User-Agent headers based on URL patterns

@@ -353,24 +353,15 @@ async function sendMessage(action, data = {}) {
     }
 }
 
-// Storage utility functions that use runtime messaging
+// Storage utility functions
 async function getStoredData(key) {
     try {
-        if (logToConsole) console.log('Getting stored data for key:', key);
-        if (!key) {
-            throw new Error('No key provided for storage operation.');
-        }
-        const response = await browser.runtime.sendMessage({ action: 'getStoredData', data: key });
-
-        if (!response || response.error) {
-            throw new Error(response?.error || 'No response from service worker');
-        }
-
-        if (logToConsole) console.log('Got data for key:', key, response.data);
-        return response.data;
+        const result = await browser.storage.local.get(key);
+        if (logToConsole) console.log(`Getting ${key} from storage:`, result[key]);
+        return result[key];
     } catch (error) {
-        console.error('Error getting stored data:', error);
-        throw new Error(`Failed to get data for ${key}: ${error.message}`);
+        console.error(`Error getting ${key} from storage:`, error);
+        return null;
     }
 }
 

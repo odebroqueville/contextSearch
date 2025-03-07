@@ -57,6 +57,10 @@ import {
 // Helper for cross-browser context menu API
 const contextMenus = browser.menus || browser.contextMenus;
 
+// Create a debounced version of the update function (adjust delay as needed)
+const delay = 500;
+const debouncedUpdateAddonStateForActiveTab = debounce(updateAddonStateForActiveTab, delay);
+
 // Module-level variables for persistent data
 let options = {};
 let searchEngines = {};
@@ -142,28 +146,6 @@ browser.runtime.onConnect.addListener(async (port) => {
 // Triggered when the service worker is ready to take control of the pages and become the active worker
 self.addEventListener('activate', async () => await initializeServiceWorker('activate'));
 
-async function initializeServiceWorker(reason = 'unknown') {
-    try {
-        if (logToConsole) console.log(`Initializing service worker (reason: ${reason}).`);
-
-        // Set up alarm listener to persist data
-        if (browser.alarms) {
-            browser.alarms.onAlarm.addListener(async (alarm) => {
-                if (alarm.name === BACKUP_ALARM_NAME) {
-                    await persistData();
-                }
-            });
-        } else {
-            console.warn('Alarms API not available');
-        }
-
-        // Continue with the rest of the initialization
-        await init();
-    } catch (error) {
-        console.error('Failed to initialize extension:', error);
-    }
-}
-
 // Listen for changes to the notifications permission
 browser.permissions.onAdded.addListener(async (permissions) => {
     if (permissions.permissions.includes("notifications")) {
@@ -180,16 +162,16 @@ browser.permissions.onRemoved.addListener(async (permissions) => {
 });
 
 // listen to tab URL changes
-browser.tabs.onUpdated.addListener(updateAddonStateForActiveTab);
+browser.tabs.onUpdated.addListener(debouncedUpdateAddonStateForActiveTab);
 
 // listen to tab switching
-browser.tabs.onActivated.addListener(updateAddonStateForActiveTab);
+browser.tabs.onActivated.addListener(debouncedUpdateAddonStateForActiveTab);
 
 // Listen for tab moves
-browser.tabs.onMoved.addListener(updateAddonStateForActiveTab);
+browser.tabs.onMoved.addListener(debouncedUpdateAddonStateForActiveTab);
 
 // listen for window switching
-browser.windows.onFocusChanged.addListener(updateAddonStateForActiveTab);
+browser.windows.onFocusChanged.addListener(debouncedUpdateAddonStateForActiveTab);
 
 // Listen for storage changes
 browser.storage.onChanged.addListener(handleStorageChange);
@@ -208,35 +190,16 @@ browser.commands.onCommand.addListener(async (command) => {
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const action = message.action;
     const data = message.data;
+
     if (logToConsole)
         console.log(
-            `Extension context valid: ${!browser.runtime.lastError}. Message received from ${sender.contextId} ${sender.documentId ? "(" + sender.documentId + ")" : ""
-            }:`,
-            message,
+            `Extension context valid: ${!browser.runtime.lastError}. Message received from ${sender.url}:`, message
         );
 
     // If the extension context is invalid, don't try to handle the message
     if (browser.runtime.lastError) {
         console.error("Extension context invalidated:", browser.runtime.lastError);
         return;
-    }
-
-    // Handle initialization request (can be triggered by content scripts)
-    if (action === "initializeServiceWorker") {
-        if (!isInitialized || data.force) {
-            initializeServiceWorker(data.reason || "content_script_request")
-                .then(() => {
-                    if (sendResponse) sendResponse({ success: true });
-                })
-                .catch(error => {
-                    console.error("Error initializing service worker:", error);
-                    if (sendResponse) sendResponse({ success: false, error: error.message });
-                });
-            return true; // Indicates we will call sendResponse asynchronously
-        } else {
-            if (sendResponse) sendResponse({ success: true, alreadyInitialized: true });
-            return;
-        }
     }
 
     // Handle other actions
@@ -256,11 +219,6 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
         case "notify":
             if (notificationsEnabled) notify(data);
             break;
-        case "setSelection":
-            // Escape single and double quotes from the selection
-            if (data) selection = data.selection.replace(/["']/g, "\\$&");
-            if (logToConsole) console.log(`Selected text from tab ${sender.tab.id}: ${selection}`);
-            break;
         case "reset":
             handleReset().then(result => {
                 sendResponse(result);
@@ -268,9 +226,6 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 sendResponse({ error: error.message });
             });
             return true;
-        case "setTargetUrl":
-            handleSetTargetUrl(data);
-            break;
         case "testSearchEngine":
             testSearchEngine(data);
             break;
@@ -320,11 +275,6 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 sendResponse({ error: error.message });
             });
             return true;
-        case "getStoredData":
-            handleStorageMessage(message).then(result => {
-                sendResponse(result);
-            });
-            return true;
         case "getOS":
             getOS().then(result => {
                 sendResponse(result);
@@ -344,25 +294,45 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 /// Main functions
 
+async function initializeServiceWorker(reason = 'unknown') {
+    try {
+        if (logToConsole) console.log(`Initializing service worker (reason: ${reason}).`);
+
+        // Set up alarm listener to persist data
+        if (browser.alarms) {
+            browser.alarms.onAlarm.addListener(async (alarm) => {
+                if (alarm.name === BACKUP_ALARM_NAME) {
+                    await persistData();
+                }
+            });
+        } else {
+            console.warn('Alarms API not available');
+        }
+
+        // Continue with the rest of the initialization
+        await init();
+    } catch (error) {
+        console.error('Failed to initialize extension:', error);
+    }
+}
+
 async function reloadSearchEngines() {
     if (logToConsole) console.log('Reloading search engines...');
     await initialiseSearchEngines();
 }
 
 // Add message listener for storage operations
-async function handleStorageMessage(message) {
-    if (!message.data) {
+async function handleStorageMessage(data) {
+    if (!data) {
         return { error: 'No key provided for storage operation.' };
     }
-    const key = message.data;
-    if (message.action === 'getStoredData') {
-        try {
-            const data = await getStoredData(key);
-            return { data };
-        } catch (error) {
-            console.error('Error in getStoredData:', error);
-            return { error: error.message };
-        }
+    try {
+        const storedData = await getStoredData(data);
+        if (logToConsole) console.log('Retrieved stored data:', storedData);
+        return { data: storedData };
+    } catch (error) {
+        console.error('Error in getStoredData:', error);
+        return { error: error.message };
     }
 }
 
@@ -445,21 +415,21 @@ async function initializeStoredData() {
         }
         logToConsole = debugEnabled ?? DEBUG;
 
-        // Initialize options if not exist
-        const browser_type = getBrowserType();
-        options = { ...DEFAULT_OPTIONS };  // Use spread to create a new object
+        // Initialize options
+        const storedOptions = await getStoredData(STORAGE_KEYS.OPTIONS);
+        options = {
+            ...DEFAULT_OPTIONS,
+            ...storedOptions
+        };
 
         // Chrome does not support favicons in context menus
+        const browser_type = getBrowserType();
         if (browser_type === 'chrome') options.displayFavicons = false;
 
-        const storedOptions = await getStoredData(STORAGE_KEYS.OPTIONS);
-        for (const o in storedOptions) {
-            options[o] = storedOptions[o];
-        }
         await setStoredData(STORAGE_KEYS.OPTIONS, options);
         if (logToConsole) console.log('Options:', options);
 
-        // Initialize search engines if not exist
+        // Initialize search engines
         searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES) || {};
     } catch (error) {
         console.error('Error in initializeStoredData:', error);
@@ -489,6 +459,17 @@ async function handleStorageChange(changes, areaName) {
         // Check if search engines were changed
         if (changes.searchEngines) {
             searchEngines = changes.searchEngines.newValue;
+        }
+
+        // Check if selection was changed
+        if (changes.selection) {
+            selection = changes.selection.newValue;
+        }
+
+        // Check if target URL was changed
+        if (changes.targetUrl) {
+            targetUrl = changes.targetUrl.newValue;
+            await updateContextMenus(targetUrl);
         }
     }
 }
@@ -798,13 +779,11 @@ async function testPrompt() {
     await displaySearchResults(id, tabPosition, multisearch, windowInfo.id);
 }
 
-async function handleSetTargetUrl(data) {
+async function updateContextMenus(targetUrl) {
     const nativeMessagingEnabled = await browser.permissions.contains({
         permissions: ["nativeMessaging"],
     });
     let showVideoDownloadMenu;
-    if (data) targetUrl = data;
-    if (logToConsole) console.log(`TargetUrl: ${targetUrl}`);
     if (
         targetUrl.includes("youtube.com") ||
         targetUrl.includes("youtu.be") ||
@@ -880,7 +859,9 @@ async function init() {
         );
     }
 
+    // Verify permissions
     await checkNotificationsPermission();
+    await verifyStoragePermissions();
 
     // Initialize when service worker starts
     await initializeStoredData();
@@ -909,6 +890,18 @@ async function checkNotificationsPermission() {
         console.log(
             `${notificationsEnabled ? "Notifications enabled." : "Notifications disabled."}`,
         );
+}
+
+async function verifyStoragePermissions() {
+    try {
+        // Test storage access
+        await browser.storage.local.get();
+    } catch (error) {
+        console.error('Storage permission error:', error);
+        // Optional: Reload extension to trigger permission dialog
+        browser.runtime.reload();
+        throw error; // Prevent further initialization
+    }
 }
 
 // Fetches a favicon for the new search engine
@@ -1016,11 +1009,11 @@ async function saveOptions(blnBuildContextMenu) {
         if (logToConsole) console.log(options);
         if (blnBuildContextMenu) await buildContextMenu();
         if (logToConsole)
-            console.log("Successfully saved the options to storage sync.");
+            console.log("Successfully saved the options to local storage.");
     } catch (err) {
         if (logToConsole) {
             console.error(err);
-            console.log("Failed to save options to storage sync.");
+            console.log("Failed to save options to local storage.");
         }
     }
 }
@@ -1907,6 +1900,7 @@ async function displaySearchResults(
     aiEngine = "",
     prompt = "",
 ) {
+    // selection = await getStoredData(STORAGE_KEYS.SELECTION);
     imageUrl = targetUrl;
     targetUrl = await setTargetUrl(id, aiEngine);
     const postDomain = getDomain(targetUrl);
@@ -2644,7 +2638,6 @@ async function updateAddonStateForActiveTab() {
                         searchEngineAdded = true;
                     }
                 }
-                if (logToConsole) console.log(`Links: ${links}`);
                 if (links.includes(activeTab.url)) {
                     bookmarked = true;
                 } else {
@@ -2733,3 +2726,14 @@ browser.runtime.onSuspend.addListener(() => {
     isInitialized = false;
     if (logToConsole) console.log('Service worker suspended, resetting initialization state');
 });
+
+// Utility function: debounce
+function debounce(func, delay) {
+    let timeout;
+    return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
+    }
+}
