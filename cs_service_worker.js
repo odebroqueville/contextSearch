@@ -83,13 +83,14 @@ let logToConsole = false;
 // Notifications (will be loaded from storage)
 let notificationsEnabled = false;
 
-// Store the listener function for context menu clicks in a variable
-let menuClickHandler = null;
-
 // Track initialization state
 let isInitialized = false;
 
+// Context menu creation in progress flag
 let menuCreationInProgress = false;
+
+// Counter for backup operations
+let backupCounter = 0;
 
 /// Listeners
 
@@ -144,7 +145,27 @@ browser.runtime.onConnect.addListener(async (port) => {
 });
 
 // Triggered when the service worker is ready to take control of the pages and become the active worker
-self.addEventListener('activate', async () => await initializeServiceWorker('activate'));
+self.addEventListener('activate', async () => {
+    console.log('Service worker re-activating...');
+    try {
+        // Load debug setting first before any logging
+        const debugEnabled = await getStoredData(STORAGE_KEYS.LOG_TO_CONSOLE);
+        logToConsole = debugEnabled ?? DEBUG;
+        await setStoredData(STORAGE_KEYS.LOG_TO_CONSOLE, logToConsole);
+
+        if (logToConsole) console.log(typeof browser === 'object' ? 'Polyfill loaded correctly' : 'Polyfill loaded incorrectly');
+
+        await initializeServiceWorker('activate');
+
+        // Notify all active client windows about the new context
+        const clientsList = await self.clients.matchAll({ type: 'window' });
+        for (const client of clientsList) {
+            client.postMessage({ type: 'NEW_CONTEXT_READY' });
+        }
+    } catch (error) {
+        console.error('Failed to initialize storage:', error);
+    }
+});
 
 // Listen for changes to the notifications permission
 browser.permissions.onAdded.addListener(async (permissions) => {
@@ -204,6 +225,34 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     // Handle other actions
     switch (action) {
+        // Add to cs_service_worker.js in the message listener switch statement
+        case "storeSelectionData":
+            // New handler for storing selection data reliably from the service worker
+            if (message.selection) {
+                setStoredData(STORAGE_KEYS.SELECTION, message.selection)
+                    .then(() => {
+                        // If domain is provided, also store the target URL
+                        if (message.domain) {
+                            const siteSearchUrl = options.siteSearchUrl || 'https://www.google.com/search?q=';
+                            // Truncate text if needed (similar to storeTargetUrl function in selection.js)
+                            let truncatedText = message.selection;
+                            if (message.selection.split(/\s+/).length > 32) {
+                                truncatedText = message.selection.split(/\s+/).slice(0, 32).join(' ');
+                            }
+                            const targetUrl = siteSearchUrl + encodeUrl(`site:https://${message.domain} ${truncatedText}`);
+                            return setStoredData(STORAGE_KEYS.TARGET_URL, targetUrl);
+                        }
+                    })
+                    .then(() => {
+                        sendResponse({ success: true });
+                    })
+                    .catch(error => {
+                        console.error("Error storing selection data:", error);
+                        sendResponse({ success: false, error: error.message });
+                    });
+                return true; // Indicates we'll send a response asynchronously
+            }
+            break;
         case "openModal":
             handleOpenModal(data);
             break;
@@ -302,7 +351,16 @@ async function initializeServiceWorker(reason = 'unknown') {
         if (browser.alarms) {
             browser.alarms.onAlarm.addListener(async (alarm) => {
                 if (alarm.name === BACKUP_ALARM_NAME) {
-                    await persistData();
+                    // Always do the keep-alive operations
+                    if (logToConsole) console.log('Keep-alive ping');
+
+                    // Only do the backup operation every 12th time (roughly every 5 minutes)
+                    backupCounter++;
+                    if (backupCounter >= 12) {
+                        if (logToConsole) console.log('Backing up data');
+                        await persistData();
+                        backupCounter = 0;
+                    }
                 }
             });
         } else {
@@ -319,21 +377,6 @@ async function initializeServiceWorker(reason = 'unknown') {
 async function reloadSearchEngines() {
     if (logToConsole) console.log('Reloading search engines...');
     await initialiseSearchEngines();
-}
-
-// Add message listener for storage operations
-async function handleStorageMessage(data) {
-    if (!data) {
-        return { error: 'No key provided for storage operation.' };
-    }
-    try {
-        const storedData = await getStoredData(data);
-        if (logToConsole) console.log('Retrieved stored data:', storedData);
-        return { data: storedData };
-    } catch (error) {
-        console.error('Error in getStoredData:', error);
-        return { error: error.message };
-    }
 }
 
 // Add platform detection handler
@@ -431,6 +474,18 @@ async function initializeStoredData() {
 
         // Initialize search engines
         searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES) || {};
+
+        // Initialize selection
+        selection = await getStoredData(STORAGE_KEYS.SELECTION) || '';
+
+        // Initialize target URL
+        targetUrl = await getStoredData(STORAGE_KEYS.TARGET_URL) || '';
+
+        // Initialize bookmarks
+        bookmarkItems = await getStoredData(STORAGE_KEYS.BOOKMARKS) || [];
+
+        // Initialize history
+        historyItems = await getStoredData(STORAGE_KEYS.HISTORY) || [];
     } catch (error) {
         console.error('Error in initializeStoredData:', error);
         throw error;
@@ -573,7 +628,7 @@ async function handleDoSearch(data) {
         multiTabArray.push(...(await processFolder(id, selection)));
     }
 
-    if (id === "multisearch" || searchEngines[id].isFolder) {
+    if (id === "multisearch" || (searchEngines[id] && searchEngines[id].isFolder)) {
         // If multisearch or the search engine is a folder
         await processMultisearch(multiTabArray, tabPosition);
     } else {
@@ -873,7 +928,7 @@ async function init() {
 
     if (logToConsole) console.log('Creating backup alarm...');
     browser.alarms.create(BACKUP_ALARM_NAME, {
-        periodInMinutes: 5 // Backup every 5 minutes
+        periodInMinutes: 0.4 // Backup every 24 seconds
     });
 
     isInitialized = true;
@@ -1216,81 +1271,94 @@ function getFaviconForPrompt(id, aiProvider) {
     return { id: id, imageFormat: imageFormat, base64: b64 };
 }
 
-function addClickListener() {
-    menuClickHandler = (info, tab) => {
-        const browser_type = getBrowserType();
-        if (options.tabMode === "openSidebar") {
-            if (browser_type === 'firefox') {
-                if (logToConsole) console.log("Opening the sidebar.");
-                browser.sidebarAction.open().then(() => {
-                    // After sidebar is open, set up panel and process search
-                    setBrowserPanel().then(() => {
-                        processSearch(info, tab);
-                    });
-                }).catch(error => {
-                    console.error('Error opening Firefox sidebar:', error);
-                    // Still try to process search even if sidebar fails
-                    processSearch(info, tab);
-                });
-            } else if (browser_type === 'chrome' && chrome.sidePanel) {
-                if (logToConsole) console.log("Opening the side panel.");
+function menuClickHandler(info, tab) {
+    // Ensure extension is initialized before proceeding
+    if (!isInitialized) {
+        if (logToConsole) console.log("Service worker not initialized, initializing now");
+        init().then(() => {
+            // After initialization, proceed with the menu click handling
+            handleMenuClick(info, tab);
+        });
+        return;
+    }
 
-                // Register the side panel first synchronously
-                try {
-                    // First, ensure global setup is done (not tab-specific)
-                    chrome.sidePanel.setOptions({
-                        path: 'html/sidebar.html',
-                        enabled: true
-                    });
+    // If already initialized, proceed with normal handling
+    handleMenuClick(info, tab);
+}
 
-                    // Then try to open it immediately while we're still in the user gesture context
-                    chrome.sidePanel.open({
-                        tabId: tab.id, // The tabId is required
-                        windowId: tab.windowId  // Optional
-                    }).then(() => {
-                        return setBrowserPanel();
-                    }).then(() => {
-                        processSearch(info, tab);
-                    }).catch(error => {
-                        console.error('Error opening Chrome side panel:', error);
-                        processSearch(info, tab);
-                    });
-                } catch (error) {
-                    console.error('Error with Chrome side panel initial setup:', error);
-                    processSearch(info, tab);
-                }
-            } else {
-                // No sidebar/panel support, just process the search
+function handleMenuClick(info, tab) {
+    const browser_type = getBrowserType();
+    if (options.tabMode === "openSidebar") {
+        if (browser_type === 'firefox') {
+            if (logToConsole) console.log("Opening the sidebar.");
+            browser.sidebarAction.open().then(() => {
+                // After sidebar is open, set up panel and process search
                 setBrowserPanel().then(() => {
                     processSearch(info, tab);
                 });
+            }).catch(error => {
+                console.error('Error opening Firefox sidebar:', error);
+                // Still try to process search even if sidebar fails
+                processSearch(info, tab);
+            });
+        } else if (browser_type === 'chrome' && chrome.sidePanel) {
+            if (logToConsole) console.log("Opening the side panel.");
+
+            // Register the side panel first synchronously
+            try {
+                // First, ensure global setup is done (not tab-specific)
+                chrome.sidePanel.setOptions({
+                    path: 'html/sidebar.html',
+                    enabled: true
+                });
+
+                // Then try to open it immediately while we're still in the user gesture context
+                chrome.sidePanel.open({
+                    tabId: tab.id, // The tabId is required
+                    windowId: tab.windowId  // Optional
+                }).then(() => {
+                    return setBrowserPanel();
+                }).then(() => {
+                    processSearch(info, tab);
+                }).catch(error => {
+                    console.error('Error opening Chrome side panel:', error);
+                    processSearch(info, tab);
+                });
+            } catch (error) {
+                console.error('Error with Chrome side panel initial setup:', error);
+                processSearch(info, tab);
             }
         } else {
-            // Handle non-sidebar mode
-            try {
-                if (browser_type === 'firefox') {
-                    if (logToConsole) console.log("Closing the sidebar.");
-                    browser.sidebarAction.close();
-                } else if (browser_type === 'chrome' && chrome.sidePanel) {
-                    chrome.sidePanel.setOptions({
-                        enabled: false
-                    });
-                }
-            } catch (error) {
-                console.error('Error closing browser panel:', error);
-            }
-            // Process search directly
-            processSearch(info, tab);
+            // No sidebar/panel support, just process the search
+            setBrowserPanel().then(() => {
+                processSearch(info, tab);
+            });
         }
-    };
+    } else {
+        // Handle non-sidebar mode
+        try {
+            if (browser_type === 'firefox') {
+                if (logToConsole) console.log("Closing the sidebar.");
+                browser.sidebarAction.close();
+            } else if (browser_type === 'chrome' && chrome.sidePanel) {
+                chrome.sidePanel.setOptions({
+                    enabled: false
+                });
+            }
+        } catch (error) {
+            console.error('Error closing browser panel:', error);
+        }
+        // Process search directly
+        processSearch(info, tab);
+    }
+}
+
+function addClickListener() {
     browser.contextMenus.onClicked.addListener(menuClickHandler);
 }
 
 function removeClickListener() {
-    if (menuClickHandler) {
-        browser.contextMenus.onClicked.removeListener(menuClickHandler);
-        menuClickHandler = null;
-    }
+    browser.contextMenus.onClicked.removeListener(menuClickHandler);
 }
 
 /// Functions used to build the context menu
@@ -1900,9 +1968,10 @@ async function displaySearchResults(
     aiEngine = "",
     prompt = "",
 ) {
-    // selection = await getStoredData(STORAGE_KEYS.SELECTION);
+    selection = await getStoredData(STORAGE_KEYS.SELECTION);
     imageUrl = targetUrl;
     targetUrl = await setTargetUrl(id, aiEngine);
+    await setStoredData(STORAGE_KEYS.TARGET_URL, targetUrl);
     const postDomain = getDomain(targetUrl);
     let searchEngine, url;
     if (id.startsWith("chatgpt-")) {

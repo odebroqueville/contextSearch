@@ -8,7 +8,7 @@ const USER_AGENT_FOR_SIDEBAR =
     'Mozilla/5.0 (iPhone; CPU iPhone OS 16_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5 Mobile/15E148 Safari/605.1.15';
 const USER_AGENT_FOR_GOOGLE = 'Mozilla/5.0 (Linux; Android 13; G8VOU Build/TP1A.220905.004;wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chromium/104.0.5112.97; Mobile Safari/537.36';
 
-export const BACKUP_ALARM_NAME = 'persistDataAlarm';
+export const BACKUP_ALARM_NAME = 'serviceWorkerMaintenance';
 
 // File containing default list of search engines
 export const DEFAULT_SEARCH_ENGINES = 'defaultSearchEngines.json';

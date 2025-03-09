@@ -43,7 +43,7 @@ const STORAGE_KEYS = {
 };
 
 // Global variables
-let logToConsole = true; // Debug
+let logToConsole = false; // Debug (default)
 let meta = ''; // meta key: cmd for macOS, win for Windows, super for Linux
 let tabUrl = '';
 let domain = '';
@@ -53,9 +53,117 @@ let textSelection = '';
 let navEntered = false;
 let xPos;
 let yPos;
+let options;
+let searchEngines;
+let targetUrl;
 
 // Track selection state
 let selectionActive = false;
+
+// Current state
+if (logToConsole) {
+    console.log(document.readyState);
+}
+
+if (document.readyState === "complete") {
+    (async () => {
+        await init();
+    })();
+}
+
+/// Event handlers
+// Run init function when readyState is complete
+document.onreadystatechange = async () => {
+    if (logToConsole) console.log(document.readyState);
+    if (document.readyState === "complete") {
+        await init();
+    }
+};
+
+// Mouseover event listener
+document.addEventListener('mouseover', handleMouseOver);
+
+// Right-click event listener
+//document.addEventListener('contextmenu', handleRightClickWithoutGrid);
+
+// Mouse down event listener
+document.addEventListener('mousedown', startSelection);
+
+// Mouse up event listener
+document.addEventListener('mouseup', handleAltClickWithGrid);
+
+// Key down event listener
+document.addEventListener('keydown', (event) => {
+    const key = event.key;
+    if (event.target.nodeName === 'INPUT' || !isKeyAllowed(event)) return;
+    keysPressed[key] = event.code;
+    if (logToConsole) console.log(keysPressed);
+});
+
+// Key up event listener
+document.addEventListener('keyup', handleKeyUp);
+
+// Storage change listener
+browser.storage.onChanged.addListener((changes, namespace) => {
+    if (logToConsole) console.log(changes);
+    if (changes[STORAGE_KEYS.LOG_TO_CONSOLE]) {
+        logToConsole = changes[STORAGE_KEYS.LOG_TO_CONSOLE].newValue;
+    }
+    if (changes[STORAGE_KEYS.OPTIONS]) {
+        options = changes[STORAGE_KEYS.OPTIONS].newValue;
+    }
+    if (changes[STORAGE_KEYS.SEARCH_ENGINES]) {
+        searchEngines = changes[STORAGE_KEYS.SEARCH_ENGINES].newValue;
+    }
+    // if (changes[STORAGE_KEYS.SELECTION]) {
+    //     textSelection = changes[STORAGE_KEYS.SELECTION].newValue;
+    // }
+    // if (changes[STORAGE_KEYS.TARGET_URL]) {
+    //     targetUrl = changes[STORAGE_KEYS.TARGET_URL].newValue;
+    // }
+});
+
+/// Handle Incoming Messages
+// Listen for messages from the background script
+browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+    const action = message.action;
+    const data = message.data;
+    if (logToConsole) console.log(message.action);
+    if (message && message.type === "NEW_CONTEXT_READY") {
+        if (logToConsole) console.log("Received NEW_CONTEXT_READY message. Starting re-synchronization.");
+        await init();
+    }
+    switch (action) {
+        case 'launchIconsGrid':
+            handleAltClickWithGrid(null);
+            break;
+        case 'getSearchEngine':
+            getOpenSearchEngine().then((result) => {
+                if (result) {
+                    sendMessage('addNewSearchEngine', result);
+                } else {
+                    sendMessage('notify', notifySearchEngineNotFound);
+                }
+            }).catch((error) => {
+                if (logToConsole) console.error(error);
+                sendResponse({ success: false });
+                return false;
+            });
+            break;
+        case 'getPosition':
+            const width = data.width;
+            const height = data.height;
+            const { left, top } = calculatePosition(width, height);
+            sendResponse({ left, top });
+            return true;
+        default:
+            if (logToConsole) console.error("Unexpected action:", action);
+            sendResponse({ success: false });
+            return false;
+    }
+    sendResponse({ success: true });
+    return true;
+});
 
 // Storage utility functions that use runtime messaging
 async function getStoredData(key) {
@@ -117,87 +225,6 @@ async function initMetaKey() {
         meta = 'meta+';
     }
 }
-
-// Current state
-if (logToConsole) {
-    console.log(document.readyState);
-}
-
-if (document.readyState === "complete") {
-    (async () => {
-        await init();
-    })();
-}
-
-/// Event handlers
-// Run init function when readyState is complete
-document.onreadystatechange = async () => {
-    if (logToConsole) console.log(document.readyState);
-    if (document.readyState === "complete") {
-        await init();
-    }
-};
-
-// Mouseover event listener
-document.addEventListener('mouseover', handleMouseOver);
-
-// Right-click event listener
-//document.addEventListener('contextmenu', handleRightClickWithoutGrid);
-
-// Mouse down event listener
-document.addEventListener('mousedown', startSelection);
-
-// Mouse up event listener
-document.addEventListener('mouseup', handleAltClickWithGrid);
-
-// Key down event listener
-document.addEventListener('keydown', (event) => {
-    const key = event.key;
-    if (event.target.nodeName === 'INPUT' || !isKeyAllowed(event)) return;
-    keysPressed[key] = event.code;
-    if (logToConsole) console.log(keysPressed);
-});
-
-// Key up event listener
-document.addEventListener('keyup', handleKeyUp);
-
-/// Handle Incoming Messages
-// Listen for messages from the background script
-browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    const action = message.action;
-    const data = message.data;
-    if (logToConsole) console.log(message.action);
-    switch (action) {
-        case 'launchIconsGrid':
-            handleAltClickWithGrid(null);
-            break;
-        case 'getSearchEngine':
-            getOpenSearchEngine().then((result) => {
-                if (result) {
-                    sendMessage('addNewSearchEngine', result);
-                } else {
-                    sendMessage('notify', notifySearchEngineNotFound);
-                }
-            }).catch((error) => {
-                if (logToConsole) console.error(error);
-                sendResponse({ success: false });
-                return false;
-            });
-            break;
-        case 'getPosition':
-            const width = data.width;
-            const height = data.height;
-            const { left, top } = calculatePosition(width, height);
-            sendResponse({ left, top });
-            return true;
-        default:
-            if (logToConsole) console.error("Unexpected action:", action);
-            sendResponse({ success: false });
-            return false;
-    }
-    sendResponse({ success: true });
-    return true;
-});
 
 function calculatePosition(width, height) {
     const left = Math.round((screen.width - width) / 2);
@@ -394,8 +421,36 @@ async function init() {
         trimmedUrl = tabUrl;
     }
 
+    // Retrieve last text selection
+    try {
+        textSelection = await getStoredData(STORAGE_KEYS.SELECTION);
+    } catch (error) {
+        console.warn('Failed to get text selection:', error);
+    }
+    if (logToConsole) console.log(textSelection);
+
+    // Retrieve last target url
+    try {
+        targetUrl = await getStoredData(STORAGE_KEYS.TARGET_URL);
+    } catch (error) {
+        console.warn('Failed to get target URL:', error);
+    }
+    if (logToConsole) console.log(targetUrl);
+
+    // Retrieve options from local storage
+    try {
+        options = await getStoredData(STORAGE_KEYS.OPTIONS) || {};
+    } catch (error) {
+        console.warn('Failed to get options:', error);
+    }
+    if (logToConsole) console.log(options);
+
     // Retrieve search engines from local storage
-    const searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES);
+    try {
+        searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES);
+    } catch (error) {
+        console.warn('Failed to get search engines:', error);
+    }
     if (logToConsole) console.log(searchEngines);
 
     // Handle reverse image searches from Tineye
@@ -652,9 +707,6 @@ async function handleKeyUp(e) {
         handleSelectionEnd();
     }
 
-    // Retrieve search engines from local storage
-    const searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES);
-
     // Store all modifier keys pressesd in var input
     let input = "";
     for (let i = 0; i < modifiers.length; i++) {
@@ -749,15 +801,7 @@ async function handleAltClickWithGrid(e) {
         closeGrid();
     }
 
-    let options;
-    // Use try-catch for options retrieval
-    try {
-        options = await getStoredData(STORAGE_KEYS.OPTIONS) || {};
-        if (options?.disableAltClick) return;
-    } catch (error) {
-        console.warn('Failed to get options, using defaults:', error);
-        // Continue with default behavior (as if disableAltClick is false)
-    }
+    if (options?.disableAltClick) return;
 
     if (logToConsole) console.log(`Selected text: ${textSelection}`);
 
@@ -776,7 +820,7 @@ async function handleAltClickWithGrid(e) {
         xPos = x + parseInt(options.offsetX);
         yPos = y + parseInt(options.offsetY);
         if (logToConsole) console.log(xPos, yPos);
-        if (xPos > 0 && yPos > 0) await createIconsGrid(xPos, yPos, 'root');
+        if (xPos > 0 && yPos > 0) await createIconsGrid('root');
     }
 }
 
@@ -912,10 +956,13 @@ async function handleSelectionEnd() {
         const sel = window.getSelection();
 
         // Check if the Selection object has any ranges
-        if (sel.rangeCount > 0) {
-            for (let i = 0; i < sel.rangeCount; i++) {
-                const range = sel.getRangeAt(i);
-                plaintext += range.toString();
+        if (sel && !sel.isCollapsed) {
+            const selectionCount = sel.rangeCount;
+            if (selectionCount > 0) {
+                for (let i = 0; i < selectionCount; i++) {
+                    const range = sel.getRangeAt(i);
+                    plaintext += range.toString();
+                }
             }
         }
     }
@@ -925,9 +972,33 @@ async function handleSelectionEnd() {
 
     if (plaintext) {
         if (logToConsole) console.log(`Selected text: ${plaintext}`);
+
+        // Store locally in memory regardless of storage success
         textSelection = plaintext;
-        await setStoredData(STORAGE_KEYS.SELECTION, plaintext);
-        await storeTargetUrl(plaintext);
+
+        // Try to store data via the service worker (more reliable than direct storage)
+        try {
+            // Send data to the background script to handle storage
+            await browser.runtime.sendMessage({
+                action: "storeSelectionData",
+                selection: plaintext,
+                domain: domain
+            });
+
+            if (logToConsole) {
+                console.log("Selection data successfully stored via service worker");
+            }
+        } catch (error) {
+            // Fallback to direct storage if messaging fails
+            console.warn("Error sending data to service worker, falling back to direct storage:", error);
+            try {
+                await setStoredData(STORAGE_KEYS.SELECTION, plaintext);
+                await storeTargetUrl(plaintext);
+            } catch (storageError) {
+                console.error("Both service worker and direct storage failed:", storageError);
+                // Extension can still function with textSelection variable even if storage fails
+            }
+        }
     }
 }
 
@@ -957,26 +1028,11 @@ function truncateToFirst32Words(s) {
 }
 
 async function storeTargetUrl(selectedText) {
-    let options;
-    try {
-        options = await getStoredData(STORAGE_KEYS.OPTIONS);
-    } catch (error) {
-        if (logToConsole) console.error('Error retrieving options from storage:', error);
-        return;
-    }
-
-    if (!options) {
-        if (logToConsole) console.error('Options not found in storage');
-        return;
-    } else if (options && logToConsole) {
-        console.log(options);
-    }
-
     const { wordCount, truncatedText } = truncateToFirst32Words(selectedText);
     if (wordCount > 0) {
         // Set the target URL for a site search based on the current domain and selected text
         const siteSearchUrl = options.siteSearchUrl || 'https://www.google.com/search?q=';
-        const targetUrl = siteSearchUrl + encodeUrl(`site:https://${domain} ${truncatedText}`);
+        targetUrl = siteSearchUrl + encodeUrl(`site:https://${domain} ${truncatedText}`);
         // Try to store the target URL
         try {
             await setStoredData(STORAGE_KEYS.TARGET_URL, targetUrl);
@@ -986,9 +1042,7 @@ async function storeTargetUrl(selectedText) {
     }
 }
 
-async function createIconsGrid(x, y, folderId) {
-    // Retrieve search engines from local storage
-    const searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES);
+async function createIconsGrid(folderId) {
     let icons = [];
 
     // If the parent folder is not the root folder, then add an icon for backwards navigation
@@ -1048,8 +1102,8 @@ async function createIconsGrid(x, y, folderId) {
     nav.style.borderRadius = '20px';
     nav.style.zIndex = 9999;
     nav.style.position = 'fixed';
-    nav.style.setProperty('top', y.toString() + 'px');
-    nav.style.setProperty('left', x.toString() + 'px');
+    nav.style.setProperty('top', yPos.toString() + 'px');
+    nav.style.setProperty('left', xPos.toString() + 'px');
     nav.style.gridTemplateColumns = `repeat(${m}, 1fr)`;
     nav.style.display = 'grid';
     nav.style.gap = '4px';
@@ -1086,15 +1140,15 @@ async function createIconsGrid(x, y, folderId) {
     let viewportHeight = window.innerHeight;
     let navWidth = nav.offsetWidth + 16;
     let navHeight = nav.offsetHeight;
-    if (x > viewportWidth - navWidth) {
+    if (xPos > viewportWidth - navWidth) {
         nav.style.left = viewportWidth - navWidth + 'px';
     } else {
-        nav.style.left = x + 'px';
+        nav.style.left = xPos + 'px';
     }
-    if (y > viewportHeight - navHeight) {
+    if (yPos > viewportHeight - navHeight) {
         nav.style.top = viewportHeight - navHeight + 'px';
     } else {
-        nav.style.top = y + 'px';
+        nav.style.top = yPos + 'px';
     }
 }
 
@@ -1107,29 +1161,26 @@ async function onGridClick(e, folderId) {
     if (logToConsole) console.log('Search engine clicked:' + id);
     closeGrid();
 
-    // Retrieve search engines from local storage
-    const searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES);
-
     if (id === 'back') {
-        const parentId = getParentFolderOf(searchEngines, folderId, 'root');
+        const parentId = getParentFolderOf(folderId, 'root');
         if (logToConsole) console.log('Parent folder of ' + folderId + ' is ' + parentId);
-        await createIconsGrid(xPos, yPos, parentId);
+        await createIconsGrid(parentId);
         return;
     }
 
     if (id === 'multisearch' || !searchEngines[id].isFolder) {
         await sendMessage('doSearch', { id: id });
     } else {
-        await createIconsGrid(xPos, yPos, id);
+        await createIconsGrid(id);
     }
 }
 
-function getParentFolderOf(searchEngines, folderId, startFolder) {
+function getParentFolderOf(folderId, startFolder) {
     for (const id of searchEngines[startFolder].children) {
         if (id === folderId) {
             return startFolder;
         } else if (searchEngines[id].isFolder) {
-            getParentFolderOf(searchEngines, folderId, id);
+            return getParentFolderOf(folderId, id);
         }
     }
 }
@@ -1139,8 +1190,6 @@ function onHover() {
 }
 
 async function onLeave() {
-    const options = await getStoredData(STORAGE_KEYS.OPTIONS);
-    if (logToConsole) console.log(options);
     if (!options.closeGridOnMouseOut) return;
     if (logToConsole) console.log('Closing Icons Grid...');
     closeGrid();
@@ -1222,9 +1271,6 @@ function absoluteUrl(url) {
 async function getNewSearchEngine(url) {
     const xml = await fetchXML(url);
     const { shortName, queryString } = getNameAndQueryString(xml);
-
-    // Retrieve search engines from local storage
-    const searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES);
 
     // Prevent duplicates
     for (let id in searchEngines) {
@@ -1311,9 +1357,7 @@ function defineNewId(shortName) {
 }
 
 // Ensure the ID generated is unique
-async function isIdUnique(testId) {
-    // Retrieve search engines from local storage
-    const searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES);
+function isIdUnique(testId) {
     for (let id in searchEngines) {
         if (id === testId) {
             return false;
