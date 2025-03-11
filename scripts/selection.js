@@ -10,12 +10,13 @@ const yandexUrl = 'https://www.yandex.com/images';
 const tineyeUrl = 'https://www.tineye.com';
 const chatGPTUrl = 'https://chatgpt.com';
 const googleAIStudioUrl = 'https://aistudio.google.com/app/prompts/new_chat';
+const grokUrl = 'https://grok.com';
 const perplexityAIUrl = 'https://www.perplexity.ai';
 const poeUrl = 'https://poe.com';
 const claudeUrl = 'https://claude.ai';
 const youUrl = 'https://you.com';
 const andiUrl = 'https://andisearch.com';
-const aiUrls = [chatGPTUrl, googleAIStudioUrl, perplexityAIUrl, poeUrl, claudeUrl, youUrl, andiUrl];
+const aiUrls = [chatGPTUrl, googleAIStudioUrl, grokUrl, perplexityAIUrl, poeUrl, claudeUrl, youUrl, andiUrl];
 
 const base64MultiSearchIcon =
     'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBtZWV0IiB2aWV3Qm94PSIwIDAgNjQwIDY0MCIgd2lkdGg9IjY0MCIgaGVpZ2h0PSI2NDAiPjxkZWZzPjxwYXRoIGQ9Ik0xMDQuODQgNTMzLjU3QzI3LjYzIDQ1OC4wNiAyNy42MyAxODEuOTQgMTA0Ljg0IDEwNi40M0MxODIuMDUgMzAuOTIgNDcyLjk3IDIzLjM3IDU0MS42IDEwNi40M3M2MTAuMjIgMTg5LjQ5IDYxMC4yMiA0NTAuNTEgNTQxLjYgNTMzLjU3QzQ3Mi45NyA2MTYuNjMgMTgyLjA1IDYwOS4wOCAxMDQuODQgNTMzLjU3WiIgaWQ9ImE5WUNBTG1FOSI+PC9wYXRoPjxwYXRoIGQ9Ik00NjguNzMgMzg4LjUyQzQ2OC43MyAzOTcuNiA0NjEuMzggNDA0Ljk1IDQ1Mi4zIDQwNC45NUM0MjUuODQgNDA0Ljk1IDIxNC4xNiA0MDQuOTUgMTg3LjcgNDA0Ljk1QzE3OC42MiA0MDQuOTUgMTcxLjI3IDM5Ny42IDE3MS4yNyAzODguNTJDMTcxLjI3IDM2Ni40OSAxNzEuMjcgMTkwLjI1IDE3MS4yNyAxNjguMjJDMTcxLjI3IDE2My42NiAxNzQuOTIgMTYwIDE3OS40OCAxNjBDMTg1LjY0IDE2MCAyMzQuOTEgMTYwIDI0MS4wNyAxNjBDMjQzLjM3IDE2MCAzMTMuMTggMTU4LjI3IDMxNC43NCAxNjBDMzE2Ljg1IDE2Mi4zMyAzMzcuMjEgMTgzLjcyIDMzOS4zMiAxODYuMDVDMzQwLjg4IDE4Ny43OCAzNDAuMTcgMTg4Ljc2IDM0Mi41MSAxODguNzZDMzYxLjEyIDE4OC43NiA0NDEuOSAxODguNzYgNDYwLjUyIDE4OC43NkM0NjUuMDQgMTg4Ljc2IDQ2OC43MyAxOTIuNDIgNDY4LjczIDE5Ni45OEM0NjguNzMgMjM1LjI5IDQ2OC43MyAzNjkuMzYgNDY4LjczIDM4OC41MloiIGlkPSIjYTlZQ0FMbUU5IiBmaWxsPSIjMzM0ZDVjIiBmaWxsLW9wYWNpdHk9IjEiPjwvcGF0aD48cGF0aCBkPSJNNDY4LjczIDM4OC41MkM0NjguNzMgMzk3LjYgNDYxLjM4IDQwNC45NSA0NTIuMyA0MDQuOTVDMjE0LjE2IDQwNC45NSA0MjUuODQgNDA0Ljk1IDQ1Mi4zIDQwNC45NUM0NjEuMzggNDA0Ljk1IDQ2OC43MyAzOTcuNiA0NjguNzMgMzg4LjUyQzQ2OC43MyAzODcuODMgNDY4LjczIDM4NC4zOSA0NjguNzMgMzc4LjJMMTcxLjI3IDM3OC4yQzE3MS4yNyAzODQuMzkgMTcxLjI3IDM4Ny44MyAxNzEuMjcgMzg4LjUyWiIgaWQ9ImJUazNsUzdZdSI+PC9wYXRoPjxwYXRoIGQ9Ik00NjguNzMgMjM1LjJDNDY4LjczIDIzNS4yIDQ2OC43MyAyMzUuMiA0NjguNzMgMjM1LjJDNDY4LjczIDI0NS4zMyA0NjguNzMgMjUwLjk2IDQ2OC73MyAyNTIuMDlDNDY4LjczIDI1Mi4wOSA0NjguNzMgMjUyLjA5IDQ2OC73MyAyNTIuMDlDMjkwLjI1IDI1Mi4wOSAxOTEuMSAyNTIuMDkgMTcxLjI3IDI1Mi4wOUMxNzEuMjcgMjUyLjA5IDE3MS4yNyAyNTIuMDkgMTcxLjI3IDI1Mi4wOUMxNzEuMjcgMjQxLjk1IDE3MS4yNyAyMzYuMzIgMTcxLjI3IDIzNS4yQzE3MS4yNyAyMzUuMiAxNzEuMjcgMjM1LjIgMTcxLjI3IDIzNS4yQzM0OS43NSAyMzUuMiA0NDguOSAyMzUuMiA0NjguNzMgMjM1LjJaIiBpZD0ibHJvTTdzSGZLIj48L3BhdGg+PHBhdGggZD0iTTQ2MS4yMyA0NTEuNzRDNDY3Ljc2IDQ1OC4wNiA0NjcuOTMgNDY4LjQ2IDQ2MS42MiA0NzQuOTlDNDU1LjMxIDQ4MS41MSA0NDQuOTEgNDgxLjY5IDQzOC4zOCA0NzUuMzhDNDMzLjgzIDQ3MC45OCA0MTEuMDcgNDQ4Ljk4IDM3MC4xIDQwOS4zN0wzOTIuOTUgMzg1Ljc0QzQzMy45MiA0MjUuMzQgNDU2LjY3IDQ0Ny4zNCA0NjEuMjMgNDUxLjc0WiIgaWQ9ImExSmVLeHNoYiI+PC9wYXRoPjxwYXRoIGQ9Ik0zODguOTIgMjk0Ljg5QzQyMC4zOCAzMjUuMDcgNDIxLjQyIDM3NS4wNSAzOTEuMjMgNDA2LjUxQzM2MS4wNSA0MzcuOTggMzExLjA3IDQzOS4wMSAyNzkuNjEgNDA4LjgzQzI0OC4xNCAzNzguNjUgMjQ3LjExIDMyOC42NyAyNzcuMjkgMjk3LjIxQzMwNy40OCAyNjUuNzQgMzU3LjQ1IDI2NC43IDM4OC45MiAyOTQuODlaIiBpZD0iZUhsaUJzZTh6Ij48L3BhdGg+PHBhdGggZD0iTTM3OS43OCAzMDQuNDFDNDA1Ljk4IDMyOS41NSA0MDYuODQgMzcxLjE3IDM4MS43MSAzOTcuMzhDMzU2LjU3IDQyMy41OCAzMTQuOTUgNDI0LjQ0IDI4OC43NCAzOTkuM0MyNjIuNTQgMzc0LjE3IDI2MS42OCAzMzIuNTUgMjg2LjgyIDMwNi4zNEMzMTEuOTUgMjgwLjE0IDM1My41NyAyNzkuMjggMzc5Ljc4IDMwNC40MVoiIGlkPSJhMTdycHZGTEgyIj48L3BhdGg+PHBhdGggZD0iTTM3NC4xNyAzMjMuNjhDMzczLjggMzI2LjY0IDM2MS4yNSAzMTQuMjEgMzQwLjc4IDMxMS42N0MzMjAuMzEgMzA5LjEzIDI5OS42NyAzMTcuNDQgMzAwLjA0IDMxNC40OEMzMDAuNDEgMzExLjUzIDMxOC4zOCAyOTkuMTkgMzM4Ljg1IDMwMS43M0MzNTkuMzIgMzA0LjI3IDM3NC41MyAzMjAuNzIgMzc0LjE3IDMyMy42OFoiIGlkPSJhUk9DeWh3dkQiPjwvcGF0aD48cGF0aCBkPSJNNDQ4LjQ2IDQzOS40MUM0NDguNDYgNDM5LjQxIDQ0OC40NiA0MzkuNDEgNDQ4LjQ2IDQzOS40MUM0NTIuMDEgNDQyLjgzIDQ1My45OCA0NDQuNzQgNDU0LjM3IDQ0NS4xMkM0NTQuMzcgNDQ1LjEyIDQ1NC4zNyA0NDUuMTIgNDU0LjM3IDQ0NS4xMkM0NDAuNjYgNDU5LjMgNDMzLjA1IDQ2Ny4xOCA0MzEuNTIgNDY4Ljc1QzQzMS41MiA0NjguNzUgNDMxLjUyIDQ2OC43NSA0MzEuNTIgNDY4Ljc1QzQyNy45OCA0NjUuMzMgNDI2LjAxIDQ2My40MiA0MjUuNjEgNDYzLjA0QzQyNS42MSA0NjMuMDQgNDI1LjYxIDQ2My4wNCA0MjUuNjEgNDYzLjA0QzQzOS4zMiA0NDguODYgNDQ2Ljk0IDQ0MC45OCA0NDguNDYgNDM5LjQxWiIgaWQ9ImFNUGNnNWJZbCI+PC9wYXRoPjxwYXRoIGQ9Ik00MzMuNjkgNDI1LjEyQzQzMy42OSA0MjUuMTIgNDMzLjY5IDQyNS4xMiA0MzMuNjkgNDI1LjEyQzQzNy4yNCA0MjguNTUgNDM5LjIxIDQzMC40NiA0MzkuNiA0MzAuODRDNDM5LjYgNDMwLjg0IDQzOS62IDQzMC44NCA0MzkuNiA0MzAuODRDNDI5LjU5IDQ0NS4wMiA0MTguMjcgNDUyLjkgNDE2Ljc1IDQ1NC40N0M0MTYuNzUgNDU0LjQ3IDQxNi43NSA0NTQuNDcgNDE2Ljc1IDQ1NC40N0M0MTMuMjEgNDUxLjA1IDQxMS4yNCA0NDkuMTQgNDEwLjg0IDQ0OC43NkM0MTAuODQgNDQ4Ljc2IDQxMC44NCA0NDguNzYgNDEwLjg0IDQ0OC43NkM0MjQuNTUgNDM0LjU4IDQzMi4xNyA0MjYuNyA0MzMuNjkgNDI1LjEyWiIgaWQ9Imk0aEZYWXhoOWkiPjwvcGF0aD48L2RlZnM+PGc+PGc+PGc+PHVzZSB4bGluazpocmVmPSIjYTlZQ0FMbUU5IiBvcGFjaXR5PSIxIiBmaWxsPSIjMzM0ZDVjIiBmaWxsLW9wYWNpdHk9IjEiPjwvdXNlPjxnPjx1c2UgeGxpbms6aHJlZj0iI2E5WUNBTG1FOSIgb3BhY2l0eT0iMSIgZmlsbC1vcGFjaXR5PSIwIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLW9wYWNpdHk9IjAiPjwvdXNlPjwvZz48L2c+PGc+PHVzZSB4bGluazpocmVmPSIjYjIzRnR5M3FMbCIgb3BhY2l0eT0iMSIgZmlsbD0iI2Y2YzM1OCIgZmlsbC1vcGFjaXR5PSIxIj48L3VzZT48Zz48dXNlIHhsaW5rOmhyZWY9IiNiMjNGdHkzcUxsIiBvcGFjaXR5PSIxIiBmaWxsLW9wYWNpdHk9IjAiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2Utb3BhY2l0eT0iMCI+PC91c2U+PC9nPjwvZz48Zz48dXNlIHhsaW5rOmhyZWY9IiNiMXlpUTdEWmZYIiBvcGFjaXR5PSIxIiBmaWxsPSIjZmNkNDYyIiBmaWxsLW9wYWNpdHk9IjEiPjwvdXNlPjxnPjx1c2UgeGxpbms6aHJlZj0iI2IxeWlRN0RaZlgiIG9wYWNpdHk9IjEiIGZpbGwtb3BhY2l0eT0iMCIgc3Ryb2klPSIjMDAwMDAwIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1vcGFjaXR5PSIwIj48L3VzZT48L2c+PC9nPjxnPjx1c2UgeGxpbms6aHJlZj0iI2JUazNsUzdZdSIgb3BhY2l0eT0iMSIgZmlsbD0iI2Y2YzM1OCIgZmlsbC1vcGFjaXR5PSIxIj48L3VzZT48Zz48dXNlIHhsaW5rOmhyZWY9IiNiVGszbFM3WXUiIG9wYWNpdHk9IjEiIGZpbGwtb3BhY2l0eT0iMCIgc3Ryb2klPSIjMDAwMDAwIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1vcGFjaXR5PSIwIj48L3VzZT48L2c+PC9nPjxnPjx1c2UgeGxpbms6aHJlZj0iI2xyb003c0hmSyIgb3BhY2l0eT0iMSIgZmlsbD0iI2Y2YzM1OCIgZmlsbC1vcGFjaXR5PSIxIj48L3VzZT48Zz48dXNlIHhsaW5rOmhyZWY9IiNscm9NN3NIZksiIG9wYWNpdHk9IjEiIGZpbGwtb3BhY2l0eT0iMCIgc3Ryb2klPSIjMDAwMDAwIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1vcGFjaXR5PSIwIj48L3VzZT48L2c+PC9nPjxnPjx1c2UgeGxpbms6aHJlZj0iI2ExSmVLeHNoYiIgb3BhY2l0eT0iMSIgZmlsbD0iI2RjODc0NCIgZmlsbC1vcGFjaXR5PSIxIj48L3VzZT48Zz48dXNlIHhsaW5rOmhyZWY9IiNhMUplS3hzaGIiIG9wYWNpdHk9IjEiIGZpbGwtb3BhY2l0eT0iMCIgc3Ryb2klPSIjMDAwMDAwIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1vcGFjaXR5PSIwIj48L3VzZT48L2c+PC9nPjxnPjx1c2UgeGxpbms6aHJlZj0iI2VIbGlCc2U4eiIgb3BhY2l0eT0iMSIgZmlsbD0iI2U1NjM1MyIgZmlsbC1vcGFjaXR5PSIxIj48L3VzZT48Zz48dXNlIHhsaW5rOmhyZWY9IiNlSGxpQnNlOHoiIG9wYWNpdHk9IjEiIGZpbGwtb3BhY2l0eT0iMCIgc3Ryb2klPSIjMDAwMDAwIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1vcGFjaXR5PSIwIj48L3VzZT48L2c+PC9nPjxnPjx1c2UgeGxpbms6aHJlZj0iI2ExN3JwdkZMSDIiIG9wYWNpdHk9IjEiIGZpbGw9IiNlMWU2ZTkiIGZpbGwtb3BhY2l0eT0iMSI+PC91c2U+PGc+PHVzZSB4bGluazpocmVmPSIjYTE3cnB2RkxIMiIgb3BhY2l0eT0iMSIgZmlsbC1vcGFjaXR5PSIwIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLW9wYWNpdHk9IjAiPjwvdXNlPjwvZz48L2c+PGc+PHVzZSB4bGluazpocmVmPSIjYVJPQ3lod3ZEIiBvcGFjaXR5PSIxIiBmaWxsPSIjZWJmMGYzIiBmaWxsLW9wYWNpdHk9IjEiPjwvdXNlPjxnPjx1c2UgeGxpbms6aHJlZj0iI2FST0N5aHd2RCIgb3BhY2l0eT0iMSIgZmlsbC1vcGFjaXR5PSIwIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLW9wYWNpdHk9IjAiPjwvdXNlPjwvZz48L2c+PGc+PHVzZSB4bGluazpocmVmPSIjYU1QY2c1YllsIiBvcGFjaXR5PSIxIiBmaWxsPSIjZTFlNmU5IiBmaWxsLW9wYWNpdHk9IjEiPjwvdXNlPjxnPjx1c2UgeGxpbms6aHJlZj0iI2FNUGNnNWJZbCIgb3BhY2l0eT0iMSIgZmlsbC1vcGFjaXR5PSIwIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLW9wYWNpdHk9IjAiPjwvdXNlPjwvZz48L2c+PGc+PHVzZSB4bGluazpocmVmPSIjaTRoRlhZeGg5aSIgb3BhY2l0eT0iMSIgZmlsbD0iI2UxZTZlOSIgZmlsbC1vcGFjaXR5PSIxIj48L3VzZT48Zz48dXNlIHhsaW5rOmhyZWY9IiNpNGhGWFl4aDlpIiBvcGFjaXR5PSIxIiBmaWxsLW9wYWNpdHk9IjAiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2Utb3BhY2l0eT0iMCI+PC91c2U+PC9nPjwvZz48L2c+PC9nPjwvc3ZnPg==';
@@ -271,37 +272,46 @@ async function ask(url, promptText) {
     const handleChatInput = async () => {
         if (submissionMade) return; // Prevent multiple submissions
 
+        const enterEvent = new KeyboardEvent('keydown', {
+            bubbles: true,
+            cancelable: true,
+            key: 'Enter',
+            code: 'Enter',
+            keyCode: 13,
+            which: 13
+        });
+
         let textarea, submit;
 
         // Get the text area and submit button based on the AI chat engine
         if (url.includes('aistudio.google.com')) {
             if (logToConsole) console.log("AI Studio detected.");
-            textarea = document.querySelector('textarea[aria-label="User text input"]');
+            textarea = document.querySelector('textarea[placeholder="Type something"]');
             submit = document.querySelector("button[class*='run-button']");
         } else if (url.includes('www.perplexity.ai')) {
-            textarea = document.querySelector('textarea[placeholder="Search the internet..."]');
+            textarea = document.querySelector('textarea[placeholder="Ask anything..."]');
             submit = document.querySelector('button[aria-label="Submit"]');
         } else if (url.includes('poe.com')) {
             textarea = document.querySelector('textarea[placeholder="Start a new chat"]');
             //submit = document.querySelector("button[class*='ChatMessageSendButton']");
             submit = false;
         } else if (url.includes('chatgpt.com')) {
-            textarea = document.getElementById('prompt-textarea');
-            if (!textarea) {
-                textarea = document.querySelector('textarea[tabindex="0"]');
-            }
-            if (!textarea) {
-                textarea = document.querySelector('form textarea');
-            }
-            submit = document.querySelector('button[data-testid="send-button"], button[aria-label="Send message"]');
+            textarea = document.querySelector('[data-testid="text-area-input"]') ||
+                document.querySelector('div.ProseMirror[contenteditable="true"]');
+            submit = document.querySelector('button[data-testid="send-button"]') ||
+                document.querySelector('button[aria-label="Send message"]');
         } else if (url.includes('claude.ai')) {
             textarea = document.querySelector('div[contenteditable="true"]');
         } else if (url.includes('you.com')) {
             textarea = document.getElementById('search-input-textarea');
-            submit = document.querySelector('button[type="submit"]');
+            submit = document.querySelector('button[data-testid="qb_submit_button"]');
         } else if (url.includes('andisearch.com')) {
-            textarea = document.querySelector('input[name="message"]');
-            submit = document.querySelector('button[type="submit"]');
+            textarea = document.querySelector('div[placeholder="Ask Andi..."]');
+            submit = document.querySelector('button.rcw-send[type="submit"]');
+        } else if (url.includes('grok.com')) {
+            await new Promise(resolve => setTimeout(resolve, 3000));
+            textarea = document.querySelector('textarea[aria-label="Ask Grok anything"]');
+            submit = document.querySelector('button[aria-label="Submit"]');
         } else {
             const textareas = document.getElementsByTagName("textarea");
             textarea = textareas[textareas.length - 1];
@@ -317,7 +327,7 @@ async function ask(url, promptText) {
         if (textarea) {
             // Focus the textarea first
             textarea.focus();
-            textarea.click();
+
             if (logToConsole) console.log("Text area found.");
 
             if (url.includes('claude.ai')) {
@@ -325,59 +335,71 @@ async function ask(url, promptText) {
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 submit = document.querySelector('button[aria-label="Send Message"]');
             } else {
-                // Set the value directly
-                textarea.value = promptText;
+                // Set text content
+                if (textarea.tagName === 'DIV') {
+                    // For contenteditable divs
+                    textarea.textContent = promptText;
+                    if (logToConsole) console.log(`Textarea (content): ${textarea.textContent}`);
+                } else {
+                    // For other input types
+                    textarea.value = promptText;
+                    if (logToConsole) console.log(`Textarea (value): ${textarea.value}`);
+                }
             }
 
-            // Create a keyboard event
-            const enterEvent = new KeyboardEvent('keydown', {
-                bubbles: true,
-                cancelable: true,
-                key: 'a',
-                code: 'KeyA',
-                keyCode: 65,
-                which: 65,
-                shiftKey: false,
-                ctrlKey: true,
-                metaKey: false
-            });
-
-            // Dispatch the event to trigger React's event handlers
-            textarea.dispatchEvent(enterEvent);
-
-            // Create and dispatch an input event
-            const inputEvent = new Event('input', {
+            // Dispatch input event to ensure React recognizes the change
+            textarea.dispatchEvent(new Event('input', {
                 bubbles: true,
                 cancelable: true
-            });
-            textarea.dispatchEvent(inputEvent);
+            }));
 
-            if (logToConsole) console.log(`Text entered: ${textarea.value}`);
+            // Wait for React to process the input
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            textarea.dispatchEvent(enterEvent);
+
+            // Wait to see if that worked
+            await new Promise(resolve => setTimeout(resolve, 500));
         }
 
-        // Wait for a moment to allow the page to process the input
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        if (submit && !submit.disabled) {
+            let submissionSuccessful = false;
+            try {
+                submit.focus();
+                submit.click();
+                submissionSuccessful = textarea.textContent === '' || textarea.value === '' || submit.disabled;
+                if (submissionSuccessful && logToConsole) console.log("Standard submission successful.");
+            } catch (error) {
+                if (logToConsole) console.log("Submission failed:", error);
+            }
 
-        if (submit) {
-            // Ensure button is enabled
-            submit.disabled = false;
+            // Fallback if the standard click() method didn't work
+            if (!submissionSuccessful) {
+                // Try with PointerEvent
+                try {
+                    const clickEvent = new PointerEvent('click', {
+                        view: window,
+                        bubbles: true,
+                        cancelable: true,
+                        pointerType: 'mouse',
+                        isPrimary: true
+                    });
 
-            if (!submit.disabled) {
-                // Simulate a real click with mouse events
-                const clickEvent = new MouseEvent('click', {
-                    view: window,
-                    bubbles: true,
-                    cancelable: true
-                });
+                    submit.dispatchEvent(clickEvent);
+                    submissionSuccessful = true;
+                    if (logToConsole) console.log("Submission clicked with PointerEvent.");
+                } catch (error) {
+                    if (logToConsole) console.log("PointerEvent failed:", error);
+                }
+            }
 
-                submit.dispatchEvent(clickEvent);
-                submissionMade = true;
-                if (logToConsole) console.log("Submission clicked.");
-            } else {
-                if (logToConsole) console.log("Submit button is disabled.");
+            submissionMade = submissionSuccessful;
+
+            if (!submissionSuccessful) {
+                if (logToConsole) console.log("All submission attempts failed.");
             }
         } else {
-            if (logToConsole) console.log("Submit button not found.");
+            if (logToConsole) console.log("Submit button not found or disabled.");
         }
     };
 
@@ -588,9 +610,12 @@ async function init() {
                 if (logToConsole) console.log(err);
                 await sendMessage('notify', notifySearchEngineNotFound);
             }
+        } else if (response && response.action === "noAction") {
+            // No action needed, this is a valid response
+            if (logToConsole) console.log('No action needed for this page');
         } else {
             if (logToConsole) console.error("Received undefined response or unexpected action from background script.");
-            if (logToConsole) console.log(`Response: ${response}`);
+            if (logToConsole) console.log('Response: ', response);
         }
     }
 

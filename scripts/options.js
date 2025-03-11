@@ -577,6 +577,10 @@ function createLineItem(id) {
         option3.value = "google-ai-studio";
         option3.text = "Google AI Studio";
 
+        const option9 = document.createElement("option");
+        option9.value = "grok";
+        option9.text = "Grok";
+
         const option4 = document.createElement("option");
         option4.value = "perplexity";
         option4.text = "Perplexity.ai";
@@ -600,6 +604,7 @@ function createLineItem(id) {
         aiProvider.appendChild(option1);
         aiProvider.appendChild(option2);
         aiProvider.appendChild(option3);
+        aiProvider.appendChild(option9);
         aiProvider.appendChild(option4);
         aiProvider.appendChild(option5);
         aiProvider.appendChild(option6);

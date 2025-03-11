@@ -10,6 +10,7 @@ import {
     tineyeUrl,
     chatGPTUrl,
     googleAIStudioUrl,
+    grokUrl,
     perplexityAIUrl,
     poeUrl,
     claudeUrl,
@@ -20,6 +21,7 @@ import {
 import {
     base64chatGPT,
     base64GoogleAIStudio,
+    base64Grok,
     base64perplexity,
     base64poe,
     base64claude,
@@ -630,7 +632,7 @@ async function handleDoSearch(data) {
 
     if (id === "multisearch" || (searchEngines[id] && searchEngines[id].isFolder)) {
         // If multisearch or the search engine is a folder
-        await processMultisearch(multiTabArray, tabPosition);
+        await processMultisearch(multiTabArray, "root", tabPosition);
     } else {
         // If single search and search engine is a link, HTTP GET or POST request or AI prompt
         const multisearch = false;
@@ -799,7 +801,11 @@ async function handleContentScriptLoaded(data) {
             return submitForm(finalFormData);
         }
     }
-    return false;
+    return {
+        action: "noAction",
+        success: true,
+        data: { message: "No action needed for this page" }
+    };
 }
 
 async function sendImageUrl() {
@@ -1235,9 +1241,14 @@ function getFaviconForPrompt(id, aiProvider) {
             b64 = base64chatGPT;
             break;
         case "google":
+        case "gemini":
         case "google-ai-studio":
             imageFormat = "image/svg+xml";
             b64 = base64GoogleAIStudio;
+            break;
+        case "grok":
+            imageFormat = "image/png";
+            b64 = base64Grok;
             break;
         case "perplexity":
             imageFormat = "image/png";
@@ -1365,7 +1376,7 @@ function removeClickListener() {
 async function createMenuItem(id, title, contexts, parentId, faviconUrl) {
     const isFirefox = getBrowserType() === "firefox";
     const menuItem = {
-        id: "cs-" + id,
+        id: "cs-" + (id === parentId ? id + "-multisearch" : id),
         title: title,
         contexts: contexts,
     };
@@ -1418,6 +1429,10 @@ async function buildContextMenuItem(id, parentId) {
 
     if (searchEngine.isFolder) {
         await createMenuItem(id, title, contexts, parentId, faviconUrl);
+        if (id !== "root" && id !== "bookmark-page" && id !== "add-search-engine") {
+            const title = "Multisearch";
+            await createMenuItem(id, title, contexts, id, faviconUrl);
+        }
         for (let child of searchEngine.children) {
             await buildContextMenuItem(child, id);
         }
@@ -1629,17 +1644,13 @@ async function buildContextMenu() {
 async function processSearch(info, tab) {
     if (logToConsole) console.log(info);
     const currentWindow = await browser.windows.getCurrent({ populate: true });
-    const multisearch = false;
-    const id = info.menuItemId.startsWith("cs-")
+    let multisearch = false;
+    let id = info.menuItemId.startsWith("cs-")
         ? info.menuItemId.replace("cs-", "")
         : info.menuItemId;
 
     // By default, open the search results right after the active tab
     let tabIndex = tab.index + 1;
-
-    // Cancel search if the selected search engine is a folder
-    // This is a precautionary measure as folders can't be clicked in the context menu
-    if (searchEngines[id] && searchEngines[id].isFolder) return;
 
     // If search engines are set to be opened after the last tab, then adjust the tabIndex
     if (options.multiMode === "multiAfterLastTab" || (options.tabMode === "openNewTab" && options.lastTab)) {
@@ -1649,6 +1660,14 @@ async function processSearch(info, tab) {
         }
     }
     if (logToConsole) console.log(tabIndex);
+
+    // If the selected search engine is a folder, process it as a multisearch
+    if (id.endsWith("-multisearch")) {
+        id = id.replace("-multisearch", "");
+        multisearch = true;
+        await processMultisearch([], id, tabIndex);
+        return;
+    }
     if (id === "bookmark-page") {
         await toggleBookmark();
         return;
@@ -1669,7 +1688,7 @@ async function processSearch(info, tab) {
         return;
     }
     if (id === "multitab") {
-        await processMultisearch([], tabIndex);
+        await processMultisearch([], "root", tabIndex);
         return;
     }
     if (id === "match") {
@@ -1693,7 +1712,7 @@ async function processSearch(info, tab) {
     }
 }
 
-async function processMultisearch(arraySearchEngineUrls, tabPosition) {
+async function processMultisearch(arraySearchEngineUrls, folderId, tabPosition) {
     let windowInfo = await browser.windows.getCurrent();
     let multisearchArray = [];
     let nonUrlArray = [];
@@ -1714,7 +1733,7 @@ async function processMultisearch(arraySearchEngineUrls, tabPosition) {
             if (searchEngines[childId].isFolder) {
                 await getSearchEnginesFromFolder(childId);
             }
-            if (searchEngines[childId].multitab) {
+            if (searchEngines[childId].multitab || folderId !== "root") {
                 if (searchEngines[childId].aiProvider) {
                     // This array will contain id items
                     aiArray.push(childId);
@@ -1759,7 +1778,7 @@ async function processMultisearch(arraySearchEngineUrls, tabPosition) {
         // Create an array of search engine URLs for all multisearch engines (using HTTP GET requests or AI prompts)
         // If the search engine uses an HTTP POST request, then the array will contain {id, url} for that search engine instead of just a url
         // Sort search results in the order that search engines appear in the options page
-        await getSearchEnginesFromFolder("root");
+        await getSearchEnginesFromFolder(folderId);
     }
 
     if (logToConsole) console.log("Before concatenation:");
@@ -1934,8 +1953,12 @@ function getAIProviderBaseUrl(provider) {
             providerUrl = chatGPTUrl;
             break;
         case "google":
+        case "gemini":
         case "google-ai-studio":
             providerUrl = googleAIStudioUrl;
+            break;
+        case "grok":
+            providerUrl = grokUrl;
             break;
         case "perplexity":
             providerUrl = perplexityAIUrl;
@@ -1976,12 +1999,12 @@ async function displaySearchResults(
     let searchEngine, url;
     if (id.startsWith("chatgpt-")) {
         promptText = getPromptText(id, prompt);
-        if (searchEngines[id].aiProvider === "chatgpt") {
-            writeClipboardText(promptText);
+        if (id !== "chatgpt-direct") {
+            searchEngine = searchEngines[id];
+            if (searchEngine.aiProvider === "chatgpt") {
+                writeClipboardText(promptText);
+            }
         }
-    }
-    if (id !== "chatgpt-direct") {
-        searchEngine = searchEngines[id];
     }
     if (searchEngine && searchEngine.formData) {
         url = postDomain;
@@ -2176,7 +2199,8 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
 
     const aiEngines = [
         "chatgpt",
-        "google",
+        "gemini",
+        "grok",
         "perplexity",
         "poe",
         "claude",
@@ -2256,7 +2280,7 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                     await browser.runtime.openOptionsPage();
                     break;
                 case "!":
-                    await processMultisearch([], tabPosition);
+                    await processMultisearch([], "root", tabPosition);
                     break;
                 case "bookmarks":
                 case "!b":
@@ -2293,7 +2317,7 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                         for (const s of suggestion) {
                             arraySearchEngineUrls.push(s.content);
                         }
-                        await processMultisearch(arraySearchEngineUrls, tabPosition);
+                        await processMultisearch(arraySearchEngineUrls, "root", tabPosition);
                     } else if (
                         suggestion.length === 1 &&
                         ((searchEngines[id] && !searchEngines[id].isFolder) ||
@@ -2313,7 +2337,7 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                     } else if (suggestion.length === 1 && searchEngines[id].isFolder) {
                         // If search engine is a folder
                         const multiTabArray = await processFolder(id, searchTerms);
-                        await processMultisearch(multiTabArray, tabPosition);
+                        await processMultisearch(multiTabArray, "root", tabPosition);
                     } else {
                         browser.search.search({ query: searchTerms, tabId: tabId });
                         if (notificationsEnabled) notify(notifyUsage);
@@ -2381,7 +2405,8 @@ async function processSearchEngine(id, searchTerms) {
 async function buildSuggestion(text) {
     const aiEngines = [
         "chatgpt",
-        "google",
+        "gemini",
+        "grok",
         "perplexity",
         "poe",
         "claude",

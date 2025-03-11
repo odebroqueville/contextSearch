@@ -2,7 +2,7 @@
 import '/libs/browser-polyfill.min.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    const aiEngines = ['chatgpt', 'google', 'perplexity', 'poe', 'claude', 'you', 'andi'];
+    const aiEngines = ['chatgpt', 'gemini', 'grok', 'perplexity', 'poe', 'claude', 'you', 'andi'];
     const inputArea = document.getElementById('inputArea');
     const outputArea = document.getElementById('outputArea');
     let tagStyled = false;
