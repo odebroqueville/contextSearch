@@ -1299,7 +1299,7 @@ function menuClickHandler(info, tab) {
 
 function handleMenuClick(info, tab) {
     const browser_type = getBrowserType();
-    const multisearch = info.menuItemId.endsWith("-multisearch");
+    const multisearch = info.menuItemId.endsWith("-multisearch") || info.menuItemId === "cs-multitab";
     if (options.tabMode === "openSidebar" && !multisearch) {
         if (browser_type === 'firefox') {
             if (logToConsole) console.log("Opening the sidebar.");
