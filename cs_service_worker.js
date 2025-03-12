@@ -2033,7 +2033,19 @@ async function displaySearchResults(
             url = url.replace(/{searchTerms}/g, selection);
         }
         if (logToConsole) console.log(`Code: ${url}`);
-        await browser.tabs.executeScript(activeTab.id, { code: url });
+
+        await browser.scripting.executeScript({
+            target: { tabId: activeTab.id },
+            world: "MAIN",
+            func: function (code) {
+                const script = document.createElement('script');
+                // Wrap the code in an IIFE using concatenation instead of a template literal
+                script.textContent = "(function() {" + code + "})();";
+                document.documentElement.appendChild(script);
+                script.remove();
+            },
+            args: [url]
+        });
         return;
     }
 
