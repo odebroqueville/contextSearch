@@ -1299,7 +1299,8 @@ function menuClickHandler(info, tab) {
 
 function handleMenuClick(info, tab) {
     const browser_type = getBrowserType();
-    if (options.tabMode === "openSidebar") {
+    const multisearch = info.menuItemId.endsWith("-multisearch");
+    if (options.tabMode === "openSidebar" && !multisearch) {
         if (browser_type === 'firefox') {
             if (logToConsole) console.log("Opening the sidebar.");
             browser.sidebarAction.open().then(() => {
@@ -1719,6 +1720,7 @@ async function processMultisearch(arraySearchEngineUrls, folderId, tabPosition) 
     let postArray = [];
     let aiArray = [];
     let urlArray = [];
+    let folderMultisearch = false;
 
     // Helper function to log array contents
     const logArrayContents = (label, array) => {
@@ -1732,8 +1734,7 @@ async function processMultisearch(arraySearchEngineUrls, folderId, tabPosition) 
             if (childId.startsWith("separator-")) continue;
             if (searchEngines[childId].isFolder) {
                 await getSearchEnginesFromFolder(childId);
-            }
-            if (searchEngines[childId].multitab || folderId !== "root") {
+            } else if (searchEngines[childId].multitab || folderMultisearch) {
                 if (searchEngines[childId].aiProvider) {
                     // This array will contain id items
                     aiArray.push(childId);
@@ -1749,6 +1750,10 @@ async function processMultisearch(arraySearchEngineUrls, folderId, tabPosition) 
             }
         }
     };
+
+    if (folderId !== "root") {
+        folderMultisearch = true;
+    }
 
     if (arraySearchEngineUrls.length > 0) {
         multisearchArray = arraySearchEngineUrls;
@@ -2221,6 +2226,7 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
     }
 
     selection = searchTerms.trim();
+    await setStoredData(STORAGE_KEYS.SELECTION, selection);
 
     // tabPosition is used to determine where to open the search results for a multisearch
     let tabIndex,

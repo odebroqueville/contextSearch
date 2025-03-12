@@ -575,7 +575,7 @@ function createLineItem(id) {
 
         const option3 = document.createElement("option");
         option3.value = "google-ai-studio";
-        option3.text = "Google AI Studio";
+        option3.text = "Gemini";
 
         const option9 = document.createElement("option");
         option9.value = "grok";
