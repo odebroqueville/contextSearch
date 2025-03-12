@@ -106,14 +106,31 @@ document.addEventListener('keyup', handleKeyUp);
 // Storage change listener
 browser.storage.onChanged.addListener((changes, namespace) => {
     if (logToConsole) console.log(changes);
+
+    // For LOG_TO_CONSOLE
     if (changes[STORAGE_KEYS.LOG_TO_CONSOLE]) {
         logToConsole = changes[STORAGE_KEYS.LOG_TO_CONSOLE].newValue;
     }
+
+    // For OPTIONS
     if (changes[STORAGE_KEYS.OPTIONS]) {
-        options = changes[STORAGE_KEYS.OPTIONS].newValue;
+        // Check if newValue is an empty object
+        if (Object.keys(changes[STORAGE_KEYS.OPTIONS].newValue).length === 0) {
+            // Only send resetData if the new value is exactly empty.
+            sendMessage('resetData', { options });
+        } else {
+            // Otherwise, update the local options variable.
+            options = changes[STORAGE_KEYS.OPTIONS].newValue;
+        }
     }
+
+    // For SEARCH_ENGINES
     if (changes[STORAGE_KEYS.SEARCH_ENGINES]) {
-        searchEngines = changes[STORAGE_KEYS.SEARCH_ENGINES].newValue;
+        if (Object.keys(changes[STORAGE_KEYS.SEARCH_ENGINES].newValue).length === 0) {
+            sendMessage('resetData', { searchEngines });
+        } else {
+            searchEngines = changes[STORAGE_KEYS.SEARCH_ENGINES].newValue;
+        }
     }
     // if (changes[STORAGE_KEYS.SELECTION]) {
     //     textSelection = changes[STORAGE_KEYS.SELECTION].newValue;

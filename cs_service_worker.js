@@ -227,7 +227,9 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     // Handle other actions
     switch (action) {
-        // Add to cs_service_worker.js in the message listener switch statement
+        case "resetData":
+            resetData(data);
+            break;
         case "storeSelectionData":
             // New handler for storing selection data reliably from the service worker
             if (message.selection) {
@@ -374,6 +376,17 @@ async function initializeServiceWorker(reason = 'unknown') {
     } catch (error) {
         console.error('Failed to initialize extension:', error);
     }
+}
+
+async function resetData(data) {
+    if (logToConsole) console.log('Resetting data...', data);
+    if (Object.keys(data)[0] === 'options') {
+        options = data.options;
+    }
+    if (Object.keys(data)[0] === 'searchEngines') {
+        searchEngines = data.searchEngines;
+    }
+    await setStoredData(data);
 }
 
 async function reloadSearchEngines() {
