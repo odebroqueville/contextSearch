@@ -84,7 +84,7 @@ document.onreadystatechange = async () => {
 document.addEventListener('mouseover', handleMouseOver);
 
 // Right-click event listener
-//document.addEventListener('contextmenu', handleRightClickWithoutGrid);
+document.addEventListener('contextmenu', handleRightClickWithoutGrid);
 
 // Mouse down event listener
 document.addEventListener('mousedown', startSelection);
@@ -813,6 +813,19 @@ async function handleKeyUp(e) {
 function startSelection(event) {
     if (event.button === 0) { // 0 indicates the left mouse button
         selectionActive = true;
+    }
+}
+
+async function handleRightClickWithoutGrid(e) {
+    if (logToConsole) console.log(e);
+    const elementClicked = e.target;
+    const tag = elementClicked.tagName;
+
+    // If right click is on image then remove selection
+    if (tag === 'IMG') {
+        if (window.getSelection) {
+            window.getSelection().removeAllRanges();
+        }
     }
 }
 

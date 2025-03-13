@@ -1,5 +1,11 @@
-6.0.0
+6.0.1
 =========
+
+* Bug fix [#201](https://github.com/odebroqueville/contextSearch/issues/201)
+* Bug fix [#200](https://github.com/odebroqueville/contextSearch/issues/200)
+
+6.0.0
+---------
 
 * The extension has been updated to support manifest version 3
 * The extension is now available for both Chrome and Firefox

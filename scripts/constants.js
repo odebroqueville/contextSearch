@@ -1,7 +1,7 @@
 /// Constants
 
 // Debug mode
-export const DEBUG = true;
+export const DEBUG = false;
 
 // User agent for sidebar search results
 const USER_AGENT_FOR_SIDEBAR =
@@ -43,7 +43,7 @@ export const HEADER_RULES = [
             ]
         },
         condition: {
-            regexFilter: '.*google\\.com/.*(searchbyimage|tbs=sbi:|webhp.*tbs=sbi:).*',
+            urlFilter: '.*google\\.com/.*(searchbyimage|tbs=sbi:|webhp.*tbs=sbi:).*#_sidebar',
             resourceTypes: ['main_frame', 'sub_frame']
         }
     },
@@ -62,7 +62,7 @@ export const HEADER_RULES = [
             ]
         },
         condition: {
-            urlFilter: '*youtube.com/*',
+            urlFilter: '*youtube.com/*#_sidebar',
             resourceTypes: ['main_frame', 'sub_frame']
         }
     },
