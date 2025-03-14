@@ -3,7 +3,7 @@
     "default_locale": "en",
     "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
-    "version": "6.0.1",
+    "version": "6.0.2",
     "homepage_url": "https://github.com/odebroqueville/contextSearch",
     "author": "Olivier de Broqueville",
     "browser_specific_settings": {
@@ -38,7 +38,7 @@
         "activeTab",
         "alarms",
         "contextMenus",
-        "declarativeNetRequest",
+        "declarativeNetRequestWithHostAccess",
         "menus",
         "scripting",
         "storage",

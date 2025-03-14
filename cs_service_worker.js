@@ -423,7 +423,7 @@ async function initializeHeaderRules() {
     if (logToConsole) console.log('Initializing header rules...');
 
     // Remove any existing rules and add new ones
-    await browser.declarativeNetRequest.updateDynamicRules({
+    await browser.declarativeNetRequestWithHostAccess.updateDynamicRules({
         removeRuleIds: HEADER_RULES.map(rule => rule.id),
         addRules: HEADER_RULES
     });

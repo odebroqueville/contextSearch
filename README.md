@@ -10,7 +10,7 @@ Firefox add-on to search selected text in a web page using your favorite search 
 * Compatible with search engines using either HTTP GET or HTTP POST requests
 * Reverse-image search using Google, Google Lens or TinEye
 * Site search
-* Carry out multiple searches at once using multisearch
+* Carry out multiple searches at once using multisearch or folder multisearch
 * Manage your search engines from the extension's Options page
 * Many ways to easily add a new search engine
 * Support for search engines using OpenSearch description format
@@ -20,7 +20,7 @@ Firefox add-on to search selected text in a web page using your favorite search 
 * Carry out searches from the Omnibox, i.e. url address bar
 * Assign keyboard shortcuts to your search engines
 * Export/Import your list of search engines as a safe backup
-* macOS users can download videos from YouTube or Vimeo by right-clicking on a video thumbnail (requires some manual configuration as detailed below in the 'Advanced features' section)
+* Download videos from YouTube or Vimeo by right-clicking on a video thumbnail (requires some manual configuration as detailed below in the 'Advanced features' section)
 
 ## Permissions
 
@@ -82,7 +82,7 @@ For trouble-free use, **it is recommended that you log in** prior to using an AI
 
 In most cases, after selecting text on a web page and selecting your prompt in the context menu, a new tab will open with the relevant AI engine. When possible, the prompt will be pasted in the search box and automatically submitted to the AI engine, except for Poe so that users can choose their preferred large language model. The search results should then appear.
 
-UPDATE November 2024: Chatgpt.com now prevents filling the text area with a prompt programmatically. Therefore, to use Chatgpt, you now have to paste the contents of the clipboard to which your prompt will have been copied. For this to work, you have to enable the Clipboard permission in the extension's preferences. Alternatively, it is possible to use Chatgpt's AI engines (GPT-4o) on Poe. However, the latest Chatgpt models (o1) require a subscription.
+N.B.: If the prompt is missing from the text area, you can paste the contents of the clipboard to which your prompt will have been copied. For this to work, you have to enable the Clipboard permission in the extension's preferences. Alternatively, it is possible to use Chatgpt's AI engines (GPT-4o) on Poe.
 
 ## How to add a separator (horizontal line) in the context menu
 
@@ -98,7 +98,8 @@ Prior to using this feature, **ensure that you have logged in** to the website(s
 
 - chatgpt
 - claude
-- google (for Google AI Studio where different models are available)
+- gemini (for Google AI Studio where different models are available)
+- grok
 - perplexity
 - poe (where you can choose amongst different LL models, namely Llama 3.1)
 - andi

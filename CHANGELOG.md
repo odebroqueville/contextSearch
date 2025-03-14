@@ -1,7 +1,12 @@
-6.0.1
+6.0.2
 =========
 
-* Bug fix [#201](https://github.com/odebroqueville/contextSearch/issues/201)
+* replace permission "declarativeNetRequest" with "declarativeNetRequestWithHostAccess" to prevent "Block content on any page" warning
+
+6.0.1
+---------
+
+* Bug fix [#202](https://github.com/odebroqueville/contextSearch/issues/202)
 * Bug fix [#200](https://github.com/odebroqueville/contextSearch/issues/200)
 
 6.0.0
