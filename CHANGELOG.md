@@ -1,5 +1,11 @@
-6.0.2
+6.0.3
 =========
+
+* Replaced "optional_host_permissions" with "host_permissions"
+* Changed urlFilter for YouTube rule
+
+6.0.2
+---------
 
 * replace permission "declarativeNetRequest" with "declarativeNetRequestWithHostAccess" to prevent "Block content on any page" warning
 

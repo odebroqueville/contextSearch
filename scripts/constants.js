@@ -62,7 +62,7 @@ export const HEADER_RULES = [
             ]
         },
         condition: {
-            urlFilter: '*youtube.com/*#_sidebar',
+            urlFilter: '||youtube.com/*#_sidebar',
             resourceTypes: ['main_frame', 'sub_frame']
         }
     },
