@@ -43,7 +43,7 @@ const STORAGE_KEYS = {
 };
 
 // Global variables
-let logToConsole = false; // Debug (default)
+let logToConsole = true; // Debug (default)
 let meta = ''; // meta key: cmd for macOS, win for Windows, super for Linux
 let tabUrl = '';
 let domain = '';
@@ -735,20 +735,44 @@ function getClosestForm(element) {
     return null;
 }
 
-// Handle keyboard shortcuts
-async function handleKeyUp(e) {
-    const modifiers = ["Control", "Shift", "Alt", "Meta"];
-    if (logToConsole) console.log(e);
-    if (logToConsole) console.log(keysPressed);
-    // If no key has been pressed or if text is being typed in an INPUT field then discontinue
-    if (!Object.keys(keysPressed).length > 0 || e.target.nodeName === 'INPUT' || !isKeyAllowed(e)) return;
-    // if (e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey) return;
-
-    // On keyup, if the control key is released and there's a text selection, handle selection end
+// Check if there is a selection and handle it
+function checkForSelection(e) {
+    const element = e.target;
     const hasSelection = window.getSelection()?.rangeCount > 0;
-    if (hasSelection && !selectionActive && e.ctrlKey) {
+
+    if (logToConsole) console.log(element);
+    if (logToConsole) console.log(hasSelection);
+
+    if (
+        (e.key === 'Shift' || (e.type === 'mouseup' && e.button === 0)) && element &&
+        (
+            element.tagName === "TEXTAREA" ||
+            (element.tagName === "INPUT" && element.type === "text")
+        )
+    ) {
+        // If the active element is a textarea or input and the selection is not empty, handle selection end
+        if (logToConsole) console.log('Active element is a textarea or input');
+        if (element.selectionStart !== element.selectionEnd) {
+            const selection = element.value.substring(element.selectionStart, element.selectionEnd);
+            handleSelectionEnd(selection);
+        }
+    } else if (hasSelection && !selectionActive && (e.ctrlKey || e.key === 'Shift' || (e.type === 'mouseup' && e.button === 0))) {
+        // On keyup, if the control key is released and there's a text selection, handle selection end
         handleSelectionEnd();
     }
+}
+
+// Handle keyboard shortcuts
+async function handleKeyUp(e) {
+    if (logToConsole) console.log(e);
+    const modifiers = ["Control", "Shift", "Alt", "Meta"];
+
+    checkForSelection(e);
+
+    // If no key has been pressed or if text is being typed in an INPUT field then discontinue
+    if (!Object.keys(keysPressed).length > 0 || e.target.nodeName === 'INPUT' || !isKeyAllowed(e)) return;
+
+    if (logToConsole) console.log(keysPressed);
 
     // Store all modifier keys pressesd in var input
     let input = "";
@@ -837,15 +861,11 @@ async function handleAltClickWithGrid(e) {
     // If mouse up is not done with left mouse button then do nothing
     if (e !== undefined && e !== null && e.button > 0) return;
 
-    // On mouse up, if there's a text selection, handle selection end
-    const hasSelection = window.getSelection()?.rangeCount > 0;
-    if (hasSelection && selectionActive && !e.ctrlKey) {
-        handleSelectionEnd();
-    }
-
     if (e.button === 0) { // 0 indicates the left mouse button
         selectionActive = false;
     }
+
+    checkForSelection(e);
 
     // If the grid of icons is alreadey displayed, then close the grid and empty the text selection
     const nav = document.getElementById('context-search-icon-grid');
@@ -858,8 +878,6 @@ async function handleAltClickWithGrid(e) {
     }
 
     if (options?.disableAltClick) return;
-
-    if (logToConsole) console.log(`Selected text: ${textSelection}`);
 
     // IF either the Quick Icons Grid is activated on mouse up 
     // OR the option (alt) key is pressed on mouse up
@@ -993,21 +1011,11 @@ async function showButtons() {
     });
 }
 
-async function handleSelectionEnd() {
+async function handleSelectionEnd(selection = '') {
     const controlCharactersRegex = /[\x00-\x1f\x7f-\x9f]/g;
-    let plaintext = '';
+    let plaintext = selection;
 
-    // If selection is made in Textarea or Input field
-    if (
-        document.activeElement != null &&
-        (document.activeElement.tagName === 'TEXTAREA' || document.activeElement.tagName === 'INPUT')
-    ) {
-        const selectedTextInput = document.activeElement.value.substring(
-            document.activeElement.selectionStart,
-            document.activeElement.selectionEnd
-        );
-        if (selectedTextInput !== '') plaintext = selectedTextInput;
-    } else {
+    if (plaintext === '') {
         // Get the Selection object
         const sel = window.getSelection();
 
