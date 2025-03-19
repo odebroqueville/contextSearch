@@ -104,8 +104,7 @@ browser.runtime.onStartup.addListener(async () => {
         console.log('Service worker starting up...');
 
         // Load debug setting first before any logging
-        const debugEnabled = await getStoredData(STORAGE_KEYS.LOG_TO_CONSOLE);
-        logToConsole = debugEnabled ?? DEBUG;
+        logToConsole = DEBUG;
         await setStoredData(STORAGE_KEYS.LOG_TO_CONSOLE, logToConsole);
         await initializeServiceWorker('startup');
     } catch (error) {
@@ -119,8 +118,7 @@ browser.runtime.onInstalled.addListener(async (details) => {
         console.log('Service worker installed.');
 
         // Load debug setting first before any logging
-        const debugEnabled = await getStoredData(STORAGE_KEYS.LOG_TO_CONSOLE);
-        logToConsole = debugEnabled ?? DEBUG;
+        logToConsole = DEBUG;
         await setStoredData(STORAGE_KEYS.LOG_TO_CONSOLE, logToConsole);
 
         if (logToConsole) console.log(typeof browser === 'object' ? 'Polyfill loaded correctly' : 'Polyfill loaded incorrectly');
@@ -151,8 +149,7 @@ self.addEventListener('activate', async () => {
     console.log('Service worker re-activating...');
     try {
         // Load debug setting first before any logging
-        const debugEnabled = await getStoredData(STORAGE_KEYS.LOG_TO_CONSOLE);
-        logToConsole = debugEnabled ?? DEBUG;
+        logToConsole = DEBUG;
         await setStoredData(STORAGE_KEYS.LOG_TO_CONSOLE, logToConsole);
 
         if (logToConsole) console.log(typeof browser === 'object' ? 'Polyfill loaded correctly' : 'Polyfill loaded incorrectly');
