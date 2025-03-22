@@ -1,6 +1,8 @@
 6.0.3
 =========
 
+* Bug fix [#204](https://github.com/odebroqueville/contextSearch/issues/204)
+* Fixed debugging issue
 * Replaced "optional_host_permissions" with "host_permissions"
 * Changed urlFilter for YouTube rule
 
