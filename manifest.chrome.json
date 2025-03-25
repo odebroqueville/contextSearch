@@ -10,7 +10,7 @@
         "extension_pages": "script-src 'self'; object-src 'self'; img-src 'self' data:;"
     },
     "action": {
-        "default_icon": "/icons/context-search.svg",
+        "default_icon": "/icons/icon_32.png",
         "default_title": "Bookmark the active tab to Context Search"
     },
     "background": {

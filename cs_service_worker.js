@@ -1,12 +1,12 @@
 /// Import browser polyfill for compatibility with Chrome and other browsers
-import '/libs/browser-polyfill.min.js';
+import './libs/browser-polyfill.min.js';
+import ExtPay from './libs/ExtPay.js';
 
 /// Import constants
 import {
     bingUrl,
     googleReverseImageSearchUrl,
     googleLensUrl,
-    yandexUrl,
     tineyeUrl,
     chatGPTUrl,
     googleAIStudioUrl,
@@ -34,7 +34,6 @@ import {
 import {
     DEBUG,
     STORAGE_KEYS,
-    BACKUP_ALARM_NAME,
     DEFAULT_SEARCH_ENGINES,
     DEFAULT_OPTIONS,
     HEADER_RULES,
@@ -55,6 +54,13 @@ import {
 } from "./scripts/constants.js";
 
 /// Global variables
+
+// Debug
+const logToConsole = DEBUG;
+
+// ExtPay
+const extpay = ExtPay('context-search');
+extpay.startBackground();
 
 // Helper for cross-browser context menu API
 const contextMenus = browser.menus || browser.contextMenus;
@@ -79,97 +85,95 @@ let promptText;
 let newSearchEngineUrl;
 let formData;
 
-// Debug (will be loaded from storage)
-let logToConsole = false;
+// Check if polyfill is loaded
+if (logToConsole) console.log(typeof browser === 'object' ? 'Polyfill loaded correctly' : 'Polyfill loaded incorrectly');
 
-// Notifications (will be loaded from storage)
+// Verify storage space occupied by local storage
+if (logToConsole) {
+    browser.storage.local.get().then((items) => {
+        console.log(
+            `Bytes used by local storage: ${JSON.stringify(items).length} bytes.`,
+        );
+    }).catch((err) => {
+        console.error("Error getting storage data:", err);
+    });
+}
+
+// Notifications (will be loaded from permissions)
 let notificationsEnabled = false;
 
 // Track initialization state
 let isInitialized = false;
 
+// Initialize service worker
+(async function () {
+    const { paid, trialStarted, trialActive } = await getPaymentStatus();
+
+    if (logToConsole) {
+        console.log(`isPaidUser: ${paid}`);
+        console.log(`isTrialActive: ${trialActive}`);
+        console.log(`isTrialStarted: ${trialStarted}`);
+    }
+
+    if (!isInitialized || paid || trialActive) {
+        try {
+            await init();
+        } catch (error) {
+            console.error('Failed to initialize storage:', error);
+        }
+    } else {
+        if (!trialStarted) {
+            extpay.openTrialPage('7-day');
+        } else {
+            extpay.openPaymentPage();
+        }
+    }
+})();
+
 // Context menu creation in progress flag
 let menuCreationInProgress = false;
 
-// Counter for backup operations
-let backupCounter = 0;
-
 /// Listeners
 
-// Service Worker Lifecycle Management
-
-// Triggered each time the browser starts up
-browser.runtime.onStartup.addListener(async () => {
-    try {
-        console.log('Service worker starting up...');
-
-        // Load debug setting first before any logging
-        logToConsole = DEBUG;
-        await setStoredData(STORAGE_KEYS.LOG_TO_CONSOLE, logToConsole);
-        await initializeServiceWorker('startup');
-    } catch (error) {
-        console.error('Failed to initialize storage:', error);
-    }
-});
-
-// Triggered when the extension/service worker is first installed
+// Reload content scripts when extension is updated
 browser.runtime.onInstalled.addListener(async (details) => {
-    try {
-        console.log('Service worker installed.');
+    if (details.reason === "update") {
+        console.log("Extension updated, reloading content scripts...");
 
-        // Load debug setting first before any logging
-        logToConsole = DEBUG;
-        await setStoredData(STORAGE_KEYS.LOG_TO_CONSOLE, logToConsole);
+        // Build action button menus
+        await buildActionButtonMenus();
 
-        if (logToConsole) console.log(typeof browser === 'object' ? 'Polyfill loaded correctly' : 'Polyfill loaded incorrectly');
-
-        await initializeServiceWorker(details.reason);
-    } catch (error) {
-        console.error('Failed to initialize storage:', error);
+        // Get all active tabs
+        browser.tabs.query({}).then((tabs) => {
+            for (let tab of tabs) {
+                // Skip tabs that are not HTTP/HTTPS
+                if (!tab.url || !tab.url.startsWith("http")) continue;
+                if (tab.id >= 0) {
+                    browser.scripting.executeScript({
+                        target: { tabId: tab.id },
+                        files: ["libs/browser-polyfill.min.js", "scripts/selection.js"]
+                    }).then(() => {
+                        console.log(`Content script reloaded in tab ${tab.id}`);
+                    }).catch((error) => {
+                        console.error(`Failed to reload content script in tab ${tab.id}:`, error);
+                    });
+                }
+            }
+        });
     }
 });
 
-// Triggered when the service worker is about to be suspended
-browser.runtime.onSuspend.addListener(async () => {
-    if (logToConsole) console.log('Service worker suspended, resetting initialization state.');
+// Reset initialization state when service worker is about to be suspended
+browser.runtime.onSuspend.addListener(() => {
     isInitialized = false;
-    await persistData();
-});
-
-// Triggered when a connection is made from another part of the extension, such as a content script or another extension page
-browser.runtime.onConnect.addListener(async (port) => {
-    if (logToConsole) console.log('Service worker connected on port: ', port.name);
-    if (!isInitialized) {
-        await initializeServiceWorker('connect');
-    }
-});
-
-// Triggered when the service worker is ready to take control of the pages and become the active worker
-self.addEventListener('activate', async () => {
-    console.log('Service worker re-activating...');
-    try {
-        // Load debug setting first before any logging
-        logToConsole = DEBUG;
-        await setStoredData(STORAGE_KEYS.LOG_TO_CONSOLE, logToConsole);
-
-        if (logToConsole) console.log(typeof browser === 'object' ? 'Polyfill loaded correctly' : 'Polyfill loaded incorrectly');
-
-        await initializeServiceWorker('activate');
-
-        // Notify all active client windows about the new context
-        const clientsList = await self.clients.matchAll({ type: 'window' });
-        for (const client of clientsList) {
-            client.postMessage({ type: 'NEW_CONTEXT_READY' });
-        }
-    } catch (error) {
-        console.error('Failed to initialize storage:', error);
-    }
+    if (logToConsole) console.log('Service worker suspended, resetting initialization state.');
 });
 
 // Listen for changes to the notifications permission
 browser.permissions.onAdded.addListener(async (permissions) => {
     if (permissions.permissions.includes("notifications")) {
         notificationsEnabled = true;
+        await setStoredData(STORAGE_KEYS.NOTIFICATIONS_ENABLED, true);
         if (logToConsole) console.log("Notifications permission granted.");
     }
 });
@@ -177,6 +181,7 @@ browser.permissions.onAdded.addListener(async (permissions) => {
 browser.permissions.onRemoved.addListener(async (permissions) => {
     if (permissions.permissions.includes("notifications")) {
         notificationsEnabled = false;
+        await setStoredData(STORAGE_KEYS.NOTIFICATIONS_ENABLED, false);
         if (logToConsole) console.log("Notifications permission revoked.");
     }
 });
@@ -227,23 +232,20 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
         case "resetData":
             resetData(data);
             break;
-        case "storeSelectionData":
+        case 'getStoredData':
+            getStoredData()
+                .then(data => {
+                    sendResponse({ success: true, data });
+                })
+                .catch(error => {
+                    console.error("Error getting stored data:", error);
+                    sendResponse({ success: false, error: error.message });
+                });
+            return true; // Indicates we'll send a response asynchronously
+        case "storeSelection":
             // New handler for storing selection data reliably from the service worker
-            if (message.selection) {
-                setStoredData(STORAGE_KEYS.SELECTION, message.selection)
-                    .then(() => {
-                        // If domain is provided, also store the target URL
-                        if (message.domain) {
-                            const siteSearchUrl = options.siteSearchUrl || 'https://www.google.com/search?q=';
-                            // Truncate text if needed (similar to storeTargetUrl function in selection.js)
-                            let truncatedText = message.selection;
-                            if (message.selection.split(/\s+/).length > 32) {
-                                truncatedText = message.selection.split(/\s+/).slice(0, 32).join(' ');
-                            }
-                            const targetUrl = siteSearchUrl + encodeUrl(`site:https://${message.domain} ${truncatedText}`);
-                            return setStoredData(STORAGE_KEYS.TARGET_URL, targetUrl);
-                        }
-                    })
+            if (data) {
+                setStoredData(STORAGE_KEYS.SELECTION, data)
                     .then(() => {
                         sendResponse({ success: true });
                     })
@@ -252,6 +254,19 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
                         sendResponse({ success: false, error: error.message });
                     });
                 return true; // Indicates we'll send a response asynchronously
+            }
+            break;
+        case "storeTargetUrl":
+            if (data) {
+                setStoredData(STORAGE_KEYS.TARGET_URL, data)
+                    .then(() => {
+                        sendResponse({ success: true });
+                    })
+                    .catch(error => {
+                        console.error("Error storing target URL:", error);
+                        sendResponse({ success: false, error: error.message });
+                    });
+                return true;
             }
             break;
         case "openModal":
@@ -344,35 +359,14 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 /// Main functions
 
-async function initializeServiceWorker(reason = 'unknown') {
-    try {
-        if (logToConsole) console.log(`Initializing service worker (reason: ${reason}).`);
-
-        // Set up alarm listener to persist data
-        if (browser.alarms) {
-            browser.alarms.onAlarm.addListener(async (alarm) => {
-                if (alarm.name === BACKUP_ALARM_NAME) {
-                    // Always do the keep-alive operations
-                    if (logToConsole) console.log('Keep-alive ping');
-
-                    // Only do the backup operation every 12th time (roughly every 5 minutes)
-                    backupCounter++;
-                    if (backupCounter >= 12) {
-                        if (logToConsole) console.log('Backing up data');
-                        await persistData();
-                        backupCounter = 0;
-                    }
-                }
-            });
-        } else {
-            console.warn('Alarms API not available');
-        }
-
-        // Continue with the rest of the initialization
-        await init();
-    } catch (error) {
-        console.error('Failed to initialize extension:', error);
-    }
+async function getPaymentStatus() {
+    const now = new Date();
+    const sevenDays = 1000 * 60 * 60 * 24 * 7 // in milliseconds
+    const user = await extpay.getUser();
+    const paid = user.paid;
+    const trialStarted = user.trialStartedAt !== null;
+    const trialActive = user.trialStartedAt !== null && (now - user.trialStartedAt) < sevenDays;
+    return { paid, trialStarted, trialActive };
 }
 
 async function resetData(data) {
@@ -431,9 +425,15 @@ async function initializeHeaderRules() {
 // Function to get stored data
 async function getStoredData(key) {
     try {
-        const result = await browser.storage.local.get(key);
-        if (logToConsole) console.log(`Getting ${key} from storage:`, result[key]);
-        return result[key];
+        if (key) {
+            const result = await browser.storage.local.get(key);
+            if (logToConsole) console.log(`Getting ${key} from storage:`, result[key]);
+            return result[key];
+        } else {
+            const result = await browser.storage.local.get();
+            if (logToConsole) console.log('Getting all data from storage:', result);
+            return result;
+        }
     } catch (error) {
         console.error(`Error getting ${key} from storage:`, error);
         return null;
@@ -454,21 +454,8 @@ async function setStoredData(key, value) {
 async function initializeStoredData() {
     if (logToConsole) console.log('Initializing stored data...');
     try {
-        // Initialize notifications setting
-        let notifEnabled = await getStoredData(STORAGE_KEYS.NOTIFICATIONS_ENABLED);
-        if (!notifEnabled && notifEnabled !== false) {
-            // Default to false if not set
-            await setStoredData(STORAGE_KEYS.NOTIFICATIONS_ENABLED, false);
-        }
-        notificationsEnabled = notifEnabled ?? false;
-
         // Initialize debug setting
-        let debugEnabled = await getStoredData(STORAGE_KEYS.LOG_TO_CONSOLE);
-        if (!debugEnabled && debugEnabled !== false) {
-            // Default to DEBUG if not set
-            await setStoredData(STORAGE_KEYS.LOG_TO_CONSOLE, DEBUG);
-        }
-        logToConsole = debugEnabled ?? DEBUG;
+        await setStoredData(STORAGE_KEYS.LOG_TO_CONSOLE, DEBUG);
 
         // Initialize options
         const storedOptions = await getStoredData(STORAGE_KEYS.OPTIONS);
@@ -483,9 +470,6 @@ async function initializeStoredData() {
 
         await setStoredData(STORAGE_KEYS.OPTIONS, options);
         if (logToConsole) console.log('Options:', options);
-
-        // Initialize search engines
-        searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES) || {};
 
         // Initialize selection
         selection = await getStoredData(STORAGE_KEYS.SELECTION) || '';
@@ -504,16 +488,23 @@ async function initializeStoredData() {
     }
 }
 
-// Function to persist critical data before service worker becomes inactive
-async function persistData() {
-    if (logToConsole) console.log('Persisting data at time:', new Date());
+async function sendMessage(action, data) {
     try {
-        await Promise.all([
-            setStoredData(STORAGE_KEYS.OPTIONS, options),
-            setStoredData(STORAGE_KEYS.SEARCH_ENGINES, searchEngines)
-        ]);
+        // Check if browser/chrome API is available
+        if (!browser.runtime?.sendMessage) {
+            throw new Error('Browser API not available');
+        }
+        if (logToConsole) console.log(`Sending message: action=${action}, data=${JSON.stringify(data)}`);
+        const response = await browser.runtime.sendMessage({ action: action, data: data });
+        if (logToConsole) console.log(`Received response: ${JSON.stringify(response)}`);
+        return response;  // Return the response received from the background script
     } catch (error) {
-        console.error('Error persisting data:', error);
+        if (logToConsole) {
+            if (!(error && error.message && error.message.includes("Extension context invalidated"))) {
+                console.error(`Error sending message: ${error}`);
+            }
+        }
+        return { success: false };
     }
 }
 
@@ -521,11 +512,22 @@ async function handleStorageChange(changes, areaName) {
     if (areaName === "local" && changes) {
         // Check if options were changed
         if (changes.options) {
+            if (logToConsole) console.log('Options changed:', changes.options.newValue);
             options = changes.options.newValue;
+            // Send message to content scripts
+            if (options) {
+                await sendMessage('updateOptions', { options });
+            }
         }
+
         // Check if search engines were changed
         if (changes.searchEngines) {
+            if (logToConsole) console.log('Search engines changed:', changes.searchEngines.newValue);
             searchEngines = changes.searchEngines.newValue;
+            // Send message to content scripts
+            if (searchEngines) {
+                await sendMessage('updateSearchEngines', { searchEngines });
+            }
         }
 
         // Check if selection was changed
@@ -740,11 +742,11 @@ async function handleOptionsUpdate(updateType, data) {
     //return config.customReturn;
 }
 
-function handleUpdateOpenSearchSupport(data) {
+async function handleUpdateOpenSearchSupport(data) {
     const supportsOpenSearch = data.supportsOpenSearch;
 
     // Update menu visibility based on OpenSearch support
-    contextMenus.update("add-search-engine", {
+    await contextMenus.update("add-search-engine", {
         visible: supportsOpenSearch
     });
 }
@@ -908,44 +910,13 @@ async function init() {
         return;
     }
 
-    console.log("Initializing extension (init) unconditionally...");
+    if (logToConsole) console.log("Initializing extension...");
 
     await initializeHeaderRules();
-
-    // Debug: verify that storage space occupied is within limits
-    if (logToConsole) {
-        // Inform on storage space being used by storage sync
-        const bytesUsed = await browser.storage.sync
-            .getBytesInUse()
-            .catch((err) => {
-                console.error(err);
-                console.log("Failed to retrieve storage space used by storage sync.");
-            });
-        console.log(`Bytes used by storage sync: ${bytesUsed} bytes.`);
-
-        // Inform on storage space being used by local storage
-        const items = await browser.storage.local.get();
-        console.log(
-            `Bytes used by local storage: ${JSON.stringify(items).length} bytes.`,
-        );
-    }
-
-    // Verify permissions
     await checkNotificationsPermission();
-    await verifyStoragePermissions();
-
-    // Initialize when service worker starts
     await initializeStoredData();
-
-    // Initialize search engines
     await initialiseSearchEngines();
-
     await updateAddonStateForActiveTab();
-
-    if (logToConsole) console.log('Creating backup alarm...');
-    browser.alarms.create(BACKUP_ALARM_NAME, {
-        periodInMinutes: 0.4 // Backup every 24 seconds
-    });
 
     isInitialized = true;
     if (logToConsole) console.log('Service worker initialization complete.');
@@ -957,22 +928,11 @@ async function checkNotificationsPermission() {
     notificationsEnabled = await browser.permissions.contains({
         permissions: ["notifications"],
     });
+    await setStoredData(STORAGE_KEYS.NOTIFICATIONS_ENABLED, notificationsEnabled);
     if (logToConsole)
         console.log(
             `${notificationsEnabled ? "Notifications enabled." : "Notifications disabled."}`,
         );
-}
-
-async function verifyStoragePermissions() {
-    try {
-        // Test storage access
-        await browser.storage.local.get();
-    } catch (error) {
-        console.error('Storage permission error:', error);
-        // Optional: Reload extension to trigger permission dialog
-        browser.runtime.reload();
-        throw error; // Prevent further initialization
-    }
 }
 
 // Fetches a favicon for the new search engine
@@ -1004,6 +964,8 @@ async function initialiseSearchEngines() {
     if (logToConsole) console.log('Initializing search engines...');
     try {
         // Check for search engines in local storage
+        searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES) || {};
+
         if (
             !searchEngines ||
             isEmpty(searchEngines) ||
@@ -1022,7 +984,7 @@ async function initialiseSearchEngines() {
 }
 
 async function initSearchEngines() {
-    // Add root folder if it doesn't exist
+    // Add root folder if missing
     if (!searchEngines.root) addRootFolderToSearchEngines();
 
     // Set default keyboard shortcuts to '' if they're undefined
@@ -1580,7 +1542,6 @@ async function buildContextMenu() {
 
     try {
         const rootChildren = searchEngines["root"]?.children || [];
-        const isFirefox = getBrowserType() === "firefox";
 
         menuCreationInProgress = true;
 
@@ -1611,35 +1572,7 @@ async function buildContextMenu() {
             await buildContextOptionsMenu();
         }
 
-        // Build a context menu for the action button
-        const bookmarkMenuItem = {
-            id: "bookmark-page",
-            title: "Bookmark This Page",
-            contexts: ["action"]
-        };
-
-        if (isFirefox) {
-            bookmarkMenuItem.icons = { "16": "/icons/bookmark-grey-icon.svg" };
-        }
-
-        await new Promise((resolve) => {
-            contextMenus.create(bookmarkMenuItem, resolve);
-        });
-
-        const searchEngineMenuItem = {
-            id: "add-search-engine",
-            title: "Add Search Engine",
-            contexts: ["action"],
-            visible: false // Initially hidden
-        };
-
-        if (isFirefox) {
-            searchEngineMenuItem.icons = { "16": "/icons/search-icon.png" };
-        }
-
-        await new Promise((resolve) => {
-            contextMenus.create(searchEngineMenuItem, resolve);
-        });
+        await buildActionButtonMenus();
 
         // Add listener for context menu clicks
         addClickListener();
@@ -1651,6 +1584,39 @@ async function buildContextMenu() {
     }
 }
 
+// Build the action button menus
+async function buildActionButtonMenus() {
+    const isFirefox = getBrowserType() === "firefox";
+    const bookmarkMenuItem = {
+        id: "bookmark-page",
+        title: "Bookmark This Page",
+        contexts: ["action"]
+    };
+
+    if (isFirefox) {
+        bookmarkMenuItem.icons = { "16": "/icons/bookmark-grey-icon.svg" };
+    }
+
+    await new Promise((resolve) => {
+        contextMenus.create(bookmarkMenuItem, resolve);
+    });
+
+    const searchEngineMenuItem = {
+        id: "add-search-engine",
+        title: "Add Search Engine",
+        contexts: ["action"],
+        visible: false // Initially hidden
+    };
+
+    if (isFirefox) {
+        searchEngineMenuItem.icons = { "16": "/icons/search-icon.png" };
+    }
+
+    await new Promise((resolve) => {
+        contextMenus.create(searchEngineMenuItem, resolve);
+    });
+}
+
 // Perform search based on selected search engine, i.e. selected context menu item
 async function processSearch(info, tab) {
     if (logToConsole) console.log(info);
@@ -1659,6 +1625,10 @@ async function processSearch(info, tab) {
     let id = info.menuItemId.startsWith("cs-")
         ? info.menuItemId.replace("cs-", "")
         : info.menuItemId;
+
+    if (info.selectionText) {
+        await setStoredData(STORAGE_KEYS.SELECTION, info.selectionText);
+    }
 
     // By default, open the search results right after the active tab
     let tabIndex = tab.index + 1;
@@ -1927,9 +1897,6 @@ async function setTargetUrl(id, aiEngine = "") {
     }
     if (id === "bing-image-search") {
         return bingUrl;
-    }
-    if (id === "yandex-image-search") {
-        return yandexUrl;
     }
     if (id === "site-search" ||
         (id.startsWith("link-") && !searchEngines[id].url.startsWith("javascript:"))
@@ -2221,7 +2188,7 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
     // Ensure extension is initialized before processing any omnibox command
     if (!isInitialized) {
         if (logToConsole) console.log('Extension not initialized, initializing...');
-        await initializeServiceWorker('omnibox');
+        await init();
     }
 
     const aiEngines = [
@@ -2742,7 +2709,7 @@ async function updateAddonStateForActiveTab() {
         }
     }
 
-    function updateActionMenu() {
+    async function updateActionMenu() {
         let links = [];
         let searchEngineAdded = false;
         if (activeTab) {
@@ -2775,9 +2742,9 @@ async function updateAddonStateForActiveTab() {
                         ? { "16": "/icons/bookmark-red-icon.svg" }
                         : { "16": "/icons/bookmark-grey-icon.svg" };
                 }
-                contextMenus.update("bookmark-page", updateProps);
+                await contextMenus.update("bookmark-page", updateProps);
                 // Update menu item for adding a search engine
-                contextMenus.update("add-search-engine", {
+                await contextMenus.update("add-search-engine", {
                     visible: !searchEngineAdded
                 });
             } else {
@@ -2790,7 +2757,7 @@ async function updateAddonStateForActiveTab() {
     if (logToConsole) console.log('Updating addon state...');
     const tabs = await browser.tabs.query({ active: true, currentWindow: true });
     activeTab = tabs[0];
-    updateActionMenu();
+    await updateActionMenu();
 }
 
 /*
@@ -2842,12 +2809,6 @@ async function setBrowserPanel(url = 'about:blank', title = 'Search results') {
         if (logToConsole) console.error('Error opening browser panel:', error);
     }
 }
-
-// Reset initialization state when service worker is terminated
-browser.runtime.onSuspend.addListener(() => {
-    isInitialized = false;
-    if (logToConsole) console.log('Service worker suspended, resetting initialization state');
-});
 
 // Utility function: debounce
 function debounce(func, delay) {

@@ -189,6 +189,32 @@ try {
     buildForBrowser('chrome');
     buildForBrowser('firefox');
 
+    // At the end of the build process, copy ExtPay.js to the libs directories for both Chrome and Firefox builds
+    const extPaySrc = path.join(__dirname, 'node_modules', 'extpay', 'dist', 'ExtPay.js');
+
+    // Define libs directories for Chrome and Firefox builds
+    const chromeLibsDir = path.join(__dirname, 'build', 'chrome', 'libs');
+    const firefoxLibsDir = path.join(__dirname, 'build', 'firefox', 'libs');
+
+    // Ensure the Chrome libs directory exists
+    if (!fs.existsSync(chromeLibsDir)) {
+        fs.mkdirSync(chromeLibsDir, { recursive: true });
+    }
+
+    // Ensure the Firefox libs directory exists
+    if (!fs.existsSync(firefoxLibsDir)) {
+        fs.mkdirSync(firefoxLibsDir, { recursive: true });
+    }
+
+    // Copy ExtPay.js into each libs directory
+    fs.copyFileSync(extPaySrc, path.join(chromeLibsDir, 'ExtPay.js'));
+    fs.copyFileSync(extPaySrc, path.join(firefoxLibsDir, 'ExtPay.js'));
+
+    // Append export default ExtPay; line to each file
+    fs.appendFileSync(path.join(chromeLibsDir, 'ExtPay.js'), "\nexport default ExtPay;\n");
+    fs.appendFileSync(path.join(firefoxLibsDir, 'ExtPay.js'), "\nexport default ExtPay;\n");
+
+    console.log('ExtPay.js has been copied to the libs directories for both Chrome and Firefox.');
     console.log('✨ Build process completed successfully!');
     console.log('📁 Build outputs:');
     console.log('   - Chrome: ./build/chrome');

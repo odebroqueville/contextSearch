@@ -6,7 +6,6 @@ const mycroftUrl = 'https://mycroftproject.com/installos.php/';
 const bingUrl = 'https://www.bing.com/visualsearch';
 const googleReverseImageSearchUrl = 'https://www.google.com/searchbyimage?sbisrc=1&safe=off&image_url=';
 const googleLensUrl = 'https://lens.google.com/uploadbyurl?url=';
-const yandexUrl = 'https://www.yandex.com/images';
 const tineyeUrl = 'https://www.tineye.com';
 const chatGPTUrl = 'https://chatgpt.com';
 const googleAIStudioUrl = 'https://aistudio.google.com/app/prompts/new_chat';
@@ -29,21 +28,8 @@ const base64ContextSearchIcon =
 const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
 const ICON32 = '32px'; // icon width is 32px
 
-// Persistent data keys
-const STORAGE_KEYS = {
-    OPTIONS: 'options',
-    SEARCH_ENGINES: 'searchEngines',
-    NOTIFICATIONS_ENABLED: 'notificationsEnabled',
-    LOG_TO_CONSOLE: 'logToConsole',
-    BOOKMARKS: 'bookmarkItems',
-    HISTORY: 'historyItems',
-    SEARCH_TERMS: 'searchTerms',
-    SELECTION: 'selection',
-    TARGET_URL: 'targetUrl'
-};
-
 // Global variables
-let logToConsole = true; // Debug (default)
+let logToConsole = false; // Debug (default)
 let meta = ''; // meta key: cmd for macOS, win for Windows, super for Linux
 let tabUrl = '';
 let domain = '';
@@ -55,7 +41,6 @@ let xPos;
 let yPos;
 let options;
 let searchEngines;
-let targetUrl;
 
 // Track selection state
 let selectionActive = false;
@@ -103,43 +88,6 @@ document.addEventListener('keydown', (event) => {
 // Key up event listener
 document.addEventListener('keyup', handleKeyUp);
 
-// Storage change listener
-browser.storage.onChanged.addListener((changes, namespace) => {
-    if (logToConsole) console.log(changes);
-
-    // For LOG_TO_CONSOLE
-    if (changes[STORAGE_KEYS.LOG_TO_CONSOLE]) {
-        logToConsole = changes[STORAGE_KEYS.LOG_TO_CONSOLE].newValue;
-    }
-
-    // For OPTIONS
-    if (changes[STORAGE_KEYS.OPTIONS]) {
-        // Check if newValue is an empty object
-        if (Object.keys(changes[STORAGE_KEYS.OPTIONS].newValue).length === 0) {
-            // Only send resetData if the new value is exactly empty.
-            sendMessage('resetData', { options });
-        } else {
-            // Otherwise, update the local options variable.
-            options = changes[STORAGE_KEYS.OPTIONS].newValue;
-        }
-    }
-
-    // For SEARCH_ENGINES
-    if (changes[STORAGE_KEYS.SEARCH_ENGINES]) {
-        if (Object.keys(changes[STORAGE_KEYS.SEARCH_ENGINES].newValue).length === 0) {
-            sendMessage('resetData', { searchEngines });
-        } else {
-            searchEngines = changes[STORAGE_KEYS.SEARCH_ENGINES].newValue;
-        }
-    }
-    // if (changes[STORAGE_KEYS.SELECTION]) {
-    //     textSelection = changes[STORAGE_KEYS.SELECTION].newValue;
-    // }
-    // if (changes[STORAGE_KEYS.TARGET_URL]) {
-    //     targetUrl = changes[STORAGE_KEYS.TARGET_URL].newValue;
-    // }
-});
-
 /// Handle Incoming Messages
 // Listen for messages from the background script
 browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
@@ -151,6 +99,14 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
         await init();
     }
     switch (action) {
+        case 'updateOptions':
+            options = data.options;
+            if (logToConsole) console.log('Options updated:', options);
+            break;
+        case 'updateSearchEngines':
+            searchEngines = data.searchEngines;
+            if (logToConsole) console.log('Search engines updated:', searchEngines);
+            break;
         case 'launchIconsGrid':
             handleAltClickWithGrid(null);
             break;
@@ -181,28 +137,6 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     sendResponse({ success: true });
     return true;
 });
-
-// Storage utility functions that use runtime messaging
-async function getStoredData(key) {
-    try {
-        const result = await browser.storage.local.get(key);
-        if (logToConsole) console.log(`Getting ${key} from storage:`, result[key]);
-        return result[key];
-    } catch (error) {
-        console.error(`Error getting ${key} from storage:`, error);
-        return null;
-    }
-}
-
-// Function to set stored data
-async function setStoredData(key, value) {
-    try {
-        if (logToConsole) console.log(`Setting ${key} in storage with value:`, value);
-        await browser.storage.local.set({ [key]: value });
-    } catch (error) {
-        console.error(`Error setting ${key} in storage:`, error);
-    }
-}
 
 // Detect the underlying OS
 async function getOS() {
@@ -442,16 +376,6 @@ async function init() {
     let postRequest = false;
     let trimmedUrl;
 
-    // Set debugging mode
-    logToConsole = await getStoredData(STORAGE_KEYS.LOG_TO_CONSOLE);
-
-    // If debugging mode is enabled, log the tab url and domain
-    if (logToConsole) {
-        console.log(`Tab url: ${tabUrl}`);
-        console.log(`Path name: ${pn}`);
-        console.log(`Domain: ${domain}`);
-    }
-
     // Initialize meta key depending on OS
     await initMetaKey();
 
@@ -461,40 +385,36 @@ async function init() {
         trimmedUrl = tabUrl;
     }
 
-    // Retrieve last text selection
     try {
-        textSelection = await getStoredData(STORAGE_KEYS.SELECTION);
+        const response = await sendMessage('getStoredData');
+        if (response.success) {
+            const storedData = response.data;
+            logToConsole = storedData.logToConsole;
+            options = storedData.options;
+            searchEngines = storedData.searchEngines;
+            textSelection = storedData.selection;
+        } else if (logToConsole) {
+            console.log('No stored data found');
+        }
     } catch (error) {
-        console.warn('Failed to get text selection:', error);
+        if (logToConsole) console.warn('Failed to get stored data:', error);
     }
-    if (logToConsole) console.log(textSelection);
 
-    // Retrieve last target url
-    try {
-        targetUrl = await getStoredData(STORAGE_KEYS.TARGET_URL);
-    } catch (error) {
-        console.warn('Failed to get target URL:', error);
+    // If debugging mode is enabled, log the tab url and domain
+    if (logToConsole) {
+        console.log(`Tab url: ${tabUrl}`);
+        console.log(`Path name: ${pn}`);
+        console.log(`Domain: ${domain}`);
     }
-    if (logToConsole) console.log(targetUrl);
 
-    // Retrieve options from local storage
-    try {
-        options = await getStoredData(STORAGE_KEYS.OPTIONS) || {};
-    } catch (error) {
-        console.warn('Failed to get options:', error);
+    // If the web page contains selected text, then send it to the background script
+    const hasSelection = window.getSelection()?.rangeCount > 0;
+    if (hasSelection) {
+        await handleSelectionEnd();
     }
-    if (logToConsole) console.log(options);
 
-    // Retrieve search engines from local storage
-    try {
-        searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES);
-    } catch (error) {
-        console.warn('Failed to get search engines:', error);
-    }
-    if (logToConsole) console.log(searchEngines);
-
-    // Handle reverse image searches from Tineye
     if (tineyeUrl.startsWith(trimmedUrl)) {
+        // Handle reverse image searches from Tineye
         const response = await sendMessage('getImageUrl', null);
         if (response.action === 'fillFormWithImageUrl' && response.data) {
             const { imageUrl } = response.data;
@@ -536,6 +456,7 @@ async function init() {
             }
         }
     } else if (trimmedUrl.startsWith(bingUrl)) {
+        // Handle reverse image searches from Bing
         const response = await sendMessage('getImageUrl', null);
         if (response.action === 'fillFormWithImageUrl' && response.data) {
             const { imageUrl } = response.data;
@@ -561,26 +482,7 @@ async function init() {
             });
             inputField.dispatchEvent(enterEvent);
         }
-    } /*else if (trimmedUrl === yandexUrl) {
-        const response = await sendMessage('getImageUrl', null);
-        if (response.action === 'fillFormWithImageUrl' && response.data) {
-            const { imageUrl } = response.data;
-            const button = document.getElementsByClassName('button2 button2_theme_clear button2_size_l button2_view_classic input__button input__cbir-button i-bem')[0];
-            button.click();
-
-            // Wait for the popup to open and the input field to be available
-            await new Promise(resolve => setTimeout(resolve, 3000));
-
-            // Find the input element
-            const inputField = document.querySelectorAll('input[class="Textinput-Control"]')[0];
-            inputField.focus();
-            inputField.value = imageUrl;
-
-            const submitButton = document.getElementsByClassName('Button2 Button2_view_default Button2_size_m Button2_width_auto CbirPanel-UrlFormButton')[0];
-            submitButton.click();
-        }
-    } */
-    else if (!googleReverseImageSearchUrl.startsWith(trimmedUrl) && !googleLensUrl.startsWith(trimmedUrl)) {
+    } else if (!googleReverseImageSearchUrl.startsWith(trimmedUrl) && !googleLensUrl.startsWith(trimmedUrl)) {
         // Identify the search engine corresponding to the domain and determine if it uses an HTTP POST request
         for (let id in searchEngines) {
             if (id.startsWith('separator-') || id.startsWith('link-') || id.startsWith('chatgpt-') || searchEngines[id].isFolder) continue;
@@ -591,12 +493,6 @@ async function init() {
                 break;
             }
         }
-    }
-
-    // If the web page contains selected text, then send it to the background script
-    const hasSelection = window.getSelection()?.rangeCount > 0;
-    if (hasSelection) {
-        handleSelectionEnd();
     }
 
     // If the web page is for an AI search or a HTTP POST request, then send a message to the background script and wait for a response
@@ -736,7 +632,7 @@ function getClosestForm(element) {
 }
 
 // Check if there is a selection and handle it
-function checkForSelection(e) {
+async function checkForSelection(e) {
     const element = e.target;
     const hasSelection = window.getSelection()?.rangeCount > 0;
 
@@ -754,11 +650,11 @@ function checkForSelection(e) {
         if (logToConsole) console.log('Active element is a textarea or input');
         if (element.selectionStart !== element.selectionEnd) {
             const selection = element.value.substring(element.selectionStart, element.selectionEnd);
-            handleSelectionEnd(selection);
+            await handleSelectionEnd(selection);
         }
     } else if (hasSelection && !selectionActive && (e.ctrlKey || e.key === 'Shift' || (e.type === 'mouseup' && e.button === 0))) {
         // On keyup, if the control key is released and there's a text selection, handle selection end
-        handleSelectionEnd();
+        await handleSelectionEnd();
     }
 }
 
@@ -767,7 +663,7 @@ async function handleKeyUp(e) {
     if (logToConsole) console.log(e);
     const modifiers = ["Control", "Shift", "Alt", "Meta"];
 
-    checkForSelection(e);
+    await checkForSelection(e);
 
     // If no key has been pressed or if text is being typed in an INPUT field then discontinue
     if (!Object.keys(keysPressed).length > 0 || e.target.nodeName === 'INPUT' || !isKeyAllowed(e)) return;
@@ -805,9 +701,9 @@ async function handleKeyUp(e) {
     for (let key in keysPressed) {
         const os = await getOS();
         if (logToConsole) console.log(key);
-        if (os === 'macOS') {
+        if (os === 'macOS' && keysPressed[key]) {
             input += keysPressed[key].substring(3).toLowerCase();
-        } else {
+        } else if (key) {
             input += key.toLowerCase();
         }
     }
@@ -855,33 +751,30 @@ async function handleRightClickWithoutGrid(e) {
 
 // Triggered by mouse up event
 async function handleAltClickWithGrid(e) {
-    if (e !== undefined && e !== null && logToConsole) console.log('Event triggered:\n' + e.type, e.button, e.altKey, e.clientX, e.clientY);
-    if (logToConsole) console.log(e);
-
-    // If mouse up is not done with left mouse button then do nothing
-    if (e !== undefined && e !== null && e.button > 0) return;
+    if (logToConsole) console.log('Event triggered:', e);
+    if (logToConsole) console.log('Options:', options);
 
     if (e.button === 0) { // 0 indicates the left mouse button
         selectionActive = false;
+    } else {
+        return;
     }
 
-    checkForSelection(e);
+    if (!options || options.disableAltClick) return;
+
+    await checkForSelection(e);
+    if (!textSelection) return;
 
     // If the grid of icons is alreadey displayed, then close the grid and empty the text selection
     const nav = document.getElementById('context-search-icon-grid');
     if (nav !== undefined && nav !== null) {
-        // if (textSelection) {
-        //     window.getSelection()?.removeAllRanges();
-        //     textSelection = '';
-        // }
         closeGrid();
     }
 
-    if (options?.disableAltClick) return;
-
-    // IF either the Quick Icons Grid is activated on mouse up 
-    // OR the option (alt) key is pressed on mouse up
-    if ((e === null) || (options.quickIconGrid && e.type === 'mouseup' && textSelection.length > 0) || (e.type === 'mouseup' && e.altKey && textSelection.length > 0)) {
+    // IF the content script received the message to launch the Icons Grid (e === null)
+    // OR the Quick Icons Grid is activated on mouse up (options.quickIconGrid)
+    // OR the option (alt) key is pressed on mouse up (e.altKey)
+    if (e === null || options.quickIconGrid || e.altKey) {
         // THEN display the Icons Grid
         let x, y;
         if (logToConsole) console.log('Displaying Icons Grid...');
@@ -933,12 +826,12 @@ async function handleMouseOver(e) {
             const videoUrl = absoluteUrl(getClosestAnchorHref(elementOver));
             //const videoId = new URL(videoUrl).searchParams.get('v');
             //const downloadUrl = ytDownloadUrl + videoId;
-            await setStoredData(STORAGE_KEYS.TARGET_URL, videoUrl);
+            await sendMessage('storeTargetUrl', videoUrl);
             if (logToConsole) console.log(`Video url: ${videoUrl}`);
         } else {
             // Get the image url
             const imgUrl = absoluteUrl(elementOver.getAttribute('src'));
-            await setStoredData(STORAGE_KEYS.TARGET_URL, imgUrl);
+            await sendMessage('storeTargetUrl', imgUrl);
             if (logToConsole) console.log(`Image url: ${imgUrl}`);
         }
     }
@@ -1042,26 +935,14 @@ async function handleSelectionEnd(selection = '') {
 
         // Try to store data via the service worker (more reliable than direct storage)
         try {
-            // Send data to the background script to handle storage
-            await browser.runtime.sendMessage({
-                action: "storeSelectionData",
-                selection: plaintext,
-                domain: domain
-            });
+            await sendMessage('storeSelection', plaintext);
 
             if (logToConsole) {
                 console.log("Selection data successfully stored via service worker");
             }
         } catch (error) {
             // Fallback to direct storage if messaging fails
-            console.warn("Error sending data to service worker, falling back to direct storage:", error);
-            try {
-                await setStoredData(STORAGE_KEYS.SELECTION, plaintext);
-                await storeTargetUrl(plaintext);
-            } catch (storageError) {
-                console.error("Both service worker and direct storage failed:", storageError);
-                // Extension can still function with textSelection variable even if storage fails
-            }
+            console.warn("Error sending data to service worker", error);
         }
     }
 }
@@ -1073,37 +954,6 @@ function getPidAndName(string) {
     const pid = urlParams.get('id');
     const name = urlParams.get('name');
     return { pid: pid, name: name };
-}
-
-function truncateToFirst32Words(s) {
-    // Match up to the first 32 words, including any spaces or punctuation between them
-    const match = s.match(/^((\b\w+\b\W*){0,32})/);
-
-    // The match result at index 1 contains the truncated string with up to 32 words
-    const truncatedString = match ? match[1].trim() : '';
-
-    // Count the number of words in the truncated string
-    const wordCount = truncatedString.match(/\b\w+\b/g)?.length || 0;
-
-    return {
-        wordCount: wordCount,
-        truncatedText: truncatedString
-    };
-}
-
-async function storeTargetUrl(selectedText) {
-    const { wordCount, truncatedText } = truncateToFirst32Words(selectedText);
-    if (wordCount > 0) {
-        // Set the target URL for a site search based on the current domain and selected text
-        const siteSearchUrl = options.siteSearchUrl || 'https://www.google.com/search?q=';
-        targetUrl = siteSearchUrl + encodeUrl(`site:https://${domain} ${truncatedText}`);
-        // Try to store the target URL
-        try {
-            await setStoredData(STORAGE_KEYS.TARGET_URL, targetUrl);
-        } catch (error) {
-            if (logToConsole) console.error('Error storing target URL in storage:', error);
-        }
-    }
 }
 
 async function createIconsGrid(folderId) {
