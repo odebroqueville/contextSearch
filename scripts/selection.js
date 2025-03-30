@@ -29,6 +29,7 @@ const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNo
 const ICON32 = '32px'; // icon width is 32px
 
 // Global variables
+let isInitialized = false;
 let logToConsole = false; // Debug (default)
 let meta = ''; // meta key: cmd for macOS, win for Windows, super for Linux
 let tabUrl = '';
@@ -46,22 +47,22 @@ let searchEngines;
 let selectionActive = false;
 
 // Current state
-if (logToConsole) {
-    console.log(document.readyState);
-}
+console.log(`Document ready state: ${document.readyState}`);
 
 if (document.readyState === "complete") {
     (async () => {
         await init();
+        isInitialized = true;
     })();
 }
 
 /// Event handlers
 // Run init function when readyState is complete
 document.onreadystatechange = async () => {
-    if (logToConsole) console.log(document.readyState);
-    if (document.readyState === "complete") {
+    console.log(`Document ready state: ${document.readyState}`);
+    if (document.readyState === "complete" && !isInitialized) {
         await init();
+        isInitialized = true;
     }
 };
 
@@ -122,7 +123,7 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
                 sendResponse({ success: false });
                 return false;
             });
-            break;
+            return true;
         case 'getPosition':
             const width = data.width;
             const height = data.height;
@@ -765,7 +766,7 @@ async function handleAltClickWithGrid(e) {
     await checkForSelection(e);
     if (!textSelection) return;
 
-    // If the grid of icons is alreadey displayed, then close the grid and empty the text selection
+    // If the grid of icons is already displayed, then close the grid and empty the text selection
     const nav = document.getElementById('context-search-icon-grid');
     if (nav !== undefined && nav !== null) {
         closeGrid();

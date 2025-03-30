@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
-    "version": "6.0.3",
+    "version": "6.0.4",
     "default_locale": "en",
     "homepage_url": "https://github.com/odebroqueville/contextSearch",
     "author": "Olivier de Broqueville",
@@ -48,14 +48,15 @@
     "commands": {
         "launch-icons-grid": {
             "suggested_key": {
-                "default": "Alt+Shift+G"
+                "default": "Alt+J",
+                "mac": "Alt+J"
             },
             "description": "Launch the icons grid"
         },
         "open-popup": {
             "suggested_key": {
-                "default": "Alt+Shift+0",
-                "mac": "Alt+Shift+0"
+                "default": "Alt+K",
+                "mac": "Alt+K"
             },
             "description": "Open the popup window"
         }
@@ -99,6 +100,17 @@
             ],
             "run_at": "document_start",
             "all_frames": true
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "/libs/browser-polyfill.min.js",
+                "/scripts/selection.js"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
         }
     ]
 }

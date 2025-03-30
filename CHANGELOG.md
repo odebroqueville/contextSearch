@@ -1,5 +1,14 @@
-6.0.3
+6.0.4
 =========
+
+* Replaced keyboard shortcuts for Chrome to launch the AI Search window from 'Ctrl+Alt+0' (Windows) or 'Cmd+Alt+0' (Mac) to 'Alt+k' (for both Windows and Mac)
+* Fixed bug in manifest version 3 to center popup windows
+* Fixed bug for nested subfolders in the Icons Grid and in the Options page
+* Fixed bug where the favicons failed to be updated after editing in the Options page
+* Modified default search engines and added subfolders to Dictionaries
+
+6.0.3
+---------
 
 * Bug fix [#204](https://github.com/odebroqueville/contextSearch/issues/204)
 * Fixed debugging issue

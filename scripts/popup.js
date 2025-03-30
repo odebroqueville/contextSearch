@@ -1,11 +1,30 @@
 /// Import browser polyfill for compatibility with Chrome and other browsers
 import '/libs/browser-polyfill.min.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+// Import constants to use STORAGE_KEYS
+import { STORAGE_KEYS } from './constants.js';
+
+// Make the listener async to use await
+document.addEventListener('DOMContentLoaded', async () => {
     const aiEngines = ['chatgpt', 'gemini', 'grok', 'perplexity', 'poe', 'claude', 'you', 'andi'];
     const inputArea = document.getElementById('inputArea');
     const outputArea = document.getElementById('outputArea');
     let tagStyled = false;
+
+    // --- Load logToConsole from storage ---
+    let logToConsole = false; // Default value
+    try {
+        // Fetch using the correct key directly
+        const data = await browser.storage.local.get(STORAGE_KEYS.LOG_TO_CONSOLE);
+        // Check if the key exists and is a boolean
+        if (typeof data[STORAGE_KEYS.LOG_TO_CONSOLE] === 'boolean') {
+            logToConsole = data[STORAGE_KEYS.LOG_TO_CONSOLE];
+        }
+    } catch (error) {
+        console.error("Error loading logToConsole setting from storage:", error);
+        // Keep the default value if loading fails
+    }
+    // --------------------------------------
 
     // Focus the textarea when the popup opens
     inputArea.focus();
@@ -57,14 +76,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const aiEngine = getAIEngine();
         const prompt = inputArea.value.trim();
         if (tagStyled && aiEngine && prompt) {
-            browser.runtime.sendMessage({
+            // Prepare the message data
+            const messagePayload = {
                 action: 'executeAISearch',
                 data: { aiEngine, prompt }
-            });
-            outputArea.innerHTML = '';
-            inputArea.value = '';
-            tagStyled = false;
+            };
+
+            // 1. Close the window first
             window.close();
+
+            // 2. Send the message *after* initiating the close, without awaiting.
+            //    The message will be sent, but the popup won't wait.
+            browser.runtime.sendMessage(messagePayload).catch(error => {
+                // Now uses the logToConsole value loaded from storage
+                if (logToConsole) console.warn(`Error sending executeAISearch message after popup close: ${error.message}`);
+            });
         }
     }
 });

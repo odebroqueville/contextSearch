@@ -1,15 +1,11 @@
 /// Import browser polyfill for compatibility with Chrome and other browsers
 import '/libs/browser-polyfill.min.js';
 
-let logToConsole = false;
+/// Import constants to use STORAGE_KEYS
+import { STORAGE_KEYS } from './constants.js';
 
-// Storage keys (copied from constants.js)
-const STORAGE_KEYS = {
-    OPTIONS: 'options',
-    SEARCH_ENGINES: 'searchEngines',
-    NOTIFICATIONS_ENABLED: 'notificationsEnabled',
-    LOG_TO_CONSOLE: 'logToConsole',
-};
+/// Global variables
+let logToConsole = false;
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Focus on the No button by default to prevent accidental removal of a bookmark
@@ -63,16 +59,20 @@ async function sendMessage(action, data) {
         });
 }
 
-// Storage utility functions that use runtime messaging
+// Function to get stored data
 async function getStoredData(key) {
     try {
-        const response = await browser.runtime.sendMessage({
-            action: 'getStoredData',
-            key: key
-        });
-        return response.data;
+        if (key) {
+            const result = await browser.storage.local.get(key);
+            if (logToConsole) console.log(`Getting ${key} from storage:`, result[key]);
+            return result[key];
+        } else {
+            const result = await browser.storage.local.get();
+            if (logToConsole) console.log('Getting all data from storage:', result);
+            return result;
+        }
     } catch (error) {
-        console.error('Error getting stored data:', error);
+        console.error(`Error getting ${key} from storage:`, error);
         return null;
     }
 }

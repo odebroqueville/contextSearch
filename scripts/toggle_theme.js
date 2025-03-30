@@ -60,11 +60,15 @@
 
     try {
         (n = window.matchMedia("(prefers-color-scheme:dark)")), (n.onchange = (e) => setTheme(e.matches));
-    } catch { }
+    } catch (error) {
+        console.warn("Could not set up prefers-color-scheme listener:", error);
+    }
 
     try {
         let e = localStorage.theme,
             s = e && JSON.parse(e);
         setTheme(s ? /dark/.test(s.theme) : !!(n && n.matches));
-    } catch { }
+    } catch (error) {
+        console.warn("Could not load theme from localStorage:", error);
+    }
 })();

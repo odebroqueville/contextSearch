@@ -1,10 +1,11 @@
 /// Import browser polyfill for compatibility with Chrome and other browsers
-import './libs/browser-polyfill.min.js';
-import ExtPay from './libs/ExtPay.js';
+import '/libs/browser-polyfill.min.js';
+import ExtPay from '/libs/ExtPay.js';
 
 /// Import constants
 import {
     bingUrl,
+    ddgUrl,
     googleReverseImageSearchUrl,
     googleLensUrl,
     tineyeUrl,
@@ -17,7 +18,7 @@ import {
     youUrl,
     andiUrl,
     aiUrls,
-} from "./scripts/hosts.js";
+} from "/scripts/hosts.js";
 import {
     base64chatGPT,
     base64GoogleAIStudio,
@@ -30,7 +31,7 @@ import {
     base64exa,
     base64ContextSearchIcon,
     base64FolderIcon,
-} from "./scripts/favicons.js";
+} from "/scripts/favicons.js";
 import {
     DEBUG,
     STORAGE_KEYS,
@@ -51,7 +52,7 @@ import {
     notifySearchEngineWithKeyword,
     notifyUnknown,
     notifySearchEngineUrlRequired
-} from "./scripts/constants.js";
+} from "/scripts/constants.js";
 
 /// Global variables
 
@@ -153,14 +154,33 @@ browser.runtime.onInstalled.addListener(async (details) => {
                         target: { tabId: tab.id },
                         files: ["libs/browser-polyfill.min.js", "scripts/selection.js"]
                     }).then(() => {
-                        console.log(`Content script reloaded in tab ${tab.id}`);
+                        if (logToConsole) console.log(`Content script reloaded in tab ${tab.id}: ${tab.url}`);
                     }).catch((error) => {
-                        console.error(`Failed to reload content script in tab ${tab.id}:`, error);
+                        if (logToConsole) console.log(`Failed to reload content script in tab ${tab.url}:`, error);
+
+                        // Reload tab if content script failed to load
+                        browser.tabs.reload(tab.id);
                     });
                 }
             }
         });
     }
+});
+
+// Reload tabs to reload content scripts when extension is started
+browser.runtime.onStartup.addListener(async () => {
+    console.log("Extension started, reloading tabs...");
+
+    // Build action button menus
+    await buildActionButtonMenus();
+
+    browser.tabs.query({}, (tabs) => {
+        tabs.forEach((tab) => {
+            // Skip tabs that are not HTTP/HTTPS
+            if (!tab.url || !tab.url.startsWith("http")) return;
+            browser.tabs.reload(tab.id);
+        });
+    });
 });
 
 // Reset initialization state when service worker is about to be suspended
@@ -273,8 +293,16 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             handleOpenModal(data);
             break;
         case "addNewPostSearchEngine":
-            handleAddNewPostSearchEngine(data);
-            break;
+            handleAddNewPostSearchEngine(data).then(result => {
+                if (result) {
+                    sendResponse({ success: true });
+                } else {
+                    sendResponse({ success: false });
+                }
+            }).catch(error => {
+                sendResponse({ error: error.message });
+            });
+            return true;
         case "doSearch":
             handleDoSearch(data);
             break;
@@ -304,11 +332,27 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             handleSaveAIEngine(data);
             break;
         case "addNewSearchEngine":
-            handleAddNewSearchEngine(data);
-            break;
+            handleAddNewSearchEngine(data).then(result => {
+                if (result) {
+                    sendResponse({ success: true, searchEngine: result.searchEngine });
+                } else {
+                    sendResponse({ success: false });
+                }
+            }).catch(error => {
+                sendResponse({ error: error.message });
+            });
+            return true;
         case "addNewPrompt":
-            handleAddNewPrompt(data);
-            break;
+            handleAddNewPrompt(data).then(result => {
+                if (result) {
+                    sendResponse({ success: true });
+                } else {
+                    sendResponse({ success: false });
+                }
+            }).catch(error => {
+                sendResponse({ error: error.message });
+            });
+            return true;
         case "updateOptions":
             handleOptionsUpdate(data.updateType, data.data);
             break;
@@ -499,12 +543,19 @@ async function sendMessage(action, data) {
         if (logToConsole) console.log(`Received response: ${JSON.stringify(response)}`);
         return response;  // Return the response received from the background script
     } catch (error) {
-        if (logToConsole) {
-            if (!(error && error.message && error.message.includes("Extension context invalidated"))) {
-                console.error(`Error sending message: ${error}`);
-            }
+        const errorMessage = error?.message || String(error);
+        // Ignore specific, expected errors during startup or context invalidation
+        const isExpectedError = errorMessage.includes("Extension context invalidated") ||
+            errorMessage.includes("Receiving end does not exist");
+
+        if (logToConsole && !isExpectedError) {
+            console.error(`Error sending message: ${errorMessage}`);
+        } else if (logToConsole && errorMessage.includes("Receiving end does not exist")) {
+            // Optionally log as a warning or info message instead of an error
+            console.warn(`Attempted to send message when receiving end did not exist (action: ${action}). This may be expected during startup.`);
         }
-        return { success: false };
+        // Still return a consistent failure indicator
+        return { success: false, error: errorMessage };
     }
 }
 
@@ -586,7 +637,7 @@ function handleOpenModal(data) {
     });
 }
 
-function handleAddNewPostSearchEngine(data) {
+async function handleAddNewPostSearchEngine(data) {
     const searchEngineName = data.searchEngineName;
     const keyword = data.keyword;
     const keyboardShortcut = data.keyboardShortcut;
@@ -620,7 +671,7 @@ function handleAddNewPostSearchEngine(data) {
 
     if (logToConsole) console.log(searchEngine);
 
-    handleAddNewSearchEngine({ id: id, searchEngine: searchEngine });
+    return await handleAddNewSearchEngine({ id: id, searchEngine: searchEngine });
 }
 
 async function handleDoSearch(data) {
@@ -697,7 +748,7 @@ async function handleAddNewSearchEngine(data) {
         domain = getDomain(data.searchEngine.url);
         if (logToConsole) console.log(id, domain);
     }
-    await addNewSearchEngine(id, domain);
+    return await addNewSearchEngine(id, domain);
 }
 
 async function handleAddNewPrompt(data) {
@@ -953,6 +1004,7 @@ async function addNewSearchEngine(id, domain) {
     await setStoredData(STORAGE_KEYS.SEARCH_ENGINES, searchEngines);
     await buildContextMenu();
     if (notificationsEnabled) notify(notifySearchEngineAdded);
+    return { searchEngine: searchEngines[id] };
 }
 
 async function handlePageAction(tab) {
@@ -1165,6 +1217,55 @@ async function getNewFavicon(id, domain) {
         if (logToConsole) console.log(id, imageFormat, b64);
         return { id: id, imageFormat: imageFormat, base64: b64 };
     }
+    // First try to get favicon from DDG
+    let reqHeader = new Headers();
+    reqHeader.append("Content-Type", "text/plain; charset=UTF-8");
+    const initObject = {
+        method: "GET",
+        headers: reqHeader,
+    };
+    const url = domain.replace("https://", "").replace("http://", "");
+    const userRequest = new Request(ddgUrl + url + ".ico", initObject);
+    try {
+        const response = await fetch(userRequest);
+        if (logToConsole) console.log(response);
+        if (!response.ok) {
+            // Failed to retrieve a favicon from DDG, proceeding with Google Cloud hosted API
+            return await getFaviconFromGoogleCloud(id, domain);
+        }
+        // Check Content-Type header
+        const contentType = response.headers.get("Content-Type");
+
+        // Convert response to Blob
+        const blob = await response.blob();
+
+        // Convert Blob to Base64 using a Promise
+        const base64data = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onloadend = () => {
+                const fullBase64data = reader.result;
+                const base64part = fullBase64data.split(',')[1];
+                if (logToConsole) console.log(contentType);
+                if (logToConsole) console.log(base64part);
+                resolve(base64part); // Resolve the promise with the base64 data
+            };
+            reader.onerror = (error) => {
+                reject(error); // Reject the promise on error
+            };
+        });
+
+        // Return the result object
+        return { id: id, imageFormat: contentType, base64: base64data };
+    } catch (error) {
+        if (logToConsole) console.log("Failed to retrieve new favicon.", error.message);
+
+        // Failed to retrieve a favicon from DDG, proceeding with Google Cloud hosted API
+        return await getFaviconFromGoogleCloud(id, domain);
+    }
+}
+
+async function getFaviconFromGoogleCloud(id, domain) {
     // Fetch CORS API URL and key from config file
     const config = await fetchConfig();
     const CORS_API_URL = config.API_URL;
@@ -1187,7 +1288,7 @@ async function getNewFavicon(id, domain) {
         const data = await response.json();
         let imageFormat = data.imageFormat;
         let b64 = data.b64;
-        if (b64 === "") {
+        if (!b64) {
             b64 = base64ContextSearchIcon;
             imageFormat = "image/png";
         }
@@ -1878,9 +1979,8 @@ async function getSearchEngineUrl(searchEngineUrl, sel) {
         return searchEngineUrl.replace(/{searchTerms}/g, encodeUrl(sel));
     } else if (searchEngineUrl.includes("%s")) {
         return searchEngineUrl.replace(/%s/g, encodeUrl(sel));
-    } else {
-        return searchEngineUrl + quote + encodeUrl(sel) + quote;
     }
+    return searchEngineUrl + quote + encodeUrl(sel) + quote;
 }
 
 async function setTargetUrl(id, aiEngine = "") {
@@ -2557,11 +2657,18 @@ async function sendMessageToTab(tab, message) {
         if (logToConsole)
             console.log(`Message sent successfully to tab ${tab.id}: ${tab.title}`);
     } catch (err) {
-        if (logToConsole) console.error(err);
-        if (logToConsole)
-            console.log(
-                `Failed to send message ${JSON.stringify(message)} to tab ${tab.id}: ${tab.title}`,
-            );
+        const errorMessage = err?.message || String(err);
+        // Ignore the specific error "Receiving end does not exist"
+        if (!errorMessage.includes("Receiving end does not exist")) {
+            // Log other errors as errors
+            if (logToConsole) {
+                console.error(`Failed to send message to tab ${tabId} (${tab.title}): ${errorMessage}`);
+                console.log("Message details:", message); // Log the message content for context
+            }
+        } else if (logToConsole) {
+            // Optionally, log the ignored error as info/warn for debugging, but less prominently
+            console.info(`Attempted to send message to tab ${tabId} (${tab.title}) but receiving end did not exist. Message:`, message);
+        }
     }
 }
 
@@ -2633,11 +2740,18 @@ function sendMessageToHostScript(url) {
 
 async function openAISearchPopup() {
     const width = 700;
-    const height = 50;
+    const height = 125;
+    // Get browser info directly
+    const browserInfo = await browser.windows.getCurrent();
+    const browserWidth = browserInfo.width;
+    const browserHeight = browserInfo.height;
+    const browserLeft = browserInfo.left;
+    const browserTop = browserInfo.top;
 
-    // Calculate the position to center the window with a vertical offset of 200px
-    const left = Math.round((screen.width - width) / 2);
-    const top = Math.round((screen.height - height) / 2) - 200;
+    // Calculate the position to center the window in the browser with a vertical offset of 200px
+    // Use the obtained browser dimensions and position
+    const left = browserLeft + Math.round((browserWidth - width) / 2);
+    const top = browserTop + Math.round((browserHeight - height) / 2) - 200;
 
     await browser.windows.create({
         url: "/html/popup.html",
@@ -2653,11 +2767,19 @@ async function openBookmarkPopup() {
     const width = 700;
     const height = 500; // Adjust the height as needed
 
-    // Calculate the position to center the window with a small offset
-    const left = Math.round((screen.width - width) / 2) + 50;
-    const top = Math.round((screen.height - height) / 2) - 150;
+    // Get browser info directly
+    const browserInfo = await browser.windows.getCurrent();
+    const browserWidth = browserInfo.width;
+    const browserHeight = browserInfo.height;
+    const browserLeft = browserInfo.left;
+    const browserTop = browserInfo.top;
 
-    const currentWindow = await browser.windows.getCurrent();
+    // Calculate the position to center the window in the browser with a small offset
+    // Use the obtained browser dimensions and position
+    const left = browserLeft + Math.round((browserWidth - width) / 2) + 50;
+    const top = browserTop + Math.round((browserHeight - height) / 2) - 150;
+
+    const currentWindow = await browser.windows.getCurrent(); // Can potentially reuse browserInfo if no relevant state changed
     const currentWindowId = currentWindow.id;
 
     // Open a new window with the specified dimensions and position
@@ -2675,12 +2797,30 @@ async function openBookmarkRemovalConfirmDialog() {
     const width = 500;
     const height = 180;
 
-    // Calculate the position to center the window with a vertical offset of 200px
-    const left = Math.round((screen.width - width) / 2);
-    const top = Math.round((screen.height - height) / 2) - 200;
+    // Get browser info directly
+    const browserInfo = await browser.windows.getCurrent();
+    const browserWidth = browserInfo.width;
+    const browserHeight = browserInfo.height;
+    const browserLeft = browserInfo.left;
+    const browserTop = browserInfo.top;
+
+    // Calculate the position to center the window in the browser with a vertical offset of 200px
+    // Use the obtained browser dimensions and position
+    const left = browserLeft + Math.round((browserWidth - width) / 2);
+    const top = browserTop + Math.round((browserHeight - height) / 2) - 200;
+
+    // Ensure activeTab is defined and has a URL before proceeding
+    const urlToBookmark = activeTab?.url;
+    if (!urlToBookmark) {
+        console.error("Cannot open bookmark removal dialog: activeTab or activeTab.url is undefined.");
+        // Optionally notify the user
+        notify("Could not get URL for bookmark removal.");
+        return;
+    }
+
 
     await browser.windows.create({
-        url: `/html/bookmarkRemoval.html?url=${activeTab.url}`,
+        url: `/html/bookmarkRemoval.html?url=${encodeURIComponent(urlToBookmark)}`, // Ensure URL is encoded
         type: "popup",
         width: width,
         height: height,

@@ -1,5 +1,6 @@
 export const mycroftUrl = 'https://mycroftproject.com/installos.php/';
 export const bingUrl = 'https://www.bing.com/visualsearch';
+export const ddgUrl = 'https://icons.duckduckgo.com/ip3/';
 export const googleReverseImageSearchUrl = 'https://www.google.com/searchbyimage?sbisrc=1&safe=off&image_url=';
 export const googleLensUrl = 'https://lens.google.com/uploadbyurl?url=';
 export const tineyeUrl = 'https://www.tineye.com';

@@ -5,7 +5,7 @@ import '/libs/browser-polyfill.min.js';
 document.getElementById('cancel').addEventListener('click', closeModal);
 document.getElementById('ok').addEventListener('click', submitForm);
 
-function submitForm() {
+async function submitForm() {
     const searchEngineName = document.getElementById('searchEngineName').value;
     const keyword = document.getElementById('keyword').value;
     const keyboardShortcut = document.getElementById('keyboardShortcut').value;
@@ -16,7 +16,7 @@ function submitForm() {
     console.log("Keyboard Shortcut:", keyboardShortcut);
 
     // Send the data back to the background script
-    browser.runtime.sendMessage({ action: 'addNewPostSearchEngine', data: { searchEngineName, keyword, keyboardShortcut } });
+    await browser.runtime.sendMessage({ action: 'addNewPostSearchEngine', data: { searchEngineName, keyword, keyboardShortcut } });
 
     closeModal();
 }

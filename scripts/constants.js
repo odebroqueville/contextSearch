@@ -1,7 +1,7 @@
 /// Constants
 
 // Debug mode
-export const DEBUG = false;
+export const DEBUG = true;
 
 // User agent for sidebar search results
 const USER_AGENT_FOR_SIDEBAR =
@@ -152,6 +152,18 @@ export const notifyUnknown = browser.i18n.getMessage('notifyUnknown');
 export const notifySearchEngineUrlRequired = browser.i18n.getMessage(
     'notifySearchEngineUrlRequired'
 );
+
+// Constants for SortableJS configuration
+export const SORTABLE_BASE_OPTIONS = {
+    group: {
+        name: 'folder',
+        pull: true,
+        put: true
+    },
+    animation: 150,
+    filter: 'input, textarea',
+    preventOnFilter: false
+};
 
 // Default settings
 export const DEFAULT_OPTIONS = {
