@@ -95,8 +95,8 @@ const remove = browser.i18n.getMessage('remove');
 const notifySearchEngineUrlRequired = browser.i18n.getMessage('notifySearchEngineUrlRequired');
 
 /// Global variables
-let meta = '';
 let os = null;
+let meta = '';
 let searchEngines = {};
 let keysPressed = {};
 let logToConsole = true;
@@ -626,12 +626,12 @@ function createLineItem(id) {
     // If line item is a separator
     if (id.startsWith("separator-")) {
         const hr = document.createElement('hr');
-        // const sortTarget = document.createElement('i');
-        // sortTarget.classList.add('sort', 'icon', 'ion-arrow-move');
+        hr.id = id; // Set the element ID
+        hr.dataset.id = id; // Add data-id for consistent reading by getChildrenIdsFromDOM
+        hr.classList.add('separator');
         const removeButton = createButton('ion-ios-trash', 'remove', remove + ' separator');
         removeButton.addEventListener('click', removeEventHandler);
         lineItem.appendChild(hr);
-        // lineItem.appendChild(sortTarget);
         lineItem.appendChild(removeButton);
         return lineItem;
     }
@@ -761,9 +761,7 @@ function createLineItem(id) {
     }); // when users leave the input field and content has changed
 
     // Event handlers for adding a keyboard shortcut
-    inputKeyboardShortcut.addEventListener('keyup', async (e) => {
-        await handleKeyboardShortcut(e);
-    });
+    inputKeyboardShortcut.addEventListener('keyup', handleKeyboardShortcut);
     inputKeyboardShortcut.addEventListener('keydown', handleShortcutKeyDown);
     inputKeyboardShortcut.addEventListener('change', handleKeyboardShortcutChange);
 
@@ -1067,6 +1065,7 @@ function createFolderItem(id) {
 
     return folderItem; // Return the outer div
 }
+
 async function clearAll() {
     let divSearchEngines = document.getElementById('searchEngines');
     let lineItems = divSearchEngines.childNodes;
@@ -1547,30 +1546,39 @@ async function testChatGPTPrompt() {
 }
 
 async function addSeparator() {
-    const n = searchEngines['root'].children.length;
-    let id = "separator-" + Math.floor(Math.random() * 1000000000000);
+    let sepId = `separator-${Date.now()}`;
 
-    // Ensure new is unique
-    while (!isIdUnique(id)) {
-        id = "separator-" + Math.floor(Math.random() * 1000000000000);
+    // Ensure new id is unique
+    while (!isIdUnique(sepId)) {
+        sepId = `separator-${Date.now()}`;
     }
 
-    searchEngines[id] = {
-        index: n
-    };
+    const hr = document.createElement('hr');
+    hr.id = sepId;
+    hr.dataset.id = sepId; // Add data-id for consistent reading by getChildrenIdsFromDOM
+    hr.classList.add('separator');
 
-    // Add separator as child of 'root'
-    searchEngines['root'].children.push(id);
+    // Append to the correct list (either root or folder's children container)
+    let targetListElement = document.getElementById('searchEngines');
+    // If the button's parent is not the direct sortable list (e.g., it's in a header),
+    // find the actual children container.
+    // This assumes listElement is the container where the button resides, maybe needs adjustment
+    if (!targetListElement.classList.contains('folder-children') && !targetListElement.id === 'searchEngines') {
+        targetListElement = targetListElement.querySelector('.folder-children') || targetListElement; // Fallback to listElement if no container found
+    }
+    targetListElement.appendChild(hr);
 
-    const divSearchEngines = document.getElementById('searchEngines');
-    const lineItem = createLineItem(id);
-    divSearchEngines.appendChild(lineItem);
+    // Add the actual separator ID to the parent's children array in the data structure
+    // Determine parent ID based on the *container* it's being added to
+    const parentId = targetListElement.closest('.folder')?.id ?? 'root'; // Use closest folder's id or 'root'
 
-    await sendMessage('addNewSearchEngine', {
-        id: id,
-        searchEngine: searchEngines[id]
-    });
-
+    if (searchEngines[parentId] && searchEngines[parentId].children) {
+        searchEngines[parentId].children.push(sepId); // Push the ID, not ""
+        await sendMessage('saveSearchEngines', searchEngines);
+        if (logToConsole) console.log(`Separator ${sepId} added to ${parentId}, children:`, searchEngines[parentId].children);
+    } else {
+        console.error(`Could not find parent ${parentId} or its children array to add separator.`);
+    }
 }
 
 async function addSearchEngine() {
