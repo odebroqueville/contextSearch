@@ -155,13 +155,8 @@ btnClearAddSearchEngine.addEventListener('click', clearAddSearchEngine);
 
 // Add new search engine event handlers for adding a keyboard shortcut
 kbsc.addEventListener('keyup', handleKeyboardShortcut);
-kbsc.addEventListener('keydown', (event) => {
-    if (event.target.nodeName !== 'INPUT') return;
-    const key = event.key;
-    if (isKeyAllowed(event)) keysPressed[key] = event.code;
-    if (logToConsole) console.log(keysPressed);
-});
-// kbsc.addEventListener('change', handleKeyboardShortcutChange);
+kbsc.addEventListener('keydown', handleShortcutKeyDown);
+kbsc.addEventListener('change', handleKeyboardShortcutChange);
 
 // Add new AI Prompt button handlers
 btnTestChatGPTPrompt.addEventListener('click', testChatGPTPrompt);
@@ -170,13 +165,8 @@ btnClearAddChatGPTPrompt.addEventListener('click', clearAddChatGPTPrompt);
 
 // Add new AI prompt event handlers for adding a keyboard shortcut
 promptKbsc.addEventListener('keyup', handleKeyboardShortcut);
-promptKbsc.addEventListener('keydown', (event) => {
-    if (event.target.nodeName !== 'INPUT') return;
-    const key = event.key;
-    if (isKeyAllowed(event)) keysPressed[key] = event.code;
-    if (logToConsole) console.log(keysPressed);
-});
-// promptKbsc.addEventListener('change', handleKeyboardShortcutChange);
+promptKbsc.addEventListener('keydown', handleShortcutKeyDown);
+promptKbsc.addEventListener('change', handleKeyboardShortcutChange);
 
 // Add new folder or separator button click handlers
 btnAddSeparator.addEventListener('click', addSeparator);
@@ -185,13 +175,8 @@ btnClearAddFolder.addEventListener('click', clearAddFolder);
 
 // Add new folder event handlers for adding a keyboard shortcut
 folderKbsc.addEventListener('keyup', handleKeyboardShortcut);
-folderKbsc.addEventListener('keydown', (event) => {
-    if (event.target.nodeName !== 'INPUT') return;
-    const key = event.key;
-    if (isKeyAllowed(event)) keysPressed[key] = event.code;
-    if (logToConsole) console.log(keysPressed);
-});
-// folderKbsc.addEventListener('change', handleKeyboardShortcutChange);
+folderKbsc.addEventListener('keydown', handleShortcutKeyDown);
+folderKbsc.addEventListener('change', handleKeyboardShortcutChange);
 
 // Import/export
 btnDownload.addEventListener('click', saveToLocalDisk);
@@ -416,22 +401,15 @@ function displaySearchEngines() {
 
 async function saveSearchEnginesOnDragEnded(evt) {
     const draggedElement = evt.item;
-    const oldParent = evt.from;
-    const newParent = evt.to;
-
-    // Identify the dragged item's id
-    const movedElementId = draggedElement.getAttribute('data-id');
-    if (!movedElementId) {
-        console.error("Dragged item is missing 'data-id'. Cannot process move.", draggedElement);
-        return; // Stop processing if we can't identify the item
-    }
+    const oldParentEl = evt.from; // The DOM element of the old parent list
+    const newParentEl = evt.to;   // The DOM element of the new parent list
 
     // Identify the old and new parent folder's ids using findClosestFolder
-    let oldParentFolderId = findClosestFolder(oldParent)?.id;
-    let newParentFolderId = findClosestFolder(newParent)?.id;
+    let oldParentFolderId = findClosestFolder(oldParentEl)?.id;
+    let newParentFolderId = findClosestFolder(newParentEl)?.id;
 
     if (!oldParentFolderId || !newParentFolderId) {
-        console.error("Could not determine old or new parent folder ID.", { oldParent, newParent });
+        console.error("Could not determine old or new parent folder ID.", { oldParentEl, newParentEl });
         return; // Stop if parent IDs are missing
     }
 
@@ -439,112 +417,143 @@ async function saveSearchEnginesOnDragEnded(evt) {
     if (oldParentFolderId === 'searchEngines') oldParentFolderId = 'root';
     if (newParentFolderId === 'searchEngines') newParentFolderId = 'root';
 
-    // --- Get Old Index ---
-    const oldChildrenArray = searchEngines[oldParentFolderId]?.children;
-    if (!Array.isArray(oldChildrenArray)) {
-        console.error(`Old parent folder ${oldParentFolderId} not found or has no children array.`, searchEngines[oldParentFolderId]);
-        return; // Stop if the old parent's children array is invalid
-    }
-    const oldIndex = oldChildrenArray.indexOf(movedElementId);
-
-    if (oldIndex === -1) {
-        // This indicates a mismatch between the DOM and the data structure.
-        console.error(`Item ${movedElementId} not found in original parent's children array (${oldParentFolderId}). Aborting update.`, oldChildrenArray);
-        // Consider showing an error to the user or attempting to refresh the data/UI.
-        return;
+    if (logToConsole) {
+        console.log(`Processing move: item=${draggedElement.getAttribute('data-id')}, from DOM=${oldParentEl.id}, to DOM=${newParentEl.id}, from data=${oldParentFolderId}, to data=${newParentFolderId}`);
     }
 
-    // --- Get New Index ---
-    // This index is provided by SortableJS, representing the target position in the new list.
-    let newIndex = evt.newIndex;
+    // --- Rebuild Children Arrays from DOM ---
 
-    // Adjust index if dropping into a nested folder that might have non-sortable header elements.
-    // Assuming the '- 5' logic was correct for your structure:
-    if (newParentFolderId !== 'root') {
-        const staticElementOffset = 5; // Number of non-item elements before the list starts in a folder div
-        if (newIndex >= staticElementOffset) {
-            newIndex = newIndex - staticElementOffset;
+    // Helper function to get children IDs from a list element's direct item children
+    const getChildrenIdsFromDOM = (listElement) => {
+        console.log("[getChildrenIdsFromDOM] Processing list element:", listElement?.id, listElement);
+        if (!listElement) {
+            console.error("[getChildrenIdsFromDOM] Received null or undefined listElement!");
+            return [];
+        }
+
+        const childrenIds = [];
+
+        // Selector finds:
+        // 1. '.se' elements that are direct children of listElement
+        // 2. '.folder' elements that are direct children of listElement
+        // 3. '.se' elements that are direct children of a '.folder-children' div
+        // 4. '.folder' elements that are direct children of a '.folder-children' div
+        // Adjust '.se' or '.folder' if your actual classes differ
+        const selector = ':scope > .se, :scope > .folder, :scope > .folder-children > .se, :scope > .folder-children > .folder';
+
+        console.log("[getChildrenIdsFromDOM] Using combined selector:", selector);
+
+        // Query the main listElement using the combined selector
+        const childElements = listElement.querySelectorAll(selector);
+
+        console.log("[getChildrenIdsFromDOM] Found child elements NodeList:", childElements);
+        if (childElements.length === 0) {
+            console.warn("[getChildrenIdsFromDOM] No child elements found matching selector in:", listElement?.id);
+        }
+
+        // --- IMPORTANT: Ensure Correct Order ---
+        // The order returned by querySelectorAll might not match the visual DOM order
+        // if elements are mixed (direct children and nested children).
+        // We might need to re-sort based on DOM position if the order is wrong.
+        // For now, let's see if this selector finds the elements correctly.
+
+        childElements.forEach((el, index) => {
+            const id = el.getAttribute('data-id');
+            console.log(`[getChildrenIdsFromDOM] Child ${index}:`, el, 'data-id:', id);
+            if (id) {
+                childrenIds.push(id);
+            } else {
+                console.warn("[getChildrenIdsFromDOM] Found child element without data-id:", el, "in list:", listElement?.id || 'Unknown List');
+            }
+        });
+
+        console.log("[getChildrenIdsFromDOM] Returning children IDs:", childrenIds);
+        return childrenIds;
+    };
+
+    // Get the final children order for the NEW parent directly from the DOM
+    const newChildrenIds = getChildrenIdsFromDOM(newParentEl);
+    if (searchEngines[newParentFolderId]) {
+        if (logToConsole) console.log(`Updating ${newParentFolderId} children from DOM:`, newChildrenIds);
+        // Directly assign the array derived from the DOM
+        searchEngines[newParentFolderId].children = newChildrenIds;
+    } else {
+        console.error(`New parent folder ${newParentFolderId} not found in searchEngines data.`);
+        // Consider adding error handling or UI feedback here
+        return; // Stop if data structure is unexpectedly missing
+    }
+
+    // If the item moved to a DIFFERENT parent, update the OLD parent's children too
+    if (oldParentEl !== newParentEl) {
+        const oldChildrenIds = getChildrenIdsFromDOM(oldParentEl);
+        if (searchEngines[oldParentFolderId]) {
+            if (logToConsole) console.log(`Updating ${oldParentFolderId} children from DOM:`, oldChildrenIds);
+            // Directly assign the array derived from the DOM
+            searchEngines[oldParentFolderId].children = oldChildrenIds;
         } else {
-            // Index is within the static elements, implies dropping at the beginning of the sortable list.
-            console.warn(`Drop occurred within static elements of folder ${newParentFolderId}. Effective index set to 0.`);
-            newIndex = 0;
+            console.error(`Old parent folder ${oldParentFolderId} not found in searchEngines data.`);
+            // Consider adding error handling or UI feedback here
+            // Decide if you should return or continue; continuing might leave data inconsistent
+            return;
         }
     }
-
-    const newChildrenArray = searchEngines[newParentFolderId]?.children;
-    if (!Array.isArray(newChildrenArray)) {
-        console.error(`New parent folder ${newParentFolderId} not found or has no children array.`, searchEngines[newParentFolderId]);
-        return; // Stop if the new parent's children array is invalid
-    }
-
-    // Clamp newIndex to the valid range [0, newChildrenArray.length] for splice insertion.
-    // Note: We use the length *before* potential insertion.
-    const maxNewIndex = (oldParentFolderId === newParentFolderId)
-        ? newChildrenArray.length - 1 // Max index is length-1 if item is still conceptually in the list
-        : newChildrenArray.length;   // Max index is length if item is coming from elsewhere
-    if (newIndex < 0) {
-        newIndex = 0;
-    } else if (newIndex > maxNewIndex) { // Allows inserting at the very end
-        newIndex = maxNewIndex;
-    }
+    // --- End Rebuilding Children Arrays ---
 
 
     if (logToConsole) {
-        console.log(`Processing move: item=${movedElementId}, from=${oldParentFolderId}[${oldIndex}], to=${newParentFolderId}[${newIndex}]`);
-    }
-
-    // --- Perform the Data Update ---
-    // 1. Remove the element ID from its original parent's children array.
-    //    This modifies the array within the searchEngines object directly.
-    searchEngines[oldParentFolderId].children.splice(oldIndex, 1);
-
-    // 2. Add the element ID to its new parent's children array at the calculated new index.
-    //    This also modifies the array within the searchEngines object directly.
-    searchEngines[newParentFolderId].children.splice(newIndex, 0, movedElementId);
-    // --- End Data Update ---
-
-
-    if (logToConsole) {
-        console.log(`Children for ${newParentFolderId} after move:`, JSON.stringify(searchEngines[newParentFolderId].children));
+        console.log(`Data children for ${newParentFolderId} after DOM rebuild:`, JSON.stringify(searchEngines[newParentFolderId]?.children));
         if (oldParentFolderId !== newParentFolderId) {
-            console.log(`Children for ${oldParentFolderId} after move:`, JSON.stringify(searchEngines[oldParentFolderId].children));
+            console.log(`Data children for ${oldParentFolderId} after DOM rebuild:`, JSON.stringify(searchEngines[oldParentFolderId]?.children));
         }
     }
 
-    // Update the 'index' property for all items based on their new positions.
-    updateIndices('root'); // Assuming this function correctly traverses and updates indices
+    // Update the 'index' property for ALL items based on their new positions in the arrays.
+    // This should now work correctly because the children arrays reflect the DOM order.
+    updateIndices('root');
 
     if (logToConsole) console.log("Final searchEngines structure before saving:", JSON.stringify(searchEngines));
     await sendMessage('saveSearchEngines', searchEngines);
 }
 
 // Expand folder
-function expand(folderId, parentDiv) {
-    if (logToConsole) console.log(folderId);
+async function expand(folderId, parentDiv) {
     const folder = searchEngines[folderId];
-    let folderDiv;
+    let folderDiv; // This will be the outer folder div OR the root div
+    let sortableTargetDiv; // This will be the div to attach SortableJS to and append children
+
     if (folderId === 'root') {
         folderDiv = document.getElementById('searchEngines');
-        // Optional: Initialize Sortable for the root container here if not done in displaySearchEngines
-        // Usually handled by the loop in displaySearchEngines, but ensure it's covered.
-        // if (!folderDiv.classList.contains('sortable-initialized')) { // Example check
-        //     new Sortable(folderDiv, sortableOptions);
-        // }
+        sortableTargetDiv = folderDiv; // For root, Sortable is on the main div
+        // Ensure Sortable is initialized on root (if not already)
+        // This check might need refinement based on how displaySearchEngines works
+        if (!folderDiv.classList.contains('sortable-initialized')) { // Example check
+            new Sortable(sortableTargetDiv, sortableOptions);
+            folderDiv.classList.add('sortable-initialized'); // Mark as initialized
+        }
     } else {
+        // Create the folder item (which now includes header and empty children container)
         folderDiv = createFolderItem(folderId);
         parentDiv.appendChild(folderDiv);
-        // Initialize SortableJS *after* appending the new folder div
-        new Sortable(folderDiv, sortableOptions); // <<< Initialize Sortable here
+        // Find the specific container for children within the created folder item
+        sortableTargetDiv = folderDiv.querySelector('.folder-children'); // << Find the children container
+        if (!sortableTargetDiv) {
+            console.error("Could not find .folder-children container in", folderDiv);
+            return; // Stop if structure is wrong
+        }
+        // Initialize SortableJS on the children container
+        new Sortable(sortableTargetDiv, sortableOptions); // << Attach Sortable here
     }
+
+    // Append children to the sortableTargetDiv
     folder.children.forEach((f) => {
         if (!searchEngines[f] || searchEngines[f].aiProvider === 'exa') return;
-        if (searchEngines[f].isFolder) {
-            expand(f, folderDiv); // Recursive call for sub-folders
+        const childData = searchEngines[f]; // Renamed for clarity
+        if (childData.isFolder) {
+            // Pass the sortableTargetDiv as the parent for nested folders
+            expand(f, sortableTargetDiv); // Recursive call
         } else {
             const div = createLineItem(f);
-            folderDiv.appendChild(div);
-            // Note: Line items themselves don't need Sortable initialization,
-            // only the containers (folders) they can be dropped into.
+            sortableTargetDiv.appendChild(div); // << Append items here
         }
     });
 }
@@ -557,12 +566,32 @@ function findClosestFolder(element) {
 }
 
 function updateIndices(folderId) {
-    const children = searchEngines[folderId].children;
+    // Use optional chaining in case folderId itself is invalid or lacks children
+    const children = searchEngines[folderId]?.children;
+    if (!children) {
+        // Log a warning if the folder or its children array doesn't exist
+        console.warn(`updateIndices: Folder with ID "${folderId}" not found or has no children array.`);
+        return;
+    }
+
     for (let childId of children) {
-        searchEngines[childId].index = children.indexOf(childId);
-        if (logToConsole) console.log(childId, searchEngines[childId].index);
-        if (searchEngines[childId].children && searchEngines[childId].children.length > 0) {
-            updateIndices(childId);
+        // *** Add check: Ensure the child entry exists in searchEngines ***
+        if (searchEngines[childId]) {
+            searchEngines[childId].index = children.indexOf(childId);
+            if (logToConsole) console.log(childId, searchEngines[childId].index);
+            // Check if it's a folder and recursively update (use optional chaining for safety)
+            if (searchEngines[childId].isFolder && searchEngines[childId].children?.length > 0) {
+                updateIndices(childId);
+            }
+        } else {
+            // Log an error if a child ID exists in the array but not in the main object
+            console.error(`updateIndices: Child ID "${childId}" found in children of folder "${folderId}", but does not exist in searchEngines object. Data might be inconsistent.`);
+            // Consider removing the invalid ID here as a recovery step, but fixing the source is better:
+            // const invalidIndex = searchEngines[folderId].children.indexOf(childId);
+            // if (invalidIndex > -1) {
+            //     searchEngines[folderId].children.splice(invalidIndex, 1);
+            //     console.warn(`updateIndices: Removed invalid child ID "${childId}" from folder "${folderId}".`);
+            // }
         }
     }
 }
@@ -735,18 +764,7 @@ function createLineItem(id) {
     inputKeyboardShortcut.addEventListener('keyup', async (e) => {
         await handleKeyboardShortcut(e);
     });
-    inputKeyboardShortcut.addEventListener('keydown', (e) => {
-        if (logToConsole) console.log(e);
-        if (e.target.nodeName !== 'INPUT') return;
-        if ((os === 'macOS' && e.metaKey) || ((os === 'Windows' || os === 'Linux') && e.ctrlKey) || (!isInFocus(e.target)) || (e.key === 'Escape')) {
-            if (logToConsole) console.log("Keys pressed: " + keysPressed);
-            keysPressed = {};
-            return;
-        }
-        const key = e.key;
-        if (isKeyAllowed(key)) keysPressed[key] = key;
-        if (logToConsole) console.log(keysPressed);
-    });
+    inputKeyboardShortcut.addEventListener('keydown', handleShortcutKeyDown);
     inputKeyboardShortcut.addEventListener('change', handleKeyboardShortcutChange);
 
     // Event handler for 'include search engine in multi-search' checkbox click event
@@ -982,7 +1000,9 @@ function createFolderItem(id) {
     const name = searchEngines[id]['name'];
     const keyword = searchEngines[id]['keyword'];
     const keyboardShortcut = searchEngines[id]['keyboardShortcut'];
-    const folderItem = document.createElement('div');
+    const folderItem = document.createElement('div'); // Outer container
+    const folderHeader = document.createElement('div'); // Header container
+    const folderChildrenContainer = document.createElement('div'); // Children container << NEW
     const icon = document.createElement('img');
     const inputFolderName = document.createElement('input');
     const inputFolderKeyword = document.createElement('input');
@@ -999,18 +1019,7 @@ function createFolderItem(id) {
 
     // Event handlers for adding a keyboard shortcut
     inputFolderKeyboardShortcut.addEventListener('keyup', handleKeyboardShortcut);
-    inputFolderKeyboardShortcut.addEventListener('keydown', (e) => {
-        if (logToConsole) console.log(e);
-        if (e.target.nodeName !== 'INPUT') return;
-        if ((os === 'macOS' && e.metaKey) || ((os === 'Windows' || os === 'Linux') && e.ctrlKey) || (!isInFocus(e.target)) || (e.key === 'Escape')) {
-            if (logToConsole) console.log("Keys pressed: " + keysPressed);
-            keysPressed = {};
-            return;
-        }
-        const key = e.key;
-        if (isKeyAllowed(e)) keysPressed[key] = e.code;
-        if (logToConsole) console.log(keysPressed);
-    });
+    inputFolderKeyboardShortcut.addEventListener('keydown', handleShortcutKeyDown);
     inputFolderKeyboardShortcut.addEventListener('change', handleKeyboardShortcutChange);
 
     // Add deletion button to folder
@@ -1024,6 +1033,8 @@ function createFolderItem(id) {
     folderItem.setAttribute('id', id);
     folderItem.classList.add('folder');
     folderItem.setAttribute('data-id', id);
+
+    folderHeader.classList.add('folder-header'); // Add class for styling/selection
 
     inputFolderName.setAttribute('type', 'text');
     inputFolderName.classList.add('name');
@@ -1041,15 +1052,21 @@ function createFolderItem(id) {
     inputFolderKeyboardShortcut.setAttribute('data-i18n-placeholder', 'keyboardShortcut');
     inputFolderKeyboardShortcut.setAttribute('value', keyboardShortcut);
 
-    folderItem.appendChild(icon);
-    folderItem.appendChild(inputFolderName);
-    folderItem.appendChild(inputFolderKeyword);
-    folderItem.appendChild(inputFolderKeyboardShortcut);
-    folderItem.appendChild(removeButton);
+    // Append controls to the header div
+    folderHeader.appendChild(icon);
+    folderHeader.appendChild(inputFolderName);
+    folderHeader.appendChild(inputFolderKeyword);
+    folderHeader.appendChild(inputFolderKeyboardShortcut);
+    folderHeader.appendChild(removeButton);
 
-    return folderItem;
+    folderChildrenContainer.classList.add('folder-children'); // Add class for selection << NEW
+
+    // Append header and children container to the main folder item
+    folderItem.appendChild(folderHeader);
+    folderItem.appendChild(folderChildrenContainer); // << NEW
+
+    return folderItem; // Return the outer div
 }
-
 async function clearAll() {
     let divSearchEngines = document.getElementById('searchEngines');
     let lineItems = divSearchEngines.childNodes;
@@ -1225,79 +1242,105 @@ async function folderKeywordChanged(e) {
 }
 
 // Handle the input of a keyboard shortcut for a search engine in the Options page
-async function handleKeyboardShortcut(e) {
-    if (logToConsole) console.log(e);
-    if (e.target.nodeName !== 'INPUT' || !isKeyAllowed(e) || !Object.keys(keysPressed).length > 0) return;
-    // If the CMD key is pressed on macOS or CTRL key is pressed on Windows or Linux
-    if ((os === 'macOS' && e.metaKey) || ((os === 'Windows' || os === 'Linux') && e.ctrlKey) || (!isInFocus(e.target)) || (e.key === 'Escape')) {
-        if (logToConsole) console.log("Keys pressed: " + Object.keys(keysPressed));
-        keysPressed = {};
+function handleKeyboardShortcut(e) {
+    const releasedKey = e.key;
+    if (logToConsole) console.log('keyup:', releasedKey, 'keysPressed:', keysPressed);
+
+    // List of modifier keys
+    const modifierKeys = ['Control', 'Alt', 'Shift', 'Meta'];
+
+    // Ignore the keyup event if the released key is a modifier itself
+    // or if no keys were actually recorded (e.g., if Escape/Backspace was just pressed)
+    if (modifierKeys.includes(releasedKey) || Object.keys(keysPressed).length === 0) {
+        if (logToConsole) console.log('keyup ignored (modifier released or keysPressed empty)');
         return;
     }
-    e.preventDefault();
 
-    if (logToConsole) console.log(os);
-    if (logToConsole) console.log(keysPressed);
+    // Ensure the target is an input
+    if (e.target.nodeName !== 'INPUT') {
+        keysPressed = {}; // Clear keysPressed just in case
+        return;
+    }
+
+    // We now know a non-modifier key was released, and keysPressed contains the combination.
+    e.preventDefault(); // Prevent any default action associated with the non-modifier key release
+    e.stopPropagation();
 
     let input;
     let id = null;
 
+    // Determine the target input field
     if (e.target.id === 'kb-shortcut') {
-        // If entering a new search engine keyboard shortcut
         input = kbsc;
     } else if (e.target.id === 'prompt-kb-shortcut') {
-        // If entering a new prompt keyboard shortcut
         input = promptKbsc;
     } else if (e.target.id === 'folder-kb-shortcut') {
-        // If entering a new folder keyboard shortcut
         input = folderKbsc;
-    } else {
-        // If changing an existing search engine keyboard shortcut
-        const lineItem = e.target.parentNode;
+    } else { // Existing item
+        const lineItem = e.target.closest('.line-item, .folder'); // Use closest to find parent item
+        if (!lineItem) {
+            keysPressed = {};
+            console.error('Could not find parent line item or folder for shortcut input');
+            return;
+        }
         id = lineItem.getAttribute('id');
         input = document.getElementById(id + '-kbsc');
-    }
-
-    let keyboardShortcut = '';
-
-    // Identify modifier keys pressed
-    for (let key in keysPressed) {
-        switch (key) {
-            case 'Control':
-                keyboardShortcut = keyboardShortcut + 'ctrl+';
-                delete keysPressed[key];
-                break;
-            case 'Alt':
-                keyboardShortcut = keyboardShortcut + 'alt+';
-                delete keysPressed[key];
-                break;
-            case 'Shift':
-                keyboardShortcut = keyboardShortcut + 'shift+';
-                delete keysPressed[key];
-                break;
-            case 'Meta':
-                keyboardShortcut = keyboardShortcut + meta;
-                delete keysPressed[key];
-                break;
-            default:
+        if (!input) {
+            keysPressed = {};
+            console.error(`Could not find input element #${id}-kbsc`);
+            return;
         }
     }
-    if (logToConsole) console.log(`Modifier keys pressed: ${keyboardShortcut}`);
-    if (logToConsole) console.log(`Remaining non-modifier keys pressed: `);
-    if (logToConsole) console.log(keysPressed);
 
-    // Identify the remaining non-modifier keys pressed
-    for (let key in keysPressed) {
-        keyboardShortcut += key.toLowerCase();
+    // Define the desired order for modifier keys
+    const modifierOrder = { 'Control': 1, 'Alt': 2, 'Shift': 3, 'Meta': 4 };
+    let currentModifiers = [];
+    let mainKey = null;
+
+    // Separate modifiers and the main key from keysPressed
+    for (const key in keysPressed) {
+        if (modifierKeys.includes(key)) {
+            currentModifiers.push(key);
+        } else {
+            // Assuming only one non-modifier key is used in a shortcut
+            // If multiple are allowed, this needs adjustment
+            mainKey = key;
+        }
     }
 
-    // Save the identified keyboard shortcut
-    if (logToConsole) console.log(keyboardShortcut);
+    // Sort modifiers based on the defined order
+    currentModifiers.sort((a, b) => (modifierOrder[a] || 99) - (modifierOrder[b] || 99));
+
+    // Build the shortcut string
+    let shortcutParts = [];
+    currentModifiers.forEach(mod => {
+        if (mod === 'Meta') {
+            // Use 'Cmd' on Mac, 'Ctrl' elsewhere (adjust 'meta' variable usage if needed)
+            shortcutParts.push(os === 'macOS' ? 'Cmd' : 'Ctrl');
+        } else {
+            shortcutParts.push(mod); // Use the key name directly (e.g., Control, Alt, Shift)
+        }
+    });
+
+    if (mainKey) {
+        shortcutParts.push(mainKey.length === 1 ? mainKey.toUpperCase() : mainKey); // Uppercase single chars
+    }
+
+    const keyboardShortcut = shortcutParts.join('+');
+
+    // Update the input field value
+    if (logToConsole) console.log('Final shortcut string:', keyboardShortcut);
     input.value = keyboardShortcut;
+
+    // Clear keysPressed for the next shortcut
     keysPressed = {};
+
+    // Manually trigger the change event IF the input isn't one of the main add inputs
+    // (kbsc, promptKbsc, folderKbsc) as those already have direct change listeners.
+    // This ensures the change handler runs for existing items immediately after keyup finalization.
     if (id !== null) {
-        searchEngines[id]['keyboardShortcut'] = keyboardShortcut;
-        await sendMessage('saveSearchEngines', searchEngines);
+        const changeEvent = new Event('change', { bubbles: true });
+        input.dispatchEvent(changeEvent);
     }
 }
 
@@ -1568,7 +1611,7 @@ async function addSearchEngine() {
         keyword: keyword.value,
         keyboardShortcut: kbsc.value,
         multitab: multitab.checked,
-        url: url.value,
+        url: strUrl,
         show: show.checked,
         isFolder: false
     };
@@ -2097,6 +2140,47 @@ function translateContent(attribute, type) {
             if (logToConsole) console.error(`Translation for ${i18nElements[i]} could not be found`);
         }
     });
+}
+
+// Shared handler for keydown events on shortcut input fields
+function handleShortcutKeyDown(e) {
+    if (logToConsole) console.log('keydown:', e.key, e.code, e.metaKey, e.ctrlKey, 'target:', e.target.id);
+    // Ensure event target is an input and is focused
+    if (e.target.nodeName !== 'INPUT' || !isInFocus(e.target)) return;
+
+    // If Escape, Backspace, or Delete is pressed, clear keysPressed and the input
+    if (e.key === 'Escape' || e.key === 'Backspace' || e.key === 'Delete') {
+        if (logToConsole) console.log(`${e.key} pressed, clearing keysPressed and input`);
+        keysPressed = {};
+        e.target.value = ''; // Clear the visual input
+        // Prevent default actions (like navigating back on Backspace)
+        e.preventDefault();
+        e.stopPropagation();
+        // Trigger change event manually ONLY if clearing the value should be saved immediately
+        // Normally, we wait for blur, but if an existing shortcut was cleared,
+        // we might want to save the empty string.
+        // const changeEvent = new Event('change', { bubbles: true });
+        // e.target.dispatchEvent(changeEvent);
+        return; // Don't record these keys
+    }
+
+    // Prevent default browser shortcuts (like Ctrl+S) but allow standalone modifiers
+    const isModifierOnly = e.key === 'Control' || e.key === 'Alt' || e.key === 'Shift' || e.key === 'Meta';
+    if (!isModifierOnly && (e.metaKey || e.ctrlKey || e.altKey)) {
+        e.preventDefault();
+    }
+
+    const key = e.key; // Use e.key for consistency
+
+    // Record the key if allowed (using true for presence)
+    if (isKeyAllowed(key)) {
+        keysPressed[key] = true;
+        if (logToConsole) console.log('Stored keydown:', key, 'keysPressed:', keysPressed);
+    } else {
+        if (logToConsole) console.log('Key not allowed or ignored:', key);
+        // Optionally prevent default for disallowed keys if they cause issues
+        // e.preventDefault();
+    }
 }
 
 // Test if an object is empty

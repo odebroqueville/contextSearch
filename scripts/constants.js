@@ -26,6 +26,18 @@ export const STORAGE_KEYS = {
     TARGET_URL: 'targetUrl'
 };
 
+// Constants for SortableJS configuration
+export const SORTABLE_BASE_OPTIONS = {
+    group: {
+        name: 'folder',
+        pull: true,
+        put: true
+    },
+    animation: 150,
+    filter: 'input, textarea',
+    preventOnFilter: false
+};
+
 // Rules for modifying User-Agent headers based on URL patterns
 export const HEADER_RULES = [
     {
@@ -152,18 +164,6 @@ export const notifyUnknown = browser.i18n.getMessage('notifyUnknown');
 export const notifySearchEngineUrlRequired = browser.i18n.getMessage(
     'notifySearchEngineUrlRequired'
 );
-
-// Constants for SortableJS configuration
-export const SORTABLE_BASE_OPTIONS = {
-    group: {
-        name: 'folder',
-        pull: true,
-        put: true
-    },
-    animation: 150,
-    filter: 'input, textarea',
-    preventOnFilter: false
-};
 
 // Default settings
 export const DEFAULT_OPTIONS = {
