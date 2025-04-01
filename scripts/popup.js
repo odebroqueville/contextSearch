@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         tagStyled = false;
     }
 
-    function executeAISearch() {
+    async function executeAISearch() {
         const aiEngine = getAIEngine();
         const prompt = inputArea.value.trim();
         if (tagStyled && aiEngine && prompt) {
@@ -82,15 +82,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                 data: { aiEngine, prompt }
             };
 
-            // 1. Close the window first
-            window.close();
+            try {
+                // 1. Send the message and wait for acknowledgment
+                await browser.runtime.sendMessage(messagePayload);
 
-            // 2. Send the message *after* initiating the close, without awaiting.
-            //    The message will be sent, but the popup won't wait.
-            browser.runtime.sendMessage(messagePayload).catch(error => {
-                // Now uses the logToConsole value loaded from storage
-                if (logToConsole) console.warn(`Error sending executeAISearch message after popup close: ${error.message}`);
-            });
+                // 2. Close the window *after* the message has been acknowledged
+                window.close();
+
+            } catch (error) {
+                // Use logToConsole value loaded from storage
+                if (logToConsole) console.error(`Error sending/handling executeAISearch message: ${error.message}`);
+                // Optionally, inform the user via an alert or keep the popup open
+                // alert(`Error: ${error.message}`); 
+            }
         }
     }
 });

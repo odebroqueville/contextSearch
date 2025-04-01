@@ -307,8 +307,13 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             handleDoSearch(data);
             break;
         case "executeAISearch":
+            if (logToConsole) console.log('Received executeAISearch message:', message.data);
+            // Execute the handler (don't await it here if it's long-running)
             handleExecuteAISearch(data);
-            break;
+            // Send acknowledgment immediately so popup can close
+            sendResponse({ received: true });
+            // Return false (or omit return) as response is sent synchronously
+            return false;
         case "notify":
             if (notificationsEnabled) notify(data);
             break;
@@ -938,18 +943,68 @@ async function updateContextMenus(targetUrl) {
 async function handleExecuteAISearch(data) {
     const { aiEngine, prompt } = data;
     const id = "chatgpt-direct";
-    const windowInfo = await browser.windows.getCurrent();
-    const tabs = await queryAllTabs();
-    let tabPosition;
-    if (logToConsole) console.log(tabs);
-    if (options.tabMode === "openNewTab" && options.lastTab) {
-        // After the last tab
-        tabPosition = tabs.length;
-    } else {
-        // Right after the active tab
-        tabPosition = activeTab.index + 1;
+    let targetWindowId;
+    let targetTabIndex;
+    let allTabsInTargetWindow = []; // Initialize array
+
+    try {
+        // 1. Find the last focused 'normal' window (ignores popups)
+        const lastFocusedWindow = await browser.windows.getLastFocused({ windowTypes: ['normal'] });
+
+        if (!lastFocusedWindow) {
+            if (logToConsole) console.warn("handleExecuteAISearch: Could not find last focused normal window.");
+            // Fallback maybe? Or handle error appropriately.
+            // For now, let's try getCurrent as a fallback, though it might be the source of the issue
+            const currentWindow = await browser.windows.getCurrent();
+            targetWindowId = currentWindow.id;
+        } else {
+            targetWindowId = lastFocusedWindow.id;
+        }
+
+        if (logToConsole) console.log(`handleExecuteAISearch: Targeting window ID: ${targetWindowId}`);
+
+        // 2. Find the active tab *within that specific window*
+        const activeTabsInTargetWindow = await browser.tabs.query({ active: true, windowId: targetWindowId });
+
+        if (activeTabsInTargetWindow.length === 0) {
+            if (logToConsole) console.warn(`handleExecuteAISearch: No active tab found in window ID: ${targetWindowId}.`);
+            // Handle this case - maybe default to the end?
+            // Query all tabs to determine the end position if needed
+            allTabsInTargetWindow = await browser.tabs.query({ windowId: targetWindowId });
+            targetTabIndex = -1; // Indicate no specific active tab found
+        } else {
+            const activeTabInTarget = activeTabsInTargetWindow[0];
+            if (logToConsole) console.log(`handleExecuteAISearch: Found active tab in target window:`, activeTabInTarget);
+            targetTabIndex = activeTabInTarget.index;
+            // Query all tabs only if needed for 'lastTab' calculation
+            if (options.tabMode === "openNewTab" && options.lastTab) {
+                allTabsInTargetWindow = await browser.tabs.query({ windowId: targetWindowId });
+            }
+        }
+
+        // 3. Calculate tab position based on *freshly queried* data
+        let tabPosition;
+        if (options.tabMode === "openNewTab" && options.lastTab) {
+            // After the last tab in the target window
+            tabPosition = allTabsInTargetWindow.length;
+            if (logToConsole) console.log(`handleExecuteAISearch: Position set to end of window ${targetWindowId}: ${tabPosition}`);
+        } else if (targetTabIndex !== -1) {
+            // Right after the determined active tab in the target window
+            tabPosition = targetTabIndex + 1;
+            if (logToConsole) console.log(`handleExecuteAISearch: Position set after active tab index ${targetTabIndex} in window ${targetWindowId}: ${tabPosition}`);
+        } else {
+            // Fallback if no active tab was found but not using 'lastTab' - append to end?
+            tabPosition = allTabsInTargetWindow.length;
+            if (logToConsole) console.log(`handleExecuteAISearch: No active tab index found, positioning at end of window ${targetWindowId}: ${tabPosition}`);
+        }
+
+        // 4. Call displaySearchResults with the determined window and position
+        displaySearchResults(id, tabPosition, false, targetWindowId, aiEngine, prompt);
+
+    } catch (error) {
+        if (logToConsole) console.error(`handleExecuteAISearch: Error determining tab position: ${error.message}`, error);
+        // Notify user or handle error
     }
-    displaySearchResults(id, tabPosition, false, windowInfo.id, aiEngine, prompt);
 }
 
 // Initialize extension
@@ -2468,7 +2523,7 @@ async function processSearchEngine(id, searchTerms) {
     } else {
         const searchEngineUrl = searchEngines[id].url;
         // If search engine is a link
-        if (id.startsWith("link-") && !searchEngineUrl.startsWith("javascript:")) {
+        if (id.startsWith("link-") && !searchEngineUrl.startsWith('javascript:')) {
             if (options.exactMatch) quote = "%22";
             const domain = getDomain(searchEngineUrl).replace(/https?:\/\//, "");
             result =
