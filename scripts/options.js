@@ -386,17 +386,6 @@ function displaySearchEngines() {
 
     expand('root', null);
     i18n();
-
-    // Initialize Sortable for the main container and any *pre-existing* folders
-    // Note: The loop might become redundant if expand handles all folders,
-    // but let's keep it for the root container initially.
-    let folders = document.querySelectorAll(".folder");
-    for (let folder of folders) {
-        // Check if already initialized to avoid errors, or ensure expand handles root too
-        // A simple check might involve seeing if Sortable added a specific class, e.g., 'sortable-initialized'
-        // For simplicity, we'll re-apply, but Sortable might handle this internally or you can add a check.
-        new Sortable(folder, sortableOptions);
-    }
 }
 
 async function saveSearchEnginesOnDragEnded(evt) {
@@ -1161,36 +1150,99 @@ async function reset() {
 
 // Begin of user event handlers
 async function removeSearchEngine(e) {
-    // Find closest <div> parent
-    const lineItem = e.target.closest('div');
-    if (!lineItem) return;
-    const id = lineItem.getAttribute('id');
+    // Find closest parent div with a data-id attribute
+    const lineItem = e.target.closest('div[data-id]'); // Use data-id selector
+    if (!lineItem) {
+        console.error("Could not find parent item for removal:", e.target);
+        return;
+    }
+    const id = lineItem.dataset.id; // Use data-id
+    if (!id) {
+        console.error("Found item has no data-id:", lineItem);
+        return;
+    }
     const pn = lineItem.parentNode;
-    let parentId = pn.getAttribute('id');
-    if (parentId === 'searchEngines') parentId = 'root';
-    if (logToConsole) console.log(id, pn);
+    if (!pn) {
+        console.error("Found item has no parent node:", lineItem);
+        return;
+    }
+
+    // Determine parent ID
+    let parentId;
+    if (pn.id === 'searchEngines') {
+        parentId = 'root';
+    } else if (pn.dataset.id) {
+        parentId = pn.dataset.id;
+    } else {
+        console.error("Could not determine parent ID for item:", id, pn);
+        return; // Cannot proceed without parent ID
+    }
+
+    if (logToConsole) console.log(`Attempting to remove: id=${id}, parentId=${parentId}`, lineItem, pn);
+
+    // Check if search engine exists before accessing properties
+    if (!searchEngines[id]) {
+        console.error(`Search engine with id "${id}" not found in searchEngines object.`, searchEngines);
+        pn.removeChild(lineItem); // Remove the visual element anyway
+        // Attempt to clean up parent's children array if possible
+        if (searchEngines[parentId] && searchEngines[parentId].children) {
+            const index = searchEngines[parentId].children.indexOf(id);
+            if (index > -1) {
+                searchEngines[parentId].children.splice(index, 1);
+                await sendMessage('saveSearchEngines', searchEngines); // Save cleaned state
+            }
+        }
+        return; // Stop further processing
+    }
+
+    // Check parent exists before attempting removal logic
+    if (!searchEngines[parentId]) {
+        console.error(`Parent search engine with id "${parentId}" not found.`);
+        // Optionally remove the orphaned item visually
+        pn.removeChild(lineItem);
+        return;
+    }
 
     if (!searchEngines[id].isFolder) {
-        // Remove the line item and its corresponding search engine
+        // Remove the id from the parent's children *before* deleting the engine
+        if (searchEngines[parentId].children) {
+            const index = searchEngines[parentId].children.indexOf(id);
+            if (index > -1) {
+                searchEngines[parentId].children.splice(index, 1);
+            } else {
+                console.warn(`Could not find child ${id} in parent ${parentId}'s children array.`);
+            }
+        } else {
+            console.warn(`Parent ${parentId} has no children array.`);
+        }
+        // Remove the line item and its corresponding search engine data
         pn.removeChild(lineItem);
         delete searchEngines[id];
     } else {
         // If the line item is a folder, display a warning message
         const remove = confirm(`Are you sure you want to delete the folder ${searchEngines[id].name} and all of its contents?`);
         if (remove) {
-            // Remove the folder and its children
+            // Remove the id from the parent's children *before* deleting the folder data
+            if (searchEngines[parentId].children) {
+                const index = searchEngines[parentId].children.indexOf(id);
+                if (index > -1) {
+                    searchEngines[parentId].children.splice(index, 1);
+                } else {
+                    console.warn(`Could not find child folder ${id} in parent ${parentId}'s children array.`);
+                }
+            } else {
+                console.warn(`Parent ${parentId} has no children array.`);
+            }
+            // Remove the folder element and its data
             pn.removeChild(lineItem);
-            removeFolder(id);
+            removeFolder(id); // This function handles deleting the folder and its descendants from searchEngines
         } else {
             return;
         }
     }
 
-    // Remove the id from the parent's children
-    searchEngines[parentId].children.splice(searchEngines[parentId].children.indexOf(id), 1);
-
     // Save the updated search engines
-    if (logToConsole) console.log(searchEngines);
+    if (logToConsole) console.log("Updated searchEngines:", searchEngines);
     await sendMessage('saveSearchEngines', searchEngines);
 }
 
