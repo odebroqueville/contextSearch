@@ -634,14 +634,21 @@ function getClosestForm(element) {
 
 // Check if there is a selection and handle it
 async function checkForSelection(e) {
-    const element = e.target;
     const hasSelection = window.getSelection()?.rangeCount > 0;
+    let element;
+    if (e !== null) {
+        element = e.target;
+    } else if (hasSelection) {
+        element = document.activeElement;
+    } else {
+        return;
+    }
 
     if (logToConsole) console.log(element);
     if (logToConsole) console.log(hasSelection);
 
-    if (
-        (e.key === 'Shift' || (e.type === 'mouseup' && e.button === 0)) && element &&
+    if ((e === null ||
+        (e !== null && (e.key === 'Shift' || (e.type === 'mouseup' && e.button === 0)))) &&
         (
             element.tagName === "TEXTAREA" ||
             (element.tagName === "INPUT" && element.type === "text")
@@ -653,7 +660,7 @@ async function checkForSelection(e) {
             const selection = element.value.substring(element.selectionStart, element.selectionEnd);
             await handleSelectionEnd(selection);
         }
-    } else if (hasSelection && !selectionActive && (e.ctrlKey || e.key === 'Shift' || (e.type === 'mouseup' && e.button === 0))) {
+    } else if (hasSelection && !selectionActive && (e !== null && (e.ctrlKey || e.key === 'Shift' || (e.type === 'mouseup' && e.button === 0)))) {
         // On keyup, if the control key is released and there's a text selection, handle selection end
         await handleSelectionEnd();
     }
@@ -755,9 +762,9 @@ async function handleAltClickWithGrid(e) {
     if (logToConsole) console.log('Event triggered:', e);
     if (logToConsole) console.log('Options:', options);
 
-    if (e.button === 0) { // 0 indicates the left mouse button
+    if (e !== null && e.button === 0) { // 0 indicates the left mouse button
         selectionActive = false;
-    } else {
+    } else if (e !== null && e.button !== 0) {
         return;
     }
 
