@@ -687,7 +687,8 @@ async function handleDoSearch(data) {
     if (logToConsole) console.log("Search engine id: " + id);
     if (logToConsole) console.log(options.tabMode === "openSidebar");
     const tabs = await queryAllTabs();
-    //const activeTab = await getActiveTab();
+    const activeTabs = await browser.tabs.query({ active: true, currentWindow: true });
+    activeTab = activeTabs[0];
     const lastTab = tabs[tabs.length - 1];
     let tabPosition = activeTab.index + 1;
     if (options.multiMode === "multiAfterLastTab" || options.lastTab) {
