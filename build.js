@@ -72,7 +72,7 @@ function processServiceWorkerFile(src, dest, browser) {
 
     if (browser === 'firefox' && path.basename(src) === 'cs_service_worker.js') {
         // Remove first 3 lines for Firefox
-        content = content.split('\n').slice(3).join('\n');
+        content = content.split('\n').slice(2).join('\n');
     }
 
     fs.writeFileSync(dest, content);
