@@ -1,8 +1,8 @@
 6.0.4
 =========
 
-* Replaced keyboard shortcut to launch the Icons Grid from 'Alt+Shift+G' (for both Windows and Mac) to 'Alt+J' (for both Windows and Mac)
-* Replaced keyboard shortcut to launch the AI Search window from 'Ctrl+Alt+0' (Windows) or 'Cmd+Alt+0' (Mac) to 'Alt+K' (for both Windows and Mac)
+* Replaced keyboard shortcut to launch the Icons Grid from 'Alt+Shift+G' (for both Windows and Mac) to 'Alt+J' for Chromium-based browsers or 'Ctrl+Shift+J' for Firefox
+* Replaced keyboard shortcut to launch the AI Search window from 'Ctrl+Alt+0' (Windows) or 'Cmd+Alt+0' (Mac) to 'Alt+K' for Chromium-based browsers or 'Ctrl+Shift+K' for Firefox
 * Fixed bug in manifest version 3 to center popup windows
 * Fixed bug for nested subfolders in the Icons Grid and in the Options page
 * Fixed bug where the favicons failed to be updated after editing in the Options page
