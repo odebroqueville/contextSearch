@@ -62,14 +62,15 @@
     "commands": {
         "launch-icons-grid": {
             "suggested_key": {
-                "default": "Alt+Shift+G"
+                "default": "Alt+J",
+                "mac": "Alt+J"
             },
             "description": "Launch the icons grid"
         },
         "open-popup": {
             "suggested_key": {
-                "default": "Ctrl+Alt+0",
-                "mac": "Command+Alt+0"
+                "default": "Alt+k",
+                "mac": "Alt+k"
             },
             "description": "Open the popup window"
         }
