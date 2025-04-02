@@ -1,11 +1,16 @@
 6.0.4
 =========
 
-* Replaced keyboard shortcuts for Chrome to launch the AI Search window from 'Ctrl+Alt+0' (Windows) or 'Cmd+Alt+0' (Mac) to 'Alt+k' (for both Windows and Mac)
+* Replaced keyboard shortcut to launch the Icons Grid from 'Alt+Shift+G' (for both Windows and Mac) to 'Alt+J' (for both Windows and Mac)
+* Replaced keyboard shortcut to launch the AI Search window from 'Ctrl+Alt+0' (Windows) or 'Cmd+Alt+0' (Mac) to 'Alt+K' (for both Windows and Mac)
 * Fixed bug in manifest version 3 to center popup windows
 * Fixed bug for nested subfolders in the Icons Grid and in the Options page
 * Fixed bug where the favicons failed to be updated after editing in the Options page
+* Fixed bug where AI search results weren't being opened in the correct tab position
 * Modified default search engines and added subfolders to Dictionaries
+* Fixed bug where the Icons Grid would not open with the correct keyboard shortcut
+* Fixed bug where the search results from the Icons Grid would not be displayed
+* Fixed bug where a folder couldn't be drag & dropped between 2 top level folders
 
 6.0.3
 ---------
