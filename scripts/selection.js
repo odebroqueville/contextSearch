@@ -100,6 +100,10 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
         await init();
     }
     switch (action) {
+        case 'ping':
+            // Respond immediately to confirm content script is loaded
+            sendResponse({ success: true });
+            return true;
         case 'updateOptions':
             options = data.options;
             if (logToConsole) console.log('Options updated:', options);

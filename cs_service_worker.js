@@ -81,7 +81,6 @@ let imageUrl = "";
 let lastAddressBarKeyword = "";
 let historyItems, bookmarkItems;
 let bookmarked = false;
-let activeTab;
 let promptText;
 let newSearchEngineUrl;
 let formData;
@@ -143,27 +142,6 @@ browser.runtime.onInstalled.addListener(async (details) => {
 
         // Build action button menus
         await buildActionButtonMenus();
-
-        // Get all active tabs
-        browser.tabs.query({}).then((tabs) => {
-            for (let tab of tabs) {
-                // Skip tabs that are not HTTP/HTTPS
-                if (!tab.url || !tab.url.startsWith("http")) continue;
-                if (tab.id >= 0) {
-                    browser.scripting.executeScript({
-                        target: { tabId: tab.id },
-                        files: ["libs/browser-polyfill.min.js", "scripts/selection.js"]
-                    }).then(() => {
-                        if (logToConsole) console.log(`Content script reloaded in tab ${tab.id}: ${tab.url}`);
-                    }).catch((error) => {
-                        if (logToConsole) console.log(`Failed to reload content script in tab ${tab.url}:`, error);
-
-                        // Reload tab if content script failed to load
-                        browser.tabs.reload(tab.id);
-                    });
-                }
-            }
-        });
     }
 });
 
@@ -173,14 +151,6 @@ browser.runtime.onStartup.addListener(async () => {
 
     // Build action button menus
     await buildActionButtonMenus();
-
-    browser.tabs.query({}, (tabs) => {
-        tabs.forEach((tab) => {
-            // Skip tabs that are not HTTP/HTTPS
-            if (!tab.url || !tab.url.startsWith("http")) return;
-            browser.tabs.reload(tab.id);
-        });
-    });
 });
 
 // Reset initialization state when service worker is about to be suspended
@@ -213,16 +183,18 @@ browser.tabs.onUpdated.addListener(debouncedUpdateAddonStateForActiveTab);
 browser.tabs.onActivated.addListener(debouncedUpdateAddonStateForActiveTab);
 
 // Listen for tab moves
-browser.tabs.onMoved.addListener(debouncedUpdateAddonStateForActiveTab);
+// browser.tabs.onMoved.addListener(debouncedUpdateAddonStateForActiveTab);
 
-// listen for window switching
-browser.windows.onFocusChanged.addListener(debouncedUpdateAddonStateForActiveTab);
+// listen for window focus changes
+// browser.windows.onFocusChanged.addListener(debouncedUpdateAddonStateForActiveTab);
 
 // Listen for storage changes
 browser.storage.onChanged.addListener(handleStorageChange);
 
 // Handle addon shortcut to launch icons grid or open the AI search window
 browser.commands.onCommand.addListener(async (command) => {
+    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+    const activeTab = tabs[0];
     if (command === "launch-icons-grid") {
         if (logToConsole) console.log("Launching Icons Grid...");
         await sendMessageToTab(activeTab, { action: "launchIconsGrid" });
@@ -688,7 +660,7 @@ async function handleDoSearch(data) {
     if (logToConsole) console.log(options.tabMode === "openSidebar");
     const tabs = await queryAllTabs();
     const activeTabs = await browser.tabs.query({ active: true, currentWindow: true });
-    activeTab = activeTabs[0];
+    const activeTab = activeTabs[0];
     const lastTab = tabs[tabs.length - 1];
     let tabPosition = activeTab.index + 1;
     if (options.multiMode === "multiAfterLastTab" || options.lastTab) {
@@ -903,7 +875,8 @@ async function testSearchEngine(engineData) {
 async function testPrompt() {
     const id = "chatgpt-";
     const multisearch = false;
-    //const activeTab = await getActiveTab();
+    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+    const activeTab = tabs[0];
     const tabPosition = activeTab.index + 1;
     const windowInfo = await browser.windows.getCurrent();
     await displaySearchResults(id, tabPosition, multisearch, windowInfo.id);
@@ -1955,7 +1928,8 @@ async function processMultisearch(arraySearchEngineUrls, folderId, tabPosition) 
     } else if (options.multiMode !== "multiNewWindow") {
         // Open search results in the current window
         const tabs = await queryAllTabs();
-        //const activeTab = await getActiveTab();
+        const activeTabs = await browser.tabs.query({ active: true, currentWindow: true });
+        const activeTab = activeTabs[0];
         if (logToConsole) console.log(tabs);
         if (options.multiMode === "multiAfterLastTab") {
             // After the last tab
@@ -2040,6 +2014,8 @@ async function getSearchEngineUrl(searchEngineUrl, sel) {
 }
 
 async function setTargetUrl(id, aiEngine = "") {
+    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+    const activeTab = tabs[0];
     if (logToConsole) console.log("Active tab is:");
     if (logToConsole) console.log(activeTab);
     if (id === "reverse-image-search") {
@@ -2129,6 +2105,8 @@ async function displaySearchResults(
     aiEngine = "",
     prompt = "",
 ) {
+    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+    const activeTab = tabs[0];
     selection = await getStoredData(STORAGE_KEYS.SELECTION);
     imageUrl = targetUrl;
     targetUrl = await setTargetUrl(id, aiEngine);
@@ -2361,6 +2339,8 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
     const keyword = input.split(" ")[0];
     const suggestion = await buildSuggestion(input);
     const windowInfo = await browser.windows.getCurrent({ populate: true });
+    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+    const activeTab = tabs[0];
     let searchTerms = input.replace(keyword, "").trim();
 
     // Check if the search terms contain '%s' or '{searchTerms}'
@@ -2866,6 +2846,8 @@ async function openBookmarkRemovalConfirmDialog() {
     const top = browserTop + Math.round((browserHeight - height) / 2) - 200;
 
     // Ensure activeTab is defined and has a URL before proceeding
+    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+    const activeTab = tabs[0];
     const urlToBookmark = activeTab?.url;
     if (!urlToBookmark) {
         console.error("Cannot open bookmark removal dialog: activeTab or activeTab.url is undefined.");
@@ -2883,6 +2865,45 @@ async function openBookmarkRemovalConfirmDialog() {
         left: left,
         top: top,
     });
+}
+
+/**
+ * Checks if the content script is loaded in the active tab
+ * @returns {Promise<boolean>} True if the content script is loaded and responsive
+ */
+async function isContentScriptLoaded(activeTab) {
+    try {
+        // Skip checking certain URLs where content scripts cannot be loaded
+        if (!activeTab.url || activeTab.url.startsWith('about:') ||
+            activeTab.url.startsWith('chrome:') || activeTab.url.startsWith('edge:')) {
+            return false;
+        }
+
+        // Try to send a test message to the content script
+        const response = await sendMessageToTab(activeTab, { action: 'ping' });
+        return response && response.success === true;
+    } catch (error) {
+        console.log('Content script not loaded:', error);
+        return false;
+    }
+}
+
+async function loadContentScript(tab) {
+    // Skip tabs that are not HTTP/HTTPS
+    if (!tab.url || !tab.url.startsWith("http")) return;
+    if (tab.id >= 0) {
+        browser.scripting.executeScript({
+            target: { tabId: tab.id },
+            files: ["libs/browser-polyfill.min.js", "scripts/selection.js"]
+        }).then(() => {
+            if (logToConsole) console.log(`Content script reloaded in tab ${tab.id}: ${tab.url}`);
+        }).catch((error) => {
+            if (logToConsole) console.log(`Failed to reload content script in tab ${tab.url}:`, error);
+
+            // Reload tab if content script failed to load
+            browser.tabs.reload(tab.id);
+        });
+    }
 }
 
 /*
@@ -2905,7 +2926,7 @@ async function updateAddonStateForActiveTab() {
         }
     }
 
-    async function updateActionMenu() {
+    async function updateActionMenu(activeTab) {
         let links = [];
         let searchEngineAdded = false;
         if (activeTab) {
@@ -2952,8 +2973,12 @@ async function updateAddonStateForActiveTab() {
 
     if (logToConsole) console.log('Updating addon state...');
     const tabs = await browser.tabs.query({ active: true, currentWindow: true });
-    activeTab = tabs[0];
-    await updateActionMenu();
+    const activeTab = tabs[0];
+    await updateActionMenu(activeTab);
+    const isContentScriptLoadedInActiveTab = await isContentScriptLoaded(activeTab);
+    if (!isContentScriptLoadedInActiveTab) {
+        await loadContentScript(activeTab);
+    }
 }
 
 /*
