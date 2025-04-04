@@ -1656,7 +1656,7 @@ async function buildContextMenuForVideoDownload() {
                 "*://*.youtube-nocookie.com/*",
                 "*://*.vimeo.com/*",
             ],
-            contexts: ["all"],
+            contexts: ["video", "image", "frame", "page"],
         }, resolve);
     });
 }
