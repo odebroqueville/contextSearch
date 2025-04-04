@@ -118,7 +118,6 @@
     "web_accessible_resources": [
         {
             "resources": [
-                "/libs/browser-polyfill.min.js",
                 "/scripts/selection.js"
             ],
             "matches": [

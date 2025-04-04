@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 /* eslint-disable no-control-regex */
 
 // Global Constants
