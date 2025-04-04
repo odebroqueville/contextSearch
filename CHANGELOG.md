@@ -1,5 +1,11 @@
-6.0.4
+6.0.5
 =========
+
+* Removed unwarranted 'Download Video' option from action menu
+* Bug fix [#205](https://github.com/odebroqueville/contextSearch/issues/205)
+
+6.0.4
+---------
 
 * Replaced keyboard shortcut to launch the Icons Grid from 'Alt+Shift+G' (for both Windows and Mac) to 'Alt+J' for Chromium-based browsers or 'Ctrl+Shift+J' for Firefox
 * Replaced keyboard shortcut to launch the AI Search window from 'Ctrl+Alt+0' (Windows) or 'Cmd+Alt+0' (Mac) to 'Alt+K' for Chromium-based browsers or 'Ctrl+Shift+K' for Firefox
