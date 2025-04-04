@@ -82,9 +82,6 @@
                 "http://*/*",
                 "https://*/*"
             ],
-            "exclude_matches": [
-                "https://paypal.com/*"
-            ],
             "js": [
                 "/libs/browser-polyfill.min.js",
                 "/scripts/selection.js"

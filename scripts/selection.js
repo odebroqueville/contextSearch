@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 /* eslint-disable no-control-regex */
 
 // Global Constants
@@ -28,7 +29,6 @@ const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNo
 const ICON32 = '32px'; // icon width is 32px
 
 // Global variables
-let isInitialized = false;
 let logToConsole = false; // Debug (default)
 let meta = ''; // meta key: cmd for macOS, win for Windows, super for Linux
 let tabUrl = '';
@@ -51,19 +51,14 @@ console.log(`Document ready state: ${document.readyState}`);
 if (document.readyState === "complete") {
     (async () => {
         await init();
-        isInitialized = true;
     })();
+} else {
+    document.onreadystatechange = async () => {
+        if (document.readyState === "complete") {
+            await init();
+        }
+    };
 }
-
-/// Event handlers
-// Run init function when readyState is complete
-document.onreadystatechange = async () => {
-    console.log(`Document ready state: ${document.readyState}`);
-    if (document.readyState === "complete" && !isInitialized) {
-        await init();
-        isInitialized = true;
-    }
-};
 
 // Mouseover event listener
 document.addEventListener('mouseover', handleMouseOver);
@@ -99,10 +94,6 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
         await init();
     }
     switch (action) {
-        case 'ping':
-            // Respond immediately to confirm content script is loaded
-            sendResponse({ success: true });
-            return true;
         case 'updateOptions':
             options = data.options;
             if (logToConsole) console.log('Options updated:', options);
@@ -128,11 +119,13 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
             });
             return true;
         case 'getPosition':
-            const width = data.width;
-            const height = data.height;
-            const { left, top } = calculatePosition(width, height);
-            sendResponse({ left, top });
-            return true;
+            {
+                const width = data.width;
+                const height = data.height;
+                const { left, top } = calculatePosition(width, height);
+                sendResponse({ left, top });
+                return true;
+            }
         default:
             if (logToConsole) console.error("Unexpected action:", action);
             sendResponse({ success: false });

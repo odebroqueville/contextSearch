@@ -2867,45 +2867,6 @@ async function openBookmarkRemovalConfirmDialog() {
     });
 }
 
-/**
- * Checks if the content script is loaded in the active tab
- * @returns {Promise<boolean>} True if the content script is loaded and responsive
- */
-async function isContentScriptLoaded(activeTab) {
-    try {
-        // Skip checking certain URLs where content scripts cannot be loaded
-        if (!activeTab.url || activeTab.url.startsWith('about:') ||
-            activeTab.url.startsWith('chrome:') || activeTab.url.startsWith('edge:')) {
-            return false;
-        }
-
-        // Try to send a test message to the content script
-        const response = await sendMessageToTab(activeTab, { action: 'ping' });
-        return response && response.success === true;
-    } catch (error) {
-        console.log('Content script not loaded:', error);
-        return false;
-    }
-}
-
-async function loadContentScript(tab) {
-    // Skip tabs that are not HTTP/HTTPS
-    if (!tab.url || !tab.url.startsWith("http")) return;
-    if (tab.id >= 0) {
-        browser.scripting.executeScript({
-            target: { tabId: tab.id },
-            files: ["libs/browser-polyfill.min.js", "scripts/selection.js"]
-        }).then(() => {
-            if (logToConsole) console.log(`Content script reloaded in tab ${tab.id}: ${tab.url}`);
-        }).catch((error) => {
-            if (logToConsole) console.log(`Failed to reload content script in tab ${tab.url}:`, error);
-
-            // Reload tab if content script failed to load
-            browser.tabs.reload(tab.id);
-        });
-    }
-}
-
 /*
  * Update browser action context menu to reflect the currently active tab
  */
@@ -2975,10 +2936,6 @@ async function updateAddonStateForActiveTab() {
     const tabs = await browser.tabs.query({ active: true, currentWindow: true });
     const activeTab = tabs[0];
     await updateActionMenu(activeTab);
-    const isContentScriptLoadedInActiveTab = await isContentScriptLoaded(activeTab);
-    if (!isContentScriptLoadedInActiveTab) {
-        await loadContentScript(activeTab);
-    }
 }
 
 /*

@@ -96,9 +96,6 @@
                 "http://*/*",
                 "https://*/*"
             ],
-            "exclude_matches": [
-                "https://paypal.com/*"
-            ],
             "js": [
                 "/scripts/selection.js"
             ]
