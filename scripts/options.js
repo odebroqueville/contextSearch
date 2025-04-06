@@ -6,8 +6,8 @@ import { base64FolderIcon } from './favicons.js';
 import { STORAGE_KEYS, SORTABLE_BASE_OPTIONS } from './constants.js';
 
 /// Global constants
-/* global Sortable */
 
+/* global Sortable */
 const sortableOptions = {
     ...SORTABLE_BASE_OPTIONS,
     onEnd: saveSearchEnginesOnDragEnded
@@ -91,8 +91,11 @@ const btnDownload = document.getElementById('download');
 const btnUpload = document.getElementById('upload');
 
 // Translations
+const add = browser.i18n.getMessage('add');
 const remove = browser.i18n.getMessage('remove');
 const notifySearchEngineUrlRequired = browser.i18n.getMessage('notifySearchEngineUrlRequired');
+// 'Popup blocked! Please allow popups for this site.'
+const popupBlockedMessage = browser.i18n.getMessage('popupBlockedMessage');
 
 /// Global variables
 let os = null;
@@ -102,6 +105,20 @@ let keysPressed = {};
 let logToConsole = true;
 
 /// Event listeners
+
+window.addEventListener('message', async (event) => {
+    if (event.origin !== window.location.origin) return; // Security check
+
+    const receivedData = event.data;
+    if (receivedData.uniqueId && receivedData.parentId) {
+        const { uniqueId, parentId, id, searchEngine } = receivedData;
+
+        addNewSearchEngine(parentId, id, searchEngine);
+        // Update indices and save
+        updateIndices('root');
+        await sendMessage('saveSearchEngines', searchEngines);
+    }
+});
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
@@ -359,11 +376,6 @@ async function notify(message) {
     await sendMessage('notify', message);
 }
 
-async function removeEventHandler(e) {
-    e.stopPropagation();
-    await removeSearchEngine(e);
-}
-
 // Display the list of search engines
 function displaySearchEngines() {
     // Get or create the searchEngines div
@@ -585,15 +597,69 @@ function updateIndices(folderId) {
     }
 }
 
-// Create a navigation button using icons from ionicon (up arrow, down arrow and bin)
-function createButton(ioniconClass, btnClass, btnTitle) {
-    let button = document.createElement('button');
-    let btnIcon = document.createElement('i');
+function findParentId(itemId) {
+    if (!searchEngines[itemId]) {
+        console.warn(`Item with ID: ${itemId} not found.`);
+        return 'root';
+    }
+    for (const potentialParentId in searchEngines) {
+        const potentialParent = searchEngines[potentialParentId];
+        if (potentialParent.isFolder && Array.isArray(potentialParent.children)) {
+            if (potentialParent.children.includes(itemId)) {
+                return potentialParentId;
+            }
+        }
+    }
+    return 'root';
+}
+
+async function openAddSearchEngineOrFolderPopup(e) {
+    const popupWidth = 1000; // Set the width of the popup
+    const popupHeight = 400; // Set the height of the popup
+    const left = Math.floor((window.screen.width - popupWidth) / 2); // Center horizontally
+    const top = Math.floor((window.screen.height - popupHeight) / 2); // Center vertically
+    const windowFeatures = `width=${popupWidth},height=${popupHeight},left=${left},top=${top},resizable,
+    scrollbars`;
+    const lineItemId = e.target.closest('div[data-id]')?.dataset.id;
+    // Add a check to ensure lineItemId is valid
+    if (!lineItemId || !searchEngines[lineItemId]) {
+        console.error("Could not determine the item ID or the item doesn't exist.");
+        return; // Exit if we can't find the item
+    }
+    const parentId = findParentId(lineItemId);
+    const newIndex = searchEngines[lineItemId].index + 1;
+    const dataToSend = {
+        parentId: parentId,
+        newIndex: newIndex
+    };
+
+    // Open the popup window
+    const queryParams = new URLSearchParams(dataToSend).toString();
+    const popup = window.open(
+        `/html/addSearchEngineOrFolder.html?${queryParams}`, // Path to the HTML file
+        '_blank', // Open in a new window
+        windowFeatures // Window features
+    );
+
+    if (popup) {
+        popup.focus();
+    } else {
+        // Popup blocked
+        await notify(popupBlockedMessage);
+    }
+}
+
+function createButton(btnType, btnTitle) {
+    const button = document.createElement('button');
+    const icon = document.createElement('img');
+    const condition = btnType === 'add';
     button.setAttribute('type', 'button');
-    button.setAttribute('class', btnClass);
     button.setAttribute('title', btnTitle);
-    btnIcon.setAttribute('class', 'icon ' + ioniconClass);
-    button.appendChild(btnIcon);
+    button.classList.add(btnType); // Class can be 'add' or 'remove'
+    icon.setAttribute('src', condition ? '/icons/uxwing-plus-green-icon.svg' : '/icons/uxwing-minus-red-icon.svg');
+    icon.setAttribute('width', '32'); // Set the width to 32px
+    icon.setAttribute('height', '32'); // Set the height to 32px
+    button.appendChild(icon);
     return button;
 }
 
@@ -618,9 +684,12 @@ function createLineItem(id) {
         hr.id = id; // Set the element ID
         hr.dataset.id = id; // Add data-id for consistent reading by getChildrenIdsFromDOM
         hr.classList.add('separator');
-        const removeButton = createButton('ion-ios-trash', 'remove', remove + ' separator');
-        removeButton.addEventListener('click', removeEventHandler);
+        const addButton = createButton('add', add + ' separator');
+        addButton.addEventListener('click', openAddSearchEngineOrFolderPopup);
+        const removeButton = createButton('remove', remove + ' separator');
+        removeButton.addEventListener('click', removeSearchEngine);
         lineItem.appendChild(hr);
+        lineItem.appendChild(addButton);
         lineItem.appendChild(removeButton);
         return lineItem;
     }
@@ -691,7 +760,6 @@ function createLineItem(id) {
         });
 
         textareaPrompt = document.createElement('textarea');
-        //textareaPrompt.classList.add('row-2');
         textareaPrompt.setAttribute('rows', 4);
         textareaPrompt.setAttribute('cols', 50);
         textareaPrompt.value = searchEngine.prompt;
@@ -712,7 +780,6 @@ function createLineItem(id) {
         if (!searchEngine.url.includes('?') && searchEngine.formData) {
             if (logToConsole) console.log(searchEngine.formData);
             textareaFormData = document.createElement('textarea');
-            //textareaFormData.classList.add('row-2');
             textareaFormData.setAttribute('rows', 4);
             textareaFormData.setAttribute('cols', 50);
             textareaFormData.value = searchEngine.formData;
@@ -722,8 +789,9 @@ function createLineItem(id) {
         }
     }
 
-    // Deletion button for each search engine or prompt line item
-    const removeButton = createButton('ion-ios-trash', 'remove', remove + ' ' + searchEngineName);
+    // Add and deletion button for each search engine or prompt line item
+    const addButton = createButton('add', add);
+    const removeButton = createButton('remove', remove + ' ' + searchEngineName);
 
     // Input elements for each search engine composing each line item
     const chkShowSearchEngine = document.createElement('input');
@@ -757,8 +825,9 @@ function createLineItem(id) {
     // Event handler for 'include search engine in multi-search' checkbox click event
     chkMultiSearch.addEventListener('click', multiTabChanged); // when users check or uncheck the checkbox
 
-    // Deletion button event handler
-    removeButton.addEventListener('click', removeEventHandler);
+    // Add and deletion button event handler
+    addButton.addEventListener('click', openAddSearchEngineOrFolderPopup);
+    removeButton.addEventListener('click', removeSearchEngine);
 
     // Set attributes for all the elements composing a search engine or line item
     chkShowSearchEngine.setAttribute('type', 'checkbox');
@@ -810,6 +879,7 @@ function createLineItem(id) {
     if (textareaFormData) {
         lineItem.appendChild(textareaFormData);
     }
+    lineItem.appendChild(addButton);
     lineItem.appendChild(removeButton);
 
     return lineItem;
@@ -1009,11 +1079,13 @@ function createFolderItem(id) {
     inputFolderKeyboardShortcut.addEventListener('keydown', handleShortcutKeyDown);
     inputFolderKeyboardShortcut.addEventListener('change', handleKeyboardShortcutChange);
 
-    // Add deletion button to folder
-    const removeButton = createButton('ion-ios-trash', 'remove', `${remove} ${name} folder`);
+    // Add and deletion button for folder
+    const addButton = createButton('add', `${add} folder`);
+    const removeButton = createButton('remove', `${remove} ${name} folder`);
 
-    // Add deletion button event handler
-    removeButton.addEventListener('click', removeEventHandler);
+    // Add and deletion button event handler
+    addButton.addEventListener('click', openAddSearchEngineOrFolderPopup);
+    removeButton.addEventListener('click', removeSearchEngine);
 
     icon.setAttribute('src', `data:${searchEngines[id].imageFormat || 'image/png'};base64,${searchEngines[id].base64}`);
 
@@ -1044,6 +1116,7 @@ function createFolderItem(id) {
     folderHeader.appendChild(inputFolderName);
     folderHeader.appendChild(inputFolderKeyword);
     folderHeader.appendChild(inputFolderKeyboardShortcut);
+    folderHeader.appendChild(addButton);
     folderHeader.appendChild(removeButton);
 
     folderChildrenContainer.classList.add('folder-children'); // Add class for selection << NEW
@@ -1150,6 +1223,7 @@ async function reset() {
 
 // Begin of user event handlers
 async function removeSearchEngine(e) {
+    e.stopPropagation();
     // Find closest parent div with a data-id attribute
     const lineItem = e.target.closest('div[data-id]'); // Use data-id selector
     if (!lineItem) {
@@ -1749,7 +1823,7 @@ async function addFolder() {
 
     // Ensure new id is unique
     while (!isIdUnique(id)) {
-        id = name.trim().replaceAll(' ', '-').toLowerCase() + '-' + Math.floor(Math.random() * 1000000000000);
+        id = name.trim().replaceAll(' ', '-').toLowerCase() + '-' + Date.now();
     }
 
     // The new folder will be saved as a search engine entry
@@ -1809,6 +1883,19 @@ function clearAddFolder() {
     folderName.value = null;
     folderKeyword.value = null;
     folderKbsc.value = null;
+}
+
+function addNewSearchEngine(parentId, id, searchEngine) {
+    // ... (Create search engine item and add to searchEngines) ...
+    searchEngines[id] = { ...searchEngine };
+    if (searchEngines[parentId] && searchEngines[parentId].children) {
+        searchEngines[parentId].children.splice(searchEngine.index, 0, id);
+    } else {
+        console.error(`Parent with ID ${parentId} or its children array not found.`);
+        // Handle error appropriately, maybe add to root?
+        // Or ensure parentId is always valid before calling this function.
+    }
+    displaySearchEngines();
 }
 
 async function setOptions(options) {

@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <title data-i18n="pageTitle">Context Search Preferences</title>
     <link rel="icon" sizes="any" type="image/svg+xml" href="/icons/context-search.svg">
-    <link rel="stylesheet" href="/styles/ionicons.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway&display=swap">
     <link rel="stylesheet" href="/styles/dark_theme_toggle.css">
     <link rel="stylesheet" href="/styles/options.css">
@@ -249,17 +248,6 @@
                             <button type="button" id="reset" data-i18n="reset">Reset</button>
                         </div>
                     </fieldset>
-
-                    <!--                     <fieldset style="display:inline-block">
-                        <legend>
-                            <h4 data-i18n="header12">Bing settings for AI requests</h4>
-                        </legend>
-                        <div>
-                            <label for="bingUrl" data-i18n="bingUrl">Your personal Bing url: </label>
-                            <input type="url" id="bingUrl">
-                        </div>
-                    </fieldset> -->
-
                     <fieldset>
                         <legend>
                             <h4 data-i18n="header5">Import/export search engines</h4>
@@ -408,51 +396,6 @@
                                         <textarea id="prompt" rows="4" cols="50"
                                             data-i18n-placeholder="prompt"></textarea>
                                     </div>
-                                    <!--                                     <div class="p-sm">
-                                        <label for="model" data-i18n="model">Model:</label>
-                                        <select id="model">
-                                            <option value="gpt-4">GPT-4</option>
-                                            <option value="gpt-4-32k">GPT-4 32k</option>
-                                            <option value="gpt-3.5-turbo" selected>GPT-3.5 turbo</option>
-                                            <option value="gpt-3.5-turbo-16k">GPT-3.5 turbo 16k</option>
-                                            <option value="dall-e">DALL·E</option>
-                                        </select>
-                                    </div>
-                                    <div id="notdalle">
-                                        <div class="p-sm">
-                                            <label for="role" data-i18n="role">Role:</label>
-                                            <select id="role">
-                                                <option value="assistant">Assistant</option>
-                                                <option value="function">Function</option>
-                                                <option value="system">System</option>
-                                                <option value="user" selected>User</option>
-                                            </select>
-                                        </div>
-                                        <div class="slidercontainer">
-                                            <label for="temperature" data-i18n="temperature"> Temperature (0-100%):
-                                            </label>
-                                            <input type="range" min="0" max="100" value="60" class="slider"
-                                                id="temperature" name="temperature">
-                                            <output class="bubble"></output>
-                                        </div>
-                                    </div>
-                                    <div id="dalle">
-                                        <div class="p-sm">
-                                            <label for="imageSize" data-i18n="imageSize">Image size:</label>
-                                            <select id="imageSize">
-                                                <option value="1024x1024" selected>1024x1024</option>
-                                                <option value="512x512">512x512</option>
-                                                <option value="256x256">256x256</option>
-                                            </select>
-                                        </div>
-                                        <div class="slidercontainer">
-                                            <label for="numberOfImages" data-i18n="numberOfImages"> Number of images
-                                                (1-10):</label>
-                                            <input type="range" min="1" max="10" value="3" class="slider"
-                                                id="numberOfImages" name="numberOfImages">
-                                            <output class="bubble"></output>
-                                        </div>
-                                    </div> -->
                                     <div class="buttonrow">
                                         <!-- Display on a new line -->
                                         <button type="button" id="testChatGPTPrompt" style="margin-left: 26px;"
