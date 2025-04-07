@@ -58,6 +58,7 @@ const btnClearAddFolder = document.getElementById('clearAddFolder');
 const btnAddSeparator = document.getElementById('addSeparator');
 
 let os = ''; // Variable to store the OS type
+let meta = ''; // Variable to store the meta key
 let logToConsole = false; // Flag to control console logging
 let keysPressed = {}; // Object to track pressed keys
 let searchEngines = {};
@@ -93,16 +94,16 @@ btnClearAddFolder.addEventListener('click', clearAddFolder);
 /// Keyboard Shortcut handlers
 
 // Add new search engine event handlers for adding a keyboard shortcut
-searchEngineKbsc.addEventListener('keyup', handleKeyboardShortcut);
-searchEngineKbsc.addEventListener('keydown', handleShortcutKeyDown);
+searchEngineKbsc.addEventListener('keyup', handleKeyboardShortcutKeyUp);
+searchEngineKbsc.addEventListener('keydown', handleKeyboardShortcutKeyDown);
 
 // Add new AI prompt event handlers for adding a keyboard shortcut
-promptKbsc.addEventListener('keyup', handleKeyboardShortcut);
-promptKbsc.addEventListener('keydown', handleShortcutKeyDown);
+promptKbsc.addEventListener('keyup', handleKeyboardShortcutKeyUp);
+promptKbsc.addEventListener('keydown', handleKeyboardShortcutKeyDown);
 
 // Add new folder event handlers for adding a keyboard shortcut
-folderKbsc.addEventListener('keyup', handleKeyboardShortcut);
-folderKbsc.addEventListener('keydown', handleShortcutKeyDown);
+folderKbsc.addEventListener('keyup', handleKeyboardShortcutKeyUp);
+folderKbsc.addEventListener('keydown', handleKeyboardShortcutKeyDown);
 
 /// Helper functions
 
@@ -223,8 +224,24 @@ function translateContent(attribute, type) {
 
 /// Main functions
 
+// Initialize meta key based on OS
+function initMetaKey() {
+    if (os === 'macOS') {
+        meta = 'Cmd';
+    } else if (os === 'Windows') {
+        meta = 'Win';
+    } else if (os === 'Linux') {
+        meta = 'Super';
+    } else {
+        meta = 'Meta';
+    }
+}
+
+
 async function init() {
     try {
+        initMetaKey();
+
         // Initialize the UI with stored data
         logToConsole = await getStoredData(STORAGE_KEYS.LOG_TO_CONSOLE);
         searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES);
@@ -271,13 +288,15 @@ function clearAddFolder() {
 }
 
 // Handles the keyup event for keyboard shortcuts
-function handleKeyboardShortcut(e) {
-    console.log(`Keyboard Shortcut Key Up: ${e.target.value}`);
+function handleKeyboardShortcutKeyUp(e) {
+    if (logToConsole) console.log('Keyboard Shortcut Key Up Event');
+    if (logToConsole) console.log(e);
+
     const releasedKey = e.key;
     if (logToConsole) console.log('keyup:', releasedKey, 'keysPressed:', keysPressed);
 
     // List of modifier keys
-    const modifierKeys = ['Control', 'Alt', 'Shift', 'Meta'];
+    const modifierKeys = ['Meta', 'Control', 'Alt', 'Shift'];
 
     // Ignore the keyup event if the released key is a modifier itself
     // or if no keys were actually recorded (e.g., if Escape/Backspace was just pressed)
@@ -297,7 +316,6 @@ function handleKeyboardShortcut(e) {
     e.stopPropagation();
 
     let input;
-    let id = null;
 
     // Determine the target input field
     if (e.target.id === 'kb-shortcut') {
@@ -306,24 +324,13 @@ function handleKeyboardShortcut(e) {
         input = promptKbsc;
     } else if (e.target.id === 'folder-kb-shortcut') {
         input = folderKbsc;
-    } else { // Existing item
-        const lineItem = e.target.closest('.line-item, .folder'); // Use closest to find parent item
-        if (!lineItem) {
-            keysPressed = {};
-            console.error('Could not find parent line item or folder for shortcut input');
-            return;
-        }
-        id = lineItem.getAttribute('id');
-        input = document.getElementById(id + '-kbsc');
-        if (!input) {
-            keysPressed = {};
-            console.error(`Could not find input element #${id}-kbsc`);
-            return;
-        }
+    } else {
+        keysPressed = {};
+        return;
     }
 
     // Define the desired order for modifier keys
-    const modifierOrder = { 'Control': 1, 'Alt': 2, 'Shift': 3, 'Meta': 4 };
+    const modifierOrder = { 'Meta': 1, 'Control': 2, 'Alt': 3, 'Shift': 4 };
     let currentModifiers = [];
     let mainKey = null;
 
@@ -345,8 +352,8 @@ function handleKeyboardShortcut(e) {
     let shortcutParts = [];
     currentModifiers.forEach(mod => {
         if (mod === 'Meta') {
-            // Use 'Cmd' on Mac, 'Ctrl' elsewhere (adjust 'meta' variable usage if needed)
-            shortcutParts.push(os === 'macOS' ? 'Cmd' : 'Ctrl');
+            // Use 'Cmd' on Mac
+            shortcutParts.push(meta);
         } else {
             shortcutParts.push(mod); // Use the key name directly (e.g., Control, Alt, Shift)
         }
@@ -364,18 +371,10 @@ function handleKeyboardShortcut(e) {
 
     // Clear keysPressed for the next shortcut
     keysPressed = {};
-
-    // Manually trigger the change event IF the input isn't one of the main add inputs
-    // (kbsc, promptKbsc, folderKbsc) as those already have direct change listeners.
-    // This ensures the change handler runs for existing items immediately after keyup finalization.
-    if (id !== null) {
-        const changeEvent = new Event('change', { bubbles: true });
-        input.dispatchEvent(changeEvent);
-    }
 }
 
 // Handles the keydown event for keyboard shortcuts
-function handleShortcutKeyDown(e) {
+function handleKeyboardShortcutKeyDown(e) {
     console.log(`Keyboard Shortcut Key Down: ${e.key}`);
     if (logToConsole) console.log('keydown:', e.key, e.code, e.metaKey, e.ctrlKey, 'target:', e.target.id);
     // Ensure event target is an input and is focused

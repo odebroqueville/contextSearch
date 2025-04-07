@@ -135,7 +135,7 @@ btnDownload.addEventListener('click', saveToLocalDisk);
 btnUpload.addEventListener('change', handleFileUpload);
 
 // Initialize meta key based on OS
-async function initMetaKey() {
+function initMetaKey() {
     if (os === 'macOS') {
         meta = 'Cmd';
     } else if (os === 'Windows') {
@@ -150,7 +150,7 @@ async function initMetaKey() {
 async function init() {
     try {
         if (logToConsole) console.log('Starting options page initialization...');
-        await initMetaKey();
+        initMetaKey();
         if (logToConsole) console.log('Meta key initialized');
 
         await restoreOptionsPage();
@@ -1306,7 +1306,7 @@ function handleKeyboardShortcutKeyUp(e) {
     if (logToConsole) console.log('keyup:', releasedKey, 'keysPressed:', keysPressed);
 
     // List of modifier keys
-    const modifierKeys = ['Ctrl', 'Alt', 'Shift', 'Meta'];
+    const modifierKeys = [meta, 'Control', 'Alt', 'Shift'];
 
     // Ignore the keyup event if the released key is a modifier itself
     // or if no keys were actually recorded (e.g., if Escape/Backspace was just pressed)
@@ -1344,7 +1344,7 @@ function handleKeyboardShortcutKeyUp(e) {
     }
 
     // Define the desired order for modifier keys
-    const modifierOrder = { 'Meta': 1, 'Ctrl': 2, 'Alt': 3, 'Shift': 4 };
+    const modifierOrder = { meta: 1, 'Control': 2, 'Alt': 3, 'Shift': 4 };
     let currentModifiers = [];
     let mainKey = null;
 
@@ -1366,7 +1366,7 @@ function handleKeyboardShortcutKeyUp(e) {
     let shortcutParts = [];
     currentModifiers.forEach(mod => {
         if (mod === 'Meta') {
-            // Use 'Cmd' on Mac, 'Ctrl' elsewhere (adjust 'meta' variable usage if needed)
+            // Use 'Cmd' on Mac
             shortcutParts.push(meta);
         } else {
             shortcutParts.push(mod); // Use the key name directly (e.g., Control, Alt, Shift)
@@ -1999,7 +1999,7 @@ function handleKeyboardShortcutKeyDown(e) {
     }
 
     // Prevent default browser shortcuts (like Ctrl+S) but allow standalone modifiers
-    const isModifierOnly = e.key === 'Ctrl' || e.key === 'Alt' || e.key === 'Shift' || e.key === 'Meta';
+    const isModifierOnly = e.key === 'Control' || e.key === 'Alt' || e.key === 'Shift' || e.key === 'Meta';
     if (!isModifierOnly && (e.metaKey || e.ctrlKey || e.altKey)) {
         e.preventDefault();
     }

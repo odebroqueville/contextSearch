@@ -162,7 +162,7 @@ async function getOS() {
     }
 }
 
-async function initMetaKey() {
+function initMetaKey() {
     if (os === 'macOS') {
         meta = 'Cmd';
     } else if (os === 'Windows') {
@@ -377,7 +377,7 @@ async function init() {
     os = await getOS();
 
     // Initialize meta key depending on OS
-    await initMetaKey();
+    initMetaKey();
 
     if (tabUrl.endsWith('/')) {
         trimmedUrl = tabUrl.slice(0, -1);
@@ -386,7 +386,7 @@ async function init() {
     }
 
     try {
-        const response = await sendMessage('getStoredData');
+        const response = await sendMessage('getStoredData', null);
         if (response.success) {
             const storedData = response.data;
             logToConsole = storedData.logToConsole;
@@ -402,9 +402,14 @@ async function init() {
 
     // If debugging mode is enabled, log the tab url and domain
     if (logToConsole) {
+        console.log(`OS: ${os}`);
+        console.log(`Meta key: ${meta}`);
         console.log(`Tab url: ${tabUrl}`);
         console.log(`Path name: ${pn}`);
         console.log(`Domain: ${domain}`);
+        console.log(`Text selection: ${textSelection}`);
+        console.log('Options: ', options);
+        console.log('Search engines: ', searchEngines);
     }
 
     // If the web page contains selected text, then send it to the background script
@@ -668,7 +673,7 @@ async function checkForSelection(e) {
 // Handle keyboard shortcuts
 async function handleKeyUp(e) {
     if (logToConsole) console.log(e);
-    const modifiers = [meta, "Ctrl", "Shift", "Alt"];
+    const modifiers = ['Meta', 'Control', 'Shift', 'Alt'];
 
     await checkForSelection(e);
 
@@ -683,11 +688,11 @@ async function handleKeyUp(e) {
         if (logToConsole) console.log(modifier);
         if (!(modifier in keysPressed)) continue;
         switch (modifier) {
-            case meta:
-                input = input + meta;
+            case 'Meta':
+                input = input + meta + '+';
                 break;
-            case 'Ctrl':
-                input = input + 'Ctrl+';
+            case 'Control':
+                input = input + 'Control+';
                 break;
             case 'Shift':
                 input = input + 'Shift+';
@@ -700,24 +705,24 @@ async function handleKeyUp(e) {
         delete keysPressed[modifier];
     }
     if (logToConsole) console.log(`Modifier key(s) pressed: ${input}`);
-    if (logToConsole) console.log(`Remaining key(s) pressed: ${keysPressed}`);
+    if (logToConsole) console.log(`Remaining key pressed: ${keysPressed}`);
 
-    // If only modifier keys were pressed then discontinue
+    // If only modifier keys were pressed, then discontinue
     if (Object.keys(keysPressed).length === 0) {
         // Reset keys pressed
         keysPressed = {};
         return;
     }
 
-    // For all non-modifier keys pressed...
-    for (let key in keysPressed) {
-        if (logToConsole) console.log(key);
-        if (os === 'macOS' && keysPressed[key]) {
-            input += keysPressed[key].substring(3);
-        } else if (key) {
-            input += key;
-        }
+    // If more than one non-modifier key was pressed, then only the first key is used
+    const key = Object.keys(keysPressed)[0];
+
+    if (os === 'macOS' && keysPressed[key]) {
+        input += keysPressed[key].substring(3);
+    } else if (key) {
+        input += key;
     }
+
 
     if (logToConsole) console.log(`Keys pressed: ${input}`);
 
@@ -727,7 +732,7 @@ async function handleKeyUp(e) {
     // Check if the input text matches any search engine keyboard shortcut
     for (let id in searchEngines) {
         if (logToConsole) console.log(id);
-        const keyboardShortcut = searchEngines[id].keyboardShortcut.toLowerCase();
+        const keyboardShortcut = searchEngines[id].keyboardShortcut.toLowerCase().replace('ctrl', 'control');
         if (keyboardShortcut && keyboardShortcut === input.toLowerCase()) {
             if (logToConsole) console.log(`Matched keyboard shortcut: ${keyboardShortcut}`);
             await sendMessage('doSearch', { id: id });
