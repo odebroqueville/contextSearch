@@ -57,7 +57,7 @@ input[type="number"] {
     margin-bottom: 5px;
 }
 
-.se {
+.search-engine {
     background-color: lightskyblue;
     padding: 5px;
     margin-left: 30px;
@@ -87,8 +87,8 @@ input[type="number"] {
     border: none;
 }
 
-html[theme=light] #searchEngines div.se:hover,
-html[theme=dark] #searchEngines div.se:hover {
+html[theme=light] #searchEngines div.search-engine:hover,
+html[theme=dark] #searchEngines div.search-engine:hover {
     /* Show the dotted border when hovered */
     border: 3px dotted blue;
 

@@ -2,7 +2,6 @@
 import '/libs/browser-polyfill.min.js';
 
 /// Import constants
-import { base64FolderIcon } from './favicons.js';
 import { STORAGE_KEYS, SORTABLE_BASE_OPTIONS } from './constants.js';
 
 /// Global constants
@@ -15,28 +14,6 @@ const sortableOptions = {
 
 // Storage container and div for addSearchEngine
 const container = document.getElementById('container');
-
-// Add a New Search Engine
-const show = document.getElementById('show'); // Boolean
-const sename = document.getElementById('name'); // String
-const keyword = document.getElementById('keyword'); // String
-const multitab = document.getElementById('multitab'); // Boolean
-const url = document.getElementById('url'); // String
-const kbsc = document.getElementById('kb-shortcut'); // String
-
-// Add a New AI Prompt
-const promptShow = document.getElementById('promptShow'); // Boolean
-const promptName = document.getElementById('promptName'); // String
-const promptKeyword = document.getElementById('promptKeyword'); // String
-const promptMultitab = document.getElementById('promptMultitab'); // Boolean
-const promptText = document.getElementById('prompt'); // String
-const promptKbsc = document.getElementById('prompt-kb-shortcut'); // String
-const aiProvider = document.getElementById('ai-provider');
-
-// Add folder
-const folderName = document.getElementById('folderName');
-const folderKeyword = document.getElementById('folderKeyword');
-const folderKbsc = document.getElementById('folder-kb-shortcut');
 
 // Options
 const exactMatch = document.getElementById('exactMatch');
@@ -75,17 +52,6 @@ const btnSortAlpha = document.getElementById('sortAlphabetically');
 const btnClearKeyboardShortcuts = document.getElementById('clearKeyboardShortcuts');
 const btnReset = document.getElementById('reset');
 
-// Add new search engine buttons
-const btnTest = document.getElementById('test');
-const btnAdd = document.getElementById('addSearchEngine');
-const btnClearAddSearchEngine = document.getElementById('clearAddSearchEngine');
-const btnTestChatGPTPrompt = document.getElementById('testChatGPTPrompt');
-const btnAddChatGPTPrompt = document.getElementById('addChatGPTPrompt');
-const btnClearAddChatGPTPrompt = document.getElementById('clearAddChatGPTPrompt');
-const btnAddFolder = document.getElementById('addFolder');
-const btnClearAddFolder = document.getElementById('clearAddFolder');
-const btnAddSeparator = document.getElementById('addSeparator');
-
 // Import/export
 const btnDownload = document.getElementById('download');
 const btnUpload = document.getElementById('upload');
@@ -93,7 +59,6 @@ const btnUpload = document.getElementById('upload');
 // Translations
 const add = browser.i18n.getMessage('add');
 const remove = browser.i18n.getMessage('remove');
-const notifySearchEngineUrlRequired = browser.i18n.getMessage('notifySearchEngineUrlRequired');
 // 'Popup blocked! Please allow popups for this site.'
 const popupBlockedMessage = browser.i18n.getMessage('popupBlockedMessage');
 
@@ -110,8 +75,8 @@ window.addEventListener('message', async (event) => {
     if (event.origin !== window.location.origin) return; // Security check
 
     const receivedData = event.data;
-    if (receivedData.uniqueId && receivedData.parentId) {
-        const { uniqueId, parentId, id, searchEngine } = receivedData;
+    if (receivedData.parentId && receivedData.id && receivedData.searchEngine) {
+        const { parentId, id, searchEngine } = receivedData;
 
         addNewSearchEngine(parentId, id, searchEngine);
         // Update indices and save
@@ -165,51 +130,20 @@ btnSortAlpha.addEventListener('click', sortSearchEnginesAlphabetically);
 btnClearKeyboardShortcuts.addEventListener('click', clearKeyboardShortcuts);
 btnReset.addEventListener('click', reset);
 
-// Add new search engine button click handlers
-btnTest.addEventListener('click', testSearchEngine);
-btnAdd.addEventListener('click', addSearchEngine);
-btnClearAddSearchEngine.addEventListener('click', clearAddSearchEngine);
-
-// Add new search engine event handlers for adding a keyboard shortcut
-kbsc.addEventListener('keyup', handleKeyboardShortcut);
-kbsc.addEventListener('keydown', handleShortcutKeyDown);
-kbsc.addEventListener('change', handleKeyboardShortcutChange);
-
-// Add new AI Prompt button handlers
-btnTestChatGPTPrompt.addEventListener('click', testChatGPTPrompt);
-btnAddChatGPTPrompt.addEventListener('click', addChatGPTPrompt);
-btnClearAddChatGPTPrompt.addEventListener('click', clearAddChatGPTPrompt);
-
-// Add new AI prompt event handlers for adding a keyboard shortcut
-promptKbsc.addEventListener('keyup', handleKeyboardShortcut);
-promptKbsc.addEventListener('keydown', handleShortcutKeyDown);
-promptKbsc.addEventListener('change', handleKeyboardShortcutChange);
-
-// Add new folder or separator button click handlers
-btnAddSeparator.addEventListener('click', addSeparator);
-btnAddFolder.addEventListener('click', addFolder);
-btnClearAddFolder.addEventListener('click', clearAddFolder);
-
-// Add new folder event handlers for adding a keyboard shortcut
-folderKbsc.addEventListener('keyup', handleKeyboardShortcut);
-folderKbsc.addEventListener('keydown', handleShortcutKeyDown);
-folderKbsc.addEventListener('change', handleKeyboardShortcutChange);
-
 // Import/export
 btnDownload.addEventListener('click', saveToLocalDisk);
 btnUpload.addEventListener('change', handleFileUpload);
 
 // Initialize meta key based on OS
 async function initMetaKey() {
-    const detectedOS = await getOS();
-    if (detectedOS === 'macOS') {
-        meta = 'cmd+';
-    } else if (detectedOS === 'Windows') {
-        meta = 'win+';
-    } else if (detectedOS === 'Linux') {
-        meta = 'super+';
+    if (os === 'macOS') {
+        meta = 'Cmd';
+    } else if (os === 'Windows') {
+        meta = 'Win';
+    } else if (os === 'Linux') {
+        meta = 'Super';
     } else {
-        meta = 'meta+';
+        meta = 'Meta';
     }
 }
 
@@ -435,12 +369,12 @@ async function saveSearchEnginesOnDragEnded(evt) {
         const childrenIds = [];
 
         // Selector finds:
-        // 1. '.se' elements that are direct children of listElement
+        // 1. '.search-engine' elements that are direct children of listElement
         // 2. '.folder' elements that are direct children of listElement
-        // 3. '.se' elements that are direct children of a '.folder-children' div
+        // 3. '.search-engine' elements that are direct children of a '.folder-children' div
         // 4. '.folder' elements that are direct children of a '.folder-children' div
-        // Adjust '.se' or '.folder' if your actual classes differ
-        const selector = ':scope > .se, :scope > .folder, :scope > .folder-children > .se, :scope > .folder-children > .folder';
+        // Adjust '.search-engine' or '.folder' if your actual classes differ
+        const selector = ':scope > .search-engine, :scope > .folder, :scope > .folder-children > .search-engine, :scope > .folder-children > .folder';
 
         console.log("[getChildrenIdsFromDOM] Using combined selector:", selector);
 
@@ -669,7 +603,7 @@ function createLineItem(id) {
     const searchEngineName = searchEngine.name;
     const lineItem = document.createElement('div');
     lineItem.setAttribute('id', id);
-    lineItem.classList.add('se');
+    lineItem.classList.add('search-engine');
     lineItem.setAttribute('data-id', id);
 
     let inputQueryString;
@@ -818,8 +752,8 @@ function createLineItem(id) {
     }); // when users leave the input field and content has changed
 
     // Event handlers for adding a keyboard shortcut
-    inputKeyboardShortcut.addEventListener('keyup', handleKeyboardShortcut);
-    inputKeyboardShortcut.addEventListener('keydown', handleShortcutKeyDown);
+    inputKeyboardShortcut.addEventListener('keyup', handleKeyboardShortcutKeyUp);
+    inputKeyboardShortcut.addEventListener('keydown', handleKeyboardShortcutKeyDown);
     inputKeyboardShortcut.addEventListener('change', handleKeyboardShortcutChange);
 
     // Event handler for 'include search engine in multi-search' checkbox click event
@@ -1075,8 +1009,8 @@ function createFolderItem(id) {
     inputFolderKeyword.addEventListener('change', folderKeywordChanged);
 
     // Event handlers for adding a keyboard shortcut
-    inputFolderKeyboardShortcut.addEventListener('keyup', handleKeyboardShortcut);
-    inputFolderKeyboardShortcut.addEventListener('keydown', handleShortcutKeyDown);
+    inputFolderKeyboardShortcut.addEventListener('keyup', handleKeyboardShortcutKeyUp);
+    inputFolderKeyboardShortcut.addEventListener('keydown', handleKeyboardShortcutKeyDown);
     inputFolderKeyboardShortcut.addEventListener('change', handleKeyboardShortcutChange);
 
     // Add and deletion button for folder
@@ -1367,12 +1301,12 @@ async function folderKeywordChanged(e) {
 }
 
 // Handle the input of a keyboard shortcut for a search engine in the Options page
-function handleKeyboardShortcut(e) {
+function handleKeyboardShortcutKeyUp(e) {
     const releasedKey = e.key;
     if (logToConsole) console.log('keyup:', releasedKey, 'keysPressed:', keysPressed);
 
     // List of modifier keys
-    const modifierKeys = ['Control', 'Alt', 'Shift', 'Meta'];
+    const modifierKeys = ['Ctrl', 'Alt', 'Shift', 'Meta'];
 
     // Ignore the keyup event if the released key is a modifier itself
     // or if no keys were actually recorded (e.g., if Escape/Backspace was just pressed)
@@ -1395,30 +1329,22 @@ function handleKeyboardShortcut(e) {
     let id = null;
 
     // Determine the target input field
-    if (e.target.id === 'kb-shortcut') {
-        input = kbsc;
-    } else if (e.target.id === 'prompt-kb-shortcut') {
-        input = promptKbsc;
-    } else if (e.target.id === 'folder-kb-shortcut') {
-        input = folderKbsc;
-    } else { // Existing item
-        const lineItem = e.target.closest('.line-item, .folder'); // Use closest to find parent item
-        if (!lineItem) {
-            keysPressed = {};
-            console.error('Could not find parent line item or folder for shortcut input');
-            return;
-        }
-        id = lineItem.getAttribute('id');
-        input = document.getElementById(id + '-kbsc');
-        if (!input) {
-            keysPressed = {};
-            console.error(`Could not find input element #${id}-kbsc`);
-            return;
-        }
+    const lineItem = e.target.closest('.search-engine, .folder'); // Use closest to find parent item
+    if (!lineItem) {
+        keysPressed = {};
+        console.error('Could not find parent line item or folder for shortcut input');
+        return;
+    }
+    id = lineItem.getAttribute('id');
+    input = document.getElementById(id + '-kbsc');
+    if (!input) {
+        keysPressed = {};
+        console.error(`Could not find input element #${id}-kbsc`);
+        return;
     }
 
     // Define the desired order for modifier keys
-    const modifierOrder = { 'Control': 1, 'Alt': 2, 'Shift': 3, 'Meta': 4 };
+    const modifierOrder = { 'Meta': 1, 'Ctrl': 2, 'Alt': 3, 'Shift': 4 };
     let currentModifiers = [];
     let mainKey = null;
 
@@ -1441,7 +1367,7 @@ function handleKeyboardShortcut(e) {
     currentModifiers.forEach(mod => {
         if (mod === 'Meta') {
             // Use 'Cmd' on Mac, 'Ctrl' elsewhere (adjust 'meta' variable usage if needed)
-            shortcutParts.push(os === 'macOS' ? 'Cmd' : 'Ctrl');
+            shortcutParts.push(meta);
         } else {
             shortcutParts.push(mod); // Use the key name directly (e.g., Control, Alt, Shift)
         }
@@ -1460,8 +1386,6 @@ function handleKeyboardShortcut(e) {
     // Clear keysPressed for the next shortcut
     keysPressed = {};
 
-    // Manually trigger the change event IF the input isn't one of the main add inputs
-    // (kbsc, promptKbsc, folderKbsc) as those already have direct change listeners.
     // This ensures the change handler runs for existing items immediately after keyup finalization.
     if (id !== null) {
         const changeEvent = new Event('change', { bubbles: true });
@@ -1474,7 +1398,7 @@ async function handleKeyboardShortcutChange(e) {
     const id = lineItem.getAttribute('id');
     const input = document.getElementById(id + '-kbsc');
     const keyboardShortcut = input.value;
-    if (logToConsole) console.log(id, keyboardShortcut);
+    if (logToConsole) console.log(`id: ${id}, keyboardShortcut: ${keyboardShortcut}`);
     searchEngines[id]['keyboardShortcut'] = keyboardShortcut;
 
     await sendMessage('saveSearchEngines', searchEngines);
@@ -1656,233 +1580,6 @@ async function saveSearchEngines() {
     searchEngines = readData();
     if (logToConsole) console.log('Search engines READ from the Options page:\n', searchEngines);
     await sendMessage('saveSearchEngines', searchEngines);
-}
-
-async function testSearchEngine() {
-    await sendMessage('testSearchEngine', {
-        url: document.getElementById('url').value
-    });
-}
-
-async function testChatGPTPrompt() {
-    const provider = document.getElementById('ai-provider').value;
-    await sendMessage('testPrompt', {
-        provider: provider
-    });
-}
-
-async function addSeparator() {
-    let sepId = `separator-${Date.now()}`;
-
-    // Ensure new id is unique
-    while (!isIdUnique(sepId)) {
-        sepId = `separator-${Date.now()}`;
-    }
-
-    const hr = document.createElement('hr');
-    hr.id = sepId;
-    hr.dataset.id = sepId; // Add data-id for consistent reading by getChildrenIdsFromDOM
-    hr.classList.add('separator');
-
-    // Append to the correct list (either root or folder's children container)
-    let targetListElement = document.getElementById('searchEngines');
-    // If the button's parent is not the direct sortable list (e.g., it's in a header),
-    // find the actual children container.
-    // This assumes listElement is the container where the button resides, maybe needs adjustment
-    if (!targetListElement.classList.contains('folder-children') && !targetListElement.id === 'searchEngines') {
-        targetListElement = targetListElement.querySelector('.folder-children') || targetListElement; // Fallback to listElement if no container found
-    }
-    targetListElement.appendChild(hr);
-
-    // Add the actual separator ID to the parent's children array in the data structure
-    // Determine parent ID based on the *container* it's being added to
-    const parentId = targetListElement.closest('.folder')?.id ?? 'root'; // Use closest folder's id or 'root'
-
-    if (searchEngines[parentId] && searchEngines[parentId].children) {
-        searchEngines[parentId].children.push(sepId); // Push the ID, not ""
-        await sendMessage('saveSearchEngines', searchEngines);
-        if (logToConsole) console.log(`Separator ${sepId} added to ${parentId}, children:`, searchEngines[parentId].children);
-    } else {
-        console.error(`Could not find parent ${parentId} or its children array to add separator.`);
-    }
-}
-
-async function addSearchEngine() {
-    const n = searchEngines['root'].children.length;
-    const divSearchEngines = document.getElementById('searchEngines');
-    let strUrl = url.value;
-    let testUrl = '';
-    let id = sename.value.trim().replaceAll(' ', '-').toLowerCase();
-    id = id.substring(0, 25);
-
-    // Make certain that query string url starts with "https" to enforce SSL
-    if (!strUrl.startsWith('https://')) {
-        if (strUrl.startsWith('http://')) {
-            strUrl.replace('http://', 'https://');
-        } else {
-            strUrl += 'https://' + strUrl;
-        }
-    }
-
-    // Create test url
-    if (strUrl.includes('{searchTerms}')) {
-        testUrl = strUrl.replace('{searchTerms}', 'test');
-    } else if (strUrl.includes('%s')) {
-        testUrl = strUrl.replace('%s', 'test');
-    } else {
-        testUrl = strUrl + 'test';
-    }
-
-    // Validate query string url
-    if (url.validity.typeMismatch || !isValidUrl(testUrl)) {
-        await notify(notifySearchEngineUrlRequired);
-        return;
-    }
-
-    searchEngines[id] = {
-        index: n,
-        name: sename.value,
-        keyword: keyword.value,
-        keyboardShortcut: kbsc.value,
-        multitab: multitab.checked,
-        url: strUrl,
-        show: show.checked,
-        isFolder: false
-    };
-
-    if (logToConsole) console.log('New search engine: ' + id + '\n' + JSON.stringify(searchEngines[id]));
-
-    // Add search engine as child of 'root'
-    searchEngines['root'].children.push(id);
-
-    const response = await sendMessage('addNewSearchEngine', {
-        id: id,
-        searchEngine: searchEngines[id]
-    });
-    if (response) {
-        searchEngines[id] = response.searchEngine;
-    }
-
-    const lineItem = createLineItem(id);
-    divSearchEngines.appendChild(lineItem);
-
-    // Clear HTML input fields to add a new search engine
-    clearAddSearchEngine();
-}
-
-async function addChatGPTPrompt() {
-    const n = searchEngines['root'].children.length;
-    const divSearchEngines = document.getElementById('searchEngines');
-    let id = "chatgpt-" + Math.floor(Math.random() * 1000000000000);
-
-    // Ensure new is unique
-    while (!isIdUnique(id)) {
-        id = "chatgpt-" + Math.floor(Math.random() * 1000000000000);
-    }
-
-    // Minimal requirements to add a prompt
-    if (!(aiProvider.value && promptName.value && promptText.value)) {
-        await notify('Please at least select an AI Provider and provide a prompt name and a prompt.');
-        return;
-    }
-
-    searchEngines[id] = {
-        index: n,
-        aiProvider: aiProvider.value,
-        name: promptName.value,
-        keyword: promptKeyword.value,
-        keyboardShortcut: promptKbsc.value,
-        multitab: promptMultitab.checked,
-        prompt: promptText.value,
-        show: promptShow.checked,
-        isFolder: false
-    };
-
-    // Add AI prompt as child of 'root'
-    searchEngines['root'].children.push(id);
-
-    const lineItem = createLineItem(id);
-    divSearchEngines.appendChild(lineItem);
-
-    await sendMessage('addNewPrompt', {
-        id: id,
-        searchEngine: searchEngines[id]
-    });
-
-    // Clear HTML input fields to add a new prompt
-    clearAddChatGPTPrompt();
-}
-
-async function addFolder() {
-    const divSearchEngines = document.getElementById('searchEngines');
-    const n = searchEngines['root'].children.length;
-    const name = folderName.value;
-    const keyword = folderKeyword.value || '';
-    const keyboardShortcut = folderKbsc.value || '';
-    let id = name.trim().replaceAll(' ', '-').toLowerCase();
-
-    // Ensure new id is unique
-    while (!isIdUnique(id)) {
-        id = name.trim().replaceAll(' ', '-').toLowerCase() + '-' + Date.now();
-    }
-
-    // The new folder will be saved as a search engine entry
-    // Folders don't possess all the properties that search engines do
-    // A folder doesn't have a query string url property
-    // A folder may have children (search engines don't have children)
-    searchEngines[id] = {
-        index: n,
-        name: name,
-        keyword: keyword,
-        keyboardShortcut: keyboardShortcut,
-        isFolder: true,
-        children: [], // Array of search engine and/or subfolder ids
-        imageFormat: 'image/png',
-        base64: base64FolderIcon
-    };
-
-    // Add folder as child of 'root'
-    searchEngines['root'].children.push(id);
-
-    // Append folder to search engine list
-    const folderItem = createFolderItem(id);
-    divSearchEngines.appendChild(folderItem);
-
-    // Clear HTML input fields to add a new folder
-    clearAddFolder();
-
-    await sendMessage('addNewSearchEngine', {
-        id: id,
-        searchEngine: searchEngines[id]
-    });
-}
-
-function clearAddSearchEngine() {
-    // Clear check boxes and text box entries of the line used to add a new search engine
-    show.checked = true;
-    sename.value = null;
-    keyword.value = null;
-    kbsc.value = null;
-    multitab.checked = false;
-    url.value = null;
-}
-
-function clearAddChatGPTPrompt() {
-    // Clear check boxes and text box entries of the line used to add a new search engine
-    aiProvider.value = '';
-    promptShow.checked = true;
-    promptName.value = null;
-    promptKeyword.value = null;
-    promptKbsc.value = null;
-    promptMultitab.checked = false;
-    promptText.value = null;
-}
-
-function clearAddFolder() {
-    // Clear text box entries of the line used to add a new folder
-    folderName.value = null;
-    folderKeyword.value = null;
-    folderKbsc.value = null;
 }
 
 function addNewSearchEngine(parentId, id, searchEngine) {
@@ -2214,16 +1911,6 @@ function isIdUnique(testId) {
     return true;
 }
 
-function isValidUrl(url) {
-    try {
-        new URL(url);
-        return true;
-    } catch (e) {
-        // Malformed URL
-        return false;
-    }
-}
-
 function compareNumbers(a, b) {
     return a - b;
 }
@@ -2290,7 +1977,7 @@ function translateContent(attribute, type) {
 }
 
 // Shared handler for keydown events on shortcut input fields
-function handleShortcutKeyDown(e) {
+function handleKeyboardShortcutKeyDown(e) {
     if (logToConsole) console.log('keydown:', e.key, e.code, e.metaKey, e.ctrlKey, 'target:', e.target.id);
     // Ensure event target is an input and is focused
     if (e.target.nodeName !== 'INPUT' || !isInFocus(e.target)) return;
@@ -2312,7 +1999,7 @@ function handleShortcutKeyDown(e) {
     }
 
     // Prevent default browser shortcuts (like Ctrl+S) but allow standalone modifiers
-    const isModifierOnly = e.key === 'Control' || e.key === 'Alt' || e.key === 'Shift' || e.key === 'Meta';
+    const isModifierOnly = e.key === 'Ctrl' || e.key === 'Alt' || e.key === 'Shift' || e.key === 'Meta';
     if (!isModifierOnly && (e.metaKey || e.ctrlKey || e.altKey)) {
         e.preventDefault();
     }

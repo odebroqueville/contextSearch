@@ -7,9 +7,6 @@ import { STORAGE_KEYS } from './constants.js';
 
 const notifySearchEngineUrlRequired = browser.i18n.getMessage('notifySearchEngineUrlRequired');
 
-// Function to generate a unique ID
-const uniqueId = generateUUID();
-
 // Get the query string part of the URL (e.g., "?uniqueId=abc&parentId=xyz&newIndex=2")
 const queryString = window.location.search;
 
@@ -109,15 +106,6 @@ folderKbsc.addEventListener('keydown', handleShortcutKeyDown);
 
 /// Helper functions
 
-// Function to generate a unique ID (UUID)
-function generateUUID() {
-    // Generate 32 random hexadecimal digits
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-        const r = Math.random() * 16 | 0; // Generate a random number between 0 and 15
-        const v = c === 'x' ? r : (r & 0x3 | 0x8); // Ensure the 8th digit is 4 and the 13th digit is 8, 12
-        return v.toString(16); // Convert the random number to hexadecimal
-    });
-}
 // Detect the underlying OS
 async function getOS() {
     const platform = await browser.runtime.getPlatformInfo();
@@ -443,7 +431,7 @@ async function addSeparator(e) {
     };
 
     // Send data back to the main window using the unique ID
-    window.opener.postMessage({ uniqueId, parentId, id: sepId, searchEngine: separatorData }, window.location.origin);
+    window.opener.postMessage({ parentId, id: sepId, searchEngine: separatorData }, window.location.origin);
     window.close();
 }
 
@@ -476,7 +464,7 @@ async function addFolder(e) {
     };
 
     // Send data back to the main window using the unique ID
-    window.opener.postMessage({ uniqueId, parentId, id, searchEngine: folderData }, window.location.origin);
+    window.opener.postMessage({ parentId, id, searchEngine: folderData }, window.location.origin);
     window.close();
 }
 
@@ -509,7 +497,7 @@ async function addChatGPTPrompt(e) {
     };
 
     // Send data back to the main window using the unique ID
-    window.opener.postMessage({ uniqueId, parentId, id, searchEngine: promptData }, window.location.origin);
+    window.opener.postMessage({ parentId, id, searchEngine: promptData }, window.location.origin);
     window.close();
 }
 
@@ -563,7 +551,7 @@ async function addSearchEngine(e) {
     };
 
     // Send data back to the main window using the unique ID
-    window.opener.postMessage({ uniqueId, parentId, id, searchEngine }, window.location.origin);
+    window.opener.postMessage({ parentId, id, searchEngine }, window.location.origin);
     window.close();
 }
 

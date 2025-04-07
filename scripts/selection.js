@@ -30,6 +30,7 @@ const ICON32 = '32px'; // icon width is 32px
 
 // Global variables
 let logToConsole = false; // Debug (default)
+let os = null;
 let meta = ''; // meta key: cmd for macOS, win for Windows, super for Linux
 let tabUrl = '';
 let domain = '';
@@ -162,15 +163,14 @@ async function getOS() {
 }
 
 async function initMetaKey() {
-    const detectedOS = await getOS();
-    if (detectedOS === 'macOS') {
-        meta = 'cmd+';
-    } else if (detectedOS === 'Windows') {
-        meta = 'win+';
-    } else if (detectedOS === 'Linux') {
-        meta = 'super+';
+    if (os === 'macOS') {
+        meta = 'Cmd';
+    } else if (os === 'Windows') {
+        meta = 'Win';
+    } else if (os === 'Linux') {
+        meta = 'Super';
     } else {
-        meta = 'meta+';
+        meta = 'Meta';
     }
 }
 
@@ -372,6 +372,9 @@ async function init() {
     domain = window.location.hostname;
     let postRequest = false;
     let trimmedUrl;
+
+    // Get OS
+    os = await getOS();
 
     // Initialize meta key depending on OS
     await initMetaKey();
@@ -665,7 +668,7 @@ async function checkForSelection(e) {
 // Handle keyboard shortcuts
 async function handleKeyUp(e) {
     if (logToConsole) console.log(e);
-    const modifiers = ["Control", "Shift", "Alt", "Meta"];
+    const modifiers = [meta, "Ctrl", "Shift", "Alt"];
 
     await checkForSelection(e);
 
@@ -676,57 +679,57 @@ async function handleKeyUp(e) {
 
     // Store all modifier keys pressesd in var input
     let input = "";
-    for (let i = 0; i < modifiers.length; i++) {
-        const modifier = modifiers[i];
+    for (let modifier of modifiers) {
         if (logToConsole) console.log(modifier);
         if (!(modifier in keysPressed)) continue;
         switch (modifier) {
-            case 'Control':
-                input = input + 'ctrl+';
+            case meta:
+                input = input + meta;
+                break;
+            case 'Ctrl':
+                input = input + 'Ctrl+';
                 break;
             case 'Shift':
-                input = input + 'shift+';
+                input = input + 'Shift+';
                 break;
             case 'Alt':
-                input = input + 'alt+';
-                break;
-            case 'Meta':
-                input = input + meta;
+                input = input + 'Alt+';
                 break;
             default:
         }
         delete keysPressed[modifier];
     }
-    if (logToConsole) console.log(`keys pressed: ${input}`);
-    if (logToConsole) console.log(`remaining keys down: `);
-    if (logToConsole) console.log(keysPressed);
+    if (logToConsole) console.log(`Modifier key(s) pressed: ${input}`);
+    if (logToConsole) console.log(`Remaining key(s) pressed: ${keysPressed}`);
+
+    // If only modifier keys were pressed then discontinue
+    if (Object.keys(keysPressed).length === 0) {
+        // Reset keys pressed
+        keysPressed = {};
+        return;
+    }
 
     // For all non-modifier keys pressed...
     for (let key in keysPressed) {
-        const os = await getOS();
         if (logToConsole) console.log(key);
         if (os === 'macOS' && keysPressed[key]) {
-            input += keysPressed[key].substring(3).toLowerCase();
+            input += keysPressed[key].substring(3);
         } else if (key) {
-            input += key.toLowerCase();
+            input += key;
         }
     }
+
+    if (logToConsole) console.log(`Keys pressed: ${input}`);
 
     // Reset keys pressed
     keysPressed = {};
 
-    // If only modifier keys were pressed then discontinue
-    const inputWithoutModifiers = input.replace(/ctrl\+|shift\+|alt\+/g, '');
-    if (inputWithoutModifiers === "") return;
-
-    if (logToConsole) console.log(`keys pressed: ${input}`);
-
     // Check if the input text matches any search engine keyboard shortcut
     for (let id in searchEngines) {
         if (logToConsole) console.log(id);
-        const keyboardShortcut = searchEngines[id].keyboardShortcut;
-        if (logToConsole) console.log(keyboardShortcut);
-        if (keyboardShortcut && keyboardShortcut === input) {
+        const keyboardShortcut = searchEngines[id].keyboardShortcut.toLowerCase();
+        if (keyboardShortcut && keyboardShortcut === input.toLowerCase()) {
+            if (logToConsole) console.log(`Matched keyboard shortcut: ${keyboardShortcut}`);
             await sendMessage('doSearch', { id: id });
             break;
         }
