@@ -123,7 +123,60 @@ Style the tabs
     border-right: 0.125rem solid #0000cc;
 }
 
+#addChatGPTPromptTab #ai-provider {
+    margin-left: 10px;
+    width: 140px;
+}
+
 #addChatGPTPromptTab #prompt {
     margin-top: 15px;
-    margin-left: 25px;
+    margin-left: 35px;
+    width: 400px;
+}
+
+#addSearchEngineTab #url {
+    width: 400px;
+    margin-left: 10px;
+}
+
+#addSearchEngineTab #name,
+#addChatGPTPromptTab #promptName {
+    width: 195px;
+    margin-left: 10px;
+}
+
+#addFolderTab #folderName {
+    width: 195px;
+}
+
+#addSearchEngineTab #keyword,
+#addChatGPTPromptTab #promptKeyword,
+#addFolderTab #folderKeyword {
+    width: 80px;
+    margin-left: 10px;
+}
+
+#addSearchEngineTab #kb-shortcut,
+#addChatGPTPromptTab #prompt-kb-shortcut,
+#addFolderTab #folder-kb-shortcut {
+    width: 130px;
+    margin-left: 10px;
+}
+
+#multitab,
+#promptMultitab {
+    margin-left: 10px;
+}
+
+.buttonrow {
+    margin-left: 35px;
+    margin-top: 15px;
+}
+
+#addSeparatorTab h3,
+#addFolderTab h3,
+#addSearchEngineTab h3,
+#addChatGPTPromptTab h3,
+#addFolderTab #folderName {
+    margin-left: 35px;
 }
