@@ -162,6 +162,13 @@ async function getOS() {
     }
 }
 
+// Function that determines if the browser being used is Chromium-based (e.g. Chrome) or is Gecko-based (e.g. Firefox)
+function getBrowserType() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    return userAgent.includes("chrome") ? "chrome" : "firefox";
+}
+
+// Function that determines the meta key based on the OS
 function initMetaKey() {
     if (os === 'macOS') {
         meta = 'Cmd';
@@ -673,6 +680,7 @@ async function checkForSelection(e) {
 // Handle keyboard shortcuts
 async function handleKeyUp(e) {
     if (logToConsole) console.log(e);
+
     const modifiers = ['Meta', 'Control', 'Shift', 'Alt'];
 
     await checkForSelection(e);
@@ -723,8 +731,22 @@ async function handleKeyUp(e) {
         input += key;
     }
 
-
     if (logToConsole) console.log(`Keys pressed: ${input}`);
+
+    // --- Add this check to ignore manifest commands ---
+    const browserType = getBrowserType();
+    let manifestCommandShortcuts = ["Alt+J", "Alt+K"]; // Define the shortcuts from the Chrome manifest
+    if (browserType === 'firefox') {
+        // Define the shortcuts from the Firefox manifest
+        manifestCommandShortcuts = ["Control+Shift+J", "Control+Shift+K"];
+    }
+    // Use case-insensitive comparison, similar to how search engine shortcuts are checked
+    if (manifestCommandShortcuts.some(cmd => cmd.toLowerCase() === input.toLowerCase())) {
+        if (logToConsole) console.log(`Ignoring manifest command shortcut: ${input}`);
+        keysPressed = {}; // Reset keys pressed state
+        return; // Exit the function early, let the browser handle the command
+    }
+    // --- End check ---
 
     // Reset keys pressed
     keysPressed = {};

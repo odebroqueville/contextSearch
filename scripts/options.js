@@ -831,9 +831,11 @@ function updatePopupStyles(popup, darkMode) {
 async function editFavicon(e) {
     if (logToConsole) console.log(e);
     // Find closest <li> parent
-    const lineItem = e.target.closest('div');
+    const lineItem = e.target.closest('div[data-id]');
+    if (logToConsole) console.log('Favicon edit requested for line item:', lineItem);
     if (!lineItem) return;
-    const id = lineItem.getAttribute('id');
+    const id = lineItem.getAttribute('data-id');
+    if (logToConsole) console.log('Favicon edit requested for id:', id);
     if (!id || !searchEngines[id]) return;
     const image = lineItem.querySelector('img');
     const imageFormat = searchEngines[id].imageFormat;
