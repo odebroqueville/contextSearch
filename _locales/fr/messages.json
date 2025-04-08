@@ -1,439 +1,365 @@
 {
-	"extensionName": {
-		"message": "Context Search",
-		"description": "Name of the extension",
-		"hash": "dc46af1f918347f13872ba3b1acf5cb5"
-	},
-	"extensionDescription": {
-		"message": "Effectue une recherche du texte sélectionné en utilisant le moteur de recherche choisi dans une liste pré-définie.",
-		"description": "Description of the extension",
-		"hash": "b8f612ae1be0699e4ac144ebdd9408b8"
-	},
-	"multisearch": {
-		"message": " est une recherche avec plusieurs moteurs de recherche simultanément.",
-		"description": "multi-search - it's a search with multiple search engines simultaneously.",
-		"hash": "d91d9731eeb51cab08e5db4231c3b539"
-	},
-	"multisearchHowTo": {
-		"message": "Cochez la case du milieu pour inclure un moteur de recherche dans un",
-		"hash": "45d8a4cc6705ce14bb465c1a603886f7"
-	},
-	"multisearchLaunch": {
-		"message": "Vous pouvez lancer un",
-		"hash": "50aea7f78b7f283fce6309cb046d922b"
-	},
-	"multisearchEnd": {
-		"message": "via le menu contextuel ou via l'omnibox en tapant:",
-		"hash": "93175e4d6a2f2b01a19a17c09ac98750"
-	},
-	"pageTitle": {
-		"message": "Préférences de Context Search",
-		"hash": "85459cf0f20967bcc8995dd2257f6ba2"
-	},
-	"header1": {
-		"message": "Où les résultats de recherche doivent-ils apparaître?",
-		"hash": "55b5b2535226c23995d9220e9f01e7c9"
-	},
-	"newTab": {
-		"message": "Dans un nouvel onglet",
-		"hash": "ed02b96ab3009dd9f8a3329e14c20ecd"
-	},
-	"sameTab": {
-		"message": "Dans le même onglet",
-		"hash": "8f83dae466a72a4c1f8c93e2ddc16f89"
-	},
-	"newWindow": {
-		"message": "Dans une nouvelle fenêtre",
-		"hash": "dd5cfb4d20eb4b6f9d6e12c02e8f48e3"
-	},
-	"active": {
-		"message": "Activer le nouvel onglet ou la nouvelle fenêtre",
-		"hash": "3588f7008b34105c5a590905b489e8ba"
-	},
-	"position": {
-		"message": "Afficher les résultats de la recherche après le dernier onglet",
-		"hash": "6f1385f89667221e78b453799755c534"
-	},
-	"header3": {
-		"message": "Position des options dans le menu contextuel",
-		"hash": "cc53b51192c00cf073c75573e910c712"
-	},
-	"subheader31": {
-		"message": "Où aimeriez-vous que le menu des options apparaisse dans le menu contextuel?",
-		"hash": "97f92ec06abae7047823b89e7cdd35aa"
-	},
-	"bottom": {
-		"message": "Au bas du menu contextuel",
-		"hash": "dbc939fac3704f3bb5db5534c521a560"
-	},
-	"top": {
-		"message": "En haut du menu contextuel",
-		"hash": "7eb84bbe333a29135c13bb749b5a1bdf"
-	},
-	"hide": {
-		"message": "Ni en bas, ni en haut (cacher le menu des options)",
-		"hash": "66545b38432fb9f7cec55f9bd1bcb476"
-	},
-	"header5": {
-		"message": "Importer/Exporter les moteurs de recherche",
-		"hash": "aff674b25de54fb6d1a8b94f0992e2e7"
-	},
-	"import": {
-		"message": "Importer le fichier JSON du disque local",
-		"hash": "efa8b5b957c983016114c1687692a917"
-	},
-	"export": {
-		"message": "Exporter les moteurs de recherche dans un fichier JSON",
-		"hash": "4cbfa9bc7ce7a876967887dc8b3d80bb"
-	},
-	"download": {
-		"message": "Sauvegarder sur le disque local",
-		"hash": "9b7395778b59c67d44fb310a60cbec1f"
-	},
-	"header2": {
-		"message": "Afficher les icones",
-		"hash": "4c972ef4ffb7e90163b9294509fea65d"
-	},
-	"getFavicons": {
-		"message": "Afficher les icones dans le menu contextuel",
-		"hash": "7036d3e65d70351c41dfa59e397121b3"
-	},
-	"note": {
-		"message": "Cette fonctionnalité requiert Firefox 56 ou une version plus récente.",
-		"hash": "f3bb15e6696904cf038aea689a0a02da"
-	},
-	"header4": {
-		"message": "Options de recherche",
-		"hash": "ce6416d0e13a773a9b6c1b03a43982d4"
-	},
-	"exactMatch": {
-		"message": "Rechercher une correspondance exacte de chaîne",
-		"hash": "779d6b3e9f3fe9654fe3549a21a06550"
-	},
-	"gridMode": {
-		"message": "Afficher le menu contextuel sous la form de grille d'icones et non sous la forme de liste",
-		"hash": "fb28a2f15ee692ae8862f2eed52cdede"
-	},
-	"warning": {
-		"message": "Attention: l'activation de cette fonctionnalité désactive les menus contextuels des autres extensions.",
-		"hash": "b92a893b194575ca0bd0541cd80d4aa6"
-	},
-	"savePreferences": {
-		"message": "Sauvegarder les préférences",
-		"hash": "7afab2f751102f4f4154ec70f4a1a0cd"
-	},
-	"header6": {
-		"message": "Quels moteurs de recherche aimeriez-vous voir apparaître dans le menu contextuel ou dans la grille d'icones?",
-		"hash": "4bec74f00dd1574f3c4a5229035c3f21"
-	},
-	"clearAll": {
-		"message": "Tout effacer",
-		"hash": "cce60e6cbfaee4ec6fac0a16a8bd383d"
-	},
-	"selectAll": {
-		"message": "Tout sélectionner",
-		"hash": "26561e6b6807c0c48ce2a3ee81adad87"
-	},
-	"sortAlphabetically": {
-		"message": "Trier par ordre alphabétique",
-		"hash": "9dbba2e2d73fbe9d34b492113a47dc86"
-	},
-	"showAdvancedFeatures": {
-		"message": "Afficher les fonctionnalités avancées",
-		"hash": "adab8345d6d3749a2687addeb95aa6a0"
-	},
-	"hideAdvancedFeatures": {
-		"message": "Masquer les fonctionnalités avancées",
-		"hash": "6d0f963850902a32f1e4cde900271ec3"
-	},
-	"reset": {
-		"message": "Ré-initialisation",
-		"hash": "0d25968a7dfc21f95043a86dd5373b81"
-	},
-	"subheader61": {
-		"message": "Ajouter un nouveau moteur de recherche",
-		"hash": "df8ef6317cccd7767129689b409c7555"
-	},
-	"showSearchEngine": {
-		"message": "Afficher le moteur de recherche dans la grille d'icônes ou dans le menu contextuel",
-		"hash": "fd116637c97d52564b8caab4155b7e14"
-	},
-	"searchEngineName": {
-		"message": "Nom du moteur de recherche",
-		"hash": "66a6254e959765667c76a05c3697399d"
-	},
-	"placeHolderKeyword": {
-		"message": "Mot clé",
-		"hash": "a715ce8d52a556c7541e52a39273b8e4"
-	},
-	"warningText": {
-		"message": "Avertissement",
-		"hash": "d02ba8f1a5b9fd49d892558d83e71d59"
-	},
-	"keyboardShortcutWarning": {
-		"message": "toutes les combinaisons de touches ne fonctionneront pas. Les raccourcis clavier ne peuvent pas commencer par CMD sous macOS ou CTRL sous Windows ou Linux, car ils sont généralement réservés aux commandes Firefox.",
-		"hash": "a87da357c72be4e165534f8a068a00a4"
-	},
-	"placeHolderKeyboardShortcut": {
-		"message": "Raccourci clavier",
-		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
-	},
-	"multipleSearchEngines": {
-		"message": "Inclure ce moteur de recherche pour un multi-search",
-		"hash": "795672c778b61e3785aa2fff7dca91ed"
-	},
-	"searchEngineURL": {
-		"message": "URL du moteur de recherche",
-		"hash": "f5b1aa2bdb81d4357409d3ecb87bc1e3"
-	},
-	"regex": {
-		"message": "Expression régulière",
-		"hash": "836b4e8f189b0435476c917699858782"
-	},
-	"testSearchEngine": {
-		"message": "Tester le moteur de recherche",
-		"hash": "138ac2e49b86e7dc4a4e71a7f15dd7b6"
-	},
-	"addSearchEngine": {
-		"message": "Ajouter le moteur de recherche",
-		"hash": "0f5b60489cf3500e92871eb17e71ce05"
-	},
-	"addSeparator": {
-		"message": "Ajouter un séparateur",
-		"hash": "3ca31acdb4e16f109453054af8b918f1"
-	},
-	"clear": {
-		"message": "Effacer",
-		"hash": "bcf7e7587a412ea36d869d51026dfd6d"
-	},
-	"disableGrid": {
-		"message": "Désactiver la grille d'icônes",
-		"hash": "bb07641e41b320b91b3f1338592ecf4d"
-	},
-	"move": {
-		"message": "Déplacer",
-		"hash": "fe5500b1b2c360308db25a09f9710ade"
-	},
-	"up": {
-		"message": "vers le haut",
-		"hash": "87437c5e684807c07a63c62d675b63c3"
-	},
-	"down": {
-		"message": "vers le bas",
-		"hash": "d877ad63806f1a96855f3fb1424b5d91"
-	},
-	"remove": {
-		"message": "Supprimer",
-		"hash": "3908a268c854fe64242e38845dbb7c81"
-	},
-	"multipleSearchEnginesSearch": {
-		"message": "Inclure ce moteur de recherche pour la recherche multiple",
-		"hash": "e54c504cdf841f4308b0140c0361420c"
-	},
-	"notifySavedPreferences": {
-		"message": "Préférences sauvegardées.",
-		"hash": "26ae42e6a7533aa03cf8e162fd4859fd"
-	},
-	"notifySearchEngineAdded": {
-		"message": "Moteur de recherche ajouté.",
-		"hash": "ee1b7a1102ec3b06c1960e84f814b1c6"
-	},
-	"titleShowEngine": {
-		"message": "Afficher ce moteur de recherche dans le menu contextuel ou dans la grille d'icônes",
-		"hash": "5c7ec6b539f06fe17a5e3f9832530eea"
-	},
-	"notifyEnableStorageSync": {
-		"message": "Assurez-vous que le paramètre 'webextension.storage.sync.enabled' a la valeur 'true' dans 'about:config', sinon Context Search ne fonctionnera pas.",
-		"hash": "273ab612652228bc54090e98d1ac1b15"
-	},
-	"notifySearchEnginesLoaded": {
-		"message": "Les moteurs de recherche par défaut ont été chargés.",
-		"hash": "640d2193c8155e5988fbeb3453a9737d"
-	},
-	"notifySearchEngineNotFound": {
-		"message": "Un moteur de recherche n'a pu être trouvée sur la présente page web",
-		"hash": "89a0f7352dea5184b23f367f8c05b079"
-	},
-	"titleMultipleSearchEngines": {
-		"message": "Recherche multiple",
-		"hash": "016e3015d7461d1d0fbf20c60bd9ff0f"
-	},
-	"titleAISearch": {
-		"message": "Recherche IA",
-		"hash": "6ae434bff120e9ce2a6e459af56f4db3"
-	},
-	"titleSiteSearch": {
-		"message": "Rechercher dans ce site avec",
-		"hash": "84e89c97ed21d0499012b414415470e6"
-	},
-	"titleOptions": {
-		"message": "Options",
-		"hash": "531dad0078a72193602b18495f0ad4e9"
-	},
-	"windowTitle": {
-		"message": "Résultats de recherche pour",
-		"hash": "0a26dab592394ea9548c1a5588c0cd0d"
-	},
-	"omniboxDescription": {
-		"message": "Effectuer une recherche avec Context Search à l'aide de mots clé. Utilisation: cs [mot clé] [mots à rechercher] (par ex.: 'cs w Linux' recherche le mot 'Linux' dans Wikipedia)",
-		"hash": "e2406855d2445278d8becb4e11f772b0"
-	},
-	"notifyUsage": {
-		"message": "Utilisation: cs [mot clé] [mots à rechercher] (par ex.: 'cs w Linux')",
-		"hash": "7ce09b213b936aab58085cc84b20b01c"
-	},
-	"notifySearchEngineWithKeyword": {
-		"message": "Le moteur de recherche avec le mot clé",
-		"hash": "bd232fd868eb1bbd65e4977f5577a0a8"
-	},
-	"notifyUnknown": {
-		"message": "est inconnu.",
-		"hash": "075e9adb0de4037be7b0989733dd51ab"
-	},
-	"notifySearchEngineUrlRequired": {
-		"message": "Veuillez introduire l'adresse URL du moteur de recherche.",
-		"hash": "b4610959ffa640c457a9ae1fbfa7943c"
-	},
-	"header7": {
-		"message": "Réinitialiser les préférences",
-		"hash": "5c55526198c8075a1695b98e3cd32e2f"
-	},
-	"header8": {
-		"message": "Quelles balises EXIF ​​doivent être affichées?",
-		"hash": "dd5fd339289964d309e5020ed1e9610c"
-	},
-	"sidebar": {
-		"message": "Dans la barre de côté",
-		"hash": "ea4b3f2f47d5ea8c594036cbdbf6e42b"
-	},
-	"displayFavicons": {
-		"message": "Afficher les icônes dans le menu contextuel",
-		"hash": "7036d3e65d70351c41dfa59e397121b3"
-	},
-	"displayExifSummary": {
-		"message": "Résumé",
-		"hash": "632626a730da62a89a4d124241e77273"
-	},
-	"disableAltClick": {
-		"message": "Désactiver la grille d'icônes",
-		"hash": "05b09381e8d9e3b808cb5fa5c540af91"
-	},
-	"resetPreferences": {
-		"message": "Restaurer les préférences par défaut",
-		"hash": "5e6bfbeafc20af866246c982de2a1067"
-	},
-	"forceSearchEnginesReload": {
-		"message": "Forcer le chargement à neuf des moteurs de recherche par défaut",
-		"hash": "3736dde3828bcec7e5081dc1a450916b"
-	},
-	"forceFaviconsReload": {
-		"message": "Forcer le chargement à neuf des icônes",
-		"hash": "1fea5d330fd5c105ce6ba68ade3be299"
-	},
-	"restriction": {
-		"message": "Si la barre latérale n'est pas déjà ouverte, vous devrez peut-être cliquer sur l'icône \"Afficher les barres latérales\" dans la barre d'outils du navigateur.",
-		"hash": "8687a8640f71498ea62eaa432791443c"
-	},
-	"reverseImage": {
-		"message": "De plus, les résultats de recherche par images ne peuvent pas être affichés dans la barre latérale.",
-		"hash": "db880c407ccd59031b92a75b7f7a677e"
-	},
-	"siteSearch": {
-		"message": "Moteur de recherche pour rechercher le site actuel:",
-		"hash": "1aef8aa2adcad0a105bc24d0ac87fe4c"
-	},
-	"header9": {
-		"message": "Fonctionnalités avancées",
-		"hash": "64bdb129ceb0e431268d7c8199542e11"
-	},
-	"useRegex": {
-		"message": "Utiliser des expressions régulières pour construire le menu contextuel",
-		"hash": "9d48895eae1e8a92e6a0b2a2bd0e0fa0"
-	},
-	"regexNote": {
-		"message": "Cette fonctionnalité ne s'applique pas à la grille d'icônes.",
-		"hash": "2d301abb7cffcf3a4f41cc59dc52e828"
-	},
-	"subheader62": {
-		"message": "Ajouter un nouveau dossier",
-		"hash": "3a46fe63f172c9cf1e4cf9753dc935f9"
-	},
-	"folderName": {
-		"message": "Nom de dossier",
-		"hash": "66c685078184b7f5123e83f4b94097fe"
-	},
-	"folder": {
-		"message": "dossier",
-		"hash": "6fa625e07a474959d219b2abdaa8c39e"
-	},
-	"addFolder": {
-		"message": "Ajouter le dossier",
-		"hash": "f6668a06fb140909b3f286d742c848c8"
-	},
-	"keyboardShortcut": {
-		"message": "Raccourci clavier",
-		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
-	},
-	"header10": {
-		"message": "Options de recherches multiples",
-		"hash": "25b7321fc9e19e8e99598b40b96d2d52"
-	},
-	"multisearchIntro": {
-		"message": "Ouvrir les multiples résultats/onglets de recherche",
-		"hash": "4536d63e7c6838b383fa5a71967e5933"
-	},
-	"multiNewWindow": {
-		"message": "Dans une nouvelle fenêtre",
-		"hash": "dd5cfb4d20eb4b6f9d6e12c02e8f48e3"
-	},
-	"multiAfterLastTab": {
-		"message": "Après le dernier onglet dans la fenêtre courante",
-		"hash": "ddd24d070e912ba19edff0c610e91e56"
-	},
-	"multiActiveTab": {
-		"message": "Juste après l'onglet actif dans la fenêtre courante",
-		"hash": "580a6b556e35b0b48dca22506debb42c"
-	},
-	"privacy": {
-		"message": "Rendre la nouvelle fenêtre privée",
-		"hash": "a2c9e60d71cf882080023ad80af8b903"
-	},
-	"reminder": {
-		"message": "Rappel",
-		"hash": "7764c333b42339d1f5edf71779799c41"
-	},
-	"enableDownloadsReminder": {
-		"message": "activez les autorisations de téléchargement pour exporter vos moteurs de recherche.",
-		"hash": "16e431f64c09354a2034b62338cab41c"
-	},
-	"header11": {
-		"message": "Options de la grille d'icônes",
-		"hash": "cb2b6fc9b6c0ab15b1627704b612ca71"
-	},
-	"quickIconGrid": {
-		"message": "Afficher immédiatement la grille d'icônes après la sélection du texte",
-		"hash": "6af6aafa529c63b4f4aef72c478e0db1"
-	},
-	"closeGridOnMouseOut": {
-		"message": "Fermez la grille d'icônes lorsque le pointeur de la souris la quitte",
-		"hash": "fc2fcdd466209645b574677c6250e546"
-	},
-	"xOffset": {
-		"message": "Décalage horizontal de la grille des icônes :",
-		"hash": "fb4e2747c20484c21a1cecb5142b9f80"
-	},
-	"yOffset": {
-		"message": "Décalage vertical de la grille des icônes :",
-		"hash": "49e08ac782b64fced86569f6dc56d82f"
-	},
-	"clearKeyboardShortcuts": {
-		"message": "Effacer tous les raccourcis clavier",
-		"hash": "3745c3c2b77449e9606d8bf4e137e94f"
-	},
-	"overwriteSearchEngines": {
-		"message": "Remplacer les moteurs de recherche existants par les moteurs de recherche importés",
-		"hash": "298f419a9e5661db408338fe08cc8ee0"
-	},
-
-	"__WET_LOCALE__": { "message": "fr" }
+    "extensionName": {
+        "message": "Context Search",
+        "description": "Name of the extension"
+    },
+    "extensionDescription": {
+        "message": "Effectue une recherche du texte sélectionné en utilisant le moteur de recherche choisi dans une liste pré-définie.",
+        "description": "Description of the extension"
+    },
+    "multisearch": {
+        "message": " est une recherche avec plusieurs moteurs de recherche simultanément.",
+        "description": "multi-search - it's a search with multiple search engines simultaneously."
+    },
+    "multisearchHowTo": {
+        "message": "Cochez la case du milieu pour inclure un moteur de recherche dans un"
+    },
+    "multisearchLaunch": {
+        "message": "Vous pouvez lancer un"
+    },
+    "multisearchEnd": {
+        "message": "via le menu contextuel ou via l'omnibox en tapant:"
+    },
+    "pageTitle": {
+        "message": "Préférences de Context Search"
+    },
+    "header1": {
+        "message": "Où les résultats de recherche doivent-ils apparaître?"
+    },
+    "newTab": {
+        "message": "Dans un nouvel onglet"
+    },
+    "sameTab": {
+        "message": "Dans le même onglet"
+    },
+    "newWindow": {
+        "message": "Dans une nouvelle fenêtre"
+    },
+    "active": {
+        "message": "Activer le nouvel onglet ou la nouvelle fenêtre"
+    },
+    "position": {
+        "message": "Afficher les résultats de la recherche après le dernier onglet"
+    },
+    "header3": {
+        "message": "Position des options dans le menu contextuel"
+    },
+    "subheader31": {
+        "message": "Où aimeriez-vous que le menu des options apparaisse dans le menu contextuel?"
+    },
+    "bottom": {
+        "message": "Au bas du menu contextuel"
+    },
+    "top": {
+        "message": "En haut du menu contextuel"
+    },
+    "hide": {
+        "message": "Ni en bas, ni en haut (cacher le menu des options)"
+    },
+    "header5": {
+        "message": "Importer/Exporter les moteurs de recherche"
+    },
+    "import": {
+        "message": "Importer le fichier JSON du disque local"
+    },
+    "export": {
+        "message": "Exporter les moteurs de recherche dans un fichier JSON"
+    },
+    "download": {
+        "message": "Sauvegarder sur le disque local"
+    },
+    "header2": {
+        "message": "Afficher les icones"
+    },
+    "getFavicons": {
+        "message": "Afficher les icones dans le menu contextuel"
+    },
+    "note": {
+        "message": "Cette fonctionnalité requiert Firefox 56 ou une version plus récente."
+    },
+    "header4": {
+        "message": "Options de recherche"
+    },
+    "exactMatch": {
+        "message": "Rechercher une correspondance exacte de chaîne"
+    },
+    "gridMode": {
+        "message": "Afficher le menu contextuel sous la form de grille d'icones et non sous la forme de liste"
+    },
+    "warning": {
+        "message": "Attention: l'activation de cette fonctionnalité désactive les menus contextuels des autres extensions."
+    },
+    "savePreferences": {
+        "message": "Sauvegarder les préférences"
+    },
+    "header6": {
+        "message": "Quels moteurs de recherche aimeriez-vous voir apparaître dans le menu contextuel ou dans la grille d'icones?"
+    },
+    "clearAll": {
+        "message": "Tout effacer"
+    },
+    "selectAll": {
+        "message": "Tout sélectionner"
+    },
+    "sortAlphabetically": {
+        "message": "Trier par ordre alphabétique"
+    },
+    "showAdvancedFeatures": {
+        "message": "Afficher les fonctionnalités avancées"
+    },
+    "hideAdvancedFeatures": {
+        "message": "Masquer les fonctionnalités avancées"
+    },
+    "reset": {
+        "message": "Ré-initialisation"
+    },
+    "subheader61": {
+        "message": "Ajouter un nouveau moteur de recherche"
+    },
+    "showSearchEngine": {
+        "message": "Afficher le moteur de recherche dans la grille d'icônes ou dans le menu contextuel"
+    },
+    "searchEngineName": {
+        "message": "Nom du moteur de recherche"
+    },
+    "placeHolderKeyword": {
+        "message": "Mot clé"
+    },
+    "warningText": {
+        "message": "Avertissement"
+    },
+    "keyboardShortcutWarning": {
+        "message": "toutes les combinaisons de touches ne fonctionneront pas. Les raccourcis clavier ne peuvent pas commencer par CMD sous macOS ou CTRL sous Windows ou Linux, car ils sont généralement réservés aux commandes Firefox."
+    },
+    "placeHolderKeyboardShortcut": {
+        "message": "Raccourci clavier"
+    },
+    "multipleSearchEngines": {
+        "message": "Inclure ce moteur de recherche pour un multi-search"
+    },
+    "searchEngineURL": {
+        "message": "URL du moteur de recherche"
+    },
+    "regex": {
+        "message": "Expression régulière"
+    },
+    "testSearchEngine": {
+        "message": "Tester le moteur de recherche"
+    },
+    "addSearchEngine": {
+        "message": "Ajouter le moteur de recherche"
+    },
+    "addSeparator": {
+        "message": "Ajouter un séparateur"
+    },
+    "clear": {
+        "message": "Effacer"
+    },
+    "disableGrid": {
+        "message": "Désactiver la grille d'icônes"
+    },
+    "move": {
+        "message": "Déplacer"
+    },
+    "up": {
+        "message": "vers le haut"
+    },
+    "down": {
+        "message": "vers le bas"
+    },
+    "remove": {
+        "message": "Supprimer"
+    },
+    "removeFolderConfirmPrefix": {
+        "message": "Are you sure you want to remove the folder"
+    },
+    "removeFolderConfirmSuffix": {
+        "message": " and all of its contents?"
+    },
+    "removeSearchEngineConfirm": {
+        "message": "Are you sure you want to remove the search engine"
+    },
+    "multipleSearchEnginesSearch": {
+        "message": "Inclure ce moteur de recherche pour la recherche multiple"
+    },
+    "notifySavedPreferences": {
+        "message": "Préférences sauvegardées."
+    },
+    "notifySearchEngineAdded": {
+        "message": "Moteur de recherche ajouté."
+    },
+    "titleShowEngine": {
+        "message": "Afficher ce moteur de recherche dans le menu contextuel ou dans la grille d'icônes"
+    },
+    "notifyEnableStorageSync": {
+        "message": "Assurez-vous que le paramètre 'webextension.storage.sync.enabled' a la valeur 'true' dans 'about:config', sinon Context Search ne fonctionnera pas."
+    },
+    "notifySearchEnginesLoaded": {
+        "message": "Les moteurs de recherche par défaut ont été chargés."
+    },
+    "notifySearchEngineNotFound": {
+        "message": "Un moteur de recherche n'a pu être trouvée sur la présente page web"
+    },
+    "titleMultipleSearchEngines": {
+        "message": "Recherche multiple"
+    },
+    "titleAISearch": {
+        "message": "Recherche IA"
+    },
+    "titleSiteSearch": {
+        "message": "Rechercher dans ce site avec"
+    },
+    "titleOptions": {
+        "message": "Options"
+    },
+    "windowTitle": {
+        "message": "Résultats de recherche pour"
+    },
+    "omniboxDescription": {
+        "message": "Effectuer une recherche avec Context Search à l'aide de mots clé. Utilisation: cs [mot clé] [mots à rechercher] (par ex.: 'cs w Linux' recherche le mot 'Linux' dans Wikipedia)"
+    },
+    "notifyUsage": {
+        "message": "Utilisation: cs [mot clé] [mots à rechercher] (par ex.: 'cs w Linux')"
+    },
+    "notifySearchEngineWithKeyword": {
+        "message": "Le moteur de recherche avec le mot clé"
+    },
+    "notifyUnknown": {
+        "message": "est inconnu."
+    },
+    "notifySearchEngineUrlRequired": {
+        "message": "Veuillez introduire l'adresse URL du moteur de recherche."
+    },
+    "header7": {
+        "message": "Réinitialiser les préférences"
+    },
+    "header8": {
+        "message": "Quelles balises EXIF ​​doivent être affichées?"
+    },
+    "sidebar": {
+        "message": "Dans la barre de côté"
+    },
+    "displayFavicons": {
+        "message": "Afficher les icônes dans le menu contextuel"
+    },
+    "displayExifSummary": {
+        "message": "Résumé"
+    },
+    "disableAltClick": {
+        "message": "Désactiver la grille d'icônes"
+    },
+    "resetPreferences": {
+        "message": "Restaurer les préférences par défaut"
+    },
+    "forceSearchEnginesReload": {
+        "message": "Forcer le chargement à neuf des moteurs de recherche par défaut"
+    },
+    "forceFaviconsReload": {
+        "message": "Forcer le chargement à neuf des icônes"
+    },
+    "restriction": {
+        "message": "Si la barre latérale n'est pas déjà ouverte, vous devrez peut-être cliquer sur l'icône \"Afficher les barres latérales\" dans la barre d'outils du navigateur."
+    },
+    "reverseImage": {
+        "message": "De plus, les résultats de recherche par images ne peuvent pas être affichés dans la barre latérale."
+    },
+    "siteSearch": {
+        "message": "Moteur de recherche pour rechercher le site actuel:"
+    },
+    "header9": {
+        "message": "Fonctionnalités avancées"
+    },
+    "useRegex": {
+        "message": "Utiliser des expressions régulières pour construire le menu contextuel"
+    },
+    "regexNote": {
+        "message": "Cette fonctionnalité ne s'applique pas à la grille d'icônes."
+    },
+    "subheader62": {
+        "message": "Ajouter un nouveau dossier"
+    },
+    "folderName": {
+        "message": "Nom de dossier"
+    },
+    "folder": {
+        "message": "dossier"
+    },
+    "addFolder": {
+        "message": "Ajouter le dossier"
+    },
+    "keyboardShortcut": {
+        "message": "Raccourci clavier"
+    },
+    "header10": {
+        "message": "Options de recherches multiples"
+    },
+    "multisearchIntro": {
+        "message": "Ouvrir les multiples résultats/onglets de recherche"
+    },
+    "multiNewWindow": {
+        "message": "Dans une nouvelle fenêtre"
+    },
+    "multiAfterLastTab": {
+        "message": "Après le dernier onglet dans la fenêtre courante"
+    },
+    "multiActiveTab": {
+        "message": "Juste après l'onglet actif dans la fenêtre courante"
+    },
+    "privacy": {
+        "message": "Rendre la nouvelle fenêtre privée"
+    },
+    "reminder": {
+        "message": "Rappel"
+    },
+    "enableDownloadsReminder": {
+        "message": "activez les autorisations de téléchargement pour exporter vos moteurs de recherche."
+    },
+    "header11": {
+        "message": "Options de la grille d'icônes"
+    },
+    "quickIconGrid": {
+        "message": "Afficher immédiatement la grille d'icônes après la sélection du texte"
+    },
+    "closeGridOnMouseOut": {
+        "message": "Fermez la grille d'icônes lorsque le pointeur de la souris la quitte"
+    },
+    "xOffset": {
+        "message": "Décalage horizontal de la grille des icônes :"
+    },
+    "yOffset": {
+        "message": "Décalage vertical de la grille des icônes :"
+    },
+    "clearKeyboardShortcuts": {
+        "message": "Effacer tous les raccourcis clavier"
+    },
+    "subheader63": {
+        "message": "Add a new AI prompt"
+    },
+    "subheader64": {
+        "message": "Add a separator"
+    },
+    "testChatGPT": {
+        "message": "Test AI Prompt"
+    },
+    "addChatGPTPrompt": {
+        "message": "Add AI Prompt"
+    },
+    "promptShow": {
+        "message": "Show prompt in grid or context menu"
+    },
+    "promptName": {
+        "message": "Prompt name"
+    },
+    "prompt": {
+        "message": "Prompt"
+    },
+    "overwriteSearchEngines": {
+        "message": "Remplacer les moteurs de recherche existants par les moteurs de recherche importés"
+    },
+    "popupBlockedMessage": {
+        "message": "Popup blocked! Please allow popups for this site."
+    },
+    "__WET_LOCALE__": {
+        "message": "fr"
+    }
 }
