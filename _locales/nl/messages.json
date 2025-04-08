@@ -1,439 +1,365 @@
 {
-	"extensionName": {
-		"message": "Context Search",
-		"description": "Name of the extension",
-		"hash": "dc46af1f918347f13872ba3b1acf5cb5"
-	},
-	"extensionDescription": {
-		"message": "Zoekt de geselecteerde tekst met een zoekmachine uit een vastgestelde lijst.",
-		"description": "Description of the extension",
-		"hash": "b8f612ae1be0699e4ac144ebdd9408b8"
-	},
-	"multisearch": {
-		"message": " is een zoekopdracht met meerdere zoekmachines tegelijk.",
-		"description": "multi-search - it's a search with multiple search engines simultaneously.",
-		"hash": "d91d9731eeb51cab08e5db4231c3b539"
-	},
-	"multisearchHowTo": {
-		"message": "Vink het middelste selectievakje aan om een zoekmachine op te nemen in een",
-		"hash": "45d8a4cc6705ce14bb465c1a603886f7"
-	},
-	"multisearchLaunch": {
-		"message": "Je kunt een",
-		"hash": "50aea7f78b7f283fce6309cb046d922b"
-	},
-	"multisearchEnd": {
-		"message": "via het contextmenu of via de omnibox door te typen:",
-		"hash": "93175e4d6a2f2b01a19a17c09ac98750"
-	},
-	"pageTitle": {
-		"message": "Voorkeuren van Context Search",
-		"hash": "85459cf0f20967bcc8995dd2257f6ba2"
-	},
-	"header1": {
-		"message": "Waar moeten de resultaten verschijnen?",
-		"hash": "55b5b2535226c23995d9220e9f01e7c9"
-	},
-	"newTab": {
-		"message": "In een nieuw tabblad",
-		"hash": "ed02b96ab3009dd9f8a3329e14c20ecd"
-	},
-	"sameTab": {
-		"message": "In hetzelfde tabblad",
-		"hash": "8f83dae466a72a4c1f8c93e2ddc16f89"
-	},
-	"newWindow": {
-		"message": "In een nieuw venster",
-		"hash": "dd5cfb4d20eb4b6f9d6e12c02e8f48e3"
-	},
-	"active": {
-		"message": "Maak het nieuwe tabblad of venster actief",
-		"hash": "3588f7008b34105c5a590905b489e8ba"
-	},
-	"position": {
-		"message": "Toon de zoekresultaten na het laatste tabblad",
-		"hash": "6f1385f89667221e78b453799755c534"
-	},
-	"header3": {
-		"message": "Positie van de opties in het contextmenu",
-		"hash": "cc53b51192c00cf073c75573e910c712"
-	},
-	"subheader31": {
-		"message": "Waar moet het optiemenu verschijnen in het contextmenu?",
-		"hash": "97f92ec06abae7047823b89e7cdd35aa"
-	},
-	"bottom": {
-		"message": "Beneden",
-		"hash": "dbc939fac3704f3bb5db5534c521a560"
-	},
-	"top": {
-		"message": "Bovenaan",
-		"hash": "7eb84bbe333a29135c13bb749b5a1bdf"
-	},
-	"hide": {
-		"message": "Nergens (verberg het optiemenu)",
-		"hash": "66545b38432fb9f7cec55f9bd1bcb476"
-	},
-	"header5": {
-		"message": "Importeer/exporteer zoekmachines",
-		"hash": "aff674b25de54fb6d1a8b94f0992e2e7"
-	},
-	"import": {
-		"message": "Importeer JSON van schijf",
-		"hash": "efa8b5b957c983016114c1687692a917"
-	},
-	"export": {
-		"message": "Exporteer zoekmachines naar JSON",
-		"hash": "4cbfa9bc7ce7a876967887dc8b3d80bb"
-	},
-	"download": {
-		"message": "Exporteren naar schijf",
-		"hash": "9b7395778b59c67d44fb310a60cbec1f"
-	},
-	"header2": {
-		"message": "Toon icoontjes",
-		"hash": "4c972ef4ffb7e90163b9294509fea65d"
-	},
-	"getFavicons": {
-		"message": "Toon icoontjes in de contextmenulijst",
-		"hash": "7036d3e65d70351c41dfa59e397121b3"
-	},
-	"note": {
-		"message": "Deze functie vereist Firefox 56 of hoger.",
-		"hash": "f3bb15e6696904cf038aea689a0a02da"
-	},
-	"header4": {
-		"message": "zoek opties",
-		"hash": "ce6416d0e13a773a9b6c1b03a43982d4"
-	},
-	"exactMatch": {
-		"message": "Zoek naar een exacte stringovereenkomst",
-		"hash": "779d6b3e9f3fe9654fe3549a21a06550"
-	},
-	"gridMode": {
-		"message": "Toon een rooster van icoontjes in plaats van een lijst van zoekmachines",
-		"hash": "fb28a2f15ee692ae8862f2eed52cdede"
-	},
-	"warning": {
-		"message": "Waarschuwing: het inschakelen van deze functie zorgt ervoor dat contextmenus van andere extensies niet getoond worden.",
-		"hash": "b92a893b194575ca0bd0541cd80d4aa6"
-	},
-	"savePreferences": {
-		"message": "Voorkeuren opslaan",
-		"hash": "7afab2f751102f4f4154ec70f4a1a0cd"
-	},
-	"header6": {
-		"message": "Welke zoekmachines moeten zichtbaar zijn in het contextmenu of het rooster?",
-		"hash": "4bec74f00dd1574f3c4a5229035c3f21"
-	},
-	"clearAll": {
-		"message": "Alles deselecteren",
-		"hash": "cce60e6cbfaee4ec6fac0a16a8bd383d"
-	},
-	"selectAll": {
-		"message": "Alles selecteren",
-		"hash": "26561e6b6807c0c48ce2a3ee81adad87"
-	},
-	"sortAlphabetically": {
-		"message": "Sorteer alfabetisch",
-		"hash": "9dbba2e2d73fbe9d34b492113a47dc86"
-	},
-	"showAdvancedFeatures": {
-		"message": "Geavanceerde functies weergeven",
-		"hash": "adab8345d6d3749a2687addeb95aa6a0"
-	},
-	"hideAdvancedFeatures": {
-		"message": "Geavanceerde functies verbergen",
-		"hash": "6d0f963850902a32f1e4cde900271ec3"
-	},
-	"reset": {
-		"message": "Resetten",
-		"hash": "0d25968a7dfc21f95043a86dd5373b81"
-	},
-	"subheader61": {
-		"message": "Een nieuwe zoekmachine toevoegen",
-		"hash": "df8ef6317cccd7767129689b409c7555"
-	},
-	"showSearchEngine": {
-		"message": "Zoekmachine weergeven in raster of contextmenu",
-		"hash": "fd116637c97d52564b8caab4155b7e14"
-	},
-	"searchEngineName": {
-		"message": "Naam zoekmachine",
-		"hash": "66a6254e959765667c76a05c3697399d"
-	},
-	"placeHolderKeyword": {
-		"message": "Trefwoord",
-		"hash": "a715ce8d52a556c7541e52a39273b8e4"
-	},
-	"warningText": {
-		"message": "Waarschuwing",
-		"hash": "d02ba8f1a5b9fd49d892558d83e71d59"
-	},
-	"keyboardShortcutWarning": {
-		"message": "niet alle toetscombinaties werken. Sneltoetsen starten mogelijk niet met CMD op macOS of CTRL op Windows of Linux, omdat deze meestal zijn gereserveerd voor Firefox-opdrachten.",
-		"hash": "a87da357c72be4e165534f8a068a00a4"
-	},
-	"placeHolderKeyboardShortcut": {
-		"message": "Toetsenbord sneltoets",
-		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
-	},
-	"multipleSearchEngines": {
-		"message": "Opnemen in multi-search",
-		"hash": "795672c778b61e3785aa2fff7dca91ed"
-	},
-	"searchEngineURL": {
-		"message": "Zoekmachine URL",
-		"hash": "f5b1aa2bdb81d4357409d3ecb87bc1e3"
-	},
-	"regex": {
-		"message": "Reguliere expressie",
-		"hash": "836b4e8f189b0435476c917699858782"
-	},
-	"testSearchEngine": {
-		"message": "Zoekmachine testen",
-		"hash": "138ac2e49b86e7dc4a4e71a7f15dd7b6"
-	},
-	"addSearchEngine": {
-		"message": "Zoekmachine toevoegen",
-		"hash": "0f5b60489cf3500e92871eb17e71ce05"
-	},
-	"addSeparator": {
-		"message": "Voeg een scheidingsteken toe",
-		"hash": "3ca31acdb4e16f109453054af8b918f1"
-	},
-	"clear": {
-		"message": "Leegmaken",
-		"hash": "bcf7e7587a412ea36d869d51026dfd6d"
-	},
-	"disableGrid": {
-		"message": "Schakel het raster met pictogrammen uit",
-		"hash": "bb07641e41b320b91b3f1338592ecf4d"
-	},
-	"move": {
-		"message": "Verplaats",
-		"hash": "fe5500b1b2c360308db25a09f9710ade"
-	},
-	"up": {
-		"message": "naar boven",
-		"hash": "87437c5e684807c07a63c62d675b63c3"
-	},
-	"down": {
-		"message": "naar beneden",
-		"hash": "d877ad63806f1a96855f3fb1424b5d91"
-	},
-	"remove": {
-		"message": "Verwijderen",
-		"hash": "3908a268c854fe64242e38845dbb7c81"
-	},
-	"multipleSearchEnginesSearch": {
-		"message": "Gebruik deze zoekmachine bij het multi-search",
-		"hash": "e54c504cdf841f4308b0140c0361420c"
-	},
-	"notifySavedPreferences": {
-		"message": "Voorkeuren opgeslagen.",
-		"hash": "26ae42e6a7533aa03cf8e162fd4859fd"
-	},
-	"notifySearchEngineAdded": {
-		"message": "Zoekmachine toegevoegd.",
-		"hash": "ee1b7a1102ec3b06c1960e84f814b1c6"
-	},
-	"titleShowEngine": {
-		"message": "Toon deze zoekmachine in het contextmenu of raster",
-		"hash": "5c7ec6b539f06fe17a5e3f9832530eea"
-	},
-	"notifyEnableStorageSync": {
-		"message": "Gelieve ervoor te zorgen dat de optie 'webextensions.storage.sync.enabled' op true gezet is in 'about:config', anders zal Context Search niet werken.",
-		"hash": "273ab612652228bc54090e98d1ac1b15"
-	},
-	"notifySearchEnginesLoaded": {
-		"message": "De standaardlijst van zoekmachines werd geladen.",
-		"hash": "640d2193c8155e5988fbeb3453a9737d"
-	},
-	"notifySearchEngineNotFound": {
-		"message": "Er is geen zoekmachine gevonden op de huidige webpagina",
-		"hash": "89a0f7352dea5184b23f367f8c05b079"
-	},
-	"titleMultipleSearchEngines": {
-		"message": "Zoeken met meerdere zoekmachines",
-		"hash": "016e3015d7461d1d0fbf20c60bd9ff0f"
-	},
-	"titleAISearch": {
-		"message": "AI-zoekopdracht",
-		"hash": "6ae434bff120e9ce2a6e459af56f4db3"
-	},
-	"titleSiteSearch": {
-		"message": "Zoek op deze site met",
-		"hash": "5a76bc5c095707f27e2ed235d2f3ccb6"
-	},
-	"titleOptions": {
-		"message": "Opties",
-		"hash": "531dad0078a72193602b18495f0ad4e9"
-	},
-	"windowTitle": {
-		"message": "Zoekresultaten voor ",
-		"hash": "0a26dab592394ea9548c1a5588c0cd0d"
-	},
-	"omniboxDescription": {
-		"message": "Zoek met Context Search via kernwoorden. Gebruik: cs [kernwoord] [zoektermen] (bijvoorbeeld 'cs w Linux' zoekt op Wikipedia naar de term 'Linux')",
-		"hash": "e2406855d2445278d8becb4e11f772b0"
-	},
-	"notifyUsage": {
-		"message": "Gebruik: cs [kernwoord] [zoektermen] (bijvoorbeeld cs w Linux)",
-		"hash": "7ce09b213b936aab58085cc84b20b01c"
-	},
-	"notifySearchEngineWithKeyword": {
-		"message": "Zoekmachine met kernwoord",
-		"hash": "bd232fd868eb1bbd65e4977f5577a0a8"
-	},
-	"notifyUnknown": {
-		"message": "is onbekend.",
-		"hash": "075e9adb0de4037be7b0989733dd51ab"
-	},
-	"notifySearchEngineUrlRequired": {
-		"message": "Vul een URL van de zoekmachine in.",
-		"hash": "b4610959ffa640c457a9ae1fbfa7943c"
-	},
-	"header7": {
-		"message": "Reset opties",
-		"hash": "5c55526198c8075a1695b98e3cd32e2f"
-	},
-	"header8": {
-		"message": "Welke EXIF-tags moeten worden weergegeven?",
-		"hash": "dd5fd339289964d309e5020ed1e9610c"
-	},
-	"sidebar": {
-		"message": "In de zijbalk",
-		"hash": "ea4b3f2f47d5ea8c594036cbdbf6e42b"
-	},
-	"displayFavicons": {
-		"message": "Geef favicons weer in de contextmenulijst",
-		"hash": "7036d3e65d70351c41dfa59e397121b3"
-	},
-	"displayExifSummary": {
-		"message": "Overzicht",
-		"hash": "632626a730da62a89a4d124241e77273"
-	},
-	"disableAltClick": {
-		"message": "Schakel het raster met pictogrammen uit",
-		"hash": "05b09381e8d9e3b808cb5fa5c540af91"
-	},
-	"resetPreferences": {
-		"message": "Voorkeuren resetten naar standaardinstellingen",
-		"hash": "5e6bfbeafc20af866246c982de2a1067"
-	},
-	"forceSearchEnginesReload": {
-		"message": "Forceer het herladen van de lijst met standaardzoekmachines",
-		"hash": "3736dde3828bcec7e5081dc1a450916b"
-	},
-	"forceFaviconsReload": {
-		"message": "Forceer favicons om opnieuw te worden geladen",
-		"hash": "1fea5d330fd5c105ce6ba68ade3be299"
-	},
-	"restriction": {
-		"message": "Als de zijbalk nog niet is geopend, moet u mogelijk op het pictogram 'Zijbalken weergeven' in de browserwerkbalk klikken.",
-		"hash": "8687a8640f71498ea62eaa432791443c"
-	},
-	"reverseImage": {
-		"message": "Ook kunnen zoekresultaten van afbeeldingen in spiegelbeeld niet worden weergegeven in de zijbalk.",
-		"hash": "db880c407ccd59031b92a75b7f7a677e"
-	},
-	"siteSearch": {
-		"message": "Zoekmachine voor het doorzoeken van de huidige site:",
-		"hash": "1aef8aa2adcad0a105bc24d0ac87fe4c"
-	},
-	"header9": {
-		"message": "Geavanceerde functies",
-		"hash": "64bdb129ceb0e431268d7c8199542e11"
-	},
-	"useRegex": {
-		"message": "Gebruik reguliere expressies om het contextmenu te bouwen",
-		"hash": "9d48895eae1e8a92e6a0b2a2bd0e0fa0"
-	},
-	"regexNote": {
-		"message": "Deze functie is niet van toepassing op het raster met pictogrammen.",
-		"hash": "2d301abb7cffcf3a4f41cc59dc52e828"
-	},
-	"subheader62": {
-		"message": "Een nieuwe map toevoegen",
-		"hash": "3a46fe63f172c9cf1e4cf9753dc935f9"
-	},
-	"folderName": {
-		"message": "Naam van de map",
-		"hash": "66c685078184b7f5123e83f4b94097fe"
-	},
-	"folder": {
-		"message": "map",
-		"hash": "6fa625e07a474959d219b2abdaa8c39e"
-	},
-	"addFolder": {
-		"message": "Map toevoegen",
-		"hash": "f6668a06fb140909b3f286d742c848c8"
-	},
-	"keyboardShortcut": {
-		"message": "Toetsenbord sneltoets",
-		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
-	},
-	"header10": {
-		"message": "Opties voor meerdere zoekopdrachten",
-		"hash": "25b7321fc9e19e8e99598b40b96d2d52"
-	},
-	"multisearchIntro": {
-		"message": "Meerdere zoekresultaten/tabbladen openen",
-		"hash": "4536d63e7c6838b383fa5a71967e5933"
-	},
-	"multiNewWindow": {
-		"message": "In een nieuw venster",
-		"hash": "dd5cfb4d20eb4b6f9d6e12c02e8f48e3"
-	},
-	"multiAfterLastTab": {
-		"message": "Na het laatste tabblad in het huidige venster",
-		"hash": "ddd24d070e912ba19edff0c610e91e56"
-	},
-	"multiActiveTab": {
-		"message": "Direct na het actieve tabblad in het huidige venster",
-		"hash": "580a6b556e35b0b48dca22506debb42c"
-	},
-	"privacy": {
-		"message": "Nieuw venster privé maken",
-		"hash": "a2c9e60d71cf882080023ad80af8b903"
-	},
-	"reminder": {
-		"message": "Herinnering",
-		"hash": "7764c333b42339d1f5edf71779799c41"
-	},
-	"enableDownloadsReminder": {
-		"message": "schakel downloadrechten in om uw zoekmachines te exporteren.",
-		"hash": "16e431f64c09354a2034b62338cab41c"
-	},
-	"header11": {
-		"message": "Pictogrammen Rasteropties",
-		"hash": "cb2b6fc9b6c0ab15b1627704b612ca71"
-	},
-	"quickIconGrid": {
-		"message": "Geef onmiddellijk het pictogrammenraster weer nadat tekst is geselecteerd",
-		"hash": "6af6aafa529c63b4f4aef72c478e0db1"
-	},
-	"closeGridOnMouseOut": {
-		"message": "Sluit het iconenraster met de muis uit",
-		"hash": "fc2fcdd466209645b574677c6250e546"
-	},
-	"xOffset": {
-		"message": "Horizontale offset van het pictogrammenraster:",
-		"hash": "fb4e2747c20484c21a1cecb5142b9f80"
-	},
-	"yOffset": {
-		"message": "Verticale offset van het pictogrammenraster:",
-		"hash": "49e08ac782b64fced86569f6dc56d82f"
-	},
-	"clearKeyboardShortcuts": {
-		"message": "Wis alle sneltoetsen",
-		"hash": "3745c3c2b77449e9606d8bf4e137e94f"
-	},
-	"overwriteSearchEngines": {
-		"message": "Overschrijf de bestaande zoekmachines met de geïmporteerde zoekmachines",
-		"hash": "298f419a9e5661db408338fe08cc8ee0"
-	},
-
-	"__WET_LOCALE__": { "message": "nl" }
+    "extensionName": {
+        "message": "Context Search",
+        "description": "Name of the extension"
+    },
+    "extensionDescription": {
+        "message": "Zoekt de geselecteerde tekst met een zoekmachine uit een vastgestelde lijst.",
+        "description": "Description of the extension"
+    },
+    "multisearch": {
+        "message": " is een zoekopdracht met meerdere zoekmachines tegelijk.",
+        "description": "multi-search - it's a search with multiple search engines simultaneously."
+    },
+    "multisearchHowTo": {
+        "message": "Vink het middelste selectievakje aan om een zoekmachine op te nemen in een"
+    },
+    "multisearchLaunch": {
+        "message": "Je kunt een"
+    },
+    "multisearchEnd": {
+        "message": "via het contextmenu of via de omnibox door te typen:"
+    },
+    "pageTitle": {
+        "message": "Voorkeuren van Context Search"
+    },
+    "header1": {
+        "message": "Waar moeten de resultaten verschijnen?"
+    },
+    "newTab": {
+        "message": "In een nieuw tabblad"
+    },
+    "sameTab": {
+        "message": "In hetzelfde tabblad"
+    },
+    "newWindow": {
+        "message": "In een nieuw venster"
+    },
+    "active": {
+        "message": "Maak het nieuwe tabblad of venster actief"
+    },
+    "position": {
+        "message": "Toon de zoekresultaten na het laatste tabblad"
+    },
+    "header3": {
+        "message": "Positie van de opties in het contextmenu"
+    },
+    "subheader31": {
+        "message": "Waar moet het optiemenu verschijnen in het contextmenu?"
+    },
+    "bottom": {
+        "message": "Beneden"
+    },
+    "top": {
+        "message": "Bovenaan"
+    },
+    "hide": {
+        "message": "Nergens (verberg het optiemenu)"
+    },
+    "header5": {
+        "message": "Importeer/exporteer zoekmachines"
+    },
+    "import": {
+        "message": "Importeer JSON van schijf"
+    },
+    "export": {
+        "message": "Exporteer zoekmachines naar JSON"
+    },
+    "download": {
+        "message": "Exporteren naar schijf"
+    },
+    "header2": {
+        "message": "Toon icoontjes"
+    },
+    "getFavicons": {
+        "message": "Toon icoontjes in de contextmenulijst"
+    },
+    "note": {
+        "message": "Deze functie vereist Firefox 56 of hoger."
+    },
+    "header4": {
+        "message": "zoek opties"
+    },
+    "exactMatch": {
+        "message": "Zoek naar een exacte stringovereenkomst"
+    },
+    "gridMode": {
+        "message": "Toon een rooster van icoontjes in plaats van een lijst van zoekmachines"
+    },
+    "warning": {
+        "message": "Waarschuwing: het inschakelen van deze functie zorgt ervoor dat contextmenus van andere extensies niet getoond worden."
+    },
+    "savePreferences": {
+        "message": "Voorkeuren opslaan"
+    },
+    "header6": {
+        "message": "Welke zoekmachines moeten zichtbaar zijn in het contextmenu of het rooster?"
+    },
+    "clearAll": {
+        "message": "Alles deselecteren"
+    },
+    "selectAll": {
+        "message": "Alles selecteren"
+    },
+    "sortAlphabetically": {
+        "message": "Sorteer alfabetisch"
+    },
+    "showAdvancedFeatures": {
+        "message": "Geavanceerde functies weergeven"
+    },
+    "hideAdvancedFeatures": {
+        "message": "Geavanceerde functies verbergen"
+    },
+    "reset": {
+        "message": "Resetten"
+    },
+    "subheader61": {
+        "message": "Een nieuwe zoekmachine toevoegen"
+    },
+    "showSearchEngine": {
+        "message": "Zoekmachine weergeven in raster of contextmenu"
+    },
+    "searchEngineName": {
+        "message": "Naam zoekmachine"
+    },
+    "placeHolderKeyword": {
+        "message": "Trefwoord"
+    },
+    "warningText": {
+        "message": "Waarschuwing"
+    },
+    "keyboardShortcutWarning": {
+        "message": "niet alle toetscombinaties werken. Sneltoetsen starten mogelijk niet met CMD op macOS of CTRL op Windows of Linux, omdat deze meestal zijn gereserveerd voor Firefox-opdrachten."
+    },
+    "placeHolderKeyboardShortcut": {
+        "message": "Toetsenbord sneltoets"
+    },
+    "multipleSearchEngines": {
+        "message": "Opnemen in multi-search"
+    },
+    "searchEngineURL": {
+        "message": "Zoekmachine URL"
+    },
+    "regex": {
+        "message": "Reguliere expressie"
+    },
+    "testSearchEngine": {
+        "message": "Zoekmachine testen"
+    },
+    "addSearchEngine": {
+        "message": "Zoekmachine toevoegen"
+    },
+    "addSeparator": {
+        "message": "Voeg een scheidingsteken toe"
+    },
+    "clear": {
+        "message": "Leegmaken"
+    },
+    "disableGrid": {
+        "message": "Schakel het raster met pictogrammen uit"
+    },
+    "move": {
+        "message": "Verplaats"
+    },
+    "up": {
+        "message": "naar boven"
+    },
+    "down": {
+        "message": "naar beneden"
+    },
+    "remove": {
+        "message": "Verwijderen"
+    },
+    "removeFolderConfirmPrefix": {
+        "message": "Are you sure you want to remove the folder"
+    },
+    "removeFolderConfirmSuffix": {
+        "message": " and all of its contents?"
+    },
+    "removeSearchEngineConfirm": {
+        "message": "Are you sure you want to remove the search engine"
+    },
+    "multipleSearchEnginesSearch": {
+        "message": "Gebruik deze zoekmachine bij het multi-search"
+    },
+    "notifySavedPreferences": {
+        "message": "Voorkeuren opgeslagen."
+    },
+    "notifySearchEngineAdded": {
+        "message": "Zoekmachine toegevoegd."
+    },
+    "titleShowEngine": {
+        "message": "Toon deze zoekmachine in het contextmenu of raster"
+    },
+    "notifyEnableStorageSync": {
+        "message": "Gelieve ervoor te zorgen dat de optie 'webextensions.storage.sync.enabled' op true gezet is in 'about:config', anders zal Context Search niet werken."
+    },
+    "notifySearchEnginesLoaded": {
+        "message": "De standaardlijst van zoekmachines werd geladen."
+    },
+    "notifySearchEngineNotFound": {
+        "message": "Er is geen zoekmachine gevonden op de huidige webpagina"
+    },
+    "titleMultipleSearchEngines": {
+        "message": "Zoeken met meerdere zoekmachines"
+    },
+    "titleAISearch": {
+        "message": "AI-zoekopdracht"
+    },
+    "titleSiteSearch": {
+        "message": "Zoek op deze site met"
+    },
+    "titleOptions": {
+        "message": "Opties"
+    },
+    "windowTitle": {
+        "message": "Zoekresultaten voor "
+    },
+    "omniboxDescription": {
+        "message": "Zoek met Context Search via kernwoorden. Gebruik: cs [kernwoord] [zoektermen] (bijvoorbeeld 'cs w Linux' zoekt op Wikipedia naar de term 'Linux')"
+    },
+    "notifyUsage": {
+        "message": "Gebruik: cs [kernwoord] [zoektermen] (bijvoorbeeld cs w Linux)"
+    },
+    "notifySearchEngineWithKeyword": {
+        "message": "Zoekmachine met kernwoord"
+    },
+    "notifyUnknown": {
+        "message": "is onbekend."
+    },
+    "notifySearchEngineUrlRequired": {
+        "message": "Vul een URL van de zoekmachine in."
+    },
+    "header7": {
+        "message": "Reset opties"
+    },
+    "header8": {
+        "message": "Welke EXIF-tags moeten worden weergegeven?"
+    },
+    "sidebar": {
+        "message": "In de zijbalk"
+    },
+    "displayFavicons": {
+        "message": "Geef favicons weer in de contextmenulijst"
+    },
+    "displayExifSummary": {
+        "message": "Overzicht"
+    },
+    "disableAltClick": {
+        "message": "Schakel het raster met pictogrammen uit"
+    },
+    "resetPreferences": {
+        "message": "Voorkeuren resetten naar standaardinstellingen"
+    },
+    "forceSearchEnginesReload": {
+        "message": "Forceer het herladen van de lijst met standaardzoekmachines"
+    },
+    "forceFaviconsReload": {
+        "message": "Forceer favicons om opnieuw te worden geladen"
+    },
+    "restriction": {
+        "message": "Als de zijbalk nog niet is geopend, moet u mogelijk op het pictogram 'Zijbalken weergeven' in de browserwerkbalk klikken."
+    },
+    "reverseImage": {
+        "message": "Ook kunnen zoekresultaten van afbeeldingen in spiegelbeeld niet worden weergegeven in de zijbalk."
+    },
+    "siteSearch": {
+        "message": "Zoekmachine voor het doorzoeken van de huidige site:"
+    },
+    "header9": {
+        "message": "Geavanceerde functies"
+    },
+    "useRegex": {
+        "message": "Gebruik reguliere expressies om het contextmenu te bouwen"
+    },
+    "regexNote": {
+        "message": "Deze functie is niet van toepassing op het raster met pictogrammen."
+    },
+    "subheader62": {
+        "message": "Een nieuwe map toevoegen"
+    },
+    "folderName": {
+        "message": "Naam van de map"
+    },
+    "folder": {
+        "message": "map"
+    },
+    "addFolder": {
+        "message": "Map toevoegen"
+    },
+    "keyboardShortcut": {
+        "message": "Toetsenbord sneltoets"
+    },
+    "header10": {
+        "message": "Opties voor meerdere zoekopdrachten"
+    },
+    "multisearchIntro": {
+        "message": "Meerdere zoekresultaten/tabbladen openen"
+    },
+    "multiNewWindow": {
+        "message": "In een nieuw venster"
+    },
+    "multiAfterLastTab": {
+        "message": "Na het laatste tabblad in het huidige venster"
+    },
+    "multiActiveTab": {
+        "message": "Direct na het actieve tabblad in het huidige venster"
+    },
+    "privacy": {
+        "message": "Nieuw venster privé maken"
+    },
+    "reminder": {
+        "message": "Herinnering"
+    },
+    "enableDownloadsReminder": {
+        "message": "schakel downloadrechten in om uw zoekmachines te exporteren."
+    },
+    "header11": {
+        "message": "Pictogrammen Rasteropties"
+    },
+    "quickIconGrid": {
+        "message": "Geef onmiddellijk het pictogrammenraster weer nadat tekst is geselecteerd"
+    },
+    "closeGridOnMouseOut": {
+        "message": "Sluit het iconenraster met de muis uit"
+    },
+    "xOffset": {
+        "message": "Horizontale offset van het pictogrammenraster:"
+    },
+    "yOffset": {
+        "message": "Verticale offset van het pictogrammenraster:"
+    },
+    "clearKeyboardShortcuts": {
+        "message": "Wis alle sneltoetsen"
+    },
+    "subheader63": {
+        "message": "Add a new AI prompt"
+    },
+    "subheader64": {
+        "message": "Add a separator"
+    },
+    "testChatGPT": {
+        "message": "Test AI Prompt"
+    },
+    "addChatGPTPrompt": {
+        "message": "Add AI Prompt"
+    },
+    "promptShow": {
+        "message": "Show prompt in grid or context menu"
+    },
+    "promptName": {
+        "message": "Prompt name"
+    },
+    "prompt": {
+        "message": "Prompt"
+    },
+    "overwriteSearchEngines": {
+        "message": "Overschrijf de bestaande zoekmachines met de geïmporteerde zoekmachines"
+    },
+    "popupBlockedMessage": {
+        "message": "Popup blocked! Please allow popups for this site."
+    },
+    "__WET_LOCALE__": {
+        "message": "nl"
+    }
 }
