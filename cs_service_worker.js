@@ -2803,8 +2803,8 @@ async function openAISearchPopup() {
 
     // Calculate the position to center the window in the browser with a vertical offset of 200px
     // Use the obtained browser dimensions and position
-    const left = browserLeft + Math.round((browserWidth - width) / 2);
-    const top = browserTop + Math.round((browserHeight - height) / 2) - 200;
+    const left = browserLeft + Math.floor((browserWidth - width) / 2);
+    const top = browserTop + Math.floor((browserHeight - height) / 2) - 200;
 
     await browser.windows.create({
         url: "/html/popup.html",
@@ -2829,8 +2829,8 @@ async function openBookmarkPopup() {
 
     // Calculate the position to center the window in the browser with a small offset
     // Use the obtained browser dimensions and position
-    const left = browserLeft + Math.round((browserWidth - width) / 2) + 50;
-    const top = browserTop + Math.round((browserHeight - height) / 2) - 150;
+    const left = browserLeft + Math.floor((browserWidth - width) / 2) + 50;
+    const top = browserTop + Math.floor((browserHeight - height) / 2) - 150;
 
     const currentWindow = await browser.windows.getCurrent(); // Can potentially reuse browserInfo if no relevant state changed
     const currentWindowId = currentWindow.id;
@@ -2859,8 +2859,8 @@ async function openBookmarkRemovalConfirmDialog() {
 
     // Calculate the position to center the window in the browser with a vertical offset of 200px
     // Use the obtained browser dimensions and position
-    const left = browserLeft + Math.round((browserWidth - width) / 2);
-    const top = browserTop + Math.round((browserHeight - height) / 2) - 200;
+    const left = browserLeft + Math.floor((browserWidth - width) / 2);
+    const top = browserTop + Math.floor((browserHeight - height) / 2) - 200;
 
     // Ensure activeTab is defined and has a URL before proceeding
     const tabs = await browser.tabs.query({ active: true, currentWindow: true });
@@ -2937,11 +2937,31 @@ async function updateAddonStateForActiveTab() {
                         ? { "16": "/icons/bookmark-red-icon.svg" }
                         : { "16": "/icons/bookmark-grey-icon.svg" };
                 }
-                await contextMenus.update("bookmark-page", updateProps);
+                try {
+                    await contextMenus.update("bookmark-page", updateProps);
+                } catch (error) {
+                    // Log error if the menu item doesn't exist (e.g., during initialization)
+                    if (logToConsole && error.message.includes("No matching menu item")) {
+                        console.warn(`Could not update menu item 'bookmark-page': ${error.message}`);
+                    } else {
+                        // Re-throw other unexpected errors
+                        throw error;
+                    }
+                }
                 // Update menu item for adding a search engine
-                await contextMenus.update("add-search-engine", {
-                    visible: !searchEngineAdded
-                });
+                try {
+                    await contextMenus.update("add-search-engine", {
+                        visible: !searchEngineAdded
+                    });
+                } catch (error) {
+                    // Log error if the menu item doesn't exist (e.g., during initialization)
+                    if (logToConsole && error.message.includes("No matching menu item")) {
+                        console.warn(`Could not update menu item 'add-search-engine': ${error.message}`);
+                    } else {
+                        // Re-throw other unexpected errors
+                        throw error;
+                    }
+                }
             } else {
                 if (logToConsole && activeTab.url !== "about:blank")
                     console.log(`The '${activeTab.url}' URL cannot be bookmarked.`);

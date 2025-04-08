@@ -170,6 +170,15 @@
     "remove": {
         "message": "Remove"
     },
+    "removeFolderConfirmPrefix": {
+        "message": "Are you sure you want to remove the folder"
+    },
+    "removeFolderConfirmSuffix": {
+        "message": " and all of its contents?"
+    },
+    "removeSearchEngineConfirm": {
+        "message": "Are you sure you want to remove the search engine"
+    },
     "multipleSearchEnginesSearch": {
         "message": "Include this search engine in a multi-search"
     },
@@ -347,5 +356,10 @@
     "overwriteSearchEngines": {
         "message": "Overwrite the existing search engines with the imported search engines"
     },
-    "__WET_LOCALE__": { "message": "en" }
+    "popupBlockedMessage": {
+        "message": "Popup blocked! Please allow popups for this site."
+    },
+    "__WET_LOCALE__": {
+        "message": "en"
+    }
 }

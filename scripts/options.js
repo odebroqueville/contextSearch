@@ -60,7 +60,12 @@ const btnUpload = document.getElementById('upload');
 // Translations
 const add = browser.i18n.getMessage('add');
 const remove = browser.i18n.getMessage('remove');
-// 'Popup blocked! Please allow popups for this site.'
+const addANewItem = browser.i18n.getMessage('addANewItem');
+const folder = browser.i18n.getMessage('folder');
+const addANewFolder = browser.i18n.getMessage('subheader62');
+const removeFolderConfirmPrefix = browser.i18n.getMessage('removeFolderConfirmPrefix');
+const removeFolderConfirmSuffix = browser.i18n.getMessage('removeFolderConfirmSuffix');
+const removeSearchEngineConfirm = browser.i18n.getMessage('removeSearchEngineConfirm');
 const popupBlockedMessage = browser.i18n.getMessage('popupBlockedMessage');
 
 /// Global variables
@@ -304,11 +309,6 @@ async function getStoredData(key) {
         console.error(`Error getting ${key} from storage:`, error);
         return null;
     }
-}
-
-// Notification
-async function notify(message) {
-    await sendMessage('notify', message);
 }
 
 // Display the list of search engines
@@ -580,7 +580,7 @@ async function openAddSearchEngineOrFolderPopup(e) {
         popup.focus();
     } else {
         // Popup blocked
-        await notify(popupBlockedMessage);
+        alert(popupBlockedMessage);
     }
 }
 
@@ -725,7 +725,7 @@ function createLineItem(id) {
     }
 
     // Add and deletion button for each search engine or prompt line item
-    const addButton = createButton('add', add);
+    const addButton = createButton('add', addANewItem);
     const removeButton = createButton('remove', remove + ' ' + searchEngineName);
 
     // Input elements for each search engine composing each line item
@@ -1017,8 +1017,8 @@ function createFolderItem(id) {
     inputFolderKeyboardShortcut.addEventListener('change', handleKeyboardShortcutChange);
 
     // Add and deletion button for folder
-    const addButton = createButton('add', `${add} folder`);
-    const removeButton = createButton('remove', `${remove} ${name} folder`);
+    const addButton = createButton('add', addANewFolder);
+    const removeButton = createButton('remove', `${remove} ${name} ${folder}`);
 
     // Add and deletion button event handler
     addButton.addEventListener('click', openAddSearchEngineOrFolderPopup);
@@ -1215,23 +1215,33 @@ async function removeSearchEngine(e) {
     }
 
     if (!searchEngines[id].isFolder) {
-        // Remove the id from the parent's children *before* deleting the engine
-        if (searchEngines[parentId].children) {
-            const index = searchEngines[parentId].children.indexOf(id);
-            if (index > -1) {
-                searchEngines[parentId].children.splice(index, 1);
-            } else {
-                console.warn(`Could not find child ${id} in parent ${parentId}'s children array.`);
-            }
+        let remove;
+        if (id.startsWith("separator-")) {
+            remove = true;
         } else {
-            console.warn(`Parent ${parentId} has no children array.`);
+            remove = confirm(`${removeSearchEngineConfirm} ${searchEngines[id].name}?`);
         }
-        // Remove the line item and its corresponding search engine data
-        pn.removeChild(lineItem);
-        delete searchEngines[id];
+        if (remove) {
+            // Remove the id from the parent's children *before* deleting the engine
+            if (searchEngines[parentId].children) {
+                const index = searchEngines[parentId].children.indexOf(id);
+                if (index > -1) {
+                    searchEngines[parentId].children.splice(index, 1);
+                } else {
+                    console.warn(`Could not find child ${id} in parent ${parentId}'s children array.`);
+                }
+            } else {
+                console.warn(`Parent ${parentId} has no children array.`);
+            }
+            // Remove the line item and its corresponding search engine data
+            pn.removeChild(lineItem);
+            delete searchEngines[id];
+        } else {
+            return;
+        }
     } else {
         // If the line item is a folder, display a warning message
-        const remove = confirm(`Are you sure you want to delete the folder ${searchEngines[id].name} and all of its contents?`);
+        const remove = confirm(`${removeFolderConfirmPrefix} ${searchEngines[id].name} ${removeFolderConfirmSuffix}?`);
         if (remove) {
             // Remove the id from the parent's children *before* deleting the folder data
             if (searchEngines[parentId].children) {
