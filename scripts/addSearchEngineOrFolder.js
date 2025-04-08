@@ -2,7 +2,6 @@
 import '/libs/browser-polyfill.min.js';
 
 /// Import constants
-import { base64FolderIcon } from './favicons.js';
 import { STORAGE_KEYS } from './constants.js';
 
 const notifySearchEngineUrlRequired = browser.i18n.getMessage('notifySearchEngineUrlRequired');
@@ -458,8 +457,6 @@ async function addFolder(e) {
         keyboardShortcut: keyboardShortcut,
         isFolder: true,
         children: [], // Array of search engine and/or subfolder ids
-        imageFormat: 'image/png',
-        base64: base64FolderIcon
     };
 
     // Send data back to the main window using the unique ID

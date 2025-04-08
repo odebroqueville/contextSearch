@@ -2,6 +2,7 @@
 import '/libs/browser-polyfill.min.js';
 
 /// Import constants
+import { base64FolderIcon } from './favicons.js';
 import { STORAGE_KEYS, SORTABLE_BASE_OPTIONS } from './constants.js';
 
 /// Global constants
@@ -78,7 +79,7 @@ window.addEventListener('message', async (event) => {
     if (receivedData.parentId && receivedData.id && receivedData.searchEngine) {
         const { parentId, id, searchEngine } = receivedData;
 
-        addNewSearchEngine(parentId, id, searchEngine);
+        await addNewSearchEngine(parentId, id, searchEngine);
         // Update indices and save
         updateIndices('root');
         await sendMessage('saveSearchEngines', searchEngines);
@@ -1582,9 +1583,26 @@ async function saveSearchEngines() {
     await sendMessage('saveSearchEngines', searchEngines);
 }
 
-function addNewSearchEngine(parentId, id, searchEngine) {
+async function addNewSearchEngine(parentId, id, searchEngine) {
     // ... (Create search engine item and add to searchEngines) ...
     searchEngines[id] = { ...searchEngine };
+
+    if (searchEngine.isFolder) {
+        // Get favicon for the folder
+        searchEngines[id]['imageFormat'] = 'image/png';
+        searchEngines[id]['base64'] = base64FolderIcon;
+    } else if (!id.startsWith("separator-")) {
+        // Get favicon for the search engine
+        const response = await sendMessage('getFavicon', { id, searchEngine });
+        if (response && response.success) {
+            searchEngines[id]['imageFormat'] = response.imageFormat;
+            searchEngines[id]['base64'] = response.base64;
+        }
+    }
+
+
+
+    // Add search engine to children of parent folder
     if (searchEngines[parentId] && searchEngines[parentId].children) {
         searchEngines[parentId].children.splice(searchEngine.index, 0, id);
     } else {
@@ -1597,10 +1615,6 @@ function addNewSearchEngine(parentId, id, searchEngine) {
 
 async function setOptions(options) {
     if (isEmpty(options)) return;
-    if (logToConsole) {
-        console.log('Preferences retrieved from sync storage:\n');
-        console.log(options);
-    }
 
     if (options.exactMatch === true) {
         exactMatch.checked = true;

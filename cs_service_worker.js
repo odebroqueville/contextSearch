@@ -308,28 +308,21 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
         case "saveAIEngine":
             handleSaveAIEngine(data);
             break;
-        case "addNewSearchEngine":
-            handleAddNewSearchEngine(data).then(result => {
-                if (result) {
-                    sendResponse({ success: true, searchEngine: result.searchEngine });
+        case "getFavicon":
+            handleGetFavicon(data).then(result => {
+                if (result && typeof result.imageFormat !== 'undefined' && typeof result.base64 !== 'undefined') {
+                    // Fix: Send imageFormat and base64 directly on the response object
+                    sendResponse({ success: true, imageFormat: result.imageFormat, base64: result.base64 });
                 } else {
-                    sendResponse({ success: false });
+                    // Handle cases where favicon wasn't determined (e.g., missing searchEngine, no domain, folder, etc.)
+                    sendResponse({ success: false, reason: "Favicon could not be determined or is not applicable." });
                 }
             }).catch(error => {
-                sendResponse({ error: error.message });
+                // Fix: Add more detailed logging
+                console.error(`Error processing getFavicon for id '${data?.id}':`, error);
+                sendResponse({ success: false, error: error.message });
             });
-            return true;
-        case "addNewPrompt":
-            handleAddNewPrompt(data).then(result => {
-                if (result) {
-                    sendResponse({ success: true });
-                } else {
-                    sendResponse({ success: false });
-                }
-            }).catch(error => {
-                sendResponse({ error: error.message });
-            });
-            return true;
+            return true; // Indicate async response
         case "updateOptions":
             handleOptionsUpdate(data.updateType, data.data);
             break;
@@ -625,7 +618,7 @@ async function handleAddNewPostSearchEngine(data) {
     // Define a unique ID for the new search engine
     let id = searchEngineName.replace(/\s/g, "-").toLowerCase();
     while (!isIdUnique(id)) {
-        id = id + "-" + Math.floor(Math.random() * 1000000000000);
+        id = id + "-" + Date.now();
     }
     id = id.trim();
 
@@ -648,7 +641,9 @@ async function handleAddNewPostSearchEngine(data) {
 
     if (logToConsole) console.log(searchEngine);
 
-    return await handleAddNewSearchEngine({ id: id, searchEngine: searchEngine });
+    const domain = getDomain(newSearchEngineUrl);
+
+    return await addNewSearchEngine({ id, domain });
 }
 
 async function handleDoSearch(data) {
@@ -712,28 +707,50 @@ async function handleSaveAIEngine(data) {
     await initSearchEngines();
 }
 
-async function handleAddNewSearchEngine(data) {
+async function handleGetFavicon(data) {
+    if (logToConsole) console.log('Getting favicon for search engine:', data);
     const id = data.id;
-    let domain = null;
-    searchEngines[id] = data.searchEngine;
+    const searchEngine = data.searchEngine;
+    searchEngines[id] = { ...searchEngine };
+
+    // --- Add this defensive check ---
+    if (!searchEngine) {
+        console.error(`handleGetFavicon called for id '${id}' but searchEngine is missing in data:`, data);
+        return; // Return undefined/null, will lead to { success: false } response
+    }
+    // --- End check ---
+
+    let domain;
+    let imageFormat;
+    let base64;
+
     if (
         !(
             id.startsWith("separator-") ||
             id.startsWith("chatgpt-") ||
-            searchEngines[id].isFolder
+            searchEngine.isFolder
         )
     ) {
-        domain = getDomain(data.searchEngine.url);
+        domain = getDomain(searchEngine.url);
         if (logToConsole) console.log(id, domain);
     }
-    return await addNewSearchEngine(id, domain);
-}
 
-async function handleAddNewPrompt(data) {
-    const id = data.id;
-    const domain = "";
-    searchEngines[id] = data.searchEngine;
-    await addNewSearchEngine(id, domain);
+    if (!domain) {
+        if (logToConsole) console.log('No domain found for search engine: ' + id);
+        return;
+    }
+
+    // Add a favicon to the search engine except if it's a separator or a folder
+    if (!id.startsWith("separator-")) {
+        if (searchEngine.isFolder) {
+            imageFormat = "image/png";
+            base64 = base64FolderIcon;
+        } else {
+            ({ imageFormat, base64 } = await getNewFavicon(id, domain));
+        }
+    }
+
+    return { imageFormat, base64 };
 }
 
 /**
