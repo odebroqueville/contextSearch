@@ -1,363 +1,363 @@
 {
     "extensionName": {
-        "message": "Context Search",
+        "message": "Pencarian Konteks",
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Searches the selected text using a search engine from a pre-specified list.",
+        "message": "Mencari teks yang dipilih menggunakan mesin pencari dari daftar yang telah ditentukan sebelumnya.",
         "description": "Description of the extension"
     },
     "multisearch": {
-        "message": " is a search with multiple search engines simultaneously.",
+        "message": " adalah pencarian dengan beberapa mesin pencari secara bersamaan.",
         "description": "multi-search - it's a search with multiple search engines simultaneously."
     },
     "multisearchHowTo": {
-        "message": "Check the middle checkbox to include a search engine in a"
+        "message": "Centang kotak centang tengah untuk menyertakan mesin pencari dalam"
     },
     "multisearchLaunch": {
-        "message": "You can launch a"
+        "message": "Anda dapat meluncurkan sebuah"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the omnibox by typing:"
+        "message": "melalui menu konteks atau melalui omnibox dengan mengetik:"
     },
     "pageTitle": {
-        "message": "Context Search Preferences"
+        "message": "Preferensi Pencarian Konteks"
     },
     "header1": {
-        "message": "Where should search results appear?"
+        "message": "Di mana seharusnya hasil pencarian muncul?"
     },
     "newTab": {
-        "message": "In a new tab"
+        "message": "Di tab baru"
     },
     "sameTab": {
-        "message": "In the same tab"
+        "message": "Di tab yang sama"
     },
     "newWindow": {
-        "message": "In a new window"
+        "message": "Di jendela baru"
     },
     "active": {
-        "message": "Make the new tab or window active"
+        "message": "Membuat tab atau jendela baru menjadi aktif"
     },
     "position": {
-        "message": "Display the search results after the last tab"
+        "message": "Menampilkan hasil pencarian setelah tab terakhir"
     },
     "header3": {
-        "message": "Position of options in the context menu"
+        "message": "Posisi opsi dalam menu konteks"
     },
     "subheader31": {
-        "message": "Where would you like the options menu to appear in the context menu?"
+        "message": "Di mana Anda ingin menu opsi muncul dalam menu konteks?"
     },
     "bottom": {
-        "message": "At the bottom"
+        "message": "Di bagian bawah"
     },
     "top": {
-        "message": "At the top"
+        "message": "Di atas"
     },
     "hide": {
-        "message": "Neither (hide the options menu)"
+        "message": "Tidak juga (sembunyikan menu opsi)"
     },
     "header5": {
-        "message": "Import/export search engines"
+        "message": "Mesin pencari impor/ekspor"
     },
     "import": {
-        "message": "Import JSON from local disk"
+        "message": "Impor JSON dari disk lokal"
     },
     "export": {
-        "message": "Export search engines to JSON"
+        "message": "Mengekspor mesin pencari ke JSON"
     },
     "download": {
-        "message": "Export to local disk"
+        "message": "Ekspor ke disk lokal"
     },
     "header2": {
-        "message": "Favicons & Icons"
+        "message": "Favicon & Ikon"
     },
     "getFavicons": {
-        "message": "Display favicons in context menu list"
+        "message": "Menampilkan favicon dalam daftar menu konteks"
     },
     "note": {
-        "message": "This feature requires Firefox 56 or above."
+        "message": "Fitur ini membutuhkan Firefox 56 atau lebih tinggi."
     },
     "header4": {
-        "message": "Search options"
+        "message": "Opsi pencarian"
     },
     "exactMatch": {
-        "message": "Search for an exact string match"
+        "message": "Mencari pencocokan string yang tepat"
     },
     "gridMode": {
-        "message": "Display a grid of icons instead of a list of search engines"
+        "message": "Menampilkan kisi-kisi ikon, bukan daftar mesin pencari"
     },
     "warning": {
-        "message": "Warning: Please note that enabling this feature will prevent context menus from other extensions to be displayed."
+        "message": "Peringatan: Harap diperhatikan bahwa dengan mengaktifkan fitur ini akan mencegah menu konteks dari ekstensi lain ditampilkan."
     },
     "savePreferences": {
-        "message": "Save preferences"
+        "message": "Menyimpan preferensi"
     },
     "header6": {
-        "message": "Which search engines would you like to appear in the context menu or grid?"
+        "message": "Mesin pencari mana yang ingin Anda tampilkan di menu konteks atau kisi?"
     },
     "clearAll": {
-        "message": "Clear All"
+        "message": "Hapus Semua"
     },
     "selectAll": {
-        "message": "Select All"
+        "message": "Pilih Semua"
     },
     "sortAlphabetically": {
-        "message": "Sort alphabetically"
+        "message": "Urutkan menurut abjad"
     },
     "showAdvancedFeatures": {
-        "message": "Show advanced features"
+        "message": "Menampilkan fitur lanjutan"
     },
     "hideAdvancedFeatures": {
-        "message": "Hide advanced features"
+        "message": "Menyembunyikan fitur lanjutan"
     },
     "reset": {
-        "message": "Reset"
+        "message": "Atur ulang"
     },
     "subheader61": {
-        "message": "Add a new search engine"
+        "message": "Menambahkan mesin pencari baru"
     },
     "showSearchEngine": {
-        "message": "Show search engine in grid or context menu"
+        "message": "Menampilkan mesin pencari dalam kisi atau menu konteks"
     },
     "searchEngineName": {
-        "message": "Search engine name"
+        "message": "Nama mesin pencari"
     },
     "placeHolderKeyword": {
-        "message": "Keyword"
+        "message": "Kata kunci"
     },
     "warningText": {
-        "message": "Warning"
+        "message": "Peringatan"
     },
     "keyboardShortcutWarning": {
-        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
+        "message": "tidak semua kombinasi tombol akan berfungsi. Pintasan papan ketik mungkin tidak dimulai dengan CMD di macOS atau CTRL di Windows atau Linux, karena ini biasanya dicadangkan untuk perintah Firefox."
     },
     "placeHolderKeyboardShortcut": {
-        "message": "Keyboard shortcut"
+        "message": "Pintasan keyboard"
     },
     "multipleSearchEngines": {
-        "message": "Include in multi-search"
+        "message": "Sertakan dalam multi-pencarian"
     },
     "searchEngineURL": {
-        "message": "Search engine URL"
+        "message": "URL mesin pencari"
     },
     "regex": {
-        "message": "Regular expression"
+        "message": "Ekspresi reguler"
     },
     "testSearchEngine": {
-        "message": "Test search engine"
+        "message": "Uji mesin pencari"
     },
     "addSearchEngine": {
-        "message": "Add search engine"
+        "message": "Tambahkan mesin pencari"
     },
     "addSeparator": {
-        "message": "Add a separator"
+        "message": "Menambahkan pemisah"
     },
     "clear": {
-        "message": "Clear"
+        "message": "Jelas"
     },
     "disableGrid": {
-        "message": "Disable grid of icons"
+        "message": "Menonaktifkan kisi-kisi ikon"
     },
     "move": {
-        "message": "Move"
+        "message": "Pindah"
     },
     "up": {
         "message": "up"
     },
     "down": {
-        "message": "down"
+        "message": "turun"
     },
     "remove": {
-        "message": "Remove"
+        "message": "Menghapus"
     },
     "multipleSearchEnginesSearch": {
-        "message": "Include this search engine in a multi-search"
+        "message": "Sertakan mesin pencari ini dalam multi-pencarian"
     },
     "notifySavedPreferences": {
-        "message": "Saved preferences."
+        "message": "Preferensi yang disimpan."
     },
     "notifySearchEngineAdded": {
-        "message": "Search engine added."
+        "message": "Mesin pencari ditambahkan."
     },
     "titleShowEngine": {
-        "message": "Show this search engine in the context menu or grid"
+        "message": "Tampilkan mesin pencari ini di menu konteks atau kisi"
     },
     "notifyEnableStorageSync": {
-        "message": "Please ensure that the flag 'webextensions.storage.sync.enabled' is set to 'true' in 'about:config', otherwise Context Search won't work."
+        "message": "Pastikan bahwa flag 'webextensions.storage.sync.enabled' disetel ke 'true' di 'about:config', jika tidak, Pencarian Konteks tidak akan berfungsi."
     },
     "notifySearchEnginesLoaded": {
-        "message": "Default list of search engines has been loaded."
+        "message": "Daftar default mesin pencari telah dimuat."
     },
     "notifySearchEngineNotFound": {
-        "message": "A search engine couldn't be found on the current web page"
+        "message": "Mesin pencari tidak dapat ditemukan di halaman web saat ini"
     },
     "titleMultipleSearchEngines": {
-        "message": "Multiple search engines search"
+        "message": "Pencarian beberapa mesin pencari"
     },
     "titleAISearch": {
-        "message": "AI Search"
+        "message": "Pencarian AI"
     },
     "titleSiteSearch": {
-        "message": "Search this site with"
+        "message": "Cari situs ini dengan"
     },
     "titleOptions": {
-        "message": "Options"
+        "message": "Pilihan"
     },
     "windowTitle": {
-        "message": "Search results for"
+        "message": "Hasil pencarian untuk"
     },
     "omniboxDescription": {
-        "message": "Search using Context Search with keywords. Usage: cs [keyword] [search terms] (e.g. 'cs w Linux' searches Wikipedia for the term 'Linux')"
+        "message": "Pencarian menggunakan Pencarian Konteks dengan kata kunci. Penggunaan: cs [kata kunci] [istilah pencarian] (contoh: 'cs w Linux' mencari di Wikipedia untuk istilah 'Linux')"
     },
     "notifyUsage": {
-        "message": "Usage: cs [keyword] [search terms] (for example: cs w Linux)"
+        "message": "Penggunaan: cs [kata kunci] [istilah pencarian] (misalnya: cs w Linux)"
     },
     "notifySearchEngineWithKeyword": {
-        "message": "Search engine with keyword"
+        "message": "Mesin pencari dengan kata kunci"
     },
     "notifyUnknown": {
-        "message": "is unknown."
+        "message": "tidak diketahui."
     },
     "notifySearchEngineUrlRequired": {
-        "message": "Please fill in a valid search engine URL."
+        "message": "Silakan isi URL mesin pencari yang valid."
     },
     "header7": {
-        "message": "Reset options"
+        "message": "Mengatur ulang opsi"
     },
     "header8": {
-        "message": "Which EXIF tags should be displayed?"
+        "message": "Tag EXIF mana yang harus ditampilkan?"
     },
     "sidebar": {
-        "message": "In the sidebar"
+        "message": "Di bilah samping"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu list"
+        "message": "Menampilkan favicon dalam daftar menu konteks"
     },
     "displayExifSummary": {
-        "message": "Summary"
+        "message": "Ringkasan"
     },
     "disableAltClick": {
-        "message": "Disable icon grid (Alt + Click)"
+        "message": "Menonaktifkan kisi ikon (Alt + Klik)"
     },
     "resetPreferences": {
-        "message": "Reset preferences to default settings"
+        "message": "Mengatur ulang preferensi ke pengaturan default"
     },
     "forceSearchEnginesReload": {
-        "message": "Force reload of default search engines list"
+        "message": "Memuat ulang secara paksa daftar mesin pencari default"
     },
     "forceFaviconsReload": {
-        "message": "Force favicons to be reloaded"
+        "message": "Memaksa favicon untuk dimuat ulang"
     },
     "restriction": {
-        "message": "If the sidebar isn't already open, then you may have to click on the 'Show sidebars' icon from the browser toolbar."
+        "message": "Jika bilah sisi belum terbuka, Anda mungkin harus mengklik ikon 'Tampilkan bilah sisi' dari bilah alat peramban."
     },
     "reverseImage": {
-        "message": "Also, reverse image search results cannot be displayed in the sidebar."
+        "message": "Selain itu, hasil pencarian gambar terbalik tidak dapat ditampilkan di bilah sisi."
     },
     "siteSearch": {
-        "message": "Search engine for searching current site:"
+        "message": "Mesin pencari untuk mencari situs saat ini:"
     },
     "header9": {
-        "message": "Advanced features"
+        "message": "Fitur lanjutan"
     },
     "useRegex": {
-        "message": "Use regular expressions to build the context menu"
+        "message": "Gunakan ekspresi reguler untuk membangun menu konteks"
     },
     "regexNote": {
-        "message": "This feature doesn't apply to the grid of icons."
+        "message": "Fitur ini tidak berlaku untuk kisi-kisi ikon."
     },
     "subheader62": {
-        "message": "Add a new folder"
+        "message": "Menambahkan folder baru"
     },
     "folderName": {
-        "message": "Folder name"
+        "message": "Nama folder"
     },
     "folder": {
         "message": "folder"
     },
     "addFolder": {
-        "message": "Add folder"
+        "message": "Tambahkan folder"
     },
     "keyboardShortcut": {
-        "message": "Keyboard shortcut"
+        "message": "Pintasan keyboard"
     },
     "header10": {
-        "message": "Multisearch options"
+        "message": "Opsi multi-pencarian"
     },
     "multisearchIntro": {
-        "message": "Open multiple search results/tabs"
+        "message": "Membuka beberapa hasil pencarian/tab"
     },
     "multiNewWindow": {
-        "message": "In a new window"
+        "message": "Di jendela baru"
     },
     "multiAfterLastTab": {
-        "message": "After the last tab in the current window"
+        "message": "Setelah tab terakhir di jendela saat ini"
     },
     "multiActiveTab": {
-        "message": "Right after the active tab in the current window"
+        "message": "Tepat setelah tab aktif di jendela saat ini"
     },
     "privacy": {
-        "message": "Make new window private"
+        "message": "Jadikan jendela baru pribadi"
     },
     "reminder": {
-        "message": "Reminder"
+        "message": "Pengingat"
     },
     "enableDownloadsReminder": {
-        "message": "enable Downloads permissions to export your search engines."
+        "message": "aktifkan Izin unduhan untuk mengekspor mesin pencari Anda."
     },
     "header11": {
-        "message": "Icons Grid options"
+        "message": "Opsi kisi-kisi ikon"
     },
     "quickIconGrid": {
-        "message": "Immediately display the icons grid after text has been selected"
+        "message": "Segera tampilkan kisi-kisi ikon setelah teks dipilih"
     },
     "closeGridOnMouseOut": {
-        "message": "Close the icons grid on mouse out"
+        "message": "Tutup kisi ikon pada mouse keluar"
     },
     "xOffset": {
-        "message": "Horizontal offset of the icons grid: "
+        "message": "Pergeseran horizontal kisi ikon: "
     },
     "yOffset": {
-        "message": "Vertical offset of the icons grid: "
+        "message": "Pergeseran vertikal kisi ikon: "
     },
     "clearKeyboardShortcuts": {
-        "message": "Clear all keyboard shortcuts"
+        "message": "Menghapus semua pintasan keyboard"
     },
     "subheader63": {
-        "message": "Add a new AI prompt"
+        "message": "Menambahkan prompt AI baru"
     },
     "subheader64": {
-        "message": "Add a separator"
+        "message": "Menambahkan pemisah"
     },
     "testChatGPT": {
-        "message": "Test AI Prompt"
+        "message": "Uji Permintaan AI"
     },
     "addChatGPTPrompt": {
-        "message": "Add AI Prompt"
+        "message": "Tambahkan Prompt AI"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "Menampilkan prompt dalam kisi atau menu konteks"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "Nama yang cepat"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "Cepat"
     },
     "overwriteSearchEngines": {
-        "message": "Overwrite the existing search engines with the imported search engines"
+        "message": "Menimpa mesin pencari yang ada dengan mesin pencari yang diimpor"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Are you sure that you want to remove the folder "
+        "message": "Apakah Anda yakin ingin menghapus folder tersebut "
     },
     "removeFolderConfirmSuffix": {
-        "message": " and all of its contents?"
+        "message": " dan semua isinya?"
     },
     "removeSearchEngineConfirm": {
-        "message": "Are you sure you want to remove the search engine "
+        "message": "Apakah Anda yakin ingin menghapus mesin pencari "
     },
     "popupBlockedMessage": {
-        "message": "Popup blocked! Please allow popups for this site."
+        "message": "Popup diblokir! Izinkan popup untuk situs ini."
     },
     "__WET_LOCALE__": {
         "message": "en"
