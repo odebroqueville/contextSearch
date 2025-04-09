@@ -1,452 +1,365 @@
 {
-	"extensionName": {
-		"message": "Context Search",
-		"description": "Name of the extension",
-		"hash": "dc46af1f918347f13872ba3b1acf5cb5"
-	},
-	"extensionDescription": {
-		"message": "Przeszukuje wybrany tekst za pomocą wyszukiwarki z wcześniej określonej listy.",
-		"description": "Description of the extension",
-		"hash": "b8f612ae1be0699e4ac144ebdd9408b8"
-	},
-	"multisearch": {
-		"message": " to wyszukiwanie z wieloma wyszukiwarkami jednocześnie.",
-		"description": "multi-search - it's a search with multiple search engines simultaneously.",
-		"hash": "d91d9731eeb51cab08e5db4231c3b539"
-	},
-	"multisearchHowTo": {
-		"message": "Zaznacz środkowe pole wyboru, aby uwzględnić wyszukiwarkę w pliku",
-		"hash": "45d8a4cc6705ce14bb465c1a603886f7"
-	},
-	"multisearchLaunch": {
-		"message": "Możesz uruchomić",
-		"hash": "50aea7f78b7f283fce6309cb046d922b"
-	},
-	"multisearchEnd": {
-		"message": "za pomocą menu kontekstowego lub omniboksu, wpisując:",
-		"hash": "93175e4d6a2f2b01a19a17c09ac98750"
-	},
-	"pageTitle": {
-		"message": "Preferencje wyszukiwania kontekstowego",
-		"hash": "85459cf0f20967bcc8995dd2257f6ba2"
-	},
-	"header1": {
-		"message": "Gdzie powinny pojawiać się wyniki wyszukiwania?",
-		"hash": "55b5b2535226c23995d9220e9f01e7c9"
-	},
-	"newTab": {
-		"message": "W nowej karcie",
-		"hash": "ed02b96ab3009dd9f8a3329e14c20ecd"
-	},
-	"sameTab": {
-		"message": "W tej samej karcie",
-		"hash": "8f83dae466a72a4c1f8c93e2ddc16f89"
-	},
-	"newWindow": {
-		"message": "W nowym oknie",
-		"hash": "dd5cfb4d20eb4b6f9d6e12c02e8f48e3"
-	},
-	"active": {
-		"message": "Uaktywnij nową kartę lub okno",
-		"hash": "3588f7008b34105c5a590905b489e8ba"
-	},
-	"position": {
-		"message": "Wyświetl wyniki wyszukiwania po ostatniej karcie",
-		"hash": "6f1385f89667221e78b453799755c534"
-	},
-	"header3": {
-		"message": "Pozycja opcji w menu kontekstowym",
-		"hash": "cc53b51192c00cf073c75573e910c712"
-	},
-	"subheader31": {
-		"message": "Gdzie chciałbyś, aby menu opcji pojawiło się w menu kontekstowym?",
-		"hash": "97f92ec06abae7047823b89e7cdd35aa"
-	},
-	"bottom": {
-		"message": "Na dole",
-		"hash": "dbc939fac3704f3bb5db5534c521a560"
-	},
-	"top": {
-		"message": "Na górze",
-		"hash": "7eb84bbe333a29135c13bb749b5a1bdf"
-	},
-	"hide": {
-		"message": "Nigdzie (ukryj menu opcji)",
-		"hash": "66545b38432fb9f7cec55f9bd1bcb476"
-	},
-	"header5": {
-		"message": "Importuj/eksportuj wyszukiwarki",
-		"hash": "aff674b25de54fb6d1a8b94f0992e2e7"
-	},
-	"import": {
-		"message": "Importuj wyszukiwarki z JSON na dysku lokalnym",
-		"hash": "efa8b5b957c983016114c1687692a917"
-	},
-	"export": {
-		"message": "Eksportuj wyszukiwarki do JSON",
-		"hash": "4cbfa9bc7ce7a876967887dc8b3d80bb"
-	},
-	"download": {
-		"message": "Eksportuj na dysk lokalny",
-		"hash": "9b7395778b59c67d44fb310a60cbec1f"
-	},
-	"header2": {
-		"message": "Pokaż favicons",
-		"hash": "4c972ef4ffb7e90163b9294509fea65d"
-	},
-	"getFavicons": {
-		"message": "Pokaż favicons na liście menu kontekstowego",
-		"hash": "7036d3e65d70351c41dfa59e397121b3"
-	},
-	"note": {
-		"message": "Ta funkcjonalność wymaga Firefox-a 56 lub nowszego.",
-		"hash": "f3bb15e6696904cf038aea689a0a02da"
-	},
-	"header4": {
-		"message": "opcje wyszukiwania",
-		"hash": "ce6416d0e13a773a9b6c1b03a43982d4"
-	},
-	"exactMatch": {
-		"message": "Wyszukaj dokładne dopasowanie ciągu",
-		"hash": "779d6b3e9f3fe9654fe3549a21a06550"
-	},
-	"gridMode": {
-		"message": "Wyświetl siatkę ikon zamiast listy wyszukiwarek",
-		"hash": "fb28a2f15ee692ae8862f2eed52cdede"
-	},
-	"warning": {
-		"message": "Ostrzeżenie: Włączenie tej funkcji uniemożliwi wyświetlanie menu kontekstowych z innych rozszerzeń.",
-		"hash": "b92a893b194575ca0bd0541cd80d4aa6"
-	},
-	"savePreferences": {
-		"message": "Zapisz Ustawienia",
-		"hash": "7afab2f751102f4f4154ec70f4a1a0cd"
-	},
-	"header6": {
-		"message": "Które wyszukiwarki chcesz wyświetlać w menu kontekstowym lub siatce?",
-		"hash": "4bec74f00dd1574f3c4a5229035c3f21"
-	},
-	"clearAll": {
-		"message": "Wyczyść wszystko",
-		"hash": "cce60e6cbfaee4ec6fac0a16a8bd383d"
-	},
-	"selectAll": {
-		"message": "Zaznacz wszystko",
-		"hash": "26561e6b6807c0c48ce2a3ee81adad87"
-	},
-	"sortAlphabetically": {
-		"message": "Sortuj alfabetycznie",
-		"hash": "9dbba2e2d73fbe9d34b492113a47dc86"
-	},
-	"showAdvancedFeatures": {
-		"message": "Pokaż zaawansowane funkcje",
-		"hash": "adab8345d6d3749a2687addeb95aa6a0"
-	},
-	"hideAdvancedFeatures": {
-		"message": "Ukryj zaawansowane funkcje",
-		"hash": "6d0f963850902a32f1e4cde900271ec3"
-	},
-	"reset": {
-		"message": "Zresetuj",
-		"hash": "0d25968a7dfc21f95043a86dd5373b81"
-	},
-	"subheader61": {
-		"message": "Dodaj nową wyszukiwarkę",
-		"hash": "df8ef6317cccd7767129689b409c7555"
-	},
-	"showSearchEngine": {
-		"message": "Pokaż wyszukiwarkę w siatce lub menu kontekstowym",
-		"hash": "fd116637c97d52564b8caab4155b7e14"
-	},
-	"searchEngineName": {
-		"message": "Nazwa wyszukiwarki",
-		"hash": "66a6254e959765667c76a05c3697399d"
-	},
-	"placeHolderKeyword": {
-		"message": "Słowo kluczowe",
-		"hash": "a715ce8d52a556c7541e52a39273b8e4"
-	},
-	"warningText": {
-		"message": "Ostrzeżenie",
-		"hash": "d02ba8f1a5b9fd49d892558d83e71d59"
-	},
-	"keyboardShortcutWarning": {
-		"message": "nie wszystkie kombinacje klawiszy będą działać. Skróty klawiaturowe mogą nie zaczynać się od CMD w systemie macOS lub CTRL w systemie Windows lub Linux, ponieważ są one zwykle zarezerwowane dla poleceń Firefoksa.",
-		"hash": "a87da357c72be4e165534f8a068a00a4"
-	},
-	"placeHolderKeyboardShortcut": {
-		"message": "Skrót klawiszowy",
-		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
-	},
-	"multipleSearchEngines": {
-		"message": "Użyj tej wyszukiwarki do multi-search",
-		"hash": "795672c778b61e3785aa2fff7dca91ed"
-	},
-	"searchEngineURL": {
-		"message": "Adres URL wyszukiwarki",
-		"hash": "f5b1aa2bdb81d4357409d3ecb87bc1e3"
-	},
-	"regex": {
-		"message": "Wyrażenie regularne",
-		"hash": "836b4e8f189b0435476c917699858782"
-	},
-	"testSearchEngine": {
-		"message": "Przetestuj wyszukiwarkę",
-		"hash": "138ac2e49b86e7dc4a4e71a7f15dd7b6"
-	},
-	"addSearchEngine": {
-		"message": "Dodaj wyszukiwarkę",
-		"hash": "0f5b60489cf3500e92871eb17e71ce05"
-	},
-	"addSeparator": {
-		"message": "Dodaj separator",
-		"hash": "e7dee3308538cf240c29661ce7fcd41d"
-	},
-	"clear": {
-		"message": "Wyczyść",
-		"hash": "bcf7e7587a412ea36d869d51026dfd6d"
-	},
-	"disableGrid": {
-		"message": "Wyłącz siatkę ikon",
-		"hash": "bb07641e41b320b91b3f1338592ecf4d"
-	},
-	"move": {
-		"message": "Przesuń",
-		"hash": "fe5500b1b2c360308db25a09f9710ade"
-	},
-	"up": {
-		"message": "w górę",
-		"hash": "87437c5e684807c07a63c62d675b63c3"
-	},
-	"down": {
-		"message": "w dół",
-		"hash": "d877ad63806f1a96855f3fb1424b5d91"
-	},
-	"remove": {
-		"message": "Usuń",
-		"hash": "3908a268c854fe64242e38845dbb7c81"
-	},
-	"multipleSearchEnginesSearch": {
-		"message": "Uwzględnij tę wyszukiwarkę w wyszukiwaniu za pomocą wielu wyszukiwarek",
-		"hash": "e54c504cdf841f4308b0140c0361420c"
-	},
-	"notifySavedPreferences": {
-		"message": "Preferencje zostały zapisane.",
-		"hash": "26ae42e6a7533aa03cf8e162fd4859fd"
-	},
-	"notifySearchEngineAdded": {
-		"message": "Dodano wyszukiwarkę.",
-		"hash": "ee1b7a1102ec3b06c1960e84f814b1c6"
-	},
-	"titleShowEngine": {
-		"message": "Pokaż tę wyszukiwarkę w menu kontekstowym lub siatce",
-		"hash": "5c7ec6b539f06fe17a5e3f9832530eea"
-	},
-	"notifyEnableStorageSync": {
-		"message": "Sprawdź czy flaga 'webextensions.storage.sync.enabled' jest ustawiona na 'true' w 'about: config', w przeciwnym razie wyszukiwanie kontekstowe nie będzie działać.",
-		"hash": "273ab612652228bc54090e98d1ac1b15"
-	},
-	"notifySearchEnginesLoaded": {
-		"message": "Domyślna lista wyszukiwarek została załadowana.",
-		"hash": "640d2193c8155e5988fbeb3453a9737d"
-	},
-	"notifySearchEngineNotFound": {
-		"message": "Nie można znaleźć wyszukiwarki na bieżącej stronie internetowej",
-		"hash": "89a0f7352dea5184b23f367f8c05b079"
-	},
-	"titleMultipleSearchEngines": {
-		"message": "Wyszukiwanie za pomocą wielu wyszukiwarek",
-		"hash": "016e3015d7461d1d0fbf20c60bd9ff0f"
-	},
-	"titleAISearch": {
-		"message": "Wyszukiwanie AI",
-		"hash": "6ae434bff120e9ce2a6e459af56f4db3"
-	},
-	"titleSiteSearch": {
-		"message": "Przeszukaj tę stonę za pomocą",
-		"hash": "5a76bc5c095707f27e2ed235d2f3ccb6"
-	},
-	"titleOptions": {
-		"message": "Opcje",
-		"hash": "531dad0078a72193602b18495f0ad4e9"
-	},
-	"windowTitle": {
-		"message": "Wyniki wyszukiwania dla",
-		"hash": "0a26dab592394ea9548c1a5588c0cd0d"
-	},
-	"omniboxDescription": {
-		"message": "Wyszukiwanie za pomocą słów kluczowych. Sposób użycia: cs [słowo kluczowe] [kryteria wyszukiwania] (np. 'cs w Linux' wyszukuje 'Linux' na Wikipedii)",
-		"hash": "e2406855d2445278d8becb4e11f772b0"
-	},
-	"notifyUsage": {
-		"message": "Sposób użycia: cs [keyword] [kryteria wyszukiwania] (na przykład: cs w Linux)",
-		"hash": "7ce09b213b936aab58085cc84b20b01c"
-	},
-	"notifySearchEngineWithKeyword": {
-		"message": "Wyszukiwarka ze słowem kluczowym",
-		"hash": "bd232fd868eb1bbd65e4977f5577a0a8"
-	},
-	"notifyUnknown": {
-		"message": "jest nieznana.",
-		"hash": "075e9adb0de4037be7b0989733dd51ab"
-	},
-	"notifySearchEngineUrlRequired": {
-		"message": "Wpisz adres URL wyszukiwarki.",
-		"hash": "b4610959ffa640c457a9ae1fbfa7943c"
-	},
-	"header7": {
-		"message": "Zresetuj opcje",
-		"hash": "5c55526198c8075a1695b98e3cd32e2f"
-	},
-	"header8": {
-		"message": "Które tagi EXIF powinny być wyświetlane?",
-		"hash": "dd5fd339289964d309e5020ed1e9610c"
-	},
-	"sidebar": {
-		"message": "Na pasku bocznym",
-		"hash": "ea4b3f2f47d5ea8c594036cbdbf6e42b"
-	},
-	"displayFavicons": {
-		"message": "Wyświetl ulubione w liście menu kontekstowego",
-		"hash": "7036d3e65d70351c41dfa59e397121b3"
-	},
-	"displayExifSummary": {
-		"message": "Podsumowanie",
-		"hash": "632626a730da62a89a4d124241e77273"
-	},
-	"disableAltClick": {
-		"message": "Wyłącz siatkę ikon",
-		"hash": "05b09381e8d9e3b808cb5fa5c540af91"
-	},
-	"resetPreferences": {
-		"message": "Zresetuj preferencje do ustawień domyślnych",
-		"hash": "5e6bfbeafc20af866246c982de2a1067"
-	},
-	"forceSearchEnginesReload": {
-		"message": "Wymuś przeładowanie domyślnej listy wyszukiwarek",
-		"hash": "3736dde3828bcec7e5081dc1a450916b"
-	},
-	"forceFaviconsReload": {
-		"message": "Wymuś załadowanie ulubionych",
-		"hash": "1fea5d330fd5c105ce6ba68ade3be299"
-	},
-	"restriction": {
-		"message": "Jeśli pasek boczny nie jest jeszcze otwarty, może być konieczne kliknięcie ikony „Pokaż paski boczne” na pasku narzędzi przeglądarki.",
-		"hash": "8687a8640f71498ea62eaa432791443c"
-	},
-	"reverseImage": {
-		"message": "Ponadto wyniki wyszukiwania obrazów odwróconych nie mogą być wyświetlane na pasku bocznym.",
-		"hash": "db880c407ccd59031b92a75b7f7a677e"
-	},
-	"siteSearch": {
-		"message": "Wyszukiwarka do wyszukiwania aktualnej witryny:",
-		"hash": "1aef8aa2adcad0a105bc24d0ac87fe4c"
-	},
-	"header9": {
-		"message": "Zaawansowane funkcje",
-		"hash": "64bdb129ceb0e431268d7c8199542e11"
-	},
-	"useRegex": {
-		"message": "Użyj wyrażeń regularnych do zbudowania menu kontekstowego",
-		"hash": "9d48895eae1e8a92e6a0b2a2bd0e0fa0"
-	},
-	"regexNote": {
-		"message": "Ta funkcja nie dotyczy siatki ikon.",
-		"hash": "2d301abb7cffcf3a4f41cc59dc52e828"
-	},
-	"subheader62": {
-		"message": "Dodaj nowy folder",
-		"hash": "3a46fe63f172c9cf1e4cf9753dc935f9"
-	},
-	"folderName": {
-		"message": "Nazwa folderu",
-		"hash": "66c685078184b7f5123e83f4b94097fe"
-	},
-	"folder": {
-		"message": "teczka",
-		"hash": "6fa625e07a474959d219b2abdaa8c39e"
-	},
-	"addFolder": {
-		"message": "Dodaj folder",
-		"hash": "f6668a06fb140909b3f286d742c848c8"
-	},
-	"keyboardShortcut": {
-		"message": "Skrót klawiszowy",
-		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
-	},
-	"header10": {
-		"message": "Opcje multiwyszukiwania",
-		"hash": "25b7321fc9e19e8e99598b40b96d2d52"
-	},
-	"multisearchIntro": {
-		"message": "Otwórz wiele wyników wyszukiwania/kart",
-		"hash": "4536d63e7c6838b383fa5a71967e5933"
-	},
-	"multiNewWindow": {
-		"message": "W nowym oknie",
-		"hash": "dd5cfb4d20eb4b6f9d6e12c02e8f48e3"
-	},
-	"multiAfterLastTab": {
-		"message": "Po ostatniej karcie w bieżącym oknie",
-		"hash": "ddd24d070e912ba19edff0c610e91e56"
-	},
-	"multiActiveTab": {
-		"message": "Zaraz po aktywnej zakładce w bieżącym oknie",
-		"hash": "580a6b556e35b0b48dca22506debb42c"
-	},
-	"privacy": {
-		"message": "Ustaw nowe okno jako prywatne",
-		"hash": "a2c9e60d71cf882080023ad80af8b903"
-	},
-	"reminder": {
-		"message": "Przypomnienie",
-		"hash": "7764c333b42339d1f5edf71779799c41"
-	},
-	"enableDownloadsReminder": {
-		"message": "włącz uprawnienia do pobierania, aby wyeksportować swoje wyszukiwarki.",
-		"hash": "16e431f64c09354a2034b62338cab41c"
-	},
-	"header11": {
-		"message": "Opcje siatki ikon",
-		"hash": "cb2b6fc9b6c0ab15b1627704b612ca71"
-	},
-	"quickIconGrid": {
-		"message": "Natychmiast wyświetl siatkę ikon po zaznaczeniu tekstu",
-		"hash": "6af6aafa529c63b4f4aef72c478e0db1"
-	},
-	"closeGridOnMouseOut": {
-		"message": "Zamknij siatkę ikon po wyjęciu myszy",
-		"hash": "fc2fcdd466209645b574677c6250e546"
-	},
-	"xOffset": {
-		"message": "Poziome przesunięcie siatki ikon:",
-		"hash": "fb4e2747c20484c21a1cecb5142b9f80"
-	},
-	"yOffset": {
-		"message": "Przesunięcie pionowe siatki ikon:",
-		"hash": "49e08ac782b64fced86569f6dc56d82f"
-	},
-	"clearKeyboardShortcuts": {
-		"message": "Wyczyść wszystkie skróty klawiaturowe",
-		"hash": "3745c3c2b77449e9606d8bf4e137e94f"
-	},
-	"overwriteSearchEngines": {
-		"message": "Nadpisz istniejące wyszukiwarki zaimportowanymi wyszukiwarkami",
-		"hash": "298f419a9e5661db408338fe08cc8ee0"
-	},
-	"removeFolderConfirmPrefix": {
-		"message": "Are you sure that you want to remove the folder "
-	},
-	"removeFolderConfirmSuffix": {
-		"message": " and all of its contents?"
-	},
-	"removeSearchEngineConfirm": {
-		"message": "Are you sure you want to remove the search engine "
-	},
-	"popupBlockedMessage": {
-		"message": "Popup blocked! Please allow popups for this site."
-	},
-	"__WET_LOCALE__": {
-		"message": "pl"
-	}
+    "extensionName": {
+        "message": "Wyszukiwanie kontekstowe",
+        "description": "Name of the extension"
+    },
+    "extensionDescription": {
+        "message": "Przeszukuje wybrany tekst za pomocą wyszukiwarki z wcześniej określonej listy.",
+        "description": "Description of the extension"
+    },
+    "multisearch": {
+        "message": " to wyszukiwanie z wieloma wyszukiwarkami jednocześnie.",
+        "description": "multi-search - it's a search with multiple search engines simultaneously."
+    },
+    "multisearchHowTo": {
+        "message": "Zaznacz środkowe pole wyboru, aby uwzględnić wyszukiwarkę w pliku"
+    },
+    "multisearchLaunch": {
+        "message": "Możesz uruchomić"
+    },
+    "multisearchEnd": {
+        "message": "za pomocą menu kontekstowego lub omniboksu, wpisując:"
+    },
+    "pageTitle": {
+        "message": "Preferencje wyszukiwania kontekstowego"
+    },
+    "header1": {
+        "message": "Gdzie powinny pojawiać się wyniki wyszukiwania?"
+    },
+    "newTab": {
+        "message": "W nowej karcie"
+    },
+    "sameTab": {
+        "message": "W tej samej karcie"
+    },
+    "newWindow": {
+        "message": "W nowym oknie"
+    },
+    "active": {
+        "message": "Uaktywnij nową kartę lub okno"
+    },
+    "position": {
+        "message": "Wyświetl wyniki wyszukiwania po ostatniej karcie"
+    },
+    "header3": {
+        "message": "Pozycja opcji w menu kontekstowym"
+    },
+    "subheader31": {
+        "message": "Gdzie chciałbyś, aby menu opcji pojawiło się w menu kontekstowym?"
+    },
+    "bottom": {
+        "message": "Na dole"
+    },
+    "top": {
+        "message": "Na górze"
+    },
+    "hide": {
+        "message": "Nigdzie (ukryj menu opcji)"
+    },
+    "header5": {
+        "message": "Importuj/eksportuj wyszukiwarki"
+    },
+    "import": {
+        "message": "Importuj wyszukiwarki z JSON na dysku lokalnym"
+    },
+    "export": {
+        "message": "Eksportuj wyszukiwarki do JSON"
+    },
+    "download": {
+        "message": "Eksportuj na dysk lokalny"
+    },
+    "header2": {
+        "message": "Pokaż favicons"
+    },
+    "getFavicons": {
+        "message": "Pokaż favicons na liście menu kontekstowego"
+    },
+    "note": {
+        "message": "Ta funkcjonalność wymaga Firefox-a 56 lub nowszego."
+    },
+    "header4": {
+        "message": "opcje wyszukiwania"
+    },
+    "exactMatch": {
+        "message": "Wyszukaj dokładne dopasowanie ciągu"
+    },
+    "gridMode": {
+        "message": "Wyświetl siatkę ikon zamiast listy wyszukiwarek"
+    },
+    "warning": {
+        "message": "Ostrzeżenie: Włączenie tej funkcji uniemożliwi wyświetlanie menu kontekstowych z innych rozszerzeń."
+    },
+    "savePreferences": {
+        "message": "Zapisz Ustawienia"
+    },
+    "header6": {
+        "message": "Które wyszukiwarki chcesz wyświetlać w menu kontekstowym lub siatce?"
+    },
+    "clearAll": {
+        "message": "Wyczyść wszystko"
+    },
+    "selectAll": {
+        "message": "Zaznacz wszystko"
+    },
+    "sortAlphabetically": {
+        "message": "Sortuj alfabetycznie"
+    },
+    "showAdvancedFeatures": {
+        "message": "Pokaż zaawansowane funkcje"
+    },
+    "hideAdvancedFeatures": {
+        "message": "Ukryj zaawansowane funkcje"
+    },
+    "reset": {
+        "message": "Zresetuj"
+    },
+    "subheader61": {
+        "message": "Dodaj nową wyszukiwarkę"
+    },
+    "showSearchEngine": {
+        "message": "Pokaż wyszukiwarkę w siatce lub menu kontekstowym"
+    },
+    "searchEngineName": {
+        "message": "Nazwa wyszukiwarki"
+    },
+    "placeHolderKeyword": {
+        "message": "Słowo kluczowe"
+    },
+    "warningText": {
+        "message": "Ostrzeżenie"
+    },
+    "keyboardShortcutWarning": {
+        "message": "nie wszystkie kombinacje klawiszy będą działać. Skróty klawiaturowe mogą nie zaczynać się od CMD w systemie macOS lub CTRL w systemie Windows lub Linux, ponieważ są one zwykle zarezerwowane dla poleceń Firefoksa."
+    },
+    "placeHolderKeyboardShortcut": {
+        "message": "Skrót klawiszowy"
+    },
+    "multipleSearchEngines": {
+        "message": "Użyj tej wyszukiwarki do multi-search"
+    },
+    "searchEngineURL": {
+        "message": "Adres URL wyszukiwarki"
+    },
+    "regex": {
+        "message": "Wyrażenie regularne"
+    },
+    "testSearchEngine": {
+        "message": "Przetestuj wyszukiwarkę"
+    },
+    "addSearchEngine": {
+        "message": "Dodaj wyszukiwarkę"
+    },
+    "addSeparator": {
+        "message": "Dodaj separator"
+    },
+    "clear": {
+        "message": "Wyczyść"
+    },
+    "disableGrid": {
+        "message": "Wyłącz siatkę ikon"
+    },
+    "move": {
+        "message": "Przesuń"
+    },
+    "up": {
+        "message": "w górę"
+    },
+    "down": {
+        "message": "w dół"
+    },
+    "remove": {
+        "message": "Usuń"
+    },
+    "multipleSearchEnginesSearch": {
+        "message": "Uwzględnij tę wyszukiwarkę w wyszukiwaniu za pomocą wielu wyszukiwarek"
+    },
+    "notifySavedPreferences": {
+        "message": "Preferencje zostały zapisane."
+    },
+    "notifySearchEngineAdded": {
+        "message": "Dodano wyszukiwarkę."
+    },
+    "titleShowEngine": {
+        "message": "Pokaż tę wyszukiwarkę w menu kontekstowym lub siatce"
+    },
+    "notifyEnableStorageSync": {
+        "message": "Sprawdź czy flaga 'webextensions.storage.sync.enabled' jest ustawiona na 'true' w 'about: config', w przeciwnym razie wyszukiwanie kontekstowe nie będzie działać."
+    },
+    "notifySearchEnginesLoaded": {
+        "message": "Domyślna lista wyszukiwarek została załadowana."
+    },
+    "notifySearchEngineNotFound": {
+        "message": "Nie można znaleźć wyszukiwarki na bieżącej stronie internetowej"
+    },
+    "titleMultipleSearchEngines": {
+        "message": "Wyszukiwanie za pomocą wielu wyszukiwarek"
+    },
+    "titleAISearch": {
+        "message": "Wyszukiwanie AI"
+    },
+    "titleSiteSearch": {
+        "message": "Przeszukaj tę stonę za pomocą"
+    },
+    "titleOptions": {
+        "message": "Opcje"
+    },
+    "windowTitle": {
+        "message": "Wyniki wyszukiwania dla"
+    },
+    "omniboxDescription": {
+        "message": "Wyszukiwanie za pomocą słów kluczowych. Sposób użycia: cs [słowo kluczowe] [kryteria wyszukiwania] (np. 'cs w Linux' wyszukuje 'Linux' na Wikipedii)"
+    },
+    "notifyUsage": {
+        "message": "Sposób użycia: cs [keyword] [kryteria wyszukiwania] (na przykład: cs w Linux)"
+    },
+    "notifySearchEngineWithKeyword": {
+        "message": "Wyszukiwarka ze słowem kluczowym"
+    },
+    "notifyUnknown": {
+        "message": "jest nieznana."
+    },
+    "notifySearchEngineUrlRequired": {
+        "message": "Wpisz adres URL wyszukiwarki."
+    },
+    "header7": {
+        "message": "Zresetuj opcje"
+    },
+    "header8": {
+        "message": "Które tagi EXIF powinny być wyświetlane?"
+    },
+    "sidebar": {
+        "message": "Na pasku bocznym"
+    },
+    "displayFavicons": {
+        "message": "Wyświetl ulubione w liście menu kontekstowego"
+    },
+    "displayExifSummary": {
+        "message": "Podsumowanie"
+    },
+    "disableAltClick": {
+        "message": "Wyłącz siatkę ikon"
+    },
+    "resetPreferences": {
+        "message": "Zresetuj preferencje do ustawień domyślnych"
+    },
+    "forceSearchEnginesReload": {
+        "message": "Wymuś przeładowanie domyślnej listy wyszukiwarek"
+    },
+    "forceFaviconsReload": {
+        "message": "Wymuś załadowanie ulubionych"
+    },
+    "restriction": {
+        "message": "Jeśli pasek boczny nie jest jeszcze otwarty, może być konieczne kliknięcie ikony „Pokaż paski boczne” na pasku narzędzi przeglądarki."
+    },
+    "reverseImage": {
+        "message": "Ponadto wyniki wyszukiwania obrazów odwróconych nie mogą być wyświetlane na pasku bocznym."
+    },
+    "siteSearch": {
+        "message": "Wyszukiwarka do wyszukiwania aktualnej witryny:"
+    },
+    "header9": {
+        "message": "Zaawansowane funkcje"
+    },
+    "useRegex": {
+        "message": "Użyj wyrażeń regularnych do zbudowania menu kontekstowego"
+    },
+    "regexNote": {
+        "message": "Ta funkcja nie dotyczy siatki ikon."
+    },
+    "subheader62": {
+        "message": "Dodaj nowy folder"
+    },
+    "folderName": {
+        "message": "Nazwa folderu"
+    },
+    "folder": {
+        "message": "teczka"
+    },
+    "addFolder": {
+        "message": "Dodaj folder"
+    },
+    "keyboardShortcut": {
+        "message": "Skrót klawiszowy"
+    },
+    "header10": {
+        "message": "Opcje multiwyszukiwania"
+    },
+    "multisearchIntro": {
+        "message": "Otwórz wiele wyników wyszukiwania/kart"
+    },
+    "multiNewWindow": {
+        "message": "W nowym oknie"
+    },
+    "multiAfterLastTab": {
+        "message": "Po ostatniej karcie w bieżącym oknie"
+    },
+    "multiActiveTab": {
+        "message": "Zaraz po aktywnej zakładce w bieżącym oknie"
+    },
+    "privacy": {
+        "message": "Ustaw nowe okno jako prywatne"
+    },
+    "reminder": {
+        "message": "Przypomnienie"
+    },
+    "enableDownloadsReminder": {
+        "message": "włącz uprawnienia do pobierania, aby wyeksportować swoje wyszukiwarki."
+    },
+    "header11": {
+        "message": "Opcje siatki ikon"
+    },
+    "quickIconGrid": {
+        "message": "Natychmiast wyświetl siatkę ikon po zaznaczeniu tekstu"
+    },
+    "closeGridOnMouseOut": {
+        "message": "Zamknij siatkę ikon po wyjęciu myszy"
+    },
+    "xOffset": {
+        "message": "Poziome przesunięcie siatki ikon:"
+    },
+    "yOffset": {
+        "message": "Przesunięcie pionowe siatki ikon:"
+    },
+    "clearKeyboardShortcuts": {
+        "message": "Wyczyść wszystkie skróty klawiaturowe"
+    },
+    "subheader63": {
+        "message": "Dodaj nowy monit AI"
+    },
+    "subheader64": {
+        "message": "Dodaj separator"
+    },
+    "testChatGPT": {
+        "message": "Test AI Prompt"
+    },
+    "addChatGPTPrompt": {
+        "message": "Dodaj monit AI"
+    },
+    "promptShow": {
+        "message": "Pokaż monit w siatce lub menu kontekstowym"
+    },
+    "promptName": {
+        "message": "Nazwa zachęty"
+    },
+    "prompt": {
+        "message": "Podpowiedź"
+    },
+    "overwriteSearchEngines": {
+        "message": "Nadpisz istniejące wyszukiwarki zaimportowanymi wyszukiwarkami"
+    },
+    "removeFolderConfirmPrefix": {
+        "message": "Czy na pewno chcesz usunąć folder "
+    },
+    "removeFolderConfirmSuffix": {
+        "message": " i całą jego zawartość?"
+    },
+    "removeSearchEngineConfirm": {
+        "message": "Czy na pewno chcesz usunąć wyszukiwarkę? "
+    },
+    "popupBlockedMessage": {
+        "message": "Wyskakujące okienko zablokowane! Zezwól na wyświetlanie wyskakujących okienek dla tej witryny."
+    },
+    "__WET_LOCALE__": {
+        "message": "pl"
+    }
 }

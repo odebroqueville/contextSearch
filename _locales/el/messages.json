@@ -1,0 +1,365 @@
+{
+    "extensionName": {
+        "message": "Αναζήτηση πλαισίου",
+        "description": "Name of the extension"
+    },
+    "extensionDescription": {
+        "message": "Αναζητά το επιλεγμένο κείμενο χρησιμοποιώντας μια μηχανή αναζήτησης από έναν προκαθορισμένο κατάλογο.",
+        "description": "Description of the extension"
+    },
+    "multisearch": {
+        "message": " είναι μια αναζήτηση με πολλαπλές μηχανές αναζήτησης ταυτόχρονα.",
+        "description": "multi-search - it's a search with multiple search engines simultaneously."
+    },
+    "multisearchHowTo": {
+        "message": "Επιλέξτε το μεσαίο πλαίσιο ελέγχου για να συμπεριλάβετε μια μηχανή αναζήτησης σε μια"
+    },
+    "multisearchLaunch": {
+        "message": "Μπορείτε να εκκινήσετε ένα"
+    },
+    "multisearchEnd": {
+        "message": "μέσω του μενού περιβάλλοντος ή μέσω του omnibox πληκτρολογώντας:"
+    },
+    "pageTitle": {
+        "message": "Προτιμήσεις αναζήτησης περιβάλλοντος"
+    },
+    "header1": {
+        "message": "Πού θα πρέπει να εμφανίζονται τα αποτελέσματα αναζήτησης;"
+    },
+    "newTab": {
+        "message": "Σε νέα καρτέλα"
+    },
+    "sameTab": {
+        "message": "Στην ίδια καρτέλα"
+    },
+    "newWindow": {
+        "message": "Σε νέο παράθυρο"
+    },
+    "active": {
+        "message": "Κάντε ενεργή τη νέα καρτέλα ή το νέο παράθυρο"
+    },
+    "position": {
+        "message": "Εμφάνιση των αποτελεσμάτων αναζήτησης μετά την τελευταία καρτέλα"
+    },
+    "header3": {
+        "message": "Θέση των επιλογών στο μενού περιβάλλοντος"
+    },
+    "subheader31": {
+        "message": "Πού θα θέλατε να εμφανίζεται το μενού επιλογών στο μενού περιβάλλοντος;"
+    },
+    "bottom": {
+        "message": "Στο κάτω μέρος"
+    },
+    "top": {
+        "message": "Στην κορυφή"
+    },
+    "hide": {
+        "message": "Ούτε (απόκρυψη του μενού επιλογών)"
+    },
+    "header5": {
+        "message": "Μηχανές αναζήτησης εισαγωγής/εξαγωγής"
+    },
+    "import": {
+        "message": "Εισαγωγή JSON από τοπικό δίσκο"
+    },
+    "export": {
+        "message": "Εξαγωγή μηχανών αναζήτησης σε JSON"
+    },
+    "download": {
+        "message": "Εξαγωγή σε τοπικό δίσκο"
+    },
+    "header2": {
+        "message": "Favicons & εικονίδια"
+    },
+    "getFavicons": {
+        "message": "Εμφάνιση αγαπημένων εικονιδίων στη λίστα του μενού περιβάλλοντος"
+    },
+    "note": {
+        "message": "Αυτή η λειτουργία απαιτεί Firefox 56 ή νεότερη έκδοση."
+    },
+    "header4": {
+        "message": "Επιλογές αναζήτησης"
+    },
+    "exactMatch": {
+        "message": "Αναζήτηση για ακριβή αντιστοιχία συμβολοσειράς"
+    },
+    "gridMode": {
+        "message": "Εμφάνιση ενός πλέγματος εικονιδίων αντί μιας λίστας μηχανών αναζήτησης"
+    },
+    "warning": {
+        "message": "Προειδοποίηση: Σημειώστε ότι η ενεργοποίηση αυτής της δυνατότητας θα εμποδίσει την εμφάνιση μενού περιβάλλοντος από άλλες επεκτάσεις."
+    },
+    "savePreferences": {
+        "message": "Αποθήκευση προτιμήσεων"
+    },
+    "header6": {
+        "message": "Ποιες μηχανές αναζήτησης θα θέλατε να εμφανίζονται στο μενού περιβάλλοντος ή στο πλέγμα;"
+    },
+    "clearAll": {
+        "message": "Εκκαθάριση όλων"
+    },
+    "selectAll": {
+        "message": "Επιλέξτε όλα"
+    },
+    "sortAlphabetically": {
+        "message": "Ταξινόμηση αλφαβητικά"
+    },
+    "showAdvancedFeatures": {
+        "message": "Εμφάνιση προηγμένων λειτουργιών"
+    },
+    "hideAdvancedFeatures": {
+        "message": "Απόκρυψη προηγμένων λειτουργιών"
+    },
+    "reset": {
+        "message": "Επαναφορά"
+    },
+    "subheader61": {
+        "message": "Προσθέστε μια νέα μηχανή αναζήτησης"
+    },
+    "showSearchEngine": {
+        "message": "Εμφάνιση μηχανής αναζήτησης στο πλέγμα ή στο μενού περιβάλλοντος"
+    },
+    "searchEngineName": {
+        "message": "Όνομα μηχανής αναζήτησης"
+    },
+    "placeHolderKeyword": {
+        "message": "Λέξη-κλειδί"
+    },
+    "warningText": {
+        "message": "Προειδοποίηση"
+    },
+    "keyboardShortcutWarning": {
+        "message": "δεν θα λειτουργήσουν όλοι οι συνδυασμοί πλήκτρων. Οι συντομεύσεις πληκτρολογίου μπορεί να μην ξεκινούν με CMD στο macOS ή CTRL στα Windows ή το Linux, καθώς αυτές συνήθως προορίζονται για τις εντολές του Firefox."
+    },
+    "placeHolderKeyboardShortcut": {
+        "message": "Συντόμευση πληκτρολογίου"
+    },
+    "multipleSearchEngines": {
+        "message": "Συμπερίληψη σε πολλαπλές αναζητήσεις"
+    },
+    "searchEngineURL": {
+        "message": "URL μηχανής αναζήτησης"
+    },
+    "regex": {
+        "message": "Κανονική έκφραση"
+    },
+    "testSearchEngine": {
+        "message": "Δοκιμή μηχανής αναζήτησης"
+    },
+    "addSearchEngine": {
+        "message": "Προσθήκη μηχανής αναζήτησης"
+    },
+    "addSeparator": {
+        "message": "Προσθέστε ένα διαχωριστικό"
+    },
+    "clear": {
+        "message": "Σαφής"
+    },
+    "disableGrid": {
+        "message": "Απενεργοποίηση πλέγματος εικονιδίων"
+    },
+    "move": {
+        "message": "Μετακίνηση"
+    },
+    "up": {
+        "message": "up"
+    },
+    "down": {
+        "message": "κάτω"
+    },
+    "remove": {
+        "message": "Αφαιρέστε το"
+    },
+    "multipleSearchEnginesSearch": {
+        "message": "Συμπεριλάβετε αυτή τη μηχανή αναζήτησης σε μια πολυ-αναζήτηση"
+    },
+    "notifySavedPreferences": {
+        "message": "Αποθηκευμένες προτιμήσεις."
+    },
+    "notifySearchEngineAdded": {
+        "message": "Προστέθηκε μηχανή αναζήτησης."
+    },
+    "titleShowEngine": {
+        "message": "Εμφάνιση αυτής της μηχανής αναζήτησης στο μενού περιβάλλοντος ή στο πλέγμα"
+    },
+    "notifyEnableStorageSync": {
+        "message": "Βεβαιωθείτε ότι η σημαία 'webextensions.storage.sync.enabled' έχει οριστεί σε 'true' στο 'about:config', διαφορετικά η Αναζήτηση πλαισίου δεν θα λειτουργεί."
+    },
+    "notifySearchEnginesLoaded": {
+        "message": "Έχει φορτωθεί η προεπιλεγμένη λίστα μηχανών αναζήτησης."
+    },
+    "notifySearchEngineNotFound": {
+        "message": "Μια μηχανή αναζήτησης δεν βρέθηκε στην τρέχουσα ιστοσελίδα"
+    },
+    "titleMultipleSearchEngines": {
+        "message": "Πολλαπλές μηχανές αναζήτησης"
+    },
+    "titleAISearch": {
+        "message": "Αναζήτηση AI"
+    },
+    "titleSiteSearch": {
+        "message": "Αναζήτηση σε αυτόν τον ιστότοπο με"
+    },
+    "titleOptions": {
+        "message": "Επιλογές"
+    },
+    "windowTitle": {
+        "message": "Αποτελέσματα αναζήτησης για"
+    },
+    "omniboxDescription": {
+        "message": "Αναζήτηση με χρήση της αναζήτησης πλαισίου με λέξεις-κλειδιά. Χρήση: cs [λέξη-κλειδί] [όροι αναζήτησης] (π.χ. 'cs w Linux' αναζητά στη Βικιπαίδεια τον όρο 'Linux')"
+    },
+    "notifyUsage": {
+        "message": "Χρήση: cs [λέξη-κλειδί] [όροι αναζήτησης] (για παράδειγμα: cs w Linux)"
+    },
+    "notifySearchEngineWithKeyword": {
+        "message": "Μηχανή αναζήτησης με λέξη-κλειδί"
+    },
+    "notifyUnknown": {
+        "message": "είναι άγνωστο."
+    },
+    "notifySearchEngineUrlRequired": {
+        "message": "Παρακαλούμε συμπληρώστε μια έγκυρη διεύθυνση URL μιας μηχανής αναζήτησης."
+    },
+    "header7": {
+        "message": "Επαναφορά επιλογών"
+    },
+    "header8": {
+        "message": "Ποιες ετικέτες EXIF θα πρέπει να εμφανίζονται;"
+    },
+    "sidebar": {
+        "message": "Στην πλαϊνή μπάρα"
+    },
+    "displayFavicons": {
+        "message": "Εμφάνιση αγαπημένων εικονιδίων στη λίστα του μενού περιβάλλοντος"
+    },
+    "displayExifSummary": {
+        "message": "Περίληψη"
+    },
+    "disableAltClick": {
+        "message": "Απενεργοποίηση πλέγματος εικονιδίων (Alt + κλικ)"
+    },
+    "resetPreferences": {
+        "message": "Επαναφορά προτιμήσεων στις προεπιλεγμένες ρυθμίσεις"
+    },
+    "forceSearchEnginesReload": {
+        "message": "Αναγκαστική επαναφόρτωση της προεπιλεγμένης λίστας μηχανών αναζήτησης"
+    },
+    "forceFaviconsReload": {
+        "message": "Αναγκάστε τα favicons να επαναφορτωθούν"
+    },
+    "restriction": {
+        "message": "Εάν η πλευρική γραμμή δεν είναι ήδη ανοιχτή, τότε ίσως χρειαστεί να κάνετε κλικ στο εικονίδιο \"Εμφάνιση πλευρικών γραμμών\" από τη γραμμή εργαλείων του προγράμματος περιήγησης."
+    },
+    "reverseImage": {
+        "message": "Επίσης, τα αποτελέσματα της αντίστροφης αναζήτησης εικόνας δεν μπορούν να εμφανιστούν στην πλευρική γραμμή."
+    },
+    "siteSearch": {
+        "message": "Μηχανή αναζήτησης για την αναζήτηση στον τρέχοντα ιστότοπο:"
+    },
+    "header9": {
+        "message": "Προηγμένα χαρακτηριστικά"
+    },
+    "useRegex": {
+        "message": "Χρήση κανονικών εκφράσεων για τη δημιουργία του μενού περιβάλλοντος"
+    },
+    "regexNote": {
+        "message": "Αυτή η λειτουργία δεν ισχύει για το πλέγμα εικονιδίων."
+    },
+    "subheader62": {
+        "message": "Προσθήκη νέου φακέλου"
+    },
+    "folderName": {
+        "message": "Όνομα φακέλου"
+    },
+    "folder": {
+        "message": "φάκελος"
+    },
+    "addFolder": {
+        "message": "Προσθήκη φακέλου"
+    },
+    "keyboardShortcut": {
+        "message": "Συντόμευση πληκτρολογίου"
+    },
+    "header10": {
+        "message": "Επιλογές πολλαπλής αναζήτησης"
+    },
+    "multisearchIntro": {
+        "message": "Άνοιγμα πολλαπλών αποτελεσμάτων/καρτέλες αναζήτησης"
+    },
+    "multiNewWindow": {
+        "message": "Σε νέο παράθυρο"
+    },
+    "multiAfterLastTab": {
+        "message": "Μετά την τελευταία καρτέλα στο τρέχον παράθυρο"
+    },
+    "multiActiveTab": {
+        "message": "Αμέσως μετά την ενεργή καρτέλα στο τρέχον παράθυρο"
+    },
+    "privacy": {
+        "message": "Κάντε το νέο παράθυρο ιδιωτικό"
+    },
+    "reminder": {
+        "message": "Υπενθύμιση"
+    },
+    "enableDownloadsReminder": {
+        "message": "Ενεργοποιήστε τα δικαιώματα λήψης για να εξάγετε τις μηχανές αναζήτησής σας."
+    },
+    "header11": {
+        "message": "Επιλογές πλέγματος εικονιδίων"
+    },
+    "quickIconGrid": {
+        "message": "Άμεση εμφάνιση του πλέγματος εικονιδίων μετά την επιλογή του κειμένου"
+    },
+    "closeGridOnMouseOut": {
+        "message": "Κλείστε το πλέγμα εικονιδίων κατά το κλείσιμο του ποντικιού"
+    },
+    "xOffset": {
+        "message": "Οριζόντια μετατόπιση του πλέγματος εικονιδίων: "
+    },
+    "yOffset": {
+        "message": "Κατακόρυφη μετατόπιση του πλέγματος εικονιδίων: "
+    },
+    "clearKeyboardShortcuts": {
+        "message": "Εκκαθάριση όλων των συντομεύσεων πληκτρολογίου"
+    },
+    "subheader63": {
+        "message": "Προσθέστε μια νέα προτροπή AI"
+    },
+    "subheader64": {
+        "message": "Προσθέστε ένα διαχωριστικό"
+    },
+    "testChatGPT": {
+        "message": "Δοκιμή AI Prompt"
+    },
+    "addChatGPTPrompt": {
+        "message": "Προσθήκη προτροπής AI"
+    },
+    "promptShow": {
+        "message": "Εμφάνιση προτροπής στο πλέγμα ή στο μενού περιβάλλοντος"
+    },
+    "promptName": {
+        "message": "Όνομα προτροπής"
+    },
+    "prompt": {
+        "message": "Προτροπή"
+    },
+    "overwriteSearchEngines": {
+        "message": "Αντικατάσταση των υφιστάμενων μηχανών αναζήτησης με τις εισαγόμενες μηχανές αναζήτησης"
+    },
+    "removeFolderConfirmPrefix": {
+        "message": "Είστε σίγουροι ότι θέλετε να αφαιρέσετε το φάκελο "
+    },
+    "removeFolderConfirmSuffix": {
+        "message": " και όλα τα περιεχόμενά του;"
+    },
+    "removeSearchEngineConfirm": {
+        "message": "Είστε σίγουροι ότι θέλετε να αφαιρέσετε τη μηχανή αναζήτησης "
+    },
+    "popupBlockedMessage": {
+        "message": "Αναδυόμενο παράθυρο μπλοκαρισμένο! Παρακαλώ επιτρέψτε τα αναδυόμενα παράθυρα για αυτόν τον ιστότοπο."
+    },
+    "__WET_LOCALE__": {
+        "message": "en"
+    }
+}

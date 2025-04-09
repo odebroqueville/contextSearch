@@ -1,0 +1,365 @@
+{
+    "extensionName": {
+        "message": "Kontekstihaku",
+        "description": "Name of the extension"
+    },
+    "extensionDescription": {
+        "message": "Etsii valittua tekstiä käyttämällä hakukonetta ennalta määritetystä luettelosta.",
+        "description": "Description of the extension"
+    },
+    "multisearch": {
+        "message": " on haku useilla hakukoneilla samanaikaisesti.",
+        "description": "multi-search - it's a search with multiple search engines simultaneously."
+    },
+    "multisearchHowTo": {
+        "message": "Merkitse keskimmäinen valintaruutu, jos haluat sisällyttää hakukoneen"
+    },
+    "multisearchLaunch": {
+        "message": "Voit käynnistää"
+    },
+    "multisearchEnd": {
+        "message": "kontekstivalikon kautta tai omniboxin kautta kirjoittamalla:"
+    },
+    "pageTitle": {
+        "message": "Kontekstihakuasetukset"
+    },
+    "header1": {
+        "message": "Missä hakutulosten pitäisi näkyä?"
+    },
+    "newTab": {
+        "message": "Uudessa välilehdessä"
+    },
+    "sameTab": {
+        "message": "Samassa välilehdessä"
+    },
+    "newWindow": {
+        "message": "Uudessa ikkunassa"
+    },
+    "active": {
+        "message": "Tee uudesta välilehdestä tai ikkunasta aktiivinen"
+    },
+    "position": {
+        "message": "Näytä hakutulokset viimeisen välilehden jälkeen"
+    },
+    "header3": {
+        "message": "Vaihtoehtojen sijainti kontekstivalikossa"
+    },
+    "subheader31": {
+        "message": "Missä haluat, että valintavalikko näkyy kontekstivalikossa?"
+    },
+    "bottom": {
+        "message": "Alareunassa"
+    },
+    "top": {
+        "message": "Huipulla"
+    },
+    "hide": {
+        "message": "Ei kumpikaan (piilota asetusvalikko)"
+    },
+    "header5": {
+        "message": "Hakukoneiden tuonti/vienti"
+    },
+    "import": {
+        "message": "Tuo JSON paikalliselta levyltä"
+    },
+    "export": {
+        "message": "Vie hakukoneet JSON:iin"
+    },
+    "download": {
+        "message": "Vie paikalliselle levylle"
+    },
+    "header2": {
+        "message": "Suosikit & kuvakkeet"
+    },
+    "getFavicons": {
+        "message": "Näytä suosikkikuvakkeet kontekstivalikon luettelossa"
+    },
+    "note": {
+        "message": "Tämä ominaisuus vaatii Firefox 56:n tai uudemman version."
+    },
+    "header4": {
+        "message": "Hakuvaihtoehdot"
+    },
+    "exactMatch": {
+        "message": "Hae täsmällinen merkkijono"
+    },
+    "gridMode": {
+        "message": "Näyttää kuvakkeiden ruudukon hakukoneiden luettelon sijaan"
+    },
+    "warning": {
+        "message": "Varoitus: Huomaa, että tämän ominaisuuden käyttöönotto estää muiden laajennusten kontekstivalikoiden näyttämisen."
+    },
+    "savePreferences": {
+        "message": "Tallenna asetukset"
+    },
+    "header6": {
+        "message": "Mitkä hakukoneet haluat näkyviin kontekstivalikkoon tai ruudukkoon?"
+    },
+    "clearAll": {
+        "message": "Tyhjennä kaikki"
+    },
+    "selectAll": {
+        "message": "Valitse kaikki"
+    },
+    "sortAlphabetically": {
+        "message": "Lajittele aakkosjärjestyksessä"
+    },
+    "showAdvancedFeatures": {
+        "message": "Näytä lisäominaisuudet"
+    },
+    "hideAdvancedFeatures": {
+        "message": "Piilota lisäominaisuudet"
+    },
+    "reset": {
+        "message": "Nollaa"
+    },
+    "subheader61": {
+        "message": "Lisää uusi hakukone"
+    },
+    "showSearchEngine": {
+        "message": "Näytä hakukone ruudukossa tai kontekstivalikossa"
+    },
+    "searchEngineName": {
+        "message": "Hakukoneen nimi"
+    },
+    "placeHolderKeyword": {
+        "message": "Avainsana"
+    },
+    "warningText": {
+        "message": "Varoitus"
+    },
+    "keyboardShortcutWarning": {
+        "message": "kaikki näppäinyhdistelmät eivät toimi. Näppäimistön pikanäppäimet eivät välttämättä ala CMD-näppäimellä macOS:ssä tai CTRL-näppäimellä Windowsissa tai Linuxissa, koska ne on yleensä varattu Firefox-komentoja varten."
+    },
+    "placeHolderKeyboardShortcut": {
+        "message": "Näppäimistön pikavalinta"
+    },
+    "multipleSearchEngines": {
+        "message": "Sisällytetään monihakuun"
+    },
+    "searchEngineURL": {
+        "message": "Hakukoneen URL-osoite"
+    },
+    "regex": {
+        "message": "Säännöllinen lauseke"
+    },
+    "testSearchEngine": {
+        "message": "Testaa hakukone"
+    },
+    "addSearchEngine": {
+        "message": "Lisää hakukone"
+    },
+    "addSeparator": {
+        "message": "Lisää erotin"
+    },
+    "clear": {
+        "message": "Kirkas"
+    },
+    "disableGrid": {
+        "message": "Poista kuvakkeiden ruudukko käytöstä"
+    },
+    "move": {
+        "message": "Siirrä"
+    },
+    "up": {
+        "message": "ylös"
+    },
+    "down": {
+        "message": "alas"
+    },
+    "remove": {
+        "message": "Poista"
+    },
+    "multipleSearchEnginesSearch": {
+        "message": "Sisällytä tämä hakukone monihakuun"
+    },
+    "notifySavedPreferences": {
+        "message": "Tallennetut asetukset."
+    },
+    "notifySearchEngineAdded": {
+        "message": "Hakukone lisätty."
+    },
+    "titleShowEngine": {
+        "message": "Näytä tämä hakukone kontekstivalikossa tai ruudukossa."
+    },
+    "notifyEnableStorageSync": {
+        "message": "Varmista, että lipun 'webextensions.storage.sync.enabled' arvoksi on asetettu 'true' kohdassa 'about:config', muuten Context Search ei toimi."
+    },
+    "notifySearchEnginesLoaded": {
+        "message": "Hakukoneiden oletusluettelo on ladattu."
+    },
+    "notifySearchEngineNotFound": {
+        "message": "Hakukonetta ei löytynyt nykyiseltä verkkosivulta."
+    },
+    "titleMultipleSearchEngines": {
+        "message": "Useiden hakukoneiden haku"
+    },
+    "titleAISearch": {
+        "message": "AI-haku"
+    },
+    "titleSiteSearch": {
+        "message": "Etsi tätä sivustoa"
+    },
+    "titleOptions": {
+        "message": "Vaihtoehdot"
+    },
+    "windowTitle": {
+        "message": "Hakutulokset seuraavalle hakusanalle"
+    },
+    "omniboxDescription": {
+        "message": "Haku käyttämällä kontekstihakua avainsanoilla. Käyttö: cs [avainsana] [hakusanat] (esim. 'cs w Linux' hakee Wikipediasta termillä 'Linux')."
+    },
+    "notifyUsage": {
+        "message": "Käyttö: cs [avainsana] [hakusanat] (esimerkiksi: cs w Linux)"
+    },
+    "notifySearchEngineWithKeyword": {
+        "message": "Hakukone avainsanalla"
+    },
+    "notifyUnknown": {
+        "message": "on tuntematon."
+    },
+    "notifySearchEngineUrlRequired": {
+        "message": "Täytä kelvollinen hakukoneen URL-osoite."
+    },
+    "header7": {
+        "message": "Nollaa vaihtoehdot"
+    },
+    "header8": {
+        "message": "Mitkä EXIF-tunnisteet pitäisi näyttää?"
+    },
+    "sidebar": {
+        "message": "Sivupalkissa"
+    },
+    "displayFavicons": {
+        "message": "Näytä suosikkikuvakkeet kontekstivalikon luettelossa"
+    },
+    "displayExifSummary": {
+        "message": "Yhteenveto"
+    },
+    "disableAltClick": {
+        "message": "Poista kuvakeverkko käytöstä (Alt + klikkaus)"
+    },
+    "resetPreferences": {
+        "message": "Asetusten palauttaminen oletusasetuksiin"
+    },
+    "forceSearchEnginesReload": {
+        "message": "Pakota oletushakukoneiden luettelon uudelleenlataus"
+    },
+    "forceFaviconsReload": {
+        "message": "Pakota suosikkikuvakkeet latautumaan uudelleen"
+    },
+    "restriction": {
+        "message": "Jos sivupalkki ei ole vielä auki, sinun on ehkä napsautettava selaimen työkalurivin Näytä sivupalkit -kuvaketta."
+    },
+    "reverseImage": {
+        "message": "Myöskään käänteisen kuvahaun tuloksia ei voi näyttää sivupalkissa."
+    },
+    "siteSearch": {
+        "message": "Hakukone nykyisen sivuston hakua varten:"
+    },
+    "header9": {
+        "message": "Lisäominaisuudet"
+    },
+    "useRegex": {
+        "message": "Käytä säännöllisiä lausekkeita kontekstivalikon rakentamiseen"
+    },
+    "regexNote": {
+        "message": "Tämä ominaisuus ei koske kuvakkeiden ruudukkoa."
+    },
+    "subheader62": {
+        "message": "Lisää uusi kansio"
+    },
+    "folderName": {
+        "message": "Kansion nimi"
+    },
+    "folder": {
+        "message": "kansio"
+    },
+    "addFolder": {
+        "message": "Lisää kansio"
+    },
+    "keyboardShortcut": {
+        "message": "Näppäimistön pikavalinta"
+    },
+    "header10": {
+        "message": "Monihakuvaihtoehdot"
+    },
+    "multisearchIntro": {
+        "message": "Avaa useita hakutuloksia/välilehtiä"
+    },
+    "multiNewWindow": {
+        "message": "Uudessa ikkunassa"
+    },
+    "multiAfterLastTab": {
+        "message": "Nykyisen ikkunan viimeisen välilehden jälkeen"
+    },
+    "multiActiveTab": {
+        "message": "Heti nykyisen ikkunan aktiivisen välilehden jälkeen"
+    },
+    "privacy": {
+        "message": "Tee uudesta ikkunasta yksityinen"
+    },
+    "reminder": {
+        "message": "Muistutus"
+    },
+    "enableDownloadsReminder": {
+        "message": "ota käyttöön Latausoikeudet hakukoneiden vientiä varten."
+    },
+    "header11": {
+        "message": "Kuvakkeet Ruutuvaihtoehdot"
+    },
+    "quickIconGrid": {
+        "message": "Näyttää kuvakkeiden ruudukon heti tekstin valinnan jälkeen."
+    },
+    "closeGridOnMouseOut": {
+        "message": "Sulje kuvakkeiden ruudukko hiiren poistuessa"
+    },
+    "xOffset": {
+        "message": "Kuvakkeiden ruudukon vaakasuora siirtymä: "
+    },
+    "yOffset": {
+        "message": "Kuvakkeiden ruudukon pystysuora siirtymä: "
+    },
+    "clearKeyboardShortcuts": {
+        "message": "Tyhjennä kaikki pikanäppäimet"
+    },
+    "subheader63": {
+        "message": "Lisää uusi tekoälykehote"
+    },
+    "subheader64": {
+        "message": "Lisää erotin"
+    },
+    "testChatGPT": {
+        "message": "Testaa AI-kehotus"
+    },
+    "addChatGPTPrompt": {
+        "message": "Lisää tekoälykehote"
+    },
+    "promptShow": {
+        "message": "Näytä kehote ruudukossa tai kontekstivalikossa"
+    },
+    "promptName": {
+        "message": "Kehotteen nimi"
+    },
+    "prompt": {
+        "message": "Kehotus"
+    },
+    "overwriteSearchEngines": {
+        "message": "Korvaa olemassa olevat hakukoneet tuoduilla hakukoneilla."
+    },
+    "removeFolderConfirmPrefix": {
+        "message": "Oletko varma, että haluat poistaa kansion "
+    },
+    "removeFolderConfirmSuffix": {
+        "message": " ja sen koko sisältö?"
+    },
+    "removeSearchEngineConfirm": {
+        "message": "Haluatko varmasti poistaa hakukoneen? "
+    },
+    "popupBlockedMessage": {
+        "message": "Ponnahdusikkuna estetty! Salli ponnahdusikkunat tälle sivustolle."
+    },
+    "__WET_LOCALE__": {
+        "message": "fi"
+    }
+}

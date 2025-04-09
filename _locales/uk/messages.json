@@ -1,452 +1,365 @@
 {
-	"extensionName": {
-		"message": "Context Search",
-		"description": "Name of the extension",
-		"hash": "dc46af1f918347f13872ba3b1acf5cb5"
-	},
-	"extensionDescription": {
-		"message": "Пошук виділеного тексту пошуковою системою з попередньо визначеного списку.",
-		"description": "Description of the extension",
-		"hash": "b8f612ae1be0699e4ac144ebdd9408b8"
-	},
-	"multisearch": {
-		"message": " це пошук кількома пошуковими системами одночасно.",
-		"description": "multi-search - it's a search with multiple search engines simultaneously.",
-		"hash": "d91d9731eeb51cab08e5db4231c3b539"
-	},
-	"multisearchHowTo": {
-		"message": "Поставте середній прапорець, щоб включити пошукову систему в",
-		"hash": "45d8a4cc6705ce14bb465c1a603886f7"
-	},
-	"multisearchLaunch": {
-		"message": "Ви можете запустити",
-		"hash": "50aea7f78b7f283fce6309cb046d922b"
-	},
-	"multisearchEnd": {
-		"message": "через контекстне меню або через універсальне меню, ввівши:",
-		"hash": "93175e4d6a2f2b01a19a17c09ac98750"
-	},
-	"pageTitle": {
-		"message": "Налаштування Context Search",
-		"hash": "85459cf0f20967bcc8995dd2257f6ba2"
-	},
-	"header1": {
-		"message": "Де повинні з'явитися результати пошуку?",
-		"hash": "55b5b2535226c23995d9220e9f01e7c9"
-	},
-	"newTab": {
-		"message": "В новій вкладці",
-		"hash": "ed02b96ab3009dd9f8a3329e14c20ecd"
-	},
-	"sameTab": {
-		"message": "В поточній вкладці",
-		"hash": "8f83dae466a72a4c1f8c93e2ddc16f89"
-	},
-	"newWindow": {
-		"message": "В новому вікні",
-		"hash": "dd5cfb4d20eb4b6f9d6e12c02e8f48e3"
-	},
-	"active": {
-		"message": "Зробити активною нову вкладку / вікно",
-		"hash": "3588f7008b34105c5a590905b489e8ba"
-	},
-	"position": {
-		"message": "Відобразити результати пошуку після останньої вкладки",
-		"hash": "6f1385f89667221e78b453799755c534"
-	},
-	"header3": {
-		"message": "Розташування опцій в контекстному меню",
-		"hash": "cc53b51192c00cf073c75573e910c712"
-	},
-	"subheader31": {
-		"message": "Де б ви хотіли бачити опції контекстного меню?",
-		"hash": "97f92ec06abae7047823b89e7cdd35aa"
-	},
-	"bottom": {
-		"message": "Знизу",
-		"hash": "dbc939fac3704f3bb5db5534c521a560"
-	},
-	"top": {
-		"message": "Зверху",
-		"hash": "7eb84bbe333a29135c13bb749b5a1bdf"
-	},
-	"hide": {
-		"message": "Ніде (приховати меню опцій)",
-		"hash": "66545b38432fb9f7cec55f9bd1bcb476"
-	},
-	"header5": {
-		"message": "імпорт / експорт пошукових систем",
-		"hash": "aff674b25de54fb6d1a8b94f0992e2e7"
-	},
-	"import": {
-		"message": "Імпорт JSON з локального диска",
-		"hash": "efa8b5b957c983016114c1687692a917"
-	},
-	"export": {
-		"message": "Експорт пошукових систем в JSON",
-		"hash": "4cbfa9bc7ce7a876967887dc8b3d80bb"
-	},
-	"download": {
-		"message": "Експорт на локальний диск",
-		"hash": "9b7395778b59c67d44fb310a60cbec1f"
-	},
-	"header2": {
-		"message": "Відображення фавіконів",
-		"hash": "4c972ef4ffb7e90163b9294509fea65d"
-	},
-	"getFavicons": {
-		"message": "Відображення фавіконів в списку контекстного меню",
-		"hash": "7036d3e65d70351c41dfa59e397121b3"
-	},
-	"note": {
-		"message": "Ця функція вимагає firefox 56 або вище.",
-		"hash": "f3bb15e6696904cf038aea689a0a02da"
-	},
-	"header4": {
-		"message": "Варіанти пошуку",
-		"hash": "ce6416d0e13a773a9b6c1b03a43982d4"
-	},
-	"exactMatch": {
-		"message": "Шукайте точну відповідність рядків",
-		"hash": "779d6b3e9f3fe9654fe3549a21a06550"
-	},
-	"gridMode": {
-		"message": "Відображення пошукових систем сіткою іконок замість списку",
-		"hash": "fb28a2f15ee692ae8862f2eed52cdede"
-	},
-	"warning": {
-		"message": "Увага! Коли цю опцію ввімкнуто інші контекстні меню не відображаються.",
-		"hash": "b92a893b194575ca0bd0541cd80d4aa6"
-	},
-	"savePreferences": {
-		"message": "Зберегти налаштування",
-		"hash": "7afab2f751102f4f4154ec70f4a1a0cd"
-	},
-	"header6": {
-		"message": "Які пошукові системи ви хотіли б бачити в контекстному меню чи сітці іконок?",
-		"hash": "4bec74f00dd1574f3c4a5229035c3f21"
-	},
-	"clearAll": {
-		"message": "Очистити все",
-		"hash": "cce60e6cbfaee4ec6fac0a16a8bd383d"
-	},
-	"selectAll": {
-		"message": "Вибрати все",
-		"hash": "26561e6b6807c0c48ce2a3ee81adad87"
-	},
-	"sortAlphabetically": {
-		"message": "Сортування за алфавітом",
-		"hash": "9dbba2e2d73fbe9d34b492113a47dc86"
-	},
-	"showAdvancedFeatures": {
-		"message": "Показати розширені функції",
-		"hash": "adab8345d6d3749a2687addeb95aa6a0"
-	},
-	"hideAdvancedFeatures": {
-		"message": "Приховати розширені функції",
-		"hash": "6d0f963850902a32f1e4cde900271ec3"
-	},
-	"reset": {
-		"message": "Скидання",
-		"hash": "0d25968a7dfc21f95043a86dd5373b81"
-	},
-	"subheader61": {
-		"message": "Додати нову пошукову систему",
-		"hash": "df8ef6317cccd7767129689b409c7555"
-	},
-	"showSearchEngine": {
-		"message": "Показувати пошукову систему в сітці іконок або в контекстному меню",
-		"hash": "fd116637c97d52564b8caab4155b7e14"
-	},
-	"searchEngineName": {
-		"message": "Назва пошукової системи",
-		"hash": "66a6254e959765667c76a05c3697399d"
-	},
-	"placeHolderKeyword": {
-		"message": "Ключовик",
-		"hash": "a715ce8d52a556c7541e52a39273b8e4"
-	},
-	"warningText": {
-		"message": "Увага",
-		"hash": "d02ba8f1a5b9fd49d892558d83e71d59"
-	},
-	"keyboardShortcutWarning": {
-		"message": "не всі комбінації клавіш будуть працювати. Комбінації клавіш можуть не починатися з CMD в macOS або CTRL у Windows або Linux, оскільки вони зазвичай зарезервовані для команд Firefox.",
-		"hash": "a87da357c72be4e165534f8a068a00a4"
-	},
-	"placeHolderKeyboardShortcut": {
-		"message": "Комбінація клавіш",
-		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
-	},
-	"multipleSearchEngines": {
-		"message": "Використовувати цю пошукову систему для multi-search",
-		"hash": "795672c778b61e3785aa2fff7dca91ed"
-	},
-	"searchEngineURL": {
-		"message": "URL пошукової системи",
-		"hash": "f5b1aa2bdb81d4357409d3ecb87bc1e3"
-	},
-	"regex": {
-		"message": "Регулярний вираз",
-		"hash": "836b4e8f189b0435476c917699858782"
-	},
-	"testSearchEngine": {
-		"message": "Тестувати пошукову систему",
-		"hash": "138ac2e49b86e7dc4a4e71a7f15dd7b6"
-	},
-	"addSearchEngine": {
-		"message": "Додати пошукову систему",
-		"hash": "0f5b60489cf3500e92871eb17e71ce05"
-	},
-	"addSeparator": {
-		"message": "Додайте роздільник",
-		"hash": "e7dee3308538cf240c29661ce7fcd41d"
-	},
-	"clear": {
-		"message": "Очистити",
-		"hash": "bcf7e7587a412ea36d869d51026dfd6d"
-	},
-	"disableGrid": {
-		"message": "Вимкнути сітку значків",
-		"hash": "bb07641e41b320b91b3f1338592ecf4d"
-	},
-	"move": {
-		"message": "Перемістити",
-		"hash": "fe5500b1b2c360308db25a09f9710ade"
-	},
-	"up": {
-		"message": "вгору",
-		"hash": "87437c5e684807c07a63c62d675b63c3"
-	},
-	"down": {
-		"message": "вниз",
-		"hash": "d877ad63806f1a96855f3fb1424b5d91"
-	},
-	"remove": {
-		"message": "Видалити",
-		"hash": "3908a268c854fe64242e38845dbb7c81"
-	},
-	"multipleSearchEnginesSearch": {
-		"message": "Додати цю пошукову систему до multi-search",
-		"hash": "e54c504cdf841f4308b0140c0361420c"
-	},
-	"notifySavedPreferences": {
-		"message": "Налаштування збережено.",
-		"hash": "26ae42e6a7533aa03cf8e162fd4859fd"
-	},
-	"notifySearchEngineAdded": {
-		"message": "Пошукову систему додано.",
-		"hash": "ee1b7a1102ec3b06c1960e84f814b1c6"
-	},
-	"titleShowEngine": {
-		"message": "Показати цю пошукову систему в контекстному меню або сітці",
-		"hash": "5c7ec6b539f06fe17a5e3f9832530eea"
-	},
-	"notifyEnableStorageSync": {
-		"message": "Переконайтеся, що в 'about:config' рядок 'webextensions.storage.sync.enabled' має значення 'true', інакше Context Search не працюватиме.",
-		"hash": "273ab612652228bc54090e98d1ac1b15"
-	},
-	"notifySearchEnginesLoaded": {
-		"message": "Завантажено список пошукових систем за замовчуванням.",
-		"hash": "640d2193c8155e5988fbeb3453a9737d"
-	},
-	"notifySearchEngineNotFound": {
-		"message": "Не вдалося знайти пошукову систему на поточній веб-сторінці",
-		"hash": "89a0f7352dea5184b23f367f8c05b079"
-	},
-	"titleMultipleSearchEngines": {
-		"message": "Пошук у кількох пошукових системах",
-		"hash": "016e3015d7461d1d0fbf20c60bd9ff0f"
-	},
-	"titleAISearch": {
-		"message": "AI Пошук",
-		"hash": "6ae434bff120e9ce2a6e459af56f4db3"
-	},
-	"titleSiteSearch": {
-		"message": "Пошук по сайту з допомогою",
-		"hash": "5a76bc5c095707f27e2ed235d2f3ccb6"
-	},
-	"titleOptions": {
-		"message": "Налаштування",
-		"hash": "531dad0078a72193602b18495f0ad4e9"
-	},
-	"windowTitle": {
-		"message": "Результати пошуку для",
-		"hash": "0a26dab592394ea9548c1a5588c0cd0d"
-	},
-	"omniboxDescription": {
-		"message": "Контекстний пошук з використанням ключового слова. Приклад: cs [ключовик] [мета пошуку] (наприклад 'cs w Linux' шукає у Вікіпедії по слову 'Linux')",
-		"hash": "e2406855d2445278d8becb4e11f772b0"
-	},
-	"notifyUsage": {
-		"message": "Приклад: cs [ключовик] [мета пошуку] (наприклад: cs w Linux)",
-		"hash": "7ce09b213b936aab58085cc84b20b01c"
-	},
-	"notifySearchEngineWithKeyword": {
-		"message": "Пошукова система з ключовим словом",
-		"hash": "bd232fd868eb1bbd65e4977f5577a0a8"
-	},
-	"notifyUnknown": {
-		"message": "невідомо.",
-		"hash": "075e9adb0de4037be7b0989733dd51ab"
-	},
-	"notifySearchEngineUrlRequired": {
-		"message": "Введіть URL-адресу пошукової системи.",
-		"hash": "b4610959ffa640c457a9ae1fbfa7943c"
-	},
-	"header7": {
-		"message": "Скидання параметрів",
-		"hash": "5c55526198c8075a1695b98e3cd32e2f"
-	},
-	"header8": {
-		"message": "Які теги EXIF слід відображати?",
-		"hash": "dd5fd339289964d309e5020ed1e9610c"
-	},
-	"sidebar": {
-		"message": "У бічній панелі",
-		"hash": "ea4b3f2f47d5ea8c594036cbdbf6e42b"
-	},
-	"displayFavicons": {
-		"message": "Відобразити фаворити у списку контекстного меню",
-		"hash": "7036d3e65d70351c41dfa59e397121b3"
-	},
-	"displayExifSummary": {
-		"message": "Підсумок",
-		"hash": "632626a730da62a89a4d124241e77273"
-	},
-	"disableAltClick": {
-		"message": "Вимкнути сітку значків",
-		"hash": "05b09381e8d9e3b808cb5fa5c540af91"
-	},
-	"resetPreferences": {
-		"message": "Скидання параметрів до налаштувань за замовчуванням",
-		"hash": "5e6bfbeafc20af866246c982de2a1067"
-	},
-	"forceSearchEnginesReload": {
-		"message": "Примусове перезавантаження списку пошукових систем за замовчуванням",
-		"hash": "3736dde3828bcec7e5081dc1a450916b"
-	},
-	"forceFaviconsReload": {
-		"message": "Примушуйте перезавантажуватися",
-		"hash": "1fea5d330fd5c105ce6ba68ade3be299"
-	},
-	"restriction": {
-		"message": "Якщо бічна панель ще не відкрита, можливо, вам доведеться натиснути на піктограму \"Показати бічні панелі\" на панелі інструментів браузера.",
-		"hash": "8687a8640f71498ea62eaa432791443c"
-	},
-	"reverseImage": {
-		"message": "Також результати пошуку із зворотного зображення не можуть відображатися на бічній панелі.",
-		"hash": "db880c407ccd59031b92a75b7f7a677e"
-	},
-	"siteSearch": {
-		"message": "Пошукова система для пошуку на поточному сайті:",
-		"hash": "1aef8aa2adcad0a105bc24d0ac87fe4c"
-	},
-	"header9": {
-		"message": "Розширені функції",
-		"hash": "64bdb129ceb0e431268d7c8199542e11"
-	},
-	"useRegex": {
-		"message": "Використовуйте регулярні вирази для створення контекстного меню",
-		"hash": "9d48895eae1e8a92e6a0b2a2bd0e0fa0"
-	},
-	"regexNote": {
-		"message": "Ця функція не стосується сітки значків.",
-		"hash": "2d301abb7cffcf3a4f41cc59dc52e828"
-	},
-	"subheader62": {
-		"message": "Додайте нову папку",
-		"hash": "3a46fe63f172c9cf1e4cf9753dc935f9"
-	},
-	"folderName": {
-		"message": "Назва папки",
-		"hash": "66c685078184b7f5123e83f4b94097fe"
-	},
-	"folder": {
-		"message": "папку",
-		"hash": "6fa625e07a474959d219b2abdaa8c39e"
-	},
-	"addFolder": {
-		"message": "Додати папку",
-		"hash": "f6668a06fb140909b3f286d742c848c8"
-	},
-	"keyboardShortcut": {
-		"message": "Комбінація клавіш",
-		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
-	},
-	"header10": {
-		"message": "Параметри багаторазового пошуку",
-		"hash": "25b7321fc9e19e8e99598b40b96d2d52"
-	},
-	"multisearchIntro": {
-		"message": "Відкрийте кілька результатів пошуку/вкладок",
-		"hash": "4536d63e7c6838b383fa5a71967e5933"
-	},
-	"multiNewWindow": {
-		"message": "У новому вікні",
-		"hash": "dd5cfb4d20eb4b6f9d6e12c02e8f48e3"
-	},
-	"multiAfterLastTab": {
-		"message": "Після останньої вкладки в поточному вікні",
-		"hash": "ddd24d070e912ba19edff0c610e91e56"
-	},
-	"multiActiveTab": {
-		"message": "Відразу після активної вкладки в поточному вікні",
-		"hash": "580a6b556e35b0b48dca22506debb42c"
-	},
-	"privacy": {
-		"message": "Зробіть нове вікно приватним",
-		"hash": "a2c9e60d71cf882080023ad80af8b903"
-	},
-	"reminder": {
-		"message": "Нагадування",
-		"hash": "7764c333b42339d1f5edf71779799c41"
-	},
-	"enableDownloadsReminder": {
-		"message": "увімкніть дозволи на завантаження, щоб експортувати свої пошукові системи.",
-		"hash": "16e431f64c09354a2034b62338cab41c"
-	},
-	"header11": {
-		"message": "Параметри сітки значків",
-		"hash": "cb2b6fc9b6c0ab15b1627704b612ca71"
-	},
-	"quickIconGrid": {
-		"message": "Одразу відображати сітку значків після виділення тексту",
-		"hash": "6af6aafa529c63b4f4aef72c478e0db1"
-	},
-	"closeGridOnMouseOut": {
-		"message": "Закривайте сітку піктограм, якщо вивести мишу",
-		"hash": "fc2fcdd466209645b574677c6250e546"
-	},
-	"xOffset": {
-		"message": "Горизонтальний зсув сітки значків:",
-		"hash": "fb4e2747c20484c21a1cecb5142b9f80"
-	},
-	"yOffset": {
-		"message": "Вертикальне зміщення сітки значків:",
-		"hash": "49e08ac782b64fced86569f6dc56d82f"
-	},
-	"clearKeyboardShortcuts": {
-		"message": "Очистити всі комбінації клавіш",
-		"hash": "3745c3c2b77449e9606d8bf4e137e94f"
-	},
-	"overwriteSearchEngines": {
-		"message": "Замініть існуючі пошукові системи імпортованими пошуковими системами",
-		"hash": "298f419a9e5661db408338fe08cc8ee0"
-	},
-	"removeFolderConfirmPrefix": {
-		"message": "Are you sure that you want to remove the folder "
-	},
-	"removeFolderConfirmSuffix": {
-		"message": " and all of its contents?"
-	},
-	"removeSearchEngineConfirm": {
-		"message": "Are you sure you want to remove the search engine "
-	},
-	"popupBlockedMessage": {
-		"message": "Popup blocked! Please allow popups for this site."
-	},
-	"__WET_LOCALE__": {
-		"message": "uk"
-	}
+    "extensionName": {
+        "message": "Контекстний пошук",
+        "description": "Name of the extension"
+    },
+    "extensionDescription": {
+        "message": "Пошук виділеного тексту пошуковою системою з попередньо визначеного списку.",
+        "description": "Description of the extension"
+    },
+    "multisearch": {
+        "message": " це пошук кількома пошуковими системами одночасно.",
+        "description": "multi-search - it's a search with multiple search engines simultaneously."
+    },
+    "multisearchHowTo": {
+        "message": "Поставте середній прапорець, щоб включити пошукову систему в"
+    },
+    "multisearchLaunch": {
+        "message": "Ви можете запустити"
+    },
+    "multisearchEnd": {
+        "message": "через контекстне меню або через універсальне меню, ввівши:"
+    },
+    "pageTitle": {
+        "message": "Налаштування Context Search"
+    },
+    "header1": {
+        "message": "Де повинні з'явитися результати пошуку?"
+    },
+    "newTab": {
+        "message": "В новій вкладці"
+    },
+    "sameTab": {
+        "message": "В поточній вкладці"
+    },
+    "newWindow": {
+        "message": "В новому вікні"
+    },
+    "active": {
+        "message": "Зробити активною нову вкладку / вікно"
+    },
+    "position": {
+        "message": "Відобразити результати пошуку після останньої вкладки"
+    },
+    "header3": {
+        "message": "Розташування опцій в контекстному меню"
+    },
+    "subheader31": {
+        "message": "Де б ви хотіли бачити опції контекстного меню?"
+    },
+    "bottom": {
+        "message": "Знизу"
+    },
+    "top": {
+        "message": "Зверху"
+    },
+    "hide": {
+        "message": "Ніде (приховати меню опцій)"
+    },
+    "header5": {
+        "message": "імпорт / експорт пошукових систем"
+    },
+    "import": {
+        "message": "Імпорт JSON з локального диска"
+    },
+    "export": {
+        "message": "Експорт пошукових систем в JSON"
+    },
+    "download": {
+        "message": "Експорт на локальний диск"
+    },
+    "header2": {
+        "message": "Відображення фавіконів"
+    },
+    "getFavicons": {
+        "message": "Відображення фавіконів в списку контекстного меню"
+    },
+    "note": {
+        "message": "Ця функція вимагає firefox 56 або вище."
+    },
+    "header4": {
+        "message": "Варіанти пошуку"
+    },
+    "exactMatch": {
+        "message": "Шукайте точну відповідність рядків"
+    },
+    "gridMode": {
+        "message": "Відображення пошукових систем сіткою іконок замість списку"
+    },
+    "warning": {
+        "message": "Увага! Коли цю опцію ввімкнуто інші контекстні меню не відображаються."
+    },
+    "savePreferences": {
+        "message": "Зберегти налаштування"
+    },
+    "header6": {
+        "message": "Які пошукові системи ви хотіли б бачити в контекстному меню чи сітці іконок?"
+    },
+    "clearAll": {
+        "message": "Очистити все"
+    },
+    "selectAll": {
+        "message": "Вибрати все"
+    },
+    "sortAlphabetically": {
+        "message": "Сортування за алфавітом"
+    },
+    "showAdvancedFeatures": {
+        "message": "Показати розширені функції"
+    },
+    "hideAdvancedFeatures": {
+        "message": "Приховати розширені функції"
+    },
+    "reset": {
+        "message": "Скидання"
+    },
+    "subheader61": {
+        "message": "Додати нову пошукову систему"
+    },
+    "showSearchEngine": {
+        "message": "Показувати пошукову систему в сітці іконок або в контекстному меню"
+    },
+    "searchEngineName": {
+        "message": "Назва пошукової системи"
+    },
+    "placeHolderKeyword": {
+        "message": "Ключовик"
+    },
+    "warningText": {
+        "message": "Увага"
+    },
+    "keyboardShortcutWarning": {
+        "message": "не всі комбінації клавіш будуть працювати. Комбінації клавіш можуть не починатися з CMD в macOS або CTRL у Windows або Linux, оскільки вони зазвичай зарезервовані для команд Firefox."
+    },
+    "placeHolderKeyboardShortcut": {
+        "message": "Комбінація клавіш"
+    },
+    "multipleSearchEngines": {
+        "message": "Використовувати цю пошукову систему для multi-search"
+    },
+    "searchEngineURL": {
+        "message": "URL пошукової системи"
+    },
+    "regex": {
+        "message": "Регулярний вираз"
+    },
+    "testSearchEngine": {
+        "message": "Тестувати пошукову систему"
+    },
+    "addSearchEngine": {
+        "message": "Додати пошукову систему"
+    },
+    "addSeparator": {
+        "message": "Додайте роздільник"
+    },
+    "clear": {
+        "message": "Очистити"
+    },
+    "disableGrid": {
+        "message": "Вимкнути сітку значків"
+    },
+    "move": {
+        "message": "Перемістити"
+    },
+    "up": {
+        "message": "вгору"
+    },
+    "down": {
+        "message": "вниз"
+    },
+    "remove": {
+        "message": "Видалити"
+    },
+    "multipleSearchEnginesSearch": {
+        "message": "Додати цю пошукову систему до multi-search"
+    },
+    "notifySavedPreferences": {
+        "message": "Налаштування збережено."
+    },
+    "notifySearchEngineAdded": {
+        "message": "Пошукову систему додано."
+    },
+    "titleShowEngine": {
+        "message": "Показати цю пошукову систему в контекстному меню або сітці"
+    },
+    "notifyEnableStorageSync": {
+        "message": "Переконайтеся, що в 'about:config' рядок 'webextensions.storage.sync.enabled' має значення 'true', інакше Context Search не працюватиме."
+    },
+    "notifySearchEnginesLoaded": {
+        "message": "Завантажено список пошукових систем за замовчуванням."
+    },
+    "notifySearchEngineNotFound": {
+        "message": "Не вдалося знайти пошукову систему на поточній веб-сторінці"
+    },
+    "titleMultipleSearchEngines": {
+        "message": "Пошук у кількох пошукових системах"
+    },
+    "titleAISearch": {
+        "message": "AI Пошук"
+    },
+    "titleSiteSearch": {
+        "message": "Пошук по сайту з допомогою"
+    },
+    "titleOptions": {
+        "message": "Налаштування"
+    },
+    "windowTitle": {
+        "message": "Результати пошуку для"
+    },
+    "omniboxDescription": {
+        "message": "Контекстний пошук з використанням ключового слова. Приклад: cs [ключовик] [мета пошуку] (наприклад 'cs w Linux' шукає у Вікіпедії по слову 'Linux')"
+    },
+    "notifyUsage": {
+        "message": "Приклад: cs [ключовик] [мета пошуку] (наприклад: cs w Linux)"
+    },
+    "notifySearchEngineWithKeyword": {
+        "message": "Пошукова система з ключовим словом"
+    },
+    "notifyUnknown": {
+        "message": "невідомо."
+    },
+    "notifySearchEngineUrlRequired": {
+        "message": "Введіть URL-адресу пошукової системи."
+    },
+    "header7": {
+        "message": "Скидання параметрів"
+    },
+    "header8": {
+        "message": "Які теги EXIF слід відображати?"
+    },
+    "sidebar": {
+        "message": "У бічній панелі"
+    },
+    "displayFavicons": {
+        "message": "Відобразити фаворити у списку контекстного меню"
+    },
+    "displayExifSummary": {
+        "message": "Підсумок"
+    },
+    "disableAltClick": {
+        "message": "Вимкнути сітку значків"
+    },
+    "resetPreferences": {
+        "message": "Скидання параметрів до налаштувань за замовчуванням"
+    },
+    "forceSearchEnginesReload": {
+        "message": "Примусове перезавантаження списку пошукових систем за замовчуванням"
+    },
+    "forceFaviconsReload": {
+        "message": "Примушуйте перезавантажуватися"
+    },
+    "restriction": {
+        "message": "Якщо бічна панель ще не відкрита, можливо, вам доведеться натиснути на піктограму \"Показати бічні панелі\" на панелі інструментів браузера."
+    },
+    "reverseImage": {
+        "message": "Також результати пошуку із зворотного зображення не можуть відображатися на бічній панелі."
+    },
+    "siteSearch": {
+        "message": "Пошукова система для пошуку на поточному сайті:"
+    },
+    "header9": {
+        "message": "Розширені функції"
+    },
+    "useRegex": {
+        "message": "Використовуйте регулярні вирази для створення контекстного меню"
+    },
+    "regexNote": {
+        "message": "Ця функція не стосується сітки значків."
+    },
+    "subheader62": {
+        "message": "Додайте нову папку"
+    },
+    "folderName": {
+        "message": "Назва папки"
+    },
+    "folder": {
+        "message": "папку"
+    },
+    "addFolder": {
+        "message": "Додати папку"
+    },
+    "keyboardShortcut": {
+        "message": "Комбінація клавіш"
+    },
+    "header10": {
+        "message": "Параметри багаторазового пошуку"
+    },
+    "multisearchIntro": {
+        "message": "Відкрийте кілька результатів пошуку/вкладок"
+    },
+    "multiNewWindow": {
+        "message": "У новому вікні"
+    },
+    "multiAfterLastTab": {
+        "message": "Після останньої вкладки в поточному вікні"
+    },
+    "multiActiveTab": {
+        "message": "Відразу після активної вкладки в поточному вікні"
+    },
+    "privacy": {
+        "message": "Зробіть нове вікно приватним"
+    },
+    "reminder": {
+        "message": "Нагадування"
+    },
+    "enableDownloadsReminder": {
+        "message": "увімкніть дозволи на завантаження, щоб експортувати свої пошукові системи."
+    },
+    "header11": {
+        "message": "Параметри сітки значків"
+    },
+    "quickIconGrid": {
+        "message": "Одразу відображати сітку значків після виділення тексту"
+    },
+    "closeGridOnMouseOut": {
+        "message": "Закривайте сітку піктограм, якщо вивести мишу"
+    },
+    "xOffset": {
+        "message": "Горизонтальний зсув сітки значків:"
+    },
+    "yOffset": {
+        "message": "Вертикальне зміщення сітки значків:"
+    },
+    "clearKeyboardShortcuts": {
+        "message": "Очистити всі комбінації клавіш"
+    },
+    "subheader63": {
+        "message": "Додати нову підказку ШІ"
+    },
+    "subheader64": {
+        "message": "Додайте роздільник"
+    },
+    "testChatGPT": {
+        "message": "Протестуйте підказку штучного інтелекту"
+    },
+    "addChatGPTPrompt": {
+        "message": "Додати підказку штучного інтелекту"
+    },
+    "promptShow": {
+        "message": "Показати підказку в сітці або контекстному меню"
+    },
+    "promptName": {
+        "message": "Запропонована назва"
+    },
+    "prompt": {
+        "message": "Швидко"
+    },
+    "overwriteSearchEngines": {
+        "message": "Замініть існуючі пошукові системи імпортованими пошуковими системами"
+    },
+    "removeFolderConfirmPrefix": {
+        "message": "Ви впевнені, що хочете видалити папку "
+    },
+    "removeFolderConfirmSuffix": {
+        "message": " і весь його вміст?"
+    },
+    "removeSearchEngineConfirm": {
+        "message": "Ви впевнені, що хочете видалити пошукову систему "
+    },
+    "popupBlockedMessage": {
+        "message": "Спливаюче вікно заблоковано! Будь ласка, дозвольте спливаючі вікна для цього сайту."
+    },
+    "__WET_LOCALE__": {
+        "message": "uk"
+    }
 }

@@ -1,452 +1,365 @@
 {
-	"extensionName": {
-		"message": "Context Search",
-		"description": "Name of the extension",
-		"hash": "dc46af1f918347f13872ba3b1acf5cb5"
-	},
-	"extensionDescription": {
-		"message": "指定されたリストから検索エンジンを使用して、選択したテキストを検索します。",
-		"description": "Description of the extension",
-		"hash": "b8f612ae1be0699e4ac144ebdd9408b8"
-	},
-	"multisearch": {
-		"message": "複数の検索エンジンを同時に使用した検索です。",
-		"description": "multi-search - it's a search with multiple search engines simultaneously.",
-		"hash": "d91d9731eeb51cab08e5db4231c3b539"
-	},
-	"multisearchHowTo": {
-		"message": "中央のチェックボックスをオンにして、検索エンジンを",
-		"hash": "45d8a4cc6705ce14bb465c1a603886f7"
-	},
-	"multisearchLaunch": {
-		"message": "起動できます",
-		"hash": "50aea7f78b7f283fce6309cb046d922b"
-	},
-	"multisearchEnd": {
-		"message": "次のように入力して、コンテキストメニューまたはアドレスバーから：",
-		"hash": "93175e4d6a2f2b01a19a17c09ac98750"
-	},
-	"pageTitle": {
-		"message": "コンテキスト検索設定",
-		"hash": "85459cf0f20967bcc8995dd2257f6ba2"
-	},
-	"header1": {
-		"message": "検索結果はどこに表示されますか？",
-		"hash": "55b5b2535226c23995d9220e9f01e7c9"
-	},
-	"newTab": {
-		"message": "新しいタブで",
-		"hash": "ed02b96ab3009dd9f8a3329e14c20ecd"
-	},
-	"sameTab": {
-		"message": "同じタブ内",
-		"hash": "8f83dae466a72a4c1f8c93e2ddc16f89"
-	},
-	"newWindow": {
-		"message": "新しいウィンドウで",
-		"hash": "dd5cfb4d20eb4b6f9d6e12c02e8f48e3"
-	},
-	"active": {
-		"message": "新しいタブまたはウィンドウをアクティブにします",
-		"hash": "3588f7008b34105c5a590905b489e8ba"
-	},
-	"position": {
-		"message": "最後のタブの後に検索結果を表示します",
-		"hash": "6f1385f89667221e78b453799755c534"
-	},
-	"header3": {
-		"message": "コンテキストメニューのオプションの位置",
-		"hash": "cc53b51192c00cf073c75573e910c712"
-	},
-	"subheader31": {
-		"message": "オプションメニューをコンテキストメニューのどこに表示しますか？",
-		"hash": "97f92ec06abae7047823b89e7cdd35aa"
-	},
-	"bottom": {
-		"message": "下部",
-		"hash": "dbc939fac3704f3bb5db5534c521a560"
-	},
-	"top": {
-		"message": "上部",
-		"hash": "7eb84bbe333a29135c13bb749b5a1bdf"
-	},
-	"hide": {
-		"message": "どちらでもない（オプションメニューを非表示にする）",
-		"hash": "66545b38432fb9f7cec55f9bd1bcb476"
-	},
-	"header5": {
-		"message": "検索エンジンのインポート/エクスポート",
-		"hash": "aff674b25de54fb6d1a8b94f0992e2e7"
-	},
-	"import": {
-		"message": "ローカルディスクからJSONをインポート",
-		"hash": "efa8b5b957c983016114c1687692a917"
-	},
-	"export": {
-		"message": "検索エンジンをJSONにエクスポート",
-		"hash": "4cbfa9bc7ce7a876967887dc8b3d80bb"
-	},
-	"download": {
-		"message": "ローカルディスクにエクスポート",
-		"hash": "9b7395778b59c67d44fb310a60cbec1f"
-	},
-	"header2": {
-		"message": "ファビコンを表示",
-		"hash": "4c972ef4ffb7e90163b9294509fea65d"
-	},
-	"getFavicons": {
-		"message": "ファビコンをコンテキストメニューリストに表示",
-		"hash": "7036d3e65d70351c41dfa59e397121b3"
-	},
-	"note": {
-		"message": "この機能には、Firefox 56以降が必要です。",
-		"hash": "f3bb15e6696904cf038aea689a0a02da"
-	},
-	"header4": {
-		"message": "検索オプション",
-		"hash": "ce6416d0e13a773a9b6c1b03a43982d4"
-	},
-	"exactMatch": {
-		"message": "完全に一致する文字列を検索する",
-		"hash": "779d6b3e9f3fe9654fe3549a21a06550"
-	},
-	"gridMode": {
-		"message": "検索エンジンのリストの代わりにアイコンのグリッドを表示します",
-		"hash": "fb28a2f15ee692ae8862f2eed52cdede"
-	},
-	"warning": {
-		"message": "警告：この機能を有効にすると、他の拡張機能のコンテキストメニューが表示されなくなることに注意してください。",
-		"hash": "b92a893b194575ca0bd0541cd80d4aa6"
-	},
-	"savePreferences": {
-		"message": "設定を保存",
-		"hash": "7afab2f751102f4f4154ec70f4a1a0cd"
-	},
-	"header6": {
-		"message": "どの検索エンジンをコンテキストメニューまたはグリッドに表示しますか？",
-		"hash": "4bec74f00dd1574f3c4a5229035c3f21"
-	},
-	"clearAll": {
-		"message": "すべてクリア",
-		"hash": "cce60e6cbfaee4ec6fac0a16a8bd383d"
-	},
-	"selectAll": {
-		"message": "すべて選択",
-		"hash": "26561e6b6807c0c48ce2a3ee81adad87"
-	},
-	"sortAlphabetically": {
-		"message": "アルファベット順に並べ替え",
-		"hash": "9dbba2e2d73fbe9d34b492113a47dc86"
-	},
-	"showAdvancedFeatures": {
-		"message": "高度な機能を表示する",
-		"hash": "adab8345d6d3749a2687addeb95aa6a0"
-	},
-	"hideAdvancedFeatures": {
-		"message": "高度な機能を非表示にする",
-		"hash": "6d0f963850902a32f1e4cde900271ec3"
-	},
-	"reset": {
-		"message": "リセット",
-		"hash": "0d25968a7dfc21f95043a86dd5373b81"
-	},
-	"subheader61": {
-		"message": "新しい検索エンジンを追加",
-		"hash": "df8ef6317cccd7767129689b409c7555"
-	},
-	"showSearchEngine": {
-		"message": "グリッドまたはコンテキストメニューに検索エンジンを表示",
-		"hash": "fd116637c97d52564b8caab4155b7e14"
-	},
-	"searchEngineName": {
-		"message": "検索エンジン名",
-		"hash": "66a6254e959765667c76a05c3697399d"
-	},
-	"placeHolderKeyword": {
-		"message": "キーワード",
-		"hash": "a715ce8d52a556c7541e52a39273b8e4"
-	},
-	"warningText": {
-		"message": "警告",
-		"hash": "d02ba8f1a5b9fd49d892558d83e71d59"
-	},
-	"keyboardShortcutWarning": {
-		"message": "すべてのキーの組み合わせが機能するわけではありません。キーボードショートカットは、通常Firefoxコマンド用に予約されているため、macOSの場合はCMD、WindowsまたはLinuxの場合はCTRLで始まらない場合があります。",
-		"hash": "a87da357c72be4e165534f8a068a00a4"
-	},
-	"placeHolderKeyboardShortcut": {
-		"message": "キーボードショートカット",
-		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
-	},
-	"multipleSearchEngines": {
-		"message": "この検索エンジンをマルチサーチに含める",
-		"hash": "795672c778b61e3785aa2fff7dca91ed"
-	},
-	"searchEngineURL": {
-		"message": "検索エンジンのURL ",
-		"hash": "f5b1aa2bdb81d4357409d3ecb87bc1e3"
-	},
-	"regex": {
-		"message": "正規表現",
-		"hash": "836b4e8f189b0435476c917699858782"
-	},
-	"testSearchEngine": {
-		"message": "テスト検索エンジン",
-		"hash": "138ac2e49b86e7dc4a4e71a7f15dd7b6"
-	},
-	"addSearchEngine": {
-		"message": "検索エンジンを追加",
-		"hash": "0f5b60489cf3500e92871eb17e71ce05"
-	},
-	"addSeparator": {
-		"message": "区切り文字を追加する",
-		"hash": "e7dee3308538cf240c29661ce7fcd41d"
-	},
-	"clear": {
-		"message": "クリア",
-		"hash": "bcf7e7587a412ea36d869d51026dfd6d"
-	},
-	"disableGrid": {
-		"message": "アイコンのグリッドを無効にする",
-		"hash": "bb07641e41b320b91b3f1338592ecf4d"
-	},
-	"move": {
-		"message": "移動",
-		"hash": "fe5500b1b2c360308db25a09f9710ade"
-	},
-	"up": {
-		"message": "アップ",
-		"hash": "87437c5e684807c07a63c62d675b63c3"
-	},
-	"down": {
-		"message": "ダウン",
-		"hash": "d877ad63806f1a96855f3fb1424b5d91"
-	},
-	"remove": {
-		"message": "削除",
-		"hash": "3908a268c854fe64242e38845dbb7c81"
-	},
-	"multipleSearchEnginesSearch": {
-		"message": "この検索エンジンを複数の検索エンジンの検索に含める",
-		"hash": "e54c504cdf841f4308b0140c0361420c"
-	},
-	"notifySavedPreferences": {
-		"message": "保存された設定。",
-		"hash": "26ae42e6a7533aa03cf8e162fd4859fd"
-	},
-	"notifySearchEngineAdded": {
-		"message": "検索エンジンが追加されました。",
-		"hash": "ee1b7a1102ec3b06c1960e84f814b1c6"
-	},
-	"titleShowEngine": {
-		"message": "この検索エンジンをコンテキストメニューまたはグリッドに表示",
-		"hash": "5c7ec6b539f06fe17a5e3f9832530eea"
-	},
-	"notifyEnableStorageSync": {
-		"message": "フラグ'webextensions.storage.sync.enabled'が'about：config'で'true'に設定されていることを確認してください。そうでない場合、コンテキスト検索は機能しません。",
-		"hash": "273ab612652228bc54090e98d1ac1b15"
-	},
-	"notifySearchEnginesLoaded": {
-		"message": "検索エンジンのデフォルトリストがロードされました。",
-		"hash": "640d2193c8155e5988fbeb3453a9737d"
-	},
-	"notifySearchEngineNotFound": {
-		"message": "現在のWebページで検索エンジンが見つかりませんでした",
-		"hash": "89a0f7352dea5184b23f367f8c05b079"
-	},
-	"titleMultipleSearchEngines": {
-		"message": "複数の検索エンジンで検索",
-		"hash": "016e3015d7461d1d0fbf20c60bd9ff0f"
-	},
-	"titleAISearch": {
-		"message": "AI検索",
-		"hash": "6ae434bff120e9ce2a6e459af56f4db3"
-	},
-	"titleSiteSearch": {
-		"message": "でこのサイトを検索",
-		"hash": "5a76bc5c095707f27e2ed235d2f3ccb6"
-	},
-	"titleOptions": {
-		"message": "オプション",
-		"hash": "531dad0078a72193602b18495f0ad4e9"
-	},
-	"windowTitle": {
-		"message": "検索結果",
-		"hash": "0a26dab592394ea9548c1a5588c0cd0d"
-	},
-	"omniboxDescription": {
-		"message": "キーワードを使用したコンテキスト検索を使用した検索。使用法：cs [キーワード] [検索用語]（例：'cs w Linux'は、Wikipediaで用語'Linux'を検索します）",
-		"hash": "e2406855d2445278d8becb4e11f772b0"
-	},
-	"notifyUsage": {
-		"message": "使用法：cs [キーワード] [検索用語]（例：cs w Linux）",
-		"hash": "7ce09b213b936aab58085cc84b20b01c"
-	},
-	"notifySearchEngineWithKeyword": {
-		"message": "キーワード付き検索エンジン",
-		"hash": "bd232fd868eb1bbd65e4977f5577a0a8"
-	},
-	"notifyUnknown": {
-		"message": "不明です。",
-		"hash": "075e9adb0de4037be7b0989733dd51ab"
-	},
-	"notifySearchEngineUrlRequired": {
-		"message": "検索エンジンのURLを入力してください。",
-		"hash": "b4610959ffa640c457a9ae1fbfa7943c"
-	},
-	"header7": {
-		"message": "リセットオプション",
-		"hash": "5c55526198c8075a1695b98e3cd32e2f"
-	},
-	"header8": {
-		"message": "どのEXIFタグを表示する必要がありますか？",
-		"hash": "dd5fd339289964d309e5020ed1e9610c"
-	},
-	"sidebar": {
-		"message": "サイドバー内",
-		"hash": "ea4b3f2f47d5ea8c594036cbdbf6e42b"
-	},
-	"displayFavicons": {
-		"message": "ファビコンをコンテキストメニューリストに表示",
-		"hash": "7036d3e65d70351c41dfa59e397121b3"
-	},
-	"displayExifSummary": {
-		"message": "概要",
-		"hash": "632626a730da62a89a4d124241e77273"
-	},
-	"disableAltClick": {
-		"message": "アイコンのグリッドを無効にする",
-		"hash": "05b09381e8d9e3b808cb5fa5c540af91"
-	},
-	"resetPreferences": {
-		"message": "設定をデフォルト設定にリセット",
-		"hash": "5e6bfbeafc20af866246c982de2a1067"
-	},
-	"forceSearchEnginesReload": {
-		"message": "デフォルトの検索エンジンリストの強制再読み込み",
-		"hash": "3736dde3828bcec7e5081dc1a450916b"
-	},
-	"forceFaviconsReload": {
-		"message": "ファビコンを強制的に再読み込みする",
-		"hash": "1fea5d330fd5c105ce6ba68ade3be299"
-	},
-	"restriction": {
-		"message": "サイドバーがまだ開いていない場合は、ブラウザのツールバーから[サイドバーを表示]アイコンをクリックする必要がある場合があります。",
-		"hash": "8687a8640f71498ea62eaa432791443c"
-	},
-	"reverseImage": {
-		"message": "また、リバースイメージ検索結果をサイドバーに表示することはできません。",
-		"hash": "db880c407ccd59031b92a75b7f7a677e"
-	},
-	"siteSearch": {
-		"message": "現在のサイトを検索するための検索エンジン：",
-		"hash": "1aef8aa2adcad0a105bc24d0ac87fe4c"
-	},
-	"header9": {
-		"message": "高度な機能",
-		"hash": "64bdb129ceb0e431268d7c8199542e11"
-	},
-	"useRegex": {
-		"message": "正規表現を使用してコンテキストメニューを作成する",
-		"hash": "9d48895eae1e8a92e6a0b2a2bd0e0fa0"
-	},
-	"regexNote": {
-		"message": "この機能は、アイコンのグリッドには適用されません。",
-		"hash": "2d301abb7cffcf3a4f41cc59dc52e828"
-	},
-	"subheader62": {
-		"message": "新しいフォルダを追加します",
-		"hash": "3a46fe63f172c9cf1e4cf9753dc935f9"
-	},
-	"folderName": {
-		"message": "フォルダ名",
-		"hash": "66c685078184b7f5123e83f4b94097fe"
-	},
-	"folder": {
-		"message": "フォルダ",
-		"hash": "6fa625e07a474959d219b2abdaa8c39e"
-	},
-	"addFolder": {
-		"message": "フォルダーを追加",
-		"hash": "f6668a06fb140909b3f286d742c848c8"
-	},
-	"keyboardShortcut": {
-		"message": "キーボードショートカット",
-		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
-	},
-	"header10": {
-		"message": "マルチサーチオプション",
-		"hash": "25b7321fc9e19e8e99598b40b96d2d52"
-	},
-	"multisearchIntro": {
-		"message": "複数の検索結果/タブを開く",
-		"hash": "4536d63e7c6838b383fa5a71967e5933"
-	},
-	"multiNewWindow": {
-		"message": "新しいウィンドウで",
-		"hash": "dd5cfb4d20eb4b6f9d6e12c02e8f48e3"
-	},
-	"multiAfterLastTab": {
-		"message": "現在のウィンドウの最後のタブの後",
-		"hash": "ddd24d070e912ba19edff0c610e91e56"
-	},
-	"multiActiveTab": {
-		"message": "現在のウィンドウのアクティブなタブの直後",
-		"hash": "580a6b556e35b0b48dca22506debb42c"
-	},
-	"privacy": {
-		"message": "新しいウィンドウをプライベートにする",
-		"hash": "a2c9e60d71cf882080023ad80af8b903"
-	},
-	"reminder": {
-		"message": "リマインダー",
-		"hash": "7764c333b42339d1f5edf71779799c41"
-	},
-	"enableDownloadsReminder": {
-		"message": "検索エンジンをエクスポートするには、ダウンロード権限を有効にします。",
-		"hash": "16e431f64c09354a2034b62338cab41c"
-	},
-	"header11": {
-		"message": "アイコンのグリッドのオプション",
-		"hash": "cb2b6fc9b6c0ab15b1627704b612ca71"
-	},
-	"quickIconGrid": {
-		"message": "テキストが選択された後、すぐにアイコングリッドを表示します",
-		"hash": "6af6aafa529c63b4f4aef72c478e0db1"
-	},
-	"closeGridOnMouseOut": {
-		"message": "マウスアウト時にアイコングリッドを閉じる",
-		"hash": "fc2fcdd466209645b574677c6250e546"
-	},
-	"xOffset": {
-		"message": "アイコングリッドの水平オフセット:",
-		"hash": "fb4e2747c20484c21a1cecb5142b9f80"
-	},
-	"yOffset": {
-		"message": "アイコングリッドの垂直オフセット:",
-		"hash": "49e08ac782b64fced86569f6dc56d82f"
-	},
-	"clearKeyboardShortcuts": {
-		"message": "すべてのキーボード ショートカットをクリアする",
-		"hash": "3745c3c2b77449e9606d8bf4e137e94f"
-	},
-	"overwriteSearchEngines": {
-		"message": "既存の検索エンジンをインポートした検索エンジンで上書きする",
-		"hash": "298f419a9e5661db408338fe08cc8ee0"
-	},
-	"removeFolderConfirmPrefix": {
-		"message": "Are you sure that you want to remove the folder "
-	},
-	"removeFolderConfirmSuffix": {
-		"message": " and all of its contents?"
-	},
-	"removeSearchEngineConfirm": {
-		"message": "Are you sure you want to remove the search engine "
-	},
-	"popupBlockedMessage": {
-		"message": "Popup blocked! Please allow popups for this site."
-	},
-	"__WET_LOCALE__": {
-		"message": "ja"
-	}
+    "extensionName": {
+        "message": "コンテキスト検索",
+        "description": "Name of the extension"
+    },
+    "extensionDescription": {
+        "message": "指定されたリストから検索エンジンを使用して、選択したテキストを検索します。",
+        "description": "Description of the extension"
+    },
+    "multisearch": {
+        "message": "複数の検索エンジンを同時に使用した検索です。",
+        "description": "multi-search - it's a search with multiple search engines simultaneously."
+    },
+    "multisearchHowTo": {
+        "message": "中央のチェックボックスをオンにして、検索エンジンを"
+    },
+    "multisearchLaunch": {
+        "message": "起動できます"
+    },
+    "multisearchEnd": {
+        "message": "次のように入力して、コンテキストメニューまたはアドレスバーから："
+    },
+    "pageTitle": {
+        "message": "コンテキスト検索設定"
+    },
+    "header1": {
+        "message": "検索結果はどこに表示されますか？"
+    },
+    "newTab": {
+        "message": "新しいタブで"
+    },
+    "sameTab": {
+        "message": "同じタブ内"
+    },
+    "newWindow": {
+        "message": "新しいウィンドウで"
+    },
+    "active": {
+        "message": "新しいタブまたはウィンドウをアクティブにします"
+    },
+    "position": {
+        "message": "最後のタブの後に検索結果を表示します"
+    },
+    "header3": {
+        "message": "コンテキストメニューのオプションの位置"
+    },
+    "subheader31": {
+        "message": "オプションメニューをコンテキストメニューのどこに表示しますか？"
+    },
+    "bottom": {
+        "message": "下部"
+    },
+    "top": {
+        "message": "上部"
+    },
+    "hide": {
+        "message": "どちらでもない（オプションメニューを非表示にする）"
+    },
+    "header5": {
+        "message": "検索エンジンのインポート/エクスポート"
+    },
+    "import": {
+        "message": "ローカルディスクからJSONをインポート"
+    },
+    "export": {
+        "message": "検索エンジンをJSONにエクスポート"
+    },
+    "download": {
+        "message": "ローカルディスクにエクスポート"
+    },
+    "header2": {
+        "message": "ファビコンを表示"
+    },
+    "getFavicons": {
+        "message": "ファビコンをコンテキストメニューリストに表示"
+    },
+    "note": {
+        "message": "この機能には、Firefox 56以降が必要です。"
+    },
+    "header4": {
+        "message": "検索オプション"
+    },
+    "exactMatch": {
+        "message": "完全に一致する文字列を検索する"
+    },
+    "gridMode": {
+        "message": "検索エンジンのリストの代わりにアイコンのグリッドを表示します"
+    },
+    "warning": {
+        "message": "警告：この機能を有効にすると、他の拡張機能のコンテキストメニューが表示されなくなることに注意してください。"
+    },
+    "savePreferences": {
+        "message": "設定を保存"
+    },
+    "header6": {
+        "message": "どの検索エンジンをコンテキストメニューまたはグリッドに表示しますか？"
+    },
+    "clearAll": {
+        "message": "すべてクリア"
+    },
+    "selectAll": {
+        "message": "すべて選択"
+    },
+    "sortAlphabetically": {
+        "message": "アルファベット順に並べ替え"
+    },
+    "showAdvancedFeatures": {
+        "message": "高度な機能を表示する"
+    },
+    "hideAdvancedFeatures": {
+        "message": "高度な機能を非表示にする"
+    },
+    "reset": {
+        "message": "リセット"
+    },
+    "subheader61": {
+        "message": "新しい検索エンジンを追加"
+    },
+    "showSearchEngine": {
+        "message": "グリッドまたはコンテキストメニューに検索エンジンを表示"
+    },
+    "searchEngineName": {
+        "message": "検索エンジン名"
+    },
+    "placeHolderKeyword": {
+        "message": "キーワード"
+    },
+    "warningText": {
+        "message": "警告"
+    },
+    "keyboardShortcutWarning": {
+        "message": "すべてのキーの組み合わせが機能するわけではありません。キーボードショートカットは、通常Firefoxコマンド用に予約されているため、macOSの場合はCMD、WindowsまたはLinuxの場合はCTRLで始まらない場合があります。"
+    },
+    "placeHolderKeyboardShortcut": {
+        "message": "キーボードショートカット"
+    },
+    "multipleSearchEngines": {
+        "message": "この検索エンジンをマルチサーチに含める"
+    },
+    "searchEngineURL": {
+        "message": "検索エンジンのURL "
+    },
+    "regex": {
+        "message": "正規表現"
+    },
+    "testSearchEngine": {
+        "message": "テスト検索エンジン"
+    },
+    "addSearchEngine": {
+        "message": "検索エンジンを追加"
+    },
+    "addSeparator": {
+        "message": "区切り文字を追加する"
+    },
+    "clear": {
+        "message": "クリア"
+    },
+    "disableGrid": {
+        "message": "アイコンのグリッドを無効にする"
+    },
+    "move": {
+        "message": "移動"
+    },
+    "up": {
+        "message": "アップ"
+    },
+    "down": {
+        "message": "ダウン"
+    },
+    "remove": {
+        "message": "削除"
+    },
+    "multipleSearchEnginesSearch": {
+        "message": "この検索エンジンを複数の検索エンジンの検索に含める"
+    },
+    "notifySavedPreferences": {
+        "message": "保存された設定。"
+    },
+    "notifySearchEngineAdded": {
+        "message": "検索エンジンが追加されました。"
+    },
+    "titleShowEngine": {
+        "message": "この検索エンジンをコンテキストメニューまたはグリッドに表示"
+    },
+    "notifyEnableStorageSync": {
+        "message": "フラグ'webextensions.storage.sync.enabled'が'about：config'で'true'に設定されていることを確認してください。そうでない場合、コンテキスト検索は機能しません。"
+    },
+    "notifySearchEnginesLoaded": {
+        "message": "検索エンジンのデフォルトリストがロードされました。"
+    },
+    "notifySearchEngineNotFound": {
+        "message": "現在のWebページで検索エンジンが見つかりませんでした"
+    },
+    "titleMultipleSearchEngines": {
+        "message": "複数の検索エンジンで検索"
+    },
+    "titleAISearch": {
+        "message": "AI検索"
+    },
+    "titleSiteSearch": {
+        "message": "でこのサイトを検索"
+    },
+    "titleOptions": {
+        "message": "オプション"
+    },
+    "windowTitle": {
+        "message": "検索結果"
+    },
+    "omniboxDescription": {
+        "message": "キーワードを使用したコンテキスト検索を使用した検索。使用法：cs [キーワード] [検索用語]（例：'cs w Linux'は、Wikipediaで用語'Linux'を検索します）"
+    },
+    "notifyUsage": {
+        "message": "使用法：cs [キーワード] [検索用語]（例：cs w Linux）"
+    },
+    "notifySearchEngineWithKeyword": {
+        "message": "キーワード付き検索エンジン"
+    },
+    "notifyUnknown": {
+        "message": "不明です。"
+    },
+    "notifySearchEngineUrlRequired": {
+        "message": "検索エンジンのURLを入力してください。"
+    },
+    "header7": {
+        "message": "リセットオプション"
+    },
+    "header8": {
+        "message": "どのEXIFタグを表示する必要がありますか？"
+    },
+    "sidebar": {
+        "message": "サイドバー内"
+    },
+    "displayFavicons": {
+        "message": "ファビコンをコンテキストメニューリストに表示"
+    },
+    "displayExifSummary": {
+        "message": "概要"
+    },
+    "disableAltClick": {
+        "message": "アイコンのグリッドを無効にする"
+    },
+    "resetPreferences": {
+        "message": "設定をデフォルト設定にリセット"
+    },
+    "forceSearchEnginesReload": {
+        "message": "デフォルトの検索エンジンリストの強制再読み込み"
+    },
+    "forceFaviconsReload": {
+        "message": "ファビコンを強制的に再読み込みする"
+    },
+    "restriction": {
+        "message": "サイドバーがまだ開いていない場合は、ブラウザのツールバーから[サイドバーを表示]アイコンをクリックする必要がある場合があります。"
+    },
+    "reverseImage": {
+        "message": "また、リバースイメージ検索結果をサイドバーに表示することはできません。"
+    },
+    "siteSearch": {
+        "message": "現在のサイトを検索するための検索エンジン："
+    },
+    "header9": {
+        "message": "高度な機能"
+    },
+    "useRegex": {
+        "message": "正規表現を使用してコンテキストメニューを作成する"
+    },
+    "regexNote": {
+        "message": "この機能は、アイコンのグリッドには適用されません。"
+    },
+    "subheader62": {
+        "message": "新しいフォルダを追加します"
+    },
+    "folderName": {
+        "message": "フォルダ名"
+    },
+    "folder": {
+        "message": "フォルダ"
+    },
+    "addFolder": {
+        "message": "フォルダーを追加"
+    },
+    "keyboardShortcut": {
+        "message": "キーボードショートカット"
+    },
+    "header10": {
+        "message": "マルチサーチオプション"
+    },
+    "multisearchIntro": {
+        "message": "複数の検索結果/タブを開く"
+    },
+    "multiNewWindow": {
+        "message": "新しいウィンドウで"
+    },
+    "multiAfterLastTab": {
+        "message": "現在のウィンドウの最後のタブの後"
+    },
+    "multiActiveTab": {
+        "message": "現在のウィンドウのアクティブなタブの直後"
+    },
+    "privacy": {
+        "message": "新しいウィンドウをプライベートにする"
+    },
+    "reminder": {
+        "message": "リマインダー"
+    },
+    "enableDownloadsReminder": {
+        "message": "検索エンジンをエクスポートするには、ダウンロード権限を有効にします。"
+    },
+    "header11": {
+        "message": "アイコンのグリッドのオプション"
+    },
+    "quickIconGrid": {
+        "message": "テキストが選択された後、すぐにアイコングリッドを表示します"
+    },
+    "closeGridOnMouseOut": {
+        "message": "マウスアウト時にアイコングリッドを閉じる"
+    },
+    "xOffset": {
+        "message": "アイコングリッドの水平オフセット:"
+    },
+    "yOffset": {
+        "message": "アイコングリッドの垂直オフセット:"
+    },
+    "clearKeyboardShortcuts": {
+        "message": "すべてのキーボード ショートカットをクリアする"
+    },
+    "subheader63": {
+        "message": "新しいAIプロンプトを追加する"
+    },
+    "subheader64": {
+        "message": "セパレーターの追加"
+    },
+    "testChatGPT": {
+        "message": "テストAIプロンプト"
+    },
+    "addChatGPTPrompt": {
+        "message": "AIプロンプトの追加"
+    },
+    "promptShow": {
+        "message": "グリッドまたはコンテキストメニューにプロンプトを表示する"
+    },
+    "promptName": {
+        "message": "プロンプト名"
+    },
+    "prompt": {
+        "message": "プロンプト"
+    },
+    "overwriteSearchEngines": {
+        "message": "既存の検索エンジンをインポートした検索エンジンで上書きする"
+    },
+    "removeFolderConfirmPrefix": {
+        "message": "フォルダを削除してもよろしいですか？ "
+    },
+    "removeFolderConfirmSuffix": {
+        "message": " そしてその中身はすべて？"
+    },
+    "removeSearchEngineConfirm": {
+        "message": "本当に検索エンジンを削除しますか？ "
+    },
+    "popupBlockedMessage": {
+        "message": "ポップアップがブロックされました！このサイトのポップアップを許可してください。"
+    },
+    "__WET_LOCALE__": {
+        "message": "ja"
+    }
 }

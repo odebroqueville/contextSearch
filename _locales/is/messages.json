@@ -1,452 +1,365 @@
 {
-	"extensionName": {
-		"message": "Samhengisleit",
-		"description": "Name of the extension",
-		"hash": "dc46af1f918347f13872ba3b1acf5cb5"
-	},
-	"extensionDescription": {
-		"message": "Leitar að völdum texta með leitarvél úr forákvörðuðum lista.",
-		"description": "Description of the extension",
-		"hash": "b8f612ae1be0699e4ac144ebdd9408b8"
-	},
-	"multisearch": {
-		"message": " gefur kost á að leita með mörgum leitarvélum í einu.",
-		"description": "multi-search - it's a search with multiple search engines simultaneously.",
-		"hash": "d91d9731eeb51cab08e5db4231c3b539"
-	},
-	"multisearchHowTo": {
-		"message": "Merktu við miðju-gátreitinn til að hafa leitarvél með í",
-		"hash": "45d8a4cc6705ce14bb465c1a603886f7"
-	},
-	"multisearchLaunch": {
-		"message": "Þú getur ræst",
-		"hash": "50aea7f78b7f283fce6309cb046d922b"
-	},
-	"multisearchEnd": {
-		"message": "í gegnum samhengisvalmyndina (hægri smella) eða í gegnum leitarreitinn með því að skrifa:",
-		"hash": "93175e4d6a2f2b01a19a17c09ac98750"
-	},
-	"pageTitle": {
-		"message": "Kjörstillingar samhengisleitar",
-		"hash": "85459cf0f20967bcc8995dd2257f6ba2"
-	},
-	"header1": {
-		"message": "Hvar ættu leitarniðurstöður að birtast?",
-		"hash": "55b5b2535226c23995d9220e9f01e7c9"
-	},
-	"newTab": {
-		"message": "Í nýjum flipa",
-		"hash": "ed02b96ab3009dd9f8a3329e14c20ecd"
-	},
-	"sameTab": {
-		"message": "Í sama flipa",
-		"hash": "8f83dae466a72a4c1f8c93e2ddc16f89"
-	},
-	"newWindow": {
-		"message": "Í nýjum glugga",
-		"hash": "dd5cfb4d20eb4b6f9d6e12c02e8f48e3"
-	},
-	"active": {
-		"message": "Gera nýjan flipa eða glugga virkan",
-		"hash": "3588f7008b34105c5a590905b489e8ba"
-	},
-	"position": {
-		"message": "Birta leitarniðurstöður á eftir aftasta flipanum",
-		"hash": "6f1385f89667221e78b453799755c534"
-	},
-	"header3": {
-		"message": "Staðsetning valkosta í samhengisvalmyndinni",
-		"hash": "cc53b51192c00cf073c75573e910c712"
-	},
-	"subheader31": {
-		"message": "Hvar myndirðu vilja að valkostavalmyndin birtist í samhengisvalmyndinni?",
-		"hash": "97f92ec06abae7047823b89e7cdd35aa"
-	},
-	"bottom": {
-		"message": "Neðst",
-		"hash": "dbc939fac3704f3bb5db5534c521a560"
-	},
-	"top": {
-		"message": "Efst",
-		"hash": "7eb84bbe333a29135c13bb749b5a1bdf"
-	},
-	"hide": {
-		"message": "Hvorugt (fela valkostavalmyndina)",
-		"hash": "66545b38432fb9f7cec55f9bd1bcb476"
-	},
-	"header5": {
-		"message": "Flytja leitarvélar inn/út",
-		"hash": "aff674b25de54fb6d1a8b94f0992e2e7"
-	},
-	"import": {
-		"message": "Flytja inn JSON af diski á tölvunni",
-		"hash": "efa8b5b957c983016114c1687692a917"
-	},
-	"export": {
-		"message": "Flytja leitarvélar út sem JSON",
-		"hash": "4cbfa9bc7ce7a876967887dc8b3d80bb"
-	},
-	"download": {
-		"message": "Flytja út á disk á tölvunni",
-		"hash": "9b7395778b59c67d44fb310a60cbec1f"
-	},
-	"header2": {
-		"message": "Táknmyndir",
-		"hash": "4c972ef4ffb7e90163b9294509fea65d"
-	},
-	"getFavicons": {
-		"message": "Birta táknmyndir í lista samhengisvalmyndar",
-		"hash": "7036d3e65d70351c41dfa59e397121b3"
-	},
-	"note": {
-		"message": "Þessi eiginleiki krefst Firefox 56 eða nýrri.",
-		"hash": "f3bb15e6696904cf038aea689a0a02da"
-	},
-	"header4": {
-		"message": "Valkostir leitar",
-		"hash": "ce6416d0e13a773a9b6c1b03a43982d4"
-	},
-	"exactMatch": {
-		"message": "Leita að nákvæmri samsvörun við textastreng",
-		"hash": "779d6b3e9f3fe9654fe3549a21a06550"
-	},
-	"gridMode": {
-		"message": "Birta reiti með táknmyndum í stað lista yfir leitarvélar",
-		"hash": "fb28a2f15ee692ae8862f2eed52cdede"
-	},
-	"warning": {
-		"message": "Aðvörun: Athugaðu að með því að virkja þennan eiginleika er komið í veg fyrir að aðrar forritsiðbætur geti birt færslur í samhengisvalmyndinni.",
-		"hash": "b92a893b194575ca0bd0541cd80d4aa6"
-	},
-	"savePreferences": {
-		"message": "Vista kjörstillingar",
-		"hash": "7afab2f751102f4f4154ec70f4a1a0cd"
-	},
-	"header6": {
-		"message": "Hvaða leitarvélar myndirðu vilja að birtust í lista eða reitum í samhengisvalmyndinni?",
-		"hash": "4bec74f00dd1574f3c4a5229035c3f21"
-	},
-	"clearAll": {
-		"message": "Hreinsa allt",
-		"hash": "cce60e6cbfaee4ec6fac0a16a8bd383d"
-	},
-	"selectAll": {
-		"message": "Velja allt",
-		"hash": "26561e6b6807c0c48ce2a3ee81adad87"
-	},
-	"sortAlphabetically": {
-		"message": "Raða í stafrófsröð",
-		"hash": "9dbba2e2d73fbe9d34b492113a47dc86"
-	},
-	"showAdvancedFeatures": {
-		"message": "Sýna ítarlega eiginleika",
-		"hash": "adab8345d6d3749a2687addeb95aa6a0"
-	},
-	"hideAdvancedFeatures": {
-		"message": "Fela ítarlega eiginleika",
-		"hash": "6d0f963850902a32f1e4cde900271ec3"
-	},
-	"reset": {
-		"message": "Endurstilla",
-		"hash": "0d25968a7dfc21f95043a86dd5373b81"
-	},
-	"subheader61": {
-		"message": "Bæta við nýrri leitarvél",
-		"hash": "df8ef6317cccd7767129689b409c7555"
-	},
-	"showSearchEngine": {
-		"message": "Birta leitarvél í lista eða reitum í samhengisvalmyndinni",
-		"hash": "fd116637c97d52564b8caab4155b7e14"
-	},
-	"searchEngineName": {
-		"message": "Nafn leitarvélar",
-		"hash": "66a6254e959765667c76a05c3697399d"
-	},
-	"placeHolderKeyword": {
-		"message": "Stikkorð",
-		"hash": "a715ce8d52a556c7541e52a39273b8e4"
-	},
-	"warningText": {
-		"message": "Viðvörun",
-		"hash": "d02ba8f1a5b9fd49d892558d83e71d59"
-	},
-	"keyboardShortcutWarning": {
-		"message": "ekki allar takkasamsetningar virka. Flýtivísar byrja kannski ekki með CMD á macOS eða CTRL á Windows eða Linux, þar sem þær eru venjulega fráteknar fyrir Firefox skipanir.",
-		"hash": "a87da357c72be4e165534f8a068a00a4"
-	},
-	"placeHolderKeyboardShortcut": {
-		"message": "Flýtileiðir",
-		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
-	},
-	"multipleSearchEngines": {
-		"message": "Hafa með í breiðleit",
-		"hash": "795672c778b61e3785aa2fff7dca91ed"
-	},
-	"searchEngineURL": {
-		"message": "Slóð á leitarvél",
-		"hash": "f5b1aa2bdb81d4357409d3ecb87bc1e3"
-	},
-	"regex": {
-		"message": "Regluleg segð",
-		"hash": "836b4e8f189b0435476c917699858782"
-	},
-	"testSearchEngine": {
-		"message": "Prófa leitarvél",
-		"hash": "138ac2e49b86e7dc4a4e71a7f15dd7b6"
-	},
-	"addSearchEngine": {
-		"message": "Bæta við leitarvél",
-		"hash": "0f5b60489cf3500e92871eb17e71ce05"
-	},
-	"addSeparator": {
-		"message": "Bættu við skilju",
-		"hash": "3ca31acdb4e16f109453054af8b918f1"
-	},
-	"clear": {
-		"message": "Hreinsa",
-		"hash": "bcf7e7587a412ea36d869d51026dfd6d"
-	},
-	"disableGrid": {
-		"message": "Gera táknmyndareiti óvirka",
-		"hash": "bb07641e41b320b91b3f1338592ecf4d"
-	},
-	"move": {
-		"message": "Færa",
-		"hash": "fe5500b1b2c360308db25a09f9710ade"
-	},
-	"up": {
-		"message": "upp",
-		"hash": "87437c5e684807c07a63c62d675b63c3"
-	},
-	"down": {
-		"message": "niður",
-		"hash": "d877ad63806f1a96855f3fb1424b5d91"
-	},
-	"remove": {
-		"message": "Fjarlægja",
-		"hash": "3908a268c854fe64242e38845dbb7c81"
-	},
-	"multipleSearchEnginesSearch": {
-		"message": "Hafa þessa leitarvél með í breiðleit",
-		"hash": "e54c504cdf841f4308b0140c0361420c"
-	},
-	"notifySavedPreferences": {
-		"message": "Vistaði kjörstillingar.",
-		"hash": "26ae42e6a7533aa03cf8e162fd4859fd"
-	},
-	"notifySearchEngineAdded": {
-		"message": "Leitarvél bætt við.",
-		"hash": "ee1b7a1102ec3b06c1960e84f814b1c6"
-	},
-	"titleShowEngine": {
-		"message": "Birta þessa leitarvél í lista eða reitum í samhengisvalmyndinni",
-		"hash": "5c7ec6b539f06fe17a5e3f9832530eea"
-	},
-	"notifyEnableStorageSync": {
-		"message": "Gakktu úr skugga um að færslan 'webextensions.storage.sync.enabled' sé stillt á 'true' í 'about:config', annars mun Context Search samhengisleitin ekki virka.",
-		"hash": "273ab612652228bc54090e98d1ac1b15"
-	},
-	"notifySearchEnginesLoaded": {
-		"message": "Sjálfgefnum lista með leitarvélum hefur verið hlaðið inn.",
-		"hash": "640d2193c8155e5988fbeb3453a9737d"
-	},
-	"notifySearchEngineNotFound": {
-		"message": "Engin leitarvél fannst á virku vefsíðunni",
-		"hash": "89a0f7352dea5184b23f367f8c05b079"
-	},
-	"titleMultipleSearchEngines": {
-		"message": "Breiðleit með mörgum leitarvélum",
-		"hash": "016e3015d7461d1d0fbf20c60bd9ff0f"
-	},
-	"titleAISearch": {
-		"message": "AI leit",
-		"hash": "6ae434bff120e9ce2a6e459af56f4db3"
-	},
-	"titleSiteSearch": {
-		"message": "Leita á þessu vefsvæði með",
-		"hash": "84e89c97ed21d0499012b414415470e6"
-	},
-	"titleOptions": {
-		"message": "Valkostir",
-		"hash": "531dad0078a72193602b18495f0ad4e9"
-	},
-	"windowTitle": {
-		"message": "Leitarniðurstöður fyrir",
-		"hash": "0a26dab592394ea9548c1a5588c0cd0d"
-	},
-	"omniboxDescription": {
-		"message": "Leita með Context Search með stikkorðum. Notkun: cs [stikkorð] [leitarstrengur] (til dæmis 'cs w Linux' leitar á Wikipedia að hugtakinu 'Linux')",
-		"hash": "e2406855d2445278d8becb4e11f772b0"
-	},
-	"notifyUsage": {
-		"message": "Notkun: cs [stikkorð] [leitarstrengur] (til dæmis: cs w Linux)",
-		"hash": "7ce09b213b936aab58085cc84b20b01c"
-	},
-	"notifySearchEngineWithKeyword": {
-		"message": "Leitarvél með stikkorðið",
-		"hash": "bd232fd868eb1bbd65e4977f5577a0a8"
-	},
-	"notifyUnknown": {
-		"message": "er óþekkt.",
-		"hash": "075e9adb0de4037be7b0989733dd51ab"
-	},
-	"notifySearchEngineUrlRequired": {
-		"message": "Settu inn gilda URL-slóð leitarvélar.",
-		"hash": "b4610959ffa640c457a9ae1fbfa7943c"
-	},
-	"header7": {
-		"message": "Endurstilla valkosti",
-		"hash": "5c55526198c8075a1695b98e3cd32e2f"
-	},
-	"header8": {
-		"message": "Hvaða EXIF-merki ætti að birta?",
-		"hash": "dd5fd339289964d309e5020ed1e9610c"
-	},
-	"sidebar": {
-		"message": "Á hliðarslá",
-		"hash": "ea4b3f2f47d5ea8c594036cbdbf6e42b"
-	},
-	"displayFavicons": {
-		"message": "Birta táknmyndir í lista samhengisvalmyndar",
-		"hash": "7036d3e65d70351c41dfa59e397121b3"
-	},
-	"displayExifSummary": {
-		"message": "Samantekt",
-		"hash": "632626a730da62a89a4d124241e77273"
-	},
-	"disableAltClick": {
-		"message": "Gera táknmyndareiti óvirka (Alt + smella)",
-		"hash": "05b09381e8d9e3b808cb5fa5c540af91"
-	},
-	"resetPreferences": {
-		"message": "Endurstilla kjörstillingar á sjálfgefnar stillingar",
-		"hash": "5e6bfbeafc20af866246c982de2a1067"
-	},
-	"forceSearchEnginesReload": {
-		"message": "Þvinga endurhleðslu á sjálfgefnum leitarvélalista",
-		"hash": "3736dde3828bcec7e5081dc1a450916b"
-	},
-	"forceFaviconsReload": {
-		"message": "Þvinga endurhleðslu á táknmyndum",
-		"hash": "1fea5d330fd5c105ce6ba68ade3be299"
-	},
-	"restriction": {
-		"message": "Ef hliðarsláin er ekki þegar opin, þá gætirðu þurft að velja táknið 'Birta hliðarslár' í verkfærastiku vafrans.",
-		"hash": "8687a8640f71498ea62eaa432791443c"
-	},
-	"reverseImage": {
-		"message": "Að auki er ekki hægt að birta endurkvæmar leitarniðurstöður mynda í hliðarslánni.",
-		"hash": "db880c407ccd59031b92a75b7f7a677e"
-	},
-	"siteSearch": {
-		"message": "Leitarvél til að leita á virku vefsvæði:",
-		"hash": "1aef8aa2adcad0a105bc24d0ac87fe4c"
-	},
-	"header9": {
-		"message": "Ítarlegir eiginleikar",
-		"hash": "64bdb129ceb0e431268d7c8199542e11"
-	},
-	"useRegex": {
-		"message": "Nota reglulegar segðir til að byggja samhengisvalmyndina",
-		"hash": "9d48895eae1e8a92e6a0b2a2bd0e0fa0"
-	},
-	"regexNote": {
-		"message": "Þessi eiginleiki á ekki við táknmyndareitina.",
-		"hash": "2d301abb7cffcf3a4f41cc59dc52e828"
-	},
-	"subheader62": {
-		"message": "Bæta við nýrri möppu",
-		"hash": "3a46fe63f172c9cf1e4cf9753dc935f9"
-	},
-	"folderName": {
-		"message": "Heiti möppu",
-		"hash": "66c685078184b7f5123e83f4b94097fe"
-	},
-	"folder": {
-		"message": "mappa",
-		"hash": "6fa625e07a474959d219b2abdaa8c39e"
-	},
-	"addFolder": {
-		"message": "Bæta við möppu",
-		"hash": "f6668a06fb140909b3f286d742c848c8"
-	},
-	"keyboardShortcut": {
-		"message": "Flýtileiðir",
-		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
-	},
-	"header10": {
-		"message": "Fjölleitarvalkostir",
-		"hash": "25b7321fc9e19e8e99598b40b96d2d52"
-	},
-	"multisearchIntro": {
-		"message": "Opnaðu margar leitarniðurstöður/flipa",
-		"hash": "4536d63e7c6838b383fa5a71967e5933"
-	},
-	"multiNewWindow": {
-		"message": "Í nýjum glugga",
-		"hash": "dd5cfb4d20eb4b6f9d6e12c02e8f48e3"
-	},
-	"multiAfterLastTab": {
-		"message": "Eftir síðasta flipann í núverandi glugga",
-		"hash": "ddd24d070e912ba19edff0c610e91e56"
-	},
-	"multiActiveTab": {
-		"message": "Rétt á eftir virka flipanum í núverandi glugga",
-		"hash": "580a6b556e35b0b48dca22506debb42c"
-	},
-	"privacy": {
-		"message": "Gera nýjan glugga einkamál",
-		"hash": "a2c9e60d71cf882080023ad80af8b903"
-	},
-	"reminder": {
-		"message": "Áminning",
-		"hash": "7764c333b42339d1f5edf71779799c41"
-	},
-	"enableDownloadsReminder": {
-		"message": "virkjaðu niðurhalsheimildir til að flytja út leitarvélarnar þínar.",
-		"hash": "16e431f64c09354a2034b62338cab41c"
-	},
-	"header11": {
-		"message": "Tákn Taflavalkostir",
-		"hash": "cb2b6fc9b6c0ab15b1627704b612ca71"
-	},
-	"quickIconGrid": {
-		"message": "Sýndu táknhnitinn strax eftir að texti hefur verið valinn",
-		"hash": "6af6aafa529c63b4f4aef72c478e0db1"
-	},
-	"closeGridOnMouseOut": {
-		"message": "Lokaðu táknatöflunni á músinni út",
-		"hash": "fc2fcdd466209645b574677c6250e546"
-	},
-	"xOffset": {
-		"message": "Lárétt frávik á táknhnitinu:",
-		"hash": "fb4e2747c20484c21a1cecb5142b9f80"
-	},
-	"yOffset": {
-		"message": "Lóðrétt frávik á táknhnitnum:",
-		"hash": "49e08ac782b64fced86569f6dc56d82f"
-	},
-	"clearKeyboardShortcuts": {
-		"message": "Hreinsaðu alla flýtilykla",
-		"hash": "3745c3c2b77449e9606d8bf4e137e94f"
-	},
-	"overwriteSearchEngines": {
-		"message": "Skrifaðu yfir núverandi leitarvélar með innfluttu leitarvélunum",
-		"hash": "298f419a9e5661db408338fe08cc8ee0"
-	},
-	"removeFolderConfirmPrefix": {
-		"message": "Are you sure that you want to remove the folder "
-	},
-	"removeFolderConfirmSuffix": {
-		"message": " and all of its contents?"
-	},
-	"removeSearchEngineConfirm": {
-		"message": "Are you sure you want to remove the search engine "
-	},
-	"popupBlockedMessage": {
-		"message": "Popup blocked! Please allow popups for this site."
-	},
-	"__WET_LOCALE__": {
-		"message": "is"
-	}
+    "extensionName": {
+        "message": "Samhengisleit",
+        "description": "Name of the extension"
+    },
+    "extensionDescription": {
+        "message": "Leitar að völdum texta með leitarvél úr forákvörðuðum lista.",
+        "description": "Description of the extension"
+    },
+    "multisearch": {
+        "message": " gefur kost á að leita með mörgum leitarvélum í einu.",
+        "description": "multi-search - it's a search with multiple search engines simultaneously."
+    },
+    "multisearchHowTo": {
+        "message": "Merktu við miðju-gátreitinn til að hafa leitarvél með í"
+    },
+    "multisearchLaunch": {
+        "message": "Þú getur ræst"
+    },
+    "multisearchEnd": {
+        "message": "í gegnum samhengisvalmyndina (hægri smella) eða í gegnum leitarreitinn með því að skrifa:"
+    },
+    "pageTitle": {
+        "message": "Kjörstillingar samhengisleitar"
+    },
+    "header1": {
+        "message": "Hvar ættu leitarniðurstöður að birtast?"
+    },
+    "newTab": {
+        "message": "Í nýjum flipa"
+    },
+    "sameTab": {
+        "message": "Í sama flipa"
+    },
+    "newWindow": {
+        "message": "Í nýjum glugga"
+    },
+    "active": {
+        "message": "Gera nýjan flipa eða glugga virkan"
+    },
+    "position": {
+        "message": "Birta leitarniðurstöður á eftir aftasta flipanum"
+    },
+    "header3": {
+        "message": "Staðsetning valkosta í samhengisvalmyndinni"
+    },
+    "subheader31": {
+        "message": "Hvar myndirðu vilja að valkostavalmyndin birtist í samhengisvalmyndinni?"
+    },
+    "bottom": {
+        "message": "Neðst"
+    },
+    "top": {
+        "message": "Efst"
+    },
+    "hide": {
+        "message": "Hvorugt (fela valkostavalmyndina)"
+    },
+    "header5": {
+        "message": "Flytja leitarvélar inn/út"
+    },
+    "import": {
+        "message": "Flytja inn JSON af diski á tölvunni"
+    },
+    "export": {
+        "message": "Flytja leitarvélar út sem JSON"
+    },
+    "download": {
+        "message": "Flytja út á disk á tölvunni"
+    },
+    "header2": {
+        "message": "Táknmyndir"
+    },
+    "getFavicons": {
+        "message": "Birta táknmyndir í lista samhengisvalmyndar"
+    },
+    "note": {
+        "message": "Þessi eiginleiki krefst Firefox 56 eða nýrri."
+    },
+    "header4": {
+        "message": "Valkostir leitar"
+    },
+    "exactMatch": {
+        "message": "Leita að nákvæmri samsvörun við textastreng"
+    },
+    "gridMode": {
+        "message": "Birta reiti með táknmyndum í stað lista yfir leitarvélar"
+    },
+    "warning": {
+        "message": "Aðvörun: Athugaðu að með því að virkja þennan eiginleika er komið í veg fyrir að aðrar forritsiðbætur geti birt færslur í samhengisvalmyndinni."
+    },
+    "savePreferences": {
+        "message": "Vista kjörstillingar"
+    },
+    "header6": {
+        "message": "Hvaða leitarvélar myndirðu vilja að birtust í lista eða reitum í samhengisvalmyndinni?"
+    },
+    "clearAll": {
+        "message": "Hreinsa allt"
+    },
+    "selectAll": {
+        "message": "Velja allt"
+    },
+    "sortAlphabetically": {
+        "message": "Raða í stafrófsröð"
+    },
+    "showAdvancedFeatures": {
+        "message": "Sýna ítarlega eiginleika"
+    },
+    "hideAdvancedFeatures": {
+        "message": "Fela ítarlega eiginleika"
+    },
+    "reset": {
+        "message": "Endurstilla"
+    },
+    "subheader61": {
+        "message": "Bæta við nýrri leitarvél"
+    },
+    "showSearchEngine": {
+        "message": "Birta leitarvél í lista eða reitum í samhengisvalmyndinni"
+    },
+    "searchEngineName": {
+        "message": "Nafn leitarvélar"
+    },
+    "placeHolderKeyword": {
+        "message": "Stikkorð"
+    },
+    "warningText": {
+        "message": "Viðvörun"
+    },
+    "keyboardShortcutWarning": {
+        "message": "ekki allar takkasamsetningar virka. Flýtivísar byrja kannski ekki með CMD á macOS eða CTRL á Windows eða Linux, þar sem þær eru venjulega fráteknar fyrir Firefox skipanir."
+    },
+    "placeHolderKeyboardShortcut": {
+        "message": "Flýtileiðir"
+    },
+    "multipleSearchEngines": {
+        "message": "Hafa með í breiðleit"
+    },
+    "searchEngineURL": {
+        "message": "Slóð á leitarvél"
+    },
+    "regex": {
+        "message": "Regluleg segð"
+    },
+    "testSearchEngine": {
+        "message": "Prófa leitarvél"
+    },
+    "addSearchEngine": {
+        "message": "Bæta við leitarvél"
+    },
+    "addSeparator": {
+        "message": "Bættu við skilju"
+    },
+    "clear": {
+        "message": "Hreinsa"
+    },
+    "disableGrid": {
+        "message": "Gera táknmyndareiti óvirka"
+    },
+    "move": {
+        "message": "Færa"
+    },
+    "up": {
+        "message": "upp"
+    },
+    "down": {
+        "message": "niður"
+    },
+    "remove": {
+        "message": "Fjarlægja"
+    },
+    "multipleSearchEnginesSearch": {
+        "message": "Hafa þessa leitarvél með í breiðleit"
+    },
+    "notifySavedPreferences": {
+        "message": "Vistaði kjörstillingar."
+    },
+    "notifySearchEngineAdded": {
+        "message": "Leitarvél bætt við."
+    },
+    "titleShowEngine": {
+        "message": "Birta þessa leitarvél í lista eða reitum í samhengisvalmyndinni"
+    },
+    "notifyEnableStorageSync": {
+        "message": "Gakktu úr skugga um að færslan 'webextensions.storage.sync.enabled' sé stillt á 'true' í 'about:config', annars mun Context Search samhengisleitin ekki virka."
+    },
+    "notifySearchEnginesLoaded": {
+        "message": "Sjálfgefnum lista með leitarvélum hefur verið hlaðið inn."
+    },
+    "notifySearchEngineNotFound": {
+        "message": "Engin leitarvél fannst á virku vefsíðunni"
+    },
+    "titleMultipleSearchEngines": {
+        "message": "Breiðleit með mörgum leitarvélum"
+    },
+    "titleAISearch": {
+        "message": "AI leit"
+    },
+    "titleSiteSearch": {
+        "message": "Leita á þessu vefsvæði með"
+    },
+    "titleOptions": {
+        "message": "Valkostir"
+    },
+    "windowTitle": {
+        "message": "Leitarniðurstöður fyrir"
+    },
+    "omniboxDescription": {
+        "message": "Leita með Context Search með stikkorðum. Notkun: cs [stikkorð] [leitarstrengur] (til dæmis 'cs w Linux' leitar á Wikipedia að hugtakinu 'Linux')"
+    },
+    "notifyUsage": {
+        "message": "Notkun: cs [stikkorð] [leitarstrengur] (til dæmis: cs w Linux)"
+    },
+    "notifySearchEngineWithKeyword": {
+        "message": "Leitarvél með stikkorðið"
+    },
+    "notifyUnknown": {
+        "message": "er óþekkt."
+    },
+    "notifySearchEngineUrlRequired": {
+        "message": "Settu inn gilda URL-slóð leitarvélar."
+    },
+    "header7": {
+        "message": "Endurstilla valkosti"
+    },
+    "header8": {
+        "message": "Hvaða EXIF-merki ætti að birta?"
+    },
+    "sidebar": {
+        "message": "Á hliðarslá"
+    },
+    "displayFavicons": {
+        "message": "Birta táknmyndir í lista samhengisvalmyndar"
+    },
+    "displayExifSummary": {
+        "message": "Samantekt"
+    },
+    "disableAltClick": {
+        "message": "Gera táknmyndareiti óvirka (Alt + smella)"
+    },
+    "resetPreferences": {
+        "message": "Endurstilla kjörstillingar á sjálfgefnar stillingar"
+    },
+    "forceSearchEnginesReload": {
+        "message": "Þvinga endurhleðslu á sjálfgefnum leitarvélalista"
+    },
+    "forceFaviconsReload": {
+        "message": "Þvinga endurhleðslu á táknmyndum"
+    },
+    "restriction": {
+        "message": "Ef hliðarsláin er ekki þegar opin, þá gætirðu þurft að velja táknið 'Birta hliðarslár' í verkfærastiku vafrans."
+    },
+    "reverseImage": {
+        "message": "Að auki er ekki hægt að birta endurkvæmar leitarniðurstöður mynda í hliðarslánni."
+    },
+    "siteSearch": {
+        "message": "Leitarvél til að leita á virku vefsvæði:"
+    },
+    "header9": {
+        "message": "Ítarlegir eiginleikar"
+    },
+    "useRegex": {
+        "message": "Nota reglulegar segðir til að byggja samhengisvalmyndina"
+    },
+    "regexNote": {
+        "message": "Þessi eiginleiki á ekki við táknmyndareitina."
+    },
+    "subheader62": {
+        "message": "Bæta við nýrri möppu"
+    },
+    "folderName": {
+        "message": "Heiti möppu"
+    },
+    "folder": {
+        "message": "mappa"
+    },
+    "addFolder": {
+        "message": "Bæta við möppu"
+    },
+    "keyboardShortcut": {
+        "message": "Flýtileiðir"
+    },
+    "header10": {
+        "message": "Fjölleitarvalkostir"
+    },
+    "multisearchIntro": {
+        "message": "Opnaðu margar leitarniðurstöður/flipa"
+    },
+    "multiNewWindow": {
+        "message": "Í nýjum glugga"
+    },
+    "multiAfterLastTab": {
+        "message": "Eftir síðasta flipann í núverandi glugga"
+    },
+    "multiActiveTab": {
+        "message": "Rétt á eftir virka flipanum í núverandi glugga"
+    },
+    "privacy": {
+        "message": "Gera nýjan glugga einkamál"
+    },
+    "reminder": {
+        "message": "Áminning"
+    },
+    "enableDownloadsReminder": {
+        "message": "virkjaðu niðurhalsheimildir til að flytja út leitarvélarnar þínar."
+    },
+    "header11": {
+        "message": "Tákn Taflavalkostir"
+    },
+    "quickIconGrid": {
+        "message": "Sýndu táknhnitinn strax eftir að texti hefur verið valinn"
+    },
+    "closeGridOnMouseOut": {
+        "message": "Lokaðu táknatöflunni á músinni út"
+    },
+    "xOffset": {
+        "message": "Lárétt frávik á táknhnitinu:"
+    },
+    "yOffset": {
+        "message": "Lóðrétt frávik á táknhnitnum:"
+    },
+    "clearKeyboardShortcuts": {
+        "message": "Hreinsaðu alla flýtilykla"
+    },
+    "subheader63": {
+        "message": "Bættu við nýrri gervigreindarkvaðningu"
+    },
+    "subheader64": {
+        "message": "Bæta við skiltákni"
+    },
+    "testChatGPT": {
+        "message": "Prófaðu gervigreind hvetja"
+    },
+    "addChatGPTPrompt": {
+        "message": "Bæta við gervigreindarkvaðningu"
+    },
+    "promptShow": {
+        "message": "Sýna kvaðningu í rist eða samhengisvalmynd"
+    },
+    "promptName": {
+        "message": "Hvetja nafn"
+    },
+    "prompt": {
+        "message": "Hvetja"
+    },
+    "overwriteSearchEngines": {
+        "message": "Skrifaðu yfir núverandi leitarvélar með innfluttu leitarvélunum"
+    },
+    "removeFolderConfirmPrefix": {
+        "message": "Ertu viss um að þú viljir fjarlægja möppuna "
+    },
+    "removeFolderConfirmSuffix": {
+        "message": " og allt innihald þess?"
+    },
+    "removeSearchEngineConfirm": {
+        "message": "Ertu viss um að þú viljir fjarlægja leitarvélina "
+    },
+    "popupBlockedMessage": {
+        "message": "Sprettigluggi lokaður! Vinsamlegast leyfðu sprettiglugga fyrir þessa síðu."
+    },
+    "__WET_LOCALE__": {
+        "message": "is"
+    }
 }

@@ -1,452 +1,365 @@
 {
-	"extensionName": {
-		"message": "Context Search",
-		"description": "Name of the extension",
-		"hash": "dc46af1f918347f13872ba3b1acf5cb5"
-	},
-	"extensionDescription": {
-		"message": "사전 지정된 목록에서 검색 엔진을 사용하여 선택한 텍스트를 검색합니다.",
-		"description": "Description of the extension",
-		"hash": "b8f612ae1be0699e4ac144ebdd9408b8"
-	},
-	"multisearch": {
-		"message": "는 여러 개의 검색 엔진을 동시에 사용하는 검색입니다.",
-		"description": "multi-search - it's a search with multiple search engines simultaneously.",
-		"hash": "d91d9731eeb51cab08e5db4231c3b539"
-	},
-	"multisearchHowTo": {
-		"message": "검색 엔진을 포함하려면 중간 확인란을 선택하십시오 ",
-		"hash": "45d8a4cc6705ce14bb465c1a603886f7"
-	},
-	"multisearchLaunch": {
-		"message": "시작할 수 있습니다 ",
-		"hash": "50aea7f78b7f283fce6309cb046d922b"
-	},
-	"multisearchEnd": {
-		"message": "컨텍스트 메뉴 또는 검색 주소창을 통해 입력:",
-		"hash": "93175e4d6a2f2b01a19a17c09ac98750"
-	},
-	"pageTitle": {
-		"message": "컨텍스트 검색 환경 설정",
-		"hash": "85459cf0f20967bcc8995dd2257f6ba2"
-	},
-	"header1": {
-		"message": "검색 결과는 어디에 표시됩니까?",
-		"hash": "55b5b2535226c23995d9220e9f01e7c9"
-	},
-	"newTab": {
-		"message": "새 탭에서",
-		"hash": "ed02b96ab3009dd9f8a3329e14c20ecd"
-	},
-	"sameTab": {
-		"message": "같은 탭에서",
-		"hash": "8f83dae466a72a4c1f8c93e2ddc16f89"
-	},
-	"newWindow": {
-		"message": "새 창에서",
-		"hash": "dd5cfb4d20eb4b6f9d6e12c02e8f48e3"
-	},
-	"active": {
-		"message": "새 탭 또는 창을 활성화하십시오",
-		"hash": "3588f7008b34105c5a590905b489e8ba"
-	},
-	"position": {
-		"message": "마지막 탭 뒤에 검색 결과 표시",
-		"hash": "6f1385f89667221e78b453799755c534"
-	},
-	"header3": {
-		"message": "컨텍스트 메뉴의 옵션 위치",
-		"hash": "cc53b51192c00cf073c75573e910c712"
-	},
-	"subheader31": {
-		"message": "컨텍스트 메뉴에서 옵션 메뉴를 어디에 표시 하시겠습니까?",
-		"hash": "97f92ec06abae7047823b89e7cdd35aa"
-	},
-	"bottom": {
-		"message": "바닥에",
-		"hash": "dbc939fac3704f3bb5db5534c521a560"
-	},
-	"top": {
-		"message": "정상",
-		"hash": "7eb84bbe333a29135c13bb749b5a1bdf"
-	},
-	"hide": {
-		"message": "\"(옵션 메뉴 숨기기)",
-		"hash": "66545b38432fb9f7cec55f9bd1bcb476"
-	},
-	"header5": {
-		"message": "검색 엔진 가져 오기 / 내보내기",
-		"hash": "aff674b25de54fb6d1a8b94f0992e2e7"
-	},
-	"import": {
-		"message": "로컬 디스크에서 JSON 가져 오기",
-		"hash": "efa8b5b957c983016114c1687692a917"
-	},
-	"export": {
-		"message": "검색 엔진을 JSON으로 내보내기",
-		"hash": "4cbfa9bc7ce7a876967887dc8b3d80bb"
-	},
-	"download": {
-		"message": "로컬 디스크로 내보내기",
-		"hash": "9b7395778b59c67d44fb310a60cbec1f"
-	},
-	"header2": {
-		"message": "파비콘과 아이콘",
-		"hash": "4c972ef4ffb7e90163b9294509fea65d"
-	},
-	"getFavicons": {
-		"message": "컨텍스트 메뉴 목록에 즐겨 찾기 아이콘 표시",
-		"hash": "7036d3e65d70351c41dfa59e397121b3"
-	},
-	"note": {
-		"message": "이 기능은 Firefox 56 이상이 필요합니다.",
-		"hash": "f3bb15e6696904cf038aea689a0a02da"
-	},
-	"header4": {
-		"message": "검색 옵션",
-		"hash": "ce6416d0e13a773a9b6c1b03a43982d4"
-	},
-	"exactMatch": {
-		"message": "정확한 문자열 일치 검색",
-		"hash": "779d6b3e9f3fe9654fe3549a21a06550"
-	},
-	"gridMode": {
-		"message": "검색 엔진 목록 대신 아이콘 그리드 표시",
-		"hash": "fb28a2f15ee692ae8862f2eed52cdede"
-	},
-	"warning": {
-		"message": "경고:이 기능을 사용하면 다른 확장 프로그램의 상황에 맞는 메뉴가 표시되지 않습니다.",
-		"hash": "b92a893b194575ca0bd0541cd80d4aa6"
-	},
-	"savePreferences": {
-		"message": "환경 설정 저장",
-		"hash": "7afab2f751102f4f4154ec70f4a1a0cd"
-	},
-	"header6": {
-		"message": "컨텍스트 메뉴 또는 그리드에 어떤 검색 엔진을 표시 하시겠습니까?",
-		"hash": "4bec74f00dd1574f3c4a5229035c3f21"
-	},
-	"clearAll": {
-		"message": "모두 지우기",
-		"hash": "cce60e6cbfaee4ec6fac0a16a8bd383d"
-	},
-	"selectAll": {
-		"message": "모두 선택",
-		"hash": "26561e6b6807c0c48ce2a3ee81adad87"
-	},
-	"sortAlphabetically": {
-		"message": "알파벳순 정렬",
-		"hash": "9dbba2e2d73fbe9d34b492113a47dc86"
-	},
-	"showAdvancedFeatures": {
-		"message": "고급 기능 표시",
-		"hash": "adab8345d6d3749a2687addeb95aa6a0"
-	},
-	"hideAdvancedFeatures": {
-		"message": "고급 기능 숨기기",
-		"hash": "6d0f963850902a32f1e4cde900271ec3"
-	},
-	"reset": {
-		"message": "재설정",
-		"hash": "0d25968a7dfc21f95043a86dd5373b81"
-	},
-	"subheader61": {
-		"message": "새 검색 엔진 추가",
-		"hash": "df8ef6317cccd7767129689b409c7555"
-	},
-	"showSearchEngine": {
-		"message": "그리드 또는 상황에 맞는 메뉴에 검색 엔진 표시",
-		"hash": "fd116637c97d52564b8caab4155b7e14"
-	},
-	"searchEngineName": {
-		"message": "검색 엔진 이름",
-		"hash": "66a6254e959765667c76a05c3697399d"
-	},
-	"placeHolderKeyword": {
-		"message": "키워드",
-		"hash": "a715ce8d52a556c7541e52a39273b8e4"
-	},
-	"warningText": {
-		"message": "경고",
-		"hash": "d02ba8f1a5b9fd49d892558d83e71d59"
-	},
-	"keyboardShortcutWarning": {
-		"message": "모든 키 조합이 작동하는 것은 아닙니다. 키보드 단축키는 일반적으로 Firefox 명령용으로 예약되어 있으므로 macOS의 CMD 또는 Windows 또는 Linux의 CTRL로 시작하지 않을 수 있습니다.",
-		"hash": "a87da357c72be4e165534f8a068a00a4"
-	},
-	"placeHolderKeyboardShortcut": {
-		"message": "키보드 단축키",
-		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
-	},
-	"multipleSearchEngines": {
-		"message": "다중 검색에 포함",
-		"hash": "795672c778b61e3785aa2fff7dca91ed"
-	},
-	"searchEngineURL": {
-		"message": "검색 엔진 URL",
-		"hash": "f5b1aa2bdb81d4357409d3ecb87bc1e3"
-	},
-	"regex": {
-		"message": "정규식",
-		"hash": "836b4e8f189b0435476c917699858782"
-	},
-	"testSearchEngine": {
-		"message": "테스트 검색 엔진",
-		"hash": "138ac2e49b86e7dc4a4e71a7f15dd7b6"
-	},
-	"addSearchEngine": {
-		"message": "검색 엔진 추가",
-		"hash": "0f5b60489cf3500e92871eb17e71ce05"
-	},
-	"addSeparator": {
-		"message": "구분 기호 추가",
-		"hash": "e7dee3308538cf240c29661ce7fcd41d"
-	},
-	"clear": {
-		"message": "클리어",
-		"hash": "bcf7e7587a412ea36d869d51026dfd6d"
-	},
-	"disableGrid": {
-		"message": "아이콘 그리드 비활성화",
-		"hash": "bb07641e41b320b91b3f1338592ecf4d"
-	},
-	"move": {
-		"message": "이동",
-		"hash": "fe5500b1b2c360308db25a09f9710ade"
-	},
-	"up": {
-		"message": "위",
-		"hash": "87437c5e684807c07a63c62d675b63c3"
-	},
-	"down": {
-		"message": "내려가는",
-		"hash": "d877ad63806f1a96855f3fb1424b5d91"
-	},
-	"remove": {
-		"message": "제거",
-		"hash": "3908a268c854fe64242e38845dbb7c81"
-	},
-	"multipleSearchEnginesSearch": {
-		"message": "이 검색 엔진을 다중 검색에 포함하십시오",
-		"hash": "e54c504cdf841f4308b0140c0361420c"
-	},
-	"notifySavedPreferences": {
-		"message": "저장된 환경 설정.",
-		"hash": "26ae42e6a7533aa03cf8e162fd4859fd"
-	},
-	"notifySearchEngineAdded": {
-		"message": "검색 엔진이 추가되었습니다.",
-		"hash": "ee1b7a1102ec3b06c1960e84f814b1c6"
-	},
-	"titleShowEngine": {
-		"message": "컨텍스트 메뉴 또는 그리드에이 검색 엔진 표시",
-		"hash": "5c7ec6b539f06fe17a5e3f9832530eea"
-	},
-	"notifyEnableStorageSync": {
-		"message": "'about: config'에서'webextensions.storage.sync.enabled'플래그가'true'로 설정되어 있는지 확인하십시오. 그렇지 않으면 컨텍스트 검색이 작동하지 않습니다.",
-		"hash": "273ab612652228bc54090e98d1ac1b15"
-	},
-	"notifySearchEnginesLoaded": {
-		"message": "기본 검색 엔진 목록이로드되었습니다.",
-		"hash": "640d2193c8155e5988fbeb3453a9737d"
-	},
-	"notifySearchEngineNotFound": {
-		"message": "현재 웹 페이지에서 검색 엔진을 찾을 수 없습니다",
-		"hash": "89a0f7352dea5184b23f367f8c05b079"
-	},
-	"titleMultipleSearchEngines": {
-		"message": "여러 검색 엔진 검색",
-		"hash": "016e3015d7461d1d0fbf20c60bd9ff0f"
-	},
-	"titleAISearch": {
-		"message": "AI 검색",
-		"hash": "6ae434bff120e9ce2a6e459af56f4db3"
-	},
-	"titleSiteSearch": {
-		"message": "에서이 사이트를 검색하십시오",
-		"hash": "5a76bc5c095707f27e2ed235d2f3ccb6"
-	},
-	"titleOptions": {
-		"message": "옵션",
-		"hash": "531dad0078a72193602b18495f0ad4e9"
-	},
-	"windowTitle": {
-		"message": "검색 결과",
-		"hash": "0a26dab592394ea9548c1a5588c0cd0d"
-	},
-	"omniboxDescription": {
-		"message": "키워드로 컨텍스트 검색을 사용하여 검색하십시오. 사용법: cs [keyword] [검색어] (예:'cs w Linux'는 Wikipedia에서'Linux'라는 용어를 검색합니다)",
-		"hash": "e2406855d2445278d8becb4e11f772b0"
-	},
-	"notifyUsage": {
-		"message": "사용: cs [키워드] [검색어] (예: cs w Linux)",
-		"hash": "7ce09b213b936aab58085cc84b20b01c"
-	},
-	"notifySearchEngineWithKeyword": {
-		"message": "키워드가있는 검색 엔진",
-		"hash": "bd232fd868eb1bbd65e4977f5577a0a8"
-	},
-	"notifyUnknown": {
-		"message": "알 수 없음.",
-		"hash": "075e9adb0de4037be7b0989733dd51ab"
-	},
-	"notifySearchEngineUrlRequired": {
-		"message": "유효한 검색 엔진 URL을 입력하십시오.",
-		"hash": "b4610959ffa640c457a9ae1fbfa7943c"
-	},
-	"header7": {
-		"message": "재설정 옵션",
-		"hash": "5c55526198c8075a1695b98e3cd32e2f"
-	},
-	"header8": {
-		"message": "어떤 EXIF 태그를 표시해야합니까?",
-		"hash": "dd5fd339289964d309e5020ed1e9610c"
-	},
-	"sidebar": {
-		"message": "사이드 바에서",
-		"hash": "ea4b3f2f47d5ea8c594036cbdbf6e42b"
-	},
-	"displayFavicons": {
-		"message": "컨텍스트 메뉴 목록에 즐겨 찾기 아이콘 표시",
-		"hash": "7036d3e65d70351c41dfa59e397121b3"
-	},
-	"displayExifSummary": {
-		"message": "요약",
-		"hash": "632626a730da62a89a4d124241e77273"
-	},
-	"disableAltClick": {
-		"message": "아이콘 그리드 비활성화 (Alt + 클릭)",
-		"hash": "05b09381e8d9e3b808cb5fa5c540af91"
-	},
-	"resetPreferences": {
-		"message": "기본 설정을 기본 설정으로 재설정",
-		"hash": "5e6bfbeafc20af866246c982de2a1067"
-	},
-	"forceSearchEnginesReload": {
-		"message": "기본 검색 엔진 목록을 강제로 다시로드",
-		"hash": "3736dde3828bcec7e5081dc1a450916b"
-	},
-	"forceFaviconsReload": {
-		"message": "강제 즐겨 찾기 아이콘을 새로 고침",
-		"hash": "1fea5d330fd5c105ce6ba68ade3be299"
-	},
-	"restriction": {
-		"message": "사이드 바가 아직 열려 있지 않은 경우 브라우저 도구 모음에서 '사이드 바 표시'아이콘을 클릭해야 할 수 있습니다.",
-		"hash": "8687a8640f71498ea62eaa432791443c"
-	},
-	"reverseImage": {
-		"message": "또한 사이드 바에 역방향 이미지 검색 결과를 표시 할 수 없습니다.",
-		"hash": "db880c407ccd59031b92a75b7f7a677e"
-	},
-	"siteSearch": {
-		"message": "현재 사이트 검색을위한 검색 엔진 :",
-		"hash": "1aef8aa2adcad0a105bc24d0ac87fe4c"
-	},
-	"header9": {
-		"message": "고급 기능",
-		"hash": "64bdb129ceb0e431268d7c8199542e11"
-	},
-	"useRegex": {
-		"message": "정규식을 사용하여 상황에 맞는 메뉴 만들기",
-		"hash": "9d48895eae1e8a92e6a0b2a2bd0e0fa0"
-	},
-	"regexNote": {
-		"message": "이 기능은 아이콘 격자에 적용되지 않습니다.",
-		"hash": "2d301abb7cffcf3a4f41cc59dc52e828"
-	},
-	"subheader62": {
-		"message": "새 폴더 추가",
-		"hash": "3a46fe63f172c9cf1e4cf9753dc935f9"
-	},
-	"folderName": {
-		"message": "폴더 이름",
-		"hash": "66c685078184b7f5123e83f4b94097fe"
-	},
-	"folder": {
-		"message": "폴더",
-		"hash": "6fa625e07a474959d219b2abdaa8c39e"
-	},
-	"addFolder": {
-		"message": "폴더 추가",
-		"hash": "f6668a06fb140909b3f286d742c848c8"
-	},
-	"keyboardShortcut": {
-		"message": "키보드 단축키",
-		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
-	},
-	"header10": {
-		"message": "다중 검색 옵션",
-		"hash": "25b7321fc9e19e8e99598b40b96d2d52"
-	},
-	"multisearchIntro": {
-		"message": "여러 검색 결과/탭 열기",
-		"hash": "4536d63e7c6838b383fa5a71967e5933"
-	},
-	"multiNewWindow": {
-		"message": "새 창에서",
-		"hash": "dd5cfb4d20eb4b6f9d6e12c02e8f48e3"
-	},
-	"multiAfterLastTab": {
-		"message": "현재 창의 마지막 탭 뒤",
-		"hash": "ddd24d070e912ba19edff0c610e91e56"
-	},
-	"multiActiveTab": {
-		"message": "현재 창의 활성 탭 바로 뒤",
-		"hash": "580a6b556e35b0b48dca22506debb42c"
-	},
-	"privacy": {
-		"message": "새 창을 비공개로 설정",
-		"hash": "a2c9e60d71cf882080023ad80af8b903"
-	},
-	"reminder": {
-		"message": "알림",
-		"hash": "7764c333b42339d1f5edf71779799c41"
-	},
-	"enableDownloadsReminder": {
-		"message": "검색 엔진을 내보내려면 다운로드 권한을 활성화하십시오.",
-		"hash": "16e431f64c09354a2034b62338cab41c"
-	},
-	"header11": {
-		"message": "아이콘 그리드 옵션",
-		"hash": "cb2b6fc9b6c0ab15b1627704b612ca71"
-	},
-	"quickIconGrid": {
-		"message": "텍스트를 선택한 후 아이콘 그리드를 즉시 표시합니다.",
-		"hash": "6af6aafa529c63b4f4aef72c478e0db1"
-	},
-	"closeGridOnMouseOut": {
-		"message": "마우스 아웃 시 아이콘 그리드 닫기",
-		"hash": "fc2fcdd466209645b574677c6250e546"
-	},
-	"xOffset": {
-		"message": "아이콘 그리드의 수평 오프셋:",
-		"hash": "fb4e2747c20484c21a1cecb5142b9f80"
-	},
-	"yOffset": {
-		"message": "아이콘 그리드의 수직 오프셋:",
-		"hash": "49e08ac782b64fced86569f6dc56d82f"
-	},
-	"clearKeyboardShortcuts": {
-		"message": "모든 키보드 단축키 지우기",
-		"hash": "3745c3c2b77449e9606d8bf4e137e94f"
-	},
-	"overwriteSearchEngines": {
-		"message": "기존 검색엔진을 가져온 검색엔진으로 덮어쓰기",
-		"hash": "298f419a9e5661db408338fe08cc8ee0"
-	},
-	"removeFolderConfirmPrefix": {
-		"message": "Are you sure that you want to remove the folder "
-	},
-	"removeFolderConfirmSuffix": {
-		"message": " and all of its contents?"
-	},
-	"removeSearchEngineConfirm": {
-		"message": "Are you sure you want to remove the search engine "
-	},
-	"popupBlockedMessage": {
-		"message": "Popup blocked! Please allow popups for this site."
-	},
-	"__WET_LOCALE__": {
-		"message": "ko"
-	}
+    "extensionName": {
+        "message": "컨텍스트 검색",
+        "description": "Name of the extension"
+    },
+    "extensionDescription": {
+        "message": "사전 지정된 목록에서 검색 엔진을 사용하여 선택한 텍스트를 검색합니다.",
+        "description": "Description of the extension"
+    },
+    "multisearch": {
+        "message": "는 여러 개의 검색 엔진을 동시에 사용하는 검색입니다.",
+        "description": "multi-search - it's a search with multiple search engines simultaneously."
+    },
+    "multisearchHowTo": {
+        "message": "검색 엔진을 포함하려면 중간 확인란을 선택하십시오 "
+    },
+    "multisearchLaunch": {
+        "message": "시작할 수 있습니다 "
+    },
+    "multisearchEnd": {
+        "message": "컨텍스트 메뉴 또는 검색 주소창을 통해 입력:"
+    },
+    "pageTitle": {
+        "message": "컨텍스트 검색 환경 설정"
+    },
+    "header1": {
+        "message": "검색 결과는 어디에 표시됩니까?"
+    },
+    "newTab": {
+        "message": "새 탭에서"
+    },
+    "sameTab": {
+        "message": "같은 탭에서"
+    },
+    "newWindow": {
+        "message": "새 창에서"
+    },
+    "active": {
+        "message": "새 탭 또는 창을 활성화하십시오"
+    },
+    "position": {
+        "message": "마지막 탭 뒤에 검색 결과 표시"
+    },
+    "header3": {
+        "message": "컨텍스트 메뉴의 옵션 위치"
+    },
+    "subheader31": {
+        "message": "컨텍스트 메뉴에서 옵션 메뉴를 어디에 표시 하시겠습니까?"
+    },
+    "bottom": {
+        "message": "바닥에"
+    },
+    "top": {
+        "message": "정상"
+    },
+    "hide": {
+        "message": "\"(옵션 메뉴 숨기기)"
+    },
+    "header5": {
+        "message": "검색 엔진 가져 오기 / 내보내기"
+    },
+    "import": {
+        "message": "로컬 디스크에서 JSON 가져 오기"
+    },
+    "export": {
+        "message": "검색 엔진을 JSON으로 내보내기"
+    },
+    "download": {
+        "message": "로컬 디스크로 내보내기"
+    },
+    "header2": {
+        "message": "파비콘과 아이콘"
+    },
+    "getFavicons": {
+        "message": "컨텍스트 메뉴 목록에 즐겨 찾기 아이콘 표시"
+    },
+    "note": {
+        "message": "이 기능은 Firefox 56 이상이 필요합니다."
+    },
+    "header4": {
+        "message": "검색 옵션"
+    },
+    "exactMatch": {
+        "message": "정확한 문자열 일치 검색"
+    },
+    "gridMode": {
+        "message": "검색 엔진 목록 대신 아이콘 그리드 표시"
+    },
+    "warning": {
+        "message": "경고:이 기능을 사용하면 다른 확장 프로그램의 상황에 맞는 메뉴가 표시되지 않습니다."
+    },
+    "savePreferences": {
+        "message": "환경 설정 저장"
+    },
+    "header6": {
+        "message": "컨텍스트 메뉴 또는 그리드에 어떤 검색 엔진을 표시 하시겠습니까?"
+    },
+    "clearAll": {
+        "message": "모두 지우기"
+    },
+    "selectAll": {
+        "message": "모두 선택"
+    },
+    "sortAlphabetically": {
+        "message": "알파벳순 정렬"
+    },
+    "showAdvancedFeatures": {
+        "message": "고급 기능 표시"
+    },
+    "hideAdvancedFeatures": {
+        "message": "고급 기능 숨기기"
+    },
+    "reset": {
+        "message": "재설정"
+    },
+    "subheader61": {
+        "message": "새 검색 엔진 추가"
+    },
+    "showSearchEngine": {
+        "message": "그리드 또는 상황에 맞는 메뉴에 검색 엔진 표시"
+    },
+    "searchEngineName": {
+        "message": "검색 엔진 이름"
+    },
+    "placeHolderKeyword": {
+        "message": "키워드"
+    },
+    "warningText": {
+        "message": "경고"
+    },
+    "keyboardShortcutWarning": {
+        "message": "모든 키 조합이 작동하는 것은 아닙니다. 키보드 단축키는 일반적으로 Firefox 명령용으로 예약되어 있으므로 macOS의 CMD 또는 Windows 또는 Linux의 CTRL로 시작하지 않을 수 있습니다."
+    },
+    "placeHolderKeyboardShortcut": {
+        "message": "키보드 단축키"
+    },
+    "multipleSearchEngines": {
+        "message": "다중 검색에 포함"
+    },
+    "searchEngineURL": {
+        "message": "검색 엔진 URL"
+    },
+    "regex": {
+        "message": "정규식"
+    },
+    "testSearchEngine": {
+        "message": "테스트 검색 엔진"
+    },
+    "addSearchEngine": {
+        "message": "검색 엔진 추가"
+    },
+    "addSeparator": {
+        "message": "구분 기호 추가"
+    },
+    "clear": {
+        "message": "클리어"
+    },
+    "disableGrid": {
+        "message": "아이콘 그리드 비활성화"
+    },
+    "move": {
+        "message": "이동"
+    },
+    "up": {
+        "message": "위"
+    },
+    "down": {
+        "message": "내려가는"
+    },
+    "remove": {
+        "message": "제거"
+    },
+    "multipleSearchEnginesSearch": {
+        "message": "이 검색 엔진을 다중 검색에 포함하십시오"
+    },
+    "notifySavedPreferences": {
+        "message": "저장된 환경 설정."
+    },
+    "notifySearchEngineAdded": {
+        "message": "검색 엔진이 추가되었습니다."
+    },
+    "titleShowEngine": {
+        "message": "컨텍스트 메뉴 또는 그리드에이 검색 엔진 표시"
+    },
+    "notifyEnableStorageSync": {
+        "message": "'about: config'에서'webextensions.storage.sync.enabled'플래그가'true'로 설정되어 있는지 확인하십시오. 그렇지 않으면 컨텍스트 검색이 작동하지 않습니다."
+    },
+    "notifySearchEnginesLoaded": {
+        "message": "기본 검색 엔진 목록이로드되었습니다."
+    },
+    "notifySearchEngineNotFound": {
+        "message": "현재 웹 페이지에서 검색 엔진을 찾을 수 없습니다"
+    },
+    "titleMultipleSearchEngines": {
+        "message": "여러 검색 엔진 검색"
+    },
+    "titleAISearch": {
+        "message": "AI 검색"
+    },
+    "titleSiteSearch": {
+        "message": "에서이 사이트를 검색하십시오"
+    },
+    "titleOptions": {
+        "message": "옵션"
+    },
+    "windowTitle": {
+        "message": "검색 결과"
+    },
+    "omniboxDescription": {
+        "message": "키워드로 컨텍스트 검색을 사용하여 검색하십시오. 사용법: cs [keyword] [검색어] (예:'cs w Linux'는 Wikipedia에서'Linux'라는 용어를 검색합니다)"
+    },
+    "notifyUsage": {
+        "message": "사용: cs [키워드] [검색어] (예: cs w Linux)"
+    },
+    "notifySearchEngineWithKeyword": {
+        "message": "키워드가있는 검색 엔진"
+    },
+    "notifyUnknown": {
+        "message": "알 수 없음."
+    },
+    "notifySearchEngineUrlRequired": {
+        "message": "유효한 검색 엔진 URL을 입력하십시오."
+    },
+    "header7": {
+        "message": "재설정 옵션"
+    },
+    "header8": {
+        "message": "어떤 EXIF 태그를 표시해야합니까?"
+    },
+    "sidebar": {
+        "message": "사이드 바에서"
+    },
+    "displayFavicons": {
+        "message": "컨텍스트 메뉴 목록에 즐겨 찾기 아이콘 표시"
+    },
+    "displayExifSummary": {
+        "message": "요약"
+    },
+    "disableAltClick": {
+        "message": "아이콘 그리드 비활성화 (Alt + 클릭)"
+    },
+    "resetPreferences": {
+        "message": "기본 설정을 기본 설정으로 재설정"
+    },
+    "forceSearchEnginesReload": {
+        "message": "기본 검색 엔진 목록을 강제로 다시로드"
+    },
+    "forceFaviconsReload": {
+        "message": "강제 즐겨 찾기 아이콘을 새로 고침"
+    },
+    "restriction": {
+        "message": "사이드 바가 아직 열려 있지 않은 경우 브라우저 도구 모음에서 '사이드 바 표시'아이콘을 클릭해야 할 수 있습니다."
+    },
+    "reverseImage": {
+        "message": "또한 사이드 바에 역방향 이미지 검색 결과를 표시 할 수 없습니다."
+    },
+    "siteSearch": {
+        "message": "현재 사이트 검색을위한 검색 엔진 :"
+    },
+    "header9": {
+        "message": "고급 기능"
+    },
+    "useRegex": {
+        "message": "정규식을 사용하여 상황에 맞는 메뉴 만들기"
+    },
+    "regexNote": {
+        "message": "이 기능은 아이콘 격자에 적용되지 않습니다."
+    },
+    "subheader62": {
+        "message": "새 폴더 추가"
+    },
+    "folderName": {
+        "message": "폴더 이름"
+    },
+    "folder": {
+        "message": "폴더"
+    },
+    "addFolder": {
+        "message": "폴더 추가"
+    },
+    "keyboardShortcut": {
+        "message": "키보드 단축키"
+    },
+    "header10": {
+        "message": "다중 검색 옵션"
+    },
+    "multisearchIntro": {
+        "message": "여러 검색 결과/탭 열기"
+    },
+    "multiNewWindow": {
+        "message": "새 창에서"
+    },
+    "multiAfterLastTab": {
+        "message": "현재 창의 마지막 탭 뒤"
+    },
+    "multiActiveTab": {
+        "message": "현재 창의 활성 탭 바로 뒤"
+    },
+    "privacy": {
+        "message": "새 창을 비공개로 설정"
+    },
+    "reminder": {
+        "message": "알림"
+    },
+    "enableDownloadsReminder": {
+        "message": "검색 엔진을 내보내려면 다운로드 권한을 활성화하십시오."
+    },
+    "header11": {
+        "message": "아이콘 그리드 옵션"
+    },
+    "quickIconGrid": {
+        "message": "텍스트를 선택한 후 아이콘 그리드를 즉시 표시합니다."
+    },
+    "closeGridOnMouseOut": {
+        "message": "마우스 아웃 시 아이콘 그리드 닫기"
+    },
+    "xOffset": {
+        "message": "아이콘 그리드의 수평 오프셋:"
+    },
+    "yOffset": {
+        "message": "아이콘 그리드의 수직 오프셋:"
+    },
+    "clearKeyboardShortcuts": {
+        "message": "모든 키보드 단축키 지우기"
+    },
+    "subheader63": {
+        "message": "새로운 AI 프롬프트 추가"
+    },
+    "subheader64": {
+        "message": "구분 기호 추가"
+    },
+    "testChatGPT": {
+        "message": "AI 프롬프트 테스트"
+    },
+    "addChatGPTPrompt": {
+        "message": "AI 프롬프트 추가"
+    },
+    "promptShow": {
+        "message": "그리드 또는 컨텍스트 메뉴에 프롬프트 표시"
+    },
+    "promptName": {
+        "message": "프롬프트 이름"
+    },
+    "prompt": {
+        "message": "프롬프트"
+    },
+    "overwriteSearchEngines": {
+        "message": "기존 검색엔진을 가져온 검색엔진으로 덮어쓰기"
+    },
+    "removeFolderConfirmPrefix": {
+        "message": "폴더를 제거하시겠습니까? "
+    },
+    "removeFolderConfirmSuffix": {
+        "message": " 그리고 그 모든 콘텐츠?"
+    },
+    "removeSearchEngineConfirm": {
+        "message": "검색 엔진을 제거하시겠습니까? "
+    },
+    "popupBlockedMessage": {
+        "message": "팝업이 차단되었습니다! 이 사이트의 팝업을 허용해 주세요."
+    },
+    "__WET_LOCALE__": {
+        "message": "ko"
+    }
 }

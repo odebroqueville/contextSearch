@@ -1,0 +1,365 @@
+{
+    "extensionName": {
+        "message": "Kontextuell sökning",
+        "description": "Name of the extension"
+    },
+    "extensionDescription": {
+        "message": "Söker i den valda texten med hjälp av en sökmotor från en fördefinierad lista.",
+        "description": "Description of the extension"
+    },
+    "multisearch": {
+        "message": " är en sökning med flera sökmotorer samtidigt.",
+        "description": "multi-search - it's a search with multiple search engines simultaneously."
+    },
+    "multisearchHowTo": {
+        "message": "Markera kryssrutan i mitten för att inkludera en sökmotor i en"
+    },
+    "multisearchLaunch": {
+        "message": "Du kan starta en"
+    },
+    "multisearchEnd": {
+        "message": "via snabbmenyn eller via omniboxen genom att skriva:"
+    },
+    "pageTitle": {
+        "message": "Inställningar för kontextsökning"
+    },
+    "header1": {
+        "message": "Var ska sökresultaten visas?"
+    },
+    "newTab": {
+        "message": "I en ny flik"
+    },
+    "sameTab": {
+        "message": "På samma flik"
+    },
+    "newWindow": {
+        "message": "I ett nytt fönster"
+    },
+    "active": {
+        "message": "Gör den nya fliken eller det nya fönstret aktivt"
+    },
+    "position": {
+        "message": "Visa sökresultaten efter den sista fliken"
+    },
+    "header3": {
+        "message": "Placering av alternativ i snabbmenyn"
+    },
+    "subheader31": {
+        "message": "Var vill du att alternativmenyn ska visas i snabbmenyn?"
+    },
+    "bottom": {
+        "message": "Längst ner"
+    },
+    "top": {
+        "message": "Högst upp"
+    },
+    "hide": {
+        "message": "Varken eller (dölj alternativmenyn)"
+    },
+    "header5": {
+        "message": "Importera/exportera sökmotorer"
+    },
+    "import": {
+        "message": "Importera JSON från lokal disk"
+    },
+    "export": {
+        "message": "Exportera sökmotorer till JSON"
+    },
+    "download": {
+        "message": "Exportera till lokal disk"
+    },
+    "header2": {
+        "message": "Favicons och ikoner"
+    },
+    "getFavicons": {
+        "message": "Visa favicons i listan över snabbmenyer"
+    },
+    "note": {
+        "message": "Denna funktion kräver Firefox 56 eller senare."
+    },
+    "header4": {
+        "message": "Sökalternativ"
+    },
+    "exactMatch": {
+        "message": "Sök efter en exakt strängmatchning"
+    },
+    "gridMode": {
+        "message": "Visa ett rutnät med ikoner i stället för en lista över sökmotorer"
+    },
+    "warning": {
+        "message": "Varning för detta: Observera att om du aktiverar den här funktionen kan inte snabbmenyer från andra tillägg visas."
+    },
+    "savePreferences": {
+        "message": "Spara inställningar"
+    },
+    "header6": {
+        "message": "Vilka sökmotorer vill du ska visas i snabbmenyn eller i rutnätet?"
+    },
+    "clearAll": {
+        "message": "Rensa alla"
+    },
+    "selectAll": {
+        "message": "Välj alla"
+    },
+    "sortAlphabetically": {
+        "message": "Sortera i alfabetisk ordning"
+    },
+    "showAdvancedFeatures": {
+        "message": "Visa avancerade funktioner"
+    },
+    "hideAdvancedFeatures": {
+        "message": "Dölj avancerade funktioner"
+    },
+    "reset": {
+        "message": "Återställning"
+    },
+    "subheader61": {
+        "message": "Lägg till en ny sökmotor"
+    },
+    "showSearchEngine": {
+        "message": "Visa sökmotor i rutnätet eller i snabbmenyn"
+    },
+    "searchEngineName": {
+        "message": "Sökmotorns namn"
+    },
+    "placeHolderKeyword": {
+        "message": "Sökord"
+    },
+    "warningText": {
+        "message": "Varning"
+    },
+    "keyboardShortcutWarning": {
+        "message": "inte alla tangentkombinationer fungerar. Kortkommandon får inte börja med CMD på macOS eller CTRL på Windows eller Linux, eftersom dessa vanligtvis är reserverade för Firefox-kommandon."
+    },
+    "placeHolderKeyboardShortcut": {
+        "message": "Kortkommando på tangentbordet"
+    },
+    "multipleSearchEngines": {
+        "message": "Inkludera i multi-sökning"
+    },
+    "searchEngineURL": {
+        "message": "URL för sökmotor"
+    },
+    "regex": {
+        "message": "Reguljärt uttryck"
+    },
+    "testSearchEngine": {
+        "message": "Testa sökmotor"
+    },
+    "addSearchEngine": {
+        "message": "Lägg till sökmotor"
+    },
+    "addSeparator": {
+        "message": "Lägg till en separator"
+    },
+    "clear": {
+        "message": "Klar"
+    },
+    "disableGrid": {
+        "message": "Inaktivera rutnätet med ikoner"
+    },
+    "move": {
+        "message": "Flytta"
+    },
+    "up": {
+        "message": "upp"
+    },
+    "down": {
+        "message": "ner"
+    },
+    "remove": {
+        "message": "Ta bort"
+    },
+    "multipleSearchEnginesSearch": {
+        "message": "Inkludera denna sökmotor i en multisökning"
+    },
+    "notifySavedPreferences": {
+        "message": "Sparade inställningar."
+    },
+    "notifySearchEngineAdded": {
+        "message": "Sökmotor tillagd."
+    },
+    "titleShowEngine": {
+        "message": "Visa denna sökmotor i snabbmenyn eller i rutnätet"
+    },
+    "notifyEnableStorageSync": {
+        "message": "Se till att flaggan \"webextensions.storage.sync.enabled\" är inställd på \"true\" i \"about:config\", annars fungerar inte Context Search."
+    },
+    "notifySearchEnginesLoaded": {
+        "message": "Standardlistan över sökmotorer har laddats."
+    },
+    "notifySearchEngineNotFound": {
+        "message": "En sökmotor kunde inte hittas på den aktuella webbsidan"
+    },
+    "titleMultipleSearchEngines": {
+        "message": "Sök med flera sökmotorer"
+    },
+    "titleAISearch": {
+        "message": "AI-sökning"
+    },
+    "titleSiteSearch": {
+        "message": "Sök på denna webbplats med"
+    },
+    "titleOptions": {
+        "message": "Alternativ"
+    },
+    "windowTitle": {
+        "message": "Sökresultat för"
+    },
+    "omniboxDescription": {
+        "message": "Sök med hjälp av kontextsökning med nyckelord. Användning: cs [nyckelord] [söktermer] (t.ex. \"cs w Linux\" söker på Wikipedia efter termen \"Linux\")"
+    },
+    "notifyUsage": {
+        "message": "Användning: cs [nyckelord] [söktermer] (till exempel: cs w Linux)"
+    },
+    "notifySearchEngineWithKeyword": {
+        "message": "Sökmotor med nyckelord"
+    },
+    "notifyUnknown": {
+        "message": "är okänd."
+    },
+    "notifySearchEngineUrlRequired": {
+        "message": "Vänligen fyll i en giltig URL för sökmotorn."
+    },
+    "header7": {
+        "message": "Återställ alternativ"
+    },
+    "header8": {
+        "message": "Vilka EXIF-taggar ska visas?"
+    },
+    "sidebar": {
+        "message": "I sidofältet"
+    },
+    "displayFavicons": {
+        "message": "Visa favicons i listan över snabbmenyer"
+    },
+    "displayExifSummary": {
+        "message": "Sammanfattning"
+    },
+    "disableAltClick": {
+        "message": "Inaktivera ikonrutnätet (Alt + Klicka)"
+    },
+    "resetPreferences": {
+        "message": "Återställ inställningar till standardinställningar"
+    },
+    "forceSearchEnginesReload": {
+        "message": "Tvinga omladdning av standardlistan över sökmotorer"
+    },
+    "forceFaviconsReload": {
+        "message": "Tvinga favicons att laddas om"
+    },
+    "restriction": {
+        "message": "Om sidofältet inte redan är öppet kan du behöva klicka på ikonen \"Visa sidofält\" i webbläsarens verktygsfält."
+    },
+    "reverseImage": {
+        "message": "Det går inte heller att visa resultat från omvänd bildsökning i sidofältet."
+    },
+    "siteSearch": {
+        "message": "Sökmotor för sökning på aktuell webbplats:"
+    },
+    "header9": {
+        "message": "Avancerade funktioner"
+    },
+    "useRegex": {
+        "message": "Använda reguljära uttryck för att bygga upp snabbmenyn"
+    },
+    "regexNote": {
+        "message": "Den här funktionen gäller inte för ikonerna i rutnätet."
+    },
+    "subheader62": {
+        "message": "Lägg till en ny mapp"
+    },
+    "folderName": {
+        "message": "Mappens namn"
+    },
+    "folder": {
+        "message": "mapp"
+    },
+    "addFolder": {
+        "message": "Lägg till mapp"
+    },
+    "keyboardShortcut": {
+        "message": "Kortkommando på tangentbordet"
+    },
+    "header10": {
+        "message": "Alternativ för multisökning"
+    },
+    "multisearchIntro": {
+        "message": "Öppna flera sökresultat/flikar"
+    },
+    "multiNewWindow": {
+        "message": "I ett nytt fönster"
+    },
+    "multiAfterLastTab": {
+        "message": "Efter den sista fliken i det aktuella fönstret"
+    },
+    "multiActiveTab": {
+        "message": "Direkt efter den aktiva fliken i det aktuella fönstret"
+    },
+    "privacy": {
+        "message": "Gör nytt fönster privat"
+    },
+    "reminder": {
+        "message": "Påminnelse"
+    },
+    "enableDownloadsReminder": {
+        "message": "aktivera nedladdningsbehörigheter för att exportera dina sökmotorer."
+    },
+    "header11": {
+        "message": "Alternativ för ikoner i rutnätet"
+    },
+    "quickIconGrid": {
+        "message": "Omedelbar visning av ikonerna efter att texten har markerats"
+    },
+    "closeGridOnMouseOut": {
+        "message": "Stäng ikonrutnätet när musen försvinner"
+    },
+    "xOffset": {
+        "message": "Horisontell förskjutning av ikonerna: "
+    },
+    "yOffset": {
+        "message": "Vertikal förskjutning av ikonerna: "
+    },
+    "clearKeyboardShortcuts": {
+        "message": "Rensa alla kortkommandon på tangentbordet"
+    },
+    "subheader63": {
+        "message": "Lägg till en ny AI-prompt"
+    },
+    "subheader64": {
+        "message": "Lägg till en separator"
+    },
+    "testChatGPT": {
+        "message": "Test AI Frågeställning"
+    },
+    "addChatGPTPrompt": {
+        "message": "Lägg till AI-prompt"
+    },
+    "promptShow": {
+        "message": "Visa prompt i rutnätet eller i snabbmenyn"
+    },
+    "promptName": {
+        "message": "Namn på frågeformulär"
+    },
+    "prompt": {
+        "message": "Frågeställning"
+    },
+    "overwriteSearchEngines": {
+        "message": "Skriv över de befintliga sökmotorerna med de importerade sökmotorerna"
+    },
+    "removeFolderConfirmPrefix": {
+        "message": "Är du säker på att du vill ta bort mappen "
+    },
+    "removeFolderConfirmSuffix": {
+        "message": " och allt dess innehåll?"
+    },
+    "removeSearchEngineConfirm": {
+        "message": "Är du säker på att du vill ta bort sökmotorn "
+    },
+    "popupBlockedMessage": {
+        "message": "Popup blockerad! Vänligen tillåt popup-fönster för denna webbplats."
+    },
+    "__WET_LOCALE__": {
+        "message": "en"
+    }
+}

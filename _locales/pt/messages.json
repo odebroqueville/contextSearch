@@ -1,0 +1,365 @@
+{
+    "extensionName": {
+        "message": "Pesquisa de contexto",
+        "description": "Name of the extension"
+    },
+    "extensionDescription": {
+        "message": "Pesquisa o texto selecionado utilizando um motor de pesquisa a partir de uma lista pré-especificada.",
+        "description": "Description of the extension"
+    },
+    "multisearch": {
+        "message": " é uma pesquisa com vários motores de busca em simultâneo.",
+        "description": "multi-search - it's a search with multiple search engines simultaneously."
+    },
+    "multisearchHowTo": {
+        "message": "Marque a caixa de verificação do meio para incluir um motor de busca numa"
+    },
+    "multisearchLaunch": {
+        "message": "É possível lançar um"
+    },
+    "multisearchEnd": {
+        "message": "através do menu de contexto ou através da omnibox, digitando:"
+    },
+    "pageTitle": {
+        "message": "Preferências de pesquisa de contexto"
+    },
+    "header1": {
+        "message": "Onde devem aparecer os resultados da pesquisa?"
+    },
+    "newTab": {
+        "message": "Num novo separador"
+    },
+    "sameTab": {
+        "message": "No mesmo separador"
+    },
+    "newWindow": {
+        "message": "Numa nova janela"
+    },
+    "active": {
+        "message": "Tornar ativo o novo separador ou janela"
+    },
+    "position": {
+        "message": "Apresentar os resultados da pesquisa após o último separador"
+    },
+    "header3": {
+        "message": "Posição das opções no menu de contexto"
+    },
+    "subheader31": {
+        "message": "Onde pretende que o menu de opções apareça no menu de contexto?"
+    },
+    "bottom": {
+        "message": "Na parte inferior"
+    },
+    "top": {
+        "message": "No topo"
+    },
+    "hide": {
+        "message": "Nenhum (ocultar o menu de opções)"
+    },
+    "header5": {
+        "message": "Motores de pesquisa de importação/exportação"
+    },
+    "import": {
+        "message": "Importar JSON do disco local"
+    },
+    "export": {
+        "message": "Exportar motores de pesquisa para JSON"
+    },
+    "download": {
+        "message": "Exportar para o disco local"
+    },
+    "header2": {
+        "message": "Favicons e ícones"
+    },
+    "getFavicons": {
+        "message": "Mostrar favicons na lista do menu de contexto"
+    },
+    "note": {
+        "message": "Esta funcionalidade requer o Firefox 56 ou superior."
+    },
+    "header4": {
+        "message": "Opções de pesquisa"
+    },
+    "exactMatch": {
+        "message": "Procurar uma correspondência de cadeia exacta"
+    },
+    "gridMode": {
+        "message": "Apresentar uma grelha de ícones em vez de uma lista de motores de busca"
+    },
+    "warning": {
+        "message": "Aviso: Tenha em atenção que a ativação desta funcionalidade impedirá a apresentação de menus de contexto de outras extensões."
+    },
+    "savePreferences": {
+        "message": "Guardar preferências"
+    },
+    "header6": {
+        "message": "Que motores de busca gostaria que aparecessem no menu de contexto ou na grelha?"
+    },
+    "clearAll": {
+        "message": "Limpar tudo"
+    },
+    "selectAll": {
+        "message": "Selecionar tudo"
+    },
+    "sortAlphabetically": {
+        "message": "Ordenar por ordem alfabética"
+    },
+    "showAdvancedFeatures": {
+        "message": "Mostrar funcionalidades avançadas"
+    },
+    "hideAdvancedFeatures": {
+        "message": "Ocultar funcionalidades avançadas"
+    },
+    "reset": {
+        "message": "Reiniciar"
+    },
+    "subheader61": {
+        "message": "Adicionar um novo motor de pesquisa"
+    },
+    "showSearchEngine": {
+        "message": "Mostrar o motor de busca na grelha ou no menu de contexto"
+    },
+    "searchEngineName": {
+        "message": "Nome do motor de busca"
+    },
+    "placeHolderKeyword": {
+        "message": "Palavra-chave"
+    },
+    "warningText": {
+        "message": "Aviso"
+    },
+    "keyboardShortcutWarning": {
+        "message": "nem todas as combinações de teclas funcionarão. Os atalhos de teclado podem não começar com CMD no macOS ou CTRL no Windows ou Linux, uma vez que estes são normalmente reservados para comandos do Firefox."
+    },
+    "placeHolderKeyboardShortcut": {
+        "message": "Atalho de teclado"
+    },
+    "multipleSearchEngines": {
+        "message": "Incluir na pesquisa múltipla"
+    },
+    "searchEngineURL": {
+        "message": "URL do motor de busca"
+    },
+    "regex": {
+        "message": "Expressão regular"
+    },
+    "testSearchEngine": {
+        "message": "Testar motor de busca"
+    },
+    "addSearchEngine": {
+        "message": "Adicionar motor de pesquisa"
+    },
+    "addSeparator": {
+        "message": "Adicionar um separador"
+    },
+    "clear": {
+        "message": "Limpo"
+    },
+    "disableGrid": {
+        "message": "Desativar a grelha de ícones"
+    },
+    "move": {
+        "message": "Mover"
+    },
+    "up": {
+        "message": "para cima"
+    },
+    "down": {
+        "message": "para baixo"
+    },
+    "remove": {
+        "message": "Remover"
+    },
+    "multipleSearchEnginesSearch": {
+        "message": "Incluir este motor de busca numa pesquisa múltipla"
+    },
+    "notifySavedPreferences": {
+        "message": "Preferências guardadas."
+    },
+    "notifySearchEngineAdded": {
+        "message": "Motor de busca adicionado."
+    },
+    "titleShowEngine": {
+        "message": "Mostrar este motor de busca no menu de contexto ou na grelha"
+    },
+    "notifyEnableStorageSync": {
+        "message": "Certifique-se de que o sinalizador 'webextensions.storage.sync.enabled' está definido como 'true' em 'about:config', caso contrário a Pesquisa de contexto não funcionará."
+    },
+    "notifySearchEnginesLoaded": {
+        "message": "A lista predefinida de motores de busca foi carregada."
+    },
+    "notifySearchEngineNotFound": {
+        "message": "Não foi possível encontrar um motor de busca na página Web atual"
+    },
+    "titleMultipleSearchEngines": {
+        "message": "Pesquisa em vários motores de busca"
+    },
+    "titleAISearch": {
+        "message": "Pesquisa de IA"
+    },
+    "titleSiteSearch": {
+        "message": "Procurar neste sítio com"
+    },
+    "titleOptions": {
+        "message": "Opções"
+    },
+    "windowTitle": {
+        "message": "Resultados da pesquisa para"
+    },
+    "omniboxDescription": {
+        "message": "Pesquisar utilizando a Pesquisa em contexto com palavras-chave. Utilização: cs [palavra-chave] [termos de pesquisa] (por exemplo, 'cs w Linux' pesquisa o termo 'Linux' na Wikipédia)"
+    },
+    "notifyUsage": {
+        "message": "Utilização: cs [palavra-chave] [termos de pesquisa] (por exemplo: cs w Linux)"
+    },
+    "notifySearchEngineWithKeyword": {
+        "message": "Motor de busca com palavra-chave"
+    },
+    "notifyUnknown": {
+        "message": "é desconhecido."
+    },
+    "notifySearchEngineUrlRequired": {
+        "message": "Preencha um URL de motor de busca válido."
+    },
+    "header7": {
+        "message": "Opções de reposição"
+    },
+    "header8": {
+        "message": "Que etiquetas EXIF devem ser apresentadas?"
+    },
+    "sidebar": {
+        "message": "Na barra lateral"
+    },
+    "displayFavicons": {
+        "message": "Mostrar favicons na lista do menu de contexto"
+    },
+    "displayExifSummary": {
+        "message": "Resumo"
+    },
+    "disableAltClick": {
+        "message": "Desativar a grelha de ícones (Alt + Clique)"
+    },
+    "resetPreferences": {
+        "message": "Repor as preferências para as predefinições"
+    },
+    "forceSearchEnginesReload": {
+        "message": "Forçar o recarregamento da lista de motores de busca predefinidos"
+    },
+    "forceFaviconsReload": {
+        "message": "Forçar o recarregamento dos favicons"
+    },
+    "restriction": {
+        "message": "Se a barra lateral ainda não estiver aberta, poderá ter de clicar no ícone \"Mostrar barras laterais\" na barra de ferramentas do browser."
+    },
+    "reverseImage": {
+        "message": "Além disso, os resultados da pesquisa inversa de imagens não podem ser apresentados na barra lateral."
+    },
+    "siteSearch": {
+        "message": "Motor de busca para pesquisar o sítio atual:"
+    },
+    "header9": {
+        "message": "Funcionalidades avançadas"
+    },
+    "useRegex": {
+        "message": "Utilizar expressões regulares para criar o menu de contexto"
+    },
+    "regexNote": {
+        "message": "Esta funcionalidade não se aplica à grelha de ícones."
+    },
+    "subheader62": {
+        "message": "Adicionar uma nova pasta"
+    },
+    "folderName": {
+        "message": "Nome da pasta"
+    },
+    "folder": {
+        "message": "pasta"
+    },
+    "addFolder": {
+        "message": "Adicionar pasta"
+    },
+    "keyboardShortcut": {
+        "message": "Atalho de teclado"
+    },
+    "header10": {
+        "message": "Opções de pesquisa múltipla"
+    },
+    "multisearchIntro": {
+        "message": "Abrir vários resultados/guias de pesquisa"
+    },
+    "multiNewWindow": {
+        "message": "Numa nova janela"
+    },
+    "multiAfterLastTab": {
+        "message": "Após o último separador da janela atual"
+    },
+    "multiActiveTab": {
+        "message": "Logo após o separador ativo na janela atual"
+    },
+    "privacy": {
+        "message": "Tornar a nova janela privada"
+    },
+    "reminder": {
+        "message": "Lembrete"
+    },
+    "enableDownloadsReminder": {
+        "message": "ativar as permissões de transferências para exportar os seus motores de busca."
+    },
+    "header11": {
+        "message": "Opções de grelha de ícones"
+    },
+    "quickIconGrid": {
+        "message": "Apresentar imediatamente a grelha de ícones depois de o texto ter sido selecionado"
+    },
+    "closeGridOnMouseOut": {
+        "message": "Fechar a grelha de ícones ao sair do rato"
+    },
+    "xOffset": {
+        "message": "Deslocação horizontal da grelha de ícones: "
+    },
+    "yOffset": {
+        "message": "Deslocação vertical da grelha de ícones: "
+    },
+    "clearKeyboardShortcuts": {
+        "message": "Limpar todos os atalhos de teclado"
+    },
+    "subheader63": {
+        "message": "Adicionar um novo prompt de IA"
+    },
+    "subheader64": {
+        "message": "Adicionar um separador"
+    },
+    "testChatGPT": {
+        "message": "Teste de IA Prompt"
+    },
+    "addChatGPTPrompt": {
+        "message": "Adicionar prompt de IA"
+    },
+    "promptShow": {
+        "message": "Mostrar aviso na grelha ou no menu de contexto"
+    },
+    "promptName": {
+        "message": "Nome do prompt"
+    },
+    "prompt": {
+        "message": "Prompt"
+    },
+    "overwriteSearchEngines": {
+        "message": "Substituir os motores de busca existentes pelos motores de busca importados"
+    },
+    "removeFolderConfirmPrefix": {
+        "message": "Tem a certeza de que pretende remover a pasta "
+    },
+    "removeFolderConfirmSuffix": {
+        "message": " e todo o seu conteúdo?"
+    },
+    "removeSearchEngineConfirm": {
+        "message": "Tem a certeza de que pretende remover o motor de busca "
+    },
+    "popupBlockedMessage": {
+        "message": "Popup bloqueado! Permitir popups para este sítio."
+    },
+    "__WET_LOCALE__": {
+        "message": "en"
+    }
+}

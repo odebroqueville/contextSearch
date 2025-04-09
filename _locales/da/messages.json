@@ -1,0 +1,365 @@
+{
+    "extensionName": {
+        "message": "Søgning i kontekst",
+        "description": "Name of the extension"
+    },
+    "extensionDescription": {
+        "message": "Søger i den valgte tekst ved hjælp af en søgemaskine fra en foruddefineret liste.",
+        "description": "Description of the extension"
+    },
+    "multisearch": {
+        "message": " er en søgning med flere søgemaskiner på samme tid.",
+        "description": "multi-search - it's a search with multiple search engines simultaneously."
+    },
+    "multisearchHowTo": {
+        "message": "Marker det midterste afkrydsningsfelt for at inkludere en søgemaskine i en"
+    },
+    "multisearchLaunch": {
+        "message": "Du kan starte en"
+    },
+    "multisearchEnd": {
+        "message": "via kontekstmenuen eller via omniboksen ved at skrive:"
+    },
+    "pageTitle": {
+        "message": "Indstillinger for kontekstsøgning"
+    },
+    "header1": {
+        "message": "Hvor skal søgeresultaterne vises?"
+    },
+    "newTab": {
+        "message": "I en ny fane"
+    },
+    "sameTab": {
+        "message": "I den samme fane"
+    },
+    "newWindow": {
+        "message": "I et nyt vindue"
+    },
+    "active": {
+        "message": "Gør den nye fane eller det nye vindue aktivt"
+    },
+    "position": {
+        "message": "Vis søgeresultaterne efter den sidste fane"
+    },
+    "header3": {
+        "message": "Placering af valgmuligheder i kontekstmenuen"
+    },
+    "subheader31": {
+        "message": "Hvor vil du gerne have, at indstillingsmenuen vises i kontekstmenuen?"
+    },
+    "bottom": {
+        "message": "I bunden"
+    },
+    "top": {
+        "message": "På toppen"
+    },
+    "hide": {
+        "message": "Hverken eller (skjul indstillingsmenuen)"
+    },
+    "header5": {
+        "message": "Import/eksport af søgemaskiner"
+    },
+    "import": {
+        "message": "Importer JSON fra lokal disk"
+    },
+    "export": {
+        "message": "Eksporter søgemaskiner til JSON"
+    },
+    "download": {
+        "message": "Eksporter til lokal disk"
+    },
+    "header2": {
+        "message": "Favicons og ikoner"
+    },
+    "getFavicons": {
+        "message": "Vis favicons i kontekstmenu-listen"
+    },
+    "note": {
+        "message": "Denne funktion kræver Firefox 56 eller nyere."
+    },
+    "header4": {
+        "message": "Søgemuligheder"
+    },
+    "exactMatch": {
+        "message": "Søg efter et nøjagtigt strengmatch"
+    },
+    "gridMode": {
+        "message": "Vis et gitter af ikoner i stedet for en liste over søgemaskiner"
+    },
+    "warning": {
+        "message": "Advarsel: Vær opmærksom på, at aktivering af denne funktion forhindrer, at kontekstmenuer fra andre udvidelser vises."
+    },
+    "savePreferences": {
+        "message": "Gem præferencer"
+    },
+    "header6": {
+        "message": "Hvilke søgemaskiner vil du gerne have vist i kontekstmenuen eller gitteret?"
+    },
+    "clearAll": {
+        "message": "Ryd alt"
+    },
+    "selectAll": {
+        "message": "Vælg alle"
+    },
+    "sortAlphabetically": {
+        "message": "Sorter alfabetisk"
+    },
+    "showAdvancedFeatures": {
+        "message": "Vis avancerede funktioner"
+    },
+    "hideAdvancedFeatures": {
+        "message": "Skjul avancerede funktioner"
+    },
+    "reset": {
+        "message": "Nulstil"
+    },
+    "subheader61": {
+        "message": "Tilføj en ny søgemaskine"
+    },
+    "showSearchEngine": {
+        "message": "Vis søgemaskine i gitter eller kontekstmenu"
+    },
+    "searchEngineName": {
+        "message": "Søgemaskinens navn"
+    },
+    "placeHolderKeyword": {
+        "message": "Nøgleord"
+    },
+    "warningText": {
+        "message": "Advarsel"
+    },
+    "keyboardShortcutWarning": {
+        "message": "Ikke alle tastekombinationer vil virke. Tastaturgenveje må ikke starte med CMD på macOS eller CTRL på Windows eller Linux, da disse normalt er reserveret til Firefox-kommandoer."
+    },
+    "placeHolderKeyboardShortcut": {
+        "message": "Tastaturgenvej"
+    },
+    "multipleSearchEngines": {
+        "message": "Inkluder i multi-søgning"
+    },
+    "searchEngineURL": {
+        "message": "URL til søgemaskine"
+    },
+    "regex": {
+        "message": "Regulært udtryk"
+    },
+    "testSearchEngine": {
+        "message": "Test søgemaskine"
+    },
+    "addSearchEngine": {
+        "message": "Tilføj søgemaskine"
+    },
+    "addSeparator": {
+        "message": "Tilføj en separator"
+    },
+    "clear": {
+        "message": "Klar"
+    },
+    "disableGrid": {
+        "message": "Deaktiver gitter af ikoner"
+    },
+    "move": {
+        "message": "Flyt dig"
+    },
+    "up": {
+        "message": "op"
+    },
+    "down": {
+        "message": "ned"
+    },
+    "remove": {
+        "message": "Fjerne"
+    },
+    "multipleSearchEnginesSearch": {
+        "message": "Inkluder denne søgemaskine i en multisøgning"
+    },
+    "notifySavedPreferences": {
+        "message": "Gemte præferencer."
+    },
+    "notifySearchEngineAdded": {
+        "message": "Søgemaskine tilføjet."
+    },
+    "titleShowEngine": {
+        "message": "Vis denne søgemaskine i genvejsmenuen eller i gitteret"
+    },
+    "notifyEnableStorageSync": {
+        "message": "Sørg for, at flaget 'webextensions.storage.sync.enabled' er sat til 'true' i 'about:config', ellers vil Context Search ikke fungere."
+    },
+    "notifySearchEnginesLoaded": {
+        "message": "Standardlisten over søgemaskiner er blevet indlæst."
+    },
+    "notifySearchEngineNotFound": {
+        "message": "En søgemaskine kunne ikke findes på den aktuelle webside"
+    },
+    "titleMultipleSearchEngines": {
+        "message": "Søg med flere søgemaskiner"
+    },
+    "titleAISearch": {
+        "message": "AI-søgning"
+    },
+    "titleSiteSearch": {
+        "message": "Søg på dette websted med"
+    },
+    "titleOptions": {
+        "message": "Valgmuligheder"
+    },
+    "windowTitle": {
+        "message": "Søgeresultater for"
+    },
+    "omniboxDescription": {
+        "message": "Søg ved hjælp af kontekstsøgning med nøgleord. Anvendelse: cs [keyword] [search terms] (f.eks. 'cs w Linux' søger på Wikipedia efter termen 'Linux')"
+    },
+    "notifyUsage": {
+        "message": "Anvendelse: cs [keyword] [search terms] (for eksempel: cs w Linux)"
+    },
+    "notifySearchEngineWithKeyword": {
+        "message": "Søgemaskine med nøgleord"
+    },
+    "notifyUnknown": {
+        "message": "er ukendt."
+    },
+    "notifySearchEngineUrlRequired": {
+        "message": "Udfyld venligst en gyldig søgemaskine-URL."
+    },
+    "header7": {
+        "message": "Nulstil indstillinger"
+    },
+    "header8": {
+        "message": "Hvilke EXIF-tags skal vises?"
+    },
+    "sidebar": {
+        "message": "I sidepanelet"
+    },
+    "displayFavicons": {
+        "message": "Vis favicons i kontekstmenu-listen"
+    },
+    "displayExifSummary": {
+        "message": "Sammenfatning"
+    },
+    "disableAltClick": {
+        "message": "Deaktiver ikon-gitter (Alt + klik)"
+    },
+    "resetPreferences": {
+        "message": "Nulstil præferencer til standardindstillinger"
+    },
+    "forceSearchEnginesReload": {
+        "message": "Tving genindlæsning af standardlisten over søgemaskiner"
+    },
+    "forceFaviconsReload": {
+        "message": "Tving favicons til at blive genindlæst"
+    },
+    "restriction": {
+        "message": "Hvis sidebjælken ikke allerede er åben, skal du muligvis klikke på ikonet \"Vis sidebjælker\" på browserens værktøjslinje."
+    },
+    "reverseImage": {
+        "message": "Resultater af omvendt billedsøgning kan heller ikke vises i sidepanelet."
+    },
+    "siteSearch": {
+        "message": "Søgemaskine til søgning på det aktuelle websted:"
+    },
+    "header9": {
+        "message": "Avancerede funktioner"
+    },
+    "useRegex": {
+        "message": "Brug regulære udtryk til at opbygge kontekstmenuen"
+    },
+    "regexNote": {
+        "message": "Denne funktion gælder ikke for gitteret med ikoner."
+    },
+    "subheader62": {
+        "message": "Tilføj en ny mappe"
+    },
+    "folderName": {
+        "message": "Mappens navn"
+    },
+    "folder": {
+        "message": "Mappe"
+    },
+    "addFolder": {
+        "message": "Tilføj mappe"
+    },
+    "keyboardShortcut": {
+        "message": "Tastaturgenvej"
+    },
+    "header10": {
+        "message": "Multisøgningsmuligheder"
+    },
+    "multisearchIntro": {
+        "message": "Åbn flere søgeresultater/faner"
+    },
+    "multiNewWindow": {
+        "message": "I et nyt vindue"
+    },
+    "multiAfterLastTab": {
+        "message": "Efter den sidste fane i det aktuelle vindue"
+    },
+    "multiActiveTab": {
+        "message": "Lige efter den aktive fane i det aktuelle vindue"
+    },
+    "privacy": {
+        "message": "Gør nyt vindue privat"
+    },
+    "reminder": {
+        "message": "Påmindelse"
+    },
+    "enableDownloadsReminder": {
+        "message": "aktiver tilladelser til downloads for at eksportere dine søgemaskiner."
+    },
+    "header11": {
+        "message": "Indstillinger for ikonernes gitter"
+    },
+    "quickIconGrid": {
+        "message": "Vis ikonerne med det samme, når teksten er valgt"
+    },
+    "closeGridOnMouseOut": {
+        "message": "Luk ikongitteret, når du trækker musen ud"
+    },
+    "xOffset": {
+        "message": "Vandret forskydning af ikongitteret: "
+    },
+    "yOffset": {
+        "message": "Lodret forskydning af ikongitteret: "
+    },
+    "clearKeyboardShortcuts": {
+        "message": "Ryd alle tastaturgenveje"
+    },
+    "subheader63": {
+        "message": "Tilføj en ny AI-prompt"
+    },
+    "subheader64": {
+        "message": "Tilføj en separator"
+    },
+    "testChatGPT": {
+        "message": "Test AI-prompt"
+    },
+    "addChatGPTPrompt": {
+        "message": "Tilføj AI-prompt"
+    },
+    "promptShow": {
+        "message": "Vis prompt i gitter eller kontekstmenu"
+    },
+    "promptName": {
+        "message": "Prompt-navn"
+    },
+    "prompt": {
+        "message": "Prompt"
+    },
+    "overwriteSearchEngines": {
+        "message": "Overskriv de eksisterende søgemaskiner med de importerede søgemaskiner"
+    },
+    "removeFolderConfirmPrefix": {
+        "message": "Er du sikker på, at du vil fjerne mappen "
+    },
+    "removeFolderConfirmSuffix": {
+        "message": " og alt dets indhold?"
+    },
+    "removeSearchEngineConfirm": {
+        "message": "Er du sikker på, at du vil fjerne søgemaskinen? "
+    },
+    "popupBlockedMessage": {
+        "message": "Popup blokeret! Tillad venligst pop op-vinduer på dette websted."
+    },
+    "__WET_LOCALE__": {
+        "message": "en"
+    }
+}

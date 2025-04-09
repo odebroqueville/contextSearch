@@ -1,0 +1,365 @@
+{
+    "extensionName": {
+        "message": "Context Search",
+        "description": "Name of the extension"
+    },
+    "extensionDescription": {
+        "message": "Որոնում է ընտրված տեքստը՝ օգտագործելով որոնման համակարգ նախապես նշված ցուցակից:",
+        "description": "Description of the extension"
+    },
+    "multisearch": {
+        "message": " որոնում է միաժամանակ մի քանի որոնողական համակարգերի հետ:",
+        "description": "multi-search - it's a search with multiple search engines simultaneously."
+    },
+    "multisearchHowTo": {
+        "message": "Նշեք միջին նշատուփը՝ որոնման համակարգը ներառելու համար"
+    },
+    "multisearchLaunch": {
+        "message": "Դուք կարող եք գործարկել"
+    },
+    "multisearchEnd": {
+        "message": "համատեքստային մենյուի միջոցով կամ omnibox-ի միջոցով՝ մուտքագրելով."
+    },
+    "pageTitle": {
+        "message": "Համատեքստի որոնման նախապատվություններ"
+    },
+    "header1": {
+        "message": "Որտե՞ղ պետք է հայտնվեն որոնման արդյունքները"
+    },
+    "newTab": {
+        "message": "Նոր ներդիրում"
+    },
+    "sameTab": {
+        "message": "Նույն ներդիրում"
+    },
+    "newWindow": {
+        "message": "Նոր պատուհանում"
+    },
+    "active": {
+        "message": "Նոր ներդիրը կամ պատուհանը ակտիվացնել"
+    },
+    "position": {
+        "message": "Ցուցադրել որոնման արդյունքները վերջին ներդիրից հետո"
+    },
+    "header3": {
+        "message": "Ընտրանքների դիրքը համատեքստային մենյուում"
+    },
+    "subheader31": {
+        "message": "Որտե՞ղ կցանկանայիք, որ ընտրանքների մենյուն հայտնվի համատեքստային մենյուում:"
+    },
+    "bottom": {
+        "message": "Ներքեւի մասում"
+    },
+    "top": {
+        "message": "Վերեւում"
+    },
+    "hide": {
+        "message": "Ո՛չ էլ (թաքցնել ընտրանքների ցանկը)"
+    },
+    "header5": {
+        "message": "Ներմուծման/արտահանման որոնման համակարգեր"
+    },
+    "import": {
+        "message": "Ներմուծել JSON տեղային սկավառակից"
+    },
+    "export": {
+        "message": "Արտահանել որոնման համակարգերը JSON"
+    },
+    "download": {
+        "message": "Արտահանել տեղային սկավառակ"
+    },
+    "header2": {
+        "message": "Favicons & Icons"
+    },
+    "getFavicons": {
+        "message": "Ցուցադրել ֆավիկոնները համատեքստային մենյուի ցանկում"
+    },
+    "note": {
+        "message": "Այս առանձնահատկությունը պահանջում է Firefox 56 կամ ավելի բարձր:"
+    },
+    "header4": {
+        "message": "Որոնման ընտրանքներ"
+    },
+    "exactMatch": {
+        "message": "Որոնել ճշգրիտ տողային համընկնում"
+    },
+    "gridMode": {
+        "message": "Ցուցադրել պատկերակների ցանցը՝ որոնման համակարգերի ցանկի փոխարեն"
+    },
+    "warning": {
+        "message": "Զգուշացում. Խնդրում ենք նկատի ունենալ, որ այս հատկությունը ակտիվացնելը կխանգարի այլ ընդլայնումների համատեքստային մենյուների ցուցադրմանը:"
+    },
+    "savePreferences": {
+        "message": "Պահպանել նախապատվությունները"
+    },
+    "header6": {
+        "message": "Ո՞ր որոնողական համակարգերը կցանկանայիք հայտնվել համատեքստային մենյուում կամ ցանցում:"
+    },
+    "clearAll": {
+        "message": "Ջնջել ամբողջը"
+    },
+    "selectAll": {
+        "message": "Select All"
+    },
+    "sortAlphabetically": {
+        "message": "Տեսակավորել այբբենական կարգով"
+    },
+    "showAdvancedFeatures": {
+        "message": "Ցույց տալ ընդլայնված առանձնահատկությունները"
+    },
+    "hideAdvancedFeatures": {
+        "message": "Թաքցնել ընդլայնված առանձնահատկությունները"
+    },
+    "reset": {
+        "message": "Վերակայել"
+    },
+    "subheader61": {
+        "message": "Ավելացնել նոր որոնման համակարգ"
+    },
+    "showSearchEngine": {
+        "message": "Ցուցադրել որոնիչը ցանցում կամ համատեքստային մենյու"
+    },
+    "searchEngineName": {
+        "message": "Որոնման համակարգի անուն"
+    },
+    "placeHolderKeyword": {
+        "message": "Բանալի բառ"
+    },
+    "warningText": {
+        "message": "Զգուշացում"
+    },
+    "keyboardShortcutWarning": {
+        "message": "ոչ բոլոր բանալիների կոմբինացիաները կաշխատեն։ Ստեղնաշարի կարճատները կարող են չսկսվել CMD-ով macOS-ում կամ CTRL-ով Windows-ում կամ Linux-ում, քանի որ դրանք սովորաբար վերապահվում են Firefox-ի հրամաններին։"
+    },
+    "placeHolderKeyboardShortcut": {
+        "message": "Ստեղնաշարի կարճատ"
+    },
+    "multipleSearchEngines": {
+        "message": "Ներառել բազմակողմանի որոնման մեջ"
+    },
+    "searchEngineURL": {
+        "message": "Search engine URL"
+    },
+    "regex": {
+        "message": "Կանոնավոր արտահայտություն"
+    },
+    "testSearchEngine": {
+        "message": "Test որոնման համակարգ"
+    },
+    "addSearchEngine": {
+        "message": "Ավելացնել որոնման համակարգ"
+    },
+    "addSeparator": {
+        "message": "Ավելացնել բաժանիչ"
+    },
+    "clear": {
+        "message": "Մաքրել"
+    },
+    "disableGrid": {
+        "message": "Կասեցնել պատկերակների ցանցը"
+    },
+    "move": {
+        "message": "Տեղափոխել"
+    },
+    "up": {
+        "message": "Վեր"
+    },
+    "down": {
+        "message": "ներքեւ"
+    },
+    "remove": {
+        "message": "Հեռացնել"
+    },
+    "multipleSearchEnginesSearch": {
+        "message": "Ներառել այս որոնման համակարգը բազմակի որոնման մեջ"
+    },
+    "notifySavedPreferences": {
+        "message": "Պահպանված նախապատվություններ:"
+    },
+    "notifySearchEngineAdded": {
+        "message": "Որոնման համակարգը ավելացվել է։"
+    },
+    "titleShowEngine": {
+        "message": "Ցուցադրել այս որոնիչը համատեքստային ընտրացանկում կամ Ցանցում"
+    },
+    "notifyEnableStorageSync": {
+        "message": "Խնդրում ենք համոզվել, որ 'webextensions.storage.sync.enabled' դրոշը սահմանված է 'true' 'about:config'-ում, հակառակ դեպքում Context որոնումը չի աշխատի:"
+    },
+    "notifySearchEnginesLoaded": {
+        "message": "Լռելյայն որոնման համակարգերի ցանկը բեռնված է:"
+    },
+    "notifySearchEngineNotFound": {
+        "message": "Անհնար է գտնել որոնման համակարգը ընթացիկ կայքէջում"
+    },
+    "titleMultipleSearchEngines": {
+        "message": "Բազմաթիվ որոնման համակարգեր"
+    },
+    "titleAISearch": {
+        "message": "AI Search"
+    },
+    "titleSiteSearch": {
+        "message": "Search this site with"
+    },
+    "titleOptions": {
+        "message": "Ընտրանքներ"
+    },
+    "windowTitle": {
+        "message": "Որոնման արդյունքները"
+    },
+    "omniboxDescription": {
+        "message": "Որոնում օգտագործելով Context Search հիմնաբառերով: Օգտագործում՝ cs [բանալի բառ] [որոնման տերմիններ] (օրինակ՝ 'cs w Linux' որոնում է Վիքիպեդիայում 'Linux' տերմինը)"
+    },
+    "notifyUsage": {
+        "message": "Օգտագործում՝ cs [keyword] [search terms] (օրինակ՝ cs w Linux)"
+    },
+    "notifySearchEngineWithKeyword": {
+        "message": "Որոնման համակարգ հիմնաբառով"
+    },
+    "notifyUnknown": {
+        "message": "անհայտ է:"
+    },
+    "notifySearchEngineUrlRequired": {
+        "message": "Լրացրեք վավեր որոնման համակարգի URL:"
+    },
+    "header7": {
+        "message": "Վերականգնել ընտրանքները"
+    },
+    "header8": {
+        "message": "Ո՞ր EXIF թեգերը պետք է ցուցադրվեն:"
+    },
+    "sidebar": {
+        "message": "Կողագոտիում"
+    },
+    "displayFavicons": {
+        "message": "Ցուցադրել ֆավիկոնները համատեքստային մենյուի ցանկում"
+    },
+    "displayExifSummary": {
+        "message": "Ամփոփում"
+    },
+    "disableAltClick": {
+        "message": "Անջատել պատկերակների ցանցը (Alt + Click)"
+    },
+    "resetPreferences": {
+        "message": "Վերակայել նախապատվությունները լռելյայն կայանքներին"
+    },
+    "forceSearchEnginesReload": {
+        "message": "Պարտադիր լռելյայն որոնման համակարգերի ցանկի վերբեռնում"
+    },
+    "forceFaviconsReload": {
+        "message": "Ստիպեք ֆավիկոնները վերալիցքավորվել"
+    },
+    "restriction": {
+        "message": "Եթե կողագոտին արդեն բաց չէ, ապա պետք է սեղմեք բրաուզերի գործիքագոտիի «Ցուցադրել կողագոտիները» պատկերակը:"
+    },
+    "reverseImage": {
+        "message": "Բացի այդ, հակադարձ պատկերների որոնման արդյունքները չեն կարող ցուցադրվել կողագոտում:"
+    },
+    "siteSearch": {
+        "message": "Որոնման համակարգ՝ ընթացիկ կայքի որոնման համար."
+    },
+    "header9": {
+        "message": "Ընդլայնված առանձնահատկություններ"
+    },
+    "useRegex": {
+        "message": "Օգտագործեք կանոնավոր արտահայտությունները՝ համատեքստային մենյու կառուցելու համար"
+    },
+    "regexNote": {
+        "message": "Այս հատկությունը չի վերաբերում պատկերակների ցանցին:"
+    },
+    "subheader62": {
+        "message": "Ավելացնել նոր պանակ"
+    },
+    "folderName": {
+        "message": "Պանակի անուն"
+    },
+    "folder": {
+        "message": "թղթապանակ"
+    },
+    "addFolder": {
+        "message": "Ավելացնել պանակ"
+    },
+    "keyboardShortcut": {
+        "message": "Ստեղնաշարի կարճատ"
+    },
+    "header10": {
+        "message": "Multisearch ընտրանքներ"
+    },
+    "multisearchIntro": {
+        "message": "Բացել բազմաթիվ որոնման արդյունքներ / ներդիրներ"
+    },
+    "multiNewWindow": {
+        "message": "Նոր պատուհանում"
+    },
+    "multiAfterLastTab": {
+        "message": "Ընթացիկ պատուհանի վերջին ներդիրից հետո"
+    },
+    "multiActiveTab": {
+        "message": "Ընթացիկ պատուհանի ակտիվ ներդիրից անմիջապես հետո"
+    },
+    "privacy": {
+        "message": "Դարձնել նոր պատուհանը գաղտնի"
+    },
+    "reminder": {
+        "message": "Հիշեցում"
+    },
+    "enableDownloadsReminder": {
+        "message": "միացնել Ներբեռնումների թույլտվությունները՝ ձեր որոնման համակարգերը արտահանելու համար:"
+    },
+    "header11": {
+        "message": "Պատկերակներ Ցանցի ընտրանքներ"
+    },
+    "quickIconGrid": {
+        "message": "Տեքստի ընտրությունից հետո անմիջապես ցուցադրել պատկերակների ցանցը"
+    },
+    "closeGridOnMouseOut": {
+        "message": "Փակեք պատկերակների ցանցը մկնիկի վրա"
+    },
+    "xOffset": {
+        "message": "Պատկերակների ցանցի հորիզոնական օֆսեթ. "
+    },
+    "yOffset": {
+        "message": "Պատկերակների ցանցի ուղղահայաց օֆսեթ. "
+    },
+    "clearKeyboardShortcuts": {
+        "message": "Մաքրել բոլոր ստեղնաշարի կարճատները"
+    },
+    "subheader63": {
+        "message": "Ավելացնել նոր AI հուշում"
+    },
+    "subheader64": {
+        "message": "Ավելացնել բաժանիչ"
+    },
+    "testChatGPT": {
+        "message": "Test AI Prompt"
+    },
+    "addChatGPTPrompt": {
+        "message": "Add AI Prompt"
+    },
+    "promptShow": {
+        "message": "Ցուցադրել հուշումը ցանցում կամ համատեքստային ցանկում"
+    },
+    "promptName": {
+        "message": "Հուշման անուն"
+    },
+    "prompt": {
+        "message": "Հուշում"
+    },
+    "overwriteSearchEngines": {
+        "message": "Ներմուծված որոնողական համակարգերով վերգրեք գոյություն ունեցող որոնողական համակարգերը"
+    },
+    "removeFolderConfirmPrefix": {
+        "message": "Իրո՞ք ցանկանում եք հեռացնել պանակը "
+    },
+    "removeFolderConfirmSuffix": {
+        "message": " եւ դրա ամբողջ բովանդակությունը։"
+    },
+    "removeSearchEngineConfirm": {
+        "message": "Իրո՞ք ցանկանում եք հեռացնել որոնման համակարգը "
+    },
+    "popupBlockedMessage": {
+        "message": "Popup-ը արգելափակված է: Խնդրում ենք թույլատրել այս կայքի պատուհանները:"
+    },
+    "__WET_LOCALE__": {
+        "message": "en"
+    }
+}
