@@ -324,40 +324,40 @@
         "message": "Hreinsaðu alla flýtilykla"
     },
     "subheader63": {
-        "message": "Add a new AI prompt"
+        "message": "Bættu við nýrri gervigreindarkvaðningu"
     },
     "subheader64": {
-        "message": "Add a separator"
+        "message": "Bæta við skiltákni"
     },
     "testChatGPT": {
-        "message": "Test AI Prompt"
+        "message": "Prófaðu gervigreind hvetja"
     },
     "addChatGPTPrompt": {
-        "message": "Add AI Prompt"
+        "message": "Bæta við gervigreindarkvaðningu"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "Sýna kvaðningu í rist eða samhengisvalmynd"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "Hvetja nafn"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "Hvetja"
     },
     "overwriteSearchEngines": {
         "message": "Skrifaðu yfir núverandi leitarvélar með innfluttu leitarvélunum"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Are you sure that you want to remove the folder "
+        "message": "Ertu viss um að þú viljir fjarlægja möppuna "
     },
     "removeFolderConfirmSuffix": {
-        "message": " and all of its contents?"
+        "message": " og allt innihald þess?"
     },
     "removeSearchEngineConfirm": {
-        "message": "Are you sure you want to remove the search engine "
+        "message": "Ertu viss um að þú viljir fjarlægja leitarvélina "
     },
     "popupBlockedMessage": {
-        "message": "Popup blocked! Please allow popups for this site."
+        "message": "Sprettigluggi lokaður! Vinsamlegast leyfðu sprettiglugga fyrir þessa síðu."
     },
     "__WET_LOCALE__": {
         "message": "is"
