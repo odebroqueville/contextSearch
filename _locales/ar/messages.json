@@ -1,6 +1,6 @@
 {
     "extensionName": {
-        "message": "Context Search",
+        "message": "البحث في السياق",
         "description": "Name of the extension"
     },
     "extensionDescription": {
@@ -324,37 +324,37 @@
         "message": "مسح كافة اختصارات لوحة المفاتيح"
     },
     "subheader63": {
-        "message": "Add a new AI prompt"
+        "message": "إضافة موجه ذكاء اصطناعي جديد"
     },
     "subheader64": {
-        "message": "Add a separator"
+        "message": "إضافة فاصل"
     },
     "testChatGPT": {
-        "message": "Test AI Prompt"
+        "message": "اختبار موجه الذكاء الاصطناعي"
     },
     "addChatGPTPrompt": {
-        "message": "Add AI Prompt"
+        "message": "إضافة موجه الذكاء الاصطناعي"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "إظهار المطالبة في الشبكة أو قائمة السياق"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "اسم الموجه"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "موجه"
     },
     "overwriteSearchEngines": {
         "message": "استبدال محركات البحث الموجودة بمحركات البحث المستوردة"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Are you sure that you want to remove the folder "
+        "message": "هل أنت متأكد من رغبتك في إزالة المجلد "
     },
     "removeFolderConfirmSuffix": {
-        "message": " and all of its contents?"
+        "message": " وجميع محتوياته؟"
     },
     "removeSearchEngineConfirm": {
-        "message": "Are you sure you want to remove the search engine "
+        "message": "هل أنت متأكد من رغبتك في إزالة محرك البحث "
     },
     "popupBlockedMessage": {
         "message": "تم حظر النوافذ المنبثقة! الرجاء السماح بالنوافذ المنبثقة لهذا الموقع."
