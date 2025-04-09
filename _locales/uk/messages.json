@@ -1,6 +1,6 @@
 {
     "extensionName": {
-        "message": "Context Search",
+        "message": "Контекстний пошук",
         "description": "Name of the extension"
     },
     "extensionDescription": {
@@ -324,40 +324,40 @@
         "message": "Очистити всі комбінації клавіш"
     },
     "subheader63": {
-        "message": "Add a new AI prompt"
+        "message": "Додати нову підказку ШІ"
     },
     "subheader64": {
-        "message": "Add a separator"
+        "message": "Додайте роздільник"
     },
     "testChatGPT": {
-        "message": "Test AI Prompt"
+        "message": "Протестуйте підказку штучного інтелекту"
     },
     "addChatGPTPrompt": {
-        "message": "Add AI Prompt"
+        "message": "Додати підказку штучного інтелекту"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "Показати підказку в сітці або контекстному меню"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "Запропонована назва"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "Швидко"
     },
     "overwriteSearchEngines": {
         "message": "Замініть існуючі пошукові системи імпортованими пошуковими системами"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Are you sure that you want to remove the folder "
+        "message": "Ви впевнені, що хочете видалити папку "
     },
     "removeFolderConfirmSuffix": {
-        "message": " and all of its contents?"
+        "message": " і весь його вміст?"
     },
     "removeSearchEngineConfirm": {
-        "message": "Are you sure you want to remove the search engine "
+        "message": "Ви впевнені, що хочете видалити пошукову систему "
     },
     "popupBlockedMessage": {
-        "message": "Popup blocked! Please allow popups for this site."
+        "message": "Спливаюче вікно заблоковано! Будь ласка, дозвольте спливаючі вікна для цього сайту."
     },
     "__WET_LOCALE__": {
         "message": "uk"
