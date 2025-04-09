@@ -1,6 +1,6 @@
 {
     "extensionName": {
-        "message": "Context Search",
+        "message": "Suche im Kontext",
         "description": "Name of the extension"
     },
     "extensionDescription": {
@@ -324,40 +324,40 @@
         "message": "Löschen Sie alle Tastaturkürzel"
     },
     "subheader63": {
-        "message": "Add a new AI prompt"
+        "message": "Eine neue AI-Eingabeaufforderung hinzufügen"
     },
     "subheader64": {
-        "message": "Add a separator"
+        "message": "Ein Trennzeichen hinzufügen"
     },
     "testChatGPT": {
-        "message": "Test AI Prompt"
+        "message": "Test AI Aufforderung"
     },
     "addChatGPTPrompt": {
-        "message": "Add AI Prompt"
+        "message": "AI-Eingabeaufforderung hinzufügen"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "Eingabeaufforderung im Raster oder Kontextmenü anzeigen"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "Name der Aufforderung"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "Eingabeaufforderung"
     },
     "overwriteSearchEngines": {
         "message": "Überschreiben Sie die vorhandenen Suchmaschinen mit den importierten Suchmaschinen"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Are you sure that you want to remove the folder "
+        "message": "Sind Sie sicher, dass Sie den Ordner entfernen möchten "
     },
     "removeFolderConfirmSuffix": {
-        "message": " and all of its contents?"
+        "message": " und alle seine Inhalte?"
     },
     "removeSearchEngineConfirm": {
-        "message": "Are you sure you want to remove the search engine "
+        "message": "Sind Sie sicher, dass Sie die Suchmaschine entfernen möchten? "
     },
     "popupBlockedMessage": {
-        "message": "Popup blocked! Please allow popups for this site."
+        "message": "Popup blockiert! Bitte erlauben Sie Popups für diese Seite."
     },
     "__WET_LOCALE__": {
         "message": "de"
