@@ -1,365 +1,365 @@
 {
     "extensionName": {
-        "message": "Context Search",
+        "message": "جستجوی زمینه",
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Searches the selected text using a search engine from a pre-specified list.",
+        "message": "متن انتخاب شده را با استفاده از یک موتور جستجو از یک لیست از پیش تعیین شده جستجو می کند.",
         "description": "Description of the extension"
     },
     "multisearch": {
-        "message": " is a search with multiple search engines simultaneously.",
+        "message": " جستجو با چندین موتور جستجو به طور همزمان است.",
         "description": "multi-search - it's a search with multiple search engines simultaneously."
     },
     "multisearchHowTo": {
-        "message": "Check the middle checkbox to include a search engine in a"
+        "message": "چک باکس وسط را علامت بزنید تا یک موتور جستجو در یک"
     },
     "multisearchLaunch": {
-        "message": "You can launch a"
+        "message": "می توانید یک"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the omnibox by typing:"
+        "message": "از طریق منوی زمینه یا از طریق omnibox با تایپ کردن:"
     },
     "pageTitle": {
-        "message": "Context Search Preferences"
+        "message": "تنظیمات برگزیده جستجوی زمینه"
     },
     "header1": {
-        "message": "Where should search results appear?"
+        "message": "نتایج جستجو کجا باید نشان داده شود؟"
     },
     "newTab": {
-        "message": "In a new tab"
+        "message": "در یک برگه جدید"
     },
     "sameTab": {
-        "message": "In the same tab"
+        "message": "در همان برگه"
     },
     "newWindow": {
-        "message": "In a new window"
+        "message": "در یک پنجره جدید"
     },
     "active": {
-        "message": "Make the new tab or window active"
+        "message": "فعال کردن برگه یا پنجره جدید"
     },
     "position": {
-        "message": "Display the search results after the last tab"
+        "message": "نمایش نتایج جستجو بعد از آخرین برگه"
     },
     "header3": {
-        "message": "Position of options in the context menu"
+        "message": "موقعیت گزینه ها در منوی زمینه"
     },
     "subheader31": {
-        "message": "Where would you like the options menu to appear in the context menu?"
+        "message": "دوست دارید منوی گزینه ها در کجای منوی زمینه ظاهر شود؟"
     },
     "bottom": {
-        "message": "At the bottom"
+        "message": "در پایین"
     },
     "top": {
-        "message": "At the top"
+        "message": "در بالا"
     },
     "hide": {
-        "message": "Neither (hide the options menu)"
+        "message": "هیچ کدام (منوی گزینه ها را مخفی کنید)"
     },
     "header5": {
-        "message": "Import/export search engines"
+        "message": "واردات/صادرات موتورهای جستجو"
     },
     "import": {
-        "message": "Import JSON from local disk"
+        "message": "JSON را از دیسک محلی وارد کنید"
     },
     "export": {
-        "message": "Export search engines to JSON"
+        "message": "موتورهای جستجو را به JSON صادر کنید"
     },
     "download": {
-        "message": "Export to local disk"
+        "message": "صادرات به دیسک محلی"
     },
     "header2": {
-        "message": "Favicons & Icons"
+        "message": "فاویکون ها و آیکون ها"
     },
     "getFavicons": {
-        "message": "Display favicons in context menu list"
+        "message": "نمایش فاویکون ها در لیست منوی زمینه"
     },
     "note": {
-        "message": "This feature requires Firefox 56 or above."
+        "message": "این ویژگی به فایرفاکس 56 یا بالاتر نیاز دارد."
     },
     "header4": {
-        "message": "Search options"
+        "message": "گزینه های جستجو"
     },
     "exactMatch": {
-        "message": "Search for an exact string match"
+        "message": "جستجوی یک تطابق دقیق رشته"
     },
     "gridMode": {
-        "message": "Display a grid of icons instead of a list of search engines"
+        "message": "نمایش شبکه ای از نمادها به جای لیستی از موتورهای جستجو"
     },
     "warning": {
-        "message": "Warning: Please note that enabling this feature will prevent context menus from other extensions to be displayed."
+        "message": "هشدار: لطفا توجه داشته باشید که فعال کردن این ویژگی از نمایش منوهای زمینه سایر افزونه ها جلوگیری می کند."
     },
     "savePreferences": {
-        "message": "Save preferences"
+        "message": "ذخیره تنظیمات برگزیده"
     },
     "header6": {
-        "message": "Which search engines would you like to appear in the context menu or grid?"
+        "message": "کدام موتورهای جستجو را می خواهید در منوی زمینه یا شبکه ظاهر شوند؟"
     },
     "clearAll": {
-        "message": "Clear All"
+        "message": "پاک کردن همه"
     },
     "selectAll": {
-        "message": "Select All"
+        "message": "همه را انتخاب کنید"
     },
     "sortAlphabetically": {
-        "message": "Sort alphabetically"
+        "message": "مرتب سازی بر اساس حروف الفبا"
     },
     "showAdvancedFeatures": {
-        "message": "Show advanced features"
+        "message": "نمایش ویژگی های پیشرفته"
     },
     "hideAdvancedFeatures": {
-        "message": "Hide advanced features"
+        "message": "مخفی کردن ویژگی های پیشرفته"
     },
     "reset": {
-        "message": "Reset"
+        "message": "تنظیم مجدد"
     },
     "subheader61": {
-        "message": "Add a new search engine"
+        "message": "افزودن موتور جستجوی جدید"
     },
     "showSearchEngine": {
-        "message": "Show search engine in grid or context menu"
+        "message": "نمایش موتور جستجو در منوی شبکه یا زمینه"
     },
     "searchEngineName": {
-        "message": "Search engine name"
+        "message": "نام موتور جستجو"
     },
     "placeHolderKeyword": {
-        "message": "Keyword"
+        "message": "کلمه کلیدی"
     },
     "warningText": {
-        "message": "Warning"
+        "message": "هشدار"
     },
     "keyboardShortcutWarning": {
-        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
+        "message": "همه ترکیب های کلیدی کار نمی کنند. میانبرهای صفحه کلید ممکن است با CMD در macOS یا CTRL در ویندوز یا لینوکس شروع نشوند، زیرا این موارد معمولا برای دستورات فایرفاکس محفوظ هستند."
     },
     "placeHolderKeyboardShortcut": {
-        "message": "Keyboard shortcut"
+        "message": "میانبر صفحه کلید"
     },
     "multipleSearchEngines": {
-        "message": "Include in multi-search"
+        "message": "در جستجوی چندگانه گنجانده شود"
     },
     "searchEngineURL": {
-        "message": "Search engine URL"
+        "message": "URL موتور جستجو"
     },
     "regex": {
-        "message": "Regular expression"
+        "message": "بیان منظم"
     },
     "testSearchEngine": {
-        "message": "Test search engine"
+        "message": "تست موتور جستجو"
     },
     "addSearchEngine": {
-        "message": "Add search engine"
+        "message": "افزودن موتور جستجو"
     },
     "addSeparator": {
-        "message": "Add a separator"
+        "message": "افزودن یک جداکننده"
     },
     "clear": {
-        "message": "Clear"
+        "message": "روشن"
     },
     "disableGrid": {
-        "message": "Disable grid of icons"
+        "message": "شبکه آیکون ها را غیرفعال کنید"
     },
     "move": {
-        "message": "Move"
+        "message": "حرکت"
     },
     "up": {
-        "message": "up"
+        "message": "تا"
     },
     "down": {
-        "message": "down"
+        "message": "پایین"
     },
     "remove": {
-        "message": "Remove"
+        "message": "حذف"
     },
     "multipleSearchEnginesSearch": {
-        "message": "Include this search engine in a multi-search"
+        "message": "این موتور جستجو را در یک جستجوی چندگانه قرار دهید"
     },
     "notifySavedPreferences": {
-        "message": "Saved preferences."
+        "message": "تنظیمات برگزیده ذخیره شده ضربه بزنید؛"
     },
     "notifySearchEngineAdded": {
-        "message": "Search engine added."
+        "message": "موتور جستجو اضافه شد."
     },
     "titleShowEngine": {
-        "message": "Show this search engine in the context menu or grid"
+        "message": "این موتور جستجو را در منوی زمینه یا شبکه نمایش دهید"
     },
     "notifyEnableStorageSync": {
-        "message": "Please ensure that the flag 'webextensions.storage.sync.enabled' is set to 'true' in 'about:config', otherwise Context Search won't work."
+        "message": "لطفا مطمئن شوید که پرچم 'webextensions.storage.sync.enabled' روی 'true' در 'about:config' تنظیم شده است، در غیر این صورت جستجوی زمینه کار نخواهد کرد."
     },
     "notifySearchEnginesLoaded": {
-        "message": "Default list of search engines has been loaded."
+        "message": "لیست پیش فرض موتورهای جستجو بارگذاری شده است."
     },
     "notifySearchEngineNotFound": {
-        "message": "A search engine couldn't be found on the current web page"
+        "message": "موتور جستجو در صفحه وب فعلی یافت نمی شود"
     },
     "titleMultipleSearchEngines": {
-        "message": "Multiple search engines search"
+        "message": "جستجوی چندین موتورهای جستجو"
     },
     "titleAISearch": {
-        "message": "AI Search"
+        "message": "جستجوی هوش مصنوعی"
     },
     "titleSiteSearch": {
-        "message": "Search this site with"
+        "message": "این سایت را با"
     },
     "titleOptions": {
-        "message": "Options"
+        "message": "گزینه"
     },
     "windowTitle": {
-        "message": "Search results for"
+        "message": "نتایج جستجو برای"
     },
     "omniboxDescription": {
-        "message": "Search using Context Search with keywords. Usage: cs [keyword] [search terms] (e.g. 'cs w Linux' searches Wikipedia for the term 'Linux')"
+        "message": "با استفاده از جستجوی زمینه با کلمات کلیدی جستجو کنید. طریقه استفاده: cs [کلمه کلیدی] [عبارت های جستجو] (به عنوان مثال 'cs w Linux' در ویکی پدیا برای اصطلاح 'لینوکس' جستجو می کند)"
     },
     "notifyUsage": {
-        "message": "Usage: cs [keyword] [search terms] (for example: cs w Linux)"
+        "message": "طریقه استفاده: cs [کلمه کلیدی] [عبارت های جستجو] (به عنوان مثال: cs w لینوکس)"
     },
     "notifySearchEngineWithKeyword": {
-        "message": "Search engine with keyword"
+        "message": "موتور جستجو با کلمه کلیدی"
     },
     "notifyUnknown": {
-        "message": "is unknown."
+        "message": "ناشناخته است."
     },
     "notifySearchEngineUrlRequired": {
-        "message": "Please fill in a valid search engine URL."
+        "message": "لطفا یک URL معتبر موتور جستجو را پر کنید."
     },
     "header7": {
-        "message": "Reset options"
+        "message": "گزینه های بازنشانی"
     },
     "header8": {
-        "message": "Which EXIF tags should be displayed?"
+        "message": "کدام تگ های EXIF باید نمایش داده شوند؟"
     },
     "sidebar": {
-        "message": "In the sidebar"
+        "message": "در نوار کناری"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu list"
+        "message": "نمایش فاویکون ها در لیست منوی زمینه"
     },
     "displayExifSummary": {
-        "message": "Summary"
+        "message": "خلاصه"
     },
     "disableAltClick": {
-        "message": "Disable icon grid (Alt + Click)"
+        "message": "غیرفعال کردن شبکه آیکون (Alt + Click)"
     },
     "resetPreferences": {
-        "message": "Reset preferences to default settings"
+        "message": "بازنشانی تنظیمات برگزیده به تنظیمات پیش فرض"
     },
     "forceSearchEnginesReload": {
-        "message": "Force reload of default search engines list"
+        "message": "بارگذاری مجدد لیست موتورهای جستجوی پیش فرض"
     },
     "forceFaviconsReload": {
-        "message": "Force favicons to be reloaded"
+        "message": "فاویکون ها را مجبور به بارگیری مجدد کنید"
     },
     "restriction": {
-        "message": "If the sidebar isn't already open, then you may have to click on the 'Show sidebars' icon from the browser toolbar."
+        "message": "اگر نوار کناری از قبل باز نیست، ممکن است مجبور شوید روی نماد «نمایش نوارهای کناری» از نوار ابزار مرورگر کلیک کنید."
     },
     "reverseImage": {
-        "message": "Also, reverse image search results cannot be displayed in the sidebar."
+        "message": "همچنین، نتایج جستجوی تصویر معکوس را نمی توان در نوار کناری نمایش داد."
     },
     "siteSearch": {
-        "message": "Search engine for searching current site:"
+        "message": "موتور جستجو برای جستجوی سایت فعلی:"
     },
     "header9": {
-        "message": "Advanced features"
+        "message": "ویژگی های پیشرفته"
     },
     "useRegex": {
-        "message": "Use regular expressions to build the context menu"
+        "message": "استفاده از عبارات منظم برای ساخت منوی زمینه"
     },
     "regexNote": {
-        "message": "This feature doesn't apply to the grid of icons."
+        "message": "این ویژگی برای شبکه آیکون ها اعمال نمی شود."
     },
     "subheader62": {
-        "message": "Add a new folder"
+        "message": "یک پوشه جدید اضافه کنید"
     },
     "folderName": {
-        "message": "Folder name"
+        "message": "نام پوشه"
     },
     "folder": {
-        "message": "folder"
+        "message": "پوشه"
     },
     "addFolder": {
-        "message": "Add folder"
+        "message": "پوشه را اضافه کنید"
     },
     "keyboardShortcut": {
-        "message": "Keyboard shortcut"
+        "message": "میانبر صفحه کلید"
     },
     "header10": {
-        "message": "Multisearch options"
+        "message": "گزینه های چند جستجو"
     },
     "multisearchIntro": {
-        "message": "Open multiple search results/tabs"
+        "message": "باز کردن چندین نتایج/برگه جستجو"
     },
     "multiNewWindow": {
-        "message": "In a new window"
+        "message": "در یک پنجره جدید"
     },
     "multiAfterLastTab": {
-        "message": "After the last tab in the current window"
+        "message": "بعد از آخرین برگه در پنجره فعلی"
     },
     "multiActiveTab": {
-        "message": "Right after the active tab in the current window"
+        "message": "درست بعد از برگه فعال در پنجره فعلی"
     },
     "privacy": {
-        "message": "Make new window private"
+        "message": "خصوصی کردن پنجره جدید"
     },
     "reminder": {
-        "message": "Reminder"
+        "message": "یادآوری"
     },
     "enableDownloadsReminder": {
-        "message": "enable Downloads permissions to export your search engines."
+        "message": "مجوزهای دانلودها را برای صادرات موتورهای جستجوی خود فعال کنید."
     },
     "header11": {
-        "message": "Icons Grid options"
+        "message": "گزینه های Icons Grid"
     },
     "quickIconGrid": {
-        "message": "Immediately display the icons grid after text has been selected"
+        "message": "بلافاصله پس از انتخاب متن، شبکه آیکون ها را نمایش دهید"
     },
     "closeGridOnMouseOut": {
-        "message": "Close the icons grid on mouse out"
+        "message": "شبکه آیکون ها را روی ماوس ببندید"
     },
     "xOffset": {
-        "message": "Horizontal offset of the icons grid: "
+        "message": "افست افقی شبکه آیکون ها: "
     },
     "yOffset": {
-        "message": "Vertical offset of the icons grid: "
+        "message": "افست عمودی شبکه آیکون ها: "
     },
     "clearKeyboardShortcuts": {
-        "message": "Clear all keyboard shortcuts"
+        "message": "پاک کردن همه میان برهای صفحه کلید"
     },
     "subheader63": {
-        "message": "Add a new AI prompt"
+        "message": "یک اعلان هوش مصنوعی جدید اضافه کنید"
     },
     "subheader64": {
-        "message": "Add a separator"
+        "message": "افزودن یک جداکننده"
     },
     "testChatGPT": {
-        "message": "Test AI Prompt"
+        "message": "تست AI Prompt"
     },
     "addChatGPTPrompt": {
-        "message": "Add AI Prompt"
+        "message": "اضافه کردن AI Prompt"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "نمایش اعلان در منوی شبکه یا زمینه"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "نام اعلان"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "اعلان"
     },
     "overwriteSearchEngines": {
-        "message": "Overwrite the existing search engines with the imported search engines"
+        "message": "بازنویسی موتورهای جستجوی موجود با موتورهای جستجوی وارد شده"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Are you sure that you want to remove the folder "
+        "message": "آیا مطمئن هستید که می خواهید پوشه را حذف کنید؟ "
     },
     "removeFolderConfirmSuffix": {
-        "message": " and all of its contents?"
+        "message": " و تمام محتویات آن؟"
     },
     "removeSearchEngineConfirm": {
-        "message": "Are you sure you want to remove the search engine "
+        "message": "آیا مطمئن هستید که می خواهید موتور جستجو را حذف کنید؟ "
     },
     "popupBlockedMessage": {
-        "message": "Popup blocked! Please allow popups for this site."
+        "message": "پنجره بازشو مسدود شد! لطفا پنجره های بازشو را برای این سایت مجاز کنید."
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "En"
     }
 }
