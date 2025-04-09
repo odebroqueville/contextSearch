@@ -170,15 +170,6 @@
     "remove": {
         "message": "削除"
     },
-    "removeFolderConfirmPrefix": {
-        "message": "Are you sure you want to remove the folder"
-    },
-    "removeFolderConfirmSuffix": {
-        "message": " and all of its contents?"
-    },
-    "removeSearchEngineConfirm": {
-        "message": "Are you sure you want to remove the search engine"
-    },
     "multipleSearchEnginesSearch": {
         "message": "この検索エンジンを複数の検索エンジンの検索に含める"
     },
@@ -355,6 +346,15 @@
     },
     "overwriteSearchEngines": {
         "message": "既存の検索エンジンをインポートした検索エンジンで上書きする"
+    },
+    "removeFolderConfirmPrefix": {
+        "message": "Are you sure that you want to remove the folder "
+    },
+    "removeFolderConfirmSuffix": {
+        "message": " and all of its contents?"
+    },
+    "removeSearchEngineConfirm": {
+        "message": "Are you sure you want to remove the search engine "
     },
     "popupBlockedMessage": {
         "message": "Popup blocked! Please allow popups for this site."
