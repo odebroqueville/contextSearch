@@ -1,6 +1,6 @@
 {
     "extensionName": {
-        "message": "Context Search",
+        "message": "コンテキスト検索",
         "description": "Name of the extension"
     },
     "extensionDescription": {
@@ -324,40 +324,40 @@
         "message": "すべてのキーボード ショートカットをクリアする"
     },
     "subheader63": {
-        "message": "Add a new AI prompt"
+        "message": "新しいAIプロンプトを追加する"
     },
     "subheader64": {
-        "message": "Add a separator"
+        "message": "セパレーターの追加"
     },
     "testChatGPT": {
-        "message": "Test AI Prompt"
+        "message": "テストAIプロンプト"
     },
     "addChatGPTPrompt": {
-        "message": "Add AI Prompt"
+        "message": "AIプロンプトの追加"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "グリッドまたはコンテキストメニューにプロンプトを表示する"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "プロンプト名"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "プロンプト"
     },
     "overwriteSearchEngines": {
         "message": "既存の検索エンジンをインポートした検索エンジンで上書きする"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Are you sure that you want to remove the folder "
+        "message": "フォルダを削除してもよろしいですか？ "
     },
     "removeFolderConfirmSuffix": {
-        "message": " and all of its contents?"
+        "message": " そしてその中身はすべて？"
     },
     "removeSearchEngineConfirm": {
-        "message": "Are you sure you want to remove the search engine "
+        "message": "本当に検索エンジンを削除しますか？ "
     },
     "popupBlockedMessage": {
-        "message": "Popup blocked! Please allow popups for this site."
+        "message": "ポップアップがブロックされました！このサイトのポップアップを許可してください。"
     },
     "__WET_LOCALE__": {
         "message": "ja"
