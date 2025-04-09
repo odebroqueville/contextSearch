@@ -170,15 +170,6 @@
     "remove": {
         "message": "제거"
     },
-    "removeFolderConfirmPrefix": {
-        "message": "Are you sure you want to remove the folder"
-    },
-    "removeFolderConfirmSuffix": {
-        "message": " and all of its contents?"
-    },
-    "removeSearchEngineConfirm": {
-        "message": "Are you sure you want to remove the search engine"
-    },
     "multipleSearchEnginesSearch": {
         "message": "이 검색 엔진을 다중 검색에 포함하십시오"
     },
@@ -355,6 +346,15 @@
     },
     "overwriteSearchEngines": {
         "message": "기존 검색엔진을 가져온 검색엔진으로 덮어쓰기"
+    },
+    "removeFolderConfirmPrefix": {
+        "message": "Are you sure that you want to remove the folder "
+    },
+    "removeFolderConfirmSuffix": {
+        "message": " and all of its contents?"
+    },
+    "removeSearchEngineConfirm": {
+        "message": "Are you sure you want to remove the search engine "
     },
     "popupBlockedMessage": {
         "message": "Popup blocked! Please allow popups for this site."
