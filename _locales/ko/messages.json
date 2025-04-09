@@ -1,6 +1,6 @@
 {
     "extensionName": {
-        "message": "Context Search",
+        "message": "컨텍스트 검색",
         "description": "Name of the extension"
     },
     "extensionDescription": {
@@ -324,40 +324,40 @@
         "message": "모든 키보드 단축키 지우기"
     },
     "subheader63": {
-        "message": "Add a new AI prompt"
+        "message": "새로운 AI 프롬프트 추가"
     },
     "subheader64": {
-        "message": "Add a separator"
+        "message": "구분 기호 추가"
     },
     "testChatGPT": {
-        "message": "Test AI Prompt"
+        "message": "AI 프롬프트 테스트"
     },
     "addChatGPTPrompt": {
-        "message": "Add AI Prompt"
+        "message": "AI 프롬프트 추가"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "그리드 또는 컨텍스트 메뉴에 프롬프트 표시"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "프롬프트 이름"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "프롬프트"
     },
     "overwriteSearchEngines": {
         "message": "기존 검색엔진을 가져온 검색엔진으로 덮어쓰기"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Are you sure that you want to remove the folder "
+        "message": "폴더를 제거하시겠습니까? "
     },
     "removeFolderConfirmSuffix": {
-        "message": " and all of its contents?"
+        "message": " 그리고 그 모든 콘텐츠?"
     },
     "removeSearchEngineConfirm": {
-        "message": "Are you sure you want to remove the search engine "
+        "message": "검색 엔진을 제거하시겠습니까? "
     },
     "popupBlockedMessage": {
-        "message": "Popup blocked! Please allow popups for this site."
+        "message": "팝업이 차단되었습니다! 이 사이트의 팝업을 허용해 주세요."
     },
     "__WET_LOCALE__": {
         "message": "ko"
