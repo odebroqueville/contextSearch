@@ -434,6 +434,19 @@
 		"message": "استبدال محركات البحث الموجودة بمحركات البحث المستوردة",
 		"hash": "298f419a9e5661db408338fe08cc8ee0"
 	},
-
-	"__WET_LOCALE__": { "message": "ar" }
+	"removeFolderConfirmPrefix": {
+		"message": "Are you sure that you want to remove the folder "
+	},
+	"removeFolderConfirmSuffix": {
+		"message": " and all of its contents?"
+	},
+	"removeSearchEngineConfirm": {
+		"message": "Are you sure you want to remove the search engine "
+	},
+	"popupBlockedMessage": {
+		"message": "Popup blocked! Please allow popups for this site."
+	},
+	"__WET_LOCALE__": {
+		"message": "ar"
+	}
 }

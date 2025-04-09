@@ -434,6 +434,19 @@
 		"message": "기존 검색엔진을 가져온 검색엔진으로 덮어쓰기",
 		"hash": "298f419a9e5661db408338fe08cc8ee0"
 	},
-
-	"__WET_LOCALE__": { "message": "ko" }
+	"removeFolderConfirmPrefix": {
+		"message": "Are you sure that you want to remove the folder "
+	},
+	"removeFolderConfirmSuffix": {
+		"message": " and all of its contents?"
+	},
+	"removeSearchEngineConfirm": {
+		"message": "Are you sure you want to remove the search engine "
+	},
+	"popupBlockedMessage": {
+		"message": "Popup blocked! Please allow popups for this site."
+	},
+	"__WET_LOCALE__": {
+		"message": "ko"
+	}
 }
