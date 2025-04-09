@@ -1,6 +1,6 @@
 {
     "extensionName": {
-        "message": "Context Search",
+        "message": "Контекстный поиск",
         "description": "Name of the extension"
     },
     "extensionDescription": {
@@ -324,40 +324,40 @@
         "message": "Удалить все сочетания клавиш"
     },
     "subheader63": {
-        "message": "Add a new AI prompt"
+        "message": "Добавьте новую подсказку искусственного интеллекта"
     },
     "subheader64": {
-        "message": "Add a separator"
+        "message": "Добавить разделитель"
     },
     "testChatGPT": {
-        "message": "Test AI Prompt"
+        "message": "Тест AI Prompt"
     },
     "addChatGPTPrompt": {
-        "message": "Add AI Prompt"
+        "message": "Добавить подсказку искусственного интеллекта"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "Показать подсказку в сетке или контекстном меню"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "Имя подсказки"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "Подсказка"
     },
     "overwriteSearchEngines": {
         "message": "Заменить существующие поисковые системы импортированными поисковыми системами."
     },
     "removeFolderConfirmPrefix": {
-        "message": "Are you sure that you want to remove the folder "
+        "message": "Вы уверены, что хотите удалить папку "
     },
     "removeFolderConfirmSuffix": {
-        "message": " and all of its contents?"
+        "message": " и все его содержимое?"
     },
     "removeSearchEngineConfirm": {
-        "message": "Are you sure you want to remove the search engine "
+        "message": "Вы уверены, что хотите удалить поисковую систему "
     },
     "popupBlockedMessage": {
-        "message": "Popup blocked! Please allow popups for this site."
+        "message": "Всплывающее окно заблокировано! Пожалуйста, разрешите всплывающие окна для этого сайта."
     },
     "__WET_LOCALE__": {
         "message": "ru"
