@@ -170,15 +170,6 @@
     "remove": {
         "message": "Видалити"
     },
-    "removeFolderConfirmPrefix": {
-        "message": "Are you sure you want to remove the folder"
-    },
-    "removeFolderConfirmSuffix": {
-        "message": " and all of its contents?"
-    },
-    "removeSearchEngineConfirm": {
-        "message": "Are you sure you want to remove the search engine"
-    },
     "multipleSearchEnginesSearch": {
         "message": "Додати цю пошукову систему до multi-search"
     },
@@ -355,6 +346,15 @@
     },
     "overwriteSearchEngines": {
         "message": "Замініть існуючі пошукові системи імпортованими пошуковими системами"
+    },
+    "removeFolderConfirmPrefix": {
+        "message": "Are you sure that you want to remove the folder "
+    },
+    "removeFolderConfirmSuffix": {
+        "message": " and all of its contents?"
+    },
+    "removeSearchEngineConfirm": {
+        "message": "Are you sure you want to remove the search engine "
     },
     "popupBlockedMessage": {
         "message": "Popup blocked! Please allow popups for this site."
