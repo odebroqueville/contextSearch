@@ -430,23 +430,53 @@
 		"message": "Effacer tous les raccourcis clavier",
 		"hash": "3745c3c2b77449e9606d8bf4e137e94f"
 	},
+	"subheader63": {
+		"message": "Ajouter une nouvelle invite AI",
+		"hash": "aca5154e0c346cecccd40d4eb1789a04"
+	},
+	"subheader64": {
+		"message": "Ajouter un séparateur",
+		"hash": "e7dee3308538cf240c29661ce7fcd41d"
+	},
+	"testChatGPT": {
+		"message": "Tester l'invite AI",
+		"hash": "8f02c27fa7b2794820e108afdab36414"
+	},
+	"addChatGPTPrompt": {
+		"message": "Ajouter une invite AI",
+		"hash": "51112efe01defef3d5e71b8da0eb1a65"
+	},
+	"promptShow": {
+		"message": "Montrer l'invite AI dans la grille d'icônes et dans le menu contextuel",
+		"hash": "843313f26b34276b12a2fd2414c53ead"
+	},
+	"promptName": {
+		"message": "Nom de l'invite AI",
+		"hash": "8587a688a33b82c9847228e3544cfa3d"
+	},
+	"prompt": {
+		"message": "L'invite AI",
+		"hash": "9635e60de0a0ced247f57a018b078152"
+	},
 	"overwriteSearchEngines": {
 		"message": "Remplacer les moteurs de recherche existants par les moteurs de recherche importés",
 		"hash": "298f419a9e5661db408338fe08cc8ee0"
 	},
 	"removeFolderConfirmPrefix": {
-		"message": "Are you sure that you want to remove the folder "
+		"message": "Are you sure that you want to remove the folder ",
+		"hash": "da8fc41a548ec01607ac4ed5c4627e47"
 	},
 	"removeFolderConfirmSuffix": {
-		"message": " and all of its contents?"
+		"message": " and all of its contents?",
+		"hash": "545fc8f955e5dc8b4a814d76ebcf477d"
 	},
 	"removeSearchEngineConfirm": {
-		"message": "Are you sure you want to remove the search engine "
+		"message": "Are you sure you want to remove the search engine ",
+		"hash": "0d9f608b4ed0642e06095a15ce1c044f"
 	},
 	"popupBlockedMessage": {
-		"message": "Popup blocked! Please allow popups for this site."
+		"message": "Popup blocked! Please allow popups for this site.",
+		"hash": "85ed8f549708c962a51a91cd34b11a0c"
 	},
-	"__WET_LOCALE__": {
-		"message": "fr"
-	}
+	"__WET_LOCALE__": { "message": "fr" }
 }
