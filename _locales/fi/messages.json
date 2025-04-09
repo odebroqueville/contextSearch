@@ -1,365 +1,365 @@
 {
     "extensionName": {
-        "message": "Context Search",
+        "message": "Kontekstihaku",
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Searches the selected text using a search engine from a pre-specified list.",
+        "message": "Etsii valittua tekstiä käyttämällä hakukonetta ennalta määritetystä luettelosta.",
         "description": "Description of the extension"
     },
     "multisearch": {
-        "message": " is a search with multiple search engines simultaneously.",
+        "message": " on haku useilla hakukoneilla samanaikaisesti.",
         "description": "multi-search - it's a search with multiple search engines simultaneously."
     },
     "multisearchHowTo": {
-        "message": "Check the middle checkbox to include a search engine in a"
+        "message": "Merkitse keskimmäinen valintaruutu, jos haluat sisällyttää hakukoneen"
     },
     "multisearchLaunch": {
-        "message": "You can launch a"
+        "message": "Voit käynnistää"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the omnibox by typing:"
+        "message": "kontekstivalikon kautta tai omniboxin kautta kirjoittamalla:"
     },
     "pageTitle": {
-        "message": "Context Search Preferences"
+        "message": "Kontekstihakuasetukset"
     },
     "header1": {
-        "message": "Where should search results appear?"
+        "message": "Missä hakutulosten pitäisi näkyä?"
     },
     "newTab": {
-        "message": "In a new tab"
+        "message": "Uudessa välilehdessä"
     },
     "sameTab": {
-        "message": "In the same tab"
+        "message": "Samassa välilehdessä"
     },
     "newWindow": {
-        "message": "In a new window"
+        "message": "Uudessa ikkunassa"
     },
     "active": {
-        "message": "Make the new tab or window active"
+        "message": "Tee uudesta välilehdestä tai ikkunasta aktiivinen"
     },
     "position": {
-        "message": "Display the search results after the last tab"
+        "message": "Näytä hakutulokset viimeisen välilehden jälkeen"
     },
     "header3": {
-        "message": "Position of options in the context menu"
+        "message": "Vaihtoehtojen sijainti kontekstivalikossa"
     },
     "subheader31": {
-        "message": "Where would you like the options menu to appear in the context menu?"
+        "message": "Missä haluat, että valintavalikko näkyy kontekstivalikossa?"
     },
     "bottom": {
-        "message": "At the bottom"
+        "message": "Alareunassa"
     },
     "top": {
-        "message": "At the top"
+        "message": "Huipulla"
     },
     "hide": {
-        "message": "Neither (hide the options menu)"
+        "message": "Ei kumpikaan (piilota asetusvalikko)"
     },
     "header5": {
-        "message": "Import/export search engines"
+        "message": "Hakukoneiden tuonti/vienti"
     },
     "import": {
-        "message": "Import JSON from local disk"
+        "message": "Tuo JSON paikalliselta levyltä"
     },
     "export": {
-        "message": "Export search engines to JSON"
+        "message": "Vie hakukoneet JSON:iin"
     },
     "download": {
-        "message": "Export to local disk"
+        "message": "Vie paikalliselle levylle"
     },
     "header2": {
-        "message": "Favicons & Icons"
+        "message": "Suosikit & kuvakkeet"
     },
     "getFavicons": {
-        "message": "Display favicons in context menu list"
+        "message": "Näytä suosikkikuvakkeet kontekstivalikon luettelossa"
     },
     "note": {
-        "message": "This feature requires Firefox 56 or above."
+        "message": "Tämä ominaisuus vaatii Firefox 56:n tai uudemman version."
     },
     "header4": {
-        "message": "Search options"
+        "message": "Hakuvaihtoehdot"
     },
     "exactMatch": {
-        "message": "Search for an exact string match"
+        "message": "Hae täsmällinen merkkijono"
     },
     "gridMode": {
-        "message": "Display a grid of icons instead of a list of search engines"
+        "message": "Näyttää kuvakkeiden ruudukon hakukoneiden luettelon sijaan"
     },
     "warning": {
-        "message": "Warning: Please note that enabling this feature will prevent context menus from other extensions to be displayed."
+        "message": "Varoitus: Huomaa, että tämän ominaisuuden käyttöönotto estää muiden laajennusten kontekstivalikoiden näyttämisen."
     },
     "savePreferences": {
-        "message": "Save preferences"
+        "message": "Tallenna asetukset"
     },
     "header6": {
-        "message": "Which search engines would you like to appear in the context menu or grid?"
+        "message": "Mitkä hakukoneet haluat näkyviin kontekstivalikkoon tai ruudukkoon?"
     },
     "clearAll": {
-        "message": "Clear All"
+        "message": "Tyhjennä kaikki"
     },
     "selectAll": {
-        "message": "Select All"
+        "message": "Valitse kaikki"
     },
     "sortAlphabetically": {
-        "message": "Sort alphabetically"
+        "message": "Lajittele aakkosjärjestyksessä"
     },
     "showAdvancedFeatures": {
-        "message": "Show advanced features"
+        "message": "Näytä lisäominaisuudet"
     },
     "hideAdvancedFeatures": {
-        "message": "Hide advanced features"
+        "message": "Piilota lisäominaisuudet"
     },
     "reset": {
-        "message": "Reset"
+        "message": "Nollaa"
     },
     "subheader61": {
-        "message": "Add a new search engine"
+        "message": "Lisää uusi hakukone"
     },
     "showSearchEngine": {
-        "message": "Show search engine in grid or context menu"
+        "message": "Näytä hakukone ruudukossa tai kontekstivalikossa"
     },
     "searchEngineName": {
-        "message": "Search engine name"
+        "message": "Hakukoneen nimi"
     },
     "placeHolderKeyword": {
-        "message": "Keyword"
+        "message": "Avainsana"
     },
     "warningText": {
-        "message": "Warning"
+        "message": "Varoitus"
     },
     "keyboardShortcutWarning": {
-        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
+        "message": "kaikki näppäinyhdistelmät eivät toimi. Näppäimistön pikanäppäimet eivät välttämättä ala CMD-näppäimellä macOS:ssä tai CTRL-näppäimellä Windowsissa tai Linuxissa, koska ne on yleensä varattu Firefox-komentoja varten."
     },
     "placeHolderKeyboardShortcut": {
-        "message": "Keyboard shortcut"
+        "message": "Näppäimistön pikavalinta"
     },
     "multipleSearchEngines": {
-        "message": "Include in multi-search"
+        "message": "Sisällytetään monihakuun"
     },
     "searchEngineURL": {
-        "message": "Search engine URL"
+        "message": "Hakukoneen URL-osoite"
     },
     "regex": {
-        "message": "Regular expression"
+        "message": "Säännöllinen lauseke"
     },
     "testSearchEngine": {
-        "message": "Test search engine"
+        "message": "Testaa hakukone"
     },
     "addSearchEngine": {
-        "message": "Add search engine"
+        "message": "Lisää hakukone"
     },
     "addSeparator": {
-        "message": "Add a separator"
+        "message": "Lisää erotin"
     },
     "clear": {
-        "message": "Clear"
+        "message": "Kirkas"
     },
     "disableGrid": {
-        "message": "Disable grid of icons"
+        "message": "Poista kuvakkeiden ruudukko käytöstä"
     },
     "move": {
-        "message": "Move"
+        "message": "Siirrä"
     },
     "up": {
-        "message": "up"
+        "message": "ylös"
     },
     "down": {
-        "message": "down"
+        "message": "alas"
     },
     "remove": {
-        "message": "Remove"
+        "message": "Poista"
     },
     "multipleSearchEnginesSearch": {
-        "message": "Include this search engine in a multi-search"
+        "message": "Sisällytä tämä hakukone monihakuun"
     },
     "notifySavedPreferences": {
-        "message": "Saved preferences."
+        "message": "Tallennetut asetukset."
     },
     "notifySearchEngineAdded": {
-        "message": "Search engine added."
+        "message": "Hakukone lisätty."
     },
     "titleShowEngine": {
-        "message": "Show this search engine in the context menu or grid"
+        "message": "Näytä tämä hakukone kontekstivalikossa tai ruudukossa."
     },
     "notifyEnableStorageSync": {
-        "message": "Please ensure that the flag 'webextensions.storage.sync.enabled' is set to 'true' in 'about:config', otherwise Context Search won't work."
+        "message": "Varmista, että lipun 'webextensions.storage.sync.enabled' arvoksi on asetettu 'true' kohdassa 'about:config', muuten Context Search ei toimi."
     },
     "notifySearchEnginesLoaded": {
-        "message": "Default list of search engines has been loaded."
+        "message": "Hakukoneiden oletusluettelo on ladattu."
     },
     "notifySearchEngineNotFound": {
-        "message": "A search engine couldn't be found on the current web page"
+        "message": "Hakukonetta ei löytynyt nykyiseltä verkkosivulta."
     },
     "titleMultipleSearchEngines": {
-        "message": "Multiple search engines search"
+        "message": "Useiden hakukoneiden haku"
     },
     "titleAISearch": {
-        "message": "AI Search"
+        "message": "AI-haku"
     },
     "titleSiteSearch": {
-        "message": "Search this site with"
+        "message": "Etsi tätä sivustoa"
     },
     "titleOptions": {
-        "message": "Options"
+        "message": "Vaihtoehdot"
     },
     "windowTitle": {
-        "message": "Search results for"
+        "message": "Hakutulokset seuraavalle hakusanalle"
     },
     "omniboxDescription": {
-        "message": "Search using Context Search with keywords. Usage: cs [keyword] [search terms] (e.g. 'cs w Linux' searches Wikipedia for the term 'Linux')"
+        "message": "Haku käyttämällä kontekstihakua avainsanoilla. Käyttö: cs [avainsana] [hakusanat] (esim. 'cs w Linux' hakee Wikipediasta termillä 'Linux')."
     },
     "notifyUsage": {
-        "message": "Usage: cs [keyword] [search terms] (for example: cs w Linux)"
+        "message": "Käyttö: cs [avainsana] [hakusanat] (esimerkiksi: cs w Linux)"
     },
     "notifySearchEngineWithKeyword": {
-        "message": "Search engine with keyword"
+        "message": "Hakukone avainsanalla"
     },
     "notifyUnknown": {
-        "message": "is unknown."
+        "message": "on tuntematon."
     },
     "notifySearchEngineUrlRequired": {
-        "message": "Please fill in a valid search engine URL."
+        "message": "Täytä kelvollinen hakukoneen URL-osoite."
     },
     "header7": {
-        "message": "Reset options"
+        "message": "Nollaa vaihtoehdot"
     },
     "header8": {
-        "message": "Which EXIF tags should be displayed?"
+        "message": "Mitkä EXIF-tunnisteet pitäisi näyttää?"
     },
     "sidebar": {
-        "message": "In the sidebar"
+        "message": "Sivupalkissa"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu list"
+        "message": "Näytä suosikkikuvakkeet kontekstivalikon luettelossa"
     },
     "displayExifSummary": {
-        "message": "Summary"
+        "message": "Yhteenveto"
     },
     "disableAltClick": {
-        "message": "Disable icon grid (Alt + Click)"
+        "message": "Poista kuvakeverkko käytöstä (Alt + klikkaus)"
     },
     "resetPreferences": {
-        "message": "Reset preferences to default settings"
+        "message": "Asetusten palauttaminen oletusasetuksiin"
     },
     "forceSearchEnginesReload": {
-        "message": "Force reload of default search engines list"
+        "message": "Pakota oletushakukoneiden luettelon uudelleenlataus"
     },
     "forceFaviconsReload": {
-        "message": "Force favicons to be reloaded"
+        "message": "Pakota suosikkikuvakkeet latautumaan uudelleen"
     },
     "restriction": {
-        "message": "If the sidebar isn't already open, then you may have to click on the 'Show sidebars' icon from the browser toolbar."
+        "message": "Jos sivupalkki ei ole vielä auki, sinun on ehkä napsautettava selaimen työkalurivin Näytä sivupalkit -kuvaketta."
     },
     "reverseImage": {
-        "message": "Also, reverse image search results cannot be displayed in the sidebar."
+        "message": "Myöskään käänteisen kuvahaun tuloksia ei voi näyttää sivupalkissa."
     },
     "siteSearch": {
-        "message": "Search engine for searching current site:"
+        "message": "Hakukone nykyisen sivuston hakua varten:"
     },
     "header9": {
-        "message": "Advanced features"
+        "message": "Lisäominaisuudet"
     },
     "useRegex": {
-        "message": "Use regular expressions to build the context menu"
+        "message": "Käytä säännöllisiä lausekkeita kontekstivalikon rakentamiseen"
     },
     "regexNote": {
-        "message": "This feature doesn't apply to the grid of icons."
+        "message": "Tämä ominaisuus ei koske kuvakkeiden ruudukkoa."
     },
     "subheader62": {
-        "message": "Add a new folder"
+        "message": "Lisää uusi kansio"
     },
     "folderName": {
-        "message": "Folder name"
+        "message": "Kansion nimi"
     },
     "folder": {
-        "message": "folder"
+        "message": "kansio"
     },
     "addFolder": {
-        "message": "Add folder"
+        "message": "Lisää kansio"
     },
     "keyboardShortcut": {
-        "message": "Keyboard shortcut"
+        "message": "Näppäimistön pikavalinta"
     },
     "header10": {
-        "message": "Multisearch options"
+        "message": "Monihakuvaihtoehdot"
     },
     "multisearchIntro": {
-        "message": "Open multiple search results/tabs"
+        "message": "Avaa useita hakutuloksia/välilehtiä"
     },
     "multiNewWindow": {
-        "message": "In a new window"
+        "message": "Uudessa ikkunassa"
     },
     "multiAfterLastTab": {
-        "message": "After the last tab in the current window"
+        "message": "Nykyisen ikkunan viimeisen välilehden jälkeen"
     },
     "multiActiveTab": {
-        "message": "Right after the active tab in the current window"
+        "message": "Heti nykyisen ikkunan aktiivisen välilehden jälkeen"
     },
     "privacy": {
-        "message": "Make new window private"
+        "message": "Tee uudesta ikkunasta yksityinen"
     },
     "reminder": {
-        "message": "Reminder"
+        "message": "Muistutus"
     },
     "enableDownloadsReminder": {
-        "message": "enable Downloads permissions to export your search engines."
+        "message": "ota käyttöön Latausoikeudet hakukoneiden vientiä varten."
     },
     "header11": {
-        "message": "Icons Grid options"
+        "message": "Kuvakkeet Ruutuvaihtoehdot"
     },
     "quickIconGrid": {
-        "message": "Immediately display the icons grid after text has been selected"
+        "message": "Näyttää kuvakkeiden ruudukon heti tekstin valinnan jälkeen."
     },
     "closeGridOnMouseOut": {
-        "message": "Close the icons grid on mouse out"
+        "message": "Sulje kuvakkeiden ruudukko hiiren poistuessa"
     },
     "xOffset": {
-        "message": "Horizontal offset of the icons grid: "
+        "message": "Kuvakkeiden ruudukon vaakasuora siirtymä: "
     },
     "yOffset": {
-        "message": "Vertical offset of the icons grid: "
+        "message": "Kuvakkeiden ruudukon pystysuora siirtymä: "
     },
     "clearKeyboardShortcuts": {
-        "message": "Clear all keyboard shortcuts"
+        "message": "Tyhjennä kaikki pikanäppäimet"
     },
     "subheader63": {
-        "message": "Add a new AI prompt"
+        "message": "Lisää uusi tekoälykehote"
     },
     "subheader64": {
-        "message": "Add a separator"
+        "message": "Lisää erotin"
     },
     "testChatGPT": {
-        "message": "Test AI Prompt"
+        "message": "Testaa AI-kehotus"
     },
     "addChatGPTPrompt": {
-        "message": "Add AI Prompt"
+        "message": "Lisää tekoälykehote"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "Näytä kehote ruudukossa tai kontekstivalikossa"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "Kehotteen nimi"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "Kehotus"
     },
     "overwriteSearchEngines": {
-        "message": "Overwrite the existing search engines with the imported search engines"
+        "message": "Korvaa olemassa olevat hakukoneet tuoduilla hakukoneilla."
     },
     "removeFolderConfirmPrefix": {
-        "message": "Are you sure that you want to remove the folder "
+        "message": "Oletko varma, että haluat poistaa kansion "
     },
     "removeFolderConfirmSuffix": {
-        "message": " and all of its contents?"
+        "message": " ja sen koko sisältö?"
     },
     "removeSearchEngineConfirm": {
-        "message": "Are you sure you want to remove the search engine "
+        "message": "Haluatko varmasti poistaa hakukoneen? "
     },
     "popupBlockedMessage": {
-        "message": "Popup blocked! Please allow popups for this site."
+        "message": "Ponnahdusikkuna estetty! Salli ponnahdusikkunat tälle sivustolle."
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "fi"
     }
 }
