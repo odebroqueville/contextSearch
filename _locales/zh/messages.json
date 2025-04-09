@@ -1,365 +1,365 @@
 {
     "extensionName": {
-        "message": "Context Search",
+        "message": "上下文搜索",
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Searches the selected text using a search engine from a pre-specified list.",
+        "message": "使用搜索引擎从预先指定的列表中搜索所选文本。",
         "description": "Description of the extension"
     },
     "multisearch": {
-        "message": " is a search with multiple search engines simultaneously.",
+        "message": " 是指同时使用多个搜索引擎进行搜索。",
         "description": "multi-search - it's a search with multiple search engines simultaneously."
     },
     "multisearchHowTo": {
-        "message": "Check the middle checkbox to include a search engine in a"
+        "message": "选中中间的复选框，将搜索引擎包含在"
     },
     "multisearchLaunch": {
-        "message": "You can launch a"
+        "message": "您可以启动"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the omnibox by typing:"
+        "message": "通过上下文菜单，或通过全能窗口键入："
     },
     "pageTitle": {
-        "message": "Context Search Preferences"
+        "message": "上下文搜索首选项"
     },
     "header1": {
-        "message": "Where should search results appear?"
+        "message": "搜索结果应该出现在哪里？"
     },
     "newTab": {
-        "message": "In a new tab"
+        "message": "在新标签页中"
     },
     "sameTab": {
-        "message": "In the same tab"
+        "message": "在同一选项卡中"
     },
     "newWindow": {
-        "message": "In a new window"
+        "message": "在新窗口中"
     },
     "active": {
-        "message": "Make the new tab or window active"
+        "message": "使新标签页或窗口处于活动状态"
     },
     "position": {
-        "message": "Display the search results after the last tab"
+        "message": "在最后一个选项卡之后显示搜索结果"
     },
     "header3": {
-        "message": "Position of options in the context menu"
+        "message": "选项在右键菜单中的位置"
     },
     "subheader31": {
-        "message": "Where would you like the options menu to appear in the context menu?"
+        "message": "您希望选项菜单出现在右键菜单的什么位置？"
     },
     "bottom": {
-        "message": "At the bottom"
+        "message": "在底部"
     },
     "top": {
-        "message": "At the top"
+        "message": "在顶部"
     },
     "hide": {
-        "message": "Neither (hide the options menu)"
+        "message": "都不是（隐藏选项菜单）"
     },
     "header5": {
-        "message": "Import/export search engines"
+        "message": "导入/导出搜索引擎"
     },
     "import": {
-        "message": "Import JSON from local disk"
+        "message": "从本地磁盘导入 JSON"
     },
     "export": {
-        "message": "Export search engines to JSON"
+        "message": "将搜索引擎导出为 JSON"
     },
     "download": {
-        "message": "Export to local disk"
+        "message": "导出到本地磁盘"
     },
     "header2": {
-        "message": "Favicons & Icons"
+        "message": "收藏夹和图标"
     },
     "getFavicons": {
-        "message": "Display favicons in context menu list"
+        "message": "在右键菜单列表中显示收藏夹"
     },
     "note": {
-        "message": "This feature requires Firefox 56 or above."
+        "message": "此功能需要 Firefox 56 或以上版本。"
     },
     "header4": {
-        "message": "Search options"
+        "message": "搜索选项"
     },
     "exactMatch": {
-        "message": "Search for an exact string match"
+        "message": "搜索完全匹配的字符串"
     },
     "gridMode": {
-        "message": "Display a grid of icons instead of a list of search engines"
+        "message": "显示图标网格，而不是搜索引擎列表"
     },
     "warning": {
-        "message": "Warning: Please note that enabling this feature will prevent context menus from other extensions to be displayed."
+        "message": "警告：请注意，启用此功能将无法显示其他扩展程序的上下文菜单。"
     },
     "savePreferences": {
-        "message": "Save preferences"
+        "message": "保存首选项"
     },
     "header6": {
-        "message": "Which search engines would you like to appear in the context menu or grid?"
+        "message": "您希望哪些搜索引擎出现在右键菜单或网格中？"
     },
     "clearAll": {
-        "message": "Clear All"
+        "message": "全部清除"
     },
     "selectAll": {
-        "message": "Select All"
+        "message": "全部选择"
     },
     "sortAlphabetically": {
-        "message": "Sort alphabetically"
+        "message": "按字母顺序排序"
     },
     "showAdvancedFeatures": {
-        "message": "Show advanced features"
+        "message": "显示高级功能"
     },
     "hideAdvancedFeatures": {
-        "message": "Hide advanced features"
+        "message": "隐藏高级功能"
     },
     "reset": {
-        "message": "Reset"
+        "message": "重置"
     },
     "subheader61": {
-        "message": "Add a new search engine"
+        "message": "添加新的搜索引擎"
     },
     "showSearchEngine": {
-        "message": "Show search engine in grid or context menu"
+        "message": "在网格或右键菜单中显示搜索引擎"
     },
     "searchEngineName": {
-        "message": "Search engine name"
+        "message": "搜索引擎名称"
     },
     "placeHolderKeyword": {
-        "message": "Keyword"
+        "message": "关键词"
     },
     "warningText": {
-        "message": "Warning"
+        "message": "警告"
     },
     "keyboardShortcutWarning": {
-        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
+        "message": "并非所有组合键都能使用。键盘快捷键可能不会以 macOS 上的 CMD 或 Windows 或 Linux 上的 CTRL 开头，因为这些通常是为 Firefox 命令保留的。"
     },
     "placeHolderKeyboardShortcut": {
-        "message": "Keyboard shortcut"
+        "message": "键盘快捷键"
     },
     "multipleSearchEngines": {
-        "message": "Include in multi-search"
+        "message": "包含在多重搜索中"
     },
     "searchEngineURL": {
-        "message": "Search engine URL"
+        "message": "搜索引擎 URL"
     },
     "regex": {
-        "message": "Regular expression"
+        "message": "正则表达式"
     },
     "testSearchEngine": {
-        "message": "Test search engine"
+        "message": "测试搜索引擎"
     },
     "addSearchEngine": {
-        "message": "Add search engine"
+        "message": "添加搜索引擎"
     },
     "addSeparator": {
-        "message": "Add a separator"
+        "message": "添加分隔符"
     },
     "clear": {
-        "message": "Clear"
+        "message": "清晰"
     },
     "disableGrid": {
-        "message": "Disable grid of icons"
+        "message": "禁用图标网格"
     },
     "move": {
-        "message": "Move"
+        "message": "移动"
     },
     "up": {
-        "message": "up"
+        "message": "向上"
     },
     "down": {
-        "message": "down"
+        "message": "下来"
     },
     "remove": {
-        "message": "Remove"
+        "message": "移除"
     },
     "multipleSearchEnginesSearch": {
-        "message": "Include this search engine in a multi-search"
+        "message": "在多重搜索中包含该搜索引擎"
     },
     "notifySavedPreferences": {
-        "message": "Saved preferences."
+        "message": "保存的首选项。"
     },
     "notifySearchEngineAdded": {
-        "message": "Search engine added."
+        "message": "增加了搜索引擎。"
     },
     "titleShowEngine": {
-        "message": "Show this search engine in the context menu or grid"
+        "message": "在右键菜单或网格中显示该搜索引擎"
     },
     "notifyEnableStorageSync": {
-        "message": "Please ensure that the flag 'webextensions.storage.sync.enabled' is set to 'true' in 'about:config', otherwise Context Search won't work."
+        "message": "请确保在 \"about:config \"中将标志 \"webextensions.storage.sync.enabled \"设置为 \"true\"，否则 \"上下文搜索 \"将无法运行。"
     },
     "notifySearchEnginesLoaded": {
-        "message": "Default list of search engines has been loaded."
+        "message": "已加载默认搜索引擎列表。"
     },
     "notifySearchEngineNotFound": {
-        "message": "A search engine couldn't be found on the current web page"
+        "message": "在当前网页上无法找到搜索引擎"
     },
     "titleMultipleSearchEngines": {
-        "message": "Multiple search engines search"
+        "message": "多个搜索引擎搜索"
     },
     "titleAISearch": {
-        "message": "AI Search"
+        "message": "人工智能搜索"
     },
     "titleSiteSearch": {
-        "message": "Search this site with"
+        "message": "搜索本网站"
     },
     "titleOptions": {
-        "message": "Options"
+        "message": "选项"
     },
     "windowTitle": {
-        "message": "Search results for"
+        "message": "搜索结果"
     },
     "omniboxDescription": {
-        "message": "Search using Context Search with keywords. Usage: cs [keyword] [search terms] (e.g. 'cs w Linux' searches Wikipedia for the term 'Linux')"
+        "message": "使用带关键字的上下文搜索进行搜索。使用方法：cs [关键词] [搜索条件]（例如，\"cs w Linux \"可搜索维基百科中的 \"Linux\"）。"
     },
     "notifyUsage": {
-        "message": "Usage: cs [keyword] [search terms] (for example: cs w Linux)"
+        "message": "使用方法：cs [keyword] [search terms] （例如：cs w Linux）"
     },
     "notifySearchEngineWithKeyword": {
-        "message": "Search engine with keyword"
+        "message": "关键词搜索引擎"
     },
     "notifyUnknown": {
-        "message": "is unknown."
+        "message": "未知。"
     },
     "notifySearchEngineUrlRequired": {
-        "message": "Please fill in a valid search engine URL."
+        "message": "请填写有效的搜索引擎 URL。"
     },
     "header7": {
-        "message": "Reset options"
+        "message": "重置选项"
     },
     "header8": {
-        "message": "Which EXIF tags should be displayed?"
+        "message": "应显示哪些 EXIF 标记？"
     },
     "sidebar": {
-        "message": "In the sidebar"
+        "message": "侧边栏"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu list"
+        "message": "在右键菜单列表中显示收藏夹"
     },
     "displayExifSummary": {
-        "message": "Summary"
+        "message": "摘要"
     },
     "disableAltClick": {
-        "message": "Disable icon grid (Alt + Click)"
+        "message": "禁用图标网格（Alt + 点击）"
     },
     "resetPreferences": {
-        "message": "Reset preferences to default settings"
+        "message": "将首选项重置为默认设置"
     },
     "forceSearchEnginesReload": {
-        "message": "Force reload of default search engines list"
+        "message": "强制重新加载默认搜索引擎列表"
     },
     "forceFaviconsReload": {
-        "message": "Force favicons to be reloaded"
+        "message": "强制重新加载收藏夹"
     },
     "restriction": {
-        "message": "If the sidebar isn't already open, then you may have to click on the 'Show sidebars' icon from the browser toolbar."
+        "message": "如果侧边栏还没有打开，则可能需要点击浏览器工具栏上的 \"显示侧边栏 \"图标。"
     },
     "reverseImage": {
-        "message": "Also, reverse image search results cannot be displayed in the sidebar."
+        "message": "此外，侧边栏不能显示反向图像搜索结果。"
     },
     "siteSearch": {
-        "message": "Search engine for searching current site:"
+        "message": "用于搜索当前网站的搜索引擎："
     },
     "header9": {
-        "message": "Advanced features"
+        "message": "高级功能"
     },
     "useRegex": {
-        "message": "Use regular expressions to build the context menu"
+        "message": "使用正则表达式创建上下文菜单"
     },
     "regexNote": {
-        "message": "This feature doesn't apply to the grid of icons."
+        "message": "此功能不适用于图标网格。"
     },
     "subheader62": {
-        "message": "Add a new folder"
+        "message": "添加新文件夹"
     },
     "folderName": {
-        "message": "Folder name"
+        "message": "文件夹名称"
     },
     "folder": {
-        "message": "folder"
+        "message": "资料夹"
     },
     "addFolder": {
-        "message": "Add folder"
+        "message": "添加文件夹"
     },
     "keyboardShortcut": {
-        "message": "Keyboard shortcut"
+        "message": "键盘快捷键"
     },
     "header10": {
-        "message": "Multisearch options"
+        "message": "多重搜索选项"
     },
     "multisearchIntro": {
-        "message": "Open multiple search results/tabs"
+        "message": "打开多个搜索结果/标签"
     },
     "multiNewWindow": {
-        "message": "In a new window"
+        "message": "在新窗口中"
     },
     "multiAfterLastTab": {
-        "message": "After the last tab in the current window"
+        "message": "当前窗口中最后一个选项卡之后"
     },
     "multiActiveTab": {
-        "message": "Right after the active tab in the current window"
+        "message": "紧跟当前窗口中的活动选项卡"
     },
     "privacy": {
-        "message": "Make new window private"
+        "message": "将新窗口设为私有"
     },
     "reminder": {
-        "message": "Reminder"
+        "message": "提醒"
     },
     "enableDownloadsReminder": {
-        "message": "enable Downloads permissions to export your search engines."
+        "message": "启用下载权限以导出搜索引擎。"
     },
     "header11": {
-        "message": "Icons Grid options"
+        "message": "图标网格选项"
     },
     "quickIconGrid": {
-        "message": "Immediately display the icons grid after text has been selected"
+        "message": "选择文本后立即显示图标网格"
     },
     "closeGridOnMouseOut": {
-        "message": "Close the icons grid on mouse out"
+        "message": "鼠标移出时关闭图标网格"
     },
     "xOffset": {
-        "message": "Horizontal offset of the icons grid: "
+        "message": "图标网格的水平偏移： "
     },
     "yOffset": {
-        "message": "Vertical offset of the icons grid: "
+        "message": "图标网格的垂直偏移量： "
     },
     "clearKeyboardShortcuts": {
-        "message": "Clear all keyboard shortcuts"
+        "message": "清除所有键盘快捷键"
     },
     "subheader63": {
-        "message": "Add a new AI prompt"
+        "message": "添加新的人工智能提示"
     },
     "subheader64": {
-        "message": "Add a separator"
+        "message": "添加分隔符"
     },
     "testChatGPT": {
-        "message": "Test AI Prompt"
+        "message": "测试 AI 提示"
     },
     "addChatGPTPrompt": {
-        "message": "Add AI Prompt"
+        "message": "添加人工智能提示"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "在网格或右键菜单中显示提示"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "提示名称"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "提示"
     },
     "overwriteSearchEngines": {
-        "message": "Overwrite the existing search engines with the imported search engines"
+        "message": "用导入的搜索引擎覆盖现有搜索引擎"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Are you sure that you want to remove the folder "
+        "message": "您确定要删除文件夹 "
     },
     "removeFolderConfirmSuffix": {
-        "message": " and all of its contents?"
+        "message": " 及其所有内容？"
     },
     "removeSearchEngineConfirm": {
-        "message": "Are you sure you want to remove the search engine "
+        "message": "您确定要移除搜索引擎吗？ "
     },
     "popupBlockedMessage": {
-        "message": "Popup blocked! Please allow popups for this site."
+        "message": "弹出窗口已阻止！请允许弹出窗口访问本网站。"
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "EN"
     }
 }
