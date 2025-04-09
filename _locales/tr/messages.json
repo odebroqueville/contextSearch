@@ -1,363 +1,363 @@
 {
     "extensionName": {
-        "message": "Context Search",
+        "message": "Bağlam Araması",
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Searches the selected text using a search engine from a pre-specified list.",
+        "message": "Önceden belirlenmiş bir listeden bir arama motoru kullanarak seçilen metni arar.",
         "description": "Description of the extension"
     },
     "multisearch": {
-        "message": " is a search with multiple search engines simultaneously.",
+        "message": " aynı anda birden fazla arama motoruyla yapılan bir aramadır.",
         "description": "multi-search - it's a search with multiple search engines simultaneously."
     },
     "multisearchHowTo": {
-        "message": "Check the middle checkbox to include a search engine in a"
+        "message": "Bir arama motorunu bir arama motoruna dahil etmek için ortadaki onay kutusunu işaretleyin"
     },
     "multisearchLaunch": {
-        "message": "You can launch a"
+        "message": "Bir"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the omnibox by typing:"
+        "message": "bağlam menüsünden veya omnibox üzerinden yazarak:"
     },
     "pageTitle": {
-        "message": "Context Search Preferences"
+        "message": "Bağlam Arama Tercihleri"
     },
     "header1": {
-        "message": "Where should search results appear?"
+        "message": "Arama sonuçları nerede görünmelidir?"
     },
     "newTab": {
-        "message": "In a new tab"
+        "message": "Yeni bir sekmede"
     },
     "sameTab": {
-        "message": "In the same tab"
+        "message": "Aynı sekmede"
     },
     "newWindow": {
-        "message": "In a new window"
+        "message": "Yeni bir pencerede"
     },
     "active": {
-        "message": "Make the new tab or window active"
+        "message": "Yeni sekmeyi veya pencereyi etkin hale getirme"
     },
     "position": {
-        "message": "Display the search results after the last tab"
+        "message": "Son sekmeden sonraki arama sonuçlarını görüntüleme"
     },
     "header3": {
-        "message": "Position of options in the context menu"
+        "message": "İçerik menüsündeki seçeneklerin konumu"
     },
     "subheader31": {
-        "message": "Where would you like the options menu to appear in the context menu?"
+        "message": "Seçenekler menüsünün içerik menüsünde nerede görünmesini istersiniz?"
     },
     "bottom": {
-        "message": "At the bottom"
+        "message": "En altta"
     },
     "top": {
-        "message": "At the top"
+        "message": "En üstte"
     },
     "hide": {
-        "message": "Neither (hide the options menu)"
+        "message": "Hiçbiri (seçenekler menüsünü gizle)"
     },
     "header5": {
-        "message": "Import/export search engines"
+        "message": "Arama motorlarını içe/dışa aktarma"
     },
     "import": {
-        "message": "Import JSON from local disk"
+        "message": "JSON'u yerel diskten içe aktarma"
     },
     "export": {
-        "message": "Export search engines to JSON"
+        "message": "Arama motorlarını JSON'a aktarma"
     },
     "download": {
-        "message": "Export to local disk"
+        "message": "Yerel diske aktarma"
     },
     "header2": {
-        "message": "Favicons & Icons"
+        "message": "Faviconlar ve Simgeler"
     },
     "getFavicons": {
-        "message": "Display favicons in context menu list"
+        "message": "Favicon'ları içerik menüsü listesinde görüntüleme"
     },
     "note": {
-        "message": "This feature requires Firefox 56 or above."
+        "message": "Bu özellik için Firefox 56 veya üstü gerekir."
     },
     "header4": {
-        "message": "Search options"
+        "message": "Arama seçenekleri"
     },
     "exactMatch": {
-        "message": "Search for an exact string match"
+        "message": "Tam bir dize eşleşmesi arayın"
     },
     "gridMode": {
-        "message": "Display a grid of icons instead of a list of search engines"
+        "message": "Arama motorları listesi yerine simgelerden oluşan bir ızgara görüntüleme"
     },
     "warning": {
-        "message": "Warning: Please note that enabling this feature will prevent context menus from other extensions to be displayed."
+        "message": "Uyarı: Bu özelliğin etkinleştirilmesinin diğer uzantıların içerik menülerinin görüntülenmesini engelleyeceğini lütfen unutmayın."
     },
     "savePreferences": {
-        "message": "Save preferences"
+        "message": "Tercihleri kaydet"
     },
     "header6": {
-        "message": "Which search engines would you like to appear in the context menu or grid?"
+        "message": "İçerik menüsünde veya ızgarada hangi arama motorlarının görünmesini istersiniz?"
     },
     "clearAll": {
-        "message": "Clear All"
+        "message": "Tümünü Temizle"
     },
     "selectAll": {
-        "message": "Select All"
+        "message": "Tümünü Seçin"
     },
     "sortAlphabetically": {
-        "message": "Sort alphabetically"
+        "message": "Alfabetik olarak sırala"
     },
     "showAdvancedFeatures": {
-        "message": "Show advanced features"
+        "message": "Gelişmiş özellikleri göster"
     },
     "hideAdvancedFeatures": {
-        "message": "Hide advanced features"
+        "message": "Gelişmiş özellikleri gizle"
     },
     "reset": {
-        "message": "Reset"
+        "message": "Sıfırla"
     },
     "subheader61": {
-        "message": "Add a new search engine"
+        "message": "Yeni bir arama motoru ekleyin"
     },
     "showSearchEngine": {
-        "message": "Show search engine in grid or context menu"
+        "message": "Arama motorunu ızgarada veya içerik menüsünde gösterme"
     },
     "searchEngineName": {
-        "message": "Search engine name"
+        "message": "Arama motoru adı"
     },
     "placeHolderKeyword": {
-        "message": "Keyword"
+        "message": "Anahtar Kelime"
     },
     "warningText": {
-        "message": "Warning"
+        "message": "Uyarı"
     },
     "keyboardShortcutWarning": {
-        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
+        "message": "tüm tuş kombinasyonları çalışmayacaktır. Klavye kısayolları macOS'ta CMD veya Windows veya Linux'ta CTRL ile başlamayabilir, çünkü bunlar genellikle Firefox komutları için ayrılmıştır."
     },
     "placeHolderKeyboardShortcut": {
-        "message": "Keyboard shortcut"
+        "message": "Klavye kısayolu"
     },
     "multipleSearchEngines": {
-        "message": "Include in multi-search"
+        "message": "Çoklu aramaya dahil et"
     },
     "searchEngineURL": {
-        "message": "Search engine URL"
+        "message": "Arama motoru URL'si"
     },
     "regex": {
-        "message": "Regular expression"
+        "message": "Düzenli ifade"
     },
     "testSearchEngine": {
-        "message": "Test search engine"
+        "message": "Arama motorunu test edin"
     },
     "addSearchEngine": {
-        "message": "Add search engine"
+        "message": "Arama motoru ekle"
     },
     "addSeparator": {
-        "message": "Add a separator"
+        "message": "Bir ayırıcı ekleyin"
     },
     "clear": {
-        "message": "Clear"
+        "message": "Temiz"
     },
     "disableGrid": {
-        "message": "Disable grid of icons"
+        "message": "Simge ızgarasını devre dışı bırak"
     },
     "move": {
-        "message": "Move"
+        "message": "Hareket"
     },
     "up": {
-        "message": "up"
+        "message": "yukarı"
     },
     "down": {
-        "message": "down"
+        "message": "aşağı"
     },
     "remove": {
-        "message": "Remove"
+        "message": "Kaldırmak"
     },
     "multipleSearchEnginesSearch": {
-        "message": "Include this search engine in a multi-search"
+        "message": "Bu arama motorunu çoklu aramaya dahil edin"
     },
     "notifySavedPreferences": {
-        "message": "Saved preferences."
+        "message": "Kaydedilen tercihler."
     },
     "notifySearchEngineAdded": {
-        "message": "Search engine added."
+        "message": "Arama motoru eklendi."
     },
     "titleShowEngine": {
-        "message": "Show this search engine in the context menu or grid"
+        "message": "Bu arama motorunu içerik menüsünde veya ızgarada göster"
     },
     "notifyEnableStorageSync": {
-        "message": "Please ensure that the flag 'webextensions.storage.sync.enabled' is set to 'true' in 'about:config', otherwise Context Search won't work."
+        "message": "Lütfen 'webextensions.storage.sync.enabled' bayrağının 'about:config' içinde 'true' olarak ayarlandığından emin olun, aksi takdirde Context Search çalışmayacaktır."
     },
     "notifySearchEnginesLoaded": {
-        "message": "Default list of search engines has been loaded."
+        "message": "Varsayılan arama motorları listesi yüklendi."
     },
     "notifySearchEngineNotFound": {
-        "message": "A search engine couldn't be found on the current web page"
+        "message": "Geçerli web sayfasında bir arama motoru bulunamadı"
     },
     "titleMultipleSearchEngines": {
-        "message": "Multiple search engines search"
+        "message": "Çoklu arama motorları araması"
     },
     "titleAISearch": {
-        "message": "AI Search"
+        "message": "Yapay Zeka Arama"
     },
     "titleSiteSearch": {
-        "message": "Search this site with"
+        "message": "Bu sitede şununla arama yapın"
     },
     "titleOptions": {
-        "message": "Options"
+        "message": "Seçenekler"
     },
     "windowTitle": {
-        "message": "Search results for"
+        "message": "Şunun için arama sonuçları"
     },
     "omniboxDescription": {
-        "message": "Search using Context Search with keywords. Usage: cs [keyword] [search terms] (e.g. 'cs w Linux' searches Wikipedia for the term 'Linux')"
+        "message": "Anahtar kelimelerle Bağlam Araması kullanarak arama yapın. Kullanım: cs [anahtar kelime] [arama terimleri] (örneğin, 'cs w Linux' Wikipedia'da 'Linux' terimini arar)"
     },
     "notifyUsage": {
-        "message": "Usage: cs [keyword] [search terms] (for example: cs w Linux)"
+        "message": "Kullanım: cs [anahtar kelime] [arama terimleri] (örneğin: cs w Linux)"
     },
     "notifySearchEngineWithKeyword": {
-        "message": "Search engine with keyword"
+        "message": "Anahtar kelime ile arama motoru"
     },
     "notifyUnknown": {
-        "message": "is unknown."
+        "message": "bilinmiyor."
     },
     "notifySearchEngineUrlRequired": {
-        "message": "Please fill in a valid search engine URL."
+        "message": "Lütfen geçerli bir arama motoru URL'si girin."
     },
     "header7": {
-        "message": "Reset options"
+        "message": "Seçenekleri sıfırla"
     },
     "header8": {
-        "message": "Which EXIF tags should be displayed?"
+        "message": "Hangi EXIF etiketleri görüntülenmelidir?"
     },
     "sidebar": {
-        "message": "In the sidebar"
+        "message": "Kenar çubuğunda"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu list"
+        "message": "Favicon'ları içerik menüsü listesinde görüntüleme"
     },
     "displayExifSummary": {
-        "message": "Summary"
+        "message": "Özet"
     },
     "disableAltClick": {
-        "message": "Disable icon grid (Alt + Click)"
+        "message": "Simge ızgarasını devre dışı bırakma (Alt + Tıklama)"
     },
     "resetPreferences": {
-        "message": "Reset preferences to default settings"
+        "message": "Tercihleri varsayılan ayarlara sıfırla"
     },
     "forceSearchEnginesReload": {
-        "message": "Force reload of default search engines list"
+        "message": "Varsayılan arama motorları listesini yeniden yüklemeye zorla"
     },
     "forceFaviconsReload": {
-        "message": "Force favicons to be reloaded"
+        "message": "Favicon'ları yeniden yüklenmeye zorlama"
     },
     "restriction": {
-        "message": "If the sidebar isn't already open, then you may have to click on the 'Show sidebars' icon from the browser toolbar."
+        "message": "Kenar çubuğu zaten açık değilse, tarayıcı araç çubuğundan 'Kenar çubuklarını göster' simgesine tıklamanız gerekebilir."
     },
     "reverseImage": {
-        "message": "Also, reverse image search results cannot be displayed in the sidebar."
+        "message": "Ayrıca, tersine görsel arama sonuçları kenar çubuğunda görüntülenemez."
     },
     "siteSearch": {
-        "message": "Search engine for searching current site:"
+        "message": "Mevcut sitede arama yapmak için arama motoru:"
     },
     "header9": {
-        "message": "Advanced features"
+        "message": "Gelişmiş özellikler"
     },
     "useRegex": {
-        "message": "Use regular expressions to build the context menu"
+        "message": "İçerik menüsünü oluşturmak için düzenli ifadeleri kullanma"
     },
     "regexNote": {
-        "message": "This feature doesn't apply to the grid of icons."
+        "message": "Bu özellik simgeler ızgarası için geçerli değildir."
     },
     "subheader62": {
-        "message": "Add a new folder"
+        "message": "Yeni bir klasör ekleyin"
     },
     "folderName": {
-        "message": "Folder name"
+        "message": "Klasör adı"
     },
     "folder": {
-        "message": "folder"
+        "message": "klasör"
     },
     "addFolder": {
-        "message": "Add folder"
+        "message": "Klasör ekle"
     },
     "keyboardShortcut": {
-        "message": "Keyboard shortcut"
+        "message": "Klavye kısayolu"
     },
     "header10": {
-        "message": "Multisearch options"
+        "message": "Çoklu arama seçenekleri"
     },
     "multisearchIntro": {
-        "message": "Open multiple search results/tabs"
+        "message": "Birden fazla arama sonucu/sekmesi açma"
     },
     "multiNewWindow": {
-        "message": "In a new window"
+        "message": "Yeni bir pencerede"
     },
     "multiAfterLastTab": {
-        "message": "After the last tab in the current window"
+        "message": "Geçerli penceredeki son sekmeden sonra"
     },
     "multiActiveTab": {
-        "message": "Right after the active tab in the current window"
+        "message": "Geçerli penceredeki etkin sekmeden hemen sonra"
     },
     "privacy": {
-        "message": "Make new window private"
+        "message": "Yeni pencereyi özel yap"
     },
     "reminder": {
-        "message": "Reminder"
+        "message": "Hatırlatma"
     },
     "enableDownloadsReminder": {
-        "message": "enable Downloads permissions to export your search engines."
+        "message": "Arama motorlarınızı dışa aktarmak için İndirilenler izinlerini etkinleştirin."
     },
     "header11": {
-        "message": "Icons Grid options"
+        "message": "Simgeler Izgara seçenekleri"
     },
     "quickIconGrid": {
-        "message": "Immediately display the icons grid after text has been selected"
+        "message": "Metin seçildikten sonra simgeler kılavuzunu hemen görüntüleyin"
     },
     "closeGridOnMouseOut": {
-        "message": "Close the icons grid on mouse out"
+        "message": "Fare çıktığında simgeler ızgarasını kapatın"
     },
     "xOffset": {
-        "message": "Horizontal offset of the icons grid: "
+        "message": "Simgeler ızgarasının yatay ofseti: "
     },
     "yOffset": {
-        "message": "Vertical offset of the icons grid: "
+        "message": "Simgeler ızgarasının dikey ofseti: "
     },
     "clearKeyboardShortcuts": {
-        "message": "Clear all keyboard shortcuts"
+        "message": "Tüm klavye kısayollarını temizle"
     },
     "subheader63": {
-        "message": "Add a new AI prompt"
+        "message": "Yeni bir AI istemi ekleyin"
     },
     "subheader64": {
-        "message": "Add a separator"
+        "message": "Bir ayırıcı ekleyin"
     },
     "testChatGPT": {
-        "message": "Test AI Prompt"
+        "message": "Test AI İstemi"
     },
     "addChatGPTPrompt": {
-        "message": "Add AI Prompt"
+        "message": "Yapay Zeka İstemi Ekle"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "İstemi kılavuzda veya içerik menüsünde göster"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "İstem adı"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "İstem"
     },
     "overwriteSearchEngines": {
-        "message": "Overwrite the existing search engines with the imported search engines"
+        "message": "Mevcut arama motorlarının üzerine içe aktarılan arama motorlarını yazın"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Are you sure that you want to remove the folder "
+        "message": "Klasörü kaldırmak istediğinizden emin misiniz "
     },
     "removeFolderConfirmSuffix": {
-        "message": " and all of its contents?"
+        "message": " ve tüm içeriği?"
     },
     "removeSearchEngineConfirm": {
-        "message": "Are you sure you want to remove the search engine "
+        "message": "Arama motorunu kaldırmak istediğinizden emin misiniz? "
     },
     "popupBlockedMessage": {
-        "message": "Popup blocked! Please allow popups for this site."
+        "message": "Açılır pencere engellendi! Lütfen bu site için açılır pencerelere izin verin."
     },
     "__WET_LOCALE__": {
         "message": "en"
