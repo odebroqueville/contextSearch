@@ -170,15 +170,6 @@
     "remove": {
         "message": "Usuń"
     },
-    "removeFolderConfirmPrefix": {
-        "message": "Are you sure you want to remove the folder"
-    },
-    "removeFolderConfirmSuffix": {
-        "message": " and all of its contents?"
-    },
-    "removeSearchEngineConfirm": {
-        "message": "Are you sure you want to remove the search engine"
-    },
     "multipleSearchEnginesSearch": {
         "message": "Uwzględnij tę wyszukiwarkę w wyszukiwaniu za pomocą wielu wyszukiwarek"
     },
@@ -355,6 +346,15 @@
     },
     "overwriteSearchEngines": {
         "message": "Nadpisz istniejące wyszukiwarki zaimportowanymi wyszukiwarkami"
+    },
+    "removeFolderConfirmPrefix": {
+        "message": "Are you sure that you want to remove the folder "
+    },
+    "removeFolderConfirmSuffix": {
+        "message": " and all of its contents?"
+    },
+    "removeSearchEngineConfirm": {
+        "message": "Are you sure you want to remove the search engine "
     },
     "popupBlockedMessage": {
         "message": "Popup blocked! Please allow popups for this site."
