@@ -170,15 +170,6 @@
     "remove": {
         "message": "إزالة"
     },
-    "removeFolderConfirmPrefix": {
-        "message": "Are you sure you want to remove the folder"
-    },
-    "removeFolderConfirmSuffix": {
-        "message": " and all of its contents?"
-    },
-    "removeSearchEngineConfirm": {
-        "message": "Are you sure you want to remove the search engine"
-    },
     "multipleSearchEnginesSearch": {
         "message": "تضمين محرك البحث هذا في بحث متعدد"
     },
@@ -355,6 +346,15 @@
     },
     "overwriteSearchEngines": {
         "message": "استبدال محركات البحث الموجودة بمحركات البحث المستوردة"
+    },
+    "removeFolderConfirmPrefix": {
+        "message": "Are you sure that you want to remove the folder "
+    },
+    "removeFolderConfirmSuffix": {
+        "message": " and all of its contents?"
+    },
+    "removeSearchEngineConfirm": {
+        "message": "Are you sure you want to remove the search engine "
     },
     "popupBlockedMessage": {
         "message": "تم حظر النوافذ المنبثقة! الرجاء السماح بالنوافذ المنبثقة لهذا الموقع."
