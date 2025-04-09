@@ -1,6 +1,6 @@
 {
     "extensionName": {
-        "message": "Context Search",
+        "message": "Context zoeken",
         "description": "Name of the extension"
     },
     "extensionDescription": {
@@ -324,22 +324,22 @@
         "message": "Wis alle sneltoetsen"
     },
     "subheader63": {
-        "message": "Add a new AI prompt"
+        "message": "Een nieuwe AI-prompt toevoegen"
     },
     "subheader64": {
-        "message": "Add a separator"
+        "message": "Scheidingsteken toevoegen"
     },
     "testChatGPT": {
-        "message": "Test AI Prompt"
+        "message": "AI-test Prompt"
     },
     "addChatGPTPrompt": {
-        "message": "Add AI Prompt"
+        "message": "AI-oproep toevoegen"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "Toon prompt in raster of contextmenu"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "Naam prompt"
     },
     "prompt": {
         "message": "Prompt"
@@ -348,16 +348,16 @@
         "message": "Overschrijf de bestaande zoekmachines met de geïmporteerde zoekmachines"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Are you sure that you want to remove the folder "
+        "message": "Weet je zeker dat je de map "
     },
     "removeFolderConfirmSuffix": {
-        "message": " and all of its contents?"
+        "message": " en al zijn inhoud?"
     },
     "removeSearchEngineConfirm": {
-        "message": "Are you sure you want to remove the search engine "
+        "message": "Weet je zeker dat je de zoekmachine wilt verwijderen "
     },
     "popupBlockedMessage": {
-        "message": "Popup blocked! Please allow popups for this site."
+        "message": "Pop-up geblokkeerd! Sta pop-ups toe voor deze site."
     },
     "__WET_LOCALE__": {
         "message": "nl"
