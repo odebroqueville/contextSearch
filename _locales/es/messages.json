@@ -1,6 +1,6 @@
 {
     "extensionName": {
-        "message": "Context Search",
+        "message": "Búsqueda contextual",
         "description": "Name of the extension"
     },
     "extensionDescription": {
@@ -324,40 +324,40 @@
         "message": "Borrar todos los atajos de teclado"
     },
     "subheader63": {
-        "message": "Add a new AI prompt"
+        "message": "Añadir un nuevo indicador AI"
     },
     "subheader64": {
-        "message": "Add a separator"
+        "message": "Añadir un separador"
     },
     "testChatGPT": {
-        "message": "Test AI Prompt"
+        "message": "Prueba AI Prompt"
     },
     "addChatGPTPrompt": {
-        "message": "Add AI Prompt"
+        "message": "Añadir aviso AI"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "Mostrar aviso en la cuadrícula o en el menú contextual"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "Nombre de la pregunta"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "Pregunte a"
     },
     "overwriteSearchEngines": {
         "message": "Sobrescribir los motores de búsqueda existentes con los motores de búsqueda importados"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Are you sure that you want to remove the folder "
+        "message": "¿Está seguro de que desea eliminar la carpeta "
     },
     "removeFolderConfirmSuffix": {
-        "message": " and all of its contents?"
+        "message": " y todo su contenido?"
     },
     "removeSearchEngineConfirm": {
-        "message": "Are you sure you want to remove the search engine "
+        "message": "¿Está seguro de que desea eliminar el motor de búsqueda "
     },
     "popupBlockedMessage": {
-        "message": "Popup blocked! Please allow popups for this site."
+        "message": "¡Popup bloqueado! Por favor, permita las ventanas emergentes para este sitio."
     },
     "__WET_LOCALE__": {
         "message": "es"
