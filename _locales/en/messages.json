@@ -83,9 +83,6 @@
     "exactMatch": {
         "message": "Search for an exact string match"
     },
-    "disableDoubleClick": {
-        "message": "Disable double click for adding search engines that use HTTP POST requests"
-    },
     "gridMode": {
         "message": "Display a grid of icons instead of a list of search engines"
     },
@@ -350,5 +347,19 @@
     "overwriteSearchEngines": {
         "message": "Overwrite the existing search engines with the imported search engines"
     },
-    "__WET_LOCALE__": { "message": "en" }
+    "removeFolderConfirmPrefix": {
+        "message": "Are you sure that you want to remove the folder "
+    },
+    "removeFolderConfirmSuffix": {
+        "message": " and all of its contents?"
+    },
+    "removeSearchEngineConfirm": {
+        "message": "Are you sure you want to remove the search engine "
+    },
+    "popupBlockedMessage": {
+        "message": "Popup blocked! Please allow popups for this site."
+    },
+    "__WET_LOCALE__": {
+        "message": "en"
+    }
 }

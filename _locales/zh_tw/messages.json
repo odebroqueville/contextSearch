@@ -110,10 +110,6 @@
 		"message": "搜索完全匹配的字符串",
 		"hash": "779d6b3e9f3fe9654fe3549a21a06550"
 	},
-	"disableDoubleClick": {
-		"message": "停用雙擊新增使用 HTTP POST 請求的搜尋引擎",
-		"hash": "79b3189e4af6def5c97597586cdd9881"
-	},
 	"gridMode": {
 		"message": "顯示圖標網格而不是搜索引擎列表",
 		"hash": "fb28a2f15ee692ae8862f2eed52cdede"
@@ -438,6 +434,19 @@
 		"message": "使用導入的搜尋引擎覆蓋現有搜尋引擎",
 		"hash": "298f419a9e5661db408338fe08cc8ee0"
 	},
-
-	"__WET_LOCALE__": { "message": "zh-tw" }
+	"removeFolderConfirmPrefix": {
+		"message": "Are you sure that you want to remove the folder "
+	},
+	"removeFolderConfirmSuffix": {
+		"message": " and all of its contents?"
+	},
+	"removeSearchEngineConfirm": {
+		"message": "Are you sure you want to remove the search engine "
+	},
+	"popupBlockedMessage": {
+		"message": "Popup blocked! Please allow popups for this site."
+	},
+	"__WET_LOCALE__": {
+		"message": "zh-tw"
+	}
 }

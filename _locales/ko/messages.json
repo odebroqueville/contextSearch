@@ -110,10 +110,6 @@
 		"message": "정확한 문자열 일치 검색",
 		"hash": "779d6b3e9f3fe9654fe3549a21a06550"
 	},
-	"disableDoubleClick": {
-		"message": "HTTP POST 요청을 사용하는 검색 엔진을 추가하기 위해 더블 클릭을 비활성화합니다.",
-		"hash": "79b3189e4af6def5c97597586cdd9881"
-	},
 	"gridMode": {
 		"message": "검색 엔진 목록 대신 아이콘 그리드 표시",
 		"hash": "fb28a2f15ee692ae8862f2eed52cdede"
@@ -438,6 +434,19 @@
 		"message": "기존 검색엔진을 가져온 검색엔진으로 덮어쓰기",
 		"hash": "298f419a9e5661db408338fe08cc8ee0"
 	},
-
-	"__WET_LOCALE__": { "message": "ko" }
+	"removeFolderConfirmPrefix": {
+		"message": "Are you sure that you want to remove the folder "
+	},
+	"removeFolderConfirmSuffix": {
+		"message": " and all of its contents?"
+	},
+	"removeSearchEngineConfirm": {
+		"message": "Are you sure you want to remove the search engine "
+	},
+	"popupBlockedMessage": {
+		"message": "Popup blocked! Please allow popups for this site."
+	},
+	"__WET_LOCALE__": {
+		"message": "ko"
+	}
 }
