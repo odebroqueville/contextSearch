@@ -1,365 +1,365 @@
 {
     "extensionName": {
-        "message": "Context Search",
+        "message": "Kontekstsøk",
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Searches the selected text using a search engine from a pre-specified list.",
+        "message": "Søker i den valgte teksten ved hjelp av en søkemotor fra en forhåndsdefinert liste.",
         "description": "Description of the extension"
     },
     "multisearch": {
-        "message": " is a search with multiple search engines simultaneously.",
+        "message": " er et søk med flere søkemotorer samtidig.",
         "description": "multi-search - it's a search with multiple search engines simultaneously."
     },
     "multisearchHowTo": {
-        "message": "Check the middle checkbox to include a search engine in a"
+        "message": "Merk av i den midterste avmerkingsboksen for å inkludere en søkemotor i en"
     },
     "multisearchLaunch": {
-        "message": "You can launch a"
+        "message": "Du kan starte en"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the omnibox by typing:"
+        "message": "gjennom kontekstmenyen eller gjennom søkefeltet ved å skrive:"
     },
     "pageTitle": {
-        "message": "Context Search Preferences"
+        "message": "Innstillinger for kontekstsøk"
     },
     "header1": {
-        "message": "Where should search results appear?"
+        "message": "Hvor skal søkeresultatene vises?"
     },
     "newTab": {
-        "message": "In a new tab"
+        "message": "I en ny fane"
     },
     "sameTab": {
-        "message": "In the same tab"
+        "message": "I samme fane"
     },
     "newWindow": {
-        "message": "In a new window"
+        "message": "I et nytt vindu"
     },
     "active": {
-        "message": "Make the new tab or window active"
+        "message": "Gjør den nye fanen eller det nye vinduet aktivt"
     },
     "position": {
-        "message": "Display the search results after the last tab"
+        "message": "Vis søkeresultatene etter den siste fanen"
     },
     "header3": {
-        "message": "Position of options in the context menu"
+        "message": "Plassering av alternativer i hurtigmenyen"
     },
     "subheader31": {
-        "message": "Where would you like the options menu to appear in the context menu?"
+        "message": "Hvor vil du at alternativmenyen skal vises i hurtigmenyen?"
     },
     "bottom": {
-        "message": "At the bottom"
+        "message": "Nederst"
     },
     "top": {
-        "message": "At the top"
+        "message": "Øverst"
     },
     "hide": {
-        "message": "Neither (hide the options menu)"
+        "message": "Verken (skjul alternativmenyen)"
     },
     "header5": {
-        "message": "Import/export search engines"
+        "message": "Importere/eksportere søkemotorer"
     },
     "import": {
-        "message": "Import JSON from local disk"
+        "message": "Importer JSON fra lokal disk"
     },
     "export": {
-        "message": "Export search engines to JSON"
+        "message": "Eksportere søkemotorer til JSON"
     },
     "download": {
-        "message": "Export to local disk"
+        "message": "Eksporter til lokal disk"
     },
     "header2": {
-        "message": "Favicons & Icons"
+        "message": "Favorittikoner og ikoner"
     },
     "getFavicons": {
-        "message": "Display favicons in context menu list"
+        "message": "Vis favorittikoner i hurtigmenylisten"
     },
     "note": {
-        "message": "This feature requires Firefox 56 or above."
+        "message": "Denne funksjonen krever Firefox 56 eller nyere."
     },
     "header4": {
-        "message": "Search options"
+        "message": "Søkealternativer"
     },
     "exactMatch": {
-        "message": "Search for an exact string match"
+        "message": "Søk etter et eksakt strengtreff"
     },
     "gridMode": {
-        "message": "Display a grid of icons instead of a list of search engines"
+        "message": "Vis et rutenett med ikoner i stedet for en liste over søkemotorer"
     },
     "warning": {
-        "message": "Warning: Please note that enabling this feature will prevent context menus from other extensions to be displayed."
+        "message": "Advarsel: Vær oppmerksom på at aktivering av denne funksjonen vil forhindre at kontekstmenyer fra andre utvidelser vises."
     },
     "savePreferences": {
-        "message": "Save preferences"
+        "message": "Lagre preferanser"
     },
     "header6": {
-        "message": "Which search engines would you like to appear in the context menu or grid?"
+        "message": "Hvilke søkemotorer vil du skal vises i kontekstmenyen eller rutenettet?"
     },
     "clearAll": {
-        "message": "Clear All"
+        "message": "Fjern alt"
     },
     "selectAll": {
-        "message": "Select All"
+        "message": "Velg alle"
     },
     "sortAlphabetically": {
-        "message": "Sort alphabetically"
+        "message": "Sorter alfabetisk"
     },
     "showAdvancedFeatures": {
-        "message": "Show advanced features"
+        "message": "Vis avanserte funksjoner"
     },
     "hideAdvancedFeatures": {
-        "message": "Hide advanced features"
+        "message": "Skjul avanserte funksjoner"
     },
     "reset": {
-        "message": "Reset"
+        "message": "Nullstille"
     },
     "subheader61": {
-        "message": "Add a new search engine"
+        "message": "Legg til en ny søkemotor"
     },
     "showSearchEngine": {
-        "message": "Show search engine in grid or context menu"
+        "message": "Vis søkemotor i rutenett eller kontekstmeny"
     },
     "searchEngineName": {
-        "message": "Search engine name"
+        "message": "Navn på søkemotor"
     },
     "placeHolderKeyword": {
-        "message": "Keyword"
+        "message": "Nøkkelord"
     },
     "warningText": {
-        "message": "Warning"
+        "message": "Advarsel"
     },
     "keyboardShortcutWarning": {
-        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
+        "message": "Ikke alle tastekombinasjoner vil fungere. Hurtigtaster starter kanskje ikke med CMD på macOS eller CTRL på Windows eller Linux, da disse vanligvis er reservert for Firefox-kommandoer."
     },
     "placeHolderKeyboardShortcut": {
-        "message": "Keyboard shortcut"
+        "message": "Hurtigtast"
     },
     "multipleSearchEngines": {
-        "message": "Include in multi-search"
+        "message": "Inkluder i flere søk"
     },
     "searchEngineURL": {
-        "message": "Search engine URL"
+        "message": "URL-adresse til søkemotor"
     },
     "regex": {
-        "message": "Regular expression"
+        "message": "Regulært uttrykk"
     },
     "testSearchEngine": {
-        "message": "Test search engine"
+        "message": "Test søkemotor"
     },
     "addSearchEngine": {
-        "message": "Add search engine"
+        "message": "Legg til søkemotor"
     },
     "addSeparator": {
-        "message": "Add a separator"
+        "message": "Legge til et skilletegn"
     },
     "clear": {
-        "message": "Clear"
+        "message": "Klar"
     },
     "disableGrid": {
-        "message": "Disable grid of icons"
+        "message": "Deaktiver rutenett med ikoner"
     },
     "move": {
-        "message": "Move"
+        "message": "Bevege"
     },
     "up": {
-        "message": "up"
+        "message": "opp"
     },
     "down": {
-        "message": "down"
+        "message": "ned"
     },
     "remove": {
-        "message": "Remove"
+        "message": "Fjerne"
     },
     "multipleSearchEnginesSearch": {
-        "message": "Include this search engine in a multi-search"
+        "message": "Inkluder denne søkemotoren i et multisøk"
     },
     "notifySavedPreferences": {
-        "message": "Saved preferences."
+        "message": "Lagrede innstillinger."
     },
     "notifySearchEngineAdded": {
-        "message": "Search engine added."
+        "message": "Søkemotor lagt til."
     },
     "titleShowEngine": {
-        "message": "Show this search engine in the context menu or grid"
+        "message": "Vis denne søkemotoren i kontekstmenyen eller rutenettet"
     },
     "notifyEnableStorageSync": {
-        "message": "Please ensure that the flag 'webextensions.storage.sync.enabled' is set to 'true' in 'about:config', otherwise Context Search won't work."
+        "message": "Sørg for at flagget «webextensions.storage.sync.enabled» er satt til «true» i «about:config», ellers fungerer ikke kontekstsøk."
     },
     "notifySearchEnginesLoaded": {
-        "message": "Default list of search engines has been loaded."
+        "message": "Standardlisten over søkemotorer er lastet inn."
     },
     "notifySearchEngineNotFound": {
-        "message": "A search engine couldn't be found on the current web page"
+        "message": "En søkemotor ble ikke funnet på den gjeldende nettsiden"
     },
     "titleMultipleSearchEngines": {
-        "message": "Multiple search engines search"
+        "message": "Søk etter flere søkemotorer"
     },
     "titleAISearch": {
-        "message": "AI Search"
+        "message": "AI-søk"
     },
     "titleSiteSearch": {
-        "message": "Search this site with"
+        "message": "Søk på dette nettstedet med"
     },
     "titleOptions": {
-        "message": "Options"
+        "message": "Alternativer"
     },
     "windowTitle": {
-        "message": "Search results for"
+        "message": "Søkeresultater for"
     },
     "omniboxDescription": {
-        "message": "Search using Context Search with keywords. Usage: cs [keyword] [search terms] (e.g. 'cs w Linux' searches Wikipedia for the term 'Linux')"
+        "message": "Søk ved hjelp av kontekstsøk med nøkkelord. Bruk: cs [nøkkelord] [søkeord] (f.eks. 'cs w Linux' søker på Wikipedia etter begrepet 'Linux')"
     },
     "notifyUsage": {
-        "message": "Usage: cs [keyword] [search terms] (for example: cs w Linux)"
+        "message": "Bruk: cs [nøkkelord] [søkeord] (for eksempel: cs w Linux)"
     },
     "notifySearchEngineWithKeyword": {
-        "message": "Search engine with keyword"
+        "message": "Søkemotor med nøkkelord"
     },
     "notifyUnknown": {
-        "message": "is unknown."
+        "message": "er ukjent."
     },
     "notifySearchEngineUrlRequired": {
-        "message": "Please fill in a valid search engine URL."
+        "message": "Vennligst fyll inn en gyldig søkemotor-URL."
     },
     "header7": {
-        "message": "Reset options"
+        "message": "Alternativer for tilbakestilling"
     },
     "header8": {
-        "message": "Which EXIF tags should be displayed?"
+        "message": "Hvilke EXIF-tagger skal vises?"
     },
     "sidebar": {
-        "message": "In the sidebar"
+        "message": "I sidepanelet"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu list"
+        "message": "Vis favorittikoner i hurtigmenylisten"
     },
     "displayExifSummary": {
-        "message": "Summary"
+        "message": "Sammendrag"
     },
     "disableAltClick": {
-        "message": "Disable icon grid (Alt + Click)"
+        "message": "Deaktiver ikonrutenett (Alt + klikk)"
     },
     "resetPreferences": {
-        "message": "Reset preferences to default settings"
+        "message": "Tilbakestille innstillinger til standardinnstillinger"
     },
     "forceSearchEnginesReload": {
-        "message": "Force reload of default search engines list"
+        "message": "Tving innlasting av standard søkemotorliste"
     },
     "forceFaviconsReload": {
-        "message": "Force favicons to be reloaded"
+        "message": "Tving favorittikoner til å lastes inn på nytt"
     },
     "restriction": {
-        "message": "If the sidebar isn't already open, then you may have to click on the 'Show sidebars' icon from the browser toolbar."
+        "message": "Hvis sidefeltet ikke allerede er åpent, kan det hende du må klikke på \"Vis sidefelt\"-ikonet fra nettleserens verktøylinje."
     },
     "reverseImage": {
-        "message": "Also, reverse image search results cannot be displayed in the sidebar."
+        "message": "Omvendte bildesøkeresultater kan heller ikke vises i sidefeltet."
     },
     "siteSearch": {
-        "message": "Search engine for searching current site:"
+        "message": "Søkemotor for å søke på gjeldende nettsted:"
     },
     "header9": {
-        "message": "Advanced features"
+        "message": "Avanserte funksjoner"
     },
     "useRegex": {
-        "message": "Use regular expressions to build the context menu"
+        "message": "Bruk regulære uttrykk for å bygge kontekstmenyen"
     },
     "regexNote": {
-        "message": "This feature doesn't apply to the grid of icons."
+        "message": "Denne funksjonen gjelder ikke for rutenettet med ikoner."
     },
     "subheader62": {
-        "message": "Add a new folder"
+        "message": "Legg til en ny mappe"
     },
     "folderName": {
-        "message": "Folder name"
+        "message": "Navn på mappe"
     },
     "folder": {
-        "message": "folder"
+        "message": "mappe"
     },
     "addFolder": {
-        "message": "Add folder"
+        "message": "Legg til mappe"
     },
     "keyboardShortcut": {
-        "message": "Keyboard shortcut"
+        "message": "Hurtigtast"
     },
     "header10": {
-        "message": "Multisearch options"
+        "message": "Alternativer for flere søk"
     },
     "multisearchIntro": {
-        "message": "Open multiple search results/tabs"
+        "message": "Åpne flere søkeresultater/faner"
     },
     "multiNewWindow": {
-        "message": "In a new window"
+        "message": "I et nytt vindu"
     },
     "multiAfterLastTab": {
-        "message": "After the last tab in the current window"
+        "message": "Etter den siste fanen i gjeldende vindu"
     },
     "multiActiveTab": {
-        "message": "Right after the active tab in the current window"
+        "message": "Rett etter den aktive fanen i gjeldende vindu"
     },
     "privacy": {
-        "message": "Make new window private"
+        "message": "Gjør nytt vindu privat"
     },
     "reminder": {
-        "message": "Reminder"
+        "message": "Påminnelse"
     },
     "enableDownloadsReminder": {
-        "message": "enable Downloads permissions to export your search engines."
+        "message": "aktivere nedlastingstillatelser for å eksportere søkemotorene dine."
     },
     "header11": {
-        "message": "Icons Grid options"
+        "message": "Alternativer for rutenett for ikoner"
     },
     "quickIconGrid": {
-        "message": "Immediately display the icons grid after text has been selected"
+        "message": "Vis ikonrutenettet umiddelbart etter at teksten er valgt"
     },
     "closeGridOnMouseOut": {
-        "message": "Close the icons grid on mouse out"
+        "message": "Lukk ikonrutenettet når musen er ute"
     },
     "xOffset": {
-        "message": "Horizontal offset of the icons grid: "
+        "message": "Horisontal forskyvning av ikonrutenettet: "
     },
     "yOffset": {
-        "message": "Vertical offset of the icons grid: "
+        "message": "Vertikal forskyvning av ikonrutenettet: "
     },
     "clearKeyboardShortcuts": {
-        "message": "Clear all keyboard shortcuts"
+        "message": "Fjern alle hurtigtaster"
     },
     "subheader63": {
-        "message": "Add a new AI prompt"
+        "message": "Legg til en ny AI-forespørsel"
     },
     "subheader64": {
-        "message": "Add a separator"
+        "message": "Legge til et skilletegn"
     },
     "testChatGPT": {
-        "message": "Test AI Prompt"
+        "message": "Test AI-forespørsel"
     },
     "addChatGPTPrompt": {
-        "message": "Add AI Prompt"
+        "message": "Legg til AI-forespørsel"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "Vis ledetekst i rutenett eller hurtigmeny"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "Spørsmål navn"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "Omgående"
     },
     "overwriteSearchEngines": {
-        "message": "Overwrite the existing search engines with the imported search engines"
+        "message": "Overskriv de eksisterende søkemotorene med de importerte søkemotorene"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Are you sure that you want to remove the folder "
+        "message": "Er du sikker på at du vil fjerne mappen "
     },
     "removeFolderConfirmSuffix": {
-        "message": " and all of its contents?"
+        "message": " og alt innholdet?"
     },
     "removeSearchEngineConfirm": {
-        "message": "Are you sure you want to remove the search engine "
+        "message": "Er du sikker på at du vil fjerne søkemotoren "
     },
     "popupBlockedMessage": {
-        "message": "Popup blocked! Please allow popups for this site."
+        "message": "Popup blokkert! Vennligst tillat popup-vinduer for dette nettstedet."
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "Eget"
     }
 }
