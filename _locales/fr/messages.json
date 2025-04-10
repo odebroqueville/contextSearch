@@ -224,17 +224,11 @@
     "header7": {
         "message": "Réinitialiser les préférences"
     },
-    "header8": {
-        "message": "Quelles balises EXIF doivent être affichées ?"
-    },
     "sidebar": {
         "message": "Dans la barre de côté"
     },
     "displayFavicons": {
         "message": "Afficher les icônes dans le menu contextuel"
-    },
-    "displayExifSummary": {
-        "message": "Résumé"
     },
     "disableAltClick": {
         "message": "Désactiver la grille d'icônes (Alt + Clic)"
