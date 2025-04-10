@@ -18,7 +18,7 @@
         "message": "می توانید یک"
     },
     "multisearchEnd": {
-        "message": "از طریق منوی زمینه یا از طریق omnibox با تایپ کردن:"
+        "message": "through the context menu or through the address bar by typing:"
     },
     "pageTitle": {
         "message": "تنظیمات برگزیده جستجوی زمینه"
@@ -224,17 +224,11 @@
     "header7": {
         "message": "گزینه های بازنشانی"
     },
-    "header8": {
-        "message": "کدام تگ های EXIF باید نمایش داده شوند؟"
-    },
     "sidebar": {
         "message": "در نوار کناری"
     },
     "displayFavicons": {
         "message": "نمایش فاویکون ها در لیست منوی زمینه"
-    },
-    "displayExifSummary": {
-        "message": "خلاصه"
     },
     "disableAltClick": {
         "message": "غیرفعال کردن شبکه آیکون (Alt + Click)"
