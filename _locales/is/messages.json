@@ -18,7 +18,7 @@
         "message": "Þú getur ræst"
     },
     "multisearchEnd": {
-        "message": "í gegnum samhengisvalmyndina (hægri smella) eða í gegnum leitarreitinn með því að skrifa:"
+        "message": "through the context menu or through the address bar by typing:"
     },
     "pageTitle": {
         "message": "Kjörstillingar samhengisleitar"
@@ -224,17 +224,11 @@
     "header7": {
         "message": "Endurstilla valkosti"
     },
-    "header8": {
-        "message": "Hvaða EXIF-merki ætti að birta?"
-    },
     "sidebar": {
         "message": "Á hliðarslá"
     },
     "displayFavicons": {
         "message": "Birta táknmyndir í lista samhengisvalmyndar"
-    },
-    "displayExifSummary": {
-        "message": "Samantekt"
     },
     "disableAltClick": {
         "message": "Gera táknmyndareiti óvirka (Alt + smella)"
