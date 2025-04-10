@@ -18,7 +18,7 @@
         "message": "Вы можете запустить"
     },
     "multisearchEnd": {
-        "message": "через контекстное меню или через омнибокс, набрав:"
+        "message": "through the context menu or through the address bar by typing:"
     },
     "pageTitle": {
         "message": "Настройки Context Search"
@@ -224,17 +224,11 @@
     "header7": {
         "message": "Сбросить параметры"
     },
-    "header8": {
-        "message": "Какие теги EXIF должны отображаться?"
-    },
     "sidebar": {
         "message": "В боковой панели"
     },
     "displayFavicons": {
         "message": "Отображать значки в списке контекстного меню"
-    },
-    "displayExifSummary": {
-        "message": "Резюме"
     },
     "disableAltClick": {
         "message": "Отключить сетку иконок"
