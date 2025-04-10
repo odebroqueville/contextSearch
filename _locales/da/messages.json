@@ -18,7 +18,7 @@
         "message": "Du kan starte en"
     },
     "multisearchEnd": {
-        "message": "via kontekstmenuen eller via omniboksen ved at skrive:"
+        "message": "through the context menu or through the address bar by typing:"
     },
     "pageTitle": {
         "message": "Indstillinger for kontekstsøgning"
@@ -224,17 +224,11 @@
     "header7": {
         "message": "Nulstil indstillinger"
     },
-    "header8": {
-        "message": "Hvilke EXIF-tags skal vises?"
-    },
     "sidebar": {
         "message": "I sidepanelet"
     },
     "displayFavicons": {
         "message": "Vis favicons i kontekstmenu-listen"
-    },
-    "displayExifSummary": {
-        "message": "Sammenfatning"
     },
     "disableAltClick": {
         "message": "Deaktiver ikon-gitter (Alt + klik)"
