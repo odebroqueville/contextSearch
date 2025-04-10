@@ -1,365 +1,365 @@
 {
     "extensionName": {
-        "message": "上下文搜索",
+        "message": "內容搜尋",
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "使用搜索引擎从预先指定的列表中搜索所选文本。",
+        "message": "使用搜尋引擎從預先指定的清單中搜尋選取的文字。",
         "description": "Description of the extension"
     },
     "multisearch": {
-        "message": " 是指同时使用多个搜索引擎进行搜索。",
+        "message": " 是同時使用多個搜尋引擎進行搜尋。",
         "description": "multi-search - it's a search with multiple search engines simultaneously."
     },
     "multisearchHowTo": {
-        "message": "选中中间的复选框，将搜索引擎包含在"
+        "message": "勾選中間的核取方塊，以將搜尋引擎包含在"
     },
     "multisearchLaunch": {
-        "message": "您可以启动"
+        "message": "您可以啟動"
     },
     "multisearchEnd": {
-        "message": "通过上下文菜单，或通过全能窗口键入："
+        "message": "透過上下文功能表，或透過 omnibox 輸入："
     },
     "pageTitle": {
-        "message": "上下文搜索首选项"
+        "message": "上下文搜尋偏好設定"
     },
     "header1": {
-        "message": "搜索结果应该出现在哪里？"
+        "message": "搜尋結果應該出現在哪裡？"
     },
     "newTab": {
-        "message": "在新标签页中"
+        "message": "在新標籤中"
     },
     "sameTab": {
-        "message": "在同一选项卡中"
+        "message": "在同一個標籤中"
     },
     "newWindow": {
-        "message": "在新窗口中"
+        "message": "在新視窗中"
     },
     "active": {
-        "message": "使新标签页或窗口处于活动状态"
+        "message": "使新的標籤頁或視窗處於活動狀態"
     },
     "position": {
-        "message": "在最后一个选项卡之后显示搜索结果"
+        "message": "在最後一個索引標籤後顯示搜尋結果"
     },
     "header3": {
-        "message": "选项在右键菜单中的位置"
+        "message": "選項在上下文功能表中的位置"
     },
     "subheader31": {
-        "message": "您希望选项菜单出现在右键菜单的什么位置？"
+        "message": "您希望選項功能表出現在上下文功能表的哪個位置？"
     },
     "bottom": {
         "message": "在底部"
     },
     "top": {
-        "message": "在顶部"
+        "message": "在頂端"
     },
     "hide": {
-        "message": "都不是（隐藏选项菜单）"
+        "message": "兩者皆非（隱藏選項功能表）"
     },
     "header5": {
-        "message": "导入/导出搜索引擎"
+        "message": "輸入/輸出搜尋引擎"
     },
     "import": {
-        "message": "从本地磁盘导入 JSON"
+        "message": "從本機磁碟匯入 JSON"
     },
     "export": {
-        "message": "将搜索引擎导出为 JSON"
+        "message": "匯出搜尋引擎至 JSON"
     },
     "download": {
-        "message": "导出到本地磁盘"
+        "message": "匯出至本機磁碟"
     },
     "header2": {
-        "message": "收藏夹和图标"
+        "message": "首頁圖示與圖示"
     },
     "getFavicons": {
-        "message": "在右键菜单列表中显示收藏夹"
+        "message": "在上下文功能表清單中顯示收藏夾"
     },
     "note": {
         "message": "此功能需要 Firefox 56 或以上版本。"
     },
     "header4": {
-        "message": "搜索选项"
+        "message": "搜尋選項"
     },
     "exactMatch": {
-        "message": "搜索完全匹配的字符串"
+        "message": "搜尋完全符合的字串"
     },
     "gridMode": {
-        "message": "显示图标网格，而不是搜索引擎列表"
+        "message": "顯示圖示方格而非搜尋引擎清單"
     },
     "warning": {
-        "message": "警告：请注意，启用此功能将无法显示其他扩展程序的上下文菜单。"
+        "message": "警告：請注意，啟用此功能將無法顯示其他擴充套件的上下文功能表。"
     },
     "savePreferences": {
-        "message": "保存首选项"
+        "message": "儲存偏好設定"
     },
     "header6": {
-        "message": "您希望哪些搜索引擎出现在右键菜单或网格中？"
+        "message": "您希望哪些搜尋引擎出現在上下文功能表或網格中？"
     },
     "clearAll": {
         "message": "全部清除"
     },
     "selectAll": {
-        "message": "全部选择"
+        "message": "全部選擇"
     },
     "sortAlphabetically": {
-        "message": "按字母顺序排序"
+        "message": "按字母順序排序"
     },
     "showAdvancedFeatures": {
-        "message": "显示高级功能"
+        "message": "顯示進階功能"
     },
     "hideAdvancedFeatures": {
-        "message": "隐藏高级功能"
+        "message": "隱藏進階功能"
     },
     "reset": {
-        "message": "重置"
+        "message": "重設"
     },
     "subheader61": {
-        "message": "添加新的搜索引擎"
+        "message": "新增搜尋引擎"
     },
     "showSearchEngine": {
-        "message": "在网格或右键菜单中显示搜索引擎"
+        "message": "在網格或上下文功能表中顯示搜尋引擎"
     },
     "searchEngineName": {
-        "message": "搜索引擎名称"
+        "message": "搜尋引擎名稱"
     },
     "placeHolderKeyword": {
-        "message": "关键词"
+        "message": "關鍵字"
     },
     "warningText": {
         "message": "警告"
     },
     "keyboardShortcutWarning": {
-        "message": "并非所有组合键都能使用。键盘快捷键可能不会以 macOS 上的 CMD 或 Windows 或 Linux 上的 CTRL 开头，因为这些通常是为 Firefox 命令保留的。"
+        "message": "並非所有按鍵組合都適用。鍵盤捷徑可能不會以 macOS 上的 CMD 或 Windows 或 Linux 上的 CTRL 開頭，因為這些通常是預留給 Firefox 指令的。"
     },
     "placeHolderKeyboardShortcut": {
-        "message": "键盘快捷键"
+        "message": "鍵盤捷徑"
     },
     "multipleSearchEngines": {
-        "message": "包含在多重搜索中"
+        "message": "包含在多重搜尋中"
     },
     "searchEngineURL": {
-        "message": "搜索引擎 URL"
+        "message": "搜尋引擎 URL"
     },
     "regex": {
-        "message": "正则表达式"
+        "message": "正規表達式"
     },
     "testSearchEngine": {
-        "message": "测试搜索引擎"
+        "message": "測試搜尋引擎"
     },
     "addSearchEngine": {
-        "message": "添加搜索引擎"
+        "message": "新增搜尋引擎"
     },
     "addSeparator": {
-        "message": "添加分隔符"
+        "message": "新增分隔線"
     },
     "clear": {
-        "message": "清晰"
+        "message": "清除"
     },
     "disableGrid": {
-        "message": "禁用图标网格"
+        "message": "停用圖示方格"
     },
     "move": {
-        "message": "移动"
+        "message": "移動"
     },
     "up": {
         "message": "向上"
     },
     "down": {
-        "message": "下来"
+        "message": "下"
     },
     "remove": {
         "message": "移除"
     },
     "multipleSearchEnginesSearch": {
-        "message": "在多重搜索中包含该搜索引擎"
+        "message": "在多重搜尋中包含此搜尋引擎"
     },
     "notifySavedPreferences": {
-        "message": "保存的首选项。"
+        "message": "儲存的偏好設定。"
     },
     "notifySearchEngineAdded": {
-        "message": "增加了搜索引擎。"
+        "message": "新增搜尋引擎。"
     },
     "titleShowEngine": {
-        "message": "在右键菜单或网格中显示该搜索引擎"
+        "message": "在上下文功能表或網格中顯示此搜尋引擎"
     },
     "notifyEnableStorageSync": {
-        "message": "请确保在 \"about:config \"中将标志 \"webextensions.storage.sync.enabled \"设置为 \"true\"，否则 \"上下文搜索 \"将无法运行。"
+        "message": "請確認「about:config」中的標誌「webextensions.storage.sync.enabled」設為「true」，否則 Context Search 將無法運作。"
     },
     "notifySearchEnginesLoaded": {
-        "message": "已加载默认搜索引擎列表。"
+        "message": "已載入預設搜尋引擎清單。"
     },
     "notifySearchEngineNotFound": {
-        "message": "在当前网页上无法找到搜索引擎"
+        "message": "在目前的網頁上找不到搜尋引擎"
     },
     "titleMultipleSearchEngines": {
-        "message": "多个搜索引擎搜索"
+        "message": "多種搜尋引擎搜尋"
     },
     "titleAISearch": {
-        "message": "人工智能搜索"
+        "message": "AI 搜尋"
     },
     "titleSiteSearch": {
-        "message": "搜索本网站"
+        "message": "搜尋本網站"
     },
     "titleOptions": {
-        "message": "选项"
+        "message": "選項"
     },
     "windowTitle": {
-        "message": "搜索结果"
+        "message": "搜尋結果"
     },
     "omniboxDescription": {
-        "message": "使用带关键字的上下文搜索进行搜索。使用方法：cs [关键词] [搜索条件]（例如，\"cs w Linux \"可搜索维基百科中的 \"Linux\"）。"
+        "message": "使用關鍵字的上下文搜尋。使用方法：cs [keyword] [search terms] (例如 'cs w Linux「 在 Wikipedia 搜尋詞彙 」Linux')"
     },
     "notifyUsage": {
-        "message": "使用方法：cs [keyword] [search terms] （例如：cs w Linux）"
+        "message": "使用方法：cs [keyword] [search terms] (例如：cs w Linux)"
     },
     "notifySearchEngineWithKeyword": {
-        "message": "关键词搜索引擎"
+        "message": "搜尋引擎與關鍵字"
     },
     "notifyUnknown": {
         "message": "未知。"
     },
     "notifySearchEngineUrlRequired": {
-        "message": "请填写有效的搜索引擎 URL。"
+        "message": "請填入有效的搜尋引擎 URL。"
     },
     "header7": {
-        "message": "重置选项"
+        "message": "重設選項"
     },
     "header8": {
-        "message": "应显示哪些 EXIF 标记？"
+        "message": "應該顯示哪些 EXIF 標籤？"
     },
     "sidebar": {
-        "message": "侧边栏"
+        "message": "在側邊欄中"
     },
     "displayFavicons": {
-        "message": "在右键菜单列表中显示收藏夹"
+        "message": "在上下文功能表清單中顯示收藏夾"
     },
     "displayExifSummary": {
         "message": "摘要"
     },
     "disableAltClick": {
-        "message": "禁用图标网格（Alt + 点击）"
+        "message": "停用圖示方格 (Alt + 按一下)"
     },
     "resetPreferences": {
-        "message": "将首选项重置为默认设置"
+        "message": "將偏好設定重設為預設設定"
     },
     "forceSearchEnginesReload": {
-        "message": "强制重新加载默认搜索引擎列表"
+        "message": "強制重新載入預設搜尋引擎清單"
     },
     "forceFaviconsReload": {
-        "message": "强制重新加载收藏夹"
+        "message": "強制重新載入收藏夾"
     },
     "restriction": {
-        "message": "如果侧边栏还没有打开，则可能需要点击浏览器工具栏上的 \"显示侧边栏 \"图标。"
+        "message": "如果側邊欄尚未開啟，那麼您可能需要點選瀏覽器工具列上的「顯示側邊欄」圖示。"
     },
     "reverseImage": {
-        "message": "此外，侧边栏不能显示反向图像搜索结果。"
+        "message": "此外，側邊欄也無法顯示反向圖片搜尋結果。"
     },
     "siteSearch": {
-        "message": "用于搜索当前网站的搜索引擎："
+        "message": "搜尋目前網站的搜尋引擎："
     },
     "header9": {
-        "message": "高级功能"
+        "message": "進階功能"
     },
     "useRegex": {
-        "message": "使用正则表达式创建上下文菜单"
+        "message": "使用正則表達式建立上下文功能表"
     },
     "regexNote": {
-        "message": "此功能不适用于图标网格。"
+        "message": "此功能不適用於圖示方格。"
     },
     "subheader62": {
-        "message": "添加新文件夹"
+        "message": "新增資料夾"
     },
     "folderName": {
-        "message": "文件夹名称"
+        "message": "資料夾名稱"
     },
     "folder": {
-        "message": "资料夹"
+        "message": "資料夾"
     },
     "addFolder": {
-        "message": "添加文件夹"
+        "message": "新增資料夾"
     },
     "keyboardShortcut": {
-        "message": "键盘快捷键"
+        "message": "鍵盤捷徑"
     },
     "header10": {
-        "message": "多重搜索选项"
+        "message": "多重搜尋選項"
     },
     "multisearchIntro": {
-        "message": "打开多个搜索结果/标签"
+        "message": "開啟多個搜尋結果/標籤"
     },
     "multiNewWindow": {
-        "message": "在新窗口中"
+        "message": "在新視窗中"
     },
     "multiAfterLastTab": {
-        "message": "当前窗口中最后一个选项卡之后"
+        "message": "在目前視窗的最後一個索引標籤之後"
     },
     "multiActiveTab": {
-        "message": "紧跟当前窗口中的活动选项卡"
+        "message": "緊接目前視窗中的作用中標籤"
     },
     "privacy": {
-        "message": "将新窗口设为私有"
+        "message": "將新視窗設為隱私"
     },
     "reminder": {
-        "message": "提醒"
+        "message": "提醒事項"
     },
     "enableDownloadsReminder": {
-        "message": "启用下载权限以导出搜索引擎。"
+        "message": "啟用下載權限以匯出您的搜尋引擎。"
     },
     "header11": {
-        "message": "图标网格选项"
+        "message": "圖示網格選項"
     },
     "quickIconGrid": {
-        "message": "选择文本后立即显示图标网格"
+        "message": "選取文字後立即顯示圖示方格"
     },
     "closeGridOnMouseOut": {
-        "message": "鼠标移出时关闭图标网格"
+        "message": "滑鼠移出時關閉圖示方格"
     },
     "xOffset": {
-        "message": "图标网格的水平偏移： "
+        "message": "圖示方格的水平偏移： "
     },
     "yOffset": {
-        "message": "图标网格的垂直偏移量： "
+        "message": "圖示方格的垂直偏移： "
     },
     "clearKeyboardShortcuts": {
-        "message": "清除所有键盘快捷键"
+        "message": "清除所有鍵盤捷徑"
     },
     "subheader63": {
-        "message": "添加新的人工智能提示"
+        "message": "新增 AI 提示"
     },
     "subheader64": {
-        "message": "添加分隔符"
+        "message": "新增分隔線"
     },
     "testChatGPT": {
-        "message": "测试 AI 提示"
+        "message": "測試 AI 提示"
     },
     "addChatGPTPrompt": {
-        "message": "添加人工智能提示"
+        "message": "新增 AI 提示"
     },
     "promptShow": {
-        "message": "在网格或右键菜单中显示提示"
+        "message": "在網格或上下文功能表中顯示提示"
     },
     "promptName": {
-        "message": "提示名称"
+        "message": "提示名稱"
     },
     "prompt": {
         "message": "提示"
     },
     "overwriteSearchEngines": {
-        "message": "用导入的搜索引擎覆盖现有搜索引擎"
+        "message": "使用匯入的搜尋引擎覆寫現有的搜尋引擎"
     },
     "removeFolderConfirmPrefix": {
-        "message": "您确定要删除文件夹 "
+        "message": "您確定要移除資料夾 "
     },
     "removeFolderConfirmSuffix": {
-        "message": " 及其所有内容？"
+        "message": " 及其所有內容？"
     },
     "removeSearchEngineConfirm": {
-        "message": "您确定要移除搜索引擎吗？ "
+        "message": "您確定要移除搜尋引擎嗎？ "
     },
     "popupBlockedMessage": {
-        "message": "弹出窗口已阻止！请允许弹出窗口访问本网站。"
+        "message": "彈出視窗已封鎖！請允許本網站的彈出窗口。"
     },
     "__WET_LOCALE__": {
-        "message": "EN"
+        "message": "en"
     }
 }
