@@ -18,7 +18,7 @@
         "message": "您可以啟動"
     },
     "multisearchEnd": {
-        "message": "透過上下文功能表，或透過 omnibox 輸入："
+        "message": "through the context menu or through the address bar by typing:"
     },
     "pageTitle": {
         "message": "上下文搜尋偏好設定"
@@ -224,17 +224,11 @@
     "header7": {
         "message": "重設選項"
     },
-    "header8": {
-        "message": "應該顯示哪些 EXIF 標籤？"
-    },
     "sidebar": {
         "message": "在側邊欄中"
     },
     "displayFavicons": {
         "message": "在上下文功能表清單中顯示收藏夾"
-    },
-    "displayExifSummary": {
-        "message": "摘要"
     },
     "disableAltClick": {
         "message": "停用圖示方格 (Alt + 按一下)"
