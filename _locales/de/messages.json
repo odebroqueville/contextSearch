@@ -18,7 +18,7 @@
         "message": "Sie können eine starten"
     },
     "multisearchEnd": {
-        "message": "über das Kontextmenü oder über die Omnibox durch Eingabe von:"
+        "message": "through the context menu or through the address bar by typing:"
     },
     "pageTitle": {
         "message": "Context Search: Einstellungen"
@@ -224,17 +224,11 @@
     "header7": {
         "message": "Optionen zurücksetzen"
     },
-    "header8": {
-        "message": "Welche EXIF-Tags sollen angezeigt werden?"
-    },
     "sidebar": {
         "message": "In der Seitenleiste"
     },
     "displayFavicons": {
         "message": "Anzeige der Favicons in der Kontextmenüliste"
-    },
-    "displayExifSummary": {
-        "message": "Zusammenfassung"
     },
     "disableAltClick": {
         "message": "Deaktivieren Sie das Raster der Symbole"
