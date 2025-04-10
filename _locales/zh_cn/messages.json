@@ -18,7 +18,7 @@
         "message": "您可以启动"
     },
     "multisearchEnd": {
-        "message": "通过上下文菜单，或通过全能窗口键入："
+        "message": "through the context menu or through the address bar by typing:"
     },
     "pageTitle": {
         "message": "上下文搜索首选项"
@@ -224,17 +224,11 @@
     "header7": {
         "message": "重置选项"
     },
-    "header8": {
-        "message": "应显示哪些 EXIF 标记？"
-    },
     "sidebar": {
         "message": "侧边栏"
     },
     "displayFavicons": {
         "message": "在右键菜单列表中显示收藏夹"
-    },
-    "displayExifSummary": {
-        "message": "摘要"
     },
     "disableAltClick": {
         "message": "禁用图标网格（Alt + 点击）"
