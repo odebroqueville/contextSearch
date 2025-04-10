@@ -18,7 +18,7 @@
         "message": "Դուք կարող եք գործարկել"
     },
     "multisearchEnd": {
-        "message": "համատեքստային մենյուի միջոցով կամ omnibox-ի միջոցով՝ մուտքագրելով."
+        "message": "through the context menu or through the address bar by typing:"
     },
     "pageTitle": {
         "message": "Համատեքստի որոնման նախապատվություններ"
@@ -224,17 +224,11 @@
     "header7": {
         "message": "Վերականգնել ընտրանքները"
     },
-    "header8": {
-        "message": "Ո՞ր EXIF թեգերը պետք է ցուցադրվեն:"
-    },
     "sidebar": {
         "message": "Կողագոտիում"
     },
     "displayFavicons": {
         "message": "Ցուցադրել ֆավիկոնները համատեքստային մենյուի ցանկում"
-    },
-    "displayExifSummary": {
-        "message": "Ամփոփում"
     },
     "disableAltClick": {
         "message": "Անջատել պատկերակների ցանցը (Alt + Click)"
