@@ -18,7 +18,7 @@
         "message": "Je kunt een"
     },
     "multisearchEnd": {
-        "message": "via het contextmenu of via de omnibox door te typen:"
+        "message": "through the context menu or through the address bar by typing:"
     },
     "pageTitle": {
         "message": "Voorkeuren van Context Search"
@@ -224,17 +224,11 @@
     "header7": {
         "message": "Reset opties"
     },
-    "header8": {
-        "message": "Welke EXIF-tags moeten worden weergegeven?"
-    },
     "sidebar": {
         "message": "In de zijbalk"
     },
     "displayFavicons": {
         "message": "Geef favicons weer in de contextmenulijst"
-    },
-    "displayExifSummary": {
-        "message": "Overzicht"
     },
     "disableAltClick": {
         "message": "Schakel het raster met pictogrammen uit"
