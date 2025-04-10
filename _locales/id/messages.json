@@ -18,7 +18,7 @@
         "message": "Anda dapat meluncurkan sebuah"
     },
     "multisearchEnd": {
-        "message": "melalui menu konteks atau melalui omnibox dengan mengetik:"
+        "message": "through the context menu or through the address bar by typing:"
     },
     "pageTitle": {
         "message": "Preferensi Pencarian Konteks"
@@ -224,17 +224,11 @@
     "header7": {
         "message": "Mengatur ulang opsi"
     },
-    "header8": {
-        "message": "Tag EXIF mana yang harus ditampilkan?"
-    },
     "sidebar": {
         "message": "Di bilah samping"
     },
     "displayFavicons": {
         "message": "Menampilkan favicon dalam daftar menu konteks"
-    },
-    "displayExifSummary": {
-        "message": "Ringkasan"
     },
     "disableAltClick": {
         "message": "Menonaktifkan kisi ikon (Alt + Klik)"
