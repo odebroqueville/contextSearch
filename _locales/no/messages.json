@@ -18,7 +18,7 @@
         "message": "Du kan starte en"
     },
     "multisearchEnd": {
-        "message": "gjennom kontekstmenyen eller gjennom søkefeltet ved å skrive:"
+        "message": "through the context menu or through the address bar by typing:"
     },
     "pageTitle": {
         "message": "Innstillinger for kontekstsøk"
@@ -224,17 +224,11 @@
     "header7": {
         "message": "Alternativer for tilbakestilling"
     },
-    "header8": {
-        "message": "Hvilke EXIF-tagger skal vises?"
-    },
     "sidebar": {
         "message": "I sidepanelet"
     },
     "displayFavicons": {
         "message": "Vis favorittikoner i hurtigmenylisten"
-    },
-    "displayExifSummary": {
-        "message": "Sammendrag"
     },
     "disableAltClick": {
         "message": "Deaktiver ikonrutenett (Alt + klikk)"
