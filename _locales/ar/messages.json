@@ -18,7 +18,7 @@
         "message": "يمكنك تشغيل"
     },
     "multisearchEnd": {
-        "message": "من خلال قائمة السياق أو من خلال صندوق الجامعة عن طريق الكتابة:"
+        "message": "من خلال قائمة السياق أو من خلال المربع الشامل عن طريق الكتابة:"
     },
     "pageTitle": {
         "message": "تفضيلات بحث السياق"
@@ -224,17 +224,11 @@
     "header7": {
         "message": "إعادة تعيين الخيارات"
     },
-    "header8": {
-        "message": "ما هي علامات EXIF ​​التي يجب عرضها؟"
-    },
     "sidebar": {
         "message": "في الشريط الجانبي"
     },
     "displayFavicons": {
         "message": "عرض الرموز المفضلة في قائمة قائمة السياق"
-    },
-    "displayExifSummary": {
-        "message": "الملخص"
     },
     "disableAltClick": {
         "message": "تعطيل شبكة الرموز (Alt + Click)"
