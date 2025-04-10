@@ -18,13 +18,13 @@
         "message": "Vous pouvez lancer un"
     },
     "multisearchEnd": {
-        "message": "via le menu contextuel ou via l'omnibox en tapant:"
+        "message": "dans le menu contextuel ou dans la barre d'adresse en tapant :"
     },
     "pageTitle": {
         "message": "Préférences de Context Search"
     },
     "header1": {
-        "message": "Où les résultats de recherche doivent-ils apparaître?"
+        "message": "Où les résultats de la recherche doivent-ils apparaître ?"
     },
     "newTab": {
         "message": "Dans un nouvel onglet"
@@ -45,7 +45,7 @@
         "message": "Position des options dans le menu contextuel"
     },
     "subheader31": {
-        "message": "Où aimeriez-vous que le menu des options apparaisse dans le menu contextuel?"
+        "message": "Où souhaitez-vous que les options apparaisse dans le menu contextuel ?"
     },
     "bottom": {
         "message": "Au bas du menu contextuel"
