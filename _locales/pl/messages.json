@@ -18,7 +18,7 @@
         "message": "Możesz uruchomić"
     },
     "multisearchEnd": {
-        "message": "za pomocą menu kontekstowego lub omniboksu, wpisując:"
+        "message": "through the context menu or through the address bar by typing:"
     },
     "pageTitle": {
         "message": "Preferencje wyszukiwania kontekstowego"
@@ -224,17 +224,11 @@
     "header7": {
         "message": "Zresetuj opcje"
     },
-    "header8": {
-        "message": "Które tagi EXIF powinny być wyświetlane?"
-    },
     "sidebar": {
         "message": "Na pasku bocznym"
     },
     "displayFavicons": {
         "message": "Wyświetl ulubione w liście menu kontekstowego"
-    },
-    "displayExifSummary": {
-        "message": "Podsumowanie"
     },
     "disableAltClick": {
         "message": "Wyłącz siatkę ikon"
