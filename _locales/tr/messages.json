@@ -18,7 +18,7 @@
         "message": "Bir"
     },
     "multisearchEnd": {
-        "message": "bağlam menüsünden veya omnibox üzerinden yazarak:"
+        "message": "through the context menu or through the address bar by typing:"
     },
     "pageTitle": {
         "message": "Bağlam Arama Tercihleri"
@@ -224,17 +224,11 @@
     "header7": {
         "message": "Seçenekleri sıfırla"
     },
-    "header8": {
-        "message": "Hangi EXIF etiketleri görüntülenmelidir?"
-    },
     "sidebar": {
         "message": "Kenar çubuğunda"
     },
     "displayFavicons": {
         "message": "Favicon'ları içerik menüsü listesinde görüntüleme"
-    },
-    "displayExifSummary": {
-        "message": "Özet"
     },
     "disableAltClick": {
         "message": "Simge ızgarasını devre dışı bırakma (Alt + Tıklama)"
