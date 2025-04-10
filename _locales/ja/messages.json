@@ -18,7 +18,7 @@
         "message": "起動できます"
     },
     "multisearchEnd": {
-        "message": "次のように入力して、コンテキストメニューまたはアドレスバーから："
+        "message": "through the context menu or through the address bar by typing:"
     },
     "pageTitle": {
         "message": "コンテキスト検索設定"
@@ -224,17 +224,11 @@
     "header7": {
         "message": "リセットオプション"
     },
-    "header8": {
-        "message": "どのEXIFタグを表示する必要がありますか？"
-    },
     "sidebar": {
         "message": "サイドバー内"
     },
     "displayFavicons": {
         "message": "ファビコンをコンテキストメニューリストに表示"
-    },
-    "displayExifSummary": {
-        "message": "概要"
     },
     "disableAltClick": {
         "message": "アイコンのグリッドを無効にする"
