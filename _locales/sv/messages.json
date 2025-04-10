@@ -18,7 +18,7 @@
         "message": "Du kan starta en"
     },
     "multisearchEnd": {
-        "message": "via snabbmenyn eller via omniboxen genom att skriva:"
+        "message": "through the context menu or through the address bar by typing:"
     },
     "pageTitle": {
         "message": "Inställningar för kontextsökning"
@@ -224,17 +224,11 @@
     "header7": {
         "message": "Återställ alternativ"
     },
-    "header8": {
-        "message": "Vilka EXIF-taggar ska visas?"
-    },
     "sidebar": {
         "message": "I sidofältet"
     },
     "displayFavicons": {
         "message": "Visa favicons i listan över snabbmenyer"
-    },
-    "displayExifSummary": {
-        "message": "Sammanfattning"
     },
     "disableAltClick": {
         "message": "Inaktivera ikonrutnätet (Alt + Klicka)"
