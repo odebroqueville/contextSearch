@@ -18,7 +18,7 @@
         "message": "Puedes lanzar un"
     },
     "multisearchEnd": {
-        "message": "a través del menú contextual o del omnibox escribiendo:"
+        "message": "through the context menu or through the address bar by typing:"
     },
     "pageTitle": {
         "message": "Preferencias de Context Search"
@@ -224,17 +224,11 @@
     "header7": {
         "message": "Restablecer opciones"
     },
-    "header8": {
-        "message": "¿Qué etiquetas EXIF se deben mostrar?"
-    },
     "sidebar": {
         "message": "En la barra lateral"
     },
     "displayFavicons": {
         "message": "Mostrar favicons en la lista del menú contextual"
-    },
-    "displayExifSummary": {
-        "message": "Resumen"
     },
     "disableAltClick": {
         "message": "Desactivar cuadrícula de iconos"
