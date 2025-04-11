@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Searches the selected text using a search engine from a pre-specified list.",
+        "message": "Поиск выделенного текста с помощью поисковой системы из предварительно указанного списка.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -18,7 +18,7 @@
         "message": "Вы можете запустить"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the omnibox by typing:"
+        "message": "через контекстное меню или через омнибокс, набрав:"
     },
     "pageTitle": {
         "message": "Настройки Context Search"
@@ -72,7 +72,7 @@
         "message": "Отображение фавиконов"
     },
     "getFavicons": {
-        "message": "Display favicons in context menu list"
+        "message": "Отображение фавиконов в списке контекстного меню"
     },
     "note": {
         "message": "Эта функция требует firefox 56 или выше."
@@ -224,17 +224,11 @@
     "header7": {
         "message": "Сбросить параметры"
     },
-    "header8": {
-        "message": "Which EXIF tags should be displayed?"
-    },
     "sidebar": {
         "message": "В боковой панели"
     },
     "displayFavicons": {
         "message": "Отображать значки в списке контекстного меню"
-    },
-    "displayExifSummary": {
-        "message": "Summary"
     },
     "disableAltClick": {
         "message": "Отключить сетку иконок"
