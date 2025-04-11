@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "使用搜尋引擎從預先指定的清單中搜尋選取的文字。",
+        "message": "使用自訂搜尋引擎清單中的搜尋引擎或 AI 提示搜尋選取的文字，搜尋引擎和 AI 提示在擴充套件的偏好設定頁面中管理。",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -70,9 +70,6 @@
     },
     "header2": {
         "message": "首頁圖示與圖示"
-    },
-    "getFavicons": {
-        "message": "在上下文功能表清單中顯示收藏夾"
     },
     "note": {
         "message": "此功能需要 Firefox 56 或以上版本。"
@@ -228,7 +225,7 @@
         "message": "在側邊欄中"
     },
     "displayFavicons": {
-        "message": "在上下文功能表清單中顯示收藏夾"
+        "message": "在上下文功能表中顯示我的最愛圖示"
     },
     "disableAltClick": {
         "message": "停用圖示方格 (Alt + 按一下)"
