@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Searches the selected text using a search engine from a pre-specified list.",
+        "message": "Søger i den valgte tekst ved hjælp af en søgemaskine fra en foruddefineret liste.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -18,7 +18,7 @@
         "message": "Du kan starte en"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the omnibox by typing:"
+        "message": "via kontekstmenuen eller via omniboksen ved at skrive:"
     },
     "pageTitle": {
         "message": "Indstillinger for kontekstsøgning"
@@ -72,7 +72,7 @@
         "message": "Favicons og ikoner"
     },
     "getFavicons": {
-        "message": "Display favicons in context menu list"
+        "message": "Vis favicons i kontekstmenu-listen"
     },
     "note": {
         "message": "Denne funktion kræver Firefox 56 eller nyere."
@@ -224,17 +224,11 @@
     "header7": {
         "message": "Nulstil indstillinger"
     },
-    "header8": {
-        "message": "Which EXIF tags should be displayed?"
-    },
     "sidebar": {
         "message": "I sidepanelet"
     },
     "displayFavicons": {
         "message": "Vis favicons i kontekstmenu-listen"
-    },
-    "displayExifSummary": {
-        "message": "Summary"
     },
     "disableAltClick": {
         "message": "Deaktiver ikon-gitter (Alt + klik)"
@@ -360,6 +354,6 @@
         "message": "Popup blokeret! Tillad venligst pop op-vinduer på dette websted."
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "da"
     }
 }
