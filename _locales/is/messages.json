@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Leitar að völdum texta með leitarvél úr forákvörðuðum lista.",
+        "message": "Searches the selected text using a search engine from a pre-specified list.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -18,7 +18,7 @@
         "message": "Þú getur ræst"
     },
     "multisearchEnd": {
-        "message": "í gegnum samhengisvalmyndina (hægri smella) eða í gegnum leitarreitinn með því að skrifa:"
+        "message": "through the context menu or through the omnibox by typing:"
     },
     "pageTitle": {
         "message": "Kjörstillingar samhengisleitar"
@@ -72,7 +72,7 @@
         "message": "Táknmyndir"
     },
     "getFavicons": {
-        "message": "Birta táknmyndir í lista samhengisvalmyndar"
+        "message": "Display favicons in context menu list"
     },
     "note": {
         "message": "Þessi eiginleiki krefst Firefox 56 eða nýrri."
@@ -224,11 +224,17 @@
     "header7": {
         "message": "Endurstilla valkosti"
     },
+    "header8": {
+        "message": "Which EXIF tags should be displayed?"
+    },
     "sidebar": {
         "message": "Á hliðarslá"
     },
     "displayFavicons": {
         "message": "Birta táknmyndir í lista samhengisvalmyndar"
+    },
+    "displayExifSummary": {
+        "message": "Summary"
     },
     "disableAltClick": {
         "message": "Gera táknmyndareiti óvirka (Alt + smella)"
