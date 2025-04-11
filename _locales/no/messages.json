@@ -71,9 +71,6 @@
     "header2": {
         "message": "Favorittikoner og ikoner"
     },
-    "getFavicons": {
-        "message": "Display favicons in context menu list"
-    },
     "note": {
         "message": "Denne funksjonen krever Firefox 56 eller nyere."
     },
@@ -228,7 +225,7 @@
         "message": "I sidepanelet"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu"
+        "message": "Vis favorittikoner i kontekstmenyen"
     },
     "disableAltClick": {
         "message": "Deaktiver ikonrutenett (Alt + klikk)"
