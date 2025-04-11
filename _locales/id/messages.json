@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Mencari teks yang dipilih menggunakan mesin pencari dari daftar yang telah ditentukan sebelumnya.",
+        "message": "Mencari teks yang dipilih menggunakan mesin pencari atau prompt AI dari daftar mesin pencari dan prompt AI khusus Anda yang dikelola di halaman preferensi ekstensi.",
         "description": "Description of the extension"
     },
     "multisearch": {
