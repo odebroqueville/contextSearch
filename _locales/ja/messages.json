@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Searches the selected text using a search engine from a pre-specified list.",
+        "message": "指定されたリストから検索エンジンを使用して、選択したテキストを検索します。",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -18,7 +18,7 @@
         "message": "起動できます"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the omnibox by typing:"
+        "message": "次のように入力して、コンテキストメニューまたはアドレスバーから："
     },
     "pageTitle": {
         "message": "コンテキスト検索設定"
@@ -72,7 +72,7 @@
         "message": "ファビコンを表示"
     },
     "getFavicons": {
-        "message": "Display favicons in context menu list"
+        "message": "ファビコンをコンテキストメニューリストに表示"
     },
     "note": {
         "message": "この機能には、Firefox 56以降が必要です。"
@@ -224,17 +224,11 @@
     "header7": {
         "message": "リセットオプション"
     },
-    "header8": {
-        "message": "Which EXIF tags should be displayed?"
-    },
     "sidebar": {
         "message": "サイドバー内"
     },
     "displayFavicons": {
         "message": "ファビコンをコンテキストメニューリストに表示"
-    },
-    "displayExifSummary": {
-        "message": "Summary"
     },
     "disableAltClick": {
         "message": "アイコンのグリッドを無効にする"
