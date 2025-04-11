@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Cerca il testo selezionato utilizzando un motore di ricerca da un elenco predefinito",
+        "message": "Searches the selected text using a search engine from a pre-specified list.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -18,7 +18,7 @@
         "message": "È possibile avviare a"
     },
     "multisearchEnd": {
-        "message": "tramite il menu di scelta rapida o la omnibox digitando:"
+        "message": "through the context menu or through the omnibox by typing:"
     },
     "pageTitle": {
         "message": "Preferenze per Context Search"
@@ -72,7 +72,7 @@
         "message": "Mostra le favicon"
     },
     "getFavicons": {
-        "message": "Mostra le favicon nel menu contestuale"
+        "message": "Display favicons in context menu list"
     },
     "note": {
         "message": "Questa funzione richiede firefox 56 o successivo."
@@ -224,11 +224,17 @@
     "header7": {
         "message": "Reimposta opzioni"
     },
+    "header8": {
+        "message": "Which EXIF tags should be displayed?"
+    },
     "sidebar": {
         "message": "Nella barra laterale"
     },
     "displayFavicons": {
         "message": "Visualizza le favicon nell'elenco dei menu contestuali"
+    },
+    "displayExifSummary": {
+        "message": "Summary"
     },
     "disableAltClick": {
         "message": "Disabilita la griglia delle icone"
