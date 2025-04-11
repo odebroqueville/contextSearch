@@ -71,9 +71,6 @@
     "header2": {
         "message": "Відображення фавіконів"
     },
-    "getFavicons": {
-        "message": "Display favicons in context menu list"
-    },
     "note": {
         "message": "Ця функція вимагає firefox 56 або вище."
     },
@@ -228,7 +225,7 @@
         "message": "У бічній панелі"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu"
+        "message": "Відображення фавіконок у контекстному меню"
     },
     "disableAltClick": {
         "message": "Вимкнути сітку значків"
