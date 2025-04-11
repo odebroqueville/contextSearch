@@ -71,9 +71,6 @@
     "header2": {
         "message": "Pokaż favicons"
     },
-    "getFavicons": {
-        "message": "Display favicons in context menu list"
-    },
     "note": {
         "message": "Ta funkcjonalność wymaga Firefox-a 56 lub nowszego."
     },
@@ -228,7 +225,7 @@
         "message": "Na pasku bocznym"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu"
+        "message": "Wyświetlanie ikon ulubionych w menu kontekstowym"
     },
     "disableAltClick": {
         "message": "Wyłącz siatkę ikon"
