@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Przeszukuje wybrany tekst za pomocą wyszukiwarki z wcześniej określonej listy.",
+        "message": "Przeszukuje zaznaczony tekst przy użyciu wyszukiwarki lub podpowiedzi AI z niestandardowej listy wyszukiwarek i podpowiedzi AI zarządzanych na stronie preferencji rozszerzenia.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -70,9 +70,6 @@
     },
     "header2": {
         "message": "Pokaż favicons"
-    },
-    "getFavicons": {
-        "message": "Pokaż favicons na liście menu kontekstowego"
     },
     "note": {
         "message": "Ta funkcjonalność wymaga Firefox-a 56 lub nowszego."
@@ -228,7 +225,7 @@
         "message": "Na pasku bocznym"
     },
     "displayFavicons": {
-        "message": "Wyświetl ulubione w liście menu kontekstowego"
+        "message": "Wyświetlanie ikon ulubionych w menu kontekstowym"
     },
     "disableAltClick": {
         "message": "Wyłącz siatkę ikon"

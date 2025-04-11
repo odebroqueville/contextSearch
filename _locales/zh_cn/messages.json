@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "使用搜索引擎从预先指定的列表中搜索所选文本。",
+        "message": "从扩展首选项页面管理的搜索引擎和人工智能提示自定义列表中，使用搜索引擎或人工智能提示搜索所选文本。",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -70,9 +70,6 @@
     },
     "header2": {
         "message": "收藏夹和图标"
-    },
-    "getFavicons": {
-        "message": "在右键菜单列表中显示收藏夹"
     },
     "note": {
         "message": "此功能需要 Firefox 56 或以上版本。"
@@ -228,7 +225,7 @@
         "message": "侧边栏"
     },
     "displayFavicons": {
-        "message": "在右键菜单列表中显示收藏夹"
+        "message": "在上下文菜单中显示收藏夹图标"
     },
     "disableAltClick": {
         "message": "禁用图标网格（Alt + 点击）"

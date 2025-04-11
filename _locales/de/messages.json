@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Sucht nach dem ausgewählten Text mit einer Suchmaschine aus einer vordefinierten Liste.",
+        "message": "Durchsucht den markierten Text mit einer Suchmaschine oder KI-Eingabeaufforderung aus Ihrer benutzerdefinierten Liste von Suchmaschinen und KI-Eingabeaufforderungen, die auf der Einstellungsseite der Erweiterung verwaltet werden.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -70,9 +70,6 @@
     },
     "header2": {
         "message": "Zeige Suchmaschinen-Symbole"
-    },
-    "getFavicons": {
-        "message": "Zeige Suchmaschinen-Symbole in der Kontextmenüliste an"
     },
     "note": {
         "message": "Diese Funktion erfordert Firefox 56 oder höher."
@@ -228,7 +225,7 @@
         "message": "In der Seitenleiste"
     },
     "displayFavicons": {
-        "message": "Anzeige der Favicons in der Kontextmenüliste"
+        "message": "Favicons im Kontextmenü anzeigen"
     },
     "disableAltClick": {
         "message": "Deaktivieren Sie das Raster der Symbole"
