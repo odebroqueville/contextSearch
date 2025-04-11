@@ -71,9 +71,6 @@
     "header2": {
         "message": "收藏夹和图标"
     },
-    "getFavicons": {
-        "message": "Display favicons in context menu list"
-    },
     "note": {
         "message": "此功能需要 Firefox 56 或以上版本。"
     },
@@ -228,7 +225,7 @@
         "message": "侧边栏"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu"
+        "message": "在上下文菜单中显示收藏夹图标"
     },
     "disableAltClick": {
         "message": "禁用图标网格（Alt + 点击）"
