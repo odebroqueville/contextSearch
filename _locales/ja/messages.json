@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "指定されたリストから検索エンジンを使用して、選択したテキストを検索します。",
+        "message": "拡張機能の設定ページで管理されている検索エンジンとAIプロンプトのカスタムリストから、検索エンジンまたはAIプロンプトを使用して選択したテキストを検索します。",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -72,7 +72,7 @@
         "message": "ファビコンを表示"
     },
     "getFavicons": {
-        "message": "ファビコンをコンテキストメニューリストに表示"
+        "message": "Display favicons in context menu list"
     },
     "note": {
         "message": "この機能には、Firefox 56以降が必要です。"
@@ -228,7 +228,7 @@
         "message": "サイドバー内"
     },
     "displayFavicons": {
-        "message": "ファビコンをコンテキストメニューリストに表示"
+        "message": "Display favicons in context menu"
     },
     "disableAltClick": {
         "message": "アイコンのグリッドを無効にする"
