@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "사전 지정된 목록에서 검색 엔진을 사용하여 선택한 텍스트를 검색합니다.",
+        "message": "확장 프로그램의 환경설정 페이지에서 관리되는 사용자 지정 검색 엔진 및 AI 프롬프트 목록에서 검색 엔진 또는 AI 프롬프트를 사용하여 선택한 텍스트를 검색합니다.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -72,7 +72,7 @@
         "message": "파비콘과 아이콘"
     },
     "getFavicons": {
-        "message": "컨텍스트 메뉴 목록에 즐겨 찾기 아이콘 표시"
+        "message": "Display favicons in context menu list"
     },
     "note": {
         "message": "이 기능은 Firefox 56 이상이 필요합니다."
@@ -228,7 +228,7 @@
         "message": "사이드 바에서"
     },
     "displayFavicons": {
-        "message": "컨텍스트 메뉴 목록에 즐겨 찾기 아이콘 표시"
+        "message": "Display favicons in context menu"
     },
     "disableAltClick": {
         "message": "아이콘 그리드 비활성화 (Alt + 클릭)"
