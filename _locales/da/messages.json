@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Søger i den valgte tekst ved hjælp af en søgemaskine fra en foruddefineret liste.",
+        "message": "Søger i den valgte tekst ved hjælp af en søgemaskine eller AI-prompt fra din brugerdefinerede liste over søgemaskiner og AI-prompter, der administreres på udvidelsens indstillingsside.",
         "description": "Description of the extension"
     },
     "multisearch": {
