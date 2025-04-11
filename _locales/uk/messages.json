@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Пошук виділеного тексту пошуковою системою з попередньо визначеного списку.",
+        "message": "Searches the selected text using a search engine from a pre-specified list.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -18,7 +18,7 @@
         "message": "Ви можете запустити"
     },
     "multisearchEnd": {
-        "message": "через контекстне меню або через універсальне меню, ввівши:"
+        "message": "through the context menu or through the omnibox by typing:"
     },
     "pageTitle": {
         "message": "Налаштування Context Search"
@@ -72,7 +72,7 @@
         "message": "Відображення фавіконів"
     },
     "getFavicons": {
-        "message": "Відображення фавіконів в списку контекстного меню"
+        "message": "Display favicons in context menu list"
     },
     "note": {
         "message": "Ця функція вимагає firefox 56 або вище."
@@ -224,11 +224,17 @@
     "header7": {
         "message": "Скидання параметрів"
     },
+    "header8": {
+        "message": "Which EXIF tags should be displayed?"
+    },
     "sidebar": {
         "message": "У бічній панелі"
     },
     "displayFavicons": {
         "message": "Відобразити фаворити у списку контекстного меню"
+    },
+    "displayExifSummary": {
+        "message": "Summary"
     },
     "disableAltClick": {
         "message": "Вимкнути сітку значків"
