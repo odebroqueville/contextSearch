@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Önceden belirlenmiş bir listeden bir arama motoru kullanarak seçilen metni arar.",
+        "message": "Seçilen metni, uzantının tercihler sayfasında yönetilen özel arama motorları ve yapay zeka istemleri listenizden bir arama motoru veya yapay zeka istemi kullanarak arar.",
         "description": "Description of the extension"
     },
     "multisearch": {
