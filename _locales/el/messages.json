@@ -18,7 +18,7 @@
         "message": "Μπορείτε να εκκινήσετε ένα"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the address bar by typing:"
+        "message": "μέσω του μενού περιβάλλοντος ή μέσω του omnibox πληκτρολογώντας:"
     },
     "pageTitle": {
         "message": "Προτιμήσεις αναζήτησης περιβάλλοντος"
@@ -354,6 +354,6 @@
         "message": "Αναδυόμενο παράθυρο μπλοκαρισμένο! Παρακαλώ επιτρέψτε τα αναδυόμενα παράθυρα για αυτόν τον ιστότοπο."
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "el"
     }
 }

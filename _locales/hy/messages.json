@@ -18,7 +18,7 @@
         "message": "Դուք կարող եք գործարկել"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the address bar by typing:"
+        "message": "համատեքստային մենյուի միջոցով կամ omnibox-ի միջոցով՝ մուտքագրելով."
     },
     "pageTitle": {
         "message": "Համատեքստի որոնման նախապատվություններ"
@@ -354,6 +354,6 @@
         "message": "Popup-ը արգելափակված է: Խնդրում ենք թույլատրել այս կայքի պատուհանները:"
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "hy"
     }
 }

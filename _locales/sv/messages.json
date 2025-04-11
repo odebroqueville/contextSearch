@@ -18,7 +18,7 @@
         "message": "Du kan starta en"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the address bar by typing:"
+        "message": "via snabbmenyn eller via omniboxen genom att skriva:"
     },
     "pageTitle": {
         "message": "Inställningar för kontextsökning"
@@ -354,6 +354,6 @@
         "message": "Popup blockerad! Vänligen tillåt popup-fönster för denna webbplats."
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "sv"
     }
 }

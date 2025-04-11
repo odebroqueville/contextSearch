@@ -18,7 +18,7 @@
         "message": "É possível lançar um"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the address bar by typing:"
+        "message": "através do menu de contexto ou através da omnibox, digitando:"
     },
     "pageTitle": {
         "message": "Preferências de pesquisa de contexto"
@@ -354,6 +354,6 @@
         "message": "Popup bloqueado! Permitir popups para este sítio."
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "pt"
     }
 }

@@ -18,7 +18,7 @@
         "message": "Anda dapat meluncurkan sebuah"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the address bar by typing:"
+        "message": "melalui menu konteks atau melalui omnibox dengan mengetik:"
     },
     "pageTitle": {
         "message": "Preferensi Pencarian Konteks"
@@ -354,6 +354,6 @@
         "message": "Popup diblokir! Izinkan popup untuk situs ini."
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "id"
     }
 }

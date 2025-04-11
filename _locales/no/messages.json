@@ -18,7 +18,7 @@
         "message": "Du kan starte en"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the address bar by typing:"
+        "message": "gjennom kontekstmenyen eller gjennom søkefeltet ved å skrive:"
     },
     "pageTitle": {
         "message": "Innstillinger for kontekstsøk"
@@ -354,6 +354,6 @@
         "message": "Popup blokkert! Vennligst tillat popup-vinduer for dette nettstedet."
     },
     "__WET_LOCALE__": {
-        "message": "Eget"
+        "message": "no"
     }
 }

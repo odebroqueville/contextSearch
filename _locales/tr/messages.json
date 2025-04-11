@@ -18,7 +18,7 @@
         "message": "Bir"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the address bar by typing:"
+        "message": "bağlam menüsünden veya omnibox üzerinden yazarak:"
     },
     "pageTitle": {
         "message": "Bağlam Arama Tercihleri"
@@ -354,6 +354,6 @@
         "message": "Açılır pencere engellendi! Lütfen bu site için açılır pencerelere izin verin."
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "tr"
     }
 }
