@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "يبحث في النص المحدد باستخدام محرك بحث من قائمة محددة مسبقًا.",
+        "message": "ابحث عن النص المحدد باستخدام محرك بحث أو مطالبة الذكاء الاصطناعي من قائمة محركات البحث المخصصة ومطالبات الذكاء الاصطناعي التي تديرها في صفحة التفضيلات الخاصة بالملحق.",
         "description": "Description of the extension"
     },
     "multisearch": {
