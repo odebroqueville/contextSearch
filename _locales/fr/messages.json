@@ -24,7 +24,7 @@
         "message": "Préférences de Context Search"
     },
     "header1": {
-        "message": "Où les résultats de la recherche doivent-ils apparaître ?"
+        "message": "Où les résultats de recherche doivent-ils apparaître ?"
     },
     "newTab": {
         "message": "Dans un nouvel onglet"
@@ -45,7 +45,7 @@
         "message": "Position des options dans le menu contextuel"
     },
     "subheader31": {
-        "message": "Où souhaitez-vous que les options apparaisse dans le menu contextuel ?"
+        "message": "Où souhaitez-vous que les options apparaisse dans le menu contextuel ?"
     },
     "bottom": {
         "message": "Au bas du menu contextuel"
@@ -70,9 +70,6 @@
     },
     "header2": {
         "message": "Afficher les icônes"
-    },
-    "getFavicons": {
-        "message": "Display favicons in context menu list"
     },
     "note": {
         "message": "Cette fonctionnalité requiert Firefox 56 ou une version plus récente."
@@ -228,7 +225,7 @@
         "message": "Dans la barre de côté"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu"
+        "message": "Afficher les icônes dans le menu contextuel"
     },
     "disableAltClick": {
         "message": "Désactiver la grille d'icônes (Alt + Clic)"
