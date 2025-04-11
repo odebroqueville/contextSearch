@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Searches the selected text using a search engine from a pre-specified list.",
+        "message": "Mencari teks yang dipilih menggunakan mesin pencari dari daftar yang telah ditentukan sebelumnya.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -18,7 +18,7 @@
         "message": "Anda dapat meluncurkan sebuah"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the omnibox by typing:"
+        "message": "melalui menu konteks atau melalui omnibox dengan mengetik:"
     },
     "pageTitle": {
         "message": "Preferensi Pencarian Konteks"
@@ -72,7 +72,7 @@
         "message": "Favicon & Ikon"
     },
     "getFavicons": {
-        "message": "Display favicons in context menu list"
+        "message": "Menampilkan favicon dalam daftar menu konteks"
     },
     "note": {
         "message": "Fitur ini membutuhkan Firefox 56 atau lebih tinggi."
@@ -224,17 +224,11 @@
     "header7": {
         "message": "Mengatur ulang opsi"
     },
-    "header8": {
-        "message": "Which EXIF tags should be displayed?"
-    },
     "sidebar": {
         "message": "Di bilah samping"
     },
     "displayFavicons": {
         "message": "Menampilkan favicon dalam daftar menu konteks"
-    },
-    "displayExifSummary": {
-        "message": "Summary"
     },
     "disableAltClick": {
         "message": "Menonaktifkan kisi ikon (Alt + Klik)"
@@ -360,6 +354,6 @@
         "message": "Popup diblokir! Izinkan popup untuk situs ini."
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "id"
     }
 }
