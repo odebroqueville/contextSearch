@@ -71,9 +71,6 @@
     "header2": {
         "message": "Favicons e ícones"
     },
-    "getFavicons": {
-        "message": "Display favicons in context menu list"
-    },
     "note": {
         "message": "Esta funcionalidade requer o Firefox 56 ou superior."
     },
@@ -228,7 +225,7 @@
         "message": "Na barra lateral"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu"
+        "message": "Exibir favicons no menu de contexto"
     },
     "disableAltClick": {
         "message": "Desativar a grelha de ícones (Alt + Clique)"
