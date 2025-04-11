@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Sucht nach dem ausgewählten Text mit einer Suchmaschine aus einer vordefinierten Liste.",
+        "message": "Durchsucht den markierten Text mit einer Suchmaschine oder KI-Eingabeaufforderung aus Ihrer benutzerdefinierten Liste von Suchmaschinen und KI-Eingabeaufforderungen, die auf der Einstellungsseite der Erweiterung verwaltet werden.",
         "description": "Description of the extension"
     },
     "multisearch": {
