@@ -71,9 +71,6 @@
     "header2": {
         "message": "Mostrar los iconos de favoritos"
     },
-    "getFavicons": {
-        "message": "Display favicons in context menu list"
-    },
     "note": {
         "message": "Esta función requiere Firefox 56 o superior."
     },
@@ -228,7 +225,7 @@
         "message": "En la barra lateral"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu"
+        "message": "Mostrar favicons en el menú contextual"
     },
     "disableAltClick": {
         "message": "Desactivar cuadrícula de iconos"
