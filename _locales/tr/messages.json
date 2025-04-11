@@ -71,9 +71,6 @@
     "header2": {
         "message": "Faviconlar ve Simgeler"
     },
-    "getFavicons": {
-        "message": "Display favicons in context menu list"
-    },
     "note": {
         "message": "Bu özellik için Firefox 56 veya üstü gerekir."
     },
@@ -228,7 +225,7 @@
         "message": "Kenar çubuğunda"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu"
+        "message": "Bağlam menüsünde sık kullanılan simgeleri görüntüleme"
     },
     "disableAltClick": {
         "message": "Simge ızgarasını devre dışı bırakma (Alt + Tıklama)"
