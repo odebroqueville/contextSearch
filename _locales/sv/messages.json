@@ -71,9 +71,6 @@
     "header2": {
         "message": "Favicons och ikoner"
     },
-    "getFavicons": {
-        "message": "Display favicons in context menu list"
-    },
     "note": {
         "message": "Denna funktion kräver Firefox 56 eller senare."
     },
@@ -228,7 +225,7 @@
         "message": "I sidofältet"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu"
+        "message": "Visa favoritikoner i snabbmenyn"
     },
     "disableAltClick": {
         "message": "Inaktivera ikonrutnätet (Alt + Klicka)"
