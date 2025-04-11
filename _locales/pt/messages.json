@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Pesquisa o texto selecionado utilizando um motor de pesquisa a partir de uma lista pré-especificada.",
+        "message": "Pesquisa o texto selecionado utilizando um motor de pesquisa ou um pedido de IA da sua lista personalizada de motores de pesquisa e pedidos de IA geridos na página de preferências da extensão.",
         "description": "Description of the extension"
     },
     "multisearch": {
