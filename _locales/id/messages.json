@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Mencari teks yang dipilih menggunakan mesin pencari dari daftar yang telah ditentukan sebelumnya.",
+        "message": "Mencari teks yang dipilih menggunakan mesin pencari atau prompt AI dari daftar mesin pencari dan prompt AI khusus Anda yang dikelola di halaman preferensi ekstensi.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -72,7 +72,7 @@
         "message": "Favicon & Ikon"
     },
     "getFavicons": {
-        "message": "Menampilkan favicon dalam daftar menu konteks"
+        "message": "Display favicons in context menu list"
     },
     "note": {
         "message": "Fitur ini membutuhkan Firefox 56 atau lebih tinggi."
@@ -228,7 +228,7 @@
         "message": "Di bilah samping"
     },
     "displayFavicons": {
-        "message": "Menampilkan favicon dalam daftar menu konteks"
+        "message": "Display favicons in context menu"
     },
     "disableAltClick": {
         "message": "Menonaktifkan kisi ikon (Alt + Klik)"
