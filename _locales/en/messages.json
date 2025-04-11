@@ -71,9 +71,6 @@
     "header2": {
         "message": "Favicons & Icons"
     },
-    "getFavicons": {
-        "message": "Display favicons in context menu list"
-    },
     "note": {
         "message": "This feature requires Firefox 56 or above."
     },
