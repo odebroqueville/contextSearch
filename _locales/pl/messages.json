@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Przeszukuje wybrany tekst za pomocą wyszukiwarki z wcześniej określonej listy.",
+        "message": "Przeszukuje zaznaczony tekst przy użyciu wyszukiwarki lub podpowiedzi AI z niestandardowej listy wyszukiwarek i podpowiedzi AI zarządzanych na stronie preferencji rozszerzenia.",
         "description": "Description of the extension"
     },
     "multisearch": {
