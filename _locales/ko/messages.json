@@ -71,9 +71,6 @@
     "header2": {
         "message": "파비콘과 아이콘"
     },
-    "getFavicons": {
-        "message": "Display favicons in context menu list"
-    },
     "note": {
         "message": "이 기능은 Firefox 56 이상이 필요합니다."
     },
@@ -228,7 +225,7 @@
         "message": "사이드 바에서"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu"
+        "message": "상황에 맞는 메뉴에 파비콘 표시"
     },
     "disableAltClick": {
         "message": "아이콘 그리드 비활성화 (Alt + 클릭)"
