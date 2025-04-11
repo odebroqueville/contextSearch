@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Etsii valittua tekstiä käyttämällä hakukonetta ennalta määritetystä luettelosta.",
+        "message": "Etsii valittua tekstiä käyttämällä hakukonetta tai tekoälykehotetta laajennuksen asetussivulla hallitsemastasi hakukoneiden ja tekoälykehotteiden luettelosta.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -70,9 +70,6 @@
     },
     "header2": {
         "message": "Suosikit & kuvakkeet"
-    },
-    "getFavicons": {
-        "message": "Näytä suosikkikuvakkeet kontekstivalikon luettelossa"
     },
     "note": {
         "message": "Tämä ominaisuus vaatii Firefox 56:n tai uudemman version."
@@ -228,7 +225,7 @@
         "message": "Sivupalkissa"
     },
     "displayFavicons": {
-        "message": "Näytä suosikkikuvakkeet kontekstivalikon luettelossa"
+        "message": "Näytä faviconit kontekstivalikossa"
     },
     "disableAltClick": {
         "message": "Poista kuvakeverkko käytöstä (Alt + klikkaus)"
