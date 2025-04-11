@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Zoekt de geselecteerde tekst met een zoekmachine uit een vastgestelde lijst.",
+        "message": "Zoekt de geselecteerde tekst met een zoekmachine of AI-prompt uit uw aangepaste lijst van zoekmachines en AI-prompts die worden beheerd in de voorkeurenpagina van de extensie.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -70,9 +70,6 @@
     },
     "header2": {
         "message": "Toon icoontjes"
-    },
-    "getFavicons": {
-        "message": "Toon icoontjes in de contextmenulijst"
     },
     "note": {
         "message": "Deze functie vereist Firefox 56 of hoger."
@@ -228,7 +225,7 @@
         "message": "In de zijbalk"
     },
     "displayFavicons": {
-        "message": "Geef favicons weer in de contextmenulijst"
+        "message": "Favicons weergeven in het contextmenu"
     },
     "disableAltClick": {
         "message": "Schakel het raster met pictogrammen uit"
