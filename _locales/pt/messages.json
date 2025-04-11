@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Pesquisa o texto selecionado utilizando um motor de pesquisa a partir de uma lista pré-especificada.",
+        "message": "Searches the selected text using a search engine from a pre-specified list.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -18,7 +18,7 @@
         "message": "É possível lançar um"
     },
     "multisearchEnd": {
-        "message": "através do menu de contexto ou através da omnibox, digitando:"
+        "message": "through the context menu or through the omnibox by typing:"
     },
     "pageTitle": {
         "message": "Preferências de pesquisa de contexto"
@@ -72,7 +72,7 @@
         "message": "Favicons e ícones"
     },
     "getFavicons": {
-        "message": "Mostrar favicons na lista do menu de contexto"
+        "message": "Display favicons in context menu list"
     },
     "note": {
         "message": "Esta funcionalidade requer o Firefox 56 ou superior."
@@ -224,11 +224,17 @@
     "header7": {
         "message": "Opções de reposição"
     },
+    "header8": {
+        "message": "Which EXIF tags should be displayed?"
+    },
     "sidebar": {
         "message": "Na barra lateral"
     },
     "displayFavicons": {
         "message": "Mostrar favicons na lista do menu de contexto"
+    },
+    "displayExifSummary": {
+        "message": "Summary"
     },
     "disableAltClick": {
         "message": "Desativar a grelha de ícones (Alt + Clique)"
@@ -354,6 +360,6 @@
         "message": "Popup bloqueado! Permitir popups para este sítio."
     },
     "__WET_LOCALE__": {
-        "message": "pt"
+        "message": "en"
     }
 }
