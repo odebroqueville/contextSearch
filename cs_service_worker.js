@@ -693,18 +693,20 @@ async function handleReset() {
 
 async function handleSaveSearchEngines(data) {
     searchEngines = data;
-    await initSearchEngines();
+    const flagSaveSearchEngines = JSON.stringify(searchEngines) !== JSON.stringify(await getStoredData(STORAGE_KEYS.SEARCH_ENGINES));
+    await initSearchEngines(flagSaveSearchEngines);
 }
 
 async function handleSaveAIEngine(data) {
     const id = data.id;
     const aiProvider = data.aiProvider;
     const { imageFormat, base64 } = getFaviconForPrompt(id, aiProvider);
+    const flagSaveSearchEngines = true;
 
     searchEngines[id]["aiProvider"] = aiProvider;
     searchEngines[id]["imageFormat"] = imageFormat;
     searchEngines[id]["base64"] = base64;
-    await initSearchEngines();
+    await initSearchEngines(flagSaveSearchEngines);
 }
 
 async function handleGetFavicon(data) {
@@ -1061,6 +1063,7 @@ async function handlePageAction(tab) {
 async function initialiseSearchEngines() {
     if (logToConsole) console.log('Initializing search engines...');
     try {
+        let flagSaveSearchEngines = false;
         // Check for search engines in local storage
         searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES) || {};
 
@@ -1071,9 +1074,10 @@ async function initialiseSearchEngines() {
         ) {
             // Load default search engines if force reload is set or if no search engines are stored in local storage
             await loadDefaultSearchEngines(DEFAULT_SEARCH_ENGINES);
+            flagSaveSearchEngines = true;
         }
 
-        await initSearchEngines();
+        await initSearchEngines(flagSaveSearchEngines);
         if (logToConsole) console.log('Search engines initialization complete');
     } catch (error) {
         console.error('Error initializing search engines:', error);
@@ -1081,7 +1085,7 @@ async function initialiseSearchEngines() {
     }
 }
 
-async function initSearchEngines() {
+async function initSearchEngines(flagSaveSearchEngines) {
     // Add root folder if missing
     if (!searchEngines.root) addRootFolderToSearchEngines();
 
@@ -1091,11 +1095,14 @@ async function initSearchEngines() {
     // Get favicons as base64 strings
     await getFaviconsAsBase64Strings();
 
-    // Save search engines to local storage
-    await saveSearchEnginesToLocalStorage();
+    // If the contents of searchEngines have changed, save search engines to local storage
+    if (flagSaveSearchEngines) {
+        await saveSearchEnginesToLocalStorage();
 
-    // Rebuild context menu
-    await buildContextMenu();
+        // Rebuild context menu
+        await buildContextMenu();
+    }
+
 }
 
 function addRootFolderToSearchEngines() {
@@ -1120,15 +1127,13 @@ function addRootFolderToSearchEngines() {
 
 function setKeyboardShortcuts() {
     for (let id in searchEngines) {
-        if (id === "root") continue;
+        if (id === "root" || id.startsWith("separator-")) continue;
         if (
-            !searchEngines[id].isFolder &&
             searchEngines[id].keyboardShortcut === undefined
         ) {
             searchEngines[id]["keyboardShortcut"] = "";
             if (logToConsole) {
-                console.log(`Search engine id: ${id}`);
-                console.log(`Keyboard shortcut: ${searchEngines[id].keyboardShortcut}`);
+                console.log(`No keyboard shortcut has been set for search engine: ${searchEngines[id].name}`);
             }
         }
     }
@@ -1166,6 +1171,8 @@ async function loadDefaultSearchEngines(jsonFile) {
         }
         const json = await response.json();
         searchEngines = json;
+        if (notificationsEnabled) notify(notifySearchEnginesLoaded);
+        if (logToConsole) console.log("Default search engines loaded.");
     } catch (error) {
         if (logToConsole) console.error(error.message);
     }
@@ -1179,7 +1186,6 @@ async function saveSearchEnginesToLocalStorage() {
     try {
         // Save search engines to local storage
         await setStoredData(STORAGE_KEYS.SEARCH_ENGINES, searchEngines);
-        if (notificationsEnabled) notify(notifySearchEnginesLoaded);
         if (logToConsole) {
             console.log(
                 "Search engines have been successfully saved to local storage.",
@@ -1195,21 +1201,15 @@ async function saveSearchEnginesToLocalStorage() {
 
 /// Fetch and store favicon image format and base64 representation to searchEngines
 async function getFaviconsAsBase64Strings() {
-    if (logToConsole) console.log("Fetching favicons..");
+    if (logToConsole) console.log("Fetching missing favicons..");
     let arrayOfPromises = [];
 
     for (let id in searchEngines) {
         // If search engine is a separator or the root folder, skip it
         if (id.startsWith("separator-") || id === "root") continue;
 
-        // Fetch a new favicon only if there is no existing favicon or if an favicon reload is being forced
-        if (
-            searchEngines[id].base64 === null ||
-            searchEngines[id].base64 === undefined ||
-            searchEngines[id].base64.length < 10 ||
-            options.forceFaviconsReload
-        ) {
-            if (logToConsole) console.log("Fetching favicon for " + id);
+        // Fetch a new favicon only if there is no existing favicon or if a favicon reload is being forced
+        if (!searchEngines[id].base64 || !searchEngines[id].imageFormat || options.forceFaviconsReload) {
             let domain;
             if (!(id.startsWith("chatgpt-") || searchEngines[id].isFolder)) {
                 const seUrl = searchEngines[id].url;
