@@ -71,9 +71,6 @@
     "header2": {
         "message": "Favicon & Ikon"
     },
-    "getFavicons": {
-        "message": "Display favicons in context menu list"
-    },
     "note": {
         "message": "Fitur ini membutuhkan Firefox 56 atau lebih tinggi."
     },
@@ -228,7 +225,7 @@
         "message": "Di bilah samping"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu"
+        "message": "Tampilkan favicon di menu konteks"
     },
     "disableAltClick": {
         "message": "Menonaktifkan kisi ikon (Alt + Klik)"
