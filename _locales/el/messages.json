@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Αναζητά το επιλεγμένο κείμενο χρησιμοποιώντας μια μηχανή αναζήτησης από έναν προκαθορισμένο κατάλογο.",
+        "message": "Αναζητά το επιλεγμένο κείμενο χρησιμοποιώντας μια μηχανή αναζήτησης ή μια προτροπή τεχνητής νοημοσύνης από την προσαρμοσμένη λίστα μηχανών αναζήτησης και προτροπών τεχνητής νοημοσύνης που διαχειρίζεστε στη σελίδα προτιμήσεων της επέκτασης.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -72,7 +72,7 @@
         "message": "Favicons & εικονίδια"
     },
     "getFavicons": {
-        "message": "Εμφάνιση αγαπημένων εικονιδίων στη λίστα του μενού περιβάλλοντος"
+        "message": "Display favicons in context menu list"
     },
     "note": {
         "message": "Αυτή η λειτουργία απαιτεί Firefox 56 ή νεότερη έκδοση."
@@ -228,7 +228,7 @@
         "message": "Στην πλαϊνή μπάρα"
     },
     "displayFavicons": {
-        "message": "Εμφάνιση αγαπημένων εικονιδίων στη λίστα του μενού περιβάλλοντος"
+        "message": "Display favicons in context menu"
     },
     "disableAltClick": {
         "message": "Απενεργοποίηση πλέγματος εικονιδίων (Alt + κλικ)"
