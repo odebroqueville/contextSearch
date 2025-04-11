@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Searches the selected text using a search engine from a pre-specified list.",
+        "message": "Zoekt de geselecteerde tekst met een zoekmachine uit een vastgestelde lijst.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -18,7 +18,7 @@
         "message": "Je kunt een"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the omnibox by typing:"
+        "message": "via het contextmenu of via de omnibox door te typen:"
     },
     "pageTitle": {
         "message": "Voorkeuren van Context Search"
@@ -72,7 +72,7 @@
         "message": "Toon icoontjes"
     },
     "getFavicons": {
-        "message": "Display favicons in context menu list"
+        "message": "Toon icoontjes in de contextmenulijst"
     },
     "note": {
         "message": "Deze functie vereist Firefox 56 of hoger."
@@ -224,17 +224,11 @@
     "header7": {
         "message": "Reset opties"
     },
-    "header8": {
-        "message": "Which EXIF tags should be displayed?"
-    },
     "sidebar": {
         "message": "In de zijbalk"
     },
     "displayFavicons": {
         "message": "Geef favicons weer in de contextmenulijst"
-    },
-    "displayExifSummary": {
-        "message": "Summary"
     },
     "disableAltClick": {
         "message": "Schakel het raster met pictogrammen uit"
