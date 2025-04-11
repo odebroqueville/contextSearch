@@ -71,9 +71,6 @@
     "header2": {
         "message": "Favicons & Icons"
     },
-    "getFavicons": {
-        "message": "Display favicons in context menu list"
-    },
     "note": {
         "message": "Այս առանձնահատկությունը պահանջում է Firefox 56 կամ ավելի բարձր:"
     },
@@ -228,7 +225,7 @@
         "message": "Կողագոտիում"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu"
+        "message": "Ցուցադրել ֆավիկոնները համատեքստային մենյուում"
     },
     "disableAltClick": {
         "message": "Անջատել պատկերակների ցանցը (Alt + Click)"
