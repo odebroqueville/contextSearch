@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Searches the selected text using a search engine from a pre-specified list.",
+        "message": "Searches the selected text using a search engine or AI prompt from your custom list of search engines and AI prompts managed in the extension's preferences page.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -224,17 +224,11 @@
     "header7": {
         "message": "Reset options"
     },
-    "header8": {
-        "message": "Which EXIF tags should be displayed?"
-    },
     "sidebar": {
         "message": "In the sidebar"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu list"
-    },
-    "displayExifSummary": {
-        "message": "Summary"
+        "message": "Display favicons in context menu"
     },
     "disableAltClick": {
         "message": "Disable icon grid (Alt + Click)"
