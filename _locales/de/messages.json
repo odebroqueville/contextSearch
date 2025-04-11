@@ -71,9 +71,6 @@
     "header2": {
         "message": "Zeige Suchmaschinen-Symbole"
     },
-    "getFavicons": {
-        "message": "Display favicons in context menu list"
-    },
     "note": {
         "message": "Diese Funktion erfordert Firefox 56 oder höher."
     },
@@ -228,7 +225,7 @@
         "message": "In der Seitenleiste"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu"
+        "message": "Favicons im Kontextmenü anzeigen"
     },
     "disableAltClick": {
         "message": "Deaktivieren Sie das Raster der Symbole"
