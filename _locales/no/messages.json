@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Searches the selected text using a search engine from a pre-specified list.",
+        "message": "Søker i den valgte teksten ved hjelp av en søkemotor fra en forhåndsdefinert liste.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -18,7 +18,7 @@
         "message": "Du kan starte en"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the omnibox by typing:"
+        "message": "gjennom kontekstmenyen eller gjennom søkefeltet ved å skrive:"
     },
     "pageTitle": {
         "message": "Innstillinger for kontekstsøk"
@@ -72,7 +72,7 @@
         "message": "Favorittikoner og ikoner"
     },
     "getFavicons": {
-        "message": "Display favicons in context menu list"
+        "message": "Vis favorittikoner i hurtigmenylisten"
     },
     "note": {
         "message": "Denne funksjonen krever Firefox 56 eller nyere."
@@ -224,17 +224,11 @@
     "header7": {
         "message": "Alternativer for tilbakestilling"
     },
-    "header8": {
-        "message": "Which EXIF tags should be displayed?"
-    },
     "sidebar": {
         "message": "I sidepanelet"
     },
     "displayFavicons": {
         "message": "Vis favorittikoner i hurtigmenylisten"
-    },
-    "displayExifSummary": {
-        "message": "Summary"
     },
     "disableAltClick": {
         "message": "Deaktiver ikonrutenett (Alt + klikk)"
@@ -360,6 +354,6 @@
         "message": "Popup blokkert! Vennligst tillat popup-vinduer for dette nettstedet."
     },
     "__WET_LOCALE__": {
-        "message": "Eget"
+        "message": "no"
     }
 }
