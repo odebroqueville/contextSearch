@@ -71,9 +71,6 @@
     "header2": {
         "message": "Favicons og ikoner"
     },
-    "getFavicons": {
-        "message": "Display favicons in context menu list"
-    },
     "note": {
         "message": "Denne funktion kræver Firefox 56 eller nyere."
     },
@@ -228,7 +225,7 @@
         "message": "I sidepanelet"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu"
+        "message": "Vis favorittikoner i genvejsmenuen"
     },
     "disableAltClick": {
         "message": "Deaktiver ikon-gitter (Alt + klik)"
