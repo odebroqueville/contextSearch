@@ -71,9 +71,6 @@
     "header2": {
         "message": "Favicons & εικονίδια"
     },
-    "getFavicons": {
-        "message": "Display favicons in context menu list"
-    },
     "note": {
         "message": "Αυτή η λειτουργία απαιτεί Firefox 56 ή νεότερη έκδοση."
     },
@@ -228,7 +225,7 @@
         "message": "Στην πλαϊνή μπάρα"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu"
+        "message": "Εμφάνιση favicons στο μενού περιβάλλοντος"
     },
     "disableAltClick": {
         "message": "Απενεργοποίηση πλέγματος εικονιδίων (Alt + κλικ)"
