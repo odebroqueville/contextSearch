@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "متن انتخاب شده را با استفاده از یک موتور جستجو از یک لیست از پیش تعیین شده جستجو می کند.",
+        "message": "Searches the selected text using a search engine from a pre-specified list.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -18,7 +18,7 @@
         "message": "می توانید یک"
     },
     "multisearchEnd": {
-        "message": "از طریق منوی زمینه یا از طریق omnibox با تایپ کردن:"
+        "message": "through the context menu or through the omnibox by typing:"
     },
     "pageTitle": {
         "message": "تنظیمات برگزیده جستجوی زمینه"
@@ -72,7 +72,7 @@
         "message": "فاویکون ها و آیکون ها"
     },
     "getFavicons": {
-        "message": "نمایش فاویکون ها در لیست منوی زمینه"
+        "message": "Display favicons in context menu list"
     },
     "note": {
         "message": "این ویژگی به فایرفاکس 56 یا بالاتر نیاز دارد."
@@ -224,11 +224,17 @@
     "header7": {
         "message": "گزینه های بازنشانی"
     },
+    "header8": {
+        "message": "Which EXIF tags should be displayed?"
+    },
     "sidebar": {
         "message": "در نوار کناری"
     },
     "displayFavicons": {
         "message": "نمایش فاویکون ها در لیست منوی زمینه"
+    },
+    "displayExifSummary": {
+        "message": "Summary"
     },
     "disableAltClick": {
         "message": "غیرفعال کردن شبکه آیکون (Alt + Click)"
@@ -354,6 +360,6 @@
         "message": "پنجره بازشو مسدود شد! لطفا پنجره های بازشو را برای این سایت مجاز کنید."
     },
     "__WET_LOCALE__": {
-        "message": "fa"
+        "message": "En"
     }
 }
