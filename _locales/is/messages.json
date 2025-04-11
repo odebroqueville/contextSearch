@@ -71,9 +71,6 @@
     "header2": {
         "message": "Táknmyndir"
     },
-    "getFavicons": {
-        "message": "Display favicons in context menu list"
-    },
     "note": {
         "message": "Þessi eiginleiki krefst Firefox 56 eða nýrri."
     },
@@ -228,7 +225,7 @@
         "message": "Á hliðarslá"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu"
+        "message": "Birta favicons í samhengisvalmynd"
     },
     "disableAltClick": {
         "message": "Gera táknmyndareiti óvirka (Alt + smella)"
