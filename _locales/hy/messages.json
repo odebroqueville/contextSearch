@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Որոնում է ընտրված տեքստը՝ օգտագործելով որոնման համակարգ նախապես նշված ցուցակից:",
+        "message": "Որոնում է ընտրված տեքստը՝ օգտագործելով որոնողական համակարգ կամ AI հուշում որոնողական համակարգերի եւ AI հուշումների ձեր հատուկ ցուցակից, որոնք կառավարվում են ընդլայնման նախապատվությունների էջում:",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -72,7 +72,7 @@
         "message": "Favicons & Icons"
     },
     "getFavicons": {
-        "message": "Ցուցադրել ֆավիկոնները համատեքստային մենյուի ցանկում"
+        "message": "Display favicons in context menu list"
     },
     "note": {
         "message": "Այս առանձնահատկությունը պահանջում է Firefox 56 կամ ավելի բարձր:"
@@ -228,7 +228,7 @@
         "message": "Կողագոտիում"
     },
     "displayFavicons": {
-        "message": "Ցուցադրել ֆավիկոնները համատեքստային մենյուի ցանկում"
+        "message": "Display favicons in context menu"
     },
     "disableAltClick": {
         "message": "Անջատել պատկերակների ցանցը (Alt + Click)"
