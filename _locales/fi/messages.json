@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Searches the selected text using a search engine from a pre-specified list.",
+        "message": "Etsii valittua tekstiä käyttämällä hakukonetta ennalta määritetystä luettelosta.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -18,7 +18,7 @@
         "message": "Voit käynnistää"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the omnibox by typing:"
+        "message": "kontekstivalikon kautta tai omniboxin kautta kirjoittamalla:"
     },
     "pageTitle": {
         "message": "Kontekstihakuasetukset"
@@ -72,7 +72,7 @@
         "message": "Suosikit & kuvakkeet"
     },
     "getFavicons": {
-        "message": "Display favicons in context menu list"
+        "message": "Näytä suosikkikuvakkeet kontekstivalikon luettelossa"
     },
     "note": {
         "message": "Tämä ominaisuus vaatii Firefox 56:n tai uudemman version."
@@ -224,17 +224,11 @@
     "header7": {
         "message": "Nollaa vaihtoehdot"
     },
-    "header8": {
-        "message": "Which EXIF tags should be displayed?"
-    },
     "sidebar": {
         "message": "Sivupalkissa"
     },
     "displayFavicons": {
         "message": "Näytä suosikkikuvakkeet kontekstivalikon luettelossa"
-    },
-    "displayExifSummary": {
-        "message": "Summary"
     },
     "disableAltClick": {
         "message": "Poista kuvakeverkko käytöstä (Alt + klikkaus)"
