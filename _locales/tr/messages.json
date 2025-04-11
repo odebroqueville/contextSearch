@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Önceden belirlenmiş bir listeden bir arama motoru kullanarak seçilen metni arar.",
+        "message": "Searches the selected text using a search engine from a pre-specified list.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -18,7 +18,7 @@
         "message": "Bir"
     },
     "multisearchEnd": {
-        "message": "bağlam menüsünden veya omnibox üzerinden yazarak:"
+        "message": "through the context menu or through the omnibox by typing:"
     },
     "pageTitle": {
         "message": "Bağlam Arama Tercihleri"
@@ -72,7 +72,7 @@
         "message": "Faviconlar ve Simgeler"
     },
     "getFavicons": {
-        "message": "Favicon'ları içerik menüsü listesinde görüntüleme"
+        "message": "Display favicons in context menu list"
     },
     "note": {
         "message": "Bu özellik için Firefox 56 veya üstü gerekir."
@@ -224,11 +224,17 @@
     "header7": {
         "message": "Seçenekleri sıfırla"
     },
+    "header8": {
+        "message": "Which EXIF tags should be displayed?"
+    },
     "sidebar": {
         "message": "Kenar çubuğunda"
     },
     "displayFavicons": {
         "message": "Favicon'ları içerik menüsü listesinde görüntüleme"
+    },
+    "displayExifSummary": {
+        "message": "Summary"
     },
     "disableAltClick": {
         "message": "Simge ızgarasını devre dışı bırakma (Alt + Tıklama)"
@@ -354,6 +360,6 @@
         "message": "Açılır pencere engellendi! Lütfen bu site için açılır pencerelere izin verin."
     },
     "__WET_LOCALE__": {
-        "message": "tr"
+        "message": "en"
     }
 }
