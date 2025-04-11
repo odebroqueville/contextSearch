@@ -71,9 +71,6 @@
     "header2": {
         "message": "ファビコンを表示"
     },
-    "getFavicons": {
-        "message": "Display favicons in context menu list"
-    },
     "note": {
         "message": "この機能には、Firefox 56以降が必要です。"
     },
@@ -228,7 +225,7 @@
         "message": "サイドバー内"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu"
+        "message": "コンテキストメニューにファビコンを表示する"
     },
     "disableAltClick": {
         "message": "アイコンのグリッドを無効にする"
