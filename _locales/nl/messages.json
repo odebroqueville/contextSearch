@@ -71,9 +71,6 @@
     "header2": {
         "message": "Toon icoontjes"
     },
-    "getFavicons": {
-        "message": "Display favicons in context menu list"
-    },
     "note": {
         "message": "Deze functie vereist Firefox 56 of hoger."
     },
@@ -228,7 +225,7 @@
         "message": "In de zijbalk"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu"
+        "message": "Favicons weergeven in het contextmenu"
     },
     "disableAltClick": {
         "message": "Schakel het raster met pictogrammen uit"
