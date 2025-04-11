@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "사전 지정된 목록에서 검색 엔진을 사용하여 선택한 텍스트를 검색합니다.",
+        "message": "Searches the selected text using a search engine from a pre-specified list.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -18,7 +18,7 @@
         "message": "시작할 수 있습니다 "
     },
     "multisearchEnd": {
-        "message": "컨텍스트 메뉴 또는 검색 주소창을 통해 입력:"
+        "message": "through the context menu or through the omnibox by typing:"
     },
     "pageTitle": {
         "message": "컨텍스트 검색 환경 설정"
@@ -72,7 +72,7 @@
         "message": "파비콘과 아이콘"
     },
     "getFavicons": {
-        "message": "컨텍스트 메뉴 목록에 즐겨 찾기 아이콘 표시"
+        "message": "Display favicons in context menu list"
     },
     "note": {
         "message": "이 기능은 Firefox 56 이상이 필요합니다."
@@ -224,11 +224,17 @@
     "header7": {
         "message": "재설정 옵션"
     },
+    "header8": {
+        "message": "Which EXIF tags should be displayed?"
+    },
     "sidebar": {
         "message": "사이드 바에서"
     },
     "displayFavicons": {
         "message": "컨텍스트 메뉴 목록에 즐겨 찾기 아이콘 표시"
+    },
+    "displayExifSummary": {
+        "message": "Summary"
     },
     "disableAltClick": {
         "message": "아이콘 그리드 비활성화 (Alt + 클릭)"
