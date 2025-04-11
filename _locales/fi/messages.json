@@ -71,9 +71,6 @@
     "header2": {
         "message": "Suosikit & kuvakkeet"
     },
-    "getFavicons": {
-        "message": "Display favicons in context menu list"
-    },
     "note": {
         "message": "Tämä ominaisuus vaatii Firefox 56:n tai uudemman version."
     },
@@ -228,7 +225,7 @@
         "message": "Sivupalkissa"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu"
+        "message": "Näytä faviconit kontekstivalikossa"
     },
     "disableAltClick": {
         "message": "Poista kuvakeverkko käytöstä (Alt + klikkaus)"
