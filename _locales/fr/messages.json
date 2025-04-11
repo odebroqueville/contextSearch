@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Recherche le texte sélectionné à l'aide d'un moteur de recherche ou d'une invite AI à partir de votre liste personnalisée de moteurs de recherche et d'invites AI gérée dans la page de préférences de l'extension.",
+        "message": "Recherche le texte sélectionné à l'aide d'un moteur de recherche ou d'une invite IA à partir de votre liste personnalisée de moteurs de recherche et d'invites IA gérée dans la page de préférences de l'extension.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -18,13 +18,13 @@
         "message": "Vous pouvez lancer un"
     },
     "multisearchEnd": {
-        "message": "dans le menu contextuel ou dans la barre d'adresse en tapant :
+        "message": "depuis le menu contextuel ou depuis la barre d'adresse en tapant :"
     },
     "pageTitle": {
         "message": "Préférences de Context Search"
     },
     "header1": {
-        "message": "Où les résultats de recherche doivent-ils apparaître?"
+        "message": "Où les résultats de recherche doivent-ils apparaître ?"
     },
     "newTab": {
         "message": "Dans un nouvel onglet"
@@ -45,7 +45,7 @@
         "message": "Position des options dans le menu contextuel"
     },
     "subheader31": {
-        "message": "Où souhaitez-vous que les options apparaissent dans le menu contextuel ?"
+        "message": "Où souhaitez-vous que les options apparaisse dans le menu contextuel ?"
     },
     "bottom": {
         "message": "Au bas du menu contextuel"
@@ -70,9 +70,6 @@
     },
     "header2": {
         "message": "Afficher les icônes"
-    },
-    "getFavicons": {
-        "message": "Afficher les icônes dans le menu contextuel"
     },
     "note": {
         "message": "Cette fonctionnalité requiert Firefox 56 ou une version plus récente."
@@ -135,7 +132,7 @@
         "message": "Raccourci clavier"
     },
     "multipleSearchEngines": {
-        "message": "Inclure dans la recherche multiple (multi-search)"
+        "message": "Inclure dans la recherche multiple"
     },
     "searchEngineURL": {
         "message": "URL du moteur de recherche"
