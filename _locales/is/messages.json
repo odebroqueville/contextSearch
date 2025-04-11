@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Leitar að völdum texta með leitarvél úr forákvörðuðum lista.",
+        "message": "Leitar í völdum texta með því að nota leitarvél eða gervigreindarkvaðningu frá sérsniðnum lista yfir leitarvélar og gervigreindarkvaðningar sem stjórnað er á kjörstillingarsíðu viðbótarinnar.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -70,9 +70,6 @@
     },
     "header2": {
         "message": "Táknmyndir"
-    },
-    "getFavicons": {
-        "message": "Birta táknmyndir í lista samhengisvalmyndar"
     },
     "note": {
         "message": "Þessi eiginleiki krefst Firefox 56 eða nýrri."
@@ -228,7 +225,7 @@
         "message": "Á hliðarslá"
     },
     "displayFavicons": {
-        "message": "Birta táknmyndir í lista samhengisvalmyndar"
+        "message": "Birta favicons í samhengisvalmynd"
     },
     "disableAltClick": {
         "message": "Gera táknmyndareiti óvirka (Alt + smella)"
