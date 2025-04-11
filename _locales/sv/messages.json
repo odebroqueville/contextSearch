@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Söker i den valda texten med hjälp av en sökmotor från en fördefinierad lista.",
+        "message": "Searches the selected text using a search engine from a pre-specified list.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -18,7 +18,7 @@
         "message": "Du kan starta en"
     },
     "multisearchEnd": {
-        "message": "via snabbmenyn eller via omniboxen genom att skriva:"
+        "message": "through the context menu or through the omnibox by typing:"
     },
     "pageTitle": {
         "message": "Inställningar för kontextsökning"
@@ -72,7 +72,7 @@
         "message": "Favicons och ikoner"
     },
     "getFavicons": {
-        "message": "Visa favicons i listan över snabbmenyer"
+        "message": "Display favicons in context menu list"
     },
     "note": {
         "message": "Denna funktion kräver Firefox 56 eller senare."
@@ -224,11 +224,17 @@
     "header7": {
         "message": "Återställ alternativ"
     },
+    "header8": {
+        "message": "Which EXIF tags should be displayed?"
+    },
     "sidebar": {
         "message": "I sidofältet"
     },
     "displayFavicons": {
         "message": "Visa favicons i listan över snabbmenyer"
+    },
+    "displayExifSummary": {
+        "message": "Summary"
     },
     "disableAltClick": {
         "message": "Inaktivera ikonrutnätet (Alt + Klicka)"
@@ -354,6 +360,6 @@
         "message": "Popup blockerad! Vänligen tillåt popup-fönster för denna webbplats."
     },
     "__WET_LOCALE__": {
-        "message": "sv"
+        "message": "en"
     }
 }
