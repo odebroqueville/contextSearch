@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Searches the selected text using a search engine from a pre-specified list.",
+        "message": "يبحث في النص المحدد باستخدام محرك بحث من قائمة محددة مسبقًا.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -18,7 +18,7 @@
         "message": "يمكنك تشغيل"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the omnibox by typing:"
+        "message": "من خلال قائمة السياق أو من خلال المربع الشامل عن طريق الكتابة:"
     },
     "pageTitle": {
         "message": "تفضيلات بحث السياق"
@@ -72,7 +72,7 @@
         "message": "الرموز المفضلة والرموز"
     },
     "getFavicons": {
-        "message": "Display favicons in context menu list"
+        "message": "عرض الأنسجة في قائمة السياق"
     },
     "note": {
         "message": "تتطلب هذه الميزة فايرفوكس 56 أو أكثر."
@@ -224,17 +224,11 @@
     "header7": {
         "message": "إعادة تعيين الخيارات"
     },
-    "header8": {
-        "message": "Which EXIF tags should be displayed?"
-    },
     "sidebar": {
         "message": "في الشريط الجانبي"
     },
     "displayFavicons": {
         "message": "عرض الرموز المفضلة في قائمة قائمة السياق"
-    },
-    "displayExifSummary": {
-        "message": "Summary"
     },
     "disableAltClick": {
         "message": "تعطيل شبكة الرموز (Alt + Click)"
