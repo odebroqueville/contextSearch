@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Söker i den valda texten med hjälp av en sökmotor från en fördefinierad lista.",
+        "message": "Söker i den markerade texten med hjälp av en sökmotor eller AI-prompt från din anpassade lista över sökmotorer och AI-prompter som hanteras på tilläggets inställningssida.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -72,7 +72,7 @@
         "message": "Favicons och ikoner"
     },
     "getFavicons": {
-        "message": "Visa favicons i listan över snabbmenyer"
+        "message": "Display favicons in context menu list"
     },
     "note": {
         "message": "Denna funktion kräver Firefox 56 eller senare."
@@ -228,7 +228,7 @@
         "message": "I sidofältet"
     },
     "displayFavicons": {
-        "message": "Visa favicons i listan över snabbmenyer"
+        "message": "Display favicons in context menu"
     },
     "disableAltClick": {
         "message": "Inaktivera ikonrutnätet (Alt + Klicka)"
