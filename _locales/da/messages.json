@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Søger i den valgte tekst ved hjælp af en søgemaskine fra en foruddefineret liste.",
+        "message": "Søger i den valgte tekst ved hjælp af en søgemaskine eller AI-prompt fra din brugerdefinerede liste over søgemaskiner og AI-prompter, der administreres på udvidelsens indstillingsside.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -72,7 +72,7 @@
         "message": "Favicons og ikoner"
     },
     "getFavicons": {
-        "message": "Vis favicons i kontekstmenu-listen"
+        "message": "Display favicons in context menu list"
     },
     "note": {
         "message": "Denne funktion kræver Firefox 56 eller nyere."
@@ -228,7 +228,7 @@
         "message": "I sidepanelet"
     },
     "displayFavicons": {
-        "message": "Vis favicons i kontekstmenu-listen"
+        "message": "Display favicons in context menu"
     },
     "disableAltClick": {
         "message": "Deaktiver ikon-gitter (Alt + klik)"
