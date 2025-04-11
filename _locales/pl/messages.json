@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Searches the selected text using a search engine from a pre-specified list.",
+        "message": "Przeszukuje wybrany tekst za pomocą wyszukiwarki z wcześniej określonej listy.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -18,7 +18,7 @@
         "message": "Możesz uruchomić"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the omnibox by typing:"
+        "message": "za pomocą menu kontekstowego lub omniboksu, wpisując:"
     },
     "pageTitle": {
         "message": "Preferencje wyszukiwania kontekstowego"
@@ -72,7 +72,7 @@
         "message": "Pokaż favicons"
     },
     "getFavicons": {
-        "message": "Display favicons in context menu list"
+        "message": "Pokaż favicons na liście menu kontekstowego"
     },
     "note": {
         "message": "Ta funkcjonalność wymaga Firefox-a 56 lub nowszego."
@@ -224,17 +224,11 @@
     "header7": {
         "message": "Zresetuj opcje"
     },
-    "header8": {
-        "message": "Which EXIF tags should be displayed?"
-    },
     "sidebar": {
         "message": "Na pasku bocznym"
     },
     "displayFavicons": {
         "message": "Wyświetl ulubione w liście menu kontekstowego"
-    },
-    "displayExifSummary": {
-        "message": "Summary"
     },
     "disableAltClick": {
         "message": "Wyłącz siatkę ikon"
