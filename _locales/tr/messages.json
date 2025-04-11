@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Önceden belirlenmiş bir listeden bir arama motoru kullanarak seçilen metni arar.",
+        "message": "Seçilen metni, uzantının tercihler sayfasında yönetilen özel arama motorları ve yapay zeka istemleri listenizden bir arama motoru veya yapay zeka istemi kullanarak arar.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -72,7 +72,7 @@
         "message": "Faviconlar ve Simgeler"
     },
     "getFavicons": {
-        "message": "Favicon'ları içerik menüsü listesinde görüntüleme"
+        "message": "Display favicons in context menu list"
     },
     "note": {
         "message": "Bu özellik için Firefox 56 veya üstü gerekir."
@@ -228,7 +228,7 @@
         "message": "Kenar çubuğunda"
     },
     "displayFavicons": {
-        "message": "Favicon'ları içerik menüsü listesinde görüntüleme"
+        "message": "Display favicons in context menu"
     },
     "disableAltClick": {
         "message": "Simge ızgarasını devre dışı bırakma (Alt + Tıklama)"
