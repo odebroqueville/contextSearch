@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Αναζητά το επιλεγμένο κείμενο χρησιμοποιώντας μια μηχανή αναζήτησης από έναν προκαθορισμένο κατάλογο.",
+        "message": "Searches the selected text using a search engine from a pre-specified list.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -18,7 +18,7 @@
         "message": "Μπορείτε να εκκινήσετε ένα"
     },
     "multisearchEnd": {
-        "message": "μέσω του μενού περιβάλλοντος ή μέσω του omnibox πληκτρολογώντας:"
+        "message": "through the context menu or through the omnibox by typing:"
     },
     "pageTitle": {
         "message": "Προτιμήσεις αναζήτησης περιβάλλοντος"
@@ -72,7 +72,7 @@
         "message": "Favicons & εικονίδια"
     },
     "getFavicons": {
-        "message": "Εμφάνιση αγαπημένων εικονιδίων στη λίστα του μενού περιβάλλοντος"
+        "message": "Display favicons in context menu list"
     },
     "note": {
         "message": "Αυτή η λειτουργία απαιτεί Firefox 56 ή νεότερη έκδοση."
@@ -224,11 +224,17 @@
     "header7": {
         "message": "Επαναφορά επιλογών"
     },
+    "header8": {
+        "message": "Which EXIF tags should be displayed?"
+    },
     "sidebar": {
         "message": "Στην πλαϊνή μπάρα"
     },
     "displayFavicons": {
         "message": "Εμφάνιση αγαπημένων εικονιδίων στη λίστα του μενού περιβάλλοντος"
+    },
+    "displayExifSummary": {
+        "message": "Summary"
     },
     "disableAltClick": {
         "message": "Απενεργοποίηση πλέγματος εικονιδίων (Alt + κλικ)"
@@ -354,6 +360,6 @@
         "message": "Αναδυόμενο παράθυρο μπλοκαρισμένο! Παρακαλώ επιτρέψτε τα αναδυόμενα παράθυρα για αυτόν τον ιστότοπο."
     },
     "__WET_LOCALE__": {
-        "message": "el"
+        "message": "en"
     }
 }
