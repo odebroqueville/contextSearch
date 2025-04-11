@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Searches the selected text using a search engine from a pre-specified list.",
+        "message": "Որոնում է ընտրված տեքստը՝ օգտագործելով որոնման համակարգ նախապես նշված ցուցակից:",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -18,7 +18,7 @@
         "message": "Դուք կարող եք գործարկել"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the omnibox by typing:"
+        "message": "համատեքստային մենյուի միջոցով կամ omnibox-ի միջոցով՝ մուտքագրելով."
     },
     "pageTitle": {
         "message": "Համատեքստի որոնման նախապատվություններ"
@@ -72,7 +72,7 @@
         "message": "Favicons & Icons"
     },
     "getFavicons": {
-        "message": "Display favicons in context menu list"
+        "message": "Ցուցադրել ֆավիկոնները համատեքստային մենյուի ցանկում"
     },
     "note": {
         "message": "Այս առանձնահատկությունը պահանջում է Firefox 56 կամ ավելի բարձր:"
@@ -224,17 +224,11 @@
     "header7": {
         "message": "Վերականգնել ընտրանքները"
     },
-    "header8": {
-        "message": "Which EXIF tags should be displayed?"
-    },
     "sidebar": {
         "message": "Կողագոտիում"
     },
     "displayFavicons": {
         "message": "Ցուցադրել ֆավիկոնները համատեքստային մենյուի ցանկում"
-    },
-    "displayExifSummary": {
-        "message": "Summary"
     },
     "disableAltClick": {
         "message": "Անջատել պատկերակների ցանցը (Alt + Click)"
@@ -360,6 +354,6 @@
         "message": "Popup-ը արգելափակված է: Խնդրում ենք թույլատրել այս կայքի պատուհանները:"
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "hy"
     }
 }
