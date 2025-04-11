@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "指定されたリストから検索エンジンを使用して、選択したテキストを検索します。",
+        "message": "拡張機能の設定ページで管理されている検索エンジンとAIプロンプトのカスタムリストから、検索エンジンまたはAIプロンプトを使用して選択したテキストを検索します。",
         "description": "Description of the extension"
     },
     "multisearch": {
