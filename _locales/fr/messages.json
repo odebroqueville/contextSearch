@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Recherche le texte sélectionné en utilisant le moteur de recherche choisi dans une liste prédéfinie.",
+        "message": "Recherche le texte sélectionné à l'aide d'un moteur de recherche ou d'une invite AI à partir de votre liste personnalisée de moteurs de recherche et d'invites AI gérée dans la page de préférences de l'extension.",
         "description": "Description of the extension"
     },
     "multisearch": {
