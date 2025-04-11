@@ -3,9 +3,11 @@
 .eslintrc.json
 *.zip
 build/
-node_modules/
-web-ext-artifacts/
 config.json
-web-ext-config.js
+crowdin.yml
+node_modules/
 package.json
 package-lock.json
+web-ext-artifacts/
+web-ext-config.js
+
