@@ -71,9 +71,6 @@
     "header2": {
         "message": "الرموز المفضلة والرموز"
     },
-    "getFavicons": {
-        "message": "Display favicons in context menu list"
-    },
     "note": {
         "message": "تتطلب هذه الميزة فايرفوكس 56 أو أكثر."
     },
@@ -228,7 +225,7 @@
         "message": "في الشريط الجانبي"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu"
+        "message": "عرض الأيقونات المفضلة في قائمة السياق"
     },
     "disableAltClick": {
         "message": "تعطيل شبكة الرموز (Alt + Click)"
