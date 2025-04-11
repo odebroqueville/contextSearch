@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Busca el texto seleccionado usando un buscador de una lista predeterminada.",
+        "message": "Busca el texto seleccionado utilizando un motor de búsqueda o un indicador de inteligencia artificial de la lista personalizada de motores de búsqueda e indicadores de inteligencia artificial gestionada en la página de preferencias de la extensión.",
         "description": "Description of the extension"
     },
     "multisearch": {
