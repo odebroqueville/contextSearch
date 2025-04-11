@@ -224,17 +224,11 @@
     "header7": {
         "message": "Alternativer for tilbakestilling"
     },
-    "header8": {
-        "message": "Hvilke EXIF-tagger skal vises?"
-    },
     "sidebar": {
         "message": "I sidepanelet"
     },
     "displayFavicons": {
         "message": "Vis favorittikoner i hurtigmenylisten"
-    },
-    "displayExifSummary": {
-        "message": "Sammendrag"
     },
     "disableAltClick": {
         "message": "Deaktiver ikonrutenett (Alt + klikk)"
@@ -360,6 +354,6 @@
         "message": "Popup blokkert! Vennligst tillat popup-vinduer for dette nettstedet."
     },
     "__WET_LOCALE__": {
-        "message": "Eget"
+        "message": "no"
     }
 }

@@ -1,439 +1,359 @@
 {
-	"extensionName": {
-		"message": "Context Search",
-		"description": "Name of the extension",
-		"hash": "dc46af1f918347f13872ba3b1acf5cb5"
-	},
-	"extensionDescription": {
-		"message": "使用搜索引擎從自定義列表中搜索選定的文本.",
-		"description": "Description of the extension",
-		"hash": "b8f612ae1be0699e4ac144ebdd9408b8"
-	},
-	"multisearch": {
-		"message": " 是同時使用多個搜索引擎進行的搜索。",
-		"description": "multi-search - it's a search with multiple search engines simultaneously.",
-		"hash": "d91d9731eeb51cab08e5db4231c3b539"
-	},
-	"multisearchHowTo": {
-		"message": "選中中間的複選框，以將搜索引擎包含在",
-		"hash": "45d8a4cc6705ce14bb465c1a603886f7"
-	},
-	"multisearchLaunch": {
-		"message": "您可以啟動一個",
-		"hash": "50aea7f78b7f283fce6309cb046d922b"
-	},
-	"multisearchEnd": {
-		"message": "通過上下文菜單或通過多功能框輸入以下內容：",
-		"hash": "93175e4d6a2f2b01a19a17c09ac98750"
-	},
-	"pageTitle": {
-		"message": "Context Search 偏好",
-		"hash": "85459cf0f20967bcc8995dd2257f6ba2"
-	},
-	"header1": {
-		"message": "搜索結果應該出現在哪裡？",
-		"hash": "55b5b2535226c23995d9220e9f01e7c9"
-	},
-	"newTab": {
-		"message": "在新標籤頁中",
-		"hash": "ed02b96ab3009dd9f8a3329e14c20ecd"
-	},
-	"sameTab": {
-		"message": "在同一標籤中",
-		"hash": "8f83dae466a72a4c1f8c93e2ddc16f89"
-	},
-	"newWindow": {
-		"message": "在新視窗中",
-		"hash": "dd5cfb4d20eb4b6f9d6e12c02e8f48e3"
-	},
-	"active": {
-		"message": "啟用新標籤頁或窗口",
-		"hash": "3588f7008b34105c5a590905b489e8ba"
-	},
-	"position": {
-		"message": "在最後一個選項卡之後顯示搜索結果",
-		"hash": "6f1385f89667221e78b453799755c534"
-	},
-	"header3": {
-		"message": "選項在上下文菜單中的位置",
-		"hash": "cc53b51192c00cf073c75573e910c712"
-	},
-	"subheader31": {
-		"message": "您希望選項菜單出現在上下文菜單中的什麼位置？",
-		"hash": "97f92ec06abae7047823b89e7cdd35aa"
-	},
-	"bottom": {
-		"message": "在底部",
-		"hash": "dbc939fac3704f3bb5db5534c521a560"
-	},
-	"top": {
-		"message": "在頂部",
-		"hash": "7eb84bbe333a29135c13bb749b5a1bdf"
-	},
-	"hide": {
-		"message": "都不（隱藏選項菜單）",
-		"hash": "66545b38432fb9f7cec55f9bd1bcb476"
-	},
-	"header5": {
-		"message": "導入/導出搜索引擎",
-		"hash": "aff674b25de54fb6d1a8b94f0992e2e7"
-	},
-	"import": {
-		"message": "從本地磁盤導入JSON",
-		"hash": "efa8b5b957c983016114c1687692a917"
-	},
-	"export": {
-		"message": "將搜索引擎導出到 JSON",
-		"hash": "4cbfa9bc7ce7a876967887dc8b3d80bb"
-	},
-	"download": {
-		"message": "導出到本地磁盤",
-		"hash": "9b7395778b59c67d44fb310a60cbec1f"
-	},
-	"header2": {
-		"message": "網站圖示",
-		"hash": "4c972ef4ffb7e90163b9294509fea65d"
-	},
-	"getFavicons": {
-		"message": "在上下文菜單列表中顯示圖標",
-		"hash": "7036d3e65d70351c41dfa59e397121b3"
-	},
-	"note": {
-		"message": "此功能需要Firefox 56或更高版本。",
-		"hash": "f3bb15e6696904cf038aea689a0a02da"
-	},
-	"header4": {
-		"message": "搜索選項",
-		"hash": "ce6416d0e13a773a9b6c1b03a43982d4"
-	},
-	"exactMatch": {
-		"message": "搜索完全匹配的字符串",
-		"hash": "779d6b3e9f3fe9654fe3549a21a06550"
-	},
-	"gridMode": {
-		"message": "顯示圖標網格而不是搜索引擎列表",
-		"hash": "fb28a2f15ee692ae8862f2eed52cdede"
-	},
-	"warning": {
-		"message": "警告：請注意，啟用此功能將阻止顯示其他擴展名的上下文菜單。",
-		"hash": "b92a893b194575ca0bd0541cd80d4aa6"
-	},
-	"savePreferences": {
-		"message": "保存首選項",
-		"hash": "7afab2f751102f4f4154ec70f4a1a0cd"
-	},
-	"header6": {
-		"message": "您想在上下文菜單或網格中顯示哪些搜索引擎？",
-		"hash": "4bec74f00dd1574f3c4a5229035c3f21"
-	},
-	"clearAll": {
-		"message": "全部清除",
-		"hash": "cce60e6cbfaee4ec6fac0a16a8bd383d"
-	},
-	"selectAll": {
-		"message": "全選",
-		"hash": "26561e6b6807c0c48ce2a3ee81adad87"
-	},
-	"sortAlphabetically": {
-		"message": "按字母順序排序",
-		"hash": "9dbba2e2d73fbe9d34b492113a47dc86"
-	},
-	"showAdvancedFeatures": {
-		"message": "顯示高級功能",
-		"hash": "adab8345d6d3749a2687addeb95aa6a0"
-	},
-	"hideAdvancedFeatures": {
-		"message": "隱藏高級功能",
-		"hash": "6d0f963850902a32f1e4cde900271ec3"
-	},
-	"reset": {
-		"message": "重啟",
-		"hash": "0d25968a7dfc21f95043a86dd5373b81"
-	},
-	"subheader61": {
-		"message": "添加新的搜索引擎",
-		"hash": "df8ef6317cccd7767129689b409c7555"
-	},
-	"showSearchEngine": {
-		"message": "在網格或上下文菜單中顯示搜索引擎",
-		"hash": "fd116637c97d52564b8caab4155b7e14"
-	},
-	"searchEngineName": {
-		"message": "搜索引擎名稱",
-		"hash": "66a6254e959765667c76a05c3697399d"
-	},
-	"placeHolderKeyword": {
-		"message": "關鍵詞",
-		"hash": "a715ce8d52a556c7541e52a39273b8e4"
-	},
-	"warningText": {
-		"message": "警告",
-		"hash": "d02ba8f1a5b9fd49d892558d83e71d59"
-	},
-	"keyboardShortcutWarning": {
-		"message": "並非所有組合鍵都有效。 鍵盤快捷鍵可能不會以 macOS 上的 CMD 或 Windows 或 Linux 上的 CTRL 開頭，因為這些通常是為 Firefox 命令保留的。",
-		"hash": "a87da357c72be4e165534f8a068a00a4"
-	},
-	"placeHolderKeyboardShortcut": {
-		"message": "鍵盤快捷鍵",
-		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
-	},
-	"multipleSearchEngines": {
-		"message": "包括 multi-search",
-		"hash": "795672c778b61e3785aa2fff7dca91ed"
-	},
-	"searchEngineURL": {
-		"message": "搜索引擎 URL",
-		"hash": "f5b1aa2bdb81d4357409d3ecb87bc1e3"
-	},
-	"regex": {
-		"message": "正則表達式",
-		"hash": "836b4e8f189b0435476c917699858782"
-	},
-	"testSearchEngine": {
-		"message": "測試搜索引擎",
-		"hash": "138ac2e49b86e7dc4a4e71a7f15dd7b6"
-	},
-	"addSearchEngine": {
-		"message": "添加搜索引擎",
-		"hash": "0f5b60489cf3500e92871eb17e71ce05"
-	},
-	"addSeparator": {
-		"message": "添加分隔符",
-		"hash": "3ca31acdb4e16f109453054af8b918f1"
-	},
-	"clear": {
-		"message": "明確",
-		"hash": "bcf7e7587a412ea36d869d51026dfd6d"
-	},
-	"disableGrid": {
-		"message": "禁用圖標網格",
-		"hash": "bb07641e41b320b91b3f1338592ecf4d"
-	},
-	"move": {
-		"message": "移動",
-		"hash": "fe5500b1b2c360308db25a09f9710ade"
-	},
-	"up": {
-		"message": "上",
-		"hash": "87437c5e684807c07a63c62d675b63c3"
-	},
-	"down": {
-		"message": "下",
-		"hash": "d877ad63806f1a96855f3fb1424b5d91"
-	},
-	"remove": {
-		"message": "去掉",
-		"hash": "3908a268c854fe64242e38845dbb7c81"
-	},
-	"multipleSearchEnginesSearch": {
-		"message": "將此搜索引擎包含在 multi-search",
-		"hash": "e54c504cdf841f4308b0140c0361420c"
-	},
-	"notifySavedPreferences": {
-		"message": "保存的偏好設置.",
-		"hash": "26ae42e6a7533aa03cf8e162fd4859fd"
-	},
-	"notifySearchEngineAdded": {
-		"message": "搜索引擎已添加.",
-		"hash": "ee1b7a1102ec3b06c1960e84f814b1c6"
-	},
-	"titleShowEngine": {
-		"message": "在上下文菜單或網格中顯示此搜索引擎",
-		"hash": "5c7ec6b539f06fe17a5e3f9832530eea"
-	},
-	"notifyEnableStorageSync": {
-		"message": "請確保標誌 'webextensions.storage.sync.enabled' 設定為 'true' 在 'about:config', 除此以外 Context Search 不會工作.",
-		"hash": "273ab612652228bc54090e98d1ac1b15"
-	},
-	"notifySearchEnginesLoaded": {
-		"message": "搜索引擎的默認列表已加載.",
-		"hash": "640d2193c8155e5988fbeb3453a9737d"
-	},
-	"notifySearchEngineNotFound": {
-		"message": "在當前網頁上找不到搜索引擎",
-		"hash": "89a0f7352dea5184b23f367f8c05b079"
-	},
-	"titleMultipleSearchEngines": {
-		"message": "多個搜索引擎搜索",
-		"hash": "016e3015d7461d1d0fbf20c60bd9ff0f"
-	},
-	"titleAISearch": {
-		"message": "人工智慧搜尋",
-		"hash": "6ae434bff120e9ce2a6e459af56f4db3"
-	},
-	"titleSiteSearch": {
-		"message": "使用搜索此網站",
-		"hash": "5a76bc5c095707f27e2ed235d2f3ccb6"
-	},
-	"titleOptions": {
-		"message": "選件",
-		"hash": "531dad0078a72193602b18495f0ad4e9"
-	},
-	"windowTitle": {
-		"message": "為。。。。尋找結果",
-		"hash": "0a26dab592394ea9548c1a5588c0cd0d"
-	},
-	"omniboxDescription": {
-		"message": "搜索使用 Context Search 與關鍵字。 用法： cs [關鍵詞] [搜索詞] (e.g. 'cs w Linux' 搜索 Wikipedia 這個學期 'Linux')",
-		"hash": "e2406855d2445278d8becb4e11f772b0"
-	},
-	"notifyUsage": {
-		"message": "用法: cs [關鍵詞] [搜索詞] (例如: cs w Linux)",
-		"hash": "7ce09b213b936aab58085cc84b20b01c"
-	},
-	"notifySearchEngineWithKeyword": {
-		"message": "帶有關鍵字的搜索引擎",
-		"hash": "bd232fd868eb1bbd65e4977f5577a0a8"
-	},
-	"notifyUnknown": {
-		"message": "未知.",
-		"hash": "075e9adb0de4037be7b0989733dd51ab"
-	},
-	"notifySearchEngineUrlRequired": {
-		"message": "請填寫有效的搜索引擎 URL.",
-		"hash": "b4610959ffa640c457a9ae1fbfa7943c"
-	},
-	"header7": {
-		"message": "重置選項",
-		"hash": "5c55526198c8075a1695b98e3cd32e2f"
-	},
-	"header8": {
-		"message": "應該顯示哪些EXIF標籤？",
-		"hash": "dd5fd339289964d309e5020ed1e9610c"
-	},
-	"sidebar": {
-		"message": "在側邊欄中",
-		"hash": "ea4b3f2f47d5ea8c594036cbdbf6e42b"
-	},
-	"displayFavicons": {
-		"message": "在上下文菜單列表中顯示圖標",
-		"hash": "7036d3e65d70351c41dfa59e397121b3"
-	},
-	"displayExifSummary": {
-		"message": "摘要",
-		"hash": "632626a730da62a89a4d124241e77273"
-	},
-	"disableAltClick": {
-		"message": "禁用圖標網格 (Alt + Click)",
-		"hash": "05b09381e8d9e3b808cb5fa5c540af91"
-	},
-	"resetPreferences": {
-		"message": "將偏好設置重置為默認設置",
-		"hash": "5e6bfbeafc20af866246c982de2a1067"
-	},
-	"forceSearchEnginesReload": {
-		"message": "強制重新加載默認搜索引擎列表",
-		"hash": "3736dde3828bcec7e5081dc1a450916b"
-	},
-	"forceFaviconsReload": {
-		"message": "強制重新加載圖標",
-		"hash": "1fea5d330fd5c105ce6ba68ade3be299"
-	},
-	"restriction": {
-		"message": "如果側欄尚未打開，則可能必須單擊瀏覽器工具欄上的“顯示側欄”圖標。",
-		"hash": "8687a8640f71498ea62eaa432791443c"
-	},
-	"reverseImage": {
-		"message": "另外，反向圖像搜索結果無法顯示在側欄中.",
-		"hash": "db880c407ccd59031b92a75b7f7a677e"
-	},
-	"siteSearch": {
-		"message": "用於搜索當前站點的搜索引擎：",
-		"hash": "1aef8aa2adcad0a105bc24d0ac87fe4c"
-	},
-	"header9": {
-		"message": "高級功能",
-		"hash": "64bdb129ceb0e431268d7c8199542e11"
-	},
-	"useRegex": {
-		"message": "使用正則表達式構建上下文菜單",
-		"hash": "9d48895eae1e8a92e6a0b2a2bd0e0fa0"
-	},
-	"regexNote": {
-		"message": "此功能不適用於圖標網格。",
-		"hash": "2d301abb7cffcf3a4f41cc59dc52e828"
-	},
-	"subheader62": {
-		"message": "添加一個新文件夾",
-		"hash": "3a46fe63f172c9cf1e4cf9753dc935f9"
-	},
-	"folderName": {
-		"message": "文件夾名稱",
-		"hash": "66c685078184b7f5123e83f4b94097fe"
-	},
-	"folder": {
-		"message": "文件夾",
-		"hash": "6fa625e07a474959d219b2abdaa8c39e"
-	},
-	"addFolder": {
-		"message": "新增文件夾",
-		"hash": "f6668a06fb140909b3f286d742c848c8"
-	},
-	"keyboardShortcut": {
-		"message": "鍵盤快捷鍵",
-		"hash": "34c2f564cbb1ea662c85e7425bf35a52"
-	},
-	"header10": {
-		"message": "多搜索選項",
-		"hash": "25b7321fc9e19e8e99598b40b96d2d52"
-	},
-	"multisearchIntro": {
-		"message": "打開多個搜索結果/標籤",
-		"hash": "4536d63e7c6838b383fa5a71967e5933"
-	},
-	"multiNewWindow": {
-		"message": "在新窗口中",
-		"hash": "dd5cfb4d20eb4b6f9d6e12c02e8f48e3"
-	},
-	"multiAfterLastTab": {
-		"message": "在當前窗口的最後一個選項卡之後",
-		"hash": "ddd24d070e912ba19edff0c610e91e56"
-	},
-	"multiActiveTab": {
-		"message": "在當前窗口中的活動選項卡之後",
-		"hash": "580a6b556e35b0b48dca22506debb42c"
-	},
-	"privacy": {
-		"message": "將新窗口設為私有",
-		"hash": "a2c9e60d71cf882080023ad80af8b903"
-	},
-	"reminder": {
-		"message": "提醒",
-		"hash": "7764c333b42339d1f5edf71779799c41"
-	},
-	"enableDownloadsReminder": {
-		"message": "啟用下載權限以導出您的搜索引擎。",
-		"hash": "16e431f64c09354a2034b62338cab41c"
-	},
-	"header11": {
-		"message": "圖標網格選項",
-		"hash": "cb2b6fc9b6c0ab15b1627704b612ca71"
-	},
-	"quickIconGrid": {
-		"message": "選擇文本後立即顯示圖標網格",
-		"hash": "6af6aafa529c63b4f4aef72c478e0db1"
-	},
-	"closeGridOnMouseOut": {
-		"message": "鼠標移出時關閉圖標網格",
-		"hash": "fc2fcdd466209645b574677c6250e546"
-	},
-	"xOffset": {
-		"message": "圖示網格的水平偏移：",
-		"hash": "fb4e2747c20484c21a1cecb5142b9f80"
-	},
-	"yOffset": {
-		"message": "圖示網格的垂直偏移：",
-		"hash": "49e08ac782b64fced86569f6dc56d82f"
-	},
-	"clearKeyboardShortcuts": {
-		"message": "清除所有鍵盤快速鍵",
-		"hash": "3745c3c2b77449e9606d8bf4e137e94f"
-	},
-	"overwriteSearchEngines": {
-		"message": "使用導入的搜尋引擎覆蓋現有搜尋引擎",
-		"hash": "298f419a9e5661db408338fe08cc8ee0"
-	},
-
-	"__WET_LOCALE__": { "message": "zh-tw" }
+    "extensionName": {
+        "message": "內容搜尋",
+        "description": "Name of the extension"
+    },
+    "extensionDescription": {
+        "message": "使用搜尋引擎從預先指定的清單中搜尋選取的文字。",
+        "description": "Description of the extension"
+    },
+    "multisearch": {
+        "message": " 是同時使用多個搜尋引擎進行搜尋。",
+        "description": "multi-search - it's a search with multiple search engines simultaneously."
+    },
+    "multisearchHowTo": {
+        "message": "勾選中間的核取方塊，以將搜尋引擎包含在"
+    },
+    "multisearchLaunch": {
+        "message": "您可以啟動"
+    },
+    "multisearchEnd": {
+        "message": "through the context menu or through the address bar by typing:"
+    },
+    "pageTitle": {
+        "message": "上下文搜尋偏好設定"
+    },
+    "header1": {
+        "message": "搜尋結果應該出現在哪裡？"
+    },
+    "newTab": {
+        "message": "在新標籤中"
+    },
+    "sameTab": {
+        "message": "在同一個標籤中"
+    },
+    "newWindow": {
+        "message": "在新視窗中"
+    },
+    "active": {
+        "message": "使新的標籤頁或視窗處於活動狀態"
+    },
+    "position": {
+        "message": "在最後一個索引標籤後顯示搜尋結果"
+    },
+    "header3": {
+        "message": "選項在上下文功能表中的位置"
+    },
+    "subheader31": {
+        "message": "您希望選項功能表出現在上下文功能表的哪個位置？"
+    },
+    "bottom": {
+        "message": "在底部"
+    },
+    "top": {
+        "message": "在頂端"
+    },
+    "hide": {
+        "message": "兩者皆非（隱藏選項功能表）"
+    },
+    "header5": {
+        "message": "輸入/輸出搜尋引擎"
+    },
+    "import": {
+        "message": "從本機磁碟匯入 JSON"
+    },
+    "export": {
+        "message": "匯出搜尋引擎至 JSON"
+    },
+    "download": {
+        "message": "匯出至本機磁碟"
+    },
+    "header2": {
+        "message": "首頁圖示與圖示"
+    },
+    "getFavicons": {
+        "message": "在上下文功能表清單中顯示收藏夾"
+    },
+    "note": {
+        "message": "此功能需要 Firefox 56 或以上版本。"
+    },
+    "header4": {
+        "message": "搜尋選項"
+    },
+    "exactMatch": {
+        "message": "搜尋完全符合的字串"
+    },
+    "gridMode": {
+        "message": "顯示圖示方格而非搜尋引擎清單"
+    },
+    "warning": {
+        "message": "警告：請注意，啟用此功能將無法顯示其他擴充套件的上下文功能表。"
+    },
+    "savePreferences": {
+        "message": "儲存偏好設定"
+    },
+    "header6": {
+        "message": "您希望哪些搜尋引擎出現在上下文功能表或網格中？"
+    },
+    "clearAll": {
+        "message": "全部清除"
+    },
+    "selectAll": {
+        "message": "全部選擇"
+    },
+    "sortAlphabetically": {
+        "message": "按字母順序排序"
+    },
+    "showAdvancedFeatures": {
+        "message": "顯示進階功能"
+    },
+    "hideAdvancedFeatures": {
+        "message": "隱藏進階功能"
+    },
+    "reset": {
+        "message": "重設"
+    },
+    "subheader61": {
+        "message": "新增搜尋引擎"
+    },
+    "showSearchEngine": {
+        "message": "在網格或上下文功能表中顯示搜尋引擎"
+    },
+    "searchEngineName": {
+        "message": "搜尋引擎名稱"
+    },
+    "placeHolderKeyword": {
+        "message": "關鍵字"
+    },
+    "warningText": {
+        "message": "警告"
+    },
+    "keyboardShortcutWarning": {
+        "message": "並非所有按鍵組合都適用。鍵盤捷徑可能不會以 macOS 上的 CMD 或 Windows 或 Linux 上的 CTRL 開頭，因為這些通常是預留給 Firefox 指令的。"
+    },
+    "placeHolderKeyboardShortcut": {
+        "message": "鍵盤捷徑"
+    },
+    "multipleSearchEngines": {
+        "message": "包含在多重搜尋中"
+    },
+    "searchEngineURL": {
+        "message": "搜尋引擎 URL"
+    },
+    "regex": {
+        "message": "正規表達式"
+    },
+    "testSearchEngine": {
+        "message": "測試搜尋引擎"
+    },
+    "addSearchEngine": {
+        "message": "新增搜尋引擎"
+    },
+    "addSeparator": {
+        "message": "新增分隔線"
+    },
+    "clear": {
+        "message": "清除"
+    },
+    "disableGrid": {
+        "message": "停用圖示方格"
+    },
+    "move": {
+        "message": "移動"
+    },
+    "up": {
+        "message": "向上"
+    },
+    "down": {
+        "message": "下"
+    },
+    "remove": {
+        "message": "移除"
+    },
+    "multipleSearchEnginesSearch": {
+        "message": "在多重搜尋中包含此搜尋引擎"
+    },
+    "notifySavedPreferences": {
+        "message": "儲存的偏好設定。"
+    },
+    "notifySearchEngineAdded": {
+        "message": "新增搜尋引擎。"
+    },
+    "titleShowEngine": {
+        "message": "在上下文功能表或網格中顯示此搜尋引擎"
+    },
+    "notifyEnableStorageSync": {
+        "message": "請確認「about:config」中的標誌「webextensions.storage.sync.enabled」設為「true」，否則 Context Search 將無法運作。"
+    },
+    "notifySearchEnginesLoaded": {
+        "message": "已載入預設搜尋引擎清單。"
+    },
+    "notifySearchEngineNotFound": {
+        "message": "在目前的網頁上找不到搜尋引擎"
+    },
+    "titleMultipleSearchEngines": {
+        "message": "多種搜尋引擎搜尋"
+    },
+    "titleAISearch": {
+        "message": "AI 搜尋"
+    },
+    "titleSiteSearch": {
+        "message": "搜尋本網站"
+    },
+    "titleOptions": {
+        "message": "選項"
+    },
+    "windowTitle": {
+        "message": "搜尋結果"
+    },
+    "omniboxDescription": {
+        "message": "使用關鍵字的上下文搜尋。使用方法：cs [keyword] [search terms] (例如 'cs w Linux「 在 Wikipedia 搜尋詞彙 」Linux')"
+    },
+    "notifyUsage": {
+        "message": "使用方法：cs [keyword] [search terms] (例如：cs w Linux)"
+    },
+    "notifySearchEngineWithKeyword": {
+        "message": "搜尋引擎與關鍵字"
+    },
+    "notifyUnknown": {
+        "message": "未知。"
+    },
+    "notifySearchEngineUrlRequired": {
+        "message": "請填入有效的搜尋引擎 URL。"
+    },
+    "header7": {
+        "message": "重設選項"
+    },
+    "sidebar": {
+        "message": "在側邊欄中"
+    },
+    "displayFavicons": {
+        "message": "在上下文功能表清單中顯示收藏夾"
+    },
+    "disableAltClick": {
+        "message": "停用圖示方格 (Alt + 按一下)"
+    },
+    "resetPreferences": {
+        "message": "將偏好設定重設為預設設定"
+    },
+    "forceSearchEnginesReload": {
+        "message": "強制重新載入預設搜尋引擎清單"
+    },
+    "forceFaviconsReload": {
+        "message": "強制重新載入收藏夾"
+    },
+    "restriction": {
+        "message": "如果側邊欄尚未開啟，那麼您可能需要點選瀏覽器工具列上的「顯示側邊欄」圖示。"
+    },
+    "reverseImage": {
+        "message": "此外，側邊欄也無法顯示反向圖片搜尋結果。"
+    },
+    "siteSearch": {
+        "message": "搜尋目前網站的搜尋引擎："
+    },
+    "header9": {
+        "message": "進階功能"
+    },
+    "useRegex": {
+        "message": "使用正則表達式建立上下文功能表"
+    },
+    "regexNote": {
+        "message": "此功能不適用於圖示方格。"
+    },
+    "subheader62": {
+        "message": "新增資料夾"
+    },
+    "folderName": {
+        "message": "資料夾名稱"
+    },
+    "folder": {
+        "message": "資料夾"
+    },
+    "addFolder": {
+        "message": "新增資料夾"
+    },
+    "keyboardShortcut": {
+        "message": "鍵盤捷徑"
+    },
+    "header10": {
+        "message": "多重搜尋選項"
+    },
+    "multisearchIntro": {
+        "message": "開啟多個搜尋結果/標籤"
+    },
+    "multiNewWindow": {
+        "message": "在新視窗中"
+    },
+    "multiAfterLastTab": {
+        "message": "在目前視窗的最後一個索引標籤之後"
+    },
+    "multiActiveTab": {
+        "message": "緊接目前視窗中的作用中標籤"
+    },
+    "privacy": {
+        "message": "將新視窗設為隱私"
+    },
+    "reminder": {
+        "message": "提醒事項"
+    },
+    "enableDownloadsReminder": {
+        "message": "啟用下載權限以匯出您的搜尋引擎。"
+    },
+    "header11": {
+        "message": "圖示網格選項"
+    },
+    "quickIconGrid": {
+        "message": "選取文字後立即顯示圖示方格"
+    },
+    "closeGridOnMouseOut": {
+        "message": "滑鼠移出時關閉圖示方格"
+    },
+    "xOffset": {
+        "message": "圖示方格的水平偏移： "
+    },
+    "yOffset": {
+        "message": "圖示方格的垂直偏移： "
+    },
+    "clearKeyboardShortcuts": {
+        "message": "清除所有鍵盤捷徑"
+    },
+    "subheader63": {
+        "message": "新增 AI 提示"
+    },
+    "subheader64": {
+        "message": "新增分隔線"
+    },
+    "testChatGPT": {
+        "message": "測試 AI 提示"
+    },
+    "addChatGPTPrompt": {
+        "message": "新增 AI 提示"
+    },
+    "promptShow": {
+        "message": "在網格或上下文功能表中顯示提示"
+    },
+    "promptName": {
+        "message": "提示名稱"
+    },
+    "prompt": {
+        "message": "提示"
+    },
+    "overwriteSearchEngines": {
+        "message": "使用匯入的搜尋引擎覆寫現有的搜尋引擎"
+    },
+    "removeFolderConfirmPrefix": {
+        "message": "您確定要移除資料夾 "
+    },
+    "removeFolderConfirmSuffix": {
+        "message": " 及其所有內容？"
+    },
+    "removeSearchEngineConfirm": {
+        "message": "您確定要移除搜尋引擎嗎？ "
+    },
+    "popupBlockedMessage": {
+        "message": "彈出視窗已封鎖！請允許本網站的彈出窗口。"
+    },
+    "__WET_LOCALE__": {
+        "message": "en"
+    }
 }

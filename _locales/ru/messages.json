@@ -224,17 +224,11 @@
     "header7": {
         "message": "Сбросить параметры"
     },
-    "header8": {
-        "message": "Какие теги EXIF должны отображаться?"
-    },
     "sidebar": {
         "message": "В боковой панели"
     },
     "displayFavicons": {
         "message": "Отображать значки в списке контекстного меню"
-    },
-    "displayExifSummary": {
-        "message": "Резюме"
     },
     "disableAltClick": {
         "message": "Отключить сетку иконок"

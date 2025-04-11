@@ -224,17 +224,11 @@
     "header7": {
         "message": "Reset opties"
     },
-    "header8": {
-        "message": "Welke EXIF-tags moeten worden weergegeven?"
-    },
     "sidebar": {
         "message": "In de zijbalk"
     },
     "displayFavicons": {
         "message": "Geef favicons weer in de contextmenulijst"
-    },
-    "displayExifSummary": {
-        "message": "Overzicht"
     },
     "disableAltClick": {
         "message": "Schakel het raster met pictogrammen uit"

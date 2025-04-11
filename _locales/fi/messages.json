@@ -224,17 +224,11 @@
     "header7": {
         "message": "Nollaa vaihtoehdot"
     },
-    "header8": {
-        "message": "Mitkä EXIF-tunnisteet pitäisi näyttää?"
-    },
     "sidebar": {
         "message": "Sivupalkissa"
     },
     "displayFavicons": {
         "message": "Näytä suosikkikuvakkeet kontekstivalikon luettelossa"
-    },
-    "displayExifSummary": {
-        "message": "Yhteenveto"
     },
     "disableAltClick": {
         "message": "Poista kuvakeverkko käytöstä (Alt + klikkaus)"

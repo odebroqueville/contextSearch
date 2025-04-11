@@ -224,17 +224,11 @@
     "header7": {
         "message": "Endurstilla valkosti"
     },
-    "header8": {
-        "message": "Hvaða EXIF-merki ætti að birta?"
-    },
     "sidebar": {
         "message": "Á hliðarslá"
     },
     "displayFavicons": {
         "message": "Birta táknmyndir í lista samhengisvalmyndar"
-    },
-    "displayExifSummary": {
-        "message": "Samantekt"
     },
     "disableAltClick": {
         "message": "Gera táknmyndareiti óvirka (Alt + smella)"

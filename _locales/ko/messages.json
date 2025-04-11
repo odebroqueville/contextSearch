@@ -224,17 +224,11 @@
     "header7": {
         "message": "재설정 옵션"
     },
-    "header8": {
-        "message": "어떤 EXIF 태그를 표시해야합니까?"
-    },
     "sidebar": {
         "message": "사이드 바에서"
     },
     "displayFavicons": {
         "message": "컨텍스트 메뉴 목록에 즐겨 찾기 아이콘 표시"
-    },
-    "displayExifSummary": {
-        "message": "요약"
     },
     "disableAltClick": {
         "message": "아이콘 그리드 비활성화 (Alt + 클릭)"

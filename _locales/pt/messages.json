@@ -224,17 +224,11 @@
     "header7": {
         "message": "Opções de reposição"
     },
-    "header8": {
-        "message": "Que etiquetas EXIF devem ser apresentadas?"
-    },
     "sidebar": {
         "message": "Na barra lateral"
     },
     "displayFavicons": {
         "message": "Mostrar favicons na lista do menu de contexto"
-    },
-    "displayExifSummary": {
-        "message": "Resumo"
     },
     "disableAltClick": {
         "message": "Desativar a grelha de ícones (Alt + Clique)"
@@ -360,6 +354,6 @@
         "message": "Popup bloqueado! Permitir popups para este sítio."
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "pt"
     }
 }

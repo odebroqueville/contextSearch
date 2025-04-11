@@ -224,17 +224,11 @@
     "header7": {
         "message": "Återställ alternativ"
     },
-    "header8": {
-        "message": "Vilka EXIF-taggar ska visas?"
-    },
     "sidebar": {
         "message": "I sidofältet"
     },
     "displayFavicons": {
         "message": "Visa favicons i listan över snabbmenyer"
-    },
-    "displayExifSummary": {
-        "message": "Sammanfattning"
     },
     "disableAltClick": {
         "message": "Inaktivera ikonrutnätet (Alt + Klicka)"
@@ -360,6 +354,6 @@
         "message": "Popup blockerad! Vänligen tillåt popup-fönster för denna webbplats."
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "sv"
     }
 }

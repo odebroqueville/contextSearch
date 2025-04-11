@@ -224,17 +224,11 @@
     "header7": {
         "message": "Mengatur ulang opsi"
     },
-    "header8": {
-        "message": "Tag EXIF mana yang harus ditampilkan?"
-    },
     "sidebar": {
         "message": "Di bilah samping"
     },
     "displayFavicons": {
         "message": "Menampilkan favicon dalam daftar menu konteks"
-    },
-    "displayExifSummary": {
-        "message": "Ringkasan"
     },
     "disableAltClick": {
         "message": "Menonaktifkan kisi ikon (Alt + Klik)"
@@ -360,6 +354,6 @@
         "message": "Popup diblokir! Izinkan popup untuk situs ini."
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "id"
     }
 }

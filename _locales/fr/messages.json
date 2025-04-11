@@ -1,10 +1,10 @@
 {
     "extensionName": {
-        "message": "Recherche contextuelle",
+        "message": "Context Search",
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Effectue une recherche du texte sélectionné en utilisant le moteur de recherche choisi dans une liste pré-définie.",
+        "message": "Recherche le texte sélectionné à l'aide d'un moteur de recherche ou d'une invite AI à partir de votre liste personnalisée de moteurs de recherche et d'invites AI gérée dans la page de préférences de l'extension.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -18,7 +18,7 @@
         "message": "Vous pouvez lancer un"
     },
     "multisearchEnd": {
-        "message": "via le menu contextuel ou via l'omnibox en tapant:"
+        "message": "dans le menu contextuel ou dans la barre d'adresse en tapant :
     },
     "pageTitle": {
         "message": "Préférences de Context Search"
@@ -45,7 +45,7 @@
         "message": "Position des options dans le menu contextuel"
     },
     "subheader31": {
-        "message": "Où aimeriez-vous que le menu des options apparaisse dans le menu contextuel?"
+        "message": "Où souhaitez-vous que les options apparaissent dans le menu contextuel ?"
     },
     "bottom": {
         "message": "Au bas du menu contextuel"
@@ -69,10 +69,10 @@
         "message": "Sauvegarder sur le disque local"
     },
     "header2": {
-        "message": "Afficher les icones"
+        "message": "Afficher les icônes"
     },
     "getFavicons": {
-        "message": "Afficher les icones dans le menu contextuel"
+        "message": "Afficher les icônes dans le menu contextuel"
     },
     "note": {
         "message": "Cette fonctionnalité requiert Firefox 56 ou une version plus récente."
@@ -84,10 +84,10 @@
         "message": "Rechercher une correspondance exacte de chaîne"
     },
     "gridMode": {
-        "message": "Afficher le menu contextuel sous la form de grille d'icones et non sous la forme de liste"
+        "message": "Afficher une grille d'icônes au lieu d'une liste de moteurs de recherche"
     },
     "warning": {
-        "message": "Attention: l'activation de cette fonctionnalité désactive les menus contextuels des autres extensions."
+        "message": "Attention : l'activation de cette fonctionnalité empêchera l'affichage des menus contextuels des autres extensions."
     },
     "savePreferences": {
         "message": "Sauvegarder les préférences"
@@ -135,7 +135,7 @@
         "message": "Raccourci clavier"
     },
     "multipleSearchEngines": {
-        "message": "Inclure ce moteur de recherche pour un multi-search"
+        "message": "Inclure dans la recherche multiple (multi-search)"
     },
     "searchEngineURL": {
         "message": "URL du moteur de recherche"
@@ -207,10 +207,10 @@
         "message": "Résultats de recherche pour"
     },
     "omniboxDescription": {
-        "message": "Effectuer une recherche avec Context Search à l'aide de mots clé. Utilisation: cs [mot clé] [mots à rechercher] (par ex.: 'cs w Linux' recherche le mot 'Linux' dans Wikipedia)"
+        "message": "Recherche avec des mots-clés. Utilisation : cs [mot-clé] [termes de recherche] (par exemple, \"cs w Linux\" recherche le terme \"Linux\" dans Wikipédia)"
     },
     "notifyUsage": {
-        "message": "Utilisation: cs [mot clé] [mots à rechercher] (par ex.: 'cs w Linux')"
+        "message": "Utilisation : cs [mot-clé] [termes de recherche] (par exemple : cs w Linux)"
     },
     "notifySearchEngineWithKeyword": {
         "message": "Le moteur de recherche avec le mot clé"
@@ -224,20 +224,14 @@
     "header7": {
         "message": "Réinitialiser les préférences"
     },
-    "header8": {
-        "message": "Quelles balises EXIF ​​doivent être affichées?"
-    },
     "sidebar": {
         "message": "Dans la barre de côté"
     },
     "displayFavicons": {
         "message": "Afficher les icônes dans le menu contextuel"
     },
-    "displayExifSummary": {
-        "message": "Résumé"
-    },
     "disableAltClick": {
-        "message": "Désactiver la grille d'icônes"
+        "message": "Désactiver la grille d'icônes (Alt + Clic)"
     },
     "resetPreferences": {
         "message": "Restaurer les préférences par défaut"
@@ -255,7 +249,7 @@
         "message": "De plus, les résultats de recherche par images ne peuvent pas être affichés dans la barre latérale."
     },
     "siteSearch": {
-        "message": "Moteur de recherche pour rechercher le site actuel:"
+        "message": "Moteur de recherche du site actuel :"
     },
     "header9": {
         "message": "Fonctionnalités avancées"
@@ -315,10 +309,10 @@
         "message": "Fermez la grille d'icônes lorsque le pointeur de la souris la quitte"
     },
     "xOffset": {
-        "message": "Décalage horizontal de la grille des icônes :"
+        "message": "Décalage horizontal de la grille d'icônes : "
     },
     "yOffset": {
-        "message": "Décalage vertical de la grille des icônes :"
+        "message": "Décalage vertical de la grille d'icônes : "
     },
     "clearKeyboardShortcuts": {
         "message": "Effacer tous les raccourcis clavier"

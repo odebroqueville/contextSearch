@@ -224,17 +224,11 @@
     "header7": {
         "message": "Վերականգնել ընտրանքները"
     },
-    "header8": {
-        "message": "Ո՞ր EXIF թեգերը պետք է ցուցադրվեն:"
-    },
     "sidebar": {
         "message": "Կողագոտիում"
     },
     "displayFavicons": {
         "message": "Ցուցադրել ֆավիկոնները համատեքստային մենյուի ցանկում"
-    },
-    "displayExifSummary": {
-        "message": "Ամփոփում"
     },
     "disableAltClick": {
         "message": "Անջատել պատկերակների ցանցը (Alt + Click)"
@@ -360,6 +354,6 @@
         "message": "Popup-ը արգելափակված է: Խնդրում ենք թույլատրել այս կայքի պատուհանները:"
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "hy"
     }
 }

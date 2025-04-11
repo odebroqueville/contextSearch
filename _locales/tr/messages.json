@@ -224,17 +224,11 @@
     "header7": {
         "message": "Seçenekleri sıfırla"
     },
-    "header8": {
-        "message": "Hangi EXIF etiketleri görüntülenmelidir?"
-    },
     "sidebar": {
         "message": "Kenar çubuğunda"
     },
     "displayFavicons": {
         "message": "Favicon'ları içerik menüsü listesinde görüntüleme"
-    },
-    "displayExifSummary": {
-        "message": "Özet"
     },
     "disableAltClick": {
         "message": "Simge ızgarasını devre dışı bırakma (Alt + Tıklama)"
@@ -360,6 +354,6 @@
         "message": "Açılır pencere engellendi! Lütfen bu site için açılır pencerelere izin verin."
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "tr"
     }
 }

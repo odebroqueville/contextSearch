@@ -224,17 +224,11 @@
     "header7": {
         "message": "گزینه های بازنشانی"
     },
-    "header8": {
-        "message": "کدام تگ های EXIF باید نمایش داده شوند؟"
-    },
     "sidebar": {
         "message": "در نوار کناری"
     },
     "displayFavicons": {
         "message": "نمایش فاویکون ها در لیست منوی زمینه"
-    },
-    "displayExifSummary": {
-        "message": "خلاصه"
     },
     "disableAltClick": {
         "message": "غیرفعال کردن شبکه آیکون (Alt + Click)"
@@ -360,6 +354,6 @@
         "message": "پنجره بازشو مسدود شد! لطفا پنجره های بازشو را برای این سایت مجاز کنید."
     },
     "__WET_LOCALE__": {
-        "message": "En"
+        "message": "fa"
     }
 }

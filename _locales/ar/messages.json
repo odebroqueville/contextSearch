@@ -1,6 +1,6 @@
 {
     "extensionName": {
-        "message": "البحث في السياق",
+        "message": "Context Search",
         "description": "Name of the extension"
     },
     "extensionDescription": {
@@ -8,7 +8,7 @@
         "description": "Description of the extension"
     },
     "multisearch": {
-        "message": "بحث باستخدام محركات بحث متعددة في نفس الوقت.",
+        "message": " البحث مع محركات بحث متعددة في وقت واحد.",
         "description": "multi-search - it's a search with multiple search engines simultaneously."
     },
     "multisearchHowTo": {
@@ -18,7 +18,7 @@
         "message": "يمكنك تشغيل"
     },
     "multisearchEnd": {
-        "message": "من خلال قائمة السياق أو من خلال المربع متعدد الاستخدامات بكتابة:"
+        "message": "من خلال قائمة السياق أو من خلال المربع الشامل عن طريق الكتابة:"
     },
     "pageTitle": {
         "message": "تفضيلات بحث السياق"
@@ -72,10 +72,10 @@
         "message": "الرموز المفضلة والرموز"
     },
     "getFavicons": {
-        "message": "عرض الرموز المفضلة في قائمة قائمة السياق"
+        "message": "عرض الأنسجة في قائمة السياق"
     },
     "note": {
-        "message": "تتطلب هذه الميزة فايرفوكس 56 أو أعلى."
+        "message": "تتطلب هذه الميزة فايرفوكس 56 أو أكثر."
     },
     "header4": {
         "message": "خيارات البحث"
@@ -87,7 +87,7 @@
         "message": "عرض شبكة من الرموز بدلاً من قائمة بمحركات البحث"
     },
     "warning": {
-        "message": "تحذير: الرجاء ملاحظة أن تمكين هذه الميزة سيمنع عرض قوائم السياق من ملحقات أخرى."
+        "message": "تحذير: يرجى ملاحظة أن تمكين هذه الميزة سيمنع قوائم السياق من ملحقات أخرى ليتم عرضها."
     },
     "savePreferences": {
         "message": "حفظ التفضيلات"
@@ -174,7 +174,7 @@
         "message": "تضمين محرك البحث هذا في بحث متعدد"
     },
     "notifySavedPreferences": {
-        "message": "التفضيلات المحفوظة"
+        "message": "تفضيلات محفوظة."
     },
     "notifySearchEngineAdded": {
         "message": "تمت إضافة محرك البحث."
@@ -224,17 +224,11 @@
     "header7": {
         "message": "إعادة تعيين الخيارات"
     },
-    "header8": {
-        "message": "ما هي علامات EXIF ​​التي يجب عرضها؟"
-    },
     "sidebar": {
         "message": "في الشريط الجانبي"
     },
     "displayFavicons": {
         "message": "عرض الرموز المفضلة في قائمة قائمة السياق"
-    },
-    "displayExifSummary": {
-        "message": "الملخص"
     },
     "disableAltClick": {
         "message": "تعطيل شبكة الرموز (Alt + Click)"
@@ -315,34 +309,34 @@
         "message": "أغلق شبكة الرموز عند إخراج الماوس"
     },
     "xOffset": {
-        "message": "الإزاحة الأفقية لشبكة الرموز:"
+        "message": "إزاحة أفقية لشبكة الرموز: "
     },
     "yOffset": {
-        "message": "الإزاحة الرأسية لشبكة الرموز:"
+        "message": "موازنة رأسية لشبكة الرموز: "
     },
     "clearKeyboardShortcuts": {
         "message": "مسح كافة اختصارات لوحة المفاتيح"
     },
     "subheader63": {
-        "message": "إضافة موجه ذكاء اصطناعي جديد"
+        "message": "إضافة موجه الذكاء الاصطناعي جديد"
     },
     "subheader64": {
-        "message": "إضافة فاصل"
+        "message": "أضف فاصل"
     },
     "testChatGPT": {
-        "message": "اختبار موجه الذكاء الاصطناعي"
+        "message": "اختبار الذكاء الاصطناعي"
     },
     "addChatGPTPrompt": {
-        "message": "إضافة موجه الذكاء الاصطناعي"
+        "message": "إضافة طلب الذاكرة"
     },
     "promptShow": {
-        "message": "إظهار المطالبة في الشبكة أو قائمة السياق"
+        "message": "إظهار توجيه في الشبكة أو قائمة السياق"
     },
     "promptName": {
-        "message": "اسم الموجه"
+        "message": "الاسم الفوري"
     },
     "prompt": {
-        "message": "موجه"
+        "message": "فوري"
     },
     "overwriteSearchEngines": {
         "message": "استبدال محركات البحث الموجودة بمحركات البحث المستوردة"
@@ -351,7 +345,7 @@
         "message": "هل أنت متأكد من رغبتك في إزالة المجلد "
     },
     "removeFolderConfirmSuffix": {
-        "message": " وجميع محتوياته؟"
+        "message": " وكل محتوياته؟"
     },
     "removeSearchEngineConfirm": {
         "message": "هل أنت متأكد من رغبتك في إزالة محرك البحث "

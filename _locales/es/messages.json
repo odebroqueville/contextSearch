@@ -224,17 +224,11 @@
     "header7": {
         "message": "Restablecer opciones"
     },
-    "header8": {
-        "message": "¿Qué etiquetas EXIF se deben mostrar?"
-    },
     "sidebar": {
         "message": "En la barra lateral"
     },
     "displayFavicons": {
         "message": "Mostrar favicons en la lista del menú contextual"
-    },
-    "displayExifSummary": {
-        "message": "Resumen"
     },
     "disableAltClick": {
         "message": "Desactivar cuadrícula de iconos"

@@ -224,17 +224,11 @@
     "header7": {
         "message": "Скидання параметрів"
     },
-    "header8": {
-        "message": "Які теги EXIF слід відображати?"
-    },
     "sidebar": {
         "message": "У бічній панелі"
     },
     "displayFavicons": {
         "message": "Відобразити фаворити у списку контекстного меню"
-    },
-    "displayExifSummary": {
-        "message": "Підсумок"
     },
     "disableAltClick": {
         "message": "Вимкнути сітку значків"
