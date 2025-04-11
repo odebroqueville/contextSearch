@@ -71,9 +71,6 @@
     "header2": {
         "message": "Mostra le favicon"
     },
-    "getFavicons": {
-        "message": "Display favicons in context menu list"
-    },
     "note": {
         "message": "Questa funzione richiede firefox 56 o successivo."
     },
@@ -228,7 +225,7 @@
         "message": "Nella barra laterale"
     },
     "displayFavicons": {
-        "message": "Display favicons in context menu"
+        "message": "Visualizza le favicon nel menu contestuale"
     },
     "disableAltClick": {
         "message": "Disabilita la griglia delle icone"
