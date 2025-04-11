@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Søker i den valgte teksten ved hjelp av en søkemotor fra en forhåndsdefinert liste.",
+        "message": "Søker i den valgte teksten ved hjelp av en søkemotor eller AI-ledetekst fra den egendefinerte listen over søkemotorer og AI-ledetekster som administreres på utvidelsens innstillingsside.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -72,7 +72,7 @@
         "message": "Favorittikoner og ikoner"
     },
     "getFavicons": {
-        "message": "Vis favorittikoner i hurtigmenylisten"
+        "message": "Display favicons in context menu list"
     },
     "note": {
         "message": "Denne funksjonen krever Firefox 56 eller nyere."
@@ -228,7 +228,7 @@
         "message": "I sidepanelet"
     },
     "displayFavicons": {
-        "message": "Vis favorittikoner i hurtigmenylisten"
+        "message": "Display favicons in context menu"
     },
     "disableAltClick": {
         "message": "Deaktiver ikonrutenett (Alt + klikk)"
