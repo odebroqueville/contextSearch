@@ -1008,6 +1008,7 @@ function removeClickListener() {
 async function handleMenuClick(info, tab) {
     const id = (info.menuItemId.startsWith('cs-')) ? info.menuItemId.replace('cs-', '') : info.menuItemId;
     const ignoreIds = ['download-video', 'reverse-image-search', 'google-lens', 'options', 'multitab', 'match', 'ai-search'];
+    const { cookieStoreId } = tab; // Extract the cookieStoreId from the tab object, which identifies the Firefox container context the tab is running in
 
     if (logToConsole) console.log('Clicked on ' + id);
 
@@ -1015,7 +1016,8 @@ async function handleMenuClick(info, tab) {
         await browser.sidebarAction.setPanel({ panel: '' });
     }
 
-    await processSearch(info, tab);
+    // Add cookieStoreId as the last parameter
+    await processSearch(info, tab, cookieStoreId);
 }
 
 // Build the context menu using the search engines from local storage
@@ -1230,7 +1232,7 @@ function onCreated(id) {
 }
 
 // Perform search based on selected search engine, i.e. selected context menu item
-async function processSearch(info, tab) {
+async function processSearch(info, tab, cookieStoreId) { // Add cookieStoreId parameter
     if (logToConsole) console.log(info);
     const windowInfo = await browser.windows.getCurrent();
     const multisearch = false;
@@ -1269,7 +1271,8 @@ async function processSearch(info, tab) {
         return;
     }
     if (id === 'multitab') {
-        await processMultisearch([], tabIndex);
+        // Pass cookieStoreId to processMultisearch
+        await processMultisearch([], tabIndex, cookieStoreId);
         return;
     }
     if (id === 'match') {
@@ -1290,11 +1293,13 @@ async function processSearch(info, tab) {
     // If search engine is none of the above and not a folder, then perform search
     // The search engine corresponds to an HTTP GET or POST request or an AI prompt
     if (!id.startsWith("separator-")) {
-        await displaySearchResults(id, tabIndex, multisearch, windowInfo.id);
+        // Pass cookieStoreId to displaySearchResults
+        await displaySearchResults(id, tabIndex, multisearch, windowInfo.id, '', '', cookieStoreId);
     }
 }
 
-async function processMultisearch(arraySearchEngineUrls, tabPosition) {
+// Add cookieStoreId parameter
+async function processMultisearch(arraySearchEngineUrls, tabPosition, cookieStoreId) {
     let windowInfo = await browser.windows.getCurrent();
     let multisearchArray = [];
     let nonUrlArray = [];
@@ -1309,6 +1314,7 @@ async function processMultisearch(arraySearchEngineUrls, tabPosition) {
         if (logToConsole) console.log(`${label}:`, array);
     };
 
+    // --- Original logic for populating arrays (aiArray, postArray, urlArray) ---
     const getSearchEnginesFromFolder = async (folderId) => {
         for (let id of searchEngines[folderId].children) {
             if (logToConsole) console.log(folderId, id);
@@ -1336,7 +1342,7 @@ async function processMultisearch(arraySearchEngineUrls, tabPosition) {
 
     if (arraySearchEngineUrls.length > 0) {
         multisearchArray = arraySearchEngineUrls;
-        // Split multisearchArray into 2 separate arrays: 
+        // Split multisearchArray into 2 separate arrays:
         // urlArray for links and search engines using HTTP GET requests; items in multisearchArray corresponding to urls
         // nonUrlArray for AI prompts and search engines using HTTP POST requests; items in multisearchArray starting with 'chatgpt-' and items in multisearchArray saved as {id, url}
         for (let i = 0; i < multisearchArray.length; i++) {
@@ -1354,6 +1360,7 @@ async function processMultisearch(arraySearchEngineUrls, tabPosition) {
         // Sort search results in the order that search engines appear in the options page
         await getSearchEnginesFromFolder('root');
     }
+    // --- End of original logic for populating arrays ---
 
     if (logToConsole) console.log('Before concatenation:');
     logArrayContents('urlArray', urlArray);
@@ -1375,13 +1382,19 @@ async function processMultisearch(arraySearchEngineUrls, tabPosition) {
 
     // Open search results in a new window
     if (options.multiMode === 'multiNewWindow') {
-        windowInfo = await browser.windows.create({
+        const windowProperties = {
             allowScriptsToClose: true,
             titlePreface: windowTitle + "'" + selection + "'",
             focused: options.tabActive,
             incognito: options.privateMode,
             url: urlArray
-        });
+        };
+        // Add cookieStoreId if setting enabled, not incognito and container is not private
+        if (options.openInSameContainer && !options.privateMode && cookieStoreId && cookieStoreId !== 'firefox-private') {
+            windowProperties.cookieStoreId = cookieStoreId;
+        }
+        windowInfo = await browser.windows.create(windowProperties);
+
         // Set the tab position in the new window to the last tab
         tabPosition = windowInfo.tabs.length;
     } else if (options.multiMode !== 'multiNewWindow') {
@@ -1398,15 +1411,17 @@ async function processMultisearch(arraySearchEngineUrls, tabPosition) {
         }
         if (logToConsole) console.log(tabPosition);
         if (urlArray.length > 0) {
-            await openTabsForUrls(urlArray, tabPosition);
+            // Pass cookieStoreId to openTabsForUrls
+            await openTabsForUrls(urlArray, tabPosition, cookieStoreId);
             tabPosition += urlArray.length;
         }
     }
 
-    // Process the remaaining non-URL array of search engines (using HTTP POST requests or AI prompts)
+    // Process the remaining non-URL array of search engines (using HTTP POST requests or AI prompts)
     if (nonUrlArray.length > 0) {
         if (logToConsole) console.log(`Opening HTTP POST requests & AI search results in window ${windowInfo.id} at tab position ${tabPosition}`);
-        await processNonUrlArray(nonUrlArray, tabPosition, windowInfo.id);
+        // Pass cookieStoreId to processNonUrlArray
+        await processNonUrlArray(nonUrlArray, tabPosition, windowInfo.id, cookieStoreId);
     }
 }
 
@@ -1414,24 +1429,33 @@ function joinArrays(...arrays) {
     return [...new Set(arrays.flat())];
 }
 
-async function openTabsForUrls(urls, tabPosition) {
+// Add cookieStoreId parameter
+async function openTabsForUrls(urls, tabPosition, cookieStoreId) {
     for (let i = 0; i < urls.length; i++) {
         const url = urls[i];
         const newTabIndex = tabPosition + i;
 
+        const tabProperties = {
+            url: url,
+            active: false,
+            index: newTabIndex
+        };
+
+        // Add cookieStoreId if setting enabled and it's not a private browsing context
+        if (options.openInSameContainer && cookieStoreId && cookieStoreId !== 'firefox-private') {
+            tabProperties.cookieStoreId = cookieStoreId;
+        }
+
         try {
-            await browser.tabs.create({
-                url: url,
-                active: false,
-                index: newTabIndex
-            });
+            await browser.tabs.create(tabProperties);
         } catch (error) {
             console.error(`Error opening tab for URL ${url}:`, error);
         }
     }
 }
 
-async function processNonUrlArray(nonUrlArray, tabPosition, windowId) {
+// Add cookieStoreId parameter
+async function processNonUrlArray(nonUrlArray, tabPosition, windowId, cookieStoreId) {
     const multisearch = true;
     const n = nonUrlArray.length;
     if (logToConsole) console.log(`Number of items (AI prompts & HTTP POST requests) left to process: ${n}`);
@@ -1441,14 +1465,16 @@ async function processNonUrlArray(nonUrlArray, tabPosition, windowId) {
         if (!nonUrlArray[i].id) {
             // If the search engine is an AI search engine
             const id = nonUrlArray[i];
-            await displaySearchResults(id, tabIndex, multisearch, windowId);
+            // Pass cookieStoreId to displaySearchResults
+            await displaySearchResults(id, tabIndex, multisearch, windowId, '', '', cookieStoreId);
             await new Promise(resolve => setTimeout(resolve, 1000));
         } else {
             // If the search engine uses HTTP POST request
             const id = nonUrlArray[i].id;
             const url = nonUrlArray[i].url;
             targetUrl = url.replace('{searchTerms}', encodeUrl(selection));
-            await displaySearchResults(id, tabIndex, multisearch, windowId);
+            // Pass cookieStoreId to displaySearchResults
+            await displaySearchResults(id, tabIndex, multisearch, windowId, '', '', cookieStoreId);
         }
     }
 }
@@ -1543,7 +1569,7 @@ function getAIProviderBaseUrl(provider) {
 }
 
 // Display the search results for a single search (link, HTTP POST or GET request, or AI prompt)
-async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEngine = '', prompt = '') {
+async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEngine = '', prompt = '', cookieStoreId = null) {
     imageUrl = targetUrl;
     targetUrl = await setTargetUrl(id, aiEngine);
     const postDomain = getDomain(targetUrl);
@@ -1592,44 +1618,59 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEn
         const tabUrl = url + suffix;
 
         if (logToConsole) console.log(tabUrl);
-
-        // If single search and open in sidebar
         browser.sidebarAction.setPanel({ panel: tabUrl });
         browser.sidebarAction.setTitle({ title: 'Search results' });
+
     } else if (!multisearch && options.tabMode === 'openNewWindow') {
         // If single search and open in new window
-        // If search engine is link, uses HTTP GET or POST request or is AI prompt
         if (logToConsole) console.log(`Make new tab or window active: ${options.tabActive}`);
-        await browser.windows.create({
+        const windowProperties = {
             titlePreface: windowTitle + "'" + selection + "'",
             focused: options.tabActive,
             url: url,
             incognito: options.privateMode
-        });
+        };
+        // Add cookieStoreId if setting enabled, not incognito and container is not private
+        if (options.openInSameContainer && !options.privateMode && cookieStoreId && cookieStoreId !== 'firefox-private') {
+            windowProperties.cookieStoreId = cookieStoreId;
+        }
+        await browser.windows.create(windowProperties);
 
         // If the new window shouldn't be active, then make the old window active
         if (!options.tabActive) {
             browser.windows.update(windowId, { focused: true });
         }
+
     } else if (!multisearch && options.tabMode === 'openNewTab') {
         // If single search and open in current window
-        // If search engine is a link, uses HTTP GET or POST request or is AI prompt
         if (logToConsole) {
             console.log(`Opening search results in a new tab, url is ${url}`);
         }
-        await browser.tabs.create({
+        const tabProperties = {
             active: options.tabActive,
             index: tabPosition,
             url: url
-        });
+        };
+        // Add cookieStoreId if setting enabled and it's not a private browsing context
+        if (options.openInSameContainer && cookieStoreId && cookieStoreId !== 'firefox-private') {
+            tabProperties.cookieStoreId = cookieStoreId;
+        }
+        await browser.tabs.create(tabProperties);
+
     } else if (multisearch) {
-        await browser.tabs.create({
-            active: options.tabActive,
+        const tabProperties = {
+            active: options.tabActive, // Consider if multisearch tabs should be active
             index: tabPosition,
             url: url,
             windowId: windowId
-        });
-    } else {
+        };
+        // Add cookieStoreId if setting enabled and it's not a private browsing context
+        if (options.openInSameContainer && cookieStoreId && cookieStoreId !== 'firefox-private') {
+            tabProperties.cookieStoreId = cookieStoreId;
+        }
+        await browser.tabs.create(tabProperties);
+
+    } else { // Default case: open in current tab
         // Open search results in the same tab
         if (logToConsole) {
             console.log(`Opening search results in same tab, url is ${url}`);
@@ -1740,6 +1781,21 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
     const windowInfo = await browser.windows.getCurrent();
     let searchTerms = input.replace(keyword, '').trim();
 
+    // --- Get current tab context for cookieStoreId --- 
+    let currentTab = null;
+    let cookieStoreId = null;
+    const currentTabs = await browser.tabs.query({ active: true, currentWindow: true });
+    if (currentTabs.length > 0) {
+        currentTab = currentTabs[0];
+        cookieStoreId = currentTab.cookieStoreId;
+        activeTab = currentTab; // Update global activeTab
+    } else {
+        console.warn("Could not get current tab for omnibox search.");
+        // Attempt to get context from the window if no active tab found (less ideal)
+        cookieStoreId = windowInfo.cookieStoreId;
+    }
+    // --- End get context --- 
+
     // Check if the search terms contain '%s' or '{searchTerms}'
     if (searchTerms.includes('{searchTerms}')) {
         searchTerms = searchTerms.replace(/{searchTerms}/g, selection);
@@ -1773,13 +1829,12 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
         }
     }
 
-    // Get active tab's index and id
+    // Get active tab's index and id (might be null if no active tab found)
     const tabs = await queryAllTabs();
-    //const activeTab = await getActiveTab();
-    tabIndex = activeTab.index;
-    tabId = activeTab.id;
+    tabIndex = activeTab ? activeTab.index : -1; // Use activeTab updated above
+    tabId = activeTab ? activeTab.id : null;
 
-    tabPosition = tabIndex + 1;
+    tabPosition = (tabIndex !== -1) ? tabIndex + 1 : 0; // Default to start if no active tab
 
     if (options.lastTab || options.multiMode === 'multiAfterLastTab') {
         tabPosition = tabs.length;
@@ -1791,7 +1846,8 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
     // Only display search results when there is a valid link inside of the url variable
     if (input.indexOf('://') > -1) {
         if (logToConsole) console.log('Processing search...');
-        await displaySearchResults(id, tabPosition, multisearch, windowInfo.id);
+        // Pass cookieStoreId
+        await displaySearchResults(id, tabPosition, multisearch, windowInfo.id, '', '', cookieStoreId);
     } else {
         try {
             switch (keyword) {
@@ -1799,7 +1855,8 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                     browser.runtime.openOptionsPage();
                     break;
                 case '!':
-                    await processMultisearch([], tabPosition);
+                    // Pass cookieStoreId
+                    await processMultisearch([], tabPosition, cookieStoreId);
                     break;
                 case 'bookmarks':
                 case '!b':
@@ -1815,11 +1872,16 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                         bookmarkItems: bookmarkItems,
                         searchTerms: searchTerms,
                     });
-                    await browser.tabs.create({
+                    const bookmarkTabProps = {
                         active: options.tabActive,
                         index: tabPosition,
                         url: '/html/bookmarks.html',
-                    });
+                    };
+                    // Add cookieStoreId
+                    if (options.openInSameContainer && cookieStoreId && cookieStoreId !== 'firefox-private') {
+                        bookmarkTabProps.cookieStoreId = cookieStoreId;
+                    }
+                    await browser.tabs.create(bookmarkTabProps);
                     break;
                 case 'history':
                 case '!h':
@@ -1828,11 +1890,16 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                         historyItems: historyItems,
                         searchTerms: searchTerms,
                     });
-                    await browser.tabs.create({
+                    const historyTabProps = {
                         active: options.tabActive,
                         index: tabPosition,
                         url: '/html/history.html',
-                    });
+                    };
+                    // Add cookieStoreId
+                    if (options.openInSameContainer && cookieStoreId && cookieStoreId !== 'firefox-private') {
+                        historyTabProps.cookieStoreId = cookieStoreId;
+                    }
+                    await browser.tabs.create(historyTabProps);
                     break;
                 default:
                     if (suggestion.length > 1) {
@@ -1840,18 +1907,22 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                         for (const s of suggestion) {
                             arraySearchEngineUrls.push(s.content);
                         }
-                        await processMultisearch(arraySearchEngineUrls, tabPosition);
+                        // Pass cookieStoreId
+                        await processMultisearch(arraySearchEngineUrls, tabPosition, cookieStoreId);
                     }
                     else if (suggestion.length === 1 && ((searchEngines[id] && !searchEngines[id].isFolder) || aiEngines.includes(suggestion[0].content))) {
                         if (typeof (suggestion[0].content) === 'string') {
                             // If AI prompt or search engine uses HTTP GET or POST request
-                            await displaySearchResults(id, tabPosition, multisearch, windowInfo.id, aiEngine, searchTerms);
+                            // Pass cookieStoreId
+                            await displaySearchResults(id, tabPosition, multisearch, windowInfo.id, aiEngine, searchTerms, cookieStoreId);
                         }
                     } else if (suggestion.length === 1 && searchEngines[id].isFolder) {
                         // If search engine is a folder
                         const multiTabArray = await processFolder(id, searchTerms);
-                        await processMultisearch(multiTabArray, tabPosition);
+                        // Pass cookieStoreId
+                        await processMultisearch(multiTabArray, tabPosition, cookieStoreId);
                     } else {
+                        // Original fallback logic
                         browser.search.search({ query: searchTerms, tabId: tabId });
                         if (notificationsEnabled) notify(notifyUsage);
                     }
@@ -2259,4 +2330,10 @@ async function writeClipboardText(text) {
     } catch (error) {
         if (logToConsole) console.error(error.message);
     }
+}
+
+// Add this new handler function
+async function handleUpdateOpenInSameContainer(data) {
+    options.openInSameContainer = data.openInSameContainer;
+    await saveOptions(options, false); // Don't need to rebuild context menu for this change
 }
