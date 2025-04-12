@@ -4,6 +4,7 @@
 * Updated SortableJS from 1.15.3 to 1.15.6
 * Added translations for Armenian, Danish, Finnish, Norwegian, Portuguese, Swedish, Turkish
 * Bug fix [#209](https://github.com/odebroqueville/contextSearch/issues/209)
+* Bug fix: Export function would insert empty strings in the children array of folders
 
 6.0.5
 ---------
