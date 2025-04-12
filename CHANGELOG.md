@@ -1,5 +1,12 @@
-6.0.5
+6.0.6
 =========
+
+* Updated SortableJS from 1.15.3 to 1.15.6
+* Added translations for Armenian, Danish, Finnish, Norwegian, Portuguese, Swedish, Turkish
+* Bug fix [#209](https://github.com/odebroqueville/contextSearch/issues/209)
+
+6.0.5
+---------
 
 * Removed unwarranted 'Download Video' option from action menu
 * Bug fix [#205](https://github.com/odebroqueville/contextSearch/issues/205)
