@@ -989,7 +989,6 @@ async function editFavicon(e) {
 
     updatePopupStyles(popup, darkMode);
 }
-
 function createFolderItem(id) {
     const name = searchEngines[id]['name'];
     const keyword = searchEngines[id]['keyword'];
@@ -1496,19 +1495,32 @@ function readFolder(lineItem, i) {
         base64: base64String
     }
 
-    // Add children of folder
-    lineItem.querySelectorAll('div').forEach(item => {
-        folder.children.push(item.id);
-    });
+    // Find the container holding the children (assuming it's the last div)
+    const childrenContainer = lineItem.querySelector('div:last-child');
+    if (childrenContainer) {
+        // Add children of folder - only direct children with non-empty IDs
+        Array.from(childrenContainer.children).forEach(item => {
+            if (item.id) { // Ensure the item has an ID
+                folder.children.push(item.id);
+            }
+        });
 
-    searchEngines[lineItem.id] = folder;
+        searchEngines[lineItem.id] = folder;
 
-    let j = 0;
-    // Read all search engines and folders that are children of lineItem
-    lineItem.querySelectorAll('div').forEach(item => {
-        readLineItem(item, j);
-        j++;
-    });
+        let j = 0;
+        // Read all search engines and folders that are children of lineItem
+        Array.from(childrenContainer.children).forEach(item => {
+            // Only process items that are actual search engines/folders (have an ID)
+            if (item.id) {
+                readLineItem(item, j);
+                j++;
+            }
+        });
+    } else {
+        // Handle case where folder structure might be different or empty
+        searchEngines[lineItem.id] = folder;
+        console.warn(`Could not find children container for folder: ${lineItem.id}`);
+    }
 }
 
 function readLineItem(lineItem, i) {
@@ -1837,7 +1849,8 @@ async function handleFileUpload() {
 }
 
 async function sendOptionUpdate(updateType, data) {
-    await sendMessage('updateOptions', { updateType, data });
+    const response = await sendMessage('updateOptions', { updateType, data });
+    return response;
 }
 
 async function updateSearchOptions() {
@@ -1924,7 +1937,12 @@ async function updateResetOptions() {
         resetPreferences: resetPreferences.checked,
         forceFaviconsReload: forceFaviconsReload.checked
     };
-    await sendOptionUpdate('resetOptions', { resetOptions });
+    const response = await sendOptionUpdate('resetOptions', { resetOptions });
+    if (response.success) {
+        displaySearchEngines();
+    } else {
+        console.error('Failed to reset options:', response.error);
+    }
 }
 
 // Ensure the ID generated is unique

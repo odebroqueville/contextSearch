@@ -324,8 +324,12 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             });
             return true; // Indicate async response
         case "updateOptions":
-            handleOptionsUpdate(data.updateType, data.data);
-            break;
+            handleOptionsUpdate(data.updateType, data.data).then(() => {
+                sendResponse({ success: true });
+            }).catch(error => {
+                sendResponse({ success: false, error: error.message });
+            });
+            return true; // Indicate async response
         case "saveSearchEnginesToDisk":
             handleSaveSearchEnginesToDisk(data);
             break;
@@ -1098,11 +1102,10 @@ async function initSearchEngines(flagSaveSearchEngines) {
     // If the contents of searchEngines have changed, save search engines to local storage
     if (flagSaveSearchEngines) {
         await saveSearchEnginesToLocalStorage();
-
-        // Rebuild context menu
-        await buildContextMenu();
     }
 
+    // Always rebuild context menu after successful initialization
+    await buildContextMenu();
 }
 
 function addRootFolderToSearchEngines() {
@@ -1744,6 +1747,14 @@ async function buildActionButtonMenus() {
         bookmarkMenuItem.icons = { "16": "/icons/bookmark-grey-icon.svg" };
     }
 
+    // Remove the existing menu item first to prevent duplicate ID errors
+    try {
+        await contextMenus.remove("bookmark-page");
+    } catch (e) {
+        // Ignore error if the item doesn't exist (e.g., first run)
+        if (logToConsole) console.debug("Could not remove bookmark-page menu item:", e.message);
+    }
+
     await new Promise((resolve) => {
         contextMenus.create(bookmarkMenuItem, resolve);
     });
@@ -1757,6 +1768,14 @@ async function buildActionButtonMenus() {
 
     if (isFirefox) {
         searchEngineMenuItem.icons = { "16": "/icons/search-icon.png" };
+    }
+
+    // Remove the existing menu item first to prevent duplicate ID errors
+    try {
+        await contextMenus.remove("add-search-engine");
+    } catch (e) {
+        // Ignore error if the item doesn't exist (e.g., first run)
+        if (logToConsole) console.debug("Could not remove add-search-engine menu item:", e.message);
     }
 
     await new Promise((resolve) => {
@@ -1782,10 +1801,7 @@ async function processSearch(info, tab) {
 
     // If search engines are set to be opened after the last tab, then adjust the tabIndex
     if (options.multiMode === "multiAfterLastTab" || (options.tabMode === "openNewTab" && options.lastTab)) {
-        // Get current window info to find the number of tabs
-        if (currentWindow && currentWindow.tabs) {
-            tabIndex = currentWindow.tabs.length;
-        }
+        tabIndex = currentWindow.tabs.length;
     }
     if (logToConsole) console.log(tabIndex);
 
@@ -2048,7 +2064,7 @@ async function setTargetUrl(id, aiEngine = "") {
         return bingUrl;
     }
     if (id === "site-search" ||
-        (id.startsWith("link-") && !searchEngines[id].url.startsWith("javascript:"))
+        (id.startsWith("link-") && !searchEngines[id].url.startsWith('javascript:'))
     ) {
         let quote = "";
         if (options.exactMatch) quote = "%22";
@@ -2722,6 +2738,8 @@ async function sendMessageToTab(tab, message) {
             // Optionally, log the ignored error as info/warn for debugging, but less prominently
             console.info(`Attempted to send message to tab ${tabId} (${tab.title}) but receiving end did not exist. Message:`, message);
         }
+        // Still return a consistent failure indicator
+        return { success: false, error: errorMessage };
     }
 }
 
@@ -2937,6 +2955,7 @@ async function updateAddonStateForActiveTab() {
                         ? { "16": "/icons/bookmark-red-icon.svg" }
                         : { "16": "/icons/bookmark-grey-icon.svg" };
                 }
+
                 try {
                     await contextMenus.update("bookmark-page", updateProps);
                 } catch (error) {

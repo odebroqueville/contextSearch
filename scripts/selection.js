@@ -51,11 +51,13 @@ console.log(`Document ready state: ${document.readyState}`);
 
 if (document.readyState === "complete") {
     (async () => {
+        console.log('Document ready state: complete');
         await init();
     })();
 } else {
     document.onreadystatechange = async () => {
         if (document.readyState === "complete") {
+            console.log('Document ready state: complete');
             await init();
         }
     };
@@ -1017,15 +1019,16 @@ async function createIconsGrid(folderId) {
 
     // Add an icon for each search engine and folder
     for (const id of searchEngines[folderId].children) {
-        if (!id.startsWith("separator-") && (searchEngines[id].show || searchEngines[id].isFolder)) {
-            const imageFormat = searchEngines[id].imageFormat || 'image/png';
-            const title = searchEngines[id].name;
+        const searchEngine = searchEngines[id];
+        if (!id.startsWith("separator-") && searchEngine && (searchEngine.show || searchEngine.isFolder)) {
+            const imageFormat = searchEngine.imageFormat || 'image/png';
+            const title = searchEngine.name;
             let src = `data:${imageFormat};base64,`;
-            if (isEmpty(searchEngines[id]) || isEmpty(searchEngines[id].base64)) {
+            if (isEmpty(searchEngine) || isEmpty(searchEngine.base64)) {
                 // Default icon when no favicon could be found
                 src += base64ContextSearchIcon;
             } else {
-                const base64String = searchEngines[id].base64;
+                const base64String = searchEngine.base64;
                 src += base64String;
             }
             icons.push({ id: id, src: src, title: title });
