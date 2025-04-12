@@ -60,5 +60,6 @@ export const DEFAULT_OPTIONS = {
     siteSearchUrl: 'https://www.google.com/search?q=',
     multiMode: 'multiNewWindow',
     privateMode: false,
-    overwriteSearchEngines: false
+    overwriteSearchEngines: false,
+    openInSameContainer: true
 };

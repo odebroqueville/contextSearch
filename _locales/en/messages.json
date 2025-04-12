@@ -359,5 +359,9 @@
     "popupBlockedMessage": {
         "message": "Popup blocked! Please allow popups for this site."
     },
+    "openInSameContainer": {
+        "message": "Open results in the same container context",
+        "description": "Checkbox label in options page to control whether search results open in the same Firefox container as the origin tab."
+    },
     "__WET_LOCALE__": { "message": "en" }
 }

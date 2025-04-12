@@ -73,6 +73,7 @@ const multiActiveTab = document.getElementById('multiActiveTab');
 const multiAfterLastTab = document.getElementById('multiAfterLastTab');
 const multiMode = document.getElementById('multiMode');
 const overwriteSearchEngines = document.getElementById('overwriteSearchEngines');
+const openInSameContainer = document.getElementById('openInSameContainer'); // Add this line
 
 // All search engine buttons
 const btnClearAll = document.getElementById('clearAll');
@@ -124,6 +125,7 @@ tabMode.addEventListener('click', updateTabMode);
 tabActive.addEventListener('click', updateTabMode);
 lastTab.addEventListener('click', updateTabMode);
 privateMode.addEventListener('click', updateTabMode);
+openInSameContainer.addEventListener('click', updateOpenInSameContainer); // Add this line
 optionsMenuLocation.addEventListener('click', updateOptionsMenuLocation);
 searchEngineSiteSearch.addEventListener('change', updateSiteSearchSetting);
 resetPreferences.addEventListener('click', updateResetOptions);
@@ -1866,6 +1868,7 @@ async function updateTabMode() {
     data['tabActive'] = tabActive.checked;
     data['lastTab'] = lastTab.checked;
     data['privateMode'] = privateMode.checked;
+    // Note: openInSameContainer is handled by its own function now
     await sendMessage('updateTabMode', data);
 }
 
@@ -2042,4 +2045,9 @@ function isKeyAllowed(key) {
     ];
 
     return !disallowedKeys.includes(key);
+}
+
+// Add this new function to handle the checkbox click
+async function updateOpenInSameContainer() {
+    await sendMessage('updateOpenInSameContainer', { openInSameContainer: openInSameContainer.checked });
 }
