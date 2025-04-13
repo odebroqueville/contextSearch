@@ -21,7 +21,7 @@
         "message": "gjennom kontekstmenyen eller gjennom søkefeltet ved å skrive:"
     },
     "multisearchEndOfSentence": {
-        "message": "followed by your search terms."
+        "message": "etterfulgt av søkeordene dine."
     },
     "pageTitle": {
         "message": "Innstillinger for kontekstsøk"
