@@ -20,6 +20,9 @@
     "multisearchEnd": {
         "message": "μέσω του μενού περιβάλλοντος ή μέσω του omnibox πληκτρολογώντας:"
     },
+    "multisearchEndOfSentence": {
+        "message": "ακολουθούμενη από τους όρους αναζήτησης."
+    },
     "pageTitle": {
         "message": "Προτιμήσεις αναζήτησης περιβάλλοντος"
     },
