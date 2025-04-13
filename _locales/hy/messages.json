@@ -21,7 +21,7 @@
         "message": "համատեքստային մենյուի միջոցով կամ omnibox-ի միջոցով՝ մուտքագրելով."
     },
     "multisearchEndOfSentence": {
-        "message": "followed by your search terms."
+        "message": "Որոնում հետեւում են ձեր որոնման տերմինները:"
     },
     "pageTitle": {
         "message": "Համատեքստի որոնման նախապատվություններ"
