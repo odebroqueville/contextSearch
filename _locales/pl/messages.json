@@ -21,7 +21,7 @@
         "message": "za pomocą menu kontekstowego lub omniboksu, wpisując:"
     },
     "multisearchEndOfSentence": {
-        "message": "followed by your search terms."
+        "message": "a następnie wyszukiwane hasła."
     },
     "pageTitle": {
         "message": "Preferencje wyszukiwania kontekstowego"
