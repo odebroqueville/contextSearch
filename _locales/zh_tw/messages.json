@@ -18,7 +18,10 @@
         "message": "您可以啟動"
     },
     "multisearchEnd": {
-        "message": "通過上下文功能表或地址欄輸入："
+        "message": "through the context menu or through the address bar by typing:"
+    },
+    "multisearchEndOfSentence": {
+        "message": "followed by your search terms."
     },
     "pageTitle": {
         "message": "上下文搜尋偏好設定"
@@ -351,6 +354,6 @@
         "message": "彈出視窗已封鎖！請允許本網站的彈出窗口。"
     },
     "__WET_LOCALE__": {
-        "message": "zh_tw"
+        "message": "en"
     }
 }
