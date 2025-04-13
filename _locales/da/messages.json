@@ -20,6 +20,9 @@
     "multisearchEnd": {
         "message": "via kontekstmenuen eller via omniboksen ved at skrive:"
     },
+    "multisearchEndOfSentence": {
+        "message": "followed by your search terms."
+    },
     "pageTitle": {
         "message": "Indstillinger for kontekstsøgning"
     },
