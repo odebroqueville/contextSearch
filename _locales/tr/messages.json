@@ -20,6 +20,9 @@
     "multisearchEnd": {
         "message": "bağlam menüsünden veya omnibox üzerinden yazarak:"
     },
+    "multisearchEndOfSentence": {
+        "message": "ardından arama terimlerinizi yazın."
+    },
     "pageTitle": {
         "message": "Bağlam Arama Tercihleri"
     },

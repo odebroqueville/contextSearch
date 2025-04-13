@@ -20,6 +20,9 @@
     "multisearchEnd": {
         "message": "通過上下文功能表或地址欄輸入："
     },
+    "multisearchEndOfSentence": {
+        "message": "接著是您的搜尋字串。"
+    },
     "pageTitle": {
         "message": "上下文搜尋偏好設定"
     },

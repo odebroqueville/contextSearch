@@ -20,6 +20,9 @@
     "multisearchEnd": {
         "message": "次のように入力して、コンテキストメニューまたはアドレスバーから："
     },
+    "multisearchEndOfSentence": {
+        "message": "の後に検索語を続ける。"
+    },
     "pageTitle": {
         "message": "コンテキスト検索設定"
     },

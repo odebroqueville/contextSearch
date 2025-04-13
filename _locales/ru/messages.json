@@ -20,6 +20,9 @@
     "multisearchEnd": {
         "message": "через контекстное меню или через омнибокс, набрав:"
     },
+    "multisearchEndOfSentence": {
+        "message": "Затем следуют ваши поисковые запросы."
+    },
     "pageTitle": {
         "message": "Настройки Context Search"
     },

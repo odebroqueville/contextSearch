@@ -20,6 +20,9 @@
     "multisearchEnd": {
         "message": "via snabbmenyn eller via omniboxen genom att skriva:"
     },
+    "multisearchEndOfSentence": {
+        "message": "följt av dina sökord."
+    },
     "pageTitle": {
         "message": "Inställningar för kontextsökning"
     },

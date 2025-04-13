@@ -20,6 +20,9 @@
     "multisearchEnd": {
         "message": "kontekstivalikon kautta tai omniboxin kautta kirjoittamalla:"
     },
+    "multisearchEndOfSentence": {
+        "message": "ja sen jälkeen hakusanat."
+    },
     "pageTitle": {
         "message": "Kontekstihakuasetukset"
     },

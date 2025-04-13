@@ -20,6 +20,9 @@
     "multisearchEnd": {
         "message": "depuis le menu contextuel ou depuis la barre d'adresse en tapant :"
     },
+    "multisearchEndOfSentence": {
+        "message": "suivi de vos termes de recherche."
+    },
     "pageTitle": {
         "message": "Préférences de Context Search"
     },
