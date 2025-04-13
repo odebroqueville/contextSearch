@@ -18,7 +18,10 @@
         "message": "您可以启动"
     },
     "multisearchEnd": {
-        "message": "通过上下文功能表或地址栏输入："
+        "message": "through the context menu or through the address bar by typing:"
+    },
+    "multisearchEndOfSentence": {
+        "message": "followed by your search terms."
     },
     "pageTitle": {
         "message": "上下文搜索首选项"
@@ -351,6 +354,6 @@
         "message": "弹出窗口已阻止！请允许弹出窗口访问本网站。"
     },
     "__WET_LOCALE__": {
-        "message": "zh_cn"
+        "message": "EN"
     }
 }
