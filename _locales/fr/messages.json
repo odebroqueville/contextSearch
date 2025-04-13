@@ -20,6 +20,9 @@
     "multisearchEnd": {
         "message": "depuis le menu contextuel ou depuis la barre d'adresse en tapant :"
     },
+    "multisearchEndOfSentence": {
+        "message": "followed by your search terms."
+    },
     "pageTitle": {
         "message": "Préférences de Context Search"
     },
@@ -45,7 +48,7 @@
         "message": "Position des options dans le menu contextuel"
     },
     "subheader31": {
-        "message": "Où souhaitez-vous que les options apparaissent dans le menu contextuel ?"
+        "message": "Où souhaitez-vous que les options apparaisse dans le menu contextuel ?"
     },
     "bottom": {
         "message": "Au bas du menu contextuel"
