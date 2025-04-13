@@ -20,6 +20,9 @@
     "multisearchEnd": {
         "message": "از طریق منوی زمینه یا از طریق omnibox با تایپ کردن:"
     },
+    "multisearchEndOfSentence": {
+        "message": "followed by your search terms."
+    },
     "pageTitle": {
         "message": "تنظیمات برگزیده جستجوی زمینه"
     },
