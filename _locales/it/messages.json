@@ -20,6 +20,9 @@
     "multisearchEnd": {
         "message": "tramite il menu di scelta rapida o la omnibox digitando:"
     },
+    "multisearchEndOfSentence": {
+        "message": "seguito dai termini di ricerca."
+    },
     "pageTitle": {
         "message": "Preferenze per Context Search"
     },
