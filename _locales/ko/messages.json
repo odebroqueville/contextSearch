@@ -20,6 +20,9 @@
     "multisearchEnd": {
         "message": "컨텍스트 메뉴 또는 검색 주소창을 통해 입력:"
     },
+    "multisearchEndOfSentence": {
+        "message": "followed by your search terms."
+    },
     "pageTitle": {
         "message": "컨텍스트 검색 환경 설정"
     },
