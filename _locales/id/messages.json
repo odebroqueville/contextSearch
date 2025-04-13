@@ -20,6 +20,9 @@
     "multisearchEnd": {
         "message": "melalui menu konteks atau melalui omnibox dengan mengetik:"
     },
+    "multisearchEndOfSentence": {
+        "message": "followed by your search terms."
+    },
     "pageTitle": {
         "message": "Preferensi Pencarian Konteks"
     },
