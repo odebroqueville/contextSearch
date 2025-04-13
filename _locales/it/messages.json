@@ -21,7 +21,7 @@
         "message": "tramite il menu di scelta rapida o la omnibox digitando:"
     },
     "multisearchEndOfSentence": {
-        "message": "followed by your search terms."
+        "message": "seguito dai termini di ricerca."
     },
     "pageTitle": {
         "message": "Preferenze per Context Search"
