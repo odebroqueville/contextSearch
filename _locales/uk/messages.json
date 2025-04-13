@@ -21,7 +21,7 @@
         "message": "через контекстне меню або через універсальне меню, ввівши:"
     },
     "multisearchEndOfSentence": {
-        "message": "followed by your search terms."
+        "message": "а потім введіть пошукові запити."
     },
     "pageTitle": {
         "message": "Налаштування Context Search"
