@@ -165,6 +165,9 @@ async function init() {
         await checkForDownloadsPermission();
         if (logToConsole) console.log('Downloads permission checked');
 
+        // Initialize translations
+        i18n();
+
         if (logToConsole) console.log('Initialization complete.');
     } catch (error) {
         console.error('Error during initialization:', error);
@@ -1181,11 +1184,15 @@ async function removeSearchEngine(e) {
     let parentId;
     if (pn.id === 'searchEngines') {
         parentId = 'root';
-    } else if (pn.dataset.id) {
-        parentId = pn.dataset.id;
     } else {
-        console.error("Could not determine parent ID for item:", id, pn);
-        return; // Cannot proceed without parent ID
+        // The immediate parent might be 'folder-children', find the actual folder element
+        const folderElement = findClosestFolder(pn);
+        if (folderElement && folderElement.dataset.id) {
+            parentId = folderElement.dataset.id;
+        } else {
+            console.error("Could not determine parent ID for item:", id, pn, folderElement);
+            return; // Cannot proceed without parent ID
+        }
     }
 
     if (logToConsole) console.log(`Attempting to remove: id=${id}, parentId=${parentId}`, lineItem, pn);
@@ -1994,13 +2001,27 @@ function i18n() {
     translateContent('data-i18n-title', 'title');
 }
 
+// Translate content based on data attributes
 function translateContent(attribute, type) {
     let i18nElements = document.querySelectorAll('[' + attribute + ']');
 
+    if (logToConsole) console.log(`Translating ${i18nElements.length} elements`);
+    if (logToConsole) console.log('Translating:', i18nElements);
+
     i18nElements.forEach(i => {
+        const i18n_attrib = i.getAttribute(attribute); // Get key before try block
         try {
-            const i18n_attrib = i.getAttribute(attribute);
-            const message = browser.i18n.getMessage(i18n_attrib);
+            const message = browser.i18n.getMessage(i18n_attrib); // Call getMessage
+
+            if (logToConsole) console.log(`Translating key: "${i18n_attrib}" used by element:`, i, 'Message:', message);
+
+            // Check if the message is empty or same as the key (indicates missing translation)
+            if (!message || message === i18n_attrib) {
+                if (logToConsole) console.warn(`Translation missing for key: "${i18n_attrib}" used by element:`, i);
+                // Optionally, leave the original text/placeholder/title instead of setting empty string
+                return; // Skip applying the empty/missing translation
+            }
+
             switch (type) {
                 case 'textContent':
                     i.textContent = message;
@@ -2014,8 +2035,8 @@ function translateContent(attribute, type) {
                 default:
                     break;
             }
-        } catch (ex) {
-            if (logToConsole) console.error(`Translation for ${i18nElements[i]} could not be found`);
+        } catch (ex) { // Catch errors during getMessage itself
+            if (logToConsole) console.error(`Error getting translation for key "${i18n_attrib}":`, ex, "Element:", i);
         }
     });
 }

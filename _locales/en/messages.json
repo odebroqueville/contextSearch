@@ -20,6 +20,9 @@
     "multisearchEnd": {
         "message": "through the context menu or through the omnibox by typing:"
     },
+    "multisearchEndOfSentence": {
+        "message": "followed by your search terms."
+    },
     "pageTitle": {
         "message": "Context Search Preferences"
     },

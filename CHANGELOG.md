@@ -1,6 +1,13 @@
-6.0.6
+6.0.7
 =========
 
+* Bug fix: removal of nested search engines was broken
+* Added a missing translation for the 'multisearchEndOfSentence' key
+
+6.0.6
+---------
+
+* Improved adding of folders or search engines in the Options page
 * Updated SortableJS from 1.15.3 to 1.15.6
 * Added translations for Armenian, Danish, Finnish, Norwegian, Portuguese, Swedish, Turkish
 * Bug fix [#209](https://github.com/odebroqueville/contextSearch/issues/209)
