@@ -20,6 +20,9 @@
     "multisearchEnd": {
         "message": "via het contextmenu of via de omnibox door te typen:"
     },
+    "multisearchEndOfSentence": {
+        "message": "gevolgd door uw zoektermen."
+    },
     "pageTitle": {
         "message": "Voorkeuren van Context Search"
     },
