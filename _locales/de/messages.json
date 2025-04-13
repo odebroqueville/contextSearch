@@ -21,7 +21,7 @@
         "message": "über das Kontextmenü oder über die Omnibox durch Eingabe von:"
     },
     "multisearchEndOfSentence": {
-        "message": "followed by your search terms."
+        "message": "gefolgt von Ihren Suchbegriffen."
     },
     "pageTitle": {
         "message": "Context Search: Einstellungen"
