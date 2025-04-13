@@ -20,6 +20,9 @@
     "multisearchEnd": {
         "message": "í gegnum samhengisvalmyndina (hægri smella) eða í gegnum leitarreitinn með því að skrifa:"
     },
+    "multisearchEndOfSentence": {
+        "message": "followed by your search terms."
+    },
     "pageTitle": {
         "message": "Kjörstillingar samhengisleitar"
     },
