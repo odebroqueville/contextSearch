@@ -342,13 +342,13 @@
         "message": "Skrifaðu yfir núverandi leitarvélar með innfluttu leitarvélunum"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Ertu viss um að þú viljir fjarlægja möppuna "
+        "message": "Ertu viss um að þú viljir fjarlægja möppuna"
     },
     "removeFolderConfirmSuffix": {
-        "message": " og allt innihald þess?"
+        "message": "og allt innihald þess"
     },
     "removeSearchEngineConfirm": {
-        "message": "Ertu viss um að þú viljir fjarlægja leitarvélina "
+        "message": "Ertu viss um að þú viljir fjarlægja leitarvélina"
     },
     "popupBlockedMessage": {
         "message": "Sprettigluggi lokaður! Vinsamlegast leyfðu sprettiglugga fyrir þessa síðu."

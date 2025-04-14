@@ -342,13 +342,13 @@
         "message": "Menimpa mesin pencari yang ada dengan mesin pencari yang diimpor"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Apakah Anda yakin ingin menghapus folder tersebut "
+        "message": "Apakah Anda yakin ingin menghapus folder tersebut"
     },
     "removeFolderConfirmSuffix": {
-        "message": " dan semua isinya?"
+        "message": "dan semua isinya"
     },
     "removeSearchEngineConfirm": {
-        "message": "Apakah Anda yakin ingin menghapus mesin pencari "
+        "message": "Apakah Anda yakin ingin menghapus mesin pencari"
     },
     "popupBlockedMessage": {
         "message": "Popup diblokir! Izinkan popup untuk situs ini."

@@ -342,13 +342,13 @@
         "message": "使用匯入的搜尋引擎覆寫現有的搜尋引擎"
     },
     "removeFolderConfirmPrefix": {
-        "message": "您確定要移除資料夾 "
+        "message": "您確定要移除資料夾"
     },
     "removeFolderConfirmSuffix": {
-        "message": " 及其所有內容？"
+        "message": "及其所有內容？"
     },
     "removeSearchEngineConfirm": {
-        "message": "您確定要移除搜尋引擎嗎？ "
+        "message": "您確定要移除搜尋引擎嗎"
     },
     "popupBlockedMessage": {
         "message": "彈出視窗已封鎖！請允許本網站的彈出窗口。"

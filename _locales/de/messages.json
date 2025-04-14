@@ -342,13 +342,13 @@
         "message": "Überschreiben Sie die vorhandenen Suchmaschinen mit den importierten Suchmaschinen"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Sind Sie sicher, dass Sie den Ordner entfernen möchten "
+        "message": "Sind Sie sicher, dass Sie den Ordner entfernen möchten"
     },
     "removeFolderConfirmSuffix": {
-        "message": " und alle seine Inhalte?"
+        "message": "und alle seine Inhalte"
     },
     "removeSearchEngineConfirm": {
-        "message": "Sind Sie sicher, dass Sie die Suchmaschine entfernen möchten? "
+        "message": "Sind Sie sicher, dass Sie die Suchmaschine entfernen möchten"
     },
     "popupBlockedMessage": {
         "message": "Popup blockiert! Bitte erlauben Sie Popups für diese Seite."

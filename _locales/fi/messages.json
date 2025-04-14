@@ -342,13 +342,13 @@
         "message": "Korvaa olemassa olevat hakukoneet tuoduilla hakukoneilla."
     },
     "removeFolderConfirmPrefix": {
-        "message": "Oletko varma, että haluat poistaa kansion "
+        "message": "Oletko varma, että haluat poistaa kansion"
     },
     "removeFolderConfirmSuffix": {
-        "message": " ja sen koko sisältö?"
+        "message": "ja sen koko sisältö?"
     },
     "removeSearchEngineConfirm": {
-        "message": "Haluatko varmasti poistaa hakukoneen? "
+        "message": "Haluatko varmasti poistaa hakukoneen"
     },
     "popupBlockedMessage": {
         "message": "Ponnahdusikkuna estetty! Salli ponnahdusikkunat tälle sivustolle."

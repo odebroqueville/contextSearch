@@ -342,13 +342,13 @@
         "message": "用导入的搜索引擎覆盖现有搜索引擎"
     },
     "removeFolderConfirmPrefix": {
-        "message": "您确定要删除文件夹 "
+        "message": "您确定要删除文件夹"
     },
     "removeFolderConfirmSuffix": {
-        "message": " 及其所有内容？"
+        "message": "及其所有内容？"
     },
     "removeSearchEngineConfirm": {
-        "message": "您确定要移除搜索引擎吗？ "
+        "message": "您确定要移除搜索引擎吗"
     },
     "popupBlockedMessage": {
         "message": "弹出窗口已阻止！请允许弹出窗口访问本网站。"

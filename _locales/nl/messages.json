@@ -342,13 +342,13 @@
         "message": "Overschrijf de bestaande zoekmachines met de geïmporteerde zoekmachines"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Weet je zeker dat je de map "
+        "message": "Weet je zeker dat je de map"
     },
     "removeFolderConfirmSuffix": {
-        "message": " en al zijn inhoud?"
+        "message": "en al zijn inhoud?"
     },
     "removeSearchEngineConfirm": {
-        "message": "Weet je zeker dat je de zoekmachine wilt verwijderen "
+        "message": "Weet je zeker dat je de zoekmachine wilt verwijderen"
     },
     "popupBlockedMessage": {
         "message": "Pop-up geblokkeerd! Sta pop-ups toe voor deze site."

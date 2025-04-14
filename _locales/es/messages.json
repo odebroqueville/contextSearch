@@ -342,13 +342,13 @@
         "message": "Sobrescribir los motores de búsqueda existentes con los motores de búsqueda importados"
     },
     "removeFolderConfirmPrefix": {
-        "message": "¿Está seguro de que desea eliminar la carpeta "
+        "message": "Está seguro de que desea eliminar la carpeta"
     },
     "removeFolderConfirmSuffix": {
-        "message": " y todo su contenido?"
+        "message": "y todo su contenido"
     },
     "removeSearchEngineConfirm": {
-        "message": "¿Está seguro de que desea eliminar el motor de búsqueda "
+        "message": "Está seguro de que desea eliminar el motor de búsqueda"
     },
     "popupBlockedMessage": {
         "message": "¡Popup bloqueado! Por favor, permita las ventanas emergentes para este sitio."

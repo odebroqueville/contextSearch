@@ -342,13 +342,13 @@
         "message": "Sovrascrivi i motori di ricerca esistenti con i motori di ricerca importati"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Si è sicuri di voler rimuovere la cartella "
+        "message": "Si è sicuri di voler rimuovere la cartella"
     },
     "removeFolderConfirmSuffix": {
-        "message": " e tutti i suoi contenuti?"
+        "message": "e tutti i suoi contenuti"
     },
     "removeSearchEngineConfirm": {
-        "message": "Siete sicuri di voler rimuovere il motore di ricerca? "
+        "message": "Siete sicuri di voler rimuovere il motore di ricerca"
     },
     "popupBlockedMessage": {
         "message": "Popup bloccato! Consentire i popup per questo sito."

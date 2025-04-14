@@ -342,13 +342,13 @@
         "message": "Mevcut arama motorlarının üzerine içe aktarılan arama motorlarını yazın"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Klasörü kaldırmak istediğinizden emin misiniz "
+        "message": "Klasörü kaldırmak istediğinizden emin misiniz"
     },
     "removeFolderConfirmSuffix": {
-        "message": " ve tüm içeriği?"
+        "message": "ve tüm içeriği"
     },
     "removeSearchEngineConfirm": {
-        "message": "Arama motorunu kaldırmak istediğinizden emin misiniz? "
+        "message": "Arama motorunu kaldırmak istediğinizden emin misiniz?"
     },
     "popupBlockedMessage": {
         "message": "Açılır pencere engellendi! Lütfen bu site için açılır pencerelere izin verin."
