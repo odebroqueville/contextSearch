@@ -342,13 +342,13 @@
         "message": "Overskriv de eksisterende søgemaskiner med de importerede søgemaskiner"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Er du sikker på, at du vil fjerne mappen "
+        "message": "Er du sikker på, at du vil fjerne mappen"
     },
     "removeFolderConfirmSuffix": {
-        "message": " og alt dets indhold?"
+        "message": "og alt dets indhold?"
     },
     "removeSearchEngineConfirm": {
-        "message": "Er du sikker på, at du vil fjerne søgemaskinen? "
+        "message": "Er du sikker på, at du vil fjerne søgemaskinen"
     },
     "popupBlockedMessage": {
         "message": "Popup blokeret! Tillad venligst pop op-vinduer på dette websted."
