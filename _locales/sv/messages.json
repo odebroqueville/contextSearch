@@ -342,13 +342,13 @@
         "message": "Skriv över de befintliga sökmotorerna med de importerade sökmotorerna"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Är du säker på att du vill ta bort mappen "
+        "message": "Är du säker på att du vill ta bort mappen"
     },
     "removeFolderConfirmSuffix": {
-        "message": " och allt dess innehåll?"
+        "message": "och allt dess innehåll"
     },
     "removeSearchEngineConfirm": {
-        "message": "Är du säker på att du vill ta bort sökmotorn "
+        "message": "Är du säker på att du vill ta bort sökmotorn"
     },
     "popupBlockedMessage": {
         "message": "Popup blockerad! Vänligen tillåt popup-fönster för denna webbplats."
