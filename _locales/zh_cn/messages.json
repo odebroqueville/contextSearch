@@ -18,7 +18,7 @@
         "message": "您可以启动"
     },
     "multisearchEnd": {
-        "message": "通过上下文功能表或地址栏输入："
+        "message": ""
     },
     "multisearchEndOfSentence": {
         "message": "然后是您的搜索条件。"
@@ -354,6 +354,6 @@
         "message": "弹出窗口已阻止！请允许弹出窗口访问本网站。"
     },
     "__WET_LOCALE__": {
-        "message": "zh_cn"
+        "message": "EN"
     }
 }
