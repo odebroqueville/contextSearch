@@ -342,13 +342,13 @@
         "message": "기존 검색엔진을 가져온 검색엔진으로 덮어쓰기"
     },
     "removeFolderConfirmPrefix": {
-        "message": "폴더를 제거하시겠습니까? "
+        "message": "폴더를 제거하시겠습니까"
     },
     "removeFolderConfirmSuffix": {
-        "message": " 그리고 그 모든 콘텐츠?"
+        "message": "그리고 그 모든 콘텐츠"
     },
     "removeSearchEngineConfirm": {
-        "message": "검색 엔진을 제거하시겠습니까? "
+        "message": "검색 엔진을 제거하시겠습니까"
     },
     "popupBlockedMessage": {
         "message": "팝업이 차단되었습니다! 이 사이트의 팝업을 허용해 주세요."
