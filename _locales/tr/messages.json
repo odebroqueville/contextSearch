@@ -18,7 +18,7 @@
         "message": "Bir"
     },
     "multisearchEnd": {
-        "message": "bağlam menüsünden veya omnibox üzerinden yazarak:"
+        "message": "Bağlam menüsünden veya adres çubuğundan şunu yazarak:"
     },
     "multisearchEndOfSentence": {
         "message": "ardından arama terimlerinizi yazın."

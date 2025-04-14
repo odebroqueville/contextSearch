@@ -18,7 +18,7 @@
         "message": "起動できます"
     },
     "multisearchEnd": {
-        "message": "次のように入力して、コンテキストメニューまたはアドレスバーから："
+        "message": "コンテキストメニューから、またはアドレスバーから次のように入力します。"
     },
     "multisearchEndOfSentence": {
         "message": "の後に検索語を続ける。"

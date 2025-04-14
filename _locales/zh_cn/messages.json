@@ -18,7 +18,7 @@
         "message": "您可以启动"
     },
     "multisearchEnd": {
-        "message": "通过上下文功能表或地址栏输入："
+        "message": "或从地址栏中键入："
     },
     "multisearchEndOfSentence": {
         "message": "然后是您的搜索条件。"

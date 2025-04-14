@@ -18,7 +18,7 @@
         "message": "您可以啟動"
     },
     "multisearchEnd": {
-        "message": "通過上下文功能表或地址欄輸入："
+        "message": "從上下文功能表或從位址列輸入："
     },
     "multisearchEndOfSentence": {
         "message": "接著是您的搜尋字串。"

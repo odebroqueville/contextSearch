@@ -18,7 +18,7 @@
         "message": "É possível lançar um"
     },
     "multisearchEnd": {
-        "message": "através do menu de contexto ou através da omnibox, digitando:"
+        "message": "No menu de contexto ou na barra de endereço, digitando:"
     },
     "multisearchEndOfSentence": {
         "message": "seguido dos seus termos de pesquisa."

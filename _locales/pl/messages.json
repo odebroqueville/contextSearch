@@ -18,7 +18,7 @@
         "message": "Możesz uruchomić"
     },
     "multisearchEnd": {
-        "message": "za pomocą menu kontekstowego lub omniboksu, wpisując:"
+        "message": "z menu kontekstowego lub z paska adresu, wpisując:"
     },
     "multisearchEndOfSentence": {
         "message": "a następnie wyszukiwane hasła."

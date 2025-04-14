@@ -18,7 +18,7 @@
         "message": "Du kan starta en"
     },
     "multisearchEnd": {
-        "message": "via snabbmenyn eller via omniboxen genom att skriva:"
+        "message": "från snabbmenyn eller från adressfältet genom att skriva:"
     },
     "multisearchEndOfSentence": {
         "message": "följt av dina sökord."
