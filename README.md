@@ -298,7 +298,9 @@ It is not required to provide the base 64 string representation of any search en
 <li>Sveinn í Felli for the Icelandic translation</li>
 </ul>
 
+Other translations were completed using [DeepL](https://www.deepl.com/translator), Microsoft Translator and Google Translate in [Crowdin](https://crowdin.com).
+
 ## Code made by others used in this extension
 
 - Webextension-polyfill v0.12.0 minified with many contributors, which can be found on GitHub here: https://github.com/mozilla/webextension-polyfill
-- SortableJS v1.15.3 minified with many contributors, which can be found on GitHub here: https://github.com/SortableJS/Sortable/blob/1.15.3/Sortable.min.js
+- SortableJS v1.15.6 minified with many contributors, which can be found on GitHub here: https://github.com/SortableJS/Sortable/blob/1.15.6/Sortable.min.js
