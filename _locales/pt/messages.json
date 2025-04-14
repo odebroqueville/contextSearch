@@ -342,13 +342,13 @@
         "message": "Substituir os motores de busca existentes pelos motores de busca importados"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Tem a certeza de que pretende remover a pasta "
+        "message": "Tem a certeza de que pretende remover a pasta"
     },
     "removeFolderConfirmSuffix": {
-        "message": " e todo o seu conteúdo?"
+        "message": "e todo o seu conteúdo"
     },
     "removeSearchEngineConfirm": {
-        "message": "Tem a certeza de que pretende remover o motor de busca "
+        "message": "Tem a certeza de que pretende remover o motor de busca"
     },
     "popupBlockedMessage": {
         "message": "Popup bloqueado! Permitir popups para este sítio."
