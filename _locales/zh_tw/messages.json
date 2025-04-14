@@ -18,7 +18,7 @@
         "message": "您可以啟動"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the address bar by typing:"
+        "message": "從上下文功能表或從位址列輸入："
     },
     "multisearchEndOfSentence": {
         "message": "接著是您的搜尋字串。"
