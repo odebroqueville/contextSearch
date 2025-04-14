@@ -342,13 +342,13 @@
         "message": "استبدال محركات البحث الموجودة بمحركات البحث المستوردة"
     },
     "removeFolderConfirmPrefix": {
-        "message": "هل أنت متأكد من رغبتك في إزالة المجلد "
+        "message": "هل أنت متأكد من رغبتك في إزالة المجلد"
     },
     "removeFolderConfirmSuffix": {
-        "message": " وكل محتوياته؟"
+        "message": "وكل محتوياته"
     },
     "removeSearchEngineConfirm": {
-        "message": "هل أنت متأكد من رغبتك في إزالة محرك البحث "
+        "message": "هل أنت متأكد من رغبتك في إزالة محرك البح"
     },
     "popupBlockedMessage": {
         "message": "تم حظر النوافذ المنبثقة! الرجاء السماح بالنوافذ المنبثقة لهذا الموقع."
