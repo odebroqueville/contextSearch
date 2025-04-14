@@ -342,13 +342,13 @@
         "message": "Nadpisz istniejące wyszukiwarki zaimportowanymi wyszukiwarkami"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Czy na pewno chcesz usunąć folder "
+        "message": "Czy na pewno chcesz usunąć folder"
     },
     "removeFolderConfirmSuffix": {
-        "message": " i całą jego zawartość?"
+        "message": "i całą jego zawartość"
     },
     "removeSearchEngineConfirm": {
-        "message": "Czy na pewno chcesz usunąć wyszukiwarkę? "
+        "message": "Czy na pewno chcesz usunąć wyszukiwarkę"
     },
     "popupBlockedMessage": {
         "message": "Wyskakujące okienko zablokowane! Zezwól na wyświetlanie wyskakujących okienek dla tej witryny."
