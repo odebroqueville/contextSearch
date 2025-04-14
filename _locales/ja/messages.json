@@ -342,13 +342,13 @@
         "message": "既存の検索エンジンをインポートした検索エンジンで上書きする"
     },
     "removeFolderConfirmPrefix": {
-        "message": "フォルダを削除してもよろしいですか？ "
+        "message": "フォルダを削除してもよろしいですか"
     },
     "removeFolderConfirmSuffix": {
-        "message": " そしてその中身はすべて？"
+        "message": "そしてその中身はすべて"
     },
     "removeSearchEngineConfirm": {
-        "message": "本当に検索エンジンを削除しますか？ "
+        "message": "本当に検索エンジンを削除しますか"
     },
     "popupBlockedMessage": {
         "message": "ポップアップがブロックされました！このサイトのポップアップを許可してください。"
