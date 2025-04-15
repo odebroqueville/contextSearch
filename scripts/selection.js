@@ -857,47 +857,12 @@ async function handleMouseOver(e) {
     if (tag === 'IMG' || (tag === 'DIV' && [...elementOver.classList].includes('iris-annotation-layer'))) {
         if (logToConsole) console.log(e);
         if (elementOver.parentId === 'context-search-icon-grid') return;
-        if (domain.includes('youtube.com') || domain.includes('youtu.be') || domain.includes('youtube-nocookie.com') || domain.includes('vimeo.com')) {
-            // Get the video url
-            const videoUrl = absoluteUrl(getClosestAnchorHref(elementOver));
-            //const videoId = new URL(videoUrl).searchParams.get('v');
-            //const downloadUrl = ytDownloadUrl + videoId;
-            await sendMessage('storeTargetUrl', videoUrl);
-            if (logToConsole) console.log(`Video url: ${videoUrl}`);
-        } else {
-            // Get the image url
-            const imgUrl = absoluteUrl(elementOver.getAttribute('src'));
-            await sendMessage('storeTargetUrl', imgUrl);
-            if (logToConsole) console.log(`Image url: ${imgUrl}`);
-        }
+        // Get the image url
+        const imgUrl = absoluteUrl(elementOver.getAttribute('src'));
+        await sendMessage('storeTargetUrl', imgUrl);
+        if (logToConsole) console.log(`Image url: ${imgUrl}`);
     }
 }
-
-/* async function handleRightClickWithoutGrid(e) {
-    if (logToConsole) console.log(e);
-
-    const elementClicked = e.target;
-    const tag = elementClicked.tagName;
-
-    // If right click is NOT on image or a div with class 'iris-annotation-layer' then send the target url
-    if (!(tag === 'IMG' || (tag === 'DIV' && [...elementClicked.classList].includes('iris-annotation-layer')))) {
-        const selectedText = getSelectedText();
-        if (logToConsole) console.log(selectedText);
-
-        // Send the selected text to background.js
-        try {
-            // Send the selected text to background.js
-            await sendMessage('setSelection', { selection: selectedText });
-        } catch (error) {
-            // Just log the error and continue - this is a non-critical operation
-            if (logToConsole) console.warn('Failed to send selection:', error);
-        }
-    } else {
-        if (window.getSelection) {
-            window.getSelection().removeAllRanges();
-        }
-    }
-} */
 
 function getClosestAnchorHref(imgElement) {
     if (!imgElement || imgElement.tagName !== 'IMG') {
@@ -1176,20 +1141,6 @@ function removeBorder(e) {
     if (e.target.tagName === 'IMG') {
         e.target.style.border = '3px solid #ccc';
     }
-}
-
-/// Encode a url
-function encodeUrl(url) {
-    if (isEncoded(url)) {
-        return url;
-    }
-    return encodeURIComponent(url);
-}
-
-/// Verify is uri is encoded
-function isEncoded(uri) {
-    uri = uri || '';
-    return uri !== decodeURIComponent(uri);
 }
 
 async function sendMessage(action, data) {

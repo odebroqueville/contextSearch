@@ -153,12 +153,6 @@ browser.runtime.onStartup.addListener(async () => {
     await buildActionButtonMenus();
 });
 
-// Reset initialization state when service worker is about to be suspended
-browser.runtime.onSuspend.addListener(() => {
-    isInitialized = false;
-    if (logToConsole) console.log('Service worker suspended, resetting initialization state.');
-});
-
 // Listen for changes to the notifications permission
 browser.permissions.onAdded.addListener(async (permissions) => {
     if (permissions.permissions.includes("notifications")) {
@@ -181,12 +175,6 @@ browser.tabs.onUpdated.addListener(debouncedUpdateAddonStateForActiveTab);
 
 // listen to tab switching
 browser.tabs.onActivated.addListener(debouncedUpdateAddonStateForActiveTab);
-
-// Listen for tab moves
-// browser.tabs.onMoved.addListener(debouncedUpdateAddonStateForActiveTab);
-
-// listen for window focus changes
-// browser.windows.onFocusChanged.addListener(debouncedUpdateAddonStateForActiveTab);
 
 // Listen for storage changes
 browser.storage.onChanged.addListener(handleStorageChange);
@@ -563,7 +551,6 @@ async function handleStorageChange(changes, areaName) {
         // Check if target URL was changed
         if (changes.targetUrl) {
             targetUrl = changes.targetUrl.newValue;
-            await updateContextMenus(targetUrl);
         }
     }
 }
@@ -590,7 +577,7 @@ async function isIdUnique(testId) {
 }
 
 // Open popup (modal) for HTTP POST requests
-function handleOpenModal(data) {
+async function handleOpenModal(data) {
     newSearchEngineUrl = data.url;
     formData = data.formData;
     const modalURL = browser.runtime.getURL(
@@ -598,8 +585,17 @@ function handleOpenModal(data) {
     );
     const popupWidth = 400; // Width of the popup window
     const popupHeight = 420; // Height of the popup window
-    const left = Math.floor((window.screen.width - popupWidth) / 2);
-    const top = Math.floor((window.screen.height - popupHeight) / 2);
+    // Get browser info directly
+    const browserInfo = await browser.windows.getCurrent();
+    const browserWidth = browserInfo.width;
+    const browserHeight = browserInfo.height;
+    const browserLeft = browserInfo.left;
+    const browserTop = browserInfo.top;
+
+    // Calculate the position to center the window in the browser with a vertical offset of 200px
+    // Use the obtained browser dimensions and position
+    const left = browserLeft + Math.floor((browserWidth - popupWidth) / 2);
+    const top = browserTop + Math.floor((browserHeight - popupHeight) / 2) - 200;
     browser.windows.create({
         allowScriptsToClose: true,
         type: "popup",
@@ -903,38 +899,6 @@ async function testPrompt() {
     const tabPosition = activeTab.index + 1;
     const windowInfo = await browser.windows.getCurrent();
     await displaySearchResults(id, tabPosition, multisearch, windowInfo.id);
-}
-
-async function updateContextMenus(targetUrl) {
-    const nativeMessagingEnabled = await browser.permissions.contains({
-        permissions: ["nativeMessaging"],
-    });
-    let showVideoDownloadMenu;
-    if (
-        targetUrl.includes("youtube.com") ||
-        targetUrl.includes("youtu.be") ||
-        targetUrl.includes("youtube-nocookie.com") ||
-        targetUrl.includes("vimeo.com")
-    ) {
-        showVideoDownloadMenu = true;
-    } else {
-        showVideoDownloadMenu = false;
-    }
-    await contextMenus.update("cs-download-video", {
-        visible: nativeMessagingEnabled && showVideoDownloadMenu,
-    });
-    await contextMenus.update("cs-reverse-image-search", {
-        visible: !showVideoDownloadMenu,
-    });
-    await contextMenus.update("cs-google-lens", {
-        visible: !showVideoDownloadMenu,
-    });
-    await contextMenus.update("cs-bing-image-search", {
-        visible: !showVideoDownloadMenu,
-    });
-    await contextMenus.update("cs-tineye", {
-        visible: !showVideoDownloadMenu,
-    });
 }
 
 async function handleExecuteAISearch(data) {
@@ -1664,22 +1628,6 @@ async function buildContextMenuForImages() {
     });
 }
 
-// Build the context menu for YouTube video downloads
-async function buildContextMenuForVideoDownload() {
-    await new Promise((resolve) => {
-        contextMenus.create({
-            id: "cs-download-video",
-            title: "Download Video",
-            documentUrlPatterns: [
-                "*://*.youtube.com/*",
-                "*://*.youtu.be/*",
-                "*://*.youtube-nocookie.com/*",
-                "*://*.vimeo.com/*",
-            ],
-            contexts: ["video", "image", "frame", "page"],
-        }, resolve);
-    });
-}
 /// End of functions for building the context menu
 
 // Build the context menu using the search engines from local storage
@@ -1716,7 +1664,6 @@ async function buildContextMenu() {
         }
 
         await buildContextMenuForImages();
-        await buildContextMenuForVideoDownload();
 
         if (options.optionsMenuLocation === "bottom") {
             await buildContextOptionsMenu();
@@ -1818,13 +1765,6 @@ async function processSearch(info, tab) {
     }
     if (id === "add-search-engine") {
         await handlePageAction(tab);
-        return;
-    }
-    if (id === "download-video") {
-        let url = info.linkUrl;
-        if (url.includes("vimeo.com")) url = url.replace("https://", "http://");
-        if (logToConsole) console.log(url);
-        sendMessageToHostScript(url);
         return;
     }
     if (id === "options") {
@@ -2787,26 +2727,6 @@ async function fetchConfig() {
     const response = await fetch(browser.runtime.getURL("config.json"));
     const config = await response.json();
     return config;
-}
-
-function sendMessageToHostScript(url) {
-    let port = browser.runtime.connectNative("yt_dlp_host");
-    if (logToConsole) console.log(`Sending: ${url}`);
-    port.postMessage({ url: url });
-
-    port.onMessage.addListener((response) => {
-        if (logToConsole) console.log("Received response:", response);
-    });
-
-    port.onDisconnect.addListener(() => {
-        let error = browser.runtime.lastError;
-        if (error) {
-            if (logToConsole)
-                console.error("Port disconnected due to error:", error.message);
-        } else {
-            if (logToConsole) console.log("Port disconnected without error.");
-        }
-    });
 }
 
 async function openAISearchPopup() {

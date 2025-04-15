@@ -20,7 +20,7 @@ Firefox add-on to search selected text in a web page using your favorite search 
 * Carry out searches from the Omnibox, i.e. url address bar
 * Assign keyboard shortcuts to your search engines
 * Export/Import your list of search engines as a safe backup
-* Download videos from YouTube or Vimeo by right-clicking on a video thumbnail (requires some manual configuration as detailed below in the 'Advanced features' section)
+
 
 ## Permissions
 
@@ -28,7 +28,7 @@ Firefox add-on to search selected text in a web page using your favorite search 
 - show notifications and/or 
 - save your list of search engines to your local disk, or 
 - search your history or bookmarks from the Omnibox, or
-- download videos from YouTube (using native messaging) 
+
 then open the extensions manager, select Context Search and, under the Permissions tab, enable the appropriate permissions.
 
 To open search results in a new private window, in the extensions manager, allow Context Search to <em>"Run in Private Windows"</em>.
@@ -133,103 +133,6 @@ will display your 10 most recent bookmarks
 
 Please note that permissions for History and/or Bookmarks need to be anabled for the latter features to work.
 
-
-## Advanced features for macOS users
-
-To download videos from YouTube or Vimeo, Homebrew, yt-dlp, ffmpeg and Python are required. You'll also need to disable video previews from your YouTube settings for video downloads to work.
-
-If you don't already have Homebrew installed, then you can install it by typing the following command in your terminal:
-
-```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
-To install yt-dlp, ffmpeg and Python, type:
-
-```
-brew install yt-dlp ffmpeg python
-```
-
-Two additional files are required: yt_dlp_host.json and yt_dlp_host.py. The files can both be downloaded from the [Context Search GitHub repo](https://github.com/odebroqueville/contextSearch).
-
-Place the yt_dlp_host.py file in a folder of your chosing where it won't be deleted. Next, place the yt_dlp_host.json file in the folder:
-
-```
-/Library/Application Support/Mozilla/NativeMessagingHosts/
-```
-
-Finally, edit the yt_dlp_host.json file and modify the 'path' property so that it points to the location of the yt_dlp_host.py file:
-
-```
-"path": "/path/to/yt_dlp_host.py",
-```
-
-The videos will be downloaded in the mp4 format using the h.264 or h.265 video codec in 720p at least with the highest quality audio and video, and saved to the '~/Movies/Video Downloads' directory. The format of the video and the destination may be changed by editing the following line in the ytp_dlp_host.py file:
-
-```
-result = subprocess.run(['/usr/local/bin/yt-dlp', '--ffmpeg-location', '/usr/local/bin/ffmpeg', '-f', "(bv*[vcodec~='^((he|a)vc|h26[45])'][height>=720]+ba[ext=m4a]) / (bv*+ba/b)", '-P', '~/Movies/Video Downloads', url], 
-capture_output=True, 
-text=True, 
-check=True)
-```
-
-Formating parameters available for yt-dlp may be found on the [yt-dlp GitHub repo](https://github.com/yt-dlp/yt-dlp?tab=readme-ov-file#format-selection)
-
-N.B. Please note that the context menu option to download the videos will only work when right-clicking on ==video thumbnails==.
-
-
-## Advanced features for Windows users
-
-
-### Install Python, ffmpeg and yt-dlp
-
-Follow the instructions [here](https://chatgpt.com/share/56f68eed-b6c4-4454-9680-c82030e3737d)
-
-### Download the yt_dlp_host files from the [Context Search repository on GitHub](https://github.com/odebroqueville/contextSearch)
-
-Save the 3 files to a folder of your choosing
-
-### Edit the yt_dlp_host.json file
-
-Modify the 'path' property so that it points to the location of the yt_dlp_host.py file:
-
-```
-"path": "/path/to/yt_dlp_host.py",
-```
-
-### Edit the yt_dlp_host.bat file
-
-Modify the path so that it points to the location of the yt_dlp_host.py file.
-
-### Edit the yt_dlp_host.py file
-
-Replace the line starting with result=subprocess.run() with:
-
-```
-result = subprocess.run(['yt-dlp', '--ffmpeg-location', '/path/to/ffmpeg', '-f', "(bv*[vcodec~='^((he|a)vc|h26[45])'][height>=720]+ba[ext=m4a]) / (bv*+ba/b)", '-P', '/path/to/Video Downloads', url], 
-capture_output=True, 
-text=True, 
-check=True)
-```
-
-where /path/to/ffmpeg is the path to your ffmpeg binary and
-where /path/to/Video Downloads is the path to the folder where you'd like to save your video downloads.
-
-### Add Registry entries
-
-The browser finds the extension based on registry keys which are located in a specific location. One of the two registry entries should be created for the messaging to work:
-
-    HKEY_CURRENT_USER\Software\Mozilla\NativeMessagingHosts\yt_dlp_host
-    HKEY_LOCAL_MACHINE\Software\Mozilla\NativeMessagingHosts\yt_dlp_host
-
-The default value for the key should be the path to the application manifest (yt_dlp_host.json). Instructions to add a new registry key are provided [here](https://chatgpt.com/share/bbd2323b-9682-45b6-b22d-2ca3e53a5c16).
-
-Please refer to the [MDN web documentation](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Native_messaging#windows_setup) for instructions to configure native messaging for Windows.
-
-### Reminder
-
-- for YouTube video downloads to work, you need to disable video previews in YouTube settings;
-- nativeMessaging permission needs to be enabled in the extension's permission section.
 
 ## The main structure of a JSON file containing the search engines
 
