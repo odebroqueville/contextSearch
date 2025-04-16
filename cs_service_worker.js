@@ -6,6 +6,7 @@ import ExtPay from '/libs/ExtPay.js';
 import {
     bingUrl,
     ddgUrl,
+    horseIconUrl,
     googleReverseImageSearchUrl,
     googleLensUrl,
     tineyeUrl,
@@ -1243,8 +1244,8 @@ async function getNewFavicon(id, domain) {
         const response = await fetch(userRequest);
         if (logToConsole) console.log(response);
         if (!response.ok) {
-            // Failed to retrieve a favicon from DDG, proceeding with Google Cloud hosted API
-            return await getFaviconFromGoogleCloud(id, domain);
+            if (logToConsole) console.log("Failed to retrieve favicon from DuckDuckGo, proceeding with Horse Icon.");
+            return await getFaviconFromHorseIcon(id, domain);
         }
         // Check Content-Type header
         const contentType = response.headers.get("Content-Type");
@@ -1274,48 +1275,40 @@ async function getNewFavicon(id, domain) {
         if (logToConsole) console.log("Failed to retrieve new favicon.", error.message);
 
         // Failed to retrieve a favicon from DDG, proceeding with Google Cloud hosted API
-        return await getFaviconFromGoogleCloud(id, domain);
+        return await getFaviconFromHorseIcon(id, domain);
     }
 }
 
-async function getFaviconFromGoogleCloud(id, domain) {
-    // Fetch CORS API URL and key from config file
-    const config = await fetchConfig();
-    const CORS_API_URL = config.API_URL;
-    const CORS_API_KEY = config.API_KEY;
-    let reqHeader = new Headers();
-    reqHeader.append("Content-Type", "text/plain; charset=UTF-8");
-    reqHeader.append("x-api-key", CORS_API_KEY);
-    const initObject = {
-        method: "GET",
-        headers: reqHeader,
-    };
-    const userRequest = new Request(CORS_API_URL + domain, initObject);
+// Get favicon from Horse Icon
+async function getFaviconFromHorseIcon(id, domain) {
+    domain = domain.replace("https://", "").replace("http://", "");
+    const url = horseIconUrl + domain;
     try {
-        const response = await fetch(userRequest);
+        const response = await fetch(url);
         if (!response.ok) {
-            const message = `Failed to get domain of search engine. An error has occured: ${response.status}`;
+            const message = `Failed to fetch the favicon from Horse Icon. An error has occured: ${response.status}`;
             throw new Error(message);
         }
-        if (logToConsole) console.log(response);
-        const data = await response.json();
-        let imageFormat = data.imageFormat;
-        let b64 = data.b64;
-        if (!b64) {
-            b64 = base64ContextSearchIcon;
-            imageFormat = "image/png";
-        }
-        if (logToConsole) console.log(imageFormat, b64);
-        return { id: id, imageFormat: imageFormat, base64: b64 };
+        const contentType = response.headers.get("Content-Type");
+        const blob = await response.blob();
+        const base64data = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onloadend = () => {
+                const fullBase64data = reader.result;
+                const base64part = fullBase64data.split(',')[1];
+                if (logToConsole) console.log(contentType);
+                if (logToConsole) console.log(base64part);
+                resolve(base64part);
+            };
+            reader.onerror = (error) => {
+                reject(error);
+            };
+        });
+        return { id: id, imageFormat: contentType, base64: base64data };
     } catch (error) {
-        if (logToConsole) console.error(error.message);
-        if (logToConsole) console.log("Failed to retrieve new favicon.");
-        // Failed to retrieve a favicon, proceeding with default CS icon
-        return {
-            id: id,
-            imageFormat: "image/png",
-            base64: base64ContextSearchIcon,
-        };
+        if (logToConsole) console.log("Failed to retrieve new favicon.", error.message);
+        return { id: id, imageFormat: "image/png", base64: base64ContextSearchIcon };
     }
 }
 
@@ -2720,13 +2713,6 @@ function isEmpty(value) {
         return value === null || Object.keys(value).length === 0;
     } else if (typeof value === "boolean") return false;
     else return !value;
-}
-
-// Fetch API key and url
-async function fetchConfig() {
-    const response = await fetch(browser.runtime.getURL("config.json"));
-    const config = await response.json();
-    return config;
 }
 
 async function openAISearchPopup() {

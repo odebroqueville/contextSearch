@@ -756,7 +756,11 @@ async function handleKeyUp(e) {
     // Check if the input text matches any search engine keyboard shortcut
     for (let id in searchEngines) {
         if (logToConsole) console.log(id);
-        const keyboardShortcut = searchEngines[id].keyboardShortcut.toLowerCase().replace('ctrl', 'control');
+        if (id.startsWith('separator-')) continue;
+        const engine = searchEngines[id];
+        const keyboardShortcut = (engine && typeof engine.keyboardShortcut === 'string')
+            ? engine.keyboardShortcut.toLowerCase().replace('ctrl', 'control')
+            : '';
         if (keyboardShortcut && keyboardShortcut === input.toLowerCase()) {
             if (logToConsole) console.log(`Matched keyboard shortcut: ${keyboardShortcut}`);
             await sendMessage('doSearch', { id: id });
