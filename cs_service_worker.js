@@ -108,12 +108,11 @@ let isInitialized = false;
 
 // Initialize service worker
 (async function () {
-    const { paid, trialStarted, trialActive } = await getPaymentStatus();
+    const { paid, trialActive } = await getPaymentStatus();
 
     if (logToConsole) {
         console.log(`isPaidUser: ${paid}`);
         console.log(`isTrialActive: ${trialActive}`);
-        console.log(`isTrialStarted: ${trialStarted}`);
     }
 
     if (paid || trialActive) {
@@ -124,6 +123,8 @@ let isInitialized = false;
             console.error('Failed to initialize storage:', error);
         }
     }
+
+    addClickListener();
 })();
 
 // Context menu creation in progress flag
@@ -136,18 +137,22 @@ browser.runtime.onInstalled.addListener(async (details) => {
     if (details.reason === "update") {
         console.log("Extension updated.");
 
-        const { paid, trialStarted, trialActive } = await getPaymentStatus();
+        const { paid, trialActive, trialStarted } = await getPaymentStatus();
 
         if (!paid && !trialStarted) {
             // Show subscription choice popup instead of directly opening payment pages
             openSubscriptionChoicePopup();
-        } else if (!paid && !trialActive && trialStarted) {
-            // Open payment page
+        } else if (!paid && trialStarted) {
+            // Open payments page
             extpay.openPaymentPage();
         }
 
-        // Build action button menus
-        await buildActionButtonMenus();
+        if (paid || trialActive) {
+            await buildActionButtonMenus();
+        } else {
+            const isFirefox = getBrowserType() === "firefox";
+            await buildSubscriptionStatusMenuItem(isFirefox);
+        }
     }
 });
 
@@ -160,13 +165,17 @@ browser.runtime.onStartup.addListener(async () => {
     if (!paid && !trialStarted) {
         // Show subscription choice popup instead of directly opening payment pages
         openSubscriptionChoicePopup();
-    } else if (!paid && !trialActive && trialStarted) {
+    } else if (!paid && trialStarted) {
         // Open payment page
         extpay.openPaymentPage();
     }
 
-    // Build action button menus
-    await buildActionButtonMenus();
+    if (paid || trialActive) {
+        await buildActionButtonMenus();
+    } else {
+        const isFirefox = getBrowserType() === "firefox";
+        await buildSubscriptionStatusMenuItem(isFirefox);
+    }
 });
 
 // Listen for changes to the notifications permission
@@ -388,7 +397,7 @@ async function getPaymentStatus() {
     const paid = user.paid;
     const trialStarted = user.trialStartedAt !== null;
     const trialActive = user.trialStartedAt !== null && (now - user.trialStartedAt) < sevenDays;
-    return { paid, trialStarted, trialActive };
+    return { paid, trialActive, trialStarted };
 }
 
 async function resetData(data) {
@@ -669,13 +678,15 @@ async function handleDoSearch(data) {
     let multiTabArray = [];
     if (logToConsole) console.log("Search engine id: " + id);
     if (logToConsole) console.log(options.tabMode === "openSidebar");
-    const tabs = await queryAllTabs();
     const activeTabs = await browser.tabs.query({ active: true, currentWindow: true });
     const activeTab = activeTabs[0];
-    const lastTab = tabs[tabs.length - 1];
     let tabPosition = activeTab.index + 1;
     if (options.multiMode === "multiAfterLastTab" || options.lastTab) {
-        tabPosition = lastTab.index + 1;
+        const allTabs = await queryAllTabs();
+        if (allTabs.length > 0) {
+            const lastTab = allTabs[allTabs.length - 1];
+            tabPosition = lastTab.index + 1;
+        }
     }
     // If the search engine is a folder
     if (searchEngines[id] && searchEngines[id].isFolder) {
@@ -1376,19 +1387,26 @@ function getFaviconForPrompt(id, aiProvider) {
     return { id: id, imageFormat: imageFormat, base64: b64 };
 }
 
-function menuClickHandler(info, tab) {
+async function menuClickHandler(info, tab) {
+    if (logToConsole) console.log(info.menuItemId);
+    if (info.menuItemId === "subscription-status") {
+        // Handle subscription status menu item
+        await openSubscriptionStatusPopup();
+        return;
+    }
+    const { paid, trialActive } = await getPaymentStatus();
+
     // Ensure extension is initialized before proceeding
-    if (!isInitialized) {
+    if (!isInitialized && (paid || trialActive)) {
         if (logToConsole) console.log("Service worker not initialized, initializing now");
         init().then(() => {
             // After initialization, proceed with the menu click handling
             handleMenuClick(info, tab);
         });
-        return;
+    } else if (isInitialized) {
+        // If already initialized, proceed with normal handling
+        handleMenuClick(info, tab);
     }
-
-    // If already initialized, proceed with normal handling
-    handleMenuClick(info, tab);
 }
 
 function handleMenuClick(info, tab) {
@@ -1484,32 +1502,21 @@ async function createMenuItem(id, title, contexts, parentId, faviconUrl) {
         menuItem.icons = { 20: faviconUrl };
     }
 
-    await new Promise((resolve) => {
-        contextMenus.create(menuItem, () => {
-            if (browser.runtime.lastError) {
-                if (logToConsole) console.log(`Error creating menu item ${id}: ${browser.runtime.lastError.message}`);
-            } else {
-                if (logToConsole) console.log(`Menu Item ${id} created successfully`);
-            }
-            resolve();
-        });
-    });
+    await contextMenus.create(menuItem);
 }
 
 // Build a single context menu item
 async function buildContextMenuItem(id, parentId) {
     if (id.startsWith("separator-")) {
-        await new Promise((resolve) => {
-            const separatorItem = {
-                id: "cs-" + id,
-                type: "separator",
-                contexts: ["selection"]
-            };
-            if (parentId !== "root") {
-                separatorItem.parentId = "cs-" + parentId;
-            }
-            contextMenus.create(separatorItem, resolve);
-        });
+        const separatorItem = {
+            id: "cs-" + id,
+            type: "separator",
+            contexts: ["selection"]
+        };
+        if (parentId !== "root") {
+            separatorItem.parentId = "cs-" + parentId;
+        }
+        await contextMenus.create(separatorItem);
         return;
     }
 
@@ -1525,8 +1532,7 @@ async function buildContextMenuItem(id, parentId) {
     if (searchEngine.isFolder) {
         await createMenuItem(id, title, contexts, parentId, faviconUrl);
         if (id !== "root" && id !== "bookmark-page" && id !== "add-search-engine") {
-            const title = "Multisearch";
-            await createMenuItem(id, title, contexts, id, faviconUrl);
+            await createMenuItem(id, "Multisearch", contexts, id, faviconUrl);
         }
         for (let child of searchEngine.children) {
             await buildContextMenuItem(child, id);
@@ -1539,100 +1545,78 @@ async function buildContextMenuItem(id, parentId) {
 // Build the options context menu
 async function buildContextOptionsMenu() {
     if (options.optionsMenuLocation === "bottom") {
-        await new Promise((resolve) => {
-            contextMenus.create({
-                id: "cs-separator-bottom",
-                type: "separator",
-                contexts: ["selection"],
-            }, resolve);
+        await contextMenus.create({
+            id: "cs-separator-bottom",
+            type: "separator",
+            contexts: ["selection"],
         });
     }
 
-    await new Promise((resolve) => {
-        contextMenus.create({
-            id: "cs-match",
-            type: "checkbox",
-            title: titleExactMatch,
-            contexts: ["selection"],
-            checked: options.exactMatch,
-        }, resolve);
+    await contextMenus.create({
+        id: "cs-match",
+        type: "checkbox",
+        title: titleExactMatch,
+        contexts: ["selection"],
+        checked: options.exactMatch,
     });
 
-    await new Promise((resolve) => {
-        contextMenus.create({
-            id: "cs-multitab",
-            title: titleMultipleSearchEngines,
-            contexts: ["selection"],
-        }, resolve);
+    await contextMenus.create({
+        id: "cs-multitab",
+        title: titleMultipleSearchEngines,
+        contexts: ["selection"],
     });
 
-    await new Promise((resolve) => {
-        contextMenus.create({
-            id: "cs-ai-search",
-            title: titleAISearch + "...",
-            contexts: ["editable", "frame", "page", "selection"],
-        }, resolve);
+    await contextMenus.create({
+        id: "cs-ai-search",
+        title: titleAISearch + "...",
+        contexts: ["editable", "frame", "page", "selection"],
     });
 
-    await new Promise((resolve) => {
-        contextMenus.create({
-            id: "cs-site-search",
-            title: `${titleSiteSearch} ${options.siteSearch}`,
-            contexts: ["selection"],
-        }, resolve);
+    await contextMenus.create({
+        id: "cs-site-search",
+        title: `${titleSiteSearch} ${options.siteSearch}`,
+        contexts: ["selection"],
     });
 
-    await new Promise((resolve) => {
-        contextMenus.create({
-            id: "cs-options",
-            title: titleOptions + "...",
-            contexts: ["selection"],
-        }, resolve);
+    await contextMenus.create({
+        id: "cs-options",
+        title: titleOptions + "...",
+        contexts: ["selection"],
     });
 
     if (options.optionsMenuLocation === "top") {
-        await new Promise((resolve) => {
-            contextMenus.create({
-                id: "cs-separator-top",
-                type: "separator",
-                contexts: ["selection"],
-            }, resolve);
+        await contextMenus.create({
+            id: "cs-separator-top",
+            type: "separator",
+            contexts: ["selection"],
         });
     }
 }
 
 // Build the context menu for image searches
 async function buildContextMenuForImages() {
-    await new Promise((resolve) => {
-        contextMenus.create({
-            id: "cs-bing-image-search",
-            title: "Bing Image Search",
-            contexts: ["image"],
-        }, resolve);
+    await contextMenus.create({
+        id: "cs-bing-image-search",
+        title: "Bing Image Search",
+        contexts: ["image"],
     });
 
-    await new Promise((resolve) => {
-        contextMenus.create({
-            id: "cs-reverse-image-search",
-            title: "Google Reverse Image Search",
-            contexts: ["image"],
-        }, resolve);
+    await contextMenus.create({
+        id: "cs-reverse-image-search",
+        title: "Google Reverse Image Search",
+        contexts: ["image"],
     });
 
-    await new Promise((resolve) => {
-        contextMenus.create({
-            id: "cs-google-lens",
-            title: "Google Lens",
-            contexts: ["image"],
-        }, resolve);
+    await contextMenus.create({
+        id: "cs-google-lens",
+        title: "Google Lens",
+        contexts: ["image"],
     });
 
-    await new Promise((resolve) => {
-        contextMenus.create({
-            id: "cs-tineye",
-            title: "TinEye",
-            contexts: ["image"],
-        }, resolve);
+    await contextMenus.create({
+        id: "cs-tineye",
+        title: "TinEye",
+        contexts: ["image"],
     });
 }
 
@@ -1710,9 +1694,7 @@ async function buildActionButtonMenus() {
         if (logToConsole) console.debug("Could not remove bookmark-page menu item:", e.message);
     }
 
-    await new Promise((resolve) => {
-        contextMenus.create(bookmarkMenuItem, resolve);
-    });
+    await contextMenus.create(bookmarkMenuItem);
 
     const searchEngineMenuItem = {
         id: "add-search-engine",
@@ -1733,9 +1715,30 @@ async function buildActionButtonMenus() {
         if (logToConsole) console.debug("Could not remove add-search-engine menu item:", e.message);
     }
 
-    await new Promise((resolve) => {
-        contextMenus.create(searchEngineMenuItem, resolve);
-    });
+    await contextMenus.create(searchEngineMenuItem);
+
+    await buildSubscriptionStatusMenuItem(isFirefox);
+}
+
+async function buildSubscriptionStatusMenuItem(isFirefox) {
+    // Add subscription status menu item
+    const subscriptionStatusMenuItem = {
+        id: "subscription-status",
+        title: "Subscription status",
+        contexts: ["action"]
+    };
+
+    if (isFirefox) {
+        subscriptionStatusMenuItem.icons = { "16": "/icons/subscription-status-icon.png" };
+    }
+
+    try {
+        await contextMenus.remove("subscription-status");
+    } catch (e) {
+        if (logToConsole) console.debug("Could not remove subscription-status menu item:", e.message);
+    }
+
+    await contextMenus.create(subscriptionStatusMenuItem);
 }
 
 // Perform search based on selected search engine, i.e. selected context menu item
@@ -1773,6 +1776,10 @@ async function processSearch(info, tab) {
     }
     if (id === "add-search-engine") {
         await handlePageAction(tab);
+        return;
+    }
+    if (id === "subscription-status") {
+        await openSubscriptionStatusPopup();
         return;
     }
     if (id === "options") {
@@ -2181,9 +2188,7 @@ async function displaySearchResults(
     } else if (!multisearch && options.tabMode === "openNewTab") {
         // If single search and open in current window
         // If search engine is a link, uses HTTP GET or POST request or is AI prompt
-        if (logToConsole) {
-            console.log(`Opening search results in a new tab, url is ${url}`);
-        }
+        if (logToConsole) console.log(`Opening search results in a new tab, url is ${url}`);
         await browser.tabs.create({
             active: options.tabActive,
             index: tabPosition,
@@ -2198,9 +2203,10 @@ async function displaySearchResults(
         });
     } else {
         // Open search results in the same tab
-        if (logToConsole) {
-            console.log(`Opening search results in same tab, url is ${url}`);
-        }
+        if (logToConsole)
+            console.log(
+                `Opening search results in same tab, url is ${url}`,
+            );
         await browser.tabs.update(activeTab.id, {
             url: url,
         });
@@ -2336,8 +2342,7 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
 
     // tabPosition is used to determine where to open the search results for a multisearch
     let tabIndex,
-        tabPosition,
-        tabId,
+        tabPosition, tabId,
         id,
         aiEngine = "";
 
@@ -2683,7 +2688,7 @@ async function sendMessageToTab(tab, message) {
                 console.log("Message details:", message); // Log the message content for context
             }
         } else if (logToConsole) {
-            // Optionally, log the ignored error as info/warn for debugging, but less prominently
+            // Optionally log the ignored error as info/warn for debugging, but less prominently
             console.info(`Attempted to send message to tab ${tabId} (${tab.title}) but receiving end did not exist. Message:`, message);
         }
         // Still return a consistent failure indicator
@@ -2746,7 +2751,7 @@ async function openAISearchPopup() {
     const top = browserTop + Math.floor((browserHeight - height) / 2) - 200;
 
     await browser.windows.create({
-        url: "/html/popup.html",
+        url: browser.runtime.getURL("/html/popup.html"),
         type: "popup",
         width: width,
         height: height,
@@ -2984,7 +2989,24 @@ async function openSubscriptionChoicePopup() {
     const left = browserInfo.left + Math.floor((browserInfo.width - width) / 2);
     const top = browserInfo.top + Math.floor((browserInfo.height - height) / 2);
     await browser.windows.create({
-        url: '/html/subscription_choice.html',
+        url: browser.runtime.getURL('/html/subscription_choice.html'),
+        type: 'popup',
+        width,
+        height,
+        left,
+        top,
+    });
+}
+
+// Function to show subscription status popup window
+async function openSubscriptionStatusPopup() {
+    const width = 400;
+    const height = 300;
+    const browserInfo = await browser.windows.getCurrent();
+    const left = browserInfo.left + Math.floor((browserInfo.width - width) / 2);
+    const top = browserInfo.top + Math.floor((browserInfo.height - height) / 2);
+    await browser.windows.create({
+        url: browser.runtime.getURL('/html/subscription_status.html'),
         type: 'popup',
         width,
         height,

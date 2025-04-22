@@ -1,7 +1,7 @@
 /// Constants
 
 // Debug mode
-export const DEBUG = false;
+export const DEBUG = true;
 
 // User agent for sidebar search results
 const USER_AGENT_FOR_SIDEBAR =
