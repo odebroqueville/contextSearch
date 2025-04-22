@@ -6,8 +6,6 @@ build/
 config.json
 crowdin.yml
 node_modules/
-package.json
-package-lock.json
 web-ext-artifacts/
 web-ext-config.js
 

@@ -1,5 +1,10 @@
-6.0.7
+6.1.0
 =========
+
+* 
+
+6.0.7
+---------
 
 * Bug fix: removal of nested search engines was broken
 * Added a missing translation for the 'multisearchEndOfSentence' key

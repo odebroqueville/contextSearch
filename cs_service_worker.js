@@ -116,17 +116,12 @@ let isInitialized = false;
         console.log(`isTrialStarted: ${trialStarted}`);
     }
 
-    if (!isInitialized || paid || trialActive) {
+    if (paid || trialActive) {
         try {
             await init();
+            isInitialized = true;
         } catch (error) {
             console.error('Failed to initialize storage:', error);
-        }
-    } else {
-        if (!trialStarted) {
-            extpay.openTrialPage('7-day');
-        } else {
-            extpay.openPaymentPage();
         }
     }
 })();
@@ -139,7 +134,17 @@ let menuCreationInProgress = false;
 // Reload content scripts when extension is updated
 browser.runtime.onInstalled.addListener(async (details) => {
     if (details.reason === "update") {
-        console.log("Extension updated, reloading content scripts...");
+        console.log("Extension updated.");
+
+        const { paid, trialStarted, trialActive } = await getPaymentStatus();
+
+        if (!paid && !trialStarted) {
+            // Show subscription choice popup instead of directly opening payment pages
+            openSubscriptionChoicePopup();
+        } else if (!paid && !trialActive && trialStarted) {
+            // Open payment page
+            extpay.openPaymentPage();
+        }
 
         // Build action button menus
         await buildActionButtonMenus();
@@ -148,7 +153,17 @@ browser.runtime.onInstalled.addListener(async (details) => {
 
 // Reload tabs to reload content scripts when extension is started
 browser.runtime.onStartup.addListener(async () => {
-    console.log("Extension started, reloading tabs...");
+    console.log("Extension started.");
+
+    const { paid, trialStarted, trialActive } = await getPaymentStatus();
+
+    if (!paid && !trialStarted) {
+        // Show subscription choice popup instead of directly opening payment pages
+        openSubscriptionChoicePopup();
+    } else if (!paid && !trialActive && trialStarted) {
+        // Open payment page
+        extpay.openPaymentPage();
+    }
 
     // Build action button menus
     await buildActionButtonMenus();
@@ -2678,7 +2693,7 @@ async function sendMessageToTab(tab, message) {
 
 /// Notifications
 function notify(message) {
-    browser.notifications.create(message.substring(0, 20), {
+    browser.notifications.create("", {
         type: "basic",
         iconUrl: "icons/icon_64.png",
         title: browser.i18n.getMessage("extensionName"),
@@ -2959,4 +2974,21 @@ function debounce(func, delay) {
             func.apply(this, args);
         }, delay);
     }
+}
+
+// Function to show subscription choice popup window
+async function openSubscriptionChoicePopup() {
+    const width = 500;
+    const height = 500;
+    const browserInfo = await browser.windows.getCurrent();
+    const left = browserInfo.left + Math.floor((browserInfo.width - width) / 2);
+    const top = browserInfo.top + Math.floor((browserInfo.height - height) / 2);
+    await browser.windows.create({
+        url: '/html/subscription_choice.html',
+        type: 'popup',
+        width,
+        height,
+        left,
+        top,
+    });
 }

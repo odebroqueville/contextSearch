@@ -1,0 +1,43 @@
+{
+    "name": "contextsearch",
+    "title": "Context Search",
+    "version": "6.1.0",
+    "description": "Firefox add-on to search selected text in a web page using your favorite search engines.",
+    "browserslist": [
+        "Firefox >= 128"
+    ],
+    "scripts": {
+        "build": "web-ext build",
+        "build:chrome": "node build.js chrome",
+        "build:firefox": "node build.js firefox",
+        "build:all": "node build.js",
+        "test": "eslint .",
+        "lint": "eslint ."
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/odebroqueville/contextSearch.git"
+    },
+    "keywords": [
+        "webextension",
+        "context",
+        "context search",
+        "context menu",
+        "search",
+        "search engine"
+    ],
+    "author": "Olivier de Broqueville <olivier.debroqueville@gmail.com>",
+    "license": "EULA",
+    "bugs": {
+        "url": "https://github.com/odebroqueville/contextSearch/issues"
+    },
+    "homepage": "https://github.com/odebroqueville/contextSearch#readme",
+    "dependencies": {
+        "extpay": "^3.1.1",
+        "sortablejs": "^1.15.6",
+        "webextension-polyfill": "^0.12.0"
+    },
+    "devDependencies": {
+        "eslint": "^8.57.1"
+    }
+}
