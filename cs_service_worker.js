@@ -71,6 +71,12 @@ const contextMenus = browser.menus || browser.contextMenus;
 const delay = 500;
 const debouncedUpdateAddonStateForActiveTab = debounce(updateAddonStateForActiveTab, delay);
 
+// Browser type
+const isFirefox = getBrowserType() === "firefox";
+
+// Subscription status
+let paid, trialActive, trialStarted;
+
 // Module-level variables for persistent data
 let options = {};
 let searchEngines = {};
@@ -106,13 +112,17 @@ let notificationsEnabled = false;
 // Track initialization state
 let isInitialized = false;
 
+// Context menu creation in progress flag
+let menuCreationInProgress = false;
+
 // Initialize service worker
 (async function () {
-    const { paid, trialActive } = await getPaymentStatus();
+    ({ paid, trialActive, trialStarted } = await getPaymentStatus());
 
     if (logToConsole) {
         console.log(`isPaidUser: ${paid}`);
         console.log(`isTrialActive: ${trialActive}`);
+        console.log(`isTrialStarted: ${trialStarted}`);
     }
 
     if (paid || trialActive) {
@@ -127,55 +137,22 @@ let isInitialized = false;
     addClickListener();
 })();
 
-// Context menu creation in progress flag
-let menuCreationInProgress = false;
-
 /// Listeners
 
 // Reload content scripts when extension is updated
 browser.runtime.onInstalled.addListener(async (details) => {
     if (details.reason === "update") {
-        console.log("Extension updated.");
+        if (logToConsole) console.log("Extension updated.");
 
-        const { paid, trialActive, trialStarted } = await getPaymentStatus();
-
-        if (!paid && !trialStarted) {
-            // Show subscription choice popup instead of directly opening payment pages
-            openSubscriptionChoicePopup();
-        } else if (!paid && trialStarted) {
-            // Open payments page
-            extpay.openPaymentPage();
-        }
-
-        if (paid || trialActive) {
-            await buildActionButtonMenus();
-        } else {
-            const isFirefox = getBrowserType() === "firefox";
-            await buildSubscriptionStatusMenuItem(isFirefox);
-        }
+        await initPerSubscriptionStatus();
     }
 });
 
 // Reload tabs to reload content scripts when extension is started
 browser.runtime.onStartup.addListener(async () => {
-    console.log("Extension started.");
+    if (logToConsole) console.log("Extension started.");
 
-    const { paid, trialStarted, trialActive } = await getPaymentStatus();
-
-    if (!paid && !trialStarted) {
-        // Show subscription choice popup instead of directly opening payment pages
-        openSubscriptionChoicePopup();
-    } else if (!paid && trialStarted) {
-        // Open payment page
-        extpay.openPaymentPage();
-    }
-
-    if (paid || trialActive) {
-        await buildActionButtonMenus();
-    } else {
-        const isFirefox = getBrowserType() === "firefox";
-        await buildSubscriptionStatusMenuItem(isFirefox);
-    }
+    await initPerSubscriptionStatus();
 });
 
 // Listen for changes to the notifications permission
@@ -196,23 +173,29 @@ browser.permissions.onRemoved.addListener(async (permissions) => {
 });
 
 // listen to tab URL changes
-browser.tabs.onUpdated.addListener(debouncedUpdateAddonStateForActiveTab);
+browser.tabs.onUpdated.addListener(() => {
+    if (paid || trialActive) debouncedUpdateAddonStateForActiveTab();
+});
 
 // listen to tab switching
-browser.tabs.onActivated.addListener(debouncedUpdateAddonStateForActiveTab);
+browser.tabs.onActivated.addListener(() => {
+    if (paid || trialActive) debouncedUpdateAddonStateForActiveTab();
+});
 
 // Listen for storage changes
 browser.storage.onChanged.addListener(handleStorageChange);
 
 // Handle addon shortcut to launch icons grid or open the AI search window
 browser.commands.onCommand.addListener(async (command) => {
-    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
-    const activeTab = tabs[0];
-    if (command === "launch-icons-grid") {
-        if (logToConsole) console.log("Launching Icons Grid...");
-        await sendMessageToTab(activeTab, { action: "launchIconsGrid" });
-    } else if (command === "open-popup") {
-        openAISearchPopup();
+    if (paid || trialActive) {
+        const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+        const activeTab = tabs[0];
+        if (command === "launch-icons-grid") {
+            if (logToConsole) console.log("Launching Icons Grid...");
+            await sendMessageToTab(activeTab, { action: "launchIconsGrid" });
+        } else if (command === "open-popup") {
+            openAISearchPopup();
+        }
     }
 });
 
@@ -229,6 +212,11 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     // If the extension context is invalid, don't try to handle the message
     if (browser.runtime.lastError) {
         console.error("Extension context invalidated:", browser.runtime.lastError);
+        return;
+    }
+
+    if (!paid && !trialActive) {
+        sendResponse({ success: false, error: "Subscription required" });
         return;
     }
 
@@ -389,6 +377,26 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 /// Main functions
+
+// Initialise extension as per payment or trial status
+// This function is called when the extension is first installed or updated
+async function initPerSubscriptionStatus() {
+    if (logToConsole) console.log("Initializing extension...");
+
+    if (!paid && !trialStarted) {
+        // Show subscription choice popup instead of directly opening payment pages
+        openSubscriptionChoicePopup();
+    } else if (!paid && trialStarted) {
+        // Open payments page
+        extpay.openPaymentPage();
+    }
+
+    if (paid || trialActive) {
+        await buildActionButtonMenus();
+    } else {
+        await buildSubscriptionStatusMenuItem();
+    }
+}
 
 async function getPaymentStatus() {
     const now = new Date();
@@ -1394,7 +1402,6 @@ async function menuClickHandler(info, tab) {
         await openSubscriptionStatusPopup();
         return;
     }
-    const { paid, trialActive } = await getPaymentStatus();
 
     // Ensure extension is initialized before proceeding
     if (!isInitialized && (paid || trialActive)) {
@@ -1403,7 +1410,7 @@ async function menuClickHandler(info, tab) {
             // After initialization, proceed with the menu click handling
             handleMenuClick(info, tab);
         });
-    } else if (isInitialized) {
+    } else if (paid || trialActive) {
         // If already initialized, proceed with normal handling
         handleMenuClick(info, tab);
     }
@@ -1487,7 +1494,6 @@ function removeClickListener() {
 
 /// Functions used to build the context menu
 async function createMenuItem(id, title, contexts, parentId, faviconUrl) {
-    const isFirefox = getBrowserType() === "firefox";
     const menuItem = {
         id: "cs-" + (id === parentId ? id + "-multisearch" : id),
         title: title,
@@ -1675,7 +1681,6 @@ async function buildContextMenu() {
 
 // Build the action button menus
 async function buildActionButtonMenus() {
-    const isFirefox = getBrowserType() === "firefox";
     const bookmarkMenuItem = {
         id: "bookmark-page",
         title: "Bookmark This Page",
@@ -1717,10 +1722,10 @@ async function buildActionButtonMenus() {
 
     await contextMenus.create(searchEngineMenuItem);
 
-    await buildSubscriptionStatusMenuItem(isFirefox);
+    await buildSubscriptionStatusMenuItem();
 }
 
-async function buildSubscriptionStatusMenuItem(isFirefox) {
+async function buildSubscriptionStatusMenuItem() {
     // Add subscription status menu item
     const subscriptionStatusMenuItem = {
         id: "subscription-status",
@@ -2872,7 +2877,6 @@ async function updateAddonStateForActiveTab() {
                     bookmarked = false;
                 }
                 // Update menu item for bookmarking
-                const isFirefox = getBrowserType() === "firefox";
                 const updateProps = {
                     title: bookmarked ? "Unbookmark This Page" : "Bookmark This Page"
                 };
