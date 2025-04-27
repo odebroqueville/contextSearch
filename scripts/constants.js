@@ -164,6 +164,8 @@ export const notifyUnknown = browser.i18n.getMessage('notifyUnknown');
 export const notifySearchEngineUrlRequired = browser.i18n.getMessage(
     'notifySearchEngineUrlRequired'
 );
+export const notifyMissingSearchEngine = browser.i18n.getMessage('notifyMissingSearchEngine');
+export const notifyMissingBookmarkUrl = browser.i18n.getMessage('notifyMissingBookmarkUrl');
 
 // Default settings
 export const DEFAULT_OPTIONS = {

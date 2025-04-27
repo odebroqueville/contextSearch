@@ -52,7 +52,9 @@ import {
     notifyUsage,
     notifySearchEngineWithKeyword,
     notifyUnknown,
-    notifySearchEngineUrlRequired
+    notifySearchEngineUrlRequired,
+    notifyMissingSearchEngine,
+    notifyMissingBookmarkUrl
 } from "/scripts/constants.js";
 
 /// Global variables
@@ -1902,7 +1904,7 @@ async function processMultisearch(arraySearchEngineUrls, folderId, tabPosition) 
     logArrayContents("multisearchArray", multisearchArray);
 
     if (notificationsEnabled && isEmpty(multisearchArray)) {
-        notify("No search engines have been selected for a multisearch.");
+        notify(notifyMissingSearchEngine);
         return;
     }
     if (isEmpty(multisearchArray)) return;
@@ -2818,7 +2820,7 @@ async function openBookmarkRemovalConfirmDialog() {
     if (!urlToBookmark) {
         console.error("Cannot open bookmark removal dialog: activeTab or activeTab.url is undefined.");
         // Optionally notify the user
-        notify("Could not get URL for bookmark removal.");
+        notify(notifyMissingBookmarkUrl);
         return;
     }
 
