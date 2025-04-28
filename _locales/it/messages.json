@@ -357,7 +357,7 @@
         "message": "Opzioni di sottoscrizione della ricerca contestuale"
     },
     "startNewTrial": {
-        "message": "Start a new 7 days trial"
+        "message": "Iniziare una nuova prova di 7 giorni"
     },
     "startSubscription": {
         "message": "Avviare un nuovo abbonamento mensile, annuale o a vita"
@@ -372,31 +372,31 @@
         "message": "Impossibile recuperare l'URL per la rimozione del segnalibro"
     },
     "bookmarkPage": {
-        "message": "Bookmark This Page"
+        "message": "Aggiungi ai preferiti questa pagina"
     },
     "pay": {
-        "message": "Pay"
+        "message": "Paga"
     },
     "startTrial": {
-        "message": "Start trial"
+        "message": "Avvio della prova"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Prova attiva: "
     },
     "trialExpired": {
-        "message": "Trial expired"
+        "message": "Prova scaduta"
     },
     "subscriptionActive": {
-        "message": "Subscription: Active"
+        "message": "Abbonamento: Attivo"
     },
     "subscriptionInactive": {
-        "message": "Subscription: Inactive"
+        "message": "Sottoscrizione: Inattivo"
     },
     "noTrialStarted": {
-        "message": "No trial started"
+        "message": "Non è stato avviato alcuno studio"
     },
     "daysRemaining": {
-        "message": "day(s) remaining"
+        "message": "giorno/i rimanente/i"
     },
     "__WET_LOCALE__": {
         "message": "it"
