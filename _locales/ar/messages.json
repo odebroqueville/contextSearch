@@ -356,8 +356,8 @@
     "subscriptionOptions": {
         "message": "خيارات الاشتراك في البحث في السياق"
     },
-    "startTrial": {
-        "message": "ابدأ تجربة جديدة لمدة 7 أيام"
+    "startNewTrial": {
+        "message": "Start a new 7 days trial"
     },
     "startSubscription": {
         "message": "ابدأ اشتراكًا جديدًا شهريًا أو سنويًا أو مدى الحياة"
@@ -370,6 +370,33 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "تعذر استرداد عنوان URL لإزالة الإشارة المرجعية"
+    },
+    "bookmarkPage": {
+        "message": "Bookmark This Page"
+    },
+    "pay": {
+        "message": "Pay"
+    },
+    "startTrial": {
+        "message": "Start trial"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "Trial expired"
+    },
+    "subscriptionActive": {
+        "message": "Subscription: Active"
+    },
+    "subscriptionInactive": {
+        "message": "Subscription: Inactive"
+    },
+    "noTrialStarted": {
+        "message": "No trial started"
+    },
+    "daysRemaining": {
+        "message": "day(s) remaining"
     },
     "__WET_LOCALE__": {
         "message": "ar"
