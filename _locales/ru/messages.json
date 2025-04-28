@@ -357,7 +357,7 @@
         "message": "Параметры подписки на контекстный поиск"
     },
     "startNewTrial": {
-        "message": "Start a new 7 days trial"
+        "message": "Начните новую 7-дневную пробную версию"
     },
     "startSubscription": {
         "message": "Начните новую ежемесячную, ежегодную или пожизненную подписку"
@@ -372,31 +372,31 @@
         "message": "Не удалось получить URL-адрес для удаления закладок"
     },
     "bookmarkPage": {
-        "message": "Bookmark This Page"
+        "message": "Добавьте эту страницу в закладки"
     },
     "pay": {
-        "message": "Pay"
+        "message": "Оплатить"
     },
     "startTrial": {
-        "message": "Start trial"
+        "message": "Начать испытание"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Испытание активное: "
     },
     "trialExpired": {
-        "message": "Trial expired"
+        "message": "Срок действия истек"
     },
     "subscriptionActive": {
-        "message": "Subscription: Active"
+        "message": "Подписка: Активная"
     },
     "subscriptionInactive": {
-        "message": "Subscription: Inactive"
+        "message": "Подписка: Неактивная"
     },
     "noTrialStarted": {
-        "message": "No trial started"
+        "message": "Испытание не начато"
     },
     "daysRemaining": {
-        "message": "day(s) remaining"
+        "message": "оставшийся день(ы)"
     },
     "__WET_LOCALE__": {
         "message": "ru"
