@@ -357,7 +357,7 @@
         "message": "Opções de subscrição da pesquisa de contexto"
     },
     "startNewTrial": {
-        "message": "Start a new 7 days trial"
+        "message": "Iniciar um novo teste de 7 dias"
     },
     "startSubscription": {
         "message": "Iniciar uma nova subscrição mensal, anual ou vitalícia"
@@ -372,31 +372,31 @@
         "message": "Não foi possível obter o URL para a remoção do marcador"
     },
     "bookmarkPage": {
-        "message": "Bookmark This Page"
+        "message": "Marcar esta página"
     },
     "pay": {
-        "message": "Pay"
+        "message": "Pagar"
     },
     "startTrial": {
-        "message": "Start trial"
+        "message": "Iniciar o ensaio"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Ensaio ativo: "
     },
     "trialExpired": {
-        "message": "Trial expired"
+        "message": "O período de teste expirou"
     },
     "subscriptionActive": {
-        "message": "Subscription: Active"
+        "message": "Subscrição: Ativo"
     },
     "subscriptionInactive": {
-        "message": "Subscription: Inactive"
+        "message": "Subscrição: Inativa"
     },
     "noTrialStarted": {
-        "message": "No trial started"
+        "message": "Nenhum ensaio iniciado"
     },
     "daysRemaining": {
-        "message": "day(s) remaining"
+        "message": "dia(s) restante(s)"
     },
     "__WET_LOCALE__": {
         "message": "pt"
