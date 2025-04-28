@@ -353,6 +353,24 @@
     "popupBlockedMessage": {
         "message": "Popup blokkert! Vennligst tillat popup-vinduer for dette nettstedet."
     },
+    "subscriptionOptions": {
+        "message": "Abonnementsalternativer for kontekstsøk"
+    },
+    "startTrial": {
+        "message": "Start en ny 7-dagers prøveperiode"
+    },
+    "startSubscription": {
+        "message": "Start et nytt månedlig, årlig eller livstidsabonnement"
+    },
+    "subscriptionStatus": {
+        "message": "Abonnement status"
+    },
+    "notifyMissingSearchEngine": {
+        "message": "Ingen søkemotorer er valgt for et multisøk"
+    },
+    "notifyMissingBookmarkUrl": {
+        "message": "Kunne ikke hente URL for fjerning av bokmerker"
+    },
     "__WET_LOCALE__": {
         "message": "no"
     }
