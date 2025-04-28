@@ -353,6 +353,24 @@
     "popupBlockedMessage": {
         "message": "Popup diblokir! Izinkan popup untuk situs ini."
     },
+    "subscriptionOptions": {
+        "message": "Opsi Berlangganan Pencarian Context Search"
+    },
+    "startTrial": {
+        "message": "Memulai uji coba 7 hari yang baru"
+    },
+    "startSubscription": {
+        "message": "Memulai langganan bulanan, tahunan, atau seumur hidup yang baru"
+    },
+    "subscriptionStatus": {
+        "message": "Status langganan"
+    },
+    "notifyMissingSearchEngine": {
+        "message": "Tidak ada mesin pencari yang dipilih untuk multi-pencarian"
+    },
+    "notifyMissingBookmarkUrl": {
+        "message": "Tidak dapat mengambil URL untuk menghapus bookmark"
+    },
     "__WET_LOCALE__": {
         "message": "id"
     }
