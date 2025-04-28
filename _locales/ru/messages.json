@@ -373,23 +373,5 @@
     },
     "__WET_LOCALE__": {
         "message": "ru"
-    },
-    "subscriptionOptions": {
-        "message": "Параметры подписки на контекстный поиск"
-    },
-    "startTrial": {
-        "message": "Начните новую 7-дневную пробную версию"
-    },
-    "startSubscription": {
-        "message": "Начните новую ежемесячную, ежегодную или пожизненную подписку"
-    },
-    "subscriptionStatus": {
-        "message": "Статус подписки"
-    },
-    "notifyMissingSearchEngine": {
-        "message": "Ни одна поисковая система не была выбрана для многократного поиска"
-    },
-    "notifyMissingBookmarkUrl": {
-        "message": "Не удалось получить URL-адрес для удаления закладок"
     }
 }

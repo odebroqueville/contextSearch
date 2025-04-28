@@ -373,23 +373,5 @@
     },
     "__WET_LOCALE__": {
         "message": "tr"
-    },
-    "subscriptionOptions": {
-        "message": "Bağlam Arama Abonelik Seçenekleri"
-    },
-    "startTrial": {
-        "message": "Yeni bir 7 günlük deneme başlatın"
-    },
-    "startSubscription": {
-        "message": "Yeni bir aylık, yıllık veya ömür boyu abonelik başlatın"
-    },
-    "subscriptionStatus": {
-        "message": "Abonelik durumu"
-    },
-    "notifyMissingSearchEngine": {
-        "message": "Çoklu arama için hiçbir arama motoru seçilmemiştir"
-    },
-    "notifyMissingBookmarkUrl": {
-        "message": "Yer imi kaldırma için URL alınamadı"
     }
 }

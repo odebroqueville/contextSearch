@@ -373,23 +373,5 @@
     },
     "__WET_LOCALE__": {
         "message": "it"
-    },
-    "subscriptionOptions": {
-        "message": "Opzioni di sottoscrizione della ricerca contestuale"
-    },
-    "startTrial": {
-        "message": "Iniziare una nuova prova di 7 giorni"
-    },
-    "startSubscription": {
-        "message": "Avviare un nuovo abbonamento mensile, annuale o a vita"
-    },
-    "subscriptionStatus": {
-        "message": "Stato dell'abbonamento"
-    },
-    "notifyMissingSearchEngine": {
-        "message": "Non sono stati selezionati motori di ricerca per una ricerca multipla."
-    },
-    "notifyMissingBookmarkUrl": {
-        "message": "Impossibile recuperare l'URL per la rimozione del segnalibro"
     }
 }

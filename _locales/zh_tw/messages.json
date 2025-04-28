@@ -373,23 +373,5 @@
     },
     "__WET_LOCALE__": {
         "message": "zh_tw"
-    },
-    "subscriptionOptions": {
-        "message": "內容搜尋訂閱選項"
-    },
-    "startTrial": {
-        "message": "開始新的 7 天試用"
-    },
-    "startSubscription": {
-        "message": "開始新的按月、按年或終身訂購"
-    },
-    "subscriptionStatus": {
-        "message": "訂閱狀態"
-    },
-    "notifyMissingSearchEngine": {
-        "message": "未選擇搜尋引擎進行多重搜尋"
-    },
-    "notifyMissingBookmarkUrl": {
-        "message": "無法檢索移除書籤的 URL"
     }
 }
