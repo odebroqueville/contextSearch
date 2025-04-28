@@ -1,7 +1,11 @@
 6.1.0
 =========
 
-* 
+* Remove video downloads feature
+* Remove call to Google Cloud API to fetch favicons
+* Added search engines for translations to default search engines
+* Added subscription system with trial and payment options
+* Added translations for the subscription system
 
 6.0.7
 ---------
