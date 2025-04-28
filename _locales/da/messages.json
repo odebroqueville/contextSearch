@@ -357,7 +357,7 @@
         "message": "Abonnementsmuligheder for kontekstsøgning"
     },
     "startNewTrial": {
-        "message": "Start a new 7 days trial"
+        "message": "Start en ny 7-dages prøveperiode"
     },
     "startSubscription": {
         "message": "Start et nyt månedligt, årligt eller livslangt abonnement"
@@ -372,31 +372,31 @@
         "message": "Kunne ikke hente URL til fjernelse af bogmærke"
     },
     "bookmarkPage": {
-        "message": "Bookmark This Page"
+        "message": "Bogmærke denne side"
     },
     "pay": {
-        "message": "Pay"
+        "message": "Betal"
     },
     "startTrial": {
-        "message": "Start trial"
+        "message": "Start forsøg"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Forsøget er aktivt: "
     },
     "trialExpired": {
-        "message": "Trial expired"
+        "message": "Prøveperiode udløbet"
     },
     "subscriptionActive": {
-        "message": "Subscription: Active"
+        "message": "Abonnement: Aktiv"
     },
     "subscriptionInactive": {
-        "message": "Subscription: Inactive"
+        "message": "Abonnement: Inaktivt"
     },
     "noTrialStarted": {
-        "message": "No trial started"
+        "message": "Intet forsøg påbegyndt"
     },
     "daysRemaining": {
-        "message": "day(s) remaining"
+        "message": "resterende dag(e)"
     },
     "__WET_LOCALE__": {
         "message": "da"
