@@ -357,7 +357,7 @@
         "message": "上下文搜索订阅选项"
     },
     "startNewTrial": {
-        "message": "Start a new 7 days trial"
+        "message": "开始新的 7 天试用"
     },
     "startSubscription": {
         "message": "开始新的包月、包年或终身订购"
@@ -372,31 +372,31 @@
         "message": "无法检索删除书签的 URL"
     },
     "bookmarkPage": {
-        "message": "Bookmark This Page"
+        "message": "收藏本页"
     },
     "pay": {
-        "message": "Pay"
+        "message": "薪酬"
     },
     "startTrial": {
-        "message": "Start trial"
+        "message": "开始试用"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "试验正在进行中： "
     },
     "trialExpired": {
-        "message": "Trial expired"
+        "message": "试用期已过"
     },
     "subscriptionActive": {
-        "message": "Subscription: Active"
+        "message": "订阅：激活"
     },
     "subscriptionInactive": {
-        "message": "Subscription: Inactive"
+        "message": "订阅：不活动"
     },
     "noTrialStarted": {
-        "message": "No trial started"
+        "message": "未开始试验"
     },
     "daysRemaining": {
-        "message": "day(s) remaining"
+        "message": "剩余天数"
     },
     "__WET_LOCALE__": {
         "message": "zh_cn"
