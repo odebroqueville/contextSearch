@@ -353,6 +353,24 @@
     "popupBlockedMessage": {
         "message": "ポップアップがブロックされました！このサイトのポップアップを許可してください。"
     },
+    "subscriptionOptions": {
+        "message": "コンテキスト検索購読オプション"
+    },
+    "startTrial": {
+        "message": "新規7日間トライアル開始"
+    },
+    "startSubscription": {
+        "message": "毎月、毎年、または生涯の新規購読を開始する"
+    },
+    "subscriptionStatus": {
+        "message": "購読状況"
+    },
+    "notifyMissingSearchEngine": {
+        "message": "マルチ検索では、検索エンジンは選択されていない。"
+    },
+    "notifyMissingBookmarkUrl": {
+        "message": "ブックマーク削除用のURLを取得できませんでした"
+    },
     "__WET_LOCALE__": {
         "message": "ja"
     }
