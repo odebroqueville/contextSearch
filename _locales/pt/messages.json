@@ -353,6 +353,24 @@
     "popupBlockedMessage": {
         "message": "Popup bloqueado! Permitir popups para este sítio."
     },
+    "subscriptionOptions": {
+        "message": "Opções de subscrição da pesquisa de contexto"
+    },
+    "startTrial": {
+        "message": "Iniciar um novo teste de 7 dias"
+    },
+    "startSubscription": {
+        "message": "Iniciar uma nova subscrição mensal, anual ou vitalícia"
+    },
+    "subscriptionStatus": {
+        "message": "Estado da subscrição"
+    },
+    "notifyMissingSearchEngine": {
+        "message": "Não foram selecionados motores de busca para uma pesquisa múltipla"
+    },
+    "notifyMissingBookmarkUrl": {
+        "message": "Não foi possível obter o URL para a remoção do marcador"
+    },
     "__WET_LOCALE__": {
         "message": "pt"
     },

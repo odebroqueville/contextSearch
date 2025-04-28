@@ -353,6 +353,24 @@
     "popupBlockedMessage": {
         "message": "Popup blockiert! Bitte erlauben Sie Popups für diese Seite."
     },
+    "subscriptionOptions": {
+        "message": "Abonnement-Optionen für Context Search"
+    },
+    "startTrial": {
+        "message": "Starten Sie einen neuen 7-Tage-Test"
+    },
+    "startSubscription": {
+        "message": "Starten Sie ein neues monatliches, jährliches oder lebenslanges Abonnement"
+    },
+    "subscriptionStatus": {
+        "message": "Status des Abonnements"
+    },
+    "notifyMissingSearchEngine": {
+        "message": "Es wurden keine Suchmaschinen für eine Mehrfachsuche ausgewählt"
+    },
+    "notifyMissingBookmarkUrl": {
+        "message": "URL zum Entfernen des Lesezeichens konnte nicht abgerufen werden"
+    },
     "__WET_LOCALE__": {
         "message": "de"
     },

@@ -1,6 +1,6 @@
 {
     "extensionName": {
-        "message": "جستجوی زمینه",
+        "message": "Context Search",
         "description": "Name of the extension"
     },
     "extensionDescription": {
@@ -352,6 +352,24 @@
     },
     "popupBlockedMessage": {
         "message": "پنجره بازشو مسدود شد! لطفا پنجره های بازشو را برای این سایت مجاز کنید."
+    },
+    "subscriptionOptions": {
+        "message": "گزینه های اشتراک جستجوی زمینه"
+    },
+    "startTrial": {
+        "message": "یک دوره آزمایشی 7 روزه جدید را شروع کنید"
+    },
+    "startSubscription": {
+        "message": "اشتراک ماهانه، سالانه یا مادام العمر جدید را شروع کنید"
+    },
+    "subscriptionStatus": {
+        "message": "وضعیت اشتراک"
+    },
+    "notifyMissingSearchEngine": {
+        "message": "هیچ موتور جستجویی برای جستجوی چندگانه انتخاب نشده است"
+    },
+    "notifyMissingBookmarkUrl": {
+        "message": "نمی توان URL را برای حذف نشانک بازیابی کرد"
     },
     "__WET_LOCALE__": {
         "message": "fa"

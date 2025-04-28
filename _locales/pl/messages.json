@@ -324,7 +324,7 @@
         "message": "Dodaj separator"
     },
     "testChatGPT": {
-        "message": "Test AI Prompt"
+        "message": "Test podpowiedzi sztucznej inteligencji"
     },
     "addChatGPTPrompt": {
         "message": "Dodaj monit AI"
@@ -352,6 +352,24 @@
     },
     "popupBlockedMessage": {
         "message": "Wyskakujące okienko zablokowane! Zezwól na wyświetlanie wyskakujących okienek dla tej witryny."
+    },
+    "subscriptionOptions": {
+        "message": "Opcje subskrypcji wyszukiwania kontekstowego"
+    },
+    "startTrial": {
+        "message": "Rozpocznij nowy 7-dniowy okres próbny"
+    },
+    "startSubscription": {
+        "message": "Rozpocznij nową subskrypcję miesięczną, roczną lub dożywotnią"
+    },
+    "subscriptionStatus": {
+        "message": "Status subskrypcji"
+    },
+    "notifyMissingSearchEngine": {
+        "message": "Nie wybrano żadnych wyszukiwarek dla wyszukiwania wielokrotnego"
+    },
+    "notifyMissingBookmarkUrl": {
+        "message": "Nie można pobrać adresu URL do usunięcia zakładki"
     },
     "__WET_LOCALE__": {
         "message": "pl"

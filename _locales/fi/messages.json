@@ -353,6 +353,24 @@
     "popupBlockedMessage": {
         "message": "Ponnahdusikkuna estetty! Salli ponnahdusikkunat tälle sivustolle."
     },
+    "subscriptionOptions": {
+        "message": "Kontekstihakuun liittyvät tilausvaihtoehdot"
+    },
+    "startTrial": {
+        "message": "Aloita uusi 7 päivän kokeilu"
+    },
+    "startSubscription": {
+        "message": "Aloita uusi kuukausittainen, vuosittainen tai elinikäinen tilaus."
+    },
+    "subscriptionStatus": {
+        "message": "Tilauksen tila"
+    },
+    "notifyMissingSearchEngine": {
+        "message": "Mitään hakukoneita ei ole valittu monihakua varten."
+    },
+    "notifyMissingBookmarkUrl": {
+        "message": "URL-osoitetta ei voitu hakea kirjanmerkin poistamista varten"
+    },
     "__WET_LOCALE__": {
         "message": "fi"
     },

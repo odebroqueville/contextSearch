@@ -353,6 +353,24 @@
     "popupBlockedMessage": {
         "message": "تم حظر النوافذ المنبثقة! الرجاء السماح بالنوافذ المنبثقة لهذا الموقع."
     },
+    "subscriptionOptions": {
+        "message": "خيارات الاشتراك في البحث في السياق"
+    },
+    "startTrial": {
+        "message": "ابدأ تجربة جديدة لمدة 7 أيام"
+    },
+    "startSubscription": {
+        "message": "ابدأ اشتراكًا جديدًا شهريًا أو سنويًا أو مدى الحياة"
+    },
+    "subscriptionStatus": {
+        "message": "حالة الاشتراك"
+    },
+    "notifyMissingSearchEngine": {
+        "message": "لم يتم اختيار أي محركات بحث متعددة البحث"
+    },
+    "notifyMissingBookmarkUrl": {
+        "message": "تعذر استرداد عنوان URL لإزالة الإشارة المرجعية"
+    },
     "__WET_LOCALE__": {
         "message": "ar"
     },

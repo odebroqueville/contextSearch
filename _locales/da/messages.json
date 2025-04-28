@@ -353,6 +353,24 @@
     "popupBlockedMessage": {
         "message": "Popup blokeret! Tillad venligst pop op-vinduer på dette websted."
     },
+    "subscriptionOptions": {
+        "message": "Abonnementsmuligheder for kontekstsøgning"
+    },
+    "startTrial": {
+        "message": "Start en ny 7-dages prøveperiode"
+    },
+    "startSubscription": {
+        "message": "Start et nyt månedligt, årligt eller livslangt abonnement"
+    },
+    "subscriptionStatus": {
+        "message": "Status for abonnement"
+    },
+    "notifyMissingSearchEngine": {
+        "message": "Der er ikke valgt nogen søgemaskiner til en multisøgning"
+    },
+    "notifyMissingBookmarkUrl": {
+        "message": "Kunne ikke hente URL til fjernelse af bogmærke"
+    },
     "__WET_LOCALE__": {
         "message": "da"
     },

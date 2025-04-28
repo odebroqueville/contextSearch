@@ -353,6 +353,24 @@
     "popupBlockedMessage": {
         "message": "Popup blockerad! Vänligen tillåt popup-fönster för denna webbplats."
     },
+    "subscriptionOptions": {
+        "message": "Alternativ för prenumeration på kontextsökning"
+    },
+    "startTrial": {
+        "message": "Starta en ny 7-dagars provperiod"
+    },
+    "startSubscription": {
+        "message": "Starta en ny månads-, års- eller livstidsprenumeration"
+    },
+    "subscriptionStatus": {
+        "message": "Status för prenumeration"
+    },
+    "notifyMissingSearchEngine": {
+        "message": "Inga sökmotorer har valts ut för en multisökning"
+    },
+    "notifyMissingBookmarkUrl": {
+        "message": "Det gick inte att hämta URL för borttagning av bokmärke"
+    },
     "__WET_LOCALE__": {
         "message": "sv"
     },

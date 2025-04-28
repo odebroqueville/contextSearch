@@ -353,6 +353,24 @@
     "popupBlockedMessage": {
         "message": "Pop-up geblokkeerd! Sta pop-ups toe voor deze site."
     },
+    "subscriptionOptions": {
+        "message": "Context Search Abonnementsopties"
+    },
+    "startTrial": {
+        "message": "Begin een nieuwe proefperiode van 7 dagen"
+    },
+    "startSubscription": {
+        "message": "Start een nieuw maandelijks, jaarlijks of levenslang abonnement"
+    },
+    "subscriptionStatus": {
+        "message": "Abonnementsstatus"
+    },
+    "notifyMissingSearchEngine": {
+        "message": "Er zijn geen zoekmachines geselecteerd voor een multi-search"
+    },
+    "notifyMissingBookmarkUrl": {
+        "message": "Kon URL voor bladwijzerverwijdering niet ophalen"
+    },
     "__WET_LOCALE__": {
         "message": "nl"
     },
