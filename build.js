@@ -7,6 +7,7 @@ const currentDir = path.resolve();
 // List of files/directories to exclude from the build
 const excludeList = [
     'build',
+    'crowdin.yml',
     'node_modules',
     'web-ext-artifacts',
     'web-ext-config.js',
@@ -81,8 +82,7 @@ function processServiceWorkerFile(src, dest, browser) {
 // Function to check if a file/directory should be excluded
 function shouldExclude(name) {
     return excludeList.includes(name) ||
-        name.startsWith('.') ||
-        name.startsWith('yt_dlp_host');
+        name.startsWith('.')
 }
 
 // Function to copy directory recursively

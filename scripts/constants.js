@@ -1,7 +1,7 @@
 /// Constants
 
 // Debug mode
-export const DEBUG = false;
+export const DEBUG = true;
 
 // User agent for sidebar search results
 const USER_AGENT_FOR_SIDEBAR =
@@ -166,6 +166,17 @@ export const notifySearchEngineUrlRequired = browser.i18n.getMessage(
 );
 export const notifyMissingSearchEngine = browser.i18n.getMessage('notifyMissingSearchEngine');
 export const notifyMissingBookmarkUrl = browser.i18n.getMessage('notifyMissingBookmarkUrl');
+export const bookmarkPage = browser.i18n.getMessage('bookmarkPage');
+export const addSearchEngine = browser.i18n.getMessage('addSearchEngine');
+export const subscriptionStatus = browser.i18n.getMessage('subscriptionStatus');
+export const pay = browser.i18n.getMessage('pay');
+export const startTrial = browser.i18n.getMessage('startTrial');
+export const trialActive = browser.i18n.getMessage('trialActive');
+export const trialExpired = browser.i18n.getMessage('trialExpired');
+export const subscriptionActive = browser.i18n.getMessage('subscriptionActive');
+export const subscriptionInactive = browser.i18n.getMessage('subscriptionInactive');
+export const noTrialStarted = browser.i18n.getMessage('noTrialStarted');
+export const daysRemaining = browser.i18n.getMessage('daysRemaining');
 
 // Default settings
 export const DEFAULT_OPTIONS = {

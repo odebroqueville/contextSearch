@@ -1,5 +1,7 @@
+/// Import browser polyfill for compatibility with Chrome and other browsers
 import '/libs/browser-polyfill.min.js';
 import ExtPay from '/libs/ExtPay.js';
+import { trialActive, daysRemaining, noTrialStarted, startTrial, trialExpired, subscriptionActive, subscriptionInactive, pay } from './constants';
 
 const extpay = ExtPay('context-search');
 const statusDiv = document.getElementById('status');
@@ -22,41 +24,44 @@ async function renderStatus() {
     // Display statuses
     if (trialDaysRemaining > 0) {
         const p = document.createElement('p');
-        p.textContent = `Trial active: ${trialDaysRemaining} day(s) remaining`;
+        p.textContent = `${trialActive} ${trialDaysRemaining} ${daysRemaining}`;
         statusDiv.appendChild(p);
     } else if (!user.paid && !user.trialStartedAt) {
         const p = document.createElement('p');
-        p.textContent = 'No trial started';
+        p.textContent = `${noTrialStarted}`;
         statusDiv.appendChild(p);
 
         const trialBtn = document.createElement('button');
-        trialBtn.textContent = 'Start trial';
+        trialBtn.textContent = `${startTrial}`;
         trialBtn.addEventListener('click', () => {
-            console.log('Attempting to open trial page...'); // Log before call
-            extpay.openTrialPage('7-day');
+            console.log('Attempting to open trial page via background script...'); // Log before call
+            // Ask the background script to open the trial page
+            browser.runtime.sendMessage({ action: "openTrialPage" });
+            // Close the popup after sending the message
             setTimeout(() => window.close(), 100);
         });
         statusDiv.appendChild(trialBtn);
     } else if (trialDaysRemaining <= 0 && user.trialStartedAt) {
         const p = document.createElement('p');
-        p.textContent = 'Trial expired';
+        p.textContent = `${trialExpired}`;
         statusDiv.appendChild(p);
     }
 
     // Paid status
     if (user.paid) {
         const p = document.createElement('p');
-        p.textContent = 'Subscription: Active';
+        p.textContent = `${subscriptionActive}`;
         statusDiv.appendChild(p);
     } else {
         const p = document.createElement('p');
-        p.textContent = 'Subscription: Inactive';
+        p.textContent = `${subscriptionInactive}`;
         statusDiv.appendChild(p);
 
         const payBtn = document.createElement('button');
-        payBtn.textContent = 'Pay';
+        payBtn.textContent = `${pay}`;
         payBtn.addEventListener('click', () => {
-            extpay.openPaymentPage();
+            // Ask background script to open payment page
+            browser.runtime.sendMessage({ action: "openPaymentPage" });
             setTimeout(() => window.close(), 100);
         });
         statusDiv.appendChild(payBtn);

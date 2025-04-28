@@ -54,7 +54,10 @@ import {
     notifyUnknown,
     notifySearchEngineUrlRequired,
     notifyMissingSearchEngine,
-    notifyMissingBookmarkUrl
+    notifyMissingBookmarkUrl,
+    bookmarkPage,
+    addSearchEngine,
+    subscriptionStatus
 } from "/scripts/constants.js";
 
 /// Global variables
@@ -369,8 +372,18 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
         case "reloadSearchEngines":
             reloadSearchEngines();
             break;
+        case "openTrialPage":
+            if (logToConsole) console.log("Received request to open trial page from popup.");
+            extpay.openTrialPage('7-day');
+            // No sendResponse needed here as the popup closes itself
+            break;
+        case "openPaymentPage":
+            if (logToConsole) console.log("Received request to open payment page from popup.");
+            extpay.openPaymentPage();
+            // No sendResponse needed here as the popup closes itself
+            break;
         default:
-            if (logToConsole) console.error("Unexpected action:", action);
+            if (logToConsole) console.log("Unexpected action:", action);
             sendResponse({ success: false });
             return false;
     }
@@ -1685,7 +1698,7 @@ async function buildContextMenu() {
 async function buildActionButtonMenus() {
     const bookmarkMenuItem = {
         id: "bookmark-page",
-        title: "Bookmark This Page",
+        title: bookmarkPage,
         contexts: ["action"]
     };
 
@@ -1705,7 +1718,7 @@ async function buildActionButtonMenus() {
 
     const searchEngineMenuItem = {
         id: "add-search-engine",
-        title: "Add Search Engine",
+        title: addSearchEngine,
         contexts: ["action"],
         visible: false // Initially hidden
     };
@@ -1731,7 +1744,7 @@ async function buildSubscriptionStatusMenuItem() {
     // Add subscription status menu item
     const subscriptionStatusMenuItem = {
         id: "subscription-status",
-        title: "Subscription status",
+        title: subscriptionStatus,
         contexts: ["action"]
     };
 
@@ -2892,8 +2905,10 @@ async function updateAddonStateForActiveTab() {
                     await contextMenus.update("bookmark-page", updateProps);
                 } catch (error) {
                     // Log error if the menu item doesn't exist (e.g., during initialization)
-                    if (logToConsole && error.message.includes("No matching menu item")) {
-                        console.warn(`Could not update menu item 'bookmark-page': ${error.message}`);
+                    const itemNotFound = error.message.toLowerCase().includes("no matching menu item") || error.message.toLowerCase().includes("cannot find menu item");
+                    if (itemNotFound) {
+                        // Expected during startup race conditions, log warning if enabled
+                        if (logToConsole) console.warn(`Could not update menu item 'bookmark-page' (might not exist yet): ${error.message}`);
                     } else {
                         // Re-throw other unexpected errors
                         throw error;
@@ -2906,8 +2921,10 @@ async function updateAddonStateForActiveTab() {
                     });
                 } catch (error) {
                     // Log error if the menu item doesn't exist (e.g., during initialization)
-                    if (logToConsole && error.message.includes("No matching menu item")) {
-                        console.warn(`Could not update menu item 'add-search-engine': ${error.message}`);
+                    const itemNotFound = error.message.toLowerCase().includes("no matching menu item") || error.message.toLowerCase().includes("cannot find menu item");
+                    if (itemNotFound) {
+                        // Expected during startup race conditions, log warning if enabled
+                        if (logToConsole) console.warn(`Could not update menu item 'add-search-engine' (might not exist yet): ${error.message}`);
                     } else {
                         // Re-throw other unexpected errors
                         throw error;
