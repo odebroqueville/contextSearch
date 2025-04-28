@@ -357,7 +357,7 @@
         "message": "Abonnement-Optionen für Context Search"
     },
     "startNewTrial": {
-        "message": "Start a new 7 days trial"
+        "message": "Starten Sie einen neuen 7-Tage-Test"
     },
     "startSubscription": {
         "message": "Starten Sie ein neues monatliches, jährliches oder lebenslanges Abonnement"
@@ -372,31 +372,31 @@
         "message": "URL zum Entfernen des Lesezeichens konnte nicht abgerufen werden"
     },
     "bookmarkPage": {
-        "message": "Bookmark This Page"
+        "message": "Lesezeichen für diese Seite"
     },
     "pay": {
-        "message": "Pay"
+        "message": "Bezahlen"
     },
     "startTrial": {
-        "message": "Start trial"
+        "message": "Versuch starten"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Versuch aktiv: "
     },
     "trialExpired": {
-        "message": "Trial expired"
+        "message": "Probezeit abgelaufen"
     },
     "subscriptionActive": {
-        "message": "Subscription: Active"
+        "message": "Abonnement: Aktiv"
     },
     "subscriptionInactive": {
-        "message": "Subscription: Inactive"
+        "message": "Abonnement: Inaktiv"
     },
     "noTrialStarted": {
-        "message": "No trial started"
+        "message": "Keine Studie gestartet"
     },
     "daysRemaining": {
-        "message": "day(s) remaining"
+        "message": "Verbleibende(r) Tag(e)"
     },
     "__WET_LOCALE__": {
         "message": "de"
