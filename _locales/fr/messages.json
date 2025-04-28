@@ -357,7 +357,7 @@
         "message": "Options d'abonnement pour Context Search"
     },
     "startNewTrial": {
-        "message": "Start a new 7 days trial"
+        "message": "Démarrer une nouvelle période d'essai de 7 jours"
     },
     "startSubscription": {
         "message": "Commencer un nouvel abonnement mensuel, annuel ou à vie"
@@ -372,31 +372,31 @@
         "message": "Impossible de récupérer l'URL pour la suppression des signets"
     },
     "bookmarkPage": {
-        "message": "Bookmark This Page"
+        "message": "Ajouter cette page à vos favoris"
     },
     "pay": {
-        "message": "Pay"
+        "message": "Rémunération"
     },
     "startTrial": {
-        "message": "Start trial"
+        "message": "Démarrer l'essai"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Essai actif : "
     },
     "trialExpired": {
-        "message": "Trial expired"
+        "message": "L'essai a expiré"
     },
     "subscriptionActive": {
-        "message": "Subscription: Active"
+        "message": "Abonnement : Actif"
     },
     "subscriptionInactive": {
-        "message": "Subscription: Inactive"
+        "message": "Abonnement : Inactif"
     },
     "noTrialStarted": {
-        "message": "No trial started"
+        "message": "Aucun essai n'a été entamé"
     },
     "daysRemaining": {
-        "message": "day(s) remaining"
+        "message": "jour(s) restant(s)"
     },
     "__WET_LOCALE__": {
         "message": "fr"
