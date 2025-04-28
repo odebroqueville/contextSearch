@@ -357,7 +357,7 @@
         "message": "Параметри підписки на Context Search"
     },
     "startNewTrial": {
-        "message": "Start a new 7 days trial"
+        "message": "Почніть нову 7-денну пробну версію"
     },
     "startSubscription": {
         "message": "Почніть нову щомісячну, річну або довічну підписку"
@@ -372,31 +372,31 @@
         "message": "Не вдалося отримати URL-адресу для видалення закладок"
     },
     "bookmarkPage": {
-        "message": "Bookmark This Page"
+        "message": "Додайте цю сторінку в закладки"
     },
     "pay": {
-        "message": "Pay"
+        "message": "Заплати"
     },
     "startTrial": {
-        "message": "Start trial"
+        "message": "Почніть випробування"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Випробування активне: "
     },
     "trialExpired": {
-        "message": "Trial expired"
+        "message": "Термін дії випробування закінчився"
     },
     "subscriptionActive": {
-        "message": "Subscription: Active"
+        "message": "Підписка: Активна"
     },
     "subscriptionInactive": {
-        "message": "Subscription: Inactive"
+        "message": "Підписка: Неактивна"
     },
     "noTrialStarted": {
-        "message": "No trial started"
+        "message": "Судовий розгляд не розпочато"
     },
     "daysRemaining": {
-        "message": "day(s) remaining"
+        "message": "день(и), що залишилися"
     },
     "__WET_LOCALE__": {
         "message": "uk"
