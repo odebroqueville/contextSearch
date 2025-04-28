@@ -357,7 +357,7 @@
         "message": "Opcje subskrypcji wyszukiwania kontekstowego"
     },
     "startNewTrial": {
-        "message": "Start a new 7 days trial"
+        "message": "Rozpocznij nowy 7-dniowy okres próbny"
     },
     "startSubscription": {
         "message": "Rozpocznij nową subskrypcję miesięczną, roczną lub dożywotnią"
@@ -372,31 +372,31 @@
         "message": "Nie można pobrać adresu URL do usunięcia zakładki"
     },
     "bookmarkPage": {
-        "message": "Bookmark This Page"
+        "message": "Dodaj tę stronę do zakładek"
     },
     "pay": {
-        "message": "Pay"
+        "message": "Wynagrodzenie"
     },
     "startTrial": {
-        "message": "Start trial"
+        "message": "Rozpoczęcie okresu próbnego"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Próba aktywna: "
     },
     "trialExpired": {
-        "message": "Trial expired"
+        "message": "Okres próbny wygasł"
     },
     "subscriptionActive": {
-        "message": "Subscription: Active"
+        "message": "Subskrypcja: Aktywny"
     },
     "subscriptionInactive": {
-        "message": "Subscription: Inactive"
+        "message": "Subskrypcja: Nieaktywny"
     },
     "noTrialStarted": {
-        "message": "No trial started"
+        "message": "Nie rozpoczęto okresu próbnego"
     },
     "daysRemaining": {
-        "message": "day(s) remaining"
+        "message": "pozostałe dni"
     },
     "__WET_LOCALE__": {
         "message": "pl"
