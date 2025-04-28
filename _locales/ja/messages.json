@@ -357,7 +357,7 @@
         "message": "コンテキスト検索購読オプション"
     },
     "startNewTrial": {
-        "message": "Start a new 7 days trial"
+        "message": "新規7日間トライアル開始"
     },
     "startSubscription": {
         "message": "毎月、毎年、または生涯の新規購読を開始する"
@@ -372,31 +372,31 @@
         "message": "ブックマーク削除用のURLを取得できませんでした"
     },
     "bookmarkPage": {
-        "message": "Bookmark This Page"
+        "message": "このページをブックマークする"
     },
     "pay": {
-        "message": "Pay"
+        "message": "給与"
     },
     "startTrial": {
-        "message": "Start trial"
+        "message": "トライアル開始"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "トライアルは活発だ： "
     },
     "trialExpired": {
-        "message": "Trial expired"
+        "message": "試用期限切れ"
     },
     "subscriptionActive": {
-        "message": "Subscription: Active"
+        "message": "サブスクリプションアクティブ"
     },
     "subscriptionInactive": {
-        "message": "Subscription: Inactive"
+        "message": "サブスクリプション非アクティブ"
     },
     "noTrialStarted": {
-        "message": "No trial started"
+        "message": "試験開始なし"
     },
     "daysRemaining": {
-        "message": "day(s) remaining"
+        "message": "残り日数"
     },
     "__WET_LOCALE__": {
         "message": "ja"
