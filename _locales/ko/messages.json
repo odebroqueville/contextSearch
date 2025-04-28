@@ -356,8 +356,8 @@
     "subscriptionOptions": {
         "message": "컨텍스트 검색 구독 옵션"
     },
-    "startTrial": {
-        "message": "새로운 7일 평가판 시작하기"
+    "startNewTrial": {
+        "message": "Start a new 7 days trial"
     },
     "startSubscription": {
         "message": "월간, 연간 또는 평생 구독을 새로 시작하세요."
@@ -370,6 +370,33 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "북마크 제거를 위한 URL을 검색할 수 없습니다."
+    },
+    "bookmarkPage": {
+        "message": "Bookmark This Page"
+    },
+    "pay": {
+        "message": "Pay"
+    },
+    "startTrial": {
+        "message": "Start trial"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "Trial expired"
+    },
+    "subscriptionActive": {
+        "message": "Subscription: Active"
+    },
+    "subscriptionInactive": {
+        "message": "Subscription: Inactive"
+    },
+    "noTrialStarted": {
+        "message": "No trial started"
+    },
+    "daysRemaining": {
+        "message": "day(s) remaining"
     },
     "__WET_LOCALE__": {
         "message": "ko"
