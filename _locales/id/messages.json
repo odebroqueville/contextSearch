@@ -162,7 +162,7 @@
         "message": "Pindah"
     },
     "up": {
-        "message": "up"
+        "message": "ke atas"
     },
     "down": {
         "message": "turun"
@@ -267,7 +267,7 @@
         "message": "Nama folder"
     },
     "folder": {
-        "message": "folder"
+        "message": "map"
     },
     "addFolder": {
         "message": "Tambahkan folder"
@@ -354,7 +354,7 @@
         "message": "Popup diblokir! Izinkan popup untuk situs ini."
     },
     "subscriptionOptions": {
-        "message": "Opsi Berlangganan Pencarian Context Search"
+        "message": "Opsi Berlangganan Context Search"
     },
     "startTrial": {
         "message": "Memulai uji coba 7 hari yang baru"
