@@ -357,7 +357,7 @@
         "message": "Áskriftarvalkostir fyrir samhengisleit"
     },
     "startNewTrial": {
-        "message": "Start a new 7 days trial"
+        "message": "Byrjaðu nýja 7 daga prufuáskrift"
     },
     "startSubscription": {
         "message": "Byrjaðu nýja mánaðarlega, árlega eða ævilanga áskrift"
@@ -372,31 +372,31 @@
         "message": "Gat ekki sótt vefslóð til að fjarlægja bókamerki"
     },
     "bookmarkPage": {
-        "message": "Bookmark This Page"
+        "message": "Bókamerki þessa síðu"
     },
     "pay": {
-        "message": "Pay"
+        "message": "Greiða"
     },
     "startTrial": {
-        "message": "Start trial"
+        "message": "Byrjaðu prufuáskrift"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Prufa virk: "
     },
     "trialExpired": {
-        "message": "Trial expired"
+        "message": "Prufuáskrift útrunnin"
     },
     "subscriptionActive": {
-        "message": "Subscription: Active"
+        "message": "Áskrift: Virk"
     },
     "subscriptionInactive": {
-        "message": "Subscription: Inactive"
+        "message": "Áskrift: Óvirkt"
     },
     "noTrialStarted": {
-        "message": "No trial started"
+        "message": "Engin prufuáskrift hafin"
     },
     "daysRemaining": {
-        "message": "day(s) remaining"
+        "message": "dag(ar) eftir"
     },
     "__WET_LOCALE__": {
         "message": "is"
