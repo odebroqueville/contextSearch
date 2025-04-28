@@ -357,7 +357,7 @@
         "message": "內容搜尋訂閱選項"
     },
     "startNewTrial": {
-        "message": "Start a new 7 days trial"
+        "message": "開始新的 7 天試用"
     },
     "startSubscription": {
         "message": "開始新的按月、按年或終身訂購"
@@ -372,31 +372,31 @@
         "message": "無法檢索移除書籤的 URL"
     },
     "bookmarkPage": {
-        "message": "Bookmark This Page"
+        "message": "將此頁加入書籤"
     },
     "pay": {
-        "message": "Pay"
+        "message": "薪資"
     },
     "startTrial": {
-        "message": "Start trial"
+        "message": "開始試用"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "試用中： "
     },
     "trialExpired": {
-        "message": "Trial expired"
+        "message": "試用已過期"
     },
     "subscriptionActive": {
-        "message": "Subscription: Active"
+        "message": "訂閱：活躍"
     },
     "subscriptionInactive": {
-        "message": "Subscription: Inactive"
+        "message": "訂閱：無效"
     },
     "noTrialStarted": {
-        "message": "No trial started"
+        "message": "未開始試驗"
     },
     "daysRemaining": {
-        "message": "day(s) remaining"
+        "message": "剩餘天數"
     },
     "__WET_LOCALE__": {
         "message": "zh_tw"
