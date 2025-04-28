@@ -357,7 +357,7 @@
         "message": "Bağlam Arama Abonelik Seçenekleri"
     },
     "startNewTrial": {
-        "message": "Start a new 7 days trial"
+        "message": "Yeni bir 7 günlük deneme başlatın"
     },
     "startSubscription": {
         "message": "Yeni bir aylık, yıllık veya ömür boyu abonelik başlatın"
@@ -372,31 +372,31 @@
         "message": "Yer imi kaldırma için URL alınamadı"
     },
     "bookmarkPage": {
-        "message": "Bookmark This Page"
+        "message": "Bu Sayfayı Yer İşaretlerine Ekle"
     },
     "pay": {
-        "message": "Pay"
+        "message": "Ödeme"
     },
     "startTrial": {
-        "message": "Start trial"
+        "message": "Denemeye başlayın"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Deneme aktif: "
     },
     "trialExpired": {
-        "message": "Trial expired"
+        "message": "Deneme süresi doldu"
     },
     "subscriptionActive": {
-        "message": "Subscription: Active"
+        "message": "Abonelik: Aktif"
     },
     "subscriptionInactive": {
-        "message": "Subscription: Inactive"
+        "message": "Abonelik: Aktif Değil"
     },
     "noTrialStarted": {
-        "message": "No trial started"
+        "message": "Deneme başlamadı"
     },
     "daysRemaining": {
-        "message": "day(s) remaining"
+        "message": "kalan gün(ler)"
     },
     "__WET_LOCALE__": {
         "message": "tr"
