@@ -356,8 +356,8 @@
     "subscriptionOptions": {
         "message": "Alternativ för prenumeration på kontextsökning"
     },
-    "startTrial": {
-        "message": "Starta en ny 7-dagars provperiod"
+    "startNewTrial": {
+        "message": "Start a new 7 days trial"
     },
     "startSubscription": {
         "message": "Starta en ny månads-, års- eller livstidsprenumeration"
@@ -370,6 +370,33 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "Det gick inte att hämta URL för borttagning av bokmärke"
+    },
+    "bookmarkPage": {
+        "message": "Bookmark This Page"
+    },
+    "pay": {
+        "message": "Pay"
+    },
+    "startTrial": {
+        "message": "Start trial"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "Trial expired"
+    },
+    "subscriptionActive": {
+        "message": "Subscription: Active"
+    },
+    "subscriptionInactive": {
+        "message": "Subscription: Inactive"
+    },
+    "noTrialStarted": {
+        "message": "No trial started"
+    },
+    "daysRemaining": {
+        "message": "day(s) remaining"
     },
     "__WET_LOCALE__": {
         "message": "sv"
