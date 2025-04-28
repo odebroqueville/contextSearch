@@ -357,7 +357,7 @@
         "message": "Alternativ för prenumeration på kontextsökning"
     },
     "startNewTrial": {
-        "message": "Start a new 7 days trial"
+        "message": "Starta en ny 7-dagars provperiod"
     },
     "startSubscription": {
         "message": "Starta en ny månads-, års- eller livstidsprenumeration"
@@ -372,31 +372,31 @@
         "message": "Det gick inte att hämta URL för borttagning av bokmärke"
     },
     "bookmarkPage": {
-        "message": "Bookmark This Page"
+        "message": "Bokmärk denna sida"
     },
     "pay": {
-        "message": "Pay"
+        "message": "Betala"
     },
     "startTrial": {
-        "message": "Start trial"
+        "message": "Starta försök"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Försöket är aktivt: "
     },
     "trialExpired": {
-        "message": "Trial expired"
+        "message": "Försöksperioden har löpt ut"
     },
     "subscriptionActive": {
-        "message": "Subscription: Active"
+        "message": "Prenumeration: Aktiv"
     },
     "subscriptionInactive": {
-        "message": "Subscription: Inactive"
+        "message": "Prenumeration: Inaktiv"
     },
     "noTrialStarted": {
-        "message": "No trial started"
+        "message": "Ingen studie påbörjad"
     },
     "daysRemaining": {
-        "message": "day(s) remaining"
+        "message": "återstående dag(ar)"
     },
     "__WET_LOCALE__": {
         "message": "sv"
