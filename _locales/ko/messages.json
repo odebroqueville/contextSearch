@@ -353,6 +353,24 @@
     "popupBlockedMessage": {
         "message": "팝업이 차단되었습니다! 이 사이트의 팝업을 허용해 주세요."
     },
+    "subscriptionOptions": {
+        "message": "컨텍스트 검색 구독 옵션"
+    },
+    "startTrial": {
+        "message": "새로운 7일 평가판 시작하기"
+    },
+    "startSubscription": {
+        "message": "월간, 연간 또는 평생 구독을 새로 시작하세요."
+    },
+    "subscriptionStatus": {
+        "message": "구독 상태"
+    },
+    "notifyMissingSearchEngine": {
+        "message": "다중 검색을 위해 선택한 검색 엔진이 없습니다."
+    },
+    "notifyMissingBookmarkUrl": {
+        "message": "북마크 제거를 위한 URL을 검색할 수 없습니다."
+    },
     "__WET_LOCALE__": {
         "message": "ko"
     }
