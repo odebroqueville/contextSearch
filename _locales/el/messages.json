@@ -355,5 +355,23 @@
     },
     "__WET_LOCALE__": {
         "message": "el"
+    },
+    "subscriptionOptions": {
+        "message": "Επιλογές συνδρομής αναζήτησης πλαισίου"
+    },
+    "startTrial": {
+        "message": "Ξεκινήστε μια νέα δοκιμή 7 ημερών"
+    },
+    "startSubscription": {
+        "message": "Ξεκινήστε μια νέα μηνιαία, ετήσια ή ισόβια συνδρομή"
+    },
+    "subscriptionStatus": {
+        "message": "Κατάσταση συνδρομής"
+    },
+    "notifyMissingSearchEngine": {
+        "message": "Δεν έχουν επιλεγεί μηχανές αναζήτησης για μια πολλαπλή αναζήτηση"
+    },
+    "notifyMissingBookmarkUrl": {
+        "message": "Δεν ήταν δυνατή η ανάκτηση της διεύθυνσης URL για την αφαίρεση σελιδοδείκτη"
     }
 }

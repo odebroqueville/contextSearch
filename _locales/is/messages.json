@@ -355,5 +355,23 @@
     },
     "__WET_LOCALE__": {
         "message": "is"
+    },
+    "subscriptionOptions": {
+        "message": "Áskriftarvalkostir fyrir samhengisleit"
+    },
+    "startTrial": {
+        "message": "Byrjaðu nýja 7 daga prufuáskrift"
+    },
+    "startSubscription": {
+        "message": "Byrjaðu nýja mánaðarlega, árlega eða ævilanga áskrift"
+    },
+    "subscriptionStatus": {
+        "message": "Staða áskriftar"
+    },
+    "notifyMissingSearchEngine": {
+        "message": "Engar leitarvélar hafa verið valdar fyrir fjölleit"
+    },
+    "notifyMissingBookmarkUrl": {
+        "message": "Gat ekki sótt vefslóð til að fjarlægja bókamerki"
     }
 }

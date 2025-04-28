@@ -355,5 +355,23 @@
     },
     "__WET_LOCALE__": {
         "message": "hy"
+    },
+    "subscriptionOptions": {
+        "message": "Համատեքստ Որոնում Բաժանորդագրության Ընտրանքներ"
+    },
+    "startTrial": {
+        "message": "Սկսեք նոր 7 օր տեւողությամբ փորձարկում"
+    },
+    "startSubscription": {
+        "message": "Սկսեք նոր ամսական, տարեկան կամ ցմահ բաժանորդագրություն"
+    },
+    "subscriptionStatus": {
+        "message": "Բաժանորդագրության կարգավիճակ"
+    },
+    "notifyMissingSearchEngine": {
+        "message": "Բազմակողմանի որոնման համար ոչ մի որոնման շարժիչ չի ընտրվել"
+    },
+    "notifyMissingBookmarkUrl": {
+        "message": "Անհնար է վերցրել URL-ն՝ էջանիշերի հեռացման համար"
     }
 }

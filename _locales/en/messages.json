@@ -18,7 +18,7 @@
         "message": "You can launch a"
     },
     "multisearchEnd": {
-        "message": "through the context menu or through the omnibox by typing:"
+        "message": "from the context menu or from the address bar by typing:"
     },
     "multisearchEndOfSentence": {
         "message": "followed by your search terms."
@@ -342,16 +342,34 @@
         "message": "Overwrite the existing search engines with the imported search engines"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Are you sure that you want to remove the folder "
+        "message": "Are you sure that you want to remove the folder"
     },
     "removeFolderConfirmSuffix": {
-        "message": " and all of its contents?"
+        "message": "and all of its contents"
     },
     "removeSearchEngineConfirm": {
-        "message": "Are you sure you want to remove the search engine "
+        "message": "Are you sure you want to remove the search engine"
     },
     "popupBlockedMessage": {
         "message": "Popup blocked! Please allow popups for this site."
+    },
+    "subscriptionOptions": {
+        "message": "Context Search Subscription Options"
+    },
+    "startTrial": {
+        "message": "Start a new 7 days trial"
+    },
+    "startSubscription": {
+        "message": "Start a new monthly, yearly or lifetime subscription"
+    },
+    "subscriptionStatus": {
+        "message": "Subscription status"
+    },
+    "notifyMissingSearchEngine": {
+        "message": "No search engines have been selected for a multi-search"
+    },
+    "notifyMissingBookmarkUrl": {
+        "message": "Could not retrieve URL for bookmark removal"
     },
     "__WET_LOCALE__": {
         "message": "en"

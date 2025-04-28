@@ -355,5 +355,23 @@
     },
     "__WET_LOCALE__": {
         "message": "uk"
+    },
+    "subscriptionOptions": {
+        "message": "Параметри підписки на Context Search"
+    },
+    "startTrial": {
+        "message": "Почніть нову 7-денну пробну версію"
+    },
+    "startSubscription": {
+        "message": "Почніть нову щомісячну, річну або довічну підписку"
+    },
+    "subscriptionStatus": {
+        "message": "Статус підписки"
+    },
+    "notifyMissingSearchEngine": {
+        "message": "Для мультипошуку не обрано жодної пошукової системи"
+    },
+    "notifyMissingBookmarkUrl": {
+        "message": "Не вдалося отримати URL-адресу для видалення закладок"
     }
 }

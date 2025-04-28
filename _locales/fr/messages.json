@@ -355,5 +355,23 @@
     },
     "__WET_LOCALE__": {
         "message": "fr"
+    },
+    "subscriptionOptions": {
+        "message": "Options d'abonnement pour Context Search"
+    },
+    "startTrial": {
+        "message": "Démarrer une nouvelle période d'essai de 7 jours"
+    },
+    "startSubscription": {
+        "message": ""
+    },
+    "subscriptionStatus": {
+        "message": "Statut de l'abonnement"
+    },
+    "notifyMissingSearchEngine": {
+        "message": "Aucun moteur de recherche n'a été sélectionné pour une recherche multiple."
+    },
+    "notifyMissingBookmarkUrl": {
+        "message": "Impossible de récupérer l'URL pour la suppression des signets"
     }
 }

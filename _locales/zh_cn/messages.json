@@ -355,5 +355,23 @@
     },
     "__WET_LOCALE__": {
         "message": "zh_cn"
+    },
+    "subscriptionOptions": {
+        "message": "上下文搜索订阅选项"
+    },
+    "startTrial": {
+        "message": "开始新的 7 天试用"
+    },
+    "startSubscription": {
+        "message": "开始新的包月、包年或终身订购"
+    },
+    "subscriptionStatus": {
+        "message": "订阅状态"
+    },
+    "notifyMissingSearchEngine": {
+        "message": "没有为多重搜索选择任何搜索引擎"
+    },
+    "notifyMissingBookmarkUrl": {
+        "message": "无法检索删除书签的 URL"
     }
 }
