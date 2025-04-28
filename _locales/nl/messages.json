@@ -356,8 +356,8 @@
     "subscriptionOptions": {
         "message": "Context Search Abonnementsopties"
     },
-    "startTrial": {
-        "message": "Begin een nieuwe proefperiode van 7 dagen"
+    "startNewTrial": {
+        "message": "Start a new 7 days trial"
     },
     "startSubscription": {
         "message": "Start een nieuw maandelijks, jaarlijks of levenslang abonnement"
@@ -370,6 +370,33 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "Kon URL voor bladwijzerverwijdering niet ophalen"
+    },
+    "bookmarkPage": {
+        "message": "Bookmark This Page"
+    },
+    "pay": {
+        "message": "Pay"
+    },
+    "startTrial": {
+        "message": "Start trial"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "Trial expired"
+    },
+    "subscriptionActive": {
+        "message": "Subscription: Active"
+    },
+    "subscriptionInactive": {
+        "message": "Subscription: Inactive"
+    },
+    "noTrialStarted": {
+        "message": "No trial started"
+    },
+    "daysRemaining": {
+        "message": "day(s) remaining"
     },
     "__WET_LOCALE__": {
         "message": "nl"
