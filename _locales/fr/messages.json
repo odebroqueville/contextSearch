@@ -201,7 +201,7 @@
         "message": "Rechercher dans ce site avec"
     },
     "titleOptions": {
-        "message": "Options"
+        "message": "Paramètres"
     },
     "windowTitle": {
         "message": "Résultats de recherche pour"
@@ -324,7 +324,7 @@
         "message": "Ajouter un séparateur"
     },
     "testChatGPT": {
-        "message": "Test AI Prompt"
+        "message": "Tester l’invite IA"
     },
     "addChatGPTPrompt": {
         "message": "Ajouter une invite AI"
@@ -336,7 +336,7 @@
         "message": "Nom de l'invite"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "Invite"
     },
     "overwriteSearchEngines": {
         "message": "Remplacer les moteurs de recherche existants par les moteurs de recherche importés"
@@ -360,7 +360,7 @@
         "message": "Démarrer une nouvelle période d'essai de 7 jours"
     },
     "startSubscription": {
-        "message": "Start a new monthly, yearly or lifetime subscription"
+        "message": "Commencer un nouvel abonnement mensuel, annuel ou à vie"
     },
     "subscriptionStatus": {
         "message": "Statut de l'abonnement"
