@@ -357,7 +357,7 @@
         "message": "Επιλογές συνδρομής αναζήτησης πλαισίου"
     },
     "startNewTrial": {
-        "message": "Start a new 7 days trial"
+        "message": "Ξεκινήστε μια νέα δοκιμή 7 ημερών"
     },
     "startSubscription": {
         "message": "Ξεκινήστε μια νέα μηνιαία, ετήσια ή ισόβια συνδρομή"
@@ -372,31 +372,31 @@
         "message": "Δεν ήταν δυνατή η ανάκτηση της διεύθυνσης URL για την αφαίρεση σελιδοδείκτη"
     },
     "bookmarkPage": {
-        "message": "Bookmark This Page"
+        "message": "Σελιδοδείκτης Αυτή η σελίδα"
     },
     "pay": {
-        "message": "Pay"
+        "message": "Πληρωμή"
     },
     "startTrial": {
-        "message": "Start trial"
+        "message": "Έναρξη δοκιμής"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Δοκιμή ενεργή: "
     },
     "trialExpired": {
-        "message": "Trial expired"
+        "message": "Η δοκιμή έληξε"
     },
     "subscriptionActive": {
-        "message": "Subscription: Active"
+        "message": "Συνδρομή: ."
     },
     "subscriptionInactive": {
-        "message": "Subscription: Inactive"
+        "message": "Συνδρομή: ."
     },
     "noTrialStarted": {
-        "message": "No trial started"
+        "message": "Δεν ξεκίνησε καμία δοκιμή"
     },
     "daysRemaining": {
-        "message": "day(s) remaining"
+        "message": "ημέρα(ες) που απομένουν"
     },
     "__WET_LOCALE__": {
         "message": "el"
