@@ -357,7 +357,7 @@
         "message": "Opsi Berlangganan Context Search"
     },
     "startNewTrial": {
-        "message": "Start a new 7 days trial"
+        "message": "Memulai uji coba 7 hari yang baru"
     },
     "startSubscription": {
         "message": "Memulai langganan bulanan, tahunan, atau seumur hidup yang baru"
@@ -372,31 +372,31 @@
         "message": "Tidak dapat mengambil URL untuk menghapus bookmark"
     },
     "bookmarkPage": {
-        "message": "Bookmark This Page"
+        "message": "Tandai Halaman Ini"
     },
     "pay": {
-        "message": "Pay"
+        "message": "Bayar"
     },
     "startTrial": {
-        "message": "Start trial"
+        "message": "Mulai uji coba"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Uji coba aktif: "
     },
     "trialExpired": {
-        "message": "Trial expired"
+        "message": "Uji coba berakhir"
     },
     "subscriptionActive": {
-        "message": "Subscription: Active"
+        "message": "Langganan: Aktif"
     },
     "subscriptionInactive": {
-        "message": "Subscription: Inactive"
+        "message": "Langganan: Tidak aktif"
     },
     "noTrialStarted": {
-        "message": "No trial started"
+        "message": "Tidak ada uji coba yang dimulai"
     },
     "daysRemaining": {
-        "message": "day(s) remaining"
+        "message": "hari yang tersisa"
     },
     "__WET_LOCALE__": {
         "message": "id"
