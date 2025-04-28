@@ -357,7 +357,7 @@
         "message": "Kontekstihakuun liittyvät tilausvaihtoehdot"
     },
     "startNewTrial": {
-        "message": "Start a new 7 days trial"
+        "message": "Aloita uusi 7 päivän kokeilu"
     },
     "startSubscription": {
         "message": "Aloita uusi kuukausittainen, vuosittainen tai elinikäinen tilaus."
@@ -372,31 +372,31 @@
         "message": "URL-osoitetta ei voitu hakea kirjanmerkin poistamista varten"
     },
     "bookmarkPage": {
-        "message": "Bookmark This Page"
+        "message": "Kirjanmerkki tälle sivulle"
     },
     "pay": {
-        "message": "Pay"
+        "message": "Palkka"
     },
     "startTrial": {
-        "message": "Start trial"
+        "message": "Aloita kokeilu"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Kokeilu aktiivinen: "
     },
     "trialExpired": {
-        "message": "Trial expired"
+        "message": "Kokeilu päättynyt"
     },
     "subscriptionActive": {
-        "message": "Subscription: Active"
+        "message": "Tilaus: Aktiivinen"
     },
     "subscriptionInactive": {
-        "message": "Subscription: Inactive"
+        "message": "Tilaus: Inactive"
     },
     "noTrialStarted": {
-        "message": "No trial started"
+        "message": "Tutkimusta ei aloitettu"
     },
     "daysRemaining": {
-        "message": "day(s) remaining"
+        "message": "jäljellä oleva(t) päivä(t)"
     },
     "__WET_LOCALE__": {
         "message": "fi"
