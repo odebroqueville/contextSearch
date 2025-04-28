@@ -357,7 +357,7 @@
         "message": "گزینه های اشتراک جستجوی زمینه"
     },
     "startNewTrial": {
-        "message": "Start a new 7 days trial"
+        "message": "یک دوره آزمایشی 7 روزه جدید را شروع کنید"
     },
     "startSubscription": {
         "message": "اشتراک ماهانه، سالانه یا مادام العمر جدید را شروع کنید"
@@ -372,31 +372,31 @@
         "message": "نمی توان URL را برای حذف نشانک بازیابی کرد"
     },
     "bookmarkPage": {
-        "message": "Bookmark This Page"
+        "message": "این صفحه را نشانه گذاری کنید"
     },
     "pay": {
-        "message": "Pay"
+        "message": "پرداخت"
     },
     "startTrial": {
-        "message": "Start trial"
+        "message": "شروع آزمایشی"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "کارآزمایی فعال: "
     },
     "trialExpired": {
-        "message": "Trial expired"
+        "message": "دوره آزمایشی منقضی شده است"
     },
     "subscriptionActive": {
-        "message": "Subscription: Active"
+        "message": "اشتراک: فعال"
     },
     "subscriptionInactive": {
-        "message": "Subscription: Inactive"
+        "message": "اشتراک: غیر فعال"
     },
     "noTrialStarted": {
-        "message": "No trial started"
+        "message": "هیچ کارآزمایی ای شروع نشد"
     },
     "daysRemaining": {
-        "message": "day(s) remaining"
+        "message": "روز(های) باقی مانده"
     },
     "__WET_LOCALE__": {
         "message": "fa"
