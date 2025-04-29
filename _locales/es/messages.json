@@ -381,7 +381,7 @@
         "message": "Iniciar prueba"
     },
     "trialActive": {
-        "message": "Prueba activa: "
+        "message": "Trial active: "
     },
     "trialExpired": {
         "message": "Prueba caducada"
