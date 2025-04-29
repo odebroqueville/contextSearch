@@ -375,7 +375,7 @@
         "message": "このページをブックマークする"
     },
     "unbookmarkPage": {
-        "message": "Unbookmark This Page"
+        "message": "このページのブックマークを解除する"
     },
     "pay": {
         "message": "給与"
