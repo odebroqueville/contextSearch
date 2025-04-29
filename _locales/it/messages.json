@@ -381,7 +381,7 @@
         "message": "Avvio della prova"
     },
     "trialActive": {
-        "message": "Prova attiva: "
+        "message": "Trial active: "
     },
     "trialExpired": {
         "message": "Prova scaduta"
