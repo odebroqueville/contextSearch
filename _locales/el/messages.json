@@ -381,7 +381,7 @@
         "message": "Έναρξη δοκιμής"
     },
     "trialActive": {
-        "message": "Δοκιμή ενεργή: "
+        "message": "Trial active: "
     },
     "trialExpired": {
         "message": "Η δοκιμή έληξε"
