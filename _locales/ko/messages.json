@@ -381,7 +381,7 @@
         "message": "평가판 시작"
     },
     "trialActive": {
-        "message": "평가판이 활성화되었습니다: "
+        "message": "Trial active: "
     },
     "trialExpired": {
         "message": "평가판 만료"
