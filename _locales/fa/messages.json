@@ -374,6 +374,9 @@
     "bookmarkPage": {
         "message": "این صفحه را نشانه گذاری کنید"
     },
+    "unbookmarkPage": {
+        "message": "Unbookmark This Page"
+    },
     "pay": {
         "message": "پرداخت"
     },
