@@ -374,6 +374,9 @@
     "bookmarkPage": {
         "message": "Додайте цю сторінку в закладки"
     },
+    "unbookmarkPage": {
+        "message": "Unbookmark This Page"
+    },
     "pay": {
         "message": "Заплати"
     },
