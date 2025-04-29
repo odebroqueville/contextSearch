@@ -381,7 +381,7 @@
         "message": "Start forsøg"
     },
     "trialActive": {
-        "message": "Forsøget er aktivt: "
+        "message": "Trial active: "
     },
     "trialExpired": {
         "message": "Prøveperiode udløbet"
