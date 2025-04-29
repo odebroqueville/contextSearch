@@ -374,6 +374,9 @@
     "bookmarkPage": {
         "message": "이 페이지 북마크하기"
     },
+    "unbookmarkPage": {
+        "message": "Unbookmark This Page"
+    },
     "pay": {
         "message": "결제"
     },
