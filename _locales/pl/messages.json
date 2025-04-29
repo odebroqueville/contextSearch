@@ -381,7 +381,7 @@
         "message": "Rozpoczęcie okresu próbnego"
     },
     "trialActive": {
-        "message": "Próba aktywna: "
+        "message": "Trial active: "
     },
     "trialExpired": {
         "message": "Okres próbny wygasł"
