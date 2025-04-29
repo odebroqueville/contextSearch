@@ -381,7 +381,7 @@
         "message": "Почніть випробування"
     },
     "trialActive": {
-        "message": "Випробування активне: "
+        "message": "Trial active: "
     },
     "trialExpired": {
         "message": "Термін дії випробування закінчився"
