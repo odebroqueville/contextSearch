@@ -381,7 +381,7 @@
         "message": "Versuch starten"
     },
     "trialActive": {
-        "message": "Versuch aktiv: "
+        "message": "Trial active: "
     },
     "trialExpired": {
         "message": "Probezeit abgelaufen"
