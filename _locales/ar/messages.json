@@ -374,6 +374,9 @@
     "bookmarkPage": {
         "message": "ضع إشارة مرجعية على هذه الصفحة"
     },
+    "unbookmarkPage": {
+        "message": "Unbookmark This Page"
+    },
     "pay": {
         "message": "الراتب"
     },
