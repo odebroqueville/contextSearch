@@ -381,7 +381,7 @@
         "message": "Iniciar o ensaio"
     },
     "trialActive": {
-        "message": "Ensaio ativo: "
+        "message": "Trial active: "
     },
     "trialExpired": {
         "message": "O período de teste expirou"
