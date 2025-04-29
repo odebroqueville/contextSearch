@@ -56,6 +56,7 @@ import {
     notifyMissingSearchEngine,
     notifyMissingBookmarkUrl,
     bookmarkPage,
+    unbookmarkPage,
     addSearchEngine,
     subscriptionStatus
 } from "/scripts/constants.js";
@@ -2893,7 +2894,7 @@ async function updateAddonStateForActiveTab() {
                 }
                 // Update menu item for bookmarking
                 const updateProps = {
-                    title: bookmarked ? "Unbookmark This Page" : "Bookmark This Page"
+                    title: bookmarked ? unbookmarkPage : bookmarkPage
                 };
                 if (isFirefox) {
                     updateProps.icons = bookmarked
