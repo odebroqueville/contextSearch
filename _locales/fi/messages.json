@@ -381,7 +381,7 @@
         "message": "Aloita kokeilu"
     },
     "trialActive": {
-        "message": "Kokeilu aktiivinen: "
+        "message": "Trial active: "
     },
     "trialExpired": {
         "message": "Kokeilu päättynyt"
