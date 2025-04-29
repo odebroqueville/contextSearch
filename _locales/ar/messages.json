@@ -381,7 +381,7 @@
         "message": "بدء التجربة"
     },
     "trialActive": {
-        "message": "التجربة نشطة: "
+        "message": "Trial active: "
     },
     "trialExpired": {
         "message": "انتهت صلاحية التجربة"
