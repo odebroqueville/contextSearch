@@ -381,7 +381,7 @@
         "message": "Սկսել փորձը"
     },
     "trialActive": {
-        "message": "Դատավարությունը ակտիվ. "
+        "message": "Trial active: "
     },
     "trialExpired": {
         "message": "Դատավարության ժամկետը լրացել է"
