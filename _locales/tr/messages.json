@@ -381,7 +381,7 @@
         "message": "Denemeye başlayın"
     },
     "trialActive": {
-        "message": "Deneme aktif: "
+        "message": "Trial active: "
     },
     "trialExpired": {
         "message": "Deneme süresi doldu"
