@@ -381,7 +381,7 @@
         "message": "開始試用"
     },
     "trialActive": {
-        "message": "試用中： "
+        "message": "Trial active: "
     },
     "trialExpired": {
         "message": "試用已過期"
