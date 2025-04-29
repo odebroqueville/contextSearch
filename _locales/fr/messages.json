@@ -375,10 +375,10 @@
         "message": "Ajouter cette page à vos favoris"
     },
     "unbookmarkPage": {
-        "message": "Unbookmark This Page"
+        "message": "Retirer cette page des favoris"
     },
     "pay": {
-        "message": "Rémunération"
+        "message": "Payer"
     },
     "startTrial": {
         "message": "Démarrer l'essai"
