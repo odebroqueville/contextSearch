@@ -381,7 +381,7 @@
         "message": "شروع آزمایشی"
     },
     "trialActive": {
-        "message": "کارآزمایی فعال: "
+        "message": "Trial active: "
     },
     "trialExpired": {
         "message": "دوره آزمایشی منقضی شده است"
