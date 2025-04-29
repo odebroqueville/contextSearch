@@ -220,7 +220,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return;
     }
 
-    if (!paid && !trialActive) {
+    if (action !== 'openPaymentPage' && action !== 'openTrialPage' && !paid && !trialActive) {
         sendResponse({ success: false, error: "Subscription required" });
         return;
     }

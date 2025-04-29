@@ -1,7 +1,7 @@
 /// Import browser polyfill for compatibility with Chrome and other browsers
 import '/libs/browser-polyfill.min.js';
 import ExtPay from '/libs/ExtPay.js';
-import { trialActive, daysRemaining, noTrialStarted, startTrial, trialExpired, subscriptionActive, subscriptionInactive, pay } from './constants';
+import { trialActive, daysRemaining, noTrialStarted, startTrial, trialExpired, subscriptionActive, subscriptionInactive, pay } from './constants.js';
 
 const extpay = ExtPay('context-search');
 const statusDiv = document.getElementById('status');
