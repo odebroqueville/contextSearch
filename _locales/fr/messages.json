@@ -374,6 +374,9 @@
     "bookmarkPage": {
         "message": "Ajouter cette page à vos favoris"
     },
+    "unbookmarkPage": {
+        "message": "Unbookmark This Page"
+    },
     "pay": {
         "message": "Rémunération"
     },
