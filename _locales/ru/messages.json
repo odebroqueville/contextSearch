@@ -375,7 +375,7 @@
         "message": "Добавьте эту страницу в закладки"
     },
     "unbookmarkPage": {
-        "message": "Unbookmark This Page"
+        "message": "Снимите закладку с этой страницы"
     },
     "pay": {
         "message": "Оплатить"
