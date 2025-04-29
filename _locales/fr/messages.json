@@ -366,7 +366,7 @@
         "message": "Statut de l'abonnement"
     },
     "notifyMissingSearchEngine": {
-        "message": "Aucun moteur de recherche n'a été sélectionné pour une recherche multiple."
+        "message": "Aucun moteur de recherche n'a été sélectionné pour une recherche multiple"
     },
     "notifyMissingBookmarkUrl": {
         "message": "Impossible de récupérer l'URL pour la suppression des signets"
@@ -381,7 +381,7 @@
         "message": "Démarrer l'essai"
     },
     "trialActive": {
-        "message": "Essai actif : "
+        "message": "Trial active: "
     },
     "trialExpired": {
         "message": "L'essai a expiré"
