@@ -381,7 +381,7 @@
         "message": "Byrjaðu prufuáskrift"
     },
     "trialActive": {
-        "message": "Prufa virk: "
+        "message": "Trial active: "
     },
     "trialExpired": {
         "message": "Prufuáskrift útrunnin"
