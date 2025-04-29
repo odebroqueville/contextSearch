@@ -381,7 +381,7 @@
         "message": "Proef starten"
     },
     "trialActive": {
-        "message": "Proef actief: "
+        "message": "Trial active: "
     },
     "trialExpired": {
         "message": "Proefversie verlopen"
