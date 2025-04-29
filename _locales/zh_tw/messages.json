@@ -356,7 +356,7 @@
     "subscriptionOptions": {
         "message": "內容搜尋訂閱選項"
     },
-    "startTrial": {
+    "startNewTrial": {
         "message": "開始新的 7 天試用"
     },
     "startSubscription": {
@@ -370,6 +370,33 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "無法檢索移除書籤的 URL"
+    },
+    "bookmarkPage": {
+        "message": "將此頁加入書籤"
+    },
+    "pay": {
+        "message": "薪資"
+    },
+    "startTrial": {
+        "message": "開始試用"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "試用已過期"
+    },
+    "subscriptionActive": {
+        "message": "訂閱：活躍"
+    },
+    "subscriptionInactive": {
+        "message": "訂閱：無效"
+    },
+    "noTrialStarted": {
+        "message": "未開始試驗"
+    },
+    "daysRemaining": {
+        "message": "剩餘天數"
     },
     "__WET_LOCALE__": {
         "message": "zh_tw"

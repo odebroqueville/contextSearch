@@ -356,7 +356,7 @@
     "subscriptionOptions": {
         "message": "Επιλογές συνδρομής αναζήτησης πλαισίου"
     },
-    "startTrial": {
+    "startNewTrial": {
         "message": "Ξεκινήστε μια νέα δοκιμή 7 ημερών"
     },
     "startSubscription": {
@@ -370,6 +370,33 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "Δεν ήταν δυνατή η ανάκτηση της διεύθυνσης URL για την αφαίρεση σελιδοδείκτη"
+    },
+    "bookmarkPage": {
+        "message": "Σελιδοδείκτης Αυτή η σελίδα"
+    },
+    "pay": {
+        "message": "Πληρωμή"
+    },
+    "startTrial": {
+        "message": "Έναρξη δοκιμής"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "Η δοκιμή έληξε"
+    },
+    "subscriptionActive": {
+        "message": "Συνδρομή: ."
+    },
+    "subscriptionInactive": {
+        "message": "Συνδρομή: ."
+    },
+    "noTrialStarted": {
+        "message": "Δεν ξεκίνησε καμία δοκιμή"
+    },
+    "daysRemaining": {
+        "message": "ημέρα(ες) που απομένουν"
     },
     "__WET_LOCALE__": {
         "message": "el"

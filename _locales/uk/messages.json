@@ -356,7 +356,7 @@
     "subscriptionOptions": {
         "message": "Параметри підписки на Context Search"
     },
-    "startTrial": {
+    "startNewTrial": {
         "message": "Почніть нову 7-денну пробну версію"
     },
     "startSubscription": {
@@ -370,6 +370,33 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "Не вдалося отримати URL-адресу для видалення закладок"
+    },
+    "bookmarkPage": {
+        "message": "Додайте цю сторінку в закладки"
+    },
+    "pay": {
+        "message": "Заплати"
+    },
+    "startTrial": {
+        "message": "Почніть випробування"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "Термін дії випробування закінчився"
+    },
+    "subscriptionActive": {
+        "message": "Підписка: Активна"
+    },
+    "subscriptionInactive": {
+        "message": "Підписка: Неактивна"
+    },
+    "noTrialStarted": {
+        "message": "Судовий розгляд не розпочато"
+    },
+    "daysRemaining": {
+        "message": "день(и), що залишилися"
     },
     "__WET_LOCALE__": {
         "message": "uk"

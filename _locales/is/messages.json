@@ -356,7 +356,7 @@
     "subscriptionOptions": {
         "message": "Áskriftarvalkostir fyrir samhengisleit"
     },
-    "startTrial": {
+    "startNewTrial": {
         "message": "Byrjaðu nýja 7 daga prufuáskrift"
     },
     "startSubscription": {
@@ -370,6 +370,33 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "Gat ekki sótt vefslóð til að fjarlægja bókamerki"
+    },
+    "bookmarkPage": {
+        "message": "Bókamerki þessa síðu"
+    },
+    "pay": {
+        "message": "Greiða"
+    },
+    "startTrial": {
+        "message": "Byrjaðu prufuáskrift"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "Prufuáskrift útrunnin"
+    },
+    "subscriptionActive": {
+        "message": "Áskrift: Virk"
+    },
+    "subscriptionInactive": {
+        "message": "Áskrift: Óvirkt"
+    },
+    "noTrialStarted": {
+        "message": "Engin prufuáskrift hafin"
+    },
+    "daysRemaining": {
+        "message": "dag(ar) eftir"
     },
     "__WET_LOCALE__": {
         "message": "is"

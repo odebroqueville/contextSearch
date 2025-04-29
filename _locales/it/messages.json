@@ -356,7 +356,7 @@
     "subscriptionOptions": {
         "message": "Opzioni di sottoscrizione della ricerca contestuale"
     },
-    "startTrial": {
+    "startNewTrial": {
         "message": "Iniziare una nuova prova di 7 giorni"
     },
     "startSubscription": {
@@ -370,6 +370,33 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "Impossibile recuperare l'URL per la rimozione del segnalibro"
+    },
+    "bookmarkPage": {
+        "message": "Aggiungi ai preferiti questa pagina"
+    },
+    "pay": {
+        "message": "Paga"
+    },
+    "startTrial": {
+        "message": "Avvio della prova"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "Prova scaduta"
+    },
+    "subscriptionActive": {
+        "message": "Abbonamento: Attivo"
+    },
+    "subscriptionInactive": {
+        "message": "Sottoscrizione: Inattivo"
+    },
+    "noTrialStarted": {
+        "message": "Non è stato avviato alcuno studio"
+    },
+    "daysRemaining": {
+        "message": "giorno/i rimanente/i"
     },
     "__WET_LOCALE__": {
         "message": "it"

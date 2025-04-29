@@ -356,7 +356,7 @@
     "subscriptionOptions": {
         "message": "Opcje subskrypcji wyszukiwania kontekstowego"
     },
-    "startTrial": {
+    "startNewTrial": {
         "message": "Rozpocznij nowy 7-dniowy okres próbny"
     },
     "startSubscription": {
@@ -370,6 +370,33 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "Nie można pobrać adresu URL do usunięcia zakładki"
+    },
+    "bookmarkPage": {
+        "message": "Dodaj tę stronę do zakładek"
+    },
+    "pay": {
+        "message": "Wynagrodzenie"
+    },
+    "startTrial": {
+        "message": "Rozpoczęcie okresu próbnego"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "Okres próbny wygasł"
+    },
+    "subscriptionActive": {
+        "message": "Subskrypcja: Aktywny"
+    },
+    "subscriptionInactive": {
+        "message": "Subskrypcja: Nieaktywny"
+    },
+    "noTrialStarted": {
+        "message": "Nie rozpoczęto okresu próbnego"
+    },
+    "daysRemaining": {
+        "message": "pozostałe dni"
     },
     "__WET_LOCALE__": {
         "message": "pl"

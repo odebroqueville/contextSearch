@@ -356,7 +356,7 @@
     "subscriptionOptions": {
         "message": "Bağlam Arama Abonelik Seçenekleri"
     },
-    "startTrial": {
+    "startNewTrial": {
         "message": "Yeni bir 7 günlük deneme başlatın"
     },
     "startSubscription": {
@@ -370,6 +370,33 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "Yer imi kaldırma için URL alınamadı"
+    },
+    "bookmarkPage": {
+        "message": "Bu Sayfayı Yer İşaretlerine Ekle"
+    },
+    "pay": {
+        "message": "Ödeme"
+    },
+    "startTrial": {
+        "message": "Denemeye başlayın"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "Deneme süresi doldu"
+    },
+    "subscriptionActive": {
+        "message": "Abonelik: Aktif"
+    },
+    "subscriptionInactive": {
+        "message": "Abonelik: Aktif Değil"
+    },
+    "noTrialStarted": {
+        "message": "Deneme başlamadı"
+    },
+    "daysRemaining": {
+        "message": "kalan gün(ler)"
     },
     "__WET_LOCALE__": {
         "message": "tr"

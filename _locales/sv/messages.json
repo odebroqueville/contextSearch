@@ -356,7 +356,7 @@
     "subscriptionOptions": {
         "message": "Alternativ för prenumeration på kontextsökning"
     },
-    "startTrial": {
+    "startNewTrial": {
         "message": "Starta en ny 7-dagars provperiod"
     },
     "startSubscription": {
@@ -370,6 +370,33 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "Det gick inte att hämta URL för borttagning av bokmärke"
+    },
+    "bookmarkPage": {
+        "message": "Bokmärk denna sida"
+    },
+    "pay": {
+        "message": "Betala"
+    },
+    "startTrial": {
+        "message": "Starta försök"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "Försöksperioden har löpt ut"
+    },
+    "subscriptionActive": {
+        "message": "Prenumeration: Aktiv"
+    },
+    "subscriptionInactive": {
+        "message": "Prenumeration: Inaktiv"
+    },
+    "noTrialStarted": {
+        "message": "Ingen studie påbörjad"
+    },
+    "daysRemaining": {
+        "message": "återstående dag(ar)"
     },
     "__WET_LOCALE__": {
         "message": "sv"

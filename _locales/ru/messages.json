@@ -356,7 +356,7 @@
     "subscriptionOptions": {
         "message": "Параметры подписки на контекстный поиск"
     },
-    "startTrial": {
+    "startNewTrial": {
         "message": "Начните новую 7-дневную пробную версию"
     },
     "startSubscription": {
@@ -370,6 +370,33 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "Не удалось получить URL-адрес для удаления закладок"
+    },
+    "bookmarkPage": {
+        "message": "Добавьте эту страницу в закладки"
+    },
+    "pay": {
+        "message": "Оплатить"
+    },
+    "startTrial": {
+        "message": "Начать испытание"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "Срок действия истек"
+    },
+    "subscriptionActive": {
+        "message": "Подписка: Активная"
+    },
+    "subscriptionInactive": {
+        "message": "Подписка: Неактивная"
+    },
+    "noTrialStarted": {
+        "message": "Испытание не начато"
+    },
+    "daysRemaining": {
+        "message": "оставшийся день(ы)"
     },
     "__WET_LOCALE__": {
         "message": "ru"

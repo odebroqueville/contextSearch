@@ -356,7 +356,7 @@
     "subscriptionOptions": {
         "message": "Options d'abonnement pour Context Search"
     },
-    "startTrial": {
+    "startNewTrial": {
         "message": "Démarrer une nouvelle période d'essai de 7 jours"
     },
     "startSubscription": {
@@ -366,10 +366,37 @@
         "message": "Statut de l'abonnement"
     },
     "notifyMissingSearchEngine": {
-        "message": "Aucun moteur de recherche n'a été sélectionné pour une recherche multiple."
+        "message": "Aucun moteur de recherche n'a été sélectionné pour une recherche multiple"
     },
     "notifyMissingBookmarkUrl": {
         "message": "Impossible de récupérer l'URL pour la suppression des signets"
+    },
+    "bookmarkPage": {
+        "message": "Ajouter cette page à vos favoris"
+    },
+    "pay": {
+        "message": "Rémunération"
+    },
+    "startTrial": {
+        "message": "Démarrer l'essai"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "L'essai a expiré"
+    },
+    "subscriptionActive": {
+        "message": "Abonnement : Actif"
+    },
+    "subscriptionInactive": {
+        "message": "Abonnement : Inactif"
+    },
+    "noTrialStarted": {
+        "message": "Aucun essai n'a été entamé"
+    },
+    "daysRemaining": {
+        "message": "jour(s) restant(s)"
     },
     "__WET_LOCALE__": {
         "message": "fr"

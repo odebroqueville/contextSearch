@@ -356,7 +356,7 @@
     "subscriptionOptions": {
         "message": "Kontekstihakuun liittyvät tilausvaihtoehdot"
     },
-    "startTrial": {
+    "startNewTrial": {
         "message": "Aloita uusi 7 päivän kokeilu"
     },
     "startSubscription": {
@@ -370,6 +370,33 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "URL-osoitetta ei voitu hakea kirjanmerkin poistamista varten"
+    },
+    "bookmarkPage": {
+        "message": "Kirjanmerkki tälle sivulle"
+    },
+    "pay": {
+        "message": "Palkka"
+    },
+    "startTrial": {
+        "message": "Aloita kokeilu"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "Kokeilu päättynyt"
+    },
+    "subscriptionActive": {
+        "message": "Tilaus: Aktiivinen"
+    },
+    "subscriptionInactive": {
+        "message": "Tilaus: Inactive"
+    },
+    "noTrialStarted": {
+        "message": "Tutkimusta ei aloitettu"
+    },
+    "daysRemaining": {
+        "message": "jäljellä oleva(t) päivä(t)"
     },
     "__WET_LOCALE__": {
         "message": "fi"

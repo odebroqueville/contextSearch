@@ -356,7 +356,7 @@
     "subscriptionOptions": {
         "message": "Abonnementsalternativer for kontekstsøk"
     },
-    "startTrial": {
+    "startNewTrial": {
         "message": "Start en ny 7-dagers prøveperiode"
     },
     "startSubscription": {
@@ -370,6 +370,33 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "Kunne ikke hente URL for fjerning av bokmerker"
+    },
+    "bookmarkPage": {
+        "message": "Bokmerk denne siden"
+    },
+    "pay": {
+        "message": "Betale"
+    },
+    "startTrial": {
+        "message": "Start prøveperiode"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "Prøveperioden er utløpt"
+    },
+    "subscriptionActive": {
+        "message": "Abonnement: Aktiv"
+    },
+    "subscriptionInactive": {
+        "message": "Abonnement: Inaktiv"
+    },
+    "noTrialStarted": {
+        "message": "Ingen prøveperiode startet"
+    },
+    "daysRemaining": {
+        "message": "Gjenværende dag(er)"
     },
     "__WET_LOCALE__": {
         "message": "no"

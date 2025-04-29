@@ -356,7 +356,7 @@
     "subscriptionOptions": {
         "message": "Abonnement-Optionen für Context Search"
     },
-    "startTrial": {
+    "startNewTrial": {
         "message": "Starten Sie einen neuen 7-Tage-Test"
     },
     "startSubscription": {
@@ -370,6 +370,33 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "URL zum Entfernen des Lesezeichens konnte nicht abgerufen werden"
+    },
+    "bookmarkPage": {
+        "message": "Lesezeichen für diese Seite"
+    },
+    "pay": {
+        "message": "Bezahlen"
+    },
+    "startTrial": {
+        "message": "Versuch starten"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "Probezeit abgelaufen"
+    },
+    "subscriptionActive": {
+        "message": "Abonnement: Aktiv"
+    },
+    "subscriptionInactive": {
+        "message": "Abonnement: Inaktiv"
+    },
+    "noTrialStarted": {
+        "message": "Keine Studie gestartet"
+    },
+    "daysRemaining": {
+        "message": "Verbleibende(r) Tag(e)"
     },
     "__WET_LOCALE__": {
         "message": "de"

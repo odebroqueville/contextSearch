@@ -356,7 +356,7 @@
     "subscriptionOptions": {
         "message": "Opsi Berlangganan Context Search"
     },
-    "startTrial": {
+    "startNewTrial": {
         "message": "Memulai uji coba 7 hari yang baru"
     },
     "startSubscription": {
@@ -370,6 +370,33 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "Tidak dapat mengambil URL untuk menghapus bookmark"
+    },
+    "bookmarkPage": {
+        "message": "Tandai Halaman Ini"
+    },
+    "pay": {
+        "message": "Bayar"
+    },
+    "startTrial": {
+        "message": "Mulai uji coba"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "Uji coba berakhir"
+    },
+    "subscriptionActive": {
+        "message": "Langganan: Aktif"
+    },
+    "subscriptionInactive": {
+        "message": "Langganan: Tidak aktif"
+    },
+    "noTrialStarted": {
+        "message": "Tidak ada uji coba yang dimulai"
+    },
+    "daysRemaining": {
+        "message": "hari yang tersisa"
     },
     "__WET_LOCALE__": {
         "message": "id"

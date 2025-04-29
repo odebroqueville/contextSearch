@@ -356,7 +356,7 @@
     "subscriptionOptions": {
         "message": "Abonnementsmuligheder for kontekstsøgning"
     },
-    "startTrial": {
+    "startNewTrial": {
         "message": "Start en ny 7-dages prøveperiode"
     },
     "startSubscription": {
@@ -370,6 +370,33 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "Kunne ikke hente URL til fjernelse af bogmærke"
+    },
+    "bookmarkPage": {
+        "message": "Bogmærke denne side"
+    },
+    "pay": {
+        "message": "Betal"
+    },
+    "startTrial": {
+        "message": "Start forsøg"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "Prøveperiode udløbet"
+    },
+    "subscriptionActive": {
+        "message": "Abonnement: Aktiv"
+    },
+    "subscriptionInactive": {
+        "message": "Abonnement: Inaktivt"
+    },
+    "noTrialStarted": {
+        "message": "Intet forsøg påbegyndt"
+    },
+    "daysRemaining": {
+        "message": "resterende dag(e)"
     },
     "__WET_LOCALE__": {
         "message": "da"

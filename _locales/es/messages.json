@@ -356,7 +356,7 @@
     "subscriptionOptions": {
         "message": "Opciones de suscripción a la búsqueda contextual"
     },
-    "startTrial": {
+    "startNewTrial": {
         "message": "Iniciar una nueva prueba de 7 días"
     },
     "startSubscription": {
@@ -370,6 +370,33 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "No se ha podido recuperar la URL para eliminar el marcador"
+    },
+    "bookmarkPage": {
+        "message": "Marcar esta página"
+    },
+    "pay": {
+        "message": "Pagar"
+    },
+    "startTrial": {
+        "message": "Iniciar prueba"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "Prueba caducada"
+    },
+    "subscriptionActive": {
+        "message": "Suscripción: Activo"
+    },
+    "subscriptionInactive": {
+        "message": "Suscripción: Inactivo"
+    },
+    "noTrialStarted": {
+        "message": "No se ha iniciado ningún ensayo"
+    },
+    "daysRemaining": {
+        "message": "día(s) restante(s)"
     },
     "__WET_LOCALE__": {
         "message": "es"

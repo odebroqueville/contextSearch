@@ -356,7 +356,7 @@
     "subscriptionOptions": {
         "message": "上下文搜索订阅选项"
     },
-    "startTrial": {
+    "startNewTrial": {
         "message": "开始新的 7 天试用"
     },
     "startSubscription": {
@@ -370,6 +370,33 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "无法检索删除书签的 URL"
+    },
+    "bookmarkPage": {
+        "message": "收藏本页"
+    },
+    "pay": {
+        "message": "薪酬"
+    },
+    "startTrial": {
+        "message": "开始试用"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "试用期已过"
+    },
+    "subscriptionActive": {
+        "message": "订阅：激活"
+    },
+    "subscriptionInactive": {
+        "message": "订阅：不活动"
+    },
+    "noTrialStarted": {
+        "message": "未开始试验"
+    },
+    "daysRemaining": {
+        "message": "剩余天数"
     },
     "__WET_LOCALE__": {
         "message": "zh_cn"

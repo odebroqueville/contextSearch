@@ -356,7 +356,7 @@
     "subscriptionOptions": {
         "message": "Համատեքստ Որոնում Բաժանորդագրության Ընտրանքներ"
     },
-    "startTrial": {
+    "startNewTrial": {
         "message": "Սկսեք նոր 7 օր տեւողությամբ փորձարկում"
     },
     "startSubscription": {
@@ -370,6 +370,33 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "Անհնար է վերցրել URL-ն՝ էջանիշերի հեռացման համար"
+    },
+    "bookmarkPage": {
+        "message": "Էջանիշ այս էջը"
+    },
+    "pay": {
+        "message": "Վճարել"
+    },
+    "startTrial": {
+        "message": "Սկսել փորձը"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "Դատավարության ժամկետը լրացել է"
+    },
+    "subscriptionActive": {
+        "message": "Subscription: Active"
+    },
+    "subscriptionInactive": {
+        "message": "Բաժանորդագրություն՝ Անգործունակ"
+    },
+    "noTrialStarted": {
+        "message": "Դատավարություն չի սկսվել"
+    },
+    "daysRemaining": {
+        "message": "Մնացած օր(ներ)"
     },
     "__WET_LOCALE__": {
         "message": "hy"

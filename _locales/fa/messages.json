@@ -356,7 +356,7 @@
     "subscriptionOptions": {
         "message": "گزینه های اشتراک جستجوی زمینه"
     },
-    "startTrial": {
+    "startNewTrial": {
         "message": "یک دوره آزمایشی 7 روزه جدید را شروع کنید"
     },
     "startSubscription": {
@@ -370,6 +370,33 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "نمی توان URL را برای حذف نشانک بازیابی کرد"
+    },
+    "bookmarkPage": {
+        "message": "این صفحه را نشانه گذاری کنید"
+    },
+    "pay": {
+        "message": "پرداخت"
+    },
+    "startTrial": {
+        "message": "شروع آزمایشی"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "دوره آزمایشی منقضی شده است"
+    },
+    "subscriptionActive": {
+        "message": "اشتراک: فعال"
+    },
+    "subscriptionInactive": {
+        "message": "اشتراک: غیر فعال"
+    },
+    "noTrialStarted": {
+        "message": "هیچ کارآزمایی ای شروع نشد"
+    },
+    "daysRemaining": {
+        "message": "روز(های) باقی مانده"
     },
     "__WET_LOCALE__": {
         "message": "fa"
