@@ -381,7 +381,7 @@
         "message": "トライアル開始"
     },
     "trialActive": {
-        "message": "トライアルは活発だ： "
+        "message": "Trial active: "
     },
     "trialExpired": {
         "message": "試用期限切れ"
