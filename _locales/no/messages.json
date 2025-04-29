@@ -374,6 +374,9 @@
     "bookmarkPage": {
         "message": "Bokmerk denne siden"
     },
+    "unbookmarkPage": {
+        "message": "Unbookmark This Page"
+    },
     "pay": {
         "message": "Betale"
     },
