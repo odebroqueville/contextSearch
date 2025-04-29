@@ -374,6 +374,9 @@
     "bookmarkPage": {
         "message": "Bladwijzer van deze pagina"
     },
+    "unbookmarkPage": {
+        "message": "Unbookmark deze pagina"
+    },
     "pay": {
         "message": "Betaal"
     },

@@ -374,6 +374,9 @@
     "bookmarkPage": {
         "message": "Σελιδοδείκτης Αυτή η σελίδα"
     },
+    "unbookmarkPage": {
+        "message": "Αποσυνδέστε το bookmark αυτής της σελίδας"
+    },
     "pay": {
         "message": "Πληρωμή"
     },

@@ -374,6 +374,9 @@
     "bookmarkPage": {
         "message": "Bogmærke denne side"
     },
+    "unbookmarkPage": {
+        "message": "Fjern bogmærke fra denne side"
+    },
     "pay": {
         "message": "Betal"
     },

@@ -374,8 +374,11 @@
     "bookmarkPage": {
         "message": "Ajouter cette page à vos favoris"
     },
+    "unbookmarkPage": {
+        "message": "Retirer cette page des favoris"
+    },
     "pay": {
-        "message": "Rémunération"
+        "message": "Payer"
     },
     "startTrial": {
         "message": "Démarrer l'essai"

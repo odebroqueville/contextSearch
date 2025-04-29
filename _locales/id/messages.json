@@ -374,6 +374,9 @@
     "bookmarkPage": {
         "message": "Tandai Halaman Ini"
     },
+    "unbookmarkPage": {
+        "message": "Hapus Tandai Halaman Ini"
+    },
     "pay": {
         "message": "Bayar"
     },

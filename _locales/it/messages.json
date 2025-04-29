@@ -374,6 +374,9 @@
     "bookmarkPage": {
         "message": "Aggiungi ai preferiti questa pagina"
     },
+    "unbookmarkPage": {
+        "message": "Smarca questa pagina"
+    },
     "pay": {
         "message": "Paga"
     },

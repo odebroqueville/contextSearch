@@ -374,6 +374,9 @@
     "bookmarkPage": {
         "message": "收藏本页"
     },
+    "unbookmarkPage": {
+        "message": "取消书签"
+    },
     "pay": {
         "message": "薪酬"
     },

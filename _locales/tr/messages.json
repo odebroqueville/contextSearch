@@ -374,6 +374,9 @@
     "bookmarkPage": {
         "message": "Bu Sayfayı Yer İşaretlerine Ekle"
     },
+    "unbookmarkPage": {
+        "message": "Bu Sayfanın İşaretini Kaldır"
+    },
     "pay": {
         "message": "Ödeme"
     },

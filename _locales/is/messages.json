@@ -374,6 +374,9 @@
     "bookmarkPage": {
         "message": "Bókamerki þessa síðu"
     },
+    "unbookmarkPage": {
+        "message": "Afbókamerki þessa síðu"
+    },
     "pay": {
         "message": "Greiða"
     },

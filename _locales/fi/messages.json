@@ -374,6 +374,9 @@
     "bookmarkPage": {
         "message": "Kirjanmerkki tälle sivulle"
     },
+    "unbookmarkPage": {
+        "message": "Unbookmark tämän sivun"
+    },
     "pay": {
         "message": "Palkka"
     },

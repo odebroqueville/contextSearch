@@ -374,6 +374,9 @@
     "bookmarkPage": {
         "message": "Dodaj tę stronę do zakładek"
     },
+    "unbookmarkPage": {
+        "message": "Usuń zakładkę tej strony"
+    },
     "pay": {
         "message": "Wynagrodzenie"
     },
