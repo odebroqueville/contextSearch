@@ -340,18 +340,20 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
         case "saveSearchEnginesToDisk":
             handleSaveSearchEnginesToDisk(data);
             break;
-        case "updateOpenSearchSupport":
-            handleUpdateOpenSearchSupport(data);
-            break;
         case "contentScriptLoaded":
             handleContentScriptLoaded(data).then(result => {
                 if (result) {
                     sendResponse(result);
-                } else {
-                    sendResponse({ success: false });
                 }
+                // Ensure the addon state (including context menus) is updated
+                // now that we know the content script is loaded and ready.
+                if (logToConsole) console.log("Content script loaded, updating addon state...");
+                updateAddonStateForActiveTab();
             }).catch(error => {
-                sendResponse({ error: error.message });
+                // Log any errors during content script loaded handling
+                console.error("Error processing contentScriptLoaded:", error);
+                // Still try to update the addon state as a fallback
+                updateAddonStateForActiveTab();
             });
             return true;
         case "getImageUrl":
@@ -785,7 +787,11 @@ async function handleGetFavicon(data) {
         )
     ) {
         domain = getDomain(searchEngine.url);
-        if (logToConsole) console.log(id, domain);
+        if (logToConsole) {
+            console.log("id: " + id);
+            console.log("url: " + searchEngine.url);
+            console.log("Getting favicon for " + domain);
+        }
     }
 
     if (!domain) {
@@ -839,15 +845,6 @@ async function handleOptionsUpdate(updateType, data) {
 
     await saveOptions(config.requiresMenuRebuild);
     //return config.customReturn;
-}
-
-async function handleUpdateOpenSearchSupport(data) {
-    const supportsOpenSearch = data.supportsOpenSearch;
-
-    // Update menu visibility based on OpenSearch support
-    await contextMenus.update("add-search-engine", {
-        visible: supportsOpenSearch
-    });
 }
 
 async function handleSaveSearchEnginesToDisk(data) {
@@ -2873,25 +2870,28 @@ async function updateAddonStateForActiveTab() {
         let links = [];
         let searchEngineAdded = false;
         if (activeTab) {
-            const domain = getDomain(activeTab.url);
-            if (logToConsole) console.log(`Active tab url: ${activeTab.url}`);
+            const domain = getDomain(activeTab.url).replace("http://", "").replace("https://", "");
+            if (logToConsole) console.log(`[ActionMenu] Active tab url: ${activeTab.url}, Domain: ${domain}`); // Added log
             if (isSupportedProtocol(activeTab.url)) {
                 // Store all the bookmarks in the links array
                 for (const id in searchEngines) {
                     if (!searchEngines[id].url) continue;
                     const seUrl = searchEngines[id].url;
+                    // Check if the URL is a bookmark and not a bookmarklet
                     if (id.startsWith("link-") && !seUrl.startsWith('javascript:')) {
                         links.push(seUrl);
-                    }
-                    if (seUrl.startsWith(domain)) {
+                    } else if (seUrl.includes(domain)) { // Check if domain is a substring of seUrl
                         searchEngineAdded = true;
                     }
                 }
-                if (links.includes(activeTab.url)) {
-                    bookmarked = true;
-                } else {
-                    bookmarked = false;
-                }
+
+                // Check if any of the stored links contain the domain
+                bookmarked = links.some(link => link.includes(domain));
+
+                if (logToConsole) console.log(`[ActionMenu] State: bookmarked=${bookmarked}, searchEngineAdded=${searchEngineAdded}`);
+
+                if (logToConsole) console.log(`[ActionMenu] Updating bookmark-page with:`, { title: bookmarked ? unbookmarkPage : bookmarkPage });
+
                 // Update menu item for bookmarking
                 const updateProps = {
                     title: bookmarked ? unbookmarkPage : bookmarkPage
@@ -2903,38 +2903,57 @@ async function updateAddonStateForActiveTab() {
                 }
 
                 try {
+                    if (logToConsole) console.log(`[ActionMenu] Updating bookmark-page with:`, updateProps); // Added log
                     await contextMenus.update("bookmark-page", updateProps);
                 } catch (error) {
                     // Log error if the menu item doesn't exist (e.g., during initialization)
                     const itemNotFound = error.message.toLowerCase().includes("no matching menu item") || error.message.toLowerCase().includes("cannot find menu item");
                     if (itemNotFound) {
                         // Expected during startup race conditions, log warning if enabled
-                        if (logToConsole) console.warn(`Could not update menu item 'bookmark-page' (might not exist yet): ${error.message}`);
+                        if (logToConsole) console.warn(`[ActionMenu] Could not update menu item 'bookmark-page' (might not exist yet): ${error.message}`);
                     } else {
                         // Re-throw other unexpected errors
+                        console.error(`[ActionMenu] Error updating bookmark-page:`, error); // Added log
                         throw error;
                     }
                 }
                 // Update menu item for adding a search engine
+                let hasOpenSearch = false; // Default to false
+                // Only check for OpenSearch on http/https pages where content scripts run
+                if (activeTab.url && (activeTab.url.startsWith('http:') || activeTab.url.startsWith('https:'))) {
+                    try {
+                        hasOpenSearch = await browser.tabs.sendMessage(activeTab.id, { action: 'getOpenSearchSupportStatus' });
+                    } catch (error) {
+                        // Log the specific error if sending message fails
+                        if (logToConsole) console.warn(`[ActionMenu] Failed to get OpenSearch status from content script for tab ${activeTab.id}: ${error.message}`);
+                        // Keep hasOpenSearch as false
+                    }
+                }
+
+                const addSeProps = { // Defined props for logging
+                    visible: hasOpenSearch && !searchEngineAdded
+                };
                 try {
-                    await contextMenus.update("add-search-engine", {
-                        visible: !searchEngineAdded
-                    });
+                    if (logToConsole) console.log(`[ActionMenu] Updating add-search-engine with:`, addSeProps); // Added log
+                    await contextMenus.update("add-search-engine", addSeProps);
                 } catch (error) {
                     // Log error if the menu item doesn't exist (e.g., during initialization)
                     const itemNotFound = error.message.toLowerCase().includes("no matching menu item") || error.message.toLowerCase().includes("cannot find menu item");
                     if (itemNotFound) {
                         // Expected during startup race conditions, log warning if enabled
-                        if (logToConsole) console.warn(`Could not update menu item 'add-search-engine' (might not exist yet): ${error.message}`);
+                        if (logToConsole) console.warn(`[ActionMenu] Could not update menu item 'add-search-engine' (might not exist yet): ${error.message}`);
                     } else {
                         // Re-throw other unexpected errors
+                        console.error(`[ActionMenu] Error updating add-search-engine:`, error); // Added log
                         throw error;
                     }
                 }
             } else {
                 if (logToConsole && activeTab.url !== "about:blank")
-                    console.log(`The '${activeTab.url}' URL cannot be bookmarked.`);
+                    console.log(`[ActionMenu] The '${activeTab.url}' URL cannot be bookmarked.`);
             }
+        } else {
+            if (logToConsole) console.log("[ActionMenu] No active tab found."); // Added log
         }
     }
 

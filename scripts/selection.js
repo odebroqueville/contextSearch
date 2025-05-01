@@ -29,7 +29,7 @@ const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNo
 const ICON32 = '32px'; // icon width is 32px
 
 // Global variables
-let logToConsole = false; // Debug (default)
+let logToConsole = true; // Debug (default)
 let os = null;
 let meta = ''; // meta key: cmd for macOS, win for Windows, super for Linux
 let tabUrl = '';
@@ -108,6 +108,11 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
         case 'launchIconsGrid':
             handleAltClickWithGrid(null);
             break;
+        case 'getOpenSearchSupportStatus':
+            getOpenSearchSupportStatus().then((hasOpenSearch) => {
+                sendResponse(hasOpenSearch);
+            });
+            return true;
         case 'getSearchEngine':
             getOpenSearchEngine().then((result) => {
                 if (result) {
@@ -189,10 +194,32 @@ function calculatePosition(width, height) {
     return { left, top };
 }
 
+function isValidUrl(urlString) {
+    try {
+        new URL(urlString);
+        return true;
+    } catch (e) {
+        // Check if the error is specifically a TypeError related to URL parsing
+        if (e instanceof TypeError) {
+            return false;
+        }
+        // Re-throw other types of errors if necessary
+        throw e;
+    }
+}
+
+function getOpenSearchSupportStatus() {
+    // Check if the current page supports OpenSearch
+    let hasOpenSearch = !!document.querySelector('link[type="application/opensearchdescription+xml"]');
+
+    return hasOpenSearch;
+}
+
 async function getOpenSearchEngine() {
     try {
         const url = document.querySelector('link[type="application/opensearchdescription+xml"]').href;
         if (logToConsole) console.log(url);
+        if (!isValidUrl(url)) return null;
         // Fetch search engine data
         const result = await getNewSearchEngine(url);
         // Send msg to background script to get the new search engine added
@@ -427,6 +454,8 @@ async function init() {
         await handleSelectionEnd();
     }
 
+    const response = await sendMessage('contentScriptLoaded', { domain, tabUrl });
+
     if (tineyeUrl.startsWith(trimmedUrl)) {
         // Handle reverse image searches from Tineye
         const response = await sendMessage('getImageUrl', null);
@@ -512,7 +541,6 @@ async function init() {
     // If the web page is for an AI search or a HTTP POST request, then send a message to the background script and wait for a response
     if (aiUrls.includes(trimmedUrl) || postRequest) {
         if (logToConsole && !postRequest) console.log(`AI search engine detected: ${domain}`);
-        const response = await sendMessage('contentScriptLoaded', { domain, tabUrl });
         if (response.action === 'askPrompt') {
             try {
                 const { url, prompt } = response.data;
@@ -546,23 +574,6 @@ async function init() {
             if (logToConsole) console.log('Response: ', response);
         }
     }
-
-    // If the website doesn't contain an opensearch description, then hide the Page action
-    // Check if the current page supports OpenSearch
-    let hasOpenSearch = !!document.querySelector('link[type="application/opensearchdescription+xml"]');
-
-    // If there exists a search engine with a query string that includes the domain of the visited web page, then hide the Page action
-    for (let id in searchEngines) {
-        if (id.startsWith("separator-") || id.startsWith("chatgpt-") || searchEngines[id].isFolder) continue;
-        if (searchEngines[id].url.includes(domain)) {
-            if (logToConsole) console.log('This web page has already been added to your list of search engines.');
-            hasOpenSearch = false;
-            break;
-        }
-    }
-
-    // Notify the background script
-    sendMessage("updateOpenSearchSupport", { supportsOpenSearch: hasOpenSearch });
 
     // Display clickable icons (buttons) for mycroftproject.com
     if (!hasContextSearchImage) showButtons();
@@ -1215,30 +1226,41 @@ async function getNewSearchEngine(url) {
     return { id: id, searchEngine: searchEngines[id] };
 }
 
-function fetchXML(url) {
-    return new Promise((resolve, reject) => {
-        let reqHeader = new Headers();
-        reqHeader.append('Content-Type', 'text/xml');
+async function fetchXML(url) {
+    let reqHeader = new Headers();
+    reqHeader.append('Content-Type', 'text/xml');
 
-        let initObject = {
-            method: 'GET',
-            headers: reqHeader
-        };
+    let initObject = {
+        method: 'GET',
+        headers: reqHeader
+    };
 
-        let userRequest = new Request(url, initObject);
+    let userRequest = new Request(url, initObject);
 
-        fetch(userRequest)
-            .then((response) => response.text())
-            .then((str) => new window.DOMParser().parseFromString(str, 'text/xml'))
-            .then((xml) => {
-                if (logToConsole) console.log(xml);
-                resolve(xml);
-            })
-            .catch((err) => {
-                if (logToConsole) console.log('Something went wrong!', err);
-                reject(err);
-            });
-    });
+    try {
+        const response = await fetch(userRequest);
+        // Check if the fetch was successful
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const str = await response.text();
+        const xml = new window.DOMParser().parseFromString(str, 'text/xml');
+
+        // Check for parser errors (optional, but good practice)
+        const parserError = xml.querySelector('parsererror');
+        if (parserError) {
+            console.error('Error parsing XML:', parserError.textContent);
+            throw new Error('Failed to parse XML');
+        }
+
+        if (logToConsole) console.log(xml);
+        return xml;
+    } catch (err) {
+        if (logToConsole) console.error('Error fetching open search engine (XML)!', err);
+        // It's often better to log errors using console.error
+        // Rethrow or handle the error appropriately depending on the desired behavior
+        throw err; // Rethrowing maintains the promise rejection behavior
+    }
 }
 
 // Retrieve the short name and query string from an xml document with the open search specifications
