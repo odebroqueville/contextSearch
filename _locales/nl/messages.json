@@ -371,6 +371,9 @@
     "notifyMissingBookmarkUrl": {
         "message": "Kon URL voor bladwijzerverwijdering niet ophalen"
     },
+    "notifyAIMinimalRequirements": {
+        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+    },
     "bookmarkPage": {
         "message": "Bladwijzer van deze pagina"
     },
