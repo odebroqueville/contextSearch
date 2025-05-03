@@ -387,7 +387,7 @@
         "message": "Start prøveperiode"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Prøveversjon aktiv: "
     },
     "trialExpired": {
         "message": "Prøveperioden er utløpt"
