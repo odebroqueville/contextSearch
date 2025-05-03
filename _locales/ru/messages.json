@@ -372,7 +372,7 @@
         "message": "Не удалось получить URL-адрес для удаления закладок"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "Пожалуйста, выберите поставщика ИИ и укажите его имя и подсказку."
     },
     "bookmarkPage": {
         "message": "Добавьте эту страницу в закладки"
