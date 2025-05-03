@@ -18,7 +18,7 @@
         "message": "Voit käynnistää"
     },
     "multisearchEnd": {
-        "message": "pikavalikosta tai osoiteriviltä kirjoittamalla:"
+        "message": "kontekstivalikosta tai osoiteriviltä kirjoittamalla:"
     },
     "multisearchEndOfSentence": {
         "message": "ja sen jälkeen hakusanat."
@@ -228,7 +228,7 @@
         "message": "Sivupalkissa"
     },
     "displayFavicons": {
-        "message": "Näytä faviconit kontekstivalikossa"
+        "message": "Näytä suosikkikuvakkeet kontekstivalikossa"
     },
     "disableAltClick": {
         "message": "Poista kuvakeverkko käytöstä (Alt + klikkaus)"
@@ -345,10 +345,10 @@
         "message": "Oletko varma, että haluat poistaa kansion"
     },
     "removeFolderConfirmSuffix": {
-        "message": "ja sen koko sisältö?"
+        "message": "ja kaikki sen sisältö"
     },
     "removeSearchEngineConfirm": {
-        "message": "Haluatko varmasti poistaa hakukoneen"
+        "message": "Haluatko varmasti poistaa hakukoneen?"
     },
     "popupBlockedMessage": {
         "message": "Ponnahdusikkuna estetty! Salli ponnahdusikkunat tälle sivustolle."
@@ -387,7 +387,7 @@
         "message": "Aloita kokeilu"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Kokeilu aktiivinen: "
     },
     "trialExpired": {
         "message": "Kokeilu päättynyt"
