@@ -228,7 +228,7 @@
         "message": "I sidofältet"
     },
     "displayFavicons": {
-        "message": "Visa favoritikoner i snabbmenyn"
+        "message": "Visa favicons i snabbmenyn"
     },
     "disableAltClick": {
         "message": "Inaktivera ikonrutnätet (Alt + Klicka)"
@@ -387,7 +387,7 @@
         "message": "Starta försök"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Försöket är aktivt: "
     },
     "trialExpired": {
         "message": "Försöksperioden har löpt ut"

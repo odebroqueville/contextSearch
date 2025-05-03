@@ -228,7 +228,7 @@
         "message": "在側邊欄中"
     },
     "displayFavicons": {
-        "message": "在上下文功能表中顯示我的最愛圖示"
+        "message": "在上下文功能表中顯示收藏夾"
     },
     "disableAltClick": {
         "message": "停用圖示方格 (Alt + 按一下)"
@@ -345,10 +345,10 @@
         "message": "您確定要移除資料夾"
     },
     "removeFolderConfirmSuffix": {
-        "message": "及其所有內容？"
+        "message": "及其所有內容"
     },
     "removeSearchEngineConfirm": {
-        "message": "您確定要移除搜尋引擎嗎"
+        "message": "您確定要移除搜尋引擎嗎？"
     },
     "popupBlockedMessage": {
         "message": "彈出視窗已封鎖！請允許本網站的彈出窗口。"
@@ -387,7 +387,7 @@
         "message": "開始試用"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "試用中： "
     },
     "trialExpired": {
         "message": "試用已過期"

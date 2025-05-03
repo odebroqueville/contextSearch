@@ -1,6 +1,6 @@
 {
     "extensionName": {
-        "message": "Context Search",
+        "message": "البحث في السياق",
         "description": "Name of the extension"
     },
     "extensionDescription": {
@@ -8,23 +8,23 @@
         "description": "Description of the extension"
     },
     "multisearch": {
-        "message": " البحث مع محركات بحث متعددة في وقت واحد.",
+        "message": " هو بحث بمحركات بحث متعددة في وقت واحد.",
         "description": "multi-search - it's a search with multiple search engines simultaneously."
     },
     "multisearchHowTo": {
-        "message": "حدد مربع الاختيار الأوسط لتضمين محرك بحث في"
+        "message": "حدد خانة الاختيار الوسطى لتضمين محرك بحث في"
     },
     "multisearchLaunch": {
-        "message": "يمكنك تشغيل"
+        "message": "يمكنك إطلاق"
     },
     "multisearchEnd": {
-        "message": "من قائمة السياق أو من شريط العناوين عن طريق كتابة:"
+        "message": "من قائمة السياق أو من شريط العناوين عن طريق الكتابة:"
     },
     "multisearchEndOfSentence": {
         "message": "متبوعة بمصطلحات البحث الخاصة بك."
     },
     "pageTitle": {
-        "message": "تفضيلات بحث السياق"
+        "message": "تفضيلات البحث في السياق"
     },
     "header1": {
         "message": "أين يجب أن تظهر نتائج البحث؟"
@@ -39,7 +39,7 @@
         "message": "في نافذة جديدة"
     },
     "active": {
-        "message": "تنشيط علامة التبويب أو النافذة الجديدة"
+        "message": "جعل علامة التبويب أو النافذة الجديدة نشطة"
     },
     "position": {
         "message": "عرض نتائج البحث بعد علامة التبويب الأخيرة"
@@ -57,67 +57,67 @@
         "message": "في الأعلى"
     },
     "hide": {
-        "message": "لا (إخفاء قائمة الخيارات)"
+        "message": "لا هذا ولا ذاك (إخفاء قائمة الخيارات)"
     },
     "header5": {
-        "message": "استيراد / تصدير محركات البحث"
+        "message": "محركات بحث الاستيراد/التصدير"
     },
     "import": {
-        "message": "استيراد JSON من قرص محلي"
+        "message": "استيراد JSON من القرص المحلي"
     },
     "export": {
         "message": "تصدير محركات البحث إلى JSON"
     },
     "download": {
-        "message": "تصدير إلى قرص محلي"
+        "message": "تصدير إلى القرص المحلي"
     },
     "header2": {
-        "message": "الرموز المفضلة والرموز"
+        "message": "الأيقونات والرموز المفضلة"
     },
     "note": {
-        "message": "تتطلب هذه الميزة فايرفوكس 56 أو أكثر."
+        "message": "تتطلب هذه الميزة فايرفوكس 56 أو أعلى."
     },
     "header4": {
         "message": "خيارات البحث"
     },
     "exactMatch": {
-        "message": "ابحث عن تطابق سلسلة تام"
+        "message": "البحث عن سلسلة مطابقة تامة"
     },
     "gridMode": {
-        "message": "عرض شبكة من الرموز بدلاً من قائمة بمحركات البحث"
+        "message": "عرض شبكة من الرموز بدلاً من قائمة محركات البحث"
     },
     "warning": {
-        "message": "تحذير: يرجى ملاحظة أن تمكين هذه الميزة سيمنع قوائم السياق من ملحقات أخرى ليتم عرضها."
+        "message": "تحذير: يرجى ملاحظة أن تمكين هذه الميزة سيمنع عرض قوائم السياق من ملحقات أخرى."
     },
     "savePreferences": {
         "message": "حفظ التفضيلات"
     },
     "header6": {
-        "message": "ما هي محركات البحث التي ترغب في الظهور في قائمة السياق أو الشبكة؟"
+        "message": "ما هي محركات البحث التي ترغب في ظهورها في قائمة السياق أو الشبكة؟"
     },
     "clearAll": {
-        "message": "محو الكل"
+        "message": "مسح الكل"
     },
     "selectAll": {
-        "message": "تحديد الكل"
+        "message": "اختر الكل"
     },
     "sortAlphabetically": {
-        "message": "ترتيب أبجدي"
+        "message": "فرز أبجدياً"
     },
     "showAdvancedFeatures": {
-        "message": "عرض الميزات المتقدمة"
+        "message": "إظهار الميزات المتقدمة"
     },
     "hideAdvancedFeatures": {
         "message": "إخفاء الميزات المتقدمة"
     },
     "reset": {
-        "message": "إعادة الضبط"
+        "message": "إعادة تعيين"
     },
     "subheader61": {
         "message": "إضافة محرك بحث جديد"
     },
     "showSearchEngine": {
-        "message": "إظهار محرك البحث في قائمة الشبكة أو السياق"
+        "message": "إظهار محرك البحث في الشبكة أو قائمة السياق"
     },
     "searchEngineName": {
         "message": "اسم محرك البحث"
@@ -129,13 +129,13 @@
         "message": "تحذير"
     },
     "keyboardShortcutWarning": {
-        "message": "لن تعمل جميع مجموعات المفاتيح. قد لا تبدأ اختصارات لوحة المفاتيح بـ CMD على macOS أو CTRL على نظامي التشغيل Windows أو Linux ، حيث يتم حجزها عادةً لأوامر Firefox."
+        "message": "لن تعمل جميع مجموعات المفاتيح. قد لا تبدأ اختصارات لوحة المفاتيح ب CMD على ماك أو CTRL على ويندوز أو لينكس، لأن هذه الاختصارات عادةً ما تكون محجوزة لأوامر فايرفوكس."
     },
     "placeHolderKeyboardShortcut": {
         "message": "اختصار لوحة المفاتيح"
     },
     "multipleSearchEngines": {
-        "message": "تضمين في البحث المتعدد"
+        "message": "التضمين في البحث المتعدد"
     },
     "searchEngineURL": {
         "message": "عنوان URL لمحرك البحث"
@@ -150,31 +150,31 @@
         "message": "إضافة محرك بحث"
     },
     "addSeparator": {
-        "message": "أضف فاصل"
+        "message": "إضافة فاصل"
     },
     "clear": {
-        "message": "محو"
+        "message": "واضح"
     },
     "disableGrid": {
-        "message": "تعطيل شبكة الرموز"
+        "message": "تعطيل شبكة الأيقونات"
     },
     "move": {
-        "message": "نقل"
+        "message": "الانتقال"
     },
     "up": {
         "message": "لأعلى"
     },
     "down": {
-        "message": "أسفل"
+        "message": "لأسفل"
     },
     "remove": {
         "message": "إزالة"
     },
     "multipleSearchEnginesSearch": {
-        "message": "تضمين محرك البحث هذا في بحث متعدد"
+        "message": "قم بتضمين محرك البحث هذا في محرك بحث متعدد"
     },
     "notifySavedPreferences": {
-        "message": "تفضيلات محفوظة."
+        "message": "التفضيلات المحفوظة."
     },
     "notifySearchEngineAdded": {
         "message": "تمت إضافة محرك البحث."
@@ -183,7 +183,7 @@
         "message": "إظهار محرك البحث هذا في قائمة السياق أو الشبكة"
     },
     "notifyEnableStorageSync": {
-        "message": "يُرجى التأكد من تعيين العلامة\" webextensions.storage.sync.enabled \"على\" true \"في\" about: config \"، وإلا فلن يعمل بحث السياق."
+        "message": "يُرجى التأكد من ضبط العلامة \"webextensions.storage.sync.enabled\" على \"صواب\" في \"about:config\"، وإلا فلن يعمل بحث السياق."
     },
     "notifySearchEnginesLoaded": {
         "message": "تم تحميل القائمة الافتراضية لمحركات البحث."
@@ -192,13 +192,13 @@
         "message": "تعذر العثور على محرك بحث على صفحة الويب الحالية"
     },
     "titleMultipleSearchEngines": {
-        "message": "بحث محركات بحث متعددة"
+        "message": "محركات البحث المتعددة البحث في محركات البحث"
     },
     "titleAISearch": {
-        "message": "بحث الذكاء الاصطناعي"
+        "message": "بحث بالذكاء الاصطناعي"
     },
     "titleSiteSearch": {
-        "message": "بحث في هذا الموقع مع"
+        "message": "ابحث في هذا الموقع باستخدام"
     },
     "titleOptions": {
         "message": "الخيارات"
@@ -207,31 +207,31 @@
         "message": "نتائج البحث عن"
     },
     "omniboxDescription": {
-        "message": "ابحث باستخدام بحث السياق مع الكلمات الرئيسية. الاستخدام: cs [الكلمة الرئيسية] [مصطلحات البحث] (على سبيل المثال ،\" cs w Linux \"يبحث في ويكيبيديا عن المصطلح"
+        "message": "البحث باستخدام بحث السياق مع الكلمات المفتاحية. الاستعمال: cs [كلمة مفتاحية] [مصطلحات البحث] (على سبيل المثال \"cs w Linux\" يبحث في ويكيبيديا عن مصطلح \"لينكس\")"
     },
     "notifyUsage": {
-        "message": "الاستخدام: cs [الكلمة الرئيسية] [مصطلحات البحث] (على سبيل المثال: cs w Linux)"
+        "message": "الاستخدام: cs [كلمة رئيسية] [مصطلحات البحث] (على سبيل المثال: cs w Linux)"
     },
     "notifySearchEngineWithKeyword": {
-        "message": "محرك البحث باستخدام الكلمة الرئيسية"
+        "message": "محرك البحث بالكلمة المفتاحية"
     },
     "notifyUnknown": {
-        "message": "غير معروفة"
+        "message": "غير معروفة."
     },
     "notifySearchEngineUrlRequired": {
-        "message": "يرجى ملء عنوان URL صالح لمحرك البحث."
+        "message": "يُرجى ملء عنوان URL صالح لمحرك البحث."
     },
     "header7": {
-        "message": "إعادة تعيين الخيارات"
+        "message": "خيارات إعادة التعيين"
     },
     "sidebar": {
         "message": "في الشريط الجانبي"
     },
     "displayFavicons": {
-        "message": "عرض الأيقونات المفضلة في قائمة السياق"
+        "message": "عرض المفضلة في قائمة السياق"
     },
     "disableAltClick": {
-        "message": "تعطيل شبكة الرموز (Alt + Click)"
+        "message": "تعطيل شبكة الأيقونات (Alt + النقر)"
     },
     "resetPreferences": {
         "message": "إعادة تعيين التفضيلات إلى الإعدادات الافتراضية"
@@ -240,37 +240,37 @@
         "message": "فرض إعادة تحميل قائمة محركات البحث الافتراضية"
     },
     "forceFaviconsReload": {
-        "message": "فرض إعادة تحميل الرموز المفضلة"
+        "message": "فرض إعادة تحميل الأيقونات المفضلة"
     },
     "restriction": {
-        "message": "إذا لم يكن الشريط الجانبي مفتوحًا بالفعل ، فقد تضطر إلى النقر فوق رمز \"إظهار الأشرطة الجانبية\" من شريط أدوات المتصفح."
+        "message": "إذا لم يكن الشريط الجانبي مفتوحًا بالفعل، فقد يتعين عليك النقر على أيقونة \"إظهار الأشرطة الجانبية\" من شريط أدوات المتصفح."
     },
     "reverseImage": {
-        "message": "أيضًا ، لا يمكن عرض نتائج بحث الصور العكسية في الشريط الجانبي."
+        "message": "أيضًا، لا يمكن عرض نتائج البحث العكسي عن الصور في الشريط الجانبي."
     },
     "siteSearch": {
         "message": "محرك بحث للبحث في الموقع الحالي:"
     },
     "header9": {
-        "message": "الخيارات المتقدمة"
+        "message": "الميزات المتقدمة"
     },
     "useRegex": {
-        "message": "استخدم التعبيرات العادية لبناء قائمة السياق"
+        "message": "استخدام التعبيرات العادية لإنشاء قائمة السياق"
     },
     "regexNote": {
-        "message": "لا تنطبق هذه الميزة على شبكة الرموز."
+        "message": "لا تنطبق هذه الميزة على شبكة الأيقونات."
     },
     "subheader62": {
-        "message": "أضف مجلدًا جديدًا"
+        "message": "إضافة مجلد جديد"
     },
     "folderName": {
-        "message": "إسم الملف"
+        "message": "اسم المجلد"
     },
     "folder": {
-        "message": "مجلد"
+        "message": "المجلد"
     },
     "addFolder": {
-        "message": "أضف المجلد"
+        "message": "إضافة مجلد"
     },
     "keyboardShortcut": {
         "message": "اختصار لوحة المفاتيح"
@@ -279,7 +279,7 @@
         "message": "خيارات البحث المتعدد"
     },
     "multisearchIntro": {
-        "message": "فتح نتائج / علامات بحث متعددة"
+        "message": "فتح نتائج/علامات تبويب بحث متعددة"
     },
     "multiNewWindow": {
         "message": "في نافذة جديدة"
@@ -303,55 +303,55 @@
         "message": "خيارات شبكة الأيقونات"
     },
     "quickIconGrid": {
-        "message": "اعرض شبكة الرموز فورًا بعد تحديد النص"
+        "message": "عرض شبكة الرموز مباشرةً بعد تحديد النص"
     },
     "closeGridOnMouseOut": {
-        "message": "أغلق شبكة الرموز عند إخراج الماوس"
+        "message": "إغلاق شبكة الرموز عند خروج الفأرة"
     },
     "xOffset": {
-        "message": "إزاحة أفقية لشبكة الرموز: "
+        "message": "إزاحة أفقية لشبكة الأيقونات: "
     },
     "yOffset": {
-        "message": "موازنة رأسية لشبكة الرموز: "
+        "message": "الإزاحة الرأسية لشبكة الأيقونات: "
     },
     "clearKeyboardShortcuts": {
-        "message": "مسح كافة اختصارات لوحة المفاتيح"
+        "message": "مسح جميع اختصارات لوحة المفاتيح"
     },
     "subheader63": {
-        "message": "إضافة موجه الذكاء الاصطناعي جديد"
+        "message": "إضافة موجه ذكاء اصطناعي جديد"
     },
     "subheader64": {
-        "message": "أضف فاصل"
+        "message": "إضافة فاصل"
     },
     "testChatGPT": {
-        "message": "اختبار الذكاء الاصطناعي"
+        "message": "اختبار موجه الذكاء الاصطناعي"
     },
     "addChatGPTPrompt": {
-        "message": "إضافة طلب الذاكرة"
+        "message": "إضافة موجه الذكاء الاصطناعي"
     },
     "promptShow": {
-        "message": "إظهار توجيه في الشبكة أو قائمة السياق"
+        "message": "إظهار المطالبة في الشبكة أو قائمة السياق"
     },
     "promptName": {
-        "message": "الاسم الفوري"
+        "message": "اسم الموجه"
     },
     "prompt": {
-        "message": "فوري"
+        "message": "موجه"
     },
     "overwriteSearchEngines": {
-        "message": "استبدال محركات البحث الموجودة بمحركات البحث المستوردة"
+        "message": "الكتابة فوق محركات البحث الحالية بمحركات البحث المستوردة"
     },
     "removeFolderConfirmPrefix": {
         "message": "هل أنت متأكد من رغبتك في إزالة المجلد"
     },
     "removeFolderConfirmSuffix": {
-        "message": "وكل محتوياته"
+        "message": "وجميع محتوياته"
     },
     "removeSearchEngineConfirm": {
-        "message": "هل أنت متأكد من رغبتك في إزالة محرك البح"
+        "message": "هل أنت متأكد من رغبتك في إزالة محرك البحث"
     },
     "popupBlockedMessage": {
-        "message": "تم حظر النوافذ المنبثقة! الرجاء السماح بالنوافذ المنبثقة لهذا الموقع."
+        "message": "تم حظر النوافذ المنبثقة! يرجى السماح بالنوافذ المنبثقة لهذا الموقع."
     },
     "subscriptionOptions": {
         "message": "خيارات الاشتراك في البحث في السياق"
@@ -387,7 +387,7 @@
         "message": "بدء التجربة"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "التجربة نشطة: "
     },
     "trialExpired": {
         "message": "انتهت صلاحية التجربة"

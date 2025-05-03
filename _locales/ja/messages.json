@@ -8,74 +8,74 @@
         "description": "Description of the extension"
     },
     "multisearch": {
-        "message": "複数の検索エンジンを同時に使用した検索です。",
+        "message": " は複数の検索エンジンを同時に使った検索である。",
         "description": "multi-search - it's a search with multiple search engines simultaneously."
     },
     "multisearchHowTo": {
-        "message": "中央のチェックボックスをオンにして、検索エンジンを"
+        "message": "真ん中のチェックボックスをチェックして、検索エンジンを"
     },
     "multisearchLaunch": {
-        "message": "起動できます"
+        "message": "を起動することができます。"
     },
     "multisearchEnd": {
-        "message": "コンテキストメニューから、またはアドレスバーから次のように入力します。"
+        "message": "をコンテキストメニューから、またはアドレスバーから入力する："
     },
     "multisearchEndOfSentence": {
         "message": "の後に検索語を続ける。"
     },
     "pageTitle": {
-        "message": "コンテキスト検索設定"
+        "message": "コンテキスト検索の設定"
     },
     "header1": {
-        "message": "検索結果はどこに表示されますか？"
+        "message": "検索結果はどこに表示されるべきか？"
     },
     "newTab": {
         "message": "新しいタブで"
     },
     "sameTab": {
-        "message": "同じタブ内"
+        "message": "同じタブで"
     },
     "newWindow": {
-        "message": "新しいウィンドウで"
+        "message": "新しいウィンドウで表示"
     },
     "active": {
-        "message": "新しいタブまたはウィンドウをアクティブにします"
+        "message": "新しいタブまたはウィンドウをアクティブにする"
     },
     "position": {
-        "message": "最後のタブの後に検索結果を表示します"
+        "message": "最後のタブの後に検索結果を表示する"
     },
     "header3": {
         "message": "コンテキストメニューのオプションの位置"
     },
     "subheader31": {
-        "message": "オプションメニューをコンテキストメニューのどこに表示しますか？"
+        "message": "コンテキストメニューのどこにオプションメニューを表示しますか？"
     },
     "bottom": {
-        "message": "下部"
+        "message": "一番下"
     },
     "top": {
-        "message": "上部"
+        "message": "トップ"
     },
     "hide": {
-        "message": "どちらでもない（オプションメニューを非表示にする）"
+        "message": "どちらでもない（オプションメニューを隠す）"
     },
     "header5": {
         "message": "検索エンジンのインポート/エクスポート"
     },
     "import": {
-        "message": "ローカルディスクからJSONをインポート"
+        "message": "ローカルディスクからJSONをインポートする"
     },
     "export": {
         "message": "検索エンジンをJSONにエクスポート"
     },
     "download": {
-        "message": "ローカルディスクにエクスポート"
+        "message": "ローカルディスクへのエクスポート"
     },
     "header2": {
-        "message": "ファビコンを表示"
+        "message": "ファビコン＆アイコン"
     },
     "note": {
-        "message": "この機能には、Firefox 56以降が必要です。"
+        "message": "この機能にはFirefox 56以上が必要です。"
     },
     "header4": {
         "message": "検索オプション"
@@ -84,16 +84,16 @@
         "message": "完全に一致する文字列を検索する"
     },
     "gridMode": {
-        "message": "検索エンジンのリストの代わりにアイコンのグリッドを表示します"
+        "message": "検索エンジンのリストではなく、アイコンのグリッドを表示する。"
     },
     "warning": {
-        "message": "警告：この機能を有効にすると、他の拡張機能のコンテキストメニューが表示されなくなることに注意してください。"
+        "message": "警告この機能を有効にすると、他の拡張機能のコンテキストメニューが表示されなくなりますのでご注意ください。"
     },
     "savePreferences": {
-        "message": "設定を保存"
+        "message": "プリファレンスの保存"
     },
     "header6": {
-        "message": "どの検索エンジンをコンテキストメニューまたはグリッドに表示しますか？"
+        "message": "どの検索エンジンをコンテキストメニューやグリッドに表示させたいですか？"
     },
     "clearAll": {
         "message": "すべてクリア"
@@ -102,22 +102,22 @@
         "message": "すべて選択"
     },
     "sortAlphabetically": {
-        "message": "アルファベット順に並べ替え"
+        "message": "アルファベット順に並べ替える"
     },
     "showAdvancedFeatures": {
         "message": "高度な機能を表示する"
     },
     "hideAdvancedFeatures": {
-        "message": "高度な機能を非表示にする"
+        "message": "高度な機能を隠す"
     },
     "reset": {
         "message": "リセット"
     },
     "subheader61": {
-        "message": "新しい検索エンジンを追加"
+        "message": "新しい検索エンジンを追加する"
     },
     "showSearchEngine": {
-        "message": "グリッドまたはコンテキストメニューに検索エンジンを表示"
+        "message": "検索エンジンをグリッドまたはコンテキストメニューに表示する"
     },
     "searchEngineName": {
         "message": "検索エンジン名"
@@ -129,28 +129,28 @@
         "message": "警告"
     },
     "keyboardShortcutWarning": {
-        "message": "すべてのキーの組み合わせが機能するわけではありません。キーボードショートカットは、通常Firefoxコマンド用に予約されているため、macOSの場合はCMD、WindowsまたはLinuxの場合はCTRLで始まらない場合があります。"
+        "message": "すべてのキーの組み合わせが動作するわけではありません。キーボードショートカットは、macOSではCMD、WindowsやLinuxではCTRLで始まらない場合があります。"
     },
     "placeHolderKeyboardShortcut": {
         "message": "キーボードショートカット"
     },
     "multipleSearchEngines": {
-        "message": "この検索エンジンをマルチサーチに含める"
+        "message": "マルチ検索に含める"
     },
     "searchEngineURL": {
-        "message": "検索エンジンのURL "
+        "message": "検索エンジンのURL"
     },
     "regex": {
         "message": "正規表現"
     },
     "testSearchEngine": {
-        "message": "テスト検索エンジン"
+        "message": "検索エンジンのテスト"
     },
     "addSearchEngine": {
-        "message": "検索エンジンを追加"
+        "message": "検索エンジンの追加"
     },
     "addSeparator": {
-        "message": "区切り文字を追加する"
+        "message": "セパレーターの追加"
     },
     "clear": {
         "message": "クリア"
@@ -162,7 +162,7 @@
         "message": "移動"
     },
     "up": {
-        "message": "アップ"
+        "message": "上"
     },
     "down": {
         "message": "ダウン"
@@ -171,34 +171,34 @@
         "message": "削除"
     },
     "multipleSearchEnginesSearch": {
-        "message": "この検索エンジンを複数の検索エンジンの検索に含める"
+        "message": "この検索エンジンをマルチ検索に含める"
     },
     "notifySavedPreferences": {
-        "message": "保存された設定。"
+        "message": "保存された環境設定。"
     },
     "notifySearchEngineAdded": {
-        "message": "検索エンジンが追加されました。"
+        "message": "検索エンジンが追加された。"
     },
     "titleShowEngine": {
-        "message": "この検索エンジンをコンテキストメニューまたはグリッドに表示"
+        "message": "この検索エンジンをコンテキストメニューまたはグリッドに表示する。"
     },
     "notifyEnableStorageSync": {
-        "message": "フラグ'webextensions.storage.sync.enabled'が'about：config'で'true'に設定されていることを確認してください。そうでない場合、コンテキスト検索は機能しません。"
+        "message": "about:config'で'webextensions.storage.sync.enabled'が'true'に設定されていることを確認してください。"
     },
     "notifySearchEnginesLoaded": {
-        "message": "検索エンジンのデフォルトリストがロードされました。"
+        "message": "検索エンジンのデフォルトリストが読み込まれました。"
     },
     "notifySearchEngineNotFound": {
-        "message": "現在のWebページで検索エンジンが見つかりませんでした"
+        "message": "検索エンジンが現在のウェブページで見つからなかった。"
     },
     "titleMultipleSearchEngines": {
-        "message": "複数の検索エンジンで検索"
+        "message": "複数の検索エンジンによる検索"
     },
     "titleAISearch": {
-        "message": "AI検索"
+        "message": "AIサーチ"
     },
     "titleSiteSearch": {
-        "message": "でこのサイトを検索"
+        "message": "このサイトを検索する"
     },
     "titleOptions": {
         "message": "オプション"
@@ -207,61 +207,61 @@
         "message": "検索結果"
     },
     "omniboxDescription": {
-        "message": "キーワードを使用したコンテキスト検索を使用した検索。使用法：cs [キーワード] [検索用語]（例：'cs w Linux'は、Wikipediaで用語'Linux'を検索します）"
+        "message": "キーワードを含むコンテキスト検索を使って検索する。使用法: cs [keyword] [search terms] (例: 'cs w Linux' はウィキペディアを「Linux」で検索する)"
     },
     "notifyUsage": {
-        "message": "使用法：cs [キーワード] [検索用語]（例：cs w Linux）"
+        "message": "使用法: cs [keyword] [検索語] (例: cs w Linux)"
     },
     "notifySearchEngineWithKeyword": {
-        "message": "キーワード付き検索エンジン"
+        "message": "キーワード検索エンジン"
     },
     "notifyUnknown": {
-        "message": "不明です。"
+        "message": "は不明である。"
     },
     "notifySearchEngineUrlRequired": {
-        "message": "検索エンジンのURLを入力してください。"
+        "message": "有効な検索エンジンのURLを入力してください。"
     },
     "header7": {
-        "message": "リセットオプション"
+        "message": "リセット・オプション"
     },
     "sidebar": {
-        "message": "サイドバー内"
+        "message": "サイドバー"
     },
     "displayFavicons": {
         "message": "コンテキストメニューにファビコンを表示する"
     },
     "disableAltClick": {
-        "message": "アイコンのグリッドを無効にする"
+        "message": "アイコングリッドを無効にする（Alt + クリック）"
     },
     "resetPreferences": {
-        "message": "設定をデフォルト設定にリセット"
+        "message": "環境設定をデフォルトに戻す"
     },
     "forceSearchEnginesReload": {
-        "message": "デフォルトの検索エンジンリストの強制再読み込み"
+        "message": "デフォルト検索エンジンリストの強制再読み込み"
     },
     "forceFaviconsReload": {
-        "message": "ファビコンを強制的に再読み込みする"
+        "message": "ファビコンのリロードを強制する"
     },
     "restriction": {
-        "message": "サイドバーがまだ開いていない場合は、ブラウザのツールバーから[サイドバーを表示]アイコンをクリックする必要がある場合があります。"
+        "message": "サイドバーがまだ開いていない場合は、ブラウザのツールバーから「サイドバーを表示」アイコンをクリックしてください。"
     },
     "reverseImage": {
-        "message": "また、リバースイメージ検索結果をサイドバーに表示することはできません。"
+        "message": "また、逆引き検索結果をサイドバーに表示することはできない。"
     },
     "siteSearch": {
-        "message": "現在のサイトを検索するための検索エンジン："
+        "message": "現在のサイトを検索するためのサーチエンジン："
     },
     "header9": {
         "message": "高度な機能"
     },
     "useRegex": {
-        "message": "正規表現を使用してコンテキストメニューを作成する"
+        "message": "正規表現を使ってコンテキストメニューを作る"
     },
     "regexNote": {
-        "message": "この機能は、アイコンのグリッドには適用されません。"
+        "message": "この機能はアイコンのグリッドには適用されない。"
     },
     "subheader62": {
-        "message": "新しいフォルダを追加します"
+        "message": "新しいフォルダを追加する"
     },
     "folderName": {
         "message": "フォルダ名"
@@ -270,25 +270,25 @@
         "message": "フォルダ"
     },
     "addFolder": {
-        "message": "フォルダーを追加"
+        "message": "フォルダを追加"
     },
     "keyboardShortcut": {
         "message": "キーボードショートカット"
     },
     "header10": {
-        "message": "マルチサーチオプション"
+        "message": "マルチ検索オプション"
     },
     "multisearchIntro": {
-        "message": "複数の検索結果/タブを開く"
+        "message": "複数の検索結果／タブを開く"
     },
     "multiNewWindow": {
-        "message": "新しいウィンドウで"
+        "message": "新しいウィンドウで表示"
     },
     "multiAfterLastTab": {
         "message": "現在のウィンドウの最後のタブの後"
     },
     "multiActiveTab": {
-        "message": "現在のウィンドウのアクティブなタブの直後"
+        "message": "現在のウィンドウでアクティブなタブの直後"
     },
     "privacy": {
         "message": "新しいウィンドウをプライベートにする"
@@ -300,22 +300,22 @@
         "message": "検索エンジンをエクスポートするには、ダウンロード権限を有効にします。"
     },
     "header11": {
-        "message": "アイコンのグリッドのオプション"
+        "message": "アイコンのグリッドオプション"
     },
     "quickIconGrid": {
-        "message": "テキストが選択された後、すぐにアイコングリッドを表示します"
+        "message": "テキスト選択後、アイコンのグリッドを即座に表示する。"
     },
     "closeGridOnMouseOut": {
-        "message": "マウスアウト時にアイコングリッドを閉じる"
+        "message": "マウスアウトでアイコングリッドを閉じる"
     },
     "xOffset": {
-        "message": "アイコングリッドの水平オフセット:"
+        "message": "アイコンのグリッドの水平オフセット： "
     },
     "yOffset": {
-        "message": "アイコングリッドの垂直オフセット:"
+        "message": "アイコンのグリッドの垂直オフセット： "
     },
     "clearKeyboardShortcuts": {
-        "message": "すべてのキーボード ショートカットをクリアする"
+        "message": "すべてのキーボードショートカットを消去する"
     },
     "subheader63": {
         "message": "新しいAIプロンプトを追加する"
@@ -339,16 +339,16 @@
         "message": "プロンプト"
     },
     "overwriteSearchEngines": {
-        "message": "既存の検索エンジンをインポートした検索エンジンで上書きする"
+        "message": "既存の検索エンジンをインポートした検索エンジンで上書きする。"
     },
     "removeFolderConfirmPrefix": {
-        "message": "フォルダを削除してもよろしいですか"
+        "message": "フォルダを削除してもよろしいですか？"
     },
     "removeFolderConfirmSuffix": {
-        "message": "そしてその中身はすべて"
+        "message": "およびその内容すべて"
     },
     "removeSearchEngineConfirm": {
-        "message": "本当に検索エンジンを削除しますか"
+        "message": "本当に検索エンジンを削除しますか？"
     },
     "popupBlockedMessage": {
         "message": "ポップアップがブロックされました！このサイトのポップアップを許可してください。"
@@ -387,7 +387,7 @@
         "message": "トライアル開始"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "トライアルは活発だ： "
     },
     "trialExpired": {
         "message": "試用期限切れ"

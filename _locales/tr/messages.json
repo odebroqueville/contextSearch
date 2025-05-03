@@ -18,7 +18,7 @@
         "message": "Bir"
     },
     "multisearchEnd": {
-        "message": "Bağlam menüsünden veya adres çubuğundan şunu yazarak:"
+        "message": "bağlam menüsünden veya adres çubuğundan yazarak:"
     },
     "multisearchEndOfSentence": {
         "message": "ardından arama terimlerinizi yazın."
@@ -228,7 +228,7 @@
         "message": "Kenar çubuğunda"
     },
     "displayFavicons": {
-        "message": "Bağlam menüsünde sık kullanılan simgeleri görüntüleme"
+        "message": "İçerik menüsünde favicon'ları görüntüleme"
     },
     "disableAltClick": {
         "message": "Simge ızgarasını devre dışı bırakma (Alt + Tıklama)"
@@ -387,7 +387,7 @@
         "message": "Denemeye başlayın"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Deneme aktif: "
     },
     "trialExpired": {
         "message": "Deneme süresi doldu"

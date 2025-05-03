@@ -228,7 +228,7 @@
         "message": "Στην πλαϊνή μπάρα"
     },
     "displayFavicons": {
-        "message": "Εμφάνιση favicons στο μενού περιβάλλοντος"
+        "message": "Εμφάνιση αγαπημένων εικονιδίων στο μενού περιβάλλοντος"
     },
     "disableAltClick": {
         "message": "Απενεργοποίηση πλέγματος εικονιδίων (Alt + κλικ)"
@@ -378,7 +378,7 @@
         "message": "Σελιδοδείκτης Αυτή η σελίδα"
     },
     "unbookmarkPage": {
-        "message": "Αποσυνδέστε το bookmark αυτής της σελίδας"
+        "message": "Κατάργηση από τα αγαπημένα αυτής της σελίδας"
     },
     "pay": {
         "message": "Πληρωμή"
@@ -387,7 +387,7 @@
         "message": "Έναρξη δοκιμής"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Δοκιμή ενεργή: "
     },
     "trialExpired": {
         "message": "Η δοκιμή έληξε"

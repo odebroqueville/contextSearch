@@ -8,26 +8,26 @@
         "description": "Description of the extension"
     },
     "multisearch": {
-        "message": " es una búsqueda con múltiples motores de búsqueda simultáneamente.",
+        "message": " es una búsqueda con varios motores de búsqueda simultáneamente.",
         "description": "multi-search - it's a search with multiple search engines simultaneously."
     },
     "multisearchHowTo": {
-        "message": "Marque la casilla de verificación central para incluir un motor de búsqueda en un"
+        "message": "Marque la casilla del medio para incluir un motor de búsqueda en un"
     },
     "multisearchLaunch": {
-        "message": "Puedes lanzar un"
+        "message": "Puede lanzar un"
     },
     "multisearchEnd": {
-        "message": "desde el menú contextual o desde la barra de direcciones escribiendo:"
+        "message": "desde el menú contextual o desde la barra de direcciones tecleando:"
     },
     "multisearchEndOfSentence": {
         "message": "seguido de los términos de búsqueda."
     },
     "pageTitle": {
-        "message": "Preferencias de Context Search"
+        "message": "Preferencias de búsqueda contextual"
     },
     "header1": {
-        "message": "¿Dónde deberían aparecer los resultados de la búsqueda?"
+        "message": "¿Dónde deben aparecer los resultados de la búsqueda?"
     },
     "newTab": {
         "message": "En una nueva pestaña"
@@ -39,40 +39,40 @@
         "message": "En una nueva ventana"
     },
     "active": {
-        "message": "Activar la pestaña o ventana nueva"
+        "message": "Activar la nueva pestaña o ventana"
     },
     "position": {
-        "message": "Mostrar los resultados de búsqueda después de la última pestaña"
+        "message": "Mostrar los resultados de la búsqueda después de la última pestaña"
     },
     "header3": {
-        "message": "Posición de las opciones en el menú contestual"
+        "message": "Posición de las opciones en el menú contextual"
     },
     "subheader31": {
-        "message": "¿Dónde quiere que aparezca el menú de opciones dentro del menú contextual?"
+        "message": "¿Dónde quieres que aparezca el menú de opciones en el menú contextual?"
     },
     "bottom": {
-        "message": "De bajo del menú contextual"
+        "message": "En la parte inferior"
     },
     "top": {
-        "message": "Arriba del menú contextual"
+        "message": "Arriba"
     },
     "hide": {
-        "message": "Ninguno de los dos (ocultar el menú de opciones)"
+        "message": "Ninguna (ocultar el menú de opciones)"
     },
     "header5": {
-        "message": "Importar/Exportar buscadores"
+        "message": "Importar/exportar motores de búsqueda"
     },
     "import": {
-        "message": "Importar JSON desde el disco local"
+        "message": "Importar JSON del disco local"
     },
     "export": {
-        "message": "Exportar buscador a JSON"
+        "message": "Exportar motores de búsqueda a JSON"
     },
     "download": {
-        "message": "Guardar en el disco local"
+        "message": "Exportar a disco local"
     },
     "header2": {
-        "message": "Mostrar los iconos de favoritos"
+        "message": "Favicons & Icons"
     },
     "note": {
         "message": "Esta función requiere Firefox 56 o superior."
@@ -81,22 +81,22 @@
         "message": "Opciones de búsqueda"
     },
     "exactMatch": {
-        "message": "Buscar una coincidencia de cadena exacta"
+        "message": "Buscar una cadena exacta"
     },
     "gridMode": {
-        "message": "Mostrar el menú contextual como una cuadrícula de iconos y no como una lista"
+        "message": "Mostrar una cuadrícula de iconos en lugar de una lista de motores de búsqueda"
     },
     "warning": {
-        "message": "Advertencia: habilitar esta característica impedirá que se muestren los menús contextuales de otras extensiones."
+        "message": "Advertencia: Tenga en cuenta que activar esta función impedirá que se muestren los menús contextuales de otras extensiones."
     },
     "savePreferences": {
         "message": "Guardar preferencias"
     },
     "header6": {
-        "message": "¿Qué buscadores quiere que aparezcan en el menú o cuadrícula contextual?"
+        "message": "¿Qué motores de búsqueda quieres que aparezcan en el menú contextual o en la cuadrícula?"
     },
     "clearAll": {
-        "message": "Limpiar todo"
+        "message": "Borrar todo"
     },
     "selectAll": {
         "message": "Seleccionar todo"
@@ -111,16 +111,16 @@
         "message": "Ocultar funciones avanzadas"
     },
     "reset": {
-        "message": "Reiniciar"
+        "message": "Restablecer"
     },
     "subheader61": {
-        "message": "Añadir un nuevo buscador"
+        "message": "Añadir un nuevo motor de búsqueda"
     },
     "showSearchEngine": {
-        "message": "Mostrar buscador en la cuadrícula o en el menú contextual"
+        "message": "Mostrar el motor de búsqueda en la cuadrícula o en el menú contextual"
     },
     "searchEngineName": {
-        "message": "Nombre del buscador"
+        "message": "Nombre del motor de búsqueda"
     },
     "placeHolderKeyword": {
         "message": "Palabra clave"
@@ -129,34 +129,34 @@
         "message": "Advertencia"
     },
     "keyboardShortcutWarning": {
-        "message": "no todas las combinaciones de teclas funcionarán. Es posible que los atajos de teclado no comiencen con CMD en macOS o CTRL en Windows o Linux, ya que generalmente están reservados para los comandos de Firefox."
+        "message": "no todas las combinaciones de teclas funcionarán. Es posible que los atajos de teclado no empiecen por CMD en macOS o CTRL en Windows o Linux, ya que suelen estar reservados para los comandos de Firefox."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Atajo de teclado"
     },
     "multipleSearchEngines": {
-        "message": "Utilizar este buscador para una búsqueda múltiple"
+        "message": "Incluir en búsqueda múltiple"
     },
     "searchEngineURL": {
-        "message": "URL del buscador"
+        "message": "URL del motor de búsqueda"
     },
     "regex": {
         "message": "Expresión regular"
     },
     "testSearchEngine": {
-        "message": "Probar el buscador"
+        "message": "Motor de búsqueda de prueba"
     },
     "addSearchEngine": {
-        "message": "Añadir buscador"
+        "message": "Añadir motor de búsqueda"
     },
     "addSeparator": {
-        "message": "Agregar un separador"
+        "message": "Añadir un separador"
     },
     "clear": {
-        "message": "Limpiar"
+        "message": "Claro"
     },
     "disableGrid": {
-        "message": "Desactivar cuadrícula de iconos"
+        "message": "Desactivar la cuadrícula de iconos"
     },
     "move": {
         "message": "Mover"
@@ -168,58 +168,58 @@
         "message": "abajo"
     },
     "remove": {
-        "message": "Borrar"
+        "message": "Eliminar"
     },
     "multipleSearchEnginesSearch": {
-        "message": "Incluye este buscador en multi-search"
+        "message": "Incluir este motor de búsqueda en una búsqueda múltiple"
     },
     "notifySavedPreferences": {
         "message": "Preferencias guardadas."
     },
     "notifySearchEngineAdded": {
-        "message": "Buscador añadido."
+        "message": "Motor de búsqueda añadido."
     },
     "titleShowEngine": {
         "message": "Mostrar este motor de búsqueda en el menú contextual o en la cuadrícula"
     },
     "notifyEnableStorageSync": {
-        "message": "Asegúrese de que la preferencia 'webextensions.storage.sync.enabled' en 'about: config' tenga el valor 'true', de lo contrario, la búsqueda contextual no funcionará."
+        "message": "Asegúrate de que el parámetro \"webextensions.storage.sync.enabled\" está definido como \"true\" en \"about:config\"; de lo contrario, Context Search no funcionará."
     },
     "notifySearchEnginesLoaded": {
-        "message": "La lista predeterminada de buscadores ha sido cargada."
+        "message": "Se ha cargado la lista predeterminada de motores de búsqueda."
     },
     "notifySearchEngineNotFound": {
-        "message": "No se pudo encontrar un motor de búsqueda en la página web actual"
+        "message": "No se ha podido encontrar un motor de búsqueda en la página web actual"
     },
     "titleMultipleSearchEngines": {
-        "message": "Búsqueda con múltiples buscadores"
+        "message": "Búsqueda en varios motores de búsqueda"
     },
     "titleAISearch": {
-        "message": "Búsqueda de IA"
+        "message": "Búsqueda AI"
     },
     "titleSiteSearch": {
-        "message": "Buscar este sitio con"
+        "message": "Buscar en este sitio con"
     },
     "titleOptions": {
         "message": "Opciones"
     },
     "windowTitle": {
-        "message": "Resultados de la búsqueda para "
+        "message": "Resultados de la búsqueda"
     },
     "omniboxDescription": {
-        "message": "Buscar utilizando la búsqueda contextual con palabras clave. Uso: cs [palabra clave] [términos de búsqueda] (por ejemplo, 'cs w Linux' busca en Wikipedia el término 'Linux')"
+        "message": "Búsqueda contextual con palabras clave. Uso: cs [palabra clave] [términos de búsqueda] (por ejemplo, 'cs w Linux' busca en Wikipedia el término 'Linux')"
     },
     "notifyUsage": {
-        "message": "Uso: cs [palabra clave] [términos de búsqueda] (por ejemplo: cs w Linux)"
+        "message": "Utilización: cs [palabra clave] [términos de búsqueda] (por ejemplo: cs w Linux)"
     },
     "notifySearchEngineWithKeyword": {
-        "message": "Buscador con palabra clave "
+        "message": "Motor de búsqueda con palabra clave"
     },
     "notifyUnknown": {
-        "message": " desconocido."
+        "message": "es desconocido."
     },
     "notifySearchEngineUrlRequired": {
-        "message": "Por favor, complete la URL de un motor de búsqueda."
+        "message": "Introduzca una URL válida del motor de búsqueda."
     },
     "header7": {
         "message": "Restablecer opciones"
@@ -231,37 +231,37 @@
         "message": "Mostrar favicons en el menú contextual"
     },
     "disableAltClick": {
-        "message": "Desactivar cuadrícula de iconos"
+        "message": "Desactivar la cuadrícula de iconos (Alt + Clic)"
     },
     "resetPreferences": {
-        "message": "Restablecer las preferencias a la configuración predeterminada"
+        "message": "Restablecer las preferencias por defecto"
     },
     "forceSearchEnginesReload": {
-        "message": "Forzar la recarga de la lista de motores de búsqueda predeterminados"
+        "message": "Forzar la recarga de la lista de buscadores por defecto"
     },
     "forceFaviconsReload": {
-        "message": "Forzar la recarga de los favicons"
+        "message": "Forzar la recarga de favicons"
     },
     "restriction": {
-        "message": "Si la barra lateral aún no está abierta, es posible que deba hacer clic en el icono \"Mostrar barras laterales\" de la barra de herramientas del navegador."
+        "message": "Si la barra lateral aún no está abierta, puede que tenga que hacer clic en el icono \"Mostrar barras laterales\" de la barra de herramientas del navegador."
     },
     "reverseImage": {
-        "message": "Además, los resultados de búsqueda de imágenes inversas no se pueden mostrar en la barra lateral."
+        "message": "Además, los resultados de la búsqueda inversa de imágenes no pueden mostrarse en la barra lateral."
     },
     "siteSearch": {
         "message": "Motor de búsqueda para buscar en el sitio actual:"
     },
     "header9": {
-        "message": "Características avanzadas"
+        "message": "Funciones avanzadas"
     },
     "useRegex": {
-        "message": "Use expresiones regulares para construir el menú contextual"
+        "message": "Utilizar expresiones regulares para construir el menú contextual"
     },
     "regexNote": {
-        "message": "Esta función no se aplica a la cuadrícula de iconos."
+        "message": "Esta característica no se aplica a la cuadrícula de iconos."
     },
     "subheader62": {
-        "message": "Agregar una nueva carpeta"
+        "message": "Añadir una nueva carpeta"
     },
     "folderName": {
         "message": "Nombre de la carpeta"
@@ -270,28 +270,28 @@
         "message": "carpeta"
     },
     "addFolder": {
-        "message": "Agregar carpeta"
+        "message": "Añadir carpeta"
     },
     "keyboardShortcut": {
         "message": "Atajo de teclado"
     },
     "header10": {
-        "message": "Opciones de búsqueda múltiple"
+        "message": "Opciones de multibúsqueda"
     },
     "multisearchIntro": {
-        "message": "Abrir múltiples resultados de búsqueda/pestañas"
+        "message": "Abrir varios resultados/pestañas de búsqueda"
     },
     "multiNewWindow": {
-        "message": "en una nueva ventana"
+        "message": "En una nueva ventana"
     },
     "multiAfterLastTab": {
-        "message": "Después de la última pestaña en la ventana actual"
+        "message": "Después de la última pestaña de la ventana actual"
     },
     "multiActiveTab": {
         "message": "Justo después de la pestaña activa en la ventana actual"
     },
     "privacy": {
-        "message": "Hacer nueva ventana privada"
+        "message": "Hacer privada una nueva ventana"
     },
     "reminder": {
         "message": "Recordatorio"
@@ -300,19 +300,19 @@
         "message": "habilite los permisos de Descargas para exportar sus motores de búsqueda."
     },
     "header11": {
-        "message": "Opciones de la grilla de iconos"
+        "message": "Iconos Opciones de cuadrícula"
     },
     "quickIconGrid": {
         "message": "Mostrar inmediatamente la cuadrícula de iconos después de seleccionar el texto"
     },
     "closeGridOnMouseOut": {
-        "message": "Cerrar la cuadrícula de iconos al sacar el mouse"
+        "message": "Cerrar la rejilla de iconos al salir del ratón"
     },
     "xOffset": {
-        "message": "Desplazamiento horizontal de la cuadrícula de iconos:"
+        "message": "Desplazamiento horizontal de la cuadrícula de iconos: "
     },
     "yOffset": {
-        "message": "Desplazamiento vertical de la cuadrícula de iconos:"
+        "message": "Desplazamiento vertical de la cuadrícula de iconos: "
     },
     "clearKeyboardShortcuts": {
         "message": "Borrar todos los atajos de teclado"
@@ -342,13 +342,13 @@
         "message": "Sobrescribir los motores de búsqueda existentes con los motores de búsqueda importados"
     },
     "removeFolderConfirmPrefix": {
-        "message": "Está seguro de que desea eliminar la carpeta"
+        "message": "¿Está seguro de que desea eliminar la carpeta"
     },
     "removeFolderConfirmSuffix": {
         "message": "y todo su contenido"
     },
     "removeSearchEngineConfirm": {
-        "message": "Está seguro de que desea eliminar el motor de búsqueda"
+        "message": "¿Está seguro de que desea eliminar el motor de búsqueda"
     },
     "popupBlockedMessage": {
         "message": "¡Popup bloqueado! Por favor, permita las ventanas emergentes para este sitio."
@@ -387,7 +387,7 @@
         "message": "Iniciar prueba"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Prueba activa: "
     },
     "trialExpired": {
         "message": "Prueba caducada"

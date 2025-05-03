@@ -228,7 +228,7 @@
         "message": "侧边栏"
     },
     "displayFavicons": {
-        "message": "在上下文菜单中显示收藏夹图标"
+        "message": "在右键菜单中显示收藏夹"
     },
     "disableAltClick": {
         "message": "禁用图标网格（Alt + 点击）"
@@ -345,10 +345,10 @@
         "message": "您确定要删除文件夹"
     },
     "removeFolderConfirmSuffix": {
-        "message": "及其所有内容？"
+        "message": "及其所有内容"
     },
     "removeSearchEngineConfirm": {
-        "message": "您确定要移除搜索引擎吗"
+        "message": "您确定要移除搜索引擎吗？"
     },
     "popupBlockedMessage": {
         "message": "弹出窗口已阻止！请允许弹出窗口访问本网站。"
@@ -387,7 +387,7 @@
         "message": "开始试用"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "试验正在进行中： "
     },
     "trialExpired": {
         "message": "试用期已过"
