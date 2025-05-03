@@ -372,7 +372,7 @@
         "message": "Não foi possível obter o URL para a remoção do marcador"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "Selecione, pelo menos, um fornecedor de IA e forneça um nome e um prompt"
     },
     "bookmarkPage": {
         "message": "Marcar esta página"
