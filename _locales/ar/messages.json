@@ -372,7 +372,7 @@
         "message": "تعذر استرداد عنوان URL لإزالة الإشارة المرجعية"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "يرجى تحديد موفر ذكاء اصطناعي على الأقل وتقديم اسم موجه وموجه"
     },
     "bookmarkPage": {
         "message": "ضع إشارة مرجعية على هذه الصفحة"
