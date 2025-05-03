@@ -372,7 +372,7 @@
         "message": "Անհնար է վերցրել URL-ն՝ էջանիշերի հեռացման համար"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "Խնդրում ենք գոնե ընտրել AI մատակարար եւ տրամադրել հուշման անունը եւ հուշում"
     },
     "bookmarkPage": {
         "message": "Էջանիշ այս էջը"
