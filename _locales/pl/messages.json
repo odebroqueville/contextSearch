@@ -372,7 +372,7 @@
         "message": "Nie można pobrać adresu URL do usunięcia zakładki"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "Wybierz przynajmniej dostawcę AI i podaj nazwę monitu oraz monit"
     },
     "bookmarkPage": {
         "message": "Dodaj tę stronę do zakładek"
