@@ -18,7 +18,7 @@
         "message": "Du kan starte en"
     },
     "multisearchEnd": {
-        "message": "fra genvejsmenuen eller fra adresselinjen ved at skrive:"
+        "message": "fra kontekstmenuen eller fra adresselinjen ved at skrive:"
     },
     "multisearchEndOfSentence": {
         "message": "efterfulgt af dine søgeord."
@@ -228,7 +228,7 @@
         "message": "I sidepanelet"
     },
     "displayFavicons": {
-        "message": "Vis favorittikoner i genvejsmenuen"
+        "message": "Vis favicons i kontekstmenuen"
     },
     "disableAltClick": {
         "message": "Deaktiver ikon-gitter (Alt + klik)"
@@ -345,10 +345,10 @@
         "message": "Er du sikker på, at du vil fjerne mappen"
     },
     "removeFolderConfirmSuffix": {
-        "message": "og alt dets indhold?"
+        "message": "og alt dets indhold"
     },
     "removeSearchEngineConfirm": {
-        "message": "Er du sikker på, at du vil fjerne søgemaskinen"
+        "message": "Er du sikker på, at du vil fjerne søgemaskinen?"
     },
     "popupBlockedMessage": {
         "message": "Popup blokeret! Tillad venligst pop op-vinduer på dette websted."
@@ -387,7 +387,7 @@
         "message": "Start forsøg"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Forsøget er aktivt: "
     },
     "trialExpired": {
         "message": "Prøveperiode udløbet"
@@ -405,6 +405,6 @@
         "message": "resterende dag(e)"
     },
     "__WET_LOCALE__": {
-        "message": "da"
+        "message": "en"
     }
 }
