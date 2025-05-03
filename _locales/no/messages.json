@@ -372,7 +372,7 @@
         "message": "Kunne ikke hente URL for fjerning av bokmerker"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "Velg i det minste en AI-leverandør og oppgi et spørsmål og en melding"
     },
     "bookmarkPage": {
         "message": "Bokmerk denne siden"
