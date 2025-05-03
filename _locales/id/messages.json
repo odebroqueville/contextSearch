@@ -372,7 +372,7 @@
         "message": "Tidak dapat mengambil URL untuk menghapus bookmark"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "Setidaknya pilih Penyedia AI dan berikan nama prompt dan prompt"
     },
     "bookmarkPage": {
         "message": "Tandai Halaman Ini"
