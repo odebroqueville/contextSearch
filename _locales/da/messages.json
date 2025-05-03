@@ -371,6 +371,9 @@
     "notifyMissingBookmarkUrl": {
         "message": "Kunne ikke hente URL til fjernelse af bogmærke"
     },
+    "notifyAIMinimalRequirements": {
+        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+    },
     "bookmarkPage": {
         "message": "Bogmærke denne side"
     },
