@@ -162,7 +162,7 @@
         "message": "Pindah"
     },
     "up": {
-        "message": "up"
+        "message": "ke atas"
     },
     "down": {
         "message": "turun"
@@ -267,7 +267,7 @@
         "message": "Nama folder"
     },
     "folder": {
-        "message": "folder"
+        "message": "map"
     },
     "addFolder": {
         "message": "Tambahkan folder"
@@ -405,6 +405,6 @@
         "message": "hari yang tersisa"
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "id"
     }
 }

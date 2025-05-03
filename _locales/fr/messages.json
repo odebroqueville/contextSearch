@@ -153,7 +153,7 @@
         "message": "Ajouter un séparateur"
     },
     "clear": {
-        "message": "Clair"
+        "message": "Effacer"
     },
     "disableGrid": {
         "message": "Désactiver la grille d'icônes"
@@ -162,13 +162,13 @@
         "message": "Déplacer"
     },
     "up": {
-        "message": "monter"
+        "message": "vers le haut"
     },
     "down": {
         "message": "vers le bas"
     },
     "remove": {
-        "message": "Retirer"
+        "message": "Supprimer"
     },
     "multipleSearchEnginesSearch": {
         "message": "Inclure ce moteur de recherche dans une recherche multiple"
@@ -180,10 +180,10 @@
         "message": "Ajout d'un moteur de recherche."
     },
     "titleShowEngine": {
-        "message": "Afficher ce moteur de recherche dans le menu contextuel ou la grille"
+        "message": "Afficher ce moteur de recherche dans le menu contextuel ou dans la grille d'icônes"
     },
     "notifyEnableStorageSync": {
-        "message": "Veillez à ce que l'indicateur 'webextensions.storage.sync.enabled' soit défini sur 'true' dans 'about:config', sinon la recherche contextuelle ne fonctionnera pas."
+        "message": "Veillez à ce que le paramètre 'webextensions.storage.sync.enabled' soit défini sur 'true' dans 'about:config', sinon la recherche contextuelle ne fonctionnera pas."
     },
     "notifySearchEnginesLoaded": {
         "message": "La liste par défaut des moteurs de recherche a été chargée."
@@ -207,7 +207,7 @@
         "message": "Résultats de la recherche pour"
     },
     "omniboxDescription": {
-        "message": "Recherche en utilisant la recherche contextuelle avec des mots-clés. Utilisation : cs [mot-clé] [termes de recherche] (par exemple, \"cs w Linux\" recherche le terme \"Linux\" dans Wikipédia)."
+        "message": "Recherche avec des mots-clés. Utilisation : cs [mot-clé] [termes de recherche] (par exemple, \"cs w Linux\" recherche le terme \"Linux\" dans Wikipédia)"
     },
     "notifyUsage": {
         "message": "Utilisation : cs [mot-clé] [termes de recherche] (par exemple : cs w Linux)"
@@ -324,7 +324,7 @@
         "message": "Ajouter un séparateur"
     },
     "testChatGPT": {
-        "message": "Test AI Prompt"
+        "message": "Tester l’invite IA"
     },
     "addChatGPTPrompt": {
         "message": "Ajouter une invite AI"
@@ -336,7 +336,7 @@
         "message": "Nom de l'invite"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "Invite"
     },
     "overwriteSearchEngines": {
         "message": "Remplacer les moteurs de recherche existants par les moteurs de recherche importés"
@@ -348,7 +348,7 @@
         "message": "et l'ensemble de son contenu"
     },
     "removeSearchEngineConfirm": {
-        "message": "Êtes-vous sûr de vouloir supprimer le moteur de recherche ?"
+        "message": "Êtes-vous sûr de vouloir supprimer le moteur de recherche "
     },
     "popupBlockedMessage": {
         "message": "Popup bloqué ! Veuillez autoriser les fenêtres contextuelles pour ce site."

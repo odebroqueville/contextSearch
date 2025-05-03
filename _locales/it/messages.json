@@ -324,10 +324,10 @@
         "message": "Aggiungere un separatore"
     },
     "testChatGPT": {
-        "message": "Test AI Prompt"
+        "message": "Prova il prompt dell'IA"
     },
     "addChatGPTPrompt": {
-        "message": "Aggiungere un prompt AI"
+        "message": "Aggiungere un prompt IA"
     },
     "promptShow": {
         "message": "Mostra il prompt nella griglia o nel menu contestuale"
