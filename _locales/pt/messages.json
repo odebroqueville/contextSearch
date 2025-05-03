@@ -18,7 +18,7 @@
         "message": "É possível lançar um"
     },
     "multisearchEnd": {
-        "message": "No menu de contexto ou na barra de endereço, digitando:"
+        "message": "a partir do menu de contexto ou da barra de endereço, digitando:"
     },
     "multisearchEndOfSentence": {
         "message": "seguido dos seus termos de pesquisa."
@@ -228,7 +228,7 @@
         "message": "Na barra lateral"
     },
     "displayFavicons": {
-        "message": "Exibir favicons no menu de contexto"
+        "message": "Mostrar favicons no menu de contexto"
     },
     "disableAltClick": {
         "message": "Desativar a grelha de ícones (Alt + Clique)"
@@ -387,7 +387,7 @@
         "message": "Iniciar o ensaio"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Ensaio ativo: "
     },
     "trialExpired": {
         "message": "O período de teste expirou"
@@ -405,6 +405,6 @@
         "message": "dia(s) restante(s)"
     },
     "__WET_LOCALE__": {
-        "message": "pt"
+        "message": "en"
     }
 }
