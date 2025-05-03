@@ -12,67 +12,67 @@
         "description": "multi-search - it's a search with multiple search engines simultaneously."
     },
     "multisearchHowTo": {
-        "message": "Aktivieren Sie das mittlere Kontrollkästchen, um eine Suchmaschine in a aufzunehmen"
+        "message": "Aktivieren Sie das mittlere Kontrollkästchen, um eine Suchmaschine in eine"
     },
     "multisearchLaunch": {
-        "message": "Sie können eine starten"
+        "message": "Sie können eine"
     },
     "multisearchEnd": {
-        "message": "aus dem Kontextmenü oder in der Adressleiste, indem Sie Folgendes eingeben:"
+        "message": "aus dem Kontextmenü oder über die Adressleiste durch Eingabe:"
     },
     "multisearchEndOfSentence": {
         "message": "gefolgt von Ihren Suchbegriffen."
     },
     "pageTitle": {
-        "message": "Context Search: Einstellungen"
+        "message": "Präferenzen für die Kontextsuche"
     },
     "header1": {
         "message": "Wo sollen die Suchergebnisse erscheinen?"
     },
     "newTab": {
-        "message": "In einem neuen Tab"
+        "message": "In einer neuen Registerkarte"
     },
     "sameTab": {
-        "message": "Im selben Tab"
+        "message": "Auf der gleichen Registerkarte"
     },
     "newWindow": {
         "message": "In einem neuen Fenster"
     },
     "active": {
-        "message": "Aktiviere den neuen Tab oder das neue Fenster"
+        "message": "Aktivieren der neuen Registerkarte oder des neuen Fensters"
     },
     "position": {
-        "message": "Zeigen Sie die Suchergebnisse nach der letzten Tab an"
+        "message": "Anzeige der Suchergebnisse nach der letzten Registerkarte"
     },
     "header3": {
         "message": "Position der Optionen im Kontextmenü"
     },
     "subheader31": {
-        "message": "Wo sollen die Optionen im Kontextmenü erscheinen?"
+        "message": "Wo soll das Optionsmenü im Kontextmenü erscheinen?"
     },
     "bottom": {
         "message": "Unten"
     },
     "top": {
-        "message": "Oben"
+        "message": "An der Spitze"
     },
     "hide": {
-        "message": "Weder noch (verstecke das Optionsmenü)"
+        "message": "Weder noch (das Optionsmenü ausblenden)"
     },
     "header5": {
-        "message": "Importiere/exportiere Suchmaschinen"
+        "message": "Import/Export-Suchmaschinen"
     },
     "import": {
-        "message": "Importiere JSON von lokalem Datenträger"
+        "message": "JSON von der lokalen Festplatte importieren"
     },
     "export": {
-        "message": "Exportiere Suchmaschinen nach JSON"
+        "message": "Suchmaschinen nach JSON exportieren"
     },
     "download": {
-        "message": "Exportiere auf lokalen Datenträger"
+        "message": "Export auf lokale Festplatte"
     },
     "header2": {
-        "message": "Zeige Suchmaschinen-Symbole"
+        "message": "Favicons & Icons"
     },
     "note": {
         "message": "Diese Funktion erfordert Firefox 56 oder höher."
@@ -81,25 +81,25 @@
         "message": "Suchoptionen"
     },
     "exactMatch": {
-        "message": "Suchen Sie nach einer genauen Zeichenfolgenübereinstimmung"
+        "message": "Suche nach einer exakten Zeichenkettenübereinstimmung"
     },
     "gridMode": {
-        "message": "Zeige Symbolgitter anstelle einer Liste von Suchmaschinen an"
+        "message": "Anzeige eines Rasters von Symbolen anstelle einer Liste von Suchmaschinen"
     },
     "warning": {
-        "message": "Warnung: Beachte, dass die Aktivierung dieser Funktion verhindert, dass Kontextmenüs anderer Erweiterungen angezeigt werden."
+        "message": "Achtung! Bitte beachten Sie, dass durch die Aktivierung dieser Funktion keine Kontextmenüs anderer Erweiterungen angezeigt werden können."
     },
     "savePreferences": {
         "message": "Einstellungen speichern"
     },
     "header6": {
-        "message": "Welche Suchmaschinen sollen im Kontextmenü oder im Gitter erscheinen?"
+        "message": "Welche Suchmaschinen möchten Sie im Kontextmenü oder im Raster anzeigen lassen?"
     },
     "clearAll": {
-        "message": "Alles leeren"
+        "message": "Alle löschen"
     },
     "selectAll": {
-        "message": "Alles auswählen"
+        "message": "Alle auswählen"
     },
     "sortAlphabetically": {
         "message": "Alphabetisch sortieren"
@@ -117,7 +117,7 @@
         "message": "Eine neue Suchmaschine hinzufügen"
     },
     "showSearchEngine": {
-        "message": "Zeige Suchmaschine im Gitter oder Kontextmenü an"
+        "message": "Suchmaschine im Gitter oder Kontextmenü anzeigen"
     },
     "searchEngineName": {
         "message": "Name der Suchmaschine"
@@ -129,88 +129,88 @@
         "message": "Warnung"
     },
     "keyboardShortcutWarning": {
-        "message": "nicht alle Tastenkombinationen funktionieren. Tastaturkürzel beginnen möglicherweise nicht mit CMD unter macOS oder STRG unter Windows oder Linux, da diese normalerweise für Firefox-Befehle reserviert sind."
+        "message": "nicht alle Tastenkombinationen werden funktionieren. Tastaturkürzel dürfen unter macOS nicht mit CMD und unter Windows oder Linux nicht mit CTRL beginnen, da diese normalerweise für Firefox-Befehle reserviert sind."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Tastaturkürzel"
     },
     "multipleSearchEngines": {
-        "message": "Diese Suchmaschine zu einer multi-search hinzufügen"
+        "message": "In Multisuche einbeziehen"
     },
     "searchEngineURL": {
         "message": "URL der Suchmaschine"
     },
     "regex": {
-        "message": "Regulären Ausdruck"
+        "message": "Regulärer Ausdruck"
     },
     "testSearchEngine": {
-        "message": "Testsuchmaschine"
+        "message": "Test-Suchmaschine"
     },
     "addSearchEngine": {
         "message": "Suchmaschine hinzufügen"
     },
     "addSeparator": {
-        "message": "Fügen Sie ein Trennzeichen hinzu"
+        "message": "Ein Trennzeichen hinzufügen"
     },
     "clear": {
-        "message": "Leeren"
+        "message": "Klar"
     },
     "disableGrid": {
-        "message": "Deaktivieren Sie das Raster der Symbole"
+        "message": "Gitter der Icons deaktivieren"
     },
     "move": {
-        "message": "Bewegen"
+        "message": "Verschieben"
     },
     "up": {
-        "message": "hoch"
+        "message": "auf"
     },
     "down": {
-        "message": "runter"
+        "message": "unten"
     },
     "remove": {
-        "message": "Entfernen"
+        "message": "entfernen"
     },
     "multipleSearchEnginesSearch": {
-        "message": "Füge diese Suchmaschine einer Suche mit mehreren Suchmaschinen hinzu"
+        "message": "Diese Suchmaschine in eine Mehrfachsuche einbeziehen"
     },
     "notifySavedPreferences": {
-        "message": "Einstellungen gespeichert."
+        "message": "Gespeicherte Einstellungen."
     },
     "notifySearchEngineAdded": {
         "message": "Suchmaschine hinzugefügt."
     },
     "titleShowEngine": {
-        "message": "Zeigen Sie diese Suchmaschine im Kontextmenü oder Raster an"
+        "message": "Diese Suchmaschine im Kontextmenü oder Gitter anzeigen"
     },
     "notifyEnableStorageSync": {
-        "message": "Stelle sicher, dass 'webextensions.storage.sync.enabled' in 'about:config' auf 'true' gesetzt ist. Andernfalls wird Context Search nicht funktionieren."
+        "message": "Bitte stellen Sie sicher, dass das Flag 'webextensions.storage.sync.enabled' in 'about:config' auf 'true' gesetzt ist, sonst funktioniert die Kontextsuche nicht."
     },
     "notifySearchEnginesLoaded": {
-        "message": "Defaultliste der Suchmaschinen wurde geladen."
+        "message": "Die Standardliste der Suchmaschinen wurde geladen."
     },
     "notifySearchEngineNotFound": {
         "message": "Eine Suchmaschine konnte auf der aktuellen Webseite nicht gefunden werden"
     },
     "titleMultipleSearchEngines": {
-        "message": "Suche mit mehreren Suchmaschinen"
+        "message": "Suche in mehreren Suchmaschinen"
     },
     "titleAISearch": {
-        "message": "KI-Suche"
+        "message": "AI-Suche"
     },
     "titleSiteSearch": {
-        "message": "Durchsuche diese Seite mit"
+        "message": "Suche auf dieser Website mit"
     },
     "titleOptions": {
         "message": "Optionen"
     },
     "windowTitle": {
-        "message": "Durchsuche Ergebnisse nach"
+        "message": "Suchergebnisse für"
     },
     "omniboxDescription": {
-        "message": "Mit Context Search mit Schlüsselwörtern suchen. Benutzung: cs [Schlüsselwort] [Suchbegriffe] (z.B. 'cs w Linux' durchsucht die Wikipedia nach dem Begriff 'Linux')"
+        "message": "Suche über die Kontextsuche mit Schlüsselwörtern. Verwendung: cs [Stichwort] [Suchbegriffe] (z. B. 'cs w Linux' sucht in Wikipedia nach dem Begriff 'Linux')"
     },
     "notifyUsage": {
-        "message": "Benutzung: cs [Schlüsselwort] [Suchbegriffe] (z.B. 'cs w Linux')"
+        "message": "Verwendung: cs [Stichwort] [Suchbegriffe] (zum Beispiel: cs w Linux)"
     },
     "notifySearchEngineWithKeyword": {
         "message": "Suchmaschine mit Schlüsselwort"
@@ -219,7 +219,7 @@
         "message": "ist unbekannt."
     },
     "notifySearchEngineUrlRequired": {
-        "message": "Bitte geben Sie eine Suchmaschinen-URL ein."
+        "message": "Bitte geben Sie eine gültige URL für die Suchmaschine ein."
     },
     "header7": {
         "message": "Optionen zurücksetzen"
@@ -231,25 +231,25 @@
         "message": "Favicons im Kontextmenü anzeigen"
     },
     "disableAltClick": {
-        "message": "Deaktivieren Sie das Raster der Symbole"
+        "message": "Symbolgitter deaktivieren (Alt + Klick)"
     },
     "resetPreferences": {
-        "message": "Setzen Sie die Einstellungen auf die Standardeinstellungen zurück"
+        "message": "Voreinstellungen auf Standardeinstellungen zurücksetzen"
     },
     "forceSearchEnginesReload": {
-        "message": "Erzwingen Sie das Neuladen der Standard-Suchmaschinenliste"
+        "message": "Neuladen der Standard-Suchmaschinenliste erzwingen"
     },
     "forceFaviconsReload": {
-        "message": "Erzwinge das Nachladen der Favicons"
+        "message": "Erzwingen, dass Favicons neu geladen werden"
     },
     "restriction": {
-        "message": "Wenn die Seitenleiste noch nicht geöffnet ist, müssen Sie möglicherweise in der Browser-Symbolleiste auf das Symbol \"Seitenleisten anzeigen\" klicken."
+        "message": "Wenn die Seitenleiste noch nicht geöffnet ist, müssen Sie in der Browser-Symbolleiste auf das Symbol \"Seitenleisten anzeigen\" klicken."
     },
     "reverseImage": {
-        "message": "Außerdem können Suchergebnisse für umgekehrte Bilder nicht in der Seitenleiste angezeigt werden."
+        "message": "Außerdem können die Ergebnisse der umgekehrten Bildsuche nicht in der Seitenleiste angezeigt werden."
     },
     "siteSearch": {
-        "message": "Suchmaschine für die Suche nach aktueller Website:"
+        "message": "Suchmaschine für die Suche auf der aktuellen Website:"
     },
     "header9": {
         "message": "Erweiterte Funktionen"
@@ -258,13 +258,13 @@
         "message": "Verwenden Sie reguläre Ausdrücke, um das Kontextmenü zu erstellen"
     },
     "regexNote": {
-        "message": "Diese Funktion gilt nicht für das Symbolraster."
+        "message": "Diese Funktion gilt nicht für das Raster der Icons."
     },
     "subheader62": {
         "message": "Einen neuen Ordner hinzufügen"
     },
     "folderName": {
-        "message": "Ordnernamen"
+        "message": "Name des Ordners"
     },
     "folder": {
         "message": "Ordner"
@@ -276,19 +276,19 @@
         "message": "Tastaturkürzel"
     },
     "header10": {
-        "message": "Optionen für Mehrfachsuche"
+        "message": "Optionen für die Multisuche"
     },
     "multisearchIntro": {
-        "message": "Mehrere Suchergebnisse/Tabs"
+        "message": "Mehrere Suchergebnisse/Registerkarten öffnen"
     },
     "multiNewWindow": {
-        "message": "In einem neuen Fenster öffnen"
+        "message": "In einem neuen Fenster"
     },
     "multiAfterLastTab": {
-        "message": "Nach dem letzten Tab im aktuellen Fenster öffnen"
+        "message": "Nach der letzten Registerkarte im aktuellen Fenster"
     },
     "multiActiveTab": {
-        "message": "Direkt nach dem aktiven Tab im aktuellen Fenster öffnen"
+        "message": "Direkt nach der aktiven Registerkarte im aktuellen Fenster"
     },
     "privacy": {
         "message": "Neues Fenster privat machen"
@@ -297,25 +297,25 @@
         "message": "Erinnerung"
     },
     "enableDownloadsReminder": {
-        "message": "Aktivieren Sie Download-Berechtigungen, um Ihre Suchmaschinen zu exportieren."
+        "message": "aktivieren Sie die Downloads-Berechtigung, um Ihre Suchmaschinen zu exportieren."
     },
     "header11": {
-        "message": "Symbole Rasteroptionen"
+        "message": "Icons Rasteroptionen"
     },
     "quickIconGrid": {
-        "message": "Zeigen Sie das Symbolraster sofort an, nachdem Text ausgewählt wurde"
+        "message": "Sofortige Anzeige des Symbolrasters, nachdem der Text ausgewählt wurde"
     },
     "closeGridOnMouseOut": {
-        "message": "Schließen Sie das Symbolraster beim Herausfahren der Maus"
+        "message": "Schließen des Icon-Gitters bei Mouse-Out"
     },
     "xOffset": {
-        "message": "Horizontaler Versatz des Symbolrasters:"
+        "message": "Horizontaler Versatz des Ikonenrasters: "
     },
     "yOffset": {
-        "message": "Vertikaler Versatz des Symbolrasters:"
+        "message": "Vertikaler Versatz des Ikonenrasters: "
     },
     "clearKeyboardShortcuts": {
-        "message": "Löschen Sie alle Tastaturkürzel"
+        "message": "Alle Tastaturkürzel löschen"
     },
     "subheader63": {
         "message": "Eine neue AI-Eingabeaufforderung hinzufügen"
@@ -348,13 +348,13 @@
         "message": "und alle seine Inhalte"
     },
     "removeSearchEngineConfirm": {
-        "message": "Sind Sie sicher, dass Sie die Suchmaschine entfernen möchten"
+        "message": "Sind Sie sicher, dass Sie die Suchmaschine entfernen möchten?"
     },
     "popupBlockedMessage": {
         "message": "Popup blockiert! Bitte erlauben Sie Popups für diese Seite."
     },
     "subscriptionOptions": {
-        "message": "Abonnement-Optionen für Context Search"
+        "message": "Abonnement-Optionen für die Kontextsuche"
     },
     "startNewTrial": {
         "message": "Starten Sie einen neuen 7-Tage-Test"
@@ -387,7 +387,7 @@
         "message": "Versuch starten"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Versuch aktiv: "
     },
     "trialExpired": {
         "message": "Probezeit abgelaufen"
@@ -405,6 +405,6 @@
         "message": "Verbleibende(r) Tag(e)"
     },
     "__WET_LOCALE__": {
-        "message": "de"
+        "message": "en"
     }
 }
