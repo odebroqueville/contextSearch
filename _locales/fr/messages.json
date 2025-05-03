@@ -1,10 +1,10 @@
 {
     "extensionName": {
-        "message": "Context Search",
+        "message": "Recherche contextuelle",
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Recherche le texte sélectionné à l'aide d'un moteur de recherche ou d'une invite IA à partir de votre liste personnalisée de moteurs de recherche et d'invites IA gérée dans la page de préférences de l'extension.",
+        "message": "Recherche le texte sélectionné à l'aide d'un moteur de recherche ou d'une invite AI à partir de votre liste personnalisée de moteurs de recherche et d'invites AI gérée dans la page des préférences de l'extension.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -12,22 +12,22 @@
         "description": "multi-search - it's a search with multiple search engines simultaneously."
     },
     "multisearchHowTo": {
-        "message": "Cochez la case du milieu pour inclure un moteur de recherche dans un"
+        "message": "Cochez la case du milieu pour inclure un moteur de recherche dans une"
     },
     "multisearchLaunch": {
         "message": "Vous pouvez lancer un"
     },
     "multisearchEnd": {
-        "message": "depuis le menu contextuel ou depuis la barre d’adresse en tapant :"
+        "message": "à partir du menu contextuel ou de la barre d'adresse en tapant :"
     },
     "multisearchEndOfSentence": {
         "message": "suivi de vos termes de recherche."
     },
     "pageTitle": {
-        "message": "Préférences de Context Search"
+        "message": "Préférences de recherche contextuelle"
     },
     "header1": {
-        "message": "Où les résultats de recherche doivent-ils apparaître ?"
+        "message": "Où les résultats de la recherche doivent-ils apparaître ?"
     },
     "newTab": {
         "message": "Dans un nouvel onglet"
@@ -39,7 +39,7 @@
         "message": "Dans une nouvelle fenêtre"
     },
     "active": {
-        "message": "Activer le nouvel onglet ou la nouvelle fenêtre"
+        "message": "Rendre le nouvel onglet ou la nouvelle fenêtre active"
     },
     "position": {
         "message": "Afficher les résultats de la recherche après le dernier onglet"
@@ -48,88 +48,88 @@
         "message": "Position des options dans le menu contextuel"
     },
     "subheader31": {
-        "message": "Où souhaitez-vous que les options apparaissent dans le menu contextuel ?"
+        "message": "Où voulez-vous que le menu d'options apparaisse dans le menu contextuel ?"
     },
     "bottom": {
-        "message": "Au bas du menu contextuel"
+        "message": "En bas"
     },
     "top": {
-        "message": "En haut du menu contextuel"
+        "message": "Au sommet"
     },
     "hide": {
-        "message": "Ni en bas, ni en haut (cacher le menu des options)"
+        "message": "Ni l'un ni l'autre (cacher le menu des options)"
     },
     "header5": {
-        "message": "Importer/Exporter les moteurs de recherche"
+        "message": "Importer/exporter des moteurs de recherche"
     },
     "import": {
-        "message": "Importer le fichier JSON du disque local"
+        "message": "Importer JSON à partir d'un disque local"
     },
     "export": {
-        "message": "Exporter les moteurs de recherche dans un fichier JSON"
+        "message": "Exporter les moteurs de recherche vers JSON"
     },
     "download": {
-        "message": "Sauvegarder sur le disque local"
+        "message": "Exporter vers le disque local"
     },
     "header2": {
-        "message": "Afficher les icônes"
+        "message": "Favicons et icônes"
     },
     "note": {
-        "message": "Cette fonctionnalité requiert Firefox 56 ou une version plus récente."
+        "message": "Cette fonctionnalité nécessite Firefox 56 ou une version plus récente."
     },
     "header4": {
         "message": "Options de recherche"
     },
     "exactMatch": {
-        "message": "Rechercher une correspondance exacte de chaîne"
+        "message": "Recherche d'une chaîne de caractères exacte"
     },
     "gridMode": {
         "message": "Afficher une grille d'icônes au lieu d'une liste de moteurs de recherche"
     },
     "warning": {
-        "message": "Attention : l'activation de cette fonctionnalité empêchera l'affichage des menus contextuels des autres extensions."
+        "message": "Avertissement : Veuillez noter que l'activation de cette fonction empêchera l'affichage des menus contextuels d'autres extensions."
     },
     "savePreferences": {
         "message": "Sauvegarder les préférences"
     },
     "header6": {
-        "message": "Quels moteurs de recherche aimeriez-vous voir apparaître dans le menu contextuel ou dans la grille d'icones?"
+        "message": "Quels sont les moteurs de recherche que vous souhaitez voir apparaître dans le menu contextuel ou la grille ?"
     },
     "clearAll": {
         "message": "Tout effacer"
     },
     "selectAll": {
-        "message": "Tout sélectionner"
+        "message": "Sélectionner tout"
     },
     "sortAlphabetically": {
         "message": "Trier par ordre alphabétique"
     },
     "showAdvancedFeatures": {
-        "message": "Afficher les fonctionnalités avancées"
+        "message": "Afficher les fonctions avancées"
     },
     "hideAdvancedFeatures": {
         "message": "Masquer les fonctionnalités avancées"
     },
     "reset": {
-        "message": "Ré-initialisation"
+        "message": "Remise à zéro"
     },
     "subheader61": {
         "message": "Ajouter un nouveau moteur de recherche"
     },
     "showSearchEngine": {
-        "message": "Afficher le moteur de recherche dans la grille d'icônes ou dans le menu contextuel"
+        "message": "Afficher le moteur de recherche dans la grille ou le menu contextuel"
     },
     "searchEngineName": {
         "message": "Nom du moteur de recherche"
     },
     "placeHolderKeyword": {
-        "message": "Mot clé"
+        "message": "Mot-clé"
     },
     "warningText": {
         "message": "Avertissement"
     },
     "keyboardShortcutWarning": {
-        "message": "toutes les combinaisons de touches ne fonctionneront pas. Les raccourcis clavier ne peuvent pas commencer par CMD sous macOS ou CTRL sous Windows ou Linux, car ils sont généralement réservés aux commandes Firefox."
+        "message": "toutes les combinaisons de touches ne fonctionneront pas. Les raccourcis clavier ne peuvent pas commencer par CMD sur macOS ou CTRL sur Windows ou Linux, car ils sont généralement réservés aux commandes Firefox."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Raccourci clavier"
@@ -147,13 +147,13 @@
         "message": "Tester le moteur de recherche"
     },
     "addSearchEngine": {
-        "message": "Ajouter le moteur de recherche"
+        "message": "Ajouter un moteur de recherche"
     },
     "addSeparator": {
         "message": "Ajouter un séparateur"
     },
     "clear": {
-        "message": "Effacer"
+        "message": "Clair"
     },
     "disableGrid": {
         "message": "Désactiver la grille d'icônes"
@@ -162,94 +162,94 @@
         "message": "Déplacer"
     },
     "up": {
-        "message": "vers le haut"
+        "message": "monter"
     },
     "down": {
         "message": "vers le bas"
     },
     "remove": {
-        "message": "Supprimer"
+        "message": "Retirer"
     },
     "multipleSearchEnginesSearch": {
-        "message": "Inclure ce moteur de recherche pour la recherche multiple"
+        "message": "Inclure ce moteur de recherche dans une recherche multiple"
     },
     "notifySavedPreferences": {
         "message": "Préférences sauvegardées."
     },
     "notifySearchEngineAdded": {
-        "message": "Moteur de recherche ajouté."
+        "message": "Ajout d'un moteur de recherche."
     },
     "titleShowEngine": {
-        "message": "Afficher ce moteur de recherche dans le menu contextuel ou dans la grille d'icônes"
+        "message": "Afficher ce moteur de recherche dans le menu contextuel ou la grille"
     },
     "notifyEnableStorageSync": {
-        "message": "Assurez-vous que le paramètre 'webextension.storage.sync.enabled' a la valeur 'true' dans 'about:config', sinon Context Search ne fonctionnera pas."
+        "message": "Veillez à ce que l'indicateur 'webextensions.storage.sync.enabled' soit défini sur 'true' dans 'about:config', sinon la recherche contextuelle ne fonctionnera pas."
     },
     "notifySearchEnginesLoaded": {
-        "message": "Les moteurs de recherche par défaut ont été chargés."
+        "message": "La liste par défaut des moteurs de recherche a été chargée."
     },
     "notifySearchEngineNotFound": {
-        "message": "Un moteur de recherche n'a pu être trouvée sur la présente page web"
+        "message": "Un moteur de recherche n'a pas pu être trouvé sur la page web actuelle"
     },
     "titleMultipleSearchEngines": {
-        "message": "Recherche multiple"
+        "message": "Recherche dans plusieurs moteurs de recherche"
     },
     "titleAISearch": {
-        "message": "Recherche IA"
+        "message": "Recherche d'IA"
     },
     "titleSiteSearch": {
-        "message": "Rechercher dans ce site avec"
+        "message": "Rechercher sur ce site avec"
     },
     "titleOptions": {
-        "message": "Paramètres"
+        "message": "Options"
     },
     "windowTitle": {
-        "message": "Résultats de recherche pour"
+        "message": "Résultats de la recherche pour"
     },
     "omniboxDescription": {
-        "message": "Recherche avec des mots-clés. Utilisation : cs [mot-clé] [termes de recherche] (par exemple, \"cs w Linux\" recherche le terme \"Linux\" dans Wikipédia)"
+        "message": "Recherche en utilisant la recherche contextuelle avec des mots-clés. Utilisation : cs [mot-clé] [termes de recherche] (par exemple, \"cs w Linux\" recherche le terme \"Linux\" dans Wikipédia)."
     },
     "notifyUsage": {
         "message": "Utilisation : cs [mot-clé] [termes de recherche] (par exemple : cs w Linux)"
     },
     "notifySearchEngineWithKeyword": {
-        "message": "Le moteur de recherche avec le mot clé"
+        "message": "Moteur de recherche avec mot-clé"
     },
     "notifyUnknown": {
-        "message": "est inconnu."
+        "message": "n'est pas connue."
     },
     "notifySearchEngineUrlRequired": {
-        "message": "Veuillez introduire l'adresse URL du moteur de recherche."
+        "message": "Veuillez indiquer l'URL d'un moteur de recherche valide."
     },
     "header7": {
-        "message": "Réinitialiser les préférences"
+        "message": "Réinitialiser les options"
     },
     "sidebar": {
-        "message": "Dans la barre de côté"
+        "message": "Dans la barre latérale"
     },
     "displayFavicons": {
-        "message": "Afficher les icônes dans le menu contextuel"
+        "message": "Afficher les favicons dans le menu contextuel"
     },
     "disableAltClick": {
-        "message": "Désactiver la grille d'icônes (Alt + Clic)"
+        "message": "Désactiver la grille d'icônes (Alt + Click)"
     },
     "resetPreferences": {
-        "message": "Restaurer les préférences par défaut"
+        "message": "Rétablir les préférences par défaut"
     },
     "forceSearchEnginesReload": {
-        "message": "Forcer le chargement à neuf des moteurs de recherche par défaut"
+        "message": "Forcer le rechargement de la liste des moteurs de recherche par défaut"
     },
     "forceFaviconsReload": {
-        "message": "Forcer le chargement à neuf des icônes"
+        "message": "Forcer le rechargement des favicons"
     },
     "restriction": {
         "message": "Si la barre latérale n'est pas déjà ouverte, vous devrez peut-être cliquer sur l'icône \"Afficher les barres latérales\" dans la barre d'outils du navigateur."
     },
     "reverseImage": {
-        "message": "De plus, les résultats de recherche par images ne peuvent pas être affichés dans la barre latérale."
+        "message": "En outre, les résultats de la recherche d'images inversées ne peuvent pas être affichés dans la barre latérale."
     },
     "siteSearch": {
-        "message": "Moteur de recherche du site actuel :"
+        "message": "Moteur de recherche pour la recherche sur le site actuel :"
     },
     "header9": {
         "message": "Fonctionnalités avancées"
@@ -264,28 +264,28 @@
         "message": "Ajouter un nouveau dossier"
     },
     "folderName": {
-        "message": "Nom de dossier"
+        "message": "Nom du dossier"
     },
     "folder": {
         "message": "dossier"
     },
     "addFolder": {
-        "message": "Ajouter le dossier"
+        "message": "Ajouter un dossier"
     },
     "keyboardShortcut": {
         "message": "Raccourci clavier"
     },
     "header10": {
-        "message": "Options de recherches multiples"
+        "message": "Options de recherche multiple"
     },
     "multisearchIntro": {
-        "message": "Ouvrir les multiples résultats/onglets de recherche"
+        "message": "Ouvrir plusieurs résultats de recherche/onglets"
     },
     "multiNewWindow": {
         "message": "Dans une nouvelle fenêtre"
     },
     "multiAfterLastTab": {
-        "message": "Après le dernier onglet dans la fenêtre courante"
+        "message": "Après le dernier onglet de la fenêtre en cours"
     },
     "multiActiveTab": {
         "message": "Juste après l'onglet actif dans la fenêtre courante"
@@ -297,7 +297,7 @@
         "message": "Rappel"
     },
     "enableDownloadsReminder": {
-        "message": "activez les autorisations de téléchargement pour exporter vos moteurs de recherche."
+        "message": "activer les autorisations de téléchargement pour exporter vos moteurs de recherche."
     },
     "header11": {
         "message": "Options de la grille d'icônes"
@@ -306,7 +306,7 @@
         "message": "Afficher immédiatement la grille d'icônes après la sélection du texte"
     },
     "closeGridOnMouseOut": {
-        "message": "Fermez la grille d'icônes lorsque le pointeur de la souris la quitte"
+        "message": "Fermer la grille d'icônes à la sortie de la souris"
     },
     "xOffset": {
         "message": "Décalage horizontal de la grille d'icônes : "
@@ -324,7 +324,7 @@
         "message": "Ajouter un séparateur"
     },
     "testChatGPT": {
-        "message": "Tester l’invite IA"
+        "message": "Test AI Prompt"
     },
     "addChatGPTPrompt": {
         "message": "Ajouter une invite AI"
@@ -336,7 +336,7 @@
         "message": "Nom de l'invite"
     },
     "prompt": {
-        "message": "Invite"
+        "message": "Prompt"
     },
     "overwriteSearchEngines": {
         "message": "Remplacer les moteurs de recherche existants par les moteurs de recherche importés"
@@ -345,16 +345,16 @@
         "message": "Êtes-vous sûr de vouloir supprimer le dossier"
     },
     "removeFolderConfirmSuffix": {
-        "message": "et tout son contenu"
+        "message": "et l'ensemble de son contenu"
     },
     "removeSearchEngineConfirm": {
-        "message": "Êtes-vous sûr de vouloir supprimer le moteur de recherche "
+        "message": "Êtes-vous sûr de vouloir supprimer le moteur de recherche ?"
     },
     "popupBlockedMessage": {
         "message": "Popup bloqué ! Veuillez autoriser les fenêtres contextuelles pour ce site."
     },
     "subscriptionOptions": {
-        "message": "Options d'abonnement pour Context Search"
+        "message": "Options d'abonnement à la recherche contextuelle"
     },
     "startNewTrial": {
         "message": "Démarrer une nouvelle période d'essai de 7 jours"
@@ -378,7 +378,7 @@
         "message": "Ajouter cette page à vos favoris"
     },
     "unbookmarkPage": {
-        "message": "Retirer cette page des favoris"
+        "message": "Supprimer les signets de cette page"
     },
     "pay": {
         "message": "Payer"
@@ -387,7 +387,7 @@
         "message": "Démarrer l'essai"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Essai actif : "
     },
     "trialExpired": {
         "message": "L'essai a expiré"
