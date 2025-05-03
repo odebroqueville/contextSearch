@@ -2,7 +2,6 @@
 import '/libs/browser-polyfill.min.js';
 
 /// Import constants
-import { base64FolderIcon } from './favicons.js';
 import { STORAGE_KEYS, SORTABLE_BASE_OPTIONS } from './constants.js';
 
 /// Global constants
@@ -1618,11 +1617,7 @@ async function addNewSearchEngine(parentId, id, searchEngine) {
     // ... (Create search engine item and add to searchEngines) ...
     searchEngines[id] = { ...searchEngine };
 
-    if (searchEngine.isFolder) {
-        // Get favicon for the folder
-        searchEngines[id]['imageFormat'] = 'image/png';
-        searchEngines[id]['base64'] = base64FolderIcon;
-    } else if (!id.startsWith("separator-")) {
+    if (!id.startsWith("separator-")) {
         // Get favicon for the search engine
         const response = await sendMessage('getFavicon', { id, searchEngine });
         if (response && response.success) {
@@ -1630,8 +1625,6 @@ async function addNewSearchEngine(parentId, id, searchEngine) {
             searchEngines[id]['base64'] = response.base64;
         }
     }
-
-
 
     // Add search engine to children of parent folder
     if (searchEngines[parentId] && searchEngines[parentId].children) {

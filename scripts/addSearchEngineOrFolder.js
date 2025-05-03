@@ -2,9 +2,7 @@
 import '/libs/browser-polyfill.min.js';
 
 /// Import constants
-import { STORAGE_KEYS } from './constants.js';
-
-const notifySearchEngineUrlRequired = browser.i18n.getMessage('notifySearchEngineUrlRequired');
+import { STORAGE_KEYS, notifyAIMinimalRequirements, notifySearchEngineUrlRequired } from './constants.js';
 
 // Get the query string part of the URL (e.g., "?uniqueId=abc&parentId=xyz&newIndex=2")
 const queryString = window.location.search;
@@ -476,7 +474,7 @@ async function addChatGPTPrompt(e) {
 
     // Minimal requirements to add a prompt
     if (!(aiProvider.value && promptName.value && promptText.value)) {
-        await notify('Please at least select an AI Provider and provide a prompt name and a prompt.');
+        await notify(notifyAIMinimalRequirements);
         return;
     }
 

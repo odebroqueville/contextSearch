@@ -153,6 +153,9 @@ export const omniboxDescription = browser.i18n.getMessage('omniboxDescription');
 export const notifySearchEnginesLoaded = browser.i18n.getMessage(
     'notifySearchEnginesLoaded'
 );
+export const notifySearchEngineNotFound = browser.i18n.getMessage(
+    'notifySearchEngineNotFound'
+);
 export const notifySearchEngineAdded = browser.i18n.getMessage(
     'notifySearchEngineAdded'
 );
@@ -166,6 +169,7 @@ export const notifySearchEngineUrlRequired = browser.i18n.getMessage(
 );
 export const notifyMissingSearchEngine = browser.i18n.getMessage('notifyMissingSearchEngine');
 export const notifyMissingBookmarkUrl = browser.i18n.getMessage('notifyMissingBookmarkUrl');
+export const notifyAIMinimalRequirements = browser.i18n.getMessage('notifyAIMinimalRequirements');
 export const bookmarkPage = browser.i18n.getMessage('bookmarkPage');
 export const unbookmarkPage = browser.i18n.getMessage('unbookmarkPage');
 export const addSearchEngine = browser.i18n.getMessage('addSearchEngine');

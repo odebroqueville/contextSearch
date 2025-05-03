@@ -49,6 +49,7 @@ import {
     omniboxDescription,
     notifySearchEnginesLoaded,
     notifySearchEngineAdded,
+    notifySearchEngineNotFound,
     notifyUsage,
     notifySearchEngineWithKeyword,
     notifyUnknown,
@@ -686,7 +687,6 @@ async function handleAddNewPostSearchEngine(data) {
         multitab: false,
         url: newSearchEngineUrl,
         show: true,
-        base64: "",
         formData: formDataString,
     };
 
@@ -694,7 +694,7 @@ async function handleAddNewPostSearchEngine(data) {
 
     const domain = getDomain(newSearchEngineUrl);
 
-    return await addNewSearchEngine({ id, domain });
+    return await addNewSearchEngine(id, domain);
 }
 
 async function handleDoSearch(data) {
@@ -794,19 +794,9 @@ async function handleGetFavicon(data) {
         }
     }
 
-    if (!domain) {
-        if (logToConsole) console.log('No domain found for search engine: ' + id);
-        return;
-    }
-
     // Add a favicon to the search engine except if it's a separator or a folder
     if (!id.startsWith("separator-")) {
-        if (searchEngine.isFolder) {
-            imageFormat = "image/png";
-            base64 = base64FolderIcon;
-        } else {
-            ({ imageFormat, base64 } = await getNewFavicon(id, domain));
-        }
+        ({ imageFormat, base64 } = await getNewFavicon(id, domain));
     }
 
     return { imageFormat, base64 };
@@ -1054,14 +1044,9 @@ async function checkNotificationsPermission() {
 async function addNewSearchEngine(id, domain) {
     // Add a favicon to the search engine except if it's a separator or a folder
     if (!id.startsWith("separator-")) {
-        if (searchEngines[id].isFolder) {
-            searchEngines[id]["imageFormat"] = "image/png";
-            searchEngines[id]["base64"] = base64FolderIcon;
-        } else {
-            const favicon = await getNewFavicon(id, domain);
-            searchEngines[id]["imageFormat"] = favicon.imageFormat;
-            searchEngines[id]["base64"] = favicon.base64;
-        }
+        const favicon = await getNewFavicon(id, domain);
+        searchEngines[id]["imageFormat"] = favicon.imageFormat;
+        searchEngines[id]["base64"] = favicon.base64;
     }
     searchEngines["root"]["children"].push(id);
     // Save the search engine to local storage
@@ -1072,8 +1057,18 @@ async function addNewSearchEngine(id, domain) {
 }
 
 async function handlePageAction(tab) {
-    let message = { action: "getSearchEngine", data: "" };
-    await sendMessageToTab(tab, message);
+    try {
+        const message = { action: "getSearchEngine", data: "" };
+        const response = await sendMessageToTab(tab, message);
+        if (response.action === "addSearchEngine") {
+            const id = response.data.id;
+            const searchEngine = response.data.searchEngine;
+            const domain = getDomain(searchEngine.url);
+            await addNewSearchEngine(id, domain);
+        } else if (notificationsEnabled) notify(notifySearchEngineNotFound);
+    } catch (error) {
+        if (logToConsole) console.error('Error handling page action:', error);
+    }
 }
 
 async function initialiseSearchEngines() {
@@ -1692,6 +1687,17 @@ async function buildContextMenu() {
     }
 }
 
+async function removeMenuItemIfExists(menuItemId) {
+    try {
+        // Try to remove the menu item directly
+        await browser.contextMenus.remove(menuItemId);
+        if (logToConsole) console.debug(`Successfully removed menu item: ${menuItemId}`);
+    } catch (e) {
+        // Silently handle the error if the item doesn't exist
+        // This is expected behavior for first-time runs or when items don't exist
+    }
+}
+
 // Build the action button menus
 async function buildActionButtonMenus() {
     const bookmarkMenuItem = {
@@ -1705,12 +1711,7 @@ async function buildActionButtonMenus() {
     }
 
     // Remove the existing menu item first to prevent duplicate ID errors
-    try {
-        await contextMenus.remove("bookmark-page");
-    } catch (e) {
-        // Ignore error if the item doesn't exist (e.g., first run)
-        if (logToConsole) console.debug("Could not remove bookmark-page menu item:", e.message);
-    }
+    await removeMenuItemIfExists("bookmark-page");
 
     await contextMenus.create(bookmarkMenuItem);
 
@@ -1726,12 +1727,7 @@ async function buildActionButtonMenus() {
     }
 
     // Remove the existing menu item first to prevent duplicate ID errors
-    try {
-        await contextMenus.remove("add-search-engine");
-    } catch (e) {
-        // Ignore error if the item doesn't exist (e.g., first run)
-        if (logToConsole) console.debug("Could not remove add-search-engine menu item:", e.message);
-    }
+    await removeMenuItemIfExists("add-search-engine");
 
     await contextMenus.create(searchEngineMenuItem);
 
@@ -1750,11 +1746,8 @@ async function buildSubscriptionStatusMenuItem() {
         subscriptionStatusMenuItem.icons = { "16": "/icons/subscription-status-icon.png" };
     }
 
-    try {
-        await contextMenus.remove("subscription-status");
-    } catch (e) {
-        if (logToConsole) console.debug("Could not remove subscription-status menu item:", e.message);
-    }
+    // Remove the existing menu item first to prevent duplicate ID errors
+    await removeMenuItemIfExists("subscription-status");
 
     await contextMenus.create(subscriptionStatusMenuItem);
 }
@@ -2831,7 +2824,7 @@ async function openBookmarkRemovalConfirmDialog() {
     if (!urlToBookmark) {
         console.error("Cannot open bookmark removal dialog: activeTab or activeTab.url is undefined.");
         // Optionally notify the user
-        notify(notifyMissingBookmarkUrl);
+        if (notificationsEnabled) notify(notifyMissingBookmarkUrl);
         return;
     }
 
@@ -2888,7 +2881,7 @@ async function updateAddonStateForActiveTab() {
                 // Check if any of the stored links contain the domain
                 bookmarked = links.some(link => link.includes(domain));
 
-                if (logToConsole) console.log(`[ActionMenu] State: bookmarked=${bookmarked}, searchEngineAdded=${searchEngineAdded}`);
+                if (logToConsole) console.log(`[ActionMenu] State: bookmarked=${bookmarked}`);
 
                 if (logToConsole) console.log(`[ActionMenu] Updating bookmark-page with:`, { title: bookmarked ? unbookmarkPage : bookmarkPage });
 
@@ -2918,17 +2911,25 @@ async function updateAddonStateForActiveTab() {
                     }
                 }
                 // Update menu item for adding a search engine
-                let hasOpenSearch = false; // Default to false
+                let response = false; // Default to false
                 // Only check for OpenSearch on http/https pages where content scripts run
                 if (activeTab.url && (activeTab.url.startsWith('http:') || activeTab.url.startsWith('https:'))) {
                     try {
-                        hasOpenSearch = await browser.tabs.sendMessage(activeTab.id, { action: 'getOpenSearchSupportStatus' });
+                        response = await browser.tabs.sendMessage(activeTab.id, { action: 'getOpenSearchSupportStatus' });
                     } catch (error) {
                         // Log the specific error if sending message fails
                         if (logToConsole) console.warn(`[ActionMenu] Failed to get OpenSearch status from content script for tab ${activeTab.id}: ${error.message}`);
                         // Keep hasOpenSearch as false
                     }
                 }
+
+                // Ensure we're properly checking for the hasOpenSearch property
+                if (logToConsole) console.log(`[ActionMenu] Response:`, response, `searchEngineAdded: ${searchEngineAdded}`);
+
+                // Make sure we're accessing hasOpenSearch safely - response might be true/false instead of an object
+                const hasOpenSearch = response && typeof response === 'object' && 'hasOpenSearch' in response
+                    ? response.hasOpenSearch
+                    : false;  // Default to false if we can't confidently determine the status
 
                 const addSeProps = { // Defined props for logging
                     visible: hasOpenSearch && !searchEngineAdded
