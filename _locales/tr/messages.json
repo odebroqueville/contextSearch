@@ -372,7 +372,7 @@
         "message": "Yer imi kaldırma için URL alınamadı"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "Lütfen en azından bir YZ Sağlayıcısı seçin ve bir istem adı ve bir istem girin"
     },
     "bookmarkPage": {
         "message": "Bu Sayfayı Yer İşaretlerine Ekle"
