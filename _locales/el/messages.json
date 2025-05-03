@@ -372,7 +372,7 @@
         "message": "Δεν ήταν δυνατή η ανάκτηση της διεύθυνσης URL για την αφαίρεση σελιδοδείκτη"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "Παρακαλούμε επιλέξτε τουλάχιστον έναν πάροχο AI και δώστε ένα όνομα και μια προτροπή."
     },
     "bookmarkPage": {
         "message": "Σελιδοδείκτης Αυτή η σελίδα"
