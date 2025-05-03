@@ -371,6 +371,9 @@
     "notifyMissingBookmarkUrl": {
         "message": "No se ha podido recuperar la URL para eliminar el marcador"
     },
+    "notifyAIMinimalRequirements": {
+        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+    },
     "bookmarkPage": {
         "message": "Marcar esta página"
     },
