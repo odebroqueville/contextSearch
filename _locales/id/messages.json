@@ -371,6 +371,9 @@
     "notifyMissingBookmarkUrl": {
         "message": "Tidak dapat mengambil URL untuk menghapus bookmark"
     },
+    "notifyAIMinimalRequirements": {
+        "message": "Setidaknya pilih Penyedia AI dan berikan nama prompt dan prompt"
+    },
     "bookmarkPage": {
         "message": "Tandai Halaman Ini"
     },

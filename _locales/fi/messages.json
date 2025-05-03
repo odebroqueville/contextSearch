@@ -371,6 +371,9 @@
     "notifyMissingBookmarkUrl": {
         "message": "URL-osoitetta ei voitu hakea kirjanmerkin poistamista varten"
     },
+    "notifyAIMinimalRequirements": {
+        "message": "Valitse ainakin tekoälypalveluntarjoaja ja anna kehotteen nimi ja kehote."
+    },
     "bookmarkPage": {
         "message": "Kirjanmerkki tälle sivulle"
     },

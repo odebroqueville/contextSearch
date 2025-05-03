@@ -371,6 +371,9 @@
     "notifyMissingBookmarkUrl": {
         "message": "Impossibile recuperare l'URL per la rimozione del segnalibro"
     },
+    "notifyAIMinimalRequirements": {
+        "message": "Selezionare almeno un fornitore di IA e fornire un nome e un nome di richiesta."
+    },
     "bookmarkPage": {
         "message": "Aggiungi ai preferiti questa pagina"
     },

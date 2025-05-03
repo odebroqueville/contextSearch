@@ -371,6 +371,9 @@
     "notifyMissingBookmarkUrl": {
         "message": "Անհնար է վերցրել URL-ն՝ էջանիշերի հեռացման համար"
     },
+    "notifyAIMinimalRequirements": {
+        "message": "Խնդրում ենք գոնե ընտրել AI մատակարար եւ տրամադրել հուշման անունը եւ հուշում"
+    },
     "bookmarkPage": {
         "message": "Էջանիշ այս էջը"
     },

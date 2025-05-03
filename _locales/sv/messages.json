@@ -371,6 +371,9 @@
     "notifyMissingBookmarkUrl": {
         "message": "Det gick inte att hämta URL för borttagning av bokmärke"
     },
+    "notifyAIMinimalRequirements": {
+        "message": "Vänligen välj åtminstone en AI Provider och ange ett promptnamn och en prompt"
+    },
     "bookmarkPage": {
         "message": "Bokmärk denna sida"
     },

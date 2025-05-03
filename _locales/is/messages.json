@@ -371,6 +371,9 @@
     "notifyMissingBookmarkUrl": {
         "message": "Gat ekki sótt vefslóð til að fjarlægja bókamerki"
     },
+    "notifyAIMinimalRequirements": {
+        "message": "Vinsamlegast veldu að minnsta kosti gervigreindarveitu og gefðu upp hvetjandi nafn og hvetja"
+    },
     "bookmarkPage": {
         "message": "Bókamerki þessa síðu"
     },

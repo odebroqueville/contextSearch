@@ -371,6 +371,9 @@
     "notifyMissingBookmarkUrl": {
         "message": "ブックマーク削除用のURLを取得できませんでした"
     },
+    "notifyAIMinimalRequirements": {
+        "message": "少なくともAIプロバイダーを選択し、プロンプト名とプロンプトを記入してください。"
+    },
     "bookmarkPage": {
         "message": "このページをブックマークする"
     },

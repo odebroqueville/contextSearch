@@ -371,6 +371,9 @@
     "notifyMissingBookmarkUrl": {
         "message": "북마크 제거를 위한 URL을 검색할 수 없습니다."
     },
+    "notifyAIMinimalRequirements": {
+        "message": "최소한 AI 제공업체를 선택하고 프롬프트 이름과 프롬프트를 입력하세요."
+    },
     "bookmarkPage": {
         "message": "이 페이지 북마크하기"
     },

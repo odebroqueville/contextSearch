@@ -371,6 +371,9 @@
     "notifyMissingBookmarkUrl": {
         "message": "URL zum Entfernen des Lesezeichens konnte nicht abgerufen werden"
     },
+    "notifyAIMinimalRequirements": {
+        "message": "Bitte wählen Sie mindestens einen AI-Anbieter aus und geben Sie einen Prompt-Namen und einen Prompt an"
+    },
     "bookmarkPage": {
         "message": "Lesezeichen für diese Seite"
     },

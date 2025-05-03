@@ -371,6 +371,9 @@
     "notifyMissingBookmarkUrl": {
         "message": "無法檢索移除書籤的 URL"
     },
+    "notifyAIMinimalRequirements": {
+        "message": "請至少選擇一個 AI 提供者，並提供提示名稱和提示"
+    },
     "bookmarkPage": {
         "message": "將此頁加入書籤"
     },

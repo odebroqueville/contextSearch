@@ -371,6 +371,9 @@
     "notifyMissingBookmarkUrl": {
         "message": "Не вдалося отримати URL-адресу для видалення закладок"
     },
+    "notifyAIMinimalRequirements": {
+        "message": "Будь ласка, принаймні виберіть постачальника ШІ та вкажіть його ім'я та підказку"
+    },
     "bookmarkPage": {
         "message": "Додайте цю сторінку в закладки"
     },

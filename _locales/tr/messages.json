@@ -371,6 +371,9 @@
     "notifyMissingBookmarkUrl": {
         "message": "Yer imi kaldırma için URL alınamadı"
     },
+    "notifyAIMinimalRequirements": {
+        "message": "Lütfen en azından bir YZ Sağlayıcısı seçin ve bir istem adı ve bir istem girin"
+    },
     "bookmarkPage": {
         "message": "Bu Sayfayı Yer İşaretlerine Ekle"
     },

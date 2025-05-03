@@ -371,6 +371,9 @@
     "notifyMissingBookmarkUrl": {
         "message": "تعذر استرداد عنوان URL لإزالة الإشارة المرجعية"
     },
+    "notifyAIMinimalRequirements": {
+        "message": "يرجى تحديد موفر ذكاء اصطناعي على الأقل وتقديم اسم موجه وموجه"
+    },
     "bookmarkPage": {
         "message": "ضع إشارة مرجعية على هذه الصفحة"
     },
