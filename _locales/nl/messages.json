@@ -12,22 +12,22 @@
         "description": "multi-search - it's a search with multiple search engines simultaneously."
     },
     "multisearchHowTo": {
-        "message": "Vink het middelste selectievakje aan om een zoekmachine op te nemen in een"
+        "message": "Schakel het middelste selectievakje in om een zoekmachine op te nemen in een"
     },
     "multisearchLaunch": {
-        "message": "Je kunt een"
+        "message": "U kunt een"
     },
     "multisearchEnd": {
-        "message": "in het contextmenu of in de adresbalk door het volgende te typen:"
+        "message": "vanuit het contextmenu of vanuit de adresbalk door te typen:"
     },
     "multisearchEndOfSentence": {
         "message": "gevolgd door uw zoektermen."
     },
     "pageTitle": {
-        "message": "Voorkeuren van Context Search"
+        "message": "Voorkeuren voor context zoeken"
     },
     "header1": {
-        "message": "Waar moeten de resultaten verschijnen?"
+        "message": "Waar moeten zoekresultaten verschijnen?"
     },
     "newTab": {
         "message": "In een nieuw tabblad"
@@ -39,70 +39,70 @@
         "message": "In een nieuw venster"
     },
     "active": {
-        "message": "Maak het nieuwe tabblad of venster actief"
+        "message": "Het nieuwe tabblad of venster actief maken"
     },
     "position": {
-        "message": "Toon de zoekresultaten na het laatste tabblad"
+        "message": "De zoekresultaten na het laatste tabblad weergeven"
     },
     "header3": {
-        "message": "Positie van de opties in het contextmenu"
+        "message": "Positie van opties in het contextmenu"
     },
     "subheader31": {
-        "message": "Waar moet het optiemenu verschijnen in het contextmenu?"
+        "message": "Waar wil je dat het optiemenu verschijnt in het contextmenu?"
     },
     "bottom": {
-        "message": "Beneden"
+        "message": "Onderaan"
     },
     "top": {
         "message": "Bovenaan"
     },
     "hide": {
-        "message": "Nergens (verberg het optiemenu)"
+        "message": "Geen van beide (het optiemenu verbergen)"
     },
     "header5": {
-        "message": "Importeer/exporteer zoekmachines"
+        "message": "Zoekmachines importeren/exporteren"
     },
     "import": {
-        "message": "Importeer JSON van schijf"
+        "message": "JSON importeren van lokale schijf"
     },
     "export": {
-        "message": "Exporteer zoekmachines naar JSON"
+        "message": "Zoekmachines exporteren naar JSON"
     },
     "download": {
-        "message": "Exporteren naar schijf"
+        "message": "Exporteren naar lokale schijf"
     },
     "header2": {
-        "message": "Toon icoontjes"
+        "message": "Favicons en pictogrammen"
     },
     "note": {
         "message": "Deze functie vereist Firefox 56 of hoger."
     },
     "header4": {
-        "message": "zoek opties"
+        "message": "Zoekopties"
     },
     "exactMatch": {
-        "message": "Zoek naar een exacte stringovereenkomst"
+        "message": "Zoeken naar een exacte tekenreeks-overeenkomst"
     },
     "gridMode": {
-        "message": "Toon een rooster van icoontjes in plaats van een lijst van zoekmachines"
+        "message": "Een raster van pictogrammen weergeven in plaats van een lijst met zoekmachines"
     },
     "warning": {
-        "message": "Waarschuwing: het inschakelen van deze functie zorgt ervoor dat contextmenus van andere extensies niet getoond worden."
+        "message": "Waarschuwing: Let op: als je deze functie inschakelt, worden contextmenu's van andere extensies niet weergegeven."
     },
     "savePreferences": {
         "message": "Voorkeuren opslaan"
     },
     "header6": {
-        "message": "Welke zoekmachines moeten zichtbaar zijn in het contextmenu of het rooster?"
+        "message": "Welke zoekmachines wil je laten verschijnen in het contextmenu of het raster?"
     },
     "clearAll": {
-        "message": "Alles deselecteren"
+        "message": "Alles wissen"
     },
     "selectAll": {
         "message": "Alles selecteren"
     },
     "sortAlphabetically": {
-        "message": "Sorteer alfabetisch"
+        "message": "Alfabetisch sorteren"
     },
     "showAdvancedFeatures": {
         "message": "Geavanceerde functies weergeven"
@@ -111,13 +111,13 @@
         "message": "Geavanceerde functies verbergen"
     },
     "reset": {
-        "message": "Resetten"
+        "message": "Reset"
     },
     "subheader61": {
         "message": "Een nieuwe zoekmachine toevoegen"
     },
     "showSearchEngine": {
-        "message": "Zoekmachine weergeven in raster of contextmenu"
+        "message": "Zoekmachine tonen in raster of contextmenu"
     },
     "searchEngineName": {
         "message": "Naam zoekmachine"
@@ -129,13 +129,13 @@
         "message": "Waarschuwing"
     },
     "keyboardShortcutWarning": {
-        "message": "niet alle toetscombinaties werken. Sneltoetsen starten mogelijk niet met CMD op macOS of CTRL op Windows of Linux, omdat deze meestal zijn gereserveerd voor Firefox-opdrachten."
+        "message": "niet alle toetscombinaties zullen werken. Sneltoetsen mogen niet beginnen met CMD op macOS of CTRL op Windows of Linux, omdat deze meestal gereserveerd zijn voor Firefox-opdrachten."
     },
     "placeHolderKeyboardShortcut": {
-        "message": "Toetsenbord sneltoets"
+        "message": "Sneltoets"
     },
     "multipleSearchEngines": {
-        "message": "Opnemen in multi-search"
+        "message": "Opnemen in multi-zoeken"
     },
     "searchEngineURL": {
         "message": "Zoekmachine URL"
@@ -144,109 +144,109 @@
         "message": "Reguliere expressie"
     },
     "testSearchEngine": {
-        "message": "Zoekmachine testen"
+        "message": "Test zoekmachine"
     },
     "addSearchEngine": {
         "message": "Zoekmachine toevoegen"
     },
     "addSeparator": {
-        "message": "Voeg een scheidingsteken toe"
+        "message": "Scheidingsteken toevoegen"
     },
     "clear": {
-        "message": "Leegmaken"
+        "message": "Duidelijk"
     },
     "disableGrid": {
-        "message": "Schakel het raster met pictogrammen uit"
+        "message": "Raster van pictogrammen uitschakelen"
     },
     "move": {
         "message": "Verplaats"
     },
     "up": {
-        "message": "naar boven"
+        "message": "op"
     },
     "down": {
         "message": "naar beneden"
     },
     "remove": {
-        "message": "Verwijderen"
+        "message": "Verwijder"
     },
     "multipleSearchEnginesSearch": {
-        "message": "Gebruik deze zoekmachine bij het multi-search"
+        "message": "Neem deze zoekmachine op in een multi-zoekmachine"
     },
     "notifySavedPreferences": {
-        "message": "Voorkeuren opgeslagen."
+        "message": "Opgeslagen voorkeuren."
     },
     "notifySearchEngineAdded": {
         "message": "Zoekmachine toegevoegd."
     },
     "titleShowEngine": {
-        "message": "Toon deze zoekmachine in het contextmenu of raster"
+        "message": "Toon deze zoekmachine in het contextmenu of het raster"
     },
     "notifyEnableStorageSync": {
-        "message": "Gelieve ervoor te zorgen dat de optie 'webextensions.storage.sync.enabled' op true gezet is in 'about:config', anders zal Context Search niet werken."
+        "message": "Zorg ervoor dat de vlag 'webextensions.storage.sync.enabled' is ingesteld op 'true' in 'about:config', anders werkt Context Search niet."
     },
     "notifySearchEnginesLoaded": {
-        "message": "De standaardlijst van zoekmachines werd geladen."
+        "message": "Standaardlijst van zoekmachines is geladen."
     },
     "notifySearchEngineNotFound": {
-        "message": "Er is geen zoekmachine gevonden op de huidige webpagina"
+        "message": "Er kon geen zoekmachine worden gevonden op de huidige webpagina"
     },
     "titleMultipleSearchEngines": {
-        "message": "Zoeken met meerdere zoekmachines"
+        "message": "Meerdere zoekmachines zoeken"
     },
     "titleAISearch": {
-        "message": "AI-zoekopdracht"
+        "message": "AI zoeken"
     },
     "titleSiteSearch": {
-        "message": "Zoek op deze site met"
+        "message": "Doorzoek deze site met"
     },
     "titleOptions": {
         "message": "Opties"
     },
     "windowTitle": {
-        "message": "Zoekresultaten voor "
+        "message": "Zoekresultaten voor"
     },
     "omniboxDescription": {
-        "message": "Zoek met Context Search via kernwoorden. Gebruik: cs [kernwoord] [zoektermen] (bijvoorbeeld 'cs w Linux' zoekt op Wikipedia naar de term 'Linux')"
+        "message": "Zoeken met behulp van Context Search met trefwoorden. Gebruik: cs [trefwoord] [zoektermen] (bijv. 'cs w Linux' zoekt op Wikipedia naar de term 'Linux')"
     },
     "notifyUsage": {
-        "message": "Gebruik: cs [kernwoord] [zoektermen] (bijvoorbeeld cs w Linux)"
+        "message": "Gebruik: cs [trefwoord] [zoektermen] (bijvoorbeeld: cs w Linux)"
     },
     "notifySearchEngineWithKeyword": {
-        "message": "Zoekmachine met kernwoord"
+        "message": "Zoekmachine met trefwoord"
     },
     "notifyUnknown": {
         "message": "is onbekend."
     },
     "notifySearchEngineUrlRequired": {
-        "message": "Vul een URL van de zoekmachine in."
+        "message": "Vul een geldige URL van een zoekmachine in."
     },
     "header7": {
-        "message": "Reset opties"
+        "message": "Opties opnieuw instellen"
     },
     "sidebar": {
         "message": "In de zijbalk"
     },
     "displayFavicons": {
-        "message": "Favicons weergeven in het contextmenu"
+        "message": "Geef favicons weer in het contextmenu"
     },
     "disableAltClick": {
-        "message": "Schakel het raster met pictogrammen uit"
+        "message": "Pictogrammenraster uitschakelen (Alt + Klik)"
     },
     "resetPreferences": {
-        "message": "Voorkeuren resetten naar standaardinstellingen"
+        "message": "Voorkeuren terugzetten naar standaardinstellingen"
     },
     "forceSearchEnginesReload": {
-        "message": "Forceer het herladen van de lijst met standaardzoekmachines"
+        "message": "Forceer herladen van standaard zoekmachinelijst"
     },
     "forceFaviconsReload": {
-        "message": "Forceer favicons om opnieuw te worden geladen"
+        "message": "Forceer dat favicons worden herladen"
     },
     "restriction": {
-        "message": "Als de zijbalk nog niet is geopend, moet u mogelijk op het pictogram 'Zijbalken weergeven' in de browserwerkbalk klikken."
+        "message": "Als de zijbalk nog niet geopend is, moet je misschien op het pictogram 'Toon zijbalken' klikken in de werkbalk van de browser."
     },
     "reverseImage": {
-        "message": "Ook kunnen zoekresultaten van afbeeldingen in spiegelbeeld niet worden weergegeven in de zijbalk."
+        "message": "De zoekresultaten van omgekeerde afbeeldingen kunnen ook niet worden weergegeven in de zijbalk."
     },
     "siteSearch": {
         "message": "Zoekmachine voor het doorzoeken van de huidige site:"
@@ -255,16 +255,16 @@
         "message": "Geavanceerde functies"
     },
     "useRegex": {
-        "message": "Gebruik reguliere expressies om het contextmenu te bouwen"
+        "message": "Reguliere expressies gebruiken om het contextmenu op te bouwen"
     },
     "regexNote": {
-        "message": "Deze functie is niet van toepassing op het raster met pictogrammen."
+        "message": "Deze functie is niet van toepassing op het raster van pictogrammen."
     },
     "subheader62": {
         "message": "Een nieuwe map toevoegen"
     },
     "folderName": {
-        "message": "Naam van de map"
+        "message": "Mapnaam"
     },
     "folder": {
         "message": "map"
@@ -273,7 +273,7 @@
         "message": "Map toevoegen"
     },
     "keyboardShortcut": {
-        "message": "Toetsenbord sneltoets"
+        "message": "Sneltoets"
     },
     "header10": {
         "message": "Opties voor meerdere zoekopdrachten"
@@ -291,31 +291,31 @@
         "message": "Direct na het actieve tabblad in het huidige venster"
     },
     "privacy": {
-        "message": "Nieuw venster privé maken"
+        "message": "Maak nieuw venster privé"
     },
     "reminder": {
         "message": "Herinnering"
     },
     "enableDownloadsReminder": {
-        "message": "schakel downloadrechten in om uw zoekmachines te exporteren."
+        "message": "machtigingen voor Downloads inschakelen om uw zoekmachines te exporteren."
     },
     "header11": {
         "message": "Pictogrammen Rasteropties"
     },
     "quickIconGrid": {
-        "message": "Geef onmiddellijk het pictogrammenraster weer nadat tekst is geselecteerd"
+        "message": "Het pictogrammenraster onmiddellijk weergeven nadat tekst is geselecteerd"
     },
     "closeGridOnMouseOut": {
-        "message": "Sluit het iconenraster met de muis uit"
+        "message": "Sluit het pictogrammenraster bij het verlaten van de muis"
     },
     "xOffset": {
-        "message": "Horizontale offset van het pictogrammenraster:"
+        "message": "Horizontale verschuiving van het pictogrammenraster: "
     },
     "yOffset": {
-        "message": "Verticale offset van het pictogrammenraster:"
+        "message": "Verticale verschuiving van het pictogrammenraster: "
     },
     "clearKeyboardShortcuts": {
-        "message": "Wis alle sneltoetsen"
+        "message": "Alle sneltoetsen wissen"
     },
     "subheader63": {
         "message": "Een nieuwe AI-prompt toevoegen"
@@ -339,13 +339,13 @@
         "message": "Prompt"
     },
     "overwriteSearchEngines": {
-        "message": "Overschrijf de bestaande zoekmachines met de geïmporteerde zoekmachines"
+        "message": "De bestaande zoekmachines overschrijven met de geïmporteerde zoekmachines"
     },
     "removeFolderConfirmPrefix": {
         "message": "Weet je zeker dat je de map"
     },
     "removeFolderConfirmSuffix": {
-        "message": "en al zijn inhoud?"
+        "message": "en al zijn inhoud"
     },
     "removeSearchEngineConfirm": {
         "message": "Weet je zeker dat je de zoekmachine wilt verwijderen"
@@ -354,7 +354,7 @@
         "message": "Pop-up geblokkeerd! Sta pop-ups toe voor deze site."
     },
     "subscriptionOptions": {
-        "message": "Context Search Abonnementsopties"
+        "message": "Context zoeken Abonnementsopties"
     },
     "startNewTrial": {
         "message": "Begin een nieuwe proefperiode van 7 dagen"
@@ -387,7 +387,7 @@
         "message": "Proef starten"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Proef actief: "
     },
     "trialExpired": {
         "message": "Proefversie verlopen"
@@ -405,6 +405,6 @@
         "message": "resterende dag(en)"
     },
     "__WET_LOCALE__": {
-        "message": "nl"
+        "message": "en"
     }
 }
