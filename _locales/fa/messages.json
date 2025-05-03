@@ -372,7 +372,7 @@
         "message": "نمی توان URL را برای حذف نشانک بازیابی کرد"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "لطفا حداقل یک ارائه دهنده هوش مصنوعی را انتخاب کنید و یک نام سریع و یک اعلان ارائه دهید"
     },
     "bookmarkPage": {
         "message": "این صفحه را نشانه گذاری کنید"
