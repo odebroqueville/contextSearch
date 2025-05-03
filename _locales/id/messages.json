@@ -162,7 +162,7 @@
         "message": "Pindah"
     },
     "up": {
-        "message": "ke atas"
+        "message": "up"
     },
     "down": {
         "message": "turun"
@@ -228,7 +228,7 @@
         "message": "Di bilah samping"
     },
     "displayFavicons": {
-        "message": "Tampilkan favicon di menu konteks"
+        "message": "Menampilkan favicon dalam menu konteks"
     },
     "disableAltClick": {
         "message": "Menonaktifkan kisi ikon (Alt + Klik)"
@@ -267,7 +267,7 @@
         "message": "Nama folder"
     },
     "folder": {
-        "message": "map"
+        "message": "folder"
     },
     "addFolder": {
         "message": "Tambahkan folder"
@@ -354,7 +354,7 @@
         "message": "Popup diblokir! Izinkan popup untuk situs ini."
     },
     "subscriptionOptions": {
-        "message": "Opsi Berlangganan Context Search"
+        "message": "Opsi Berlangganan Pencarian Konteks"
     },
     "startNewTrial": {
         "message": "Memulai uji coba 7 hari yang baru"
@@ -387,7 +387,7 @@
         "message": "Mulai uji coba"
     },
     "trialActive": {
-        "message": "Trial active: "
+        "message": "Uji coba aktif: "
     },
     "trialExpired": {
         "message": "Uji coba berakhir"
@@ -405,6 +405,6 @@
         "message": "hari yang tersisa"
     },
     "__WET_LOCALE__": {
-        "message": "id"
+        "message": "en"
     }
 }
