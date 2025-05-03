@@ -372,7 +372,7 @@
         "message": "无法检索删除书签的 URL"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "请至少选择一个人工智能提供商，并提供一个提示符名称和一个提示符"
     },
     "bookmarkPage": {
         "message": "收藏本页"
