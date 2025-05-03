@@ -372,7 +372,7 @@
         "message": "URL-osoitetta ei voitu hakea kirjanmerkin poistamista varten"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "Valitse ainakin tekoälypalveluntarjoaja ja anna kehotteen nimi ja kehote."
     },
     "bookmarkPage": {
         "message": "Kirjanmerkki tälle sivulle"
