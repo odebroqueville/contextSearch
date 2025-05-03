@@ -372,7 +372,7 @@
         "message": "ブックマーク削除用のURLを取得できませんでした"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "少なくともAIプロバイダーを選択し、プロンプト名とプロンプトを記入してください。"
     },
     "bookmarkPage": {
         "message": "このページをブックマークする"
