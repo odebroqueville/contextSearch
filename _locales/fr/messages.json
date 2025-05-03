@@ -372,7 +372,7 @@
         "message": "Impossible de récupérer l'URL pour la suppression des signets"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "Veuillez au moins sélectionner un fournisseur d'IA et fournir un nom d'invite et une invite."
     },
     "bookmarkPage": {
         "message": "Ajouter cette page à vos favoris"
