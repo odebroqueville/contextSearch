@@ -1060,10 +1060,12 @@ async function handlePageAction(tab) {
     try {
         const message = { action: "getSearchEngine", data: "" };
         const response = await sendMessageToTab(tab, message);
+        if (logToConsole) console.log(response);
         if (response.action === "addSearchEngine") {
             const id = response.data.id;
             const searchEngine = response.data.searchEngine;
             const domain = getDomain(searchEngine.url);
+            searchEngines[id] = searchEngine;
             await addNewSearchEngine(id, domain);
         } else if (notificationsEnabled) notify(notifySearchEngineNotFound);
     } catch (error) {
@@ -2686,9 +2688,10 @@ function isEncoded(uri) {
 async function sendMessageToTab(tab, message) {
     const tabId = tab.id;
     try {
-        await browser.tabs.sendMessage(tabId, message);
+        const response = await browser.tabs.sendMessage(tabId, message);
         if (logToConsole)
             console.log(`Message sent successfully to tab ${tab.id}: ${tab.title}`);
+        return response;
     } catch (err) {
         const errorMessage = err?.message || String(err);
         // Ignore the specific error "Receiving end does not exist"

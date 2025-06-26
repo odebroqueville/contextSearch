@@ -88,41 +88,45 @@ document.addEventListener('keyup', handleKeyUp);
 
 /// Handle Incoming Messages
 // Listen for messages from the background script
-browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const action = message.action;
     const data = message.data;
     if (logToConsole) console.log(message.action);
-    if (message && message.type === "NEW_CONTEXT_READY") {
-        if (logToConsole) console.log("Received NEW_CONTEXT_READY message. Starting re-synchronization.");
-        await init();
-    }
+    // if (message && message.type === "NEW_CONTEXT_READY") {
+    //     if (logToConsole) console.log("Received NEW_CONTEXT_READY message. Starting re-synchronization.");
+    //     await init();
+    // }
     switch (action) {
         case 'updateOptions':
             options = data.options;
             if (logToConsole) console.log('Options updated:', options);
-            break;
+            sendResponse({ success: true });
+            return true;
         case 'updateSearchEngines':
             searchEngines = data.searchEngines;
             if (logToConsole) console.log('Search engines updated:', searchEngines);
-            break;
+            sendResponse({ success: true });
+            return true;
         case 'launchIconsGrid':
             handleAltClickWithGrid(null);
-            break;
+            sendResponse({ success: true });
+            return true;
         case 'getOpenSearchSupportStatus':
             const response = getOpenSearchSupportStatus();
             if (logToConsole) console.log('OpenSearch support status:', response);
-            return { hasOpenSearch: !!response.hasOpenSearch };
+            sendResponse({ hasOpenSearch: !!response.hasOpenSearch });
+            return true;
         case 'getSearchEngine':
             getOpenSearchEngine().then((result) => {
                 if (result) {
                     sendResponse({ action: 'addSearchEngine', data: result });
                 } else {
                     sendMessage('notify', notifySearchEngineNotFound);
+                    sendResponse({ success: false });
                 }
             }).catch((error) => {
                 if (logToConsole) console.error(error);
                 sendResponse({ success: false });
-                return false;
             });
             return true;
         case 'getPosition':
@@ -136,10 +140,8 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
         default:
             if (logToConsole) console.error("Unexpected action:", action);
             sendResponse({ success: false });
-            return false;
+            return true;
     }
-    sendResponse({ success: true });
-    return true;
 });
 
 // Detect the underlying OS
@@ -227,7 +229,7 @@ async function getOpenSearchEngine() {
         if (!isValidUrl(url)) return null;
         // Fetch search engine data
         const result = await getNewSearchEngine(url);
-        // Send msg to background script to get the new search engine added
+        if (logToConsole) console.log(result);
         if (result) {
             return result;
         } else {
@@ -1211,6 +1213,7 @@ async function getNewSearchEngine(url) {
         index: newIndex,
         name: shortName,
         parentId: 'root',
+        isFolder: false,
         keyword: '',
         keyboardShortcut: '',
         multitab: false,
