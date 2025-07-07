@@ -242,6 +242,10 @@ async function getOpenSearchEngine() {
 }
 
 async function ask(url, promptText) {
+    if (!promptText || typeof promptText !== 'string' || promptText.trim() === '') {
+        if (logToConsole) console.log("No prompt provided, aborting ask().");
+        return;
+    }
     if (logToConsole) console.log(`Prompt is: ${promptText}`);
     if (logToConsole) console.log(`URL is: ${url}`);
     if (logToConsole) console.log(`Ready state is: ${document.readyState}`);

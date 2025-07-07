@@ -124,7 +124,10 @@ let menuCreationInProgress = false;
 
 // Initialize service worker
 (async function () {
-    ({ paid, trialActive, trialStarted } = await getPaymentStatus());
+    // ({ paid, trialActive, trialStarted } = await getPaymentStatus());
+    paid = true; // For testing purposes, set to true
+    trialActive = false; // For testing purposes, set to false
+    trialStarted = false; // For testing purposes, set to false
 
     if (logToConsole) {
         console.log(`isPaidUser: ${paid}`);
