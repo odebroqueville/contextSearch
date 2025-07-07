@@ -1,5 +1,11 @@
-6.1.0
+6.1.1
 =========
+
+* Bug fix [#230](https://github.com/odebroqueville/contextSearch/issues/230)
+* Set Subscription Paid Status to True.
+
+6.1.0
+---------
 
 * Remove video downloads feature
 * Remove call to Google Cloud API to fetch favicons
