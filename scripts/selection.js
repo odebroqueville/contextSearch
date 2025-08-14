@@ -49,19 +49,12 @@ let selectionActive = false;
 // Current state
 console.log(`Document ready state: ${document.readyState}`);
 
-if (document.readyState === "complete") {
-    (async () => {
-        console.log('Document ready state: complete');
-        await init();
-    })();
-} else {
-    document.onreadystatechange = async () => {
-        if (document.readyState === "complete") {
-            console.log('Document ready state: complete');
-            await init();
-        }
-    };
-}
+(async () => {
+    if (document.readyState === 'loading') {
+        await new Promise(resolve => document.addEventListener('DOMContentLoaded', resolve));
+    }
+    await init();
+})();
 
 // Mouseover event listener
 document.addEventListener('mouseover', handleMouseOver);
@@ -669,18 +662,23 @@ function getClosestForm(element) {
 
 // Check if there is a selection and handle it
 async function checkForSelection(e) {
-    const hasSelection = window.getSelection()?.rangeCount > 0;
+    const sel = (typeof window.getSelection === 'function') ? window.getSelection() : null;
+    const hasSelection = !!(sel && !sel.isCollapsed && sel.toString().trim().length > 0);
+
     let element;
     if (e !== null) {
         element = e.target;
-    } else if (hasSelection) {
+    }
+    if (hasSelection) {
         element = document.activeElement;
     } else {
-        return;
+        textSelection = '';
     }
+    if (!element) return;
 
+    if (logToConsole) console.log('Active element: ');
     if (logToConsole) console.log(element);
-    if (logToConsole) console.log(hasSelection);
+    if (logToConsole) console.log('hasSelection: ' + hasSelection);
 
     if ((e === null ||
         (e !== null && (e.key === 'Shift' || (e.type === 'mouseup' && e.button === 0)))) &&
@@ -737,7 +735,8 @@ async function handleKeyUp(e) {
         delete keysPressed[modifier];
     }
     if (logToConsole) console.log(`Modifier key(s) pressed: ${input}`);
-    if (logToConsole) console.log(`Remaining key pressed: ${keysPressed}`);
+    if (logToConsole) console.log('Remaining key pressed: ');
+    if (logToConsole) console.log(keysPressed);
 
     // If only modifier keys were pressed, then discontinue
     if (Object.keys(keysPressed).length === 0) {
@@ -813,21 +812,25 @@ async function handleRightClickWithoutGrid(e) {
 
 // Triggered by mouse up event
 async function handleAltClickWithGrid(e) {
+    // e is null when the content script received the message to launch the Icons Grid (Ctrl+Shift+J)
     if (logToConsole) console.log('Event triggered:', e);
     if (logToConsole) console.log('Options:', options);
 
-    if (e !== null && e.button === 0) { // 0 indicates the left mouse button
+    if (e && e.type === 'mouseup' && e.button === 0) { // 0 indicates the left mouse button
         selectionActive = false;
-    } else if (e !== null && e.button !== 0) {
+    } else if (e && e.button !== 0) {
+        // If the left mouse button is not clicked, then return
         return;
     }
 
+    // If options is empty OR the option to disable alt click is enabled, then return
     if (!options || options.disableAltClick) return;
 
     await checkForSelection(e);
     if (!textSelection) return;
+    if (logToConsole) console.log('Selection:', textSelection);
 
-    // If the grid of icons is already displayed, then close the grid and empty the text selection
+    // If the grid of icons is already displayed, then close the grid
     const nav = document.getElementById('context-search-icon-grid');
     if (nav !== undefined && nav !== null) {
         closeGrid();
@@ -846,8 +849,10 @@ async function handleAltClickWithGrid(e) {
         } else {
             ({ x, y } = getSelectionEndPosition());
         }
-        xPos = x + parseInt(options.offsetX);
-        yPos = y + parseInt(options.offsetY);
+        const offX = Number.isFinite(Number(options?.offsetX)) ? Number(options.offsetX) : 0;
+        const offY = Number.isFinite(Number(options?.offsetY)) ? Number(options.offsetY) : 0;
+        xPos = x + offX;
+        yPos = y + offY;
         if (logToConsole) console.log(xPos, yPos);
         if (xPos > 0 && yPos > 0) await createIconsGrid('root');
     }
@@ -976,6 +981,24 @@ function getPidAndName(string) {
 
 async function createIconsGrid(folderId) {
     let icons = [];
+
+    // Ensure searchEngines and requested folder exist before proceeding
+    if (!searchEngines || !searchEngines[folderId]) {
+        if (logToConsole) console.warn('Search engines not ready or folder missing:', { folderId, hasSearchEngines: !!searchEngines });
+        try {
+            const response = await sendMessage('getStoredData', null);
+            if (response && response.success && response.data && response.data.searchEngines) {
+                searchEngines = response.data.searchEngines;
+            }
+        } catch (err) {
+            if (logToConsole) console.warn('Failed to refresh search engines from storage:', err);
+        }
+    }
+
+    if (!searchEngines || !searchEngines[folderId] || !Array.isArray(searchEngines[folderId].children)) {
+        if (logToConsole) console.error('Cannot create Icons Grid: folder not found or invalid:', folderId);
+        return; // Bail out gracefully
+    }
 
     // If the parent folder is not the root folder, then add an icon for backwards navigation
     if (folderId !== 'root') {

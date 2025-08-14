@@ -582,9 +582,16 @@ async function handleStorageChange(changes, areaName) {
         if (changes.options) {
             if (logToConsole) console.log('Options changed:', changes.options.newValue);
             options = changes.options.newValue;
-            // Send message to content scripts
+            // Send message to content scripts (must use tabs messaging)
             if (options) {
-                await sendMessage('updateOptions', { options });
+                try {
+                    const tabs = await browser.tabs.query({});
+                    for (const tab of tabs) {
+                        await sendMessageToTab(tab, { action: 'updateOptions', data: { options } });
+                    }
+                } catch (err) {
+                    if (logToConsole) console.error('Failed to broadcast updateOptions to tabs:', err?.message || err);
+                }
             }
         }
 
@@ -592,9 +599,16 @@ async function handleStorageChange(changes, areaName) {
         if (changes.searchEngines) {
             if (logToConsole) console.log('Search engines changed:', changes.searchEngines.newValue);
             searchEngines = changes.searchEngines.newValue;
-            // Send message to content scripts
+            // Send message to content scripts (must use tabs messaging)
             if (searchEngines) {
-                await sendMessage('updateSearchEngines', { searchEngines });
+                try {
+                    const tabs = await browser.tabs.query({});
+                    for (const tab of tabs) {
+                        await sendMessageToTab(tab, { action: 'updateSearchEngines', data: { searchEngines } });
+                    }
+                } catch (err) {
+                    if (logToConsole) console.error('Failed to broadcast updateSearchEngines to tabs:', err?.message || err);
+                }
             }
         }
 

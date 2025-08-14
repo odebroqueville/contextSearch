@@ -1,5 +1,10 @@
-6.1.1
+6.1.2
 =========
+
+* Bug fix: [#233](https://github.com/odebroqueville/contextSearch/issues/233)
+
+6.1.1
+---------
 
 * Bug fix [#230](https://github.com/odebroqueville/contextSearch/issues/230)
 * Set Subscription Paid Status to True.
