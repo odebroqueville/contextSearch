@@ -153,7 +153,7 @@
         "message": "Ajouter un séparateur"
     },
     "clear": {
-        "message": "Effacer"
+        "message": "Clair"
     },
     "disableGrid": {
         "message": "Désactiver la grille d'icônes"
@@ -162,13 +162,13 @@
         "message": "Déplacer"
     },
     "up": {
-        "message": "vers le haut"
+        "message": "monter"
     },
     "down": {
         "message": "vers le bas"
     },
     "remove": {
-        "message": "Supprimer"
+        "message": "Retirer"
     },
     "multipleSearchEnginesSearch": {
         "message": "Inclure ce moteur de recherche dans une recherche multiple"
@@ -180,7 +180,7 @@
         "message": "Ajout d'un moteur de recherche."
     },
     "titleShowEngine": {
-        "message": "Afficher ce moteur de recherche dans le menu contextuel ou dans la grille d'icônes"
+        "message": "Afficher ce moteur de recherche dans le menu contextuel ou la grille"
     },
     "notifyEnableStorageSync": {
         "message": "Veillez à ce que le paramètre 'webextensions.storage.sync.enabled' soit défini sur 'true' dans 'about:config', sinon la recherche contextuelle ne fonctionnera pas."
@@ -207,7 +207,7 @@
         "message": "Résultats de la recherche pour"
     },
     "omniboxDescription": {
-        "message": "Recherche avec des mots-clés. Utilisation : cs [mot-clé] [termes de recherche] (par exemple, \"cs w Linux\" recherche le terme \"Linux\" dans Wikipédia)"
+        "message": "Recherche en utilisant la recherche contextuelle avec des mots-clés. Utilisation : cs [mot-clé] [termes de recherche] (par exemple, \"cs w Linux\" recherche le terme \"Linux\" dans Wikipédia)."
     },
     "notifyUsage": {
         "message": "Utilisation : cs [mot-clé] [termes de recherche] (par exemple : cs w Linux)"
@@ -324,7 +324,7 @@
         "message": "Ajouter un séparateur"
     },
     "testChatGPT": {
-        "message": "Tester l’invite IA"
+        "message": "Test AI Prompt"
     },
     "addChatGPTPrompt": {
         "message": "Ajouter une invite AI"
@@ -336,7 +336,7 @@
         "message": "Nom de l'invite"
     },
     "prompt": {
-        "message": "Invite"
+        "message": "Prompt"
     },
     "overwriteSearchEngines": {
         "message": "Remplacer les moteurs de recherche existants par les moteurs de recherche importés"
@@ -348,7 +348,7 @@
         "message": "et l'ensemble de son contenu"
     },
     "removeSearchEngineConfirm": {
-        "message": "Êtes-vous sûr de vouloir supprimer le moteur de recherche "
+        "message": "Êtes-vous sûr de vouloir supprimer le moteur de recherche ?"
     },
     "popupBlockedMessage": {
         "message": "Popup bloqué ! Veuillez autoriser les fenêtres contextuelles pour ce site."
