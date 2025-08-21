@@ -83,12 +83,6 @@
     "exactMatch": {
         "message": "Recherche d'une chaîne de caractères exacte"
     },
-    "disableDoubleClick": {
-        "message": "Désactiver le double clic pour ajouter des moteurs de recherche qui utilisent des requêtes HTTP POST."
-    },
-    "disableAI": {
-        "message": "Désactiver les fonctionnalités de recherche IA"
-    },
     "gridMode": {
         "message": "Afficher une grille d'icônes au lieu d'une liste de moteurs de recherche"
     },
