@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Søk etter et eksakt strengtreff"
     },
+    "disableDoubleClick": {
+        "message": "Disable double click for adding search engines that use HTTP POST requests"
+    },
+    "disableAI": {
+        "message": "Disable AI search features"
+    },
     "gridMode": {
         "message": "Vis et rutenett med ikoner i stedet for en liste over søkemotorer"
     },
