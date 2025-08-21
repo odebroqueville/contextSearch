@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "جستجوی یک تطابق دقیق رشته"
     },
+    "disableDoubleClick": {
+        "message": "Disable double click for adding search engines that use HTTP POST requests"
+    },
+    "disableAI": {
+        "message": "Disable AI search features"
+    },
     "gridMode": {
         "message": "نمایش شبکه ای از نمادها به جای لیستی از موتورهای جستجو"
     },
