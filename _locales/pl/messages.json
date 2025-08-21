@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Wyszukiwanie dokładnego dopasowania ciągu znaków"
     },
+    "disableDoubleClick": {
+        "message": "Wyłącz podwójne kliknięcie w celu dodania wyszukiwarek korzystających z żądań HTTP POST."
+    },
+    "disableAI": {
+        "message": "Wyłącz funkcje wyszukiwania AI"
+    },
     "gridMode": {
         "message": "Wyświetlanie siatki ikon zamiast listy wyszukiwarek"
     },
