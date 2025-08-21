@@ -83,12 +83,6 @@
     "exactMatch": {
         "message": "Mencari pencocokan string yang tepat"
     },
-    "disableDoubleClick": {
-        "message": "Nonaktifkan klik ganda untuk menambahkan mesin pencari yang menggunakan permintaan HTTP POST."
-    },
-    "disableAI": {
-        "message": "Nonaktifkan fitur pencarian AI"
-    },
     "gridMode": {
         "message": "Menampilkan kisi-kisi ikon, bukan daftar mesin pencari"
     },
