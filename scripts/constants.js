@@ -1,7 +1,7 @@
 /// Constants
 
 // Debug mode
-export const DEBUG = true;
+export const DEBUG = false;
 
 // User agent for sidebar search results
 const USER_AGENT_FOR_SIDEBAR =
@@ -187,6 +187,7 @@ export const daysRemaining = browser.i18n.getMessage('daysRemaining');
 // Default settings
 export const DEFAULT_OPTIONS = {
     exactMatch: false,
+    disableDoubleClick: false,
     tabMode: 'openNewTab',
     optionsMenuLocation: 'bottom',
     tabActive: false,
@@ -210,7 +211,7 @@ export const DEFAULT_OPTIONS = {
 // Configuration for option updates
 export const UPDATE_CONFIG = {
     searchOptions: {
-        fields: ['exactMatch'],
+        fields: ['exactMatch', 'disableDoubleClick'],
         requiresMenuRebuild: true
     },
     displayFavicons: {

@@ -16,9 +16,8 @@ import {
     perplexityAIUrl,
     poeUrl,
     claudeUrl,
-    youUrl,
     andiUrl,
-    aiUrls,
+    aiUrls
 } from "/scripts/hosts.js";
 import {
     base64chatGPT,
@@ -27,11 +26,9 @@ import {
     base64perplexity,
     base64poe,
     base64claude,
-    base64you,
     base64andi,
-    base64exa,
     base64ContextSearchIcon,
-    base64FolderIcon,
+    base64FolderIcon
 } from "/scripts/favicons.js";
 import {
     DEBUG,
@@ -195,20 +192,6 @@ browser.tabs.onActivated.addListener(() => {
 // Listen for storage changes
 browser.storage.onChanged.addListener(handleStorageChange);
 
-// Handle addon shortcut to launch icons grid or open the AI search window
-browser.commands.onCommand.addListener(async (command) => {
-    if (paid || trialActive) {
-        const tabs = await browser.tabs.query({ active: true, currentWindow: true });
-        const activeTab = tabs[0];
-        if (command === "launch-icons-grid") {
-            if (logToConsole) console.log("Launching Icons Grid...");
-            await sendMessageToTab(activeTab, { action: "launchIconsGrid" });
-        } else if (command === "open-popup") {
-            openAISearchPopup();
-        }
-    }
-});
-
 // Listen for messages from the content or options script
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const action = message.action;
@@ -232,20 +215,73 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     // Handle other actions
     switch (action) {
+        case "openAiSearchPopup": {
+            try {
+                browser.windows.getCurrent({ populate: true }).then(currentWindow => {
+                    let tabIndex = sender.tab.index + 1;
+                    if (!tabIndex || (options.tabMode === "openNewTab" && options.lastTab)) {
+                        tabIndex = currentWindow.tabs.length;
+                    }
+                    openAISearchPopup(tabIndex).then(() => {
+                        sendResponse({ success: true });
+                    }).catch(error => {
+                        console.error("Error opening AI Search popup:", error);
+                        sendResponse({ success: false, error: error.message || "Unknown error" });
+                    });
+                });
+            } catch (error) {
+                console.error("Error opening AI Search popup:", error);
+                sendResponse({ success: false, error: error.message || "Unknown error" });
+            }
+            return true; // Indicate async response
+        }
         case "resetData":
-            resetData(data);
-            break;
-        case 'getStoredData':
-            getStoredData()
-                .then(data => {
-                    sendResponse({ success: true, data });
+            resetData(data).then(() => {
+                sendResponse({ success: true });
+            }).catch(error => {
+                sendResponse({ success: false, error: error.message });
+            });
+            return true;
+        case 'getStoredData': {
+            const key = data && data.key; // Get the key if provided
+            if (logToConsole) console.log('getStoredData message received:', { key, data });
+            return getStoredData(key)
+                .then(result => {
+                    if (logToConsole) console.log('getStoredData result:', { key, result });
+                    // If a key was requested, return just that value, otherwise return all data
+                    const responseData = key ? { [key]: result } : result || {};
+
+                    // Always ensure we have the minimum required data structure
+                    if (!key) {
+                        // If we're getting all data, ensure basic structure exists
+                        if (!responseData.options) responseData.options = { ...DEFAULT_OPTIONS };
+                        if (!responseData.searchEngines) responseData.searchEngines = {};
+                        if (!responseData.selection) responseData.selection = "";
+                        if (responseData.logToConsole === undefined) responseData.logToConsole = DEBUG;
+                    }
+
+                    const response = { success: true, data: responseData };
+                    if (logToConsole) console.log('Sending getStoredData response:', response);
+                    sendResponse(response);
+                    return response;
                 })
                 .catch(error => {
                     console.error("Error getting stored data:", error);
-                    sendResponse({ success: false, error: error.message });
+                    // Return a fallback response with default values instead of an error
+                    const fallbackData = {
+                        options: { ...DEFAULT_OPTIONS },
+                        searchEngines: {},
+                        selection: "",
+                        logToConsole: DEBUG
+                    };
+                    const response = { success: true, data: key ? { [key]: fallbackData[key] } : fallbackData };
+                    if (logToConsole) console.log('Sending fallback getStoredData response:', response);
+                    sendResponse(response);
+                    return response;
                 });
-            return true; // Indicates we'll send a response asynchronously
+        }
         case "storeSelection":
+            if (logToConsole) console.log('storeSelection message received with data:', data);
             // New handler for storing selection data reliably from the service worker
             if (data) {
                 setStoredData(STORAGE_KEYS.SELECTION, data)
@@ -273,8 +309,12 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             }
             break;
         case "openModal":
-            handleOpenModal(data);
-            break;
+            handleOpenModal(data).then(() => {
+                sendResponse({ success: true });
+            }).catch(error => {
+                sendResponse({ success: false, error: error.message });
+            });
+            return true;
         case "addNewPostSearchEngine":
             handleAddNewPostSearchEngine(data).then(result => {
                 if (result) {
@@ -287,8 +327,12 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             });
             return true;
         case "doSearch":
-            handleDoSearch(data);
-            break;
+            handleDoSearch(data).then(() => {
+                sendResponse({ success: true });
+            }).catch(error => {
+                sendResponse({ success: false, error: error.message });
+            });
+            return true;
         case "executeAISearch":
             if (logToConsole) console.log('Received executeAISearch message:', message.data);
             // Execute the handler (don't await it here if it's long-running)
@@ -308,17 +352,33 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             });
             return true;
         case "testSearchEngine":
-            testSearchEngine(data);
-            break;
+            testSearchEngine(data).then(() => {
+                sendResponse({ success: true });
+            }).catch(error => {
+                sendResponse({ success: false, error: error.message });
+            });
+            return true;
         case "testPrompt":
-            testPrompt();
-            break;
+            testPrompt().then(() => {
+                sendResponse({ success: true });
+            }).catch(error => {
+                sendResponse({ success: false, error: error.message });
+            });
+            return true;
         case "saveSearchEngines":
-            handleSaveSearchEngines(data);
-            break;
+            handleSaveSearchEngines(data).then(() => {
+                sendResponse({ success: true });
+            }).catch(error => {
+                sendResponse({ success: false, error: error.message });
+            });
+            return true;
         case "saveAIEngine":
-            handleSaveAIEngine(data);
-            break;
+            handleSaveAIEngine(data).then(() => {
+                sendResponse({ success: true });
+            }).catch(error => {
+                sendResponse({ success: false, error: error.message });
+            });
+            return true;
         case "getFavicon":
             handleGetFavicon(data).then(result => {
                 if (result && typeof result.imageFormat !== 'undefined' && typeof result.base64 !== 'undefined') {
@@ -342,8 +402,12 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             });
             return true; // Indicate async response
         case "saveSearchEnginesToDisk":
-            handleSaveSearchEnginesToDisk(data);
-            break;
+            handleSaveSearchEnginesToDisk(data).then(() => {
+                sendResponse({ success: true });
+            }).catch(error => {
+                sendResponse({ success: false, error: error.message });
+            });
+            return true;
         case "contentScriptLoaded":
             handleContentScriptLoaded(data).then(result => {
                 if (result) {
@@ -372,13 +436,19 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             });
             return true;
         case "getOS":
-            getOS().then(result => {
-                sendResponse(result);
+            getOS().then(() => {
+                sendResponse({ success: true });
+            }).catch(error => {
+                sendResponse({ success: false, error: error.message });
             });
             return true;
         case "reloadSearchEngines":
-            reloadSearchEngines();
-            break;
+            reloadSearchEngines().then(() => {
+                sendResponse({ success: true });
+            }).catch(error => {
+                sendResponse({ success: false, error: error.message });
+            });
+            return true;
         case "openTrialPage":
             if (logToConsole) console.log("Received request to open trial page from popup.");
             extpay.openTrialPage('7-day');
@@ -487,17 +557,66 @@ async function initializeHeaderRules() {
 async function getStoredData(key) {
     try {
         if (key) {
+            // Getting a specific key
             const result = await browser.storage.local.get(key);
             if (logToConsole) console.log(`Getting ${key} from storage:`, result[key]);
+
+            // Handle the case where we get undefined for common keys
+            if (result[key] === undefined) {
+                // Return appropriate defaults for common keys
+                if (key === STORAGE_KEYS.OPTIONS) return { ...DEFAULT_OPTIONS };
+                if (key === STORAGE_KEYS.SEARCH_ENGINES) return {};
+                if (key === STORAGE_KEYS.SELECTION) return '';
+                if (key === STORAGE_KEYS.LOG_TO_CONSOLE) return DEBUG;
+            }
+
             return result[key];
         } else {
-            const result = await browser.storage.local.get();
+            // Getting all data
+            const result = await browser.storage.local.get(null);
             if (logToConsole) console.log('Getting all data from storage:', result);
+
+            // Ensure critical keys have at least empty values
+            const defaults = {
+                [STORAGE_KEYS.OPTIONS]: { ...DEFAULT_OPTIONS },
+                [STORAGE_KEYS.SEARCH_ENGINES]: {},
+                [STORAGE_KEYS.SELECTION]: '',
+                [STORAGE_KEYS.LOG_TO_CONSOLE]: DEBUG
+            };
+
+            // Merge with defaults for any missing keys
+            for (const defaultKey in defaults) {
+                if (result[defaultKey] === undefined) {
+                    result[defaultKey] = defaults[defaultKey];
+                }
+            }
+
             return result;
         }
     } catch (error) {
-        console.error(`Error getting ${key} from storage:`, error);
-        return null;
+        if (logToConsole && key) {
+            console.error(`Error getting ${key} from storage:`, error);
+        } else {
+            console.error('Error getting stored data:', error);
+        }
+
+        // Return defaults instead of null on error
+        if (key) {
+            // Return appropriate defaults for common keys
+            if (key === STORAGE_KEYS.OPTIONS) return { ...DEFAULT_OPTIONS };
+            if (key === STORAGE_KEYS.SEARCH_ENGINES) return {};
+            if (key === STORAGE_KEYS.SELECTION) return '';
+            if (key === STORAGE_KEYS.LOG_TO_CONSOLE) return DEBUG;
+            return null;
+        } else {
+            // Return a basic data structure with defaults
+            return {
+                [STORAGE_KEYS.OPTIONS]: { ...DEFAULT_OPTIONS },
+                [STORAGE_KEYS.SEARCH_ENGINES]: {},
+                [STORAGE_KEYS.SELECTION]: '',
+                [STORAGE_KEYS.LOG_TO_CONSOLE]: DEBUG
+            };
+        }
     }
 }
 
@@ -679,10 +798,8 @@ async function handleOpenModal(data) {
 async function handleAddNewPostSearchEngine(data) {
     const searchEngineName = data.searchEngineName;
     const keyword = data.keyword;
-    const keyboardShortcut = data.keyboardShortcut;
     if (logToConsole) console.log(searchEngineName);
     if (logToConsole) console.log(keyword);
-    if (logToConsole) console.log(keyboardShortcut);
 
     // Define a unique ID for the new search engine
     let id = searchEngineName.replace(/\s/g, "-").toLowerCase();
@@ -692,15 +809,15 @@ async function handleAddNewPostSearchEngine(data) {
     id = id.trim();
 
     // Add the new search engine
-    const numberOfSearchEngines = Object.keys(searchEngines).length;
+    const index = searchEngines["root"]["children"].length;
 
     const formDataString = JSON.stringify(formData);
 
     const searchEngine = {
-        index: numberOfSearchEngines,
+        index: index,
         name: searchEngineName,
         keyword: keyword,
-        keyboardShortcut: keyboardShortcut,
+        keyboardShortcut: '',
         multitab: false,
         url: newSearchEngineUrl,
         show: true,
@@ -708,6 +825,8 @@ async function handleAddNewPostSearchEngine(data) {
     };
 
     if (logToConsole) console.log(searchEngine);
+
+    searchEngines[id] = searchEngine;
 
     const domain = getDomain(newSearchEngineUrl);
 
@@ -957,65 +1076,26 @@ async function testPrompt() {
 }
 
 async function handleExecuteAISearch(data) {
-    const { aiEngine, prompt } = data;
+    const { aiEngine, prompt, tabIndex } = data;
     const id = "chatgpt-direct";
-    let targetWindowId;
-    let targetTabIndex;
-    let allTabsInTargetWindow = []; // Initialize array
+    const windowInfo = await browser.windows.getCurrent();
 
     try {
-        // 1. Find the last focused 'normal' window (ignores popups)
-        const lastFocusedWindow = await browser.windows.getLastFocused({ windowTypes: ['normal'] });
-
-        if (!lastFocusedWindow) {
-            if (logToConsole) console.warn("handleExecuteAISearch: Could not find last focused normal window.");
-            // Fallback maybe? Or handle error appropriately.
-            // For now, let's try getCurrent as a fallback, though it might be the source of the issue
-            const currentWindow = await browser.windows.getCurrent();
-            targetWindowId = currentWindow.id;
-        } else {
-            targetWindowId = lastFocusedWindow.id;
-        }
-
-        if (logToConsole) console.log(`handleExecuteAISearch: Targeting window ID: ${targetWindowId}`);
-
-        // 2. Find the active tab *within that specific window*
-        const activeTabsInTargetWindow = await browser.tabs.query({ active: true, windowId: targetWindowId });
-
-        if (activeTabsInTargetWindow.length === 0) {
-            if (logToConsole) console.warn(`handleExecuteAISearch: No active tab found in window ID: ${targetWindowId}.`);
-            // Handle this case - maybe default to the end?
-            // Query all tabs to determine the end position if needed
-            allTabsInTargetWindow = await browser.tabs.query({ windowId: targetWindowId });
-            targetTabIndex = -1; // Indicate no specific active tab found
-        } else {
-            const activeTabInTarget = activeTabsInTargetWindow[0];
-            if (logToConsole) console.log(`handleExecuteAISearch: Found active tab in target window:`, activeTabInTarget);
-            targetTabIndex = activeTabInTarget.index;
-            // Query all tabs only if needed for 'lastTab' calculation
-            if (options.tabMode === "openNewTab" && options.lastTab) {
-                allTabsInTargetWindow = await browser.tabs.query({ windowId: targetWindowId });
-            }
-        }
-
-        // 3. Calculate tab position based on *freshly queried* data
+        // 1. Calculate tab position based on *freshly queried* data
         let tabPosition;
         if (options.tabMode === "openNewTab" && options.lastTab) {
             // After the last tab in the target window
-            tabPosition = allTabsInTargetWindow.length;
-            if (logToConsole) console.log(`handleExecuteAISearch: Position set to end of window ${targetWindowId}: ${tabPosition}`);
-        } else if (targetTabIndex !== -1) {
-            // Right after the determined active tab in the target window
-            tabPosition = targetTabIndex + 1;
-            if (logToConsole) console.log(`handleExecuteAISearch: Position set after active tab index ${targetTabIndex} in window ${targetWindowId}: ${tabPosition}`);
+            tabPosition = windowInfo.tabs.length;
+            if (logToConsole) console.log(`handleExecuteAISearch: Position set to end of window. Tab position: ${tabPosition}`);
         } else {
-            // Fallback if no active tab was found but not using 'lastTab' - append to end?
-            tabPosition = allTabsInTargetWindow.length;
-            if (logToConsole) console.log(`handleExecuteAISearch: No active tab index found, positioning at end of window ${targetWindowId}: ${tabPosition}`);
+            // Right after the determined active tab in the target window
+            // Convert tabIndex to a number if it's a string
+            tabPosition = tabIndex !== undefined ? parseInt(tabIndex, 10) : windowInfo.tabs.length;
+            if (logToConsole) console.log(`handleExecuteAISearch: Position set after active tab index: ${tabPosition}`);
         }
 
-        // 4. Call displaySearchResults with the determined window and position
-        displaySearchResults(id, tabPosition, false, targetWindowId, aiEngine, prompt);
+        // 2. Call displaySearchResults with the determined window and position
+        displaySearchResults(id, tabPosition, false, windowInfo.id, aiEngine, prompt);
 
     } catch (error) {
         if (logToConsole) console.error(`handleExecuteAISearch: Error determining tab position: ${error.message}`, error);
@@ -1403,17 +1483,9 @@ function getFaviconForPrompt(id, aiProvider) {
             imageFormat = "image/png";
             b64 = base64claude;
             break;
-        case "you":
-            imageFormat = "image/png";
-            b64 = base64you;
-            break;
         case "andi":
             imageFormat = "image/png";
             b64 = base64andi;
-            break;
-        case "exa":
-            imageFormat = "image/x-icon";
-            b64 = base64exa;
             break;
         default:
             imageFormat = "image/svg+xml";
@@ -1791,7 +1863,7 @@ async function processSearch(info, tab) {
     if (options.multiMode === "multiAfterLastTab" || (options.tabMode === "openNewTab" && options.lastTab)) {
         tabIndex = currentWindow.tabs.length;
     }
-    if (logToConsole) console.log(tabIndex);
+    if (logToConsole) console.log('Active tab (index, title):', tabIndex - 1, tab.title);
 
     // If the selected search engine is a folder, process it as a multisearch
     if (id.endsWith("-multisearch")) {
@@ -1830,7 +1902,7 @@ async function processSearch(info, tab) {
         return;
     }
     if (id === "ai-search") {
-        await openAISearchPopup();
+        await openAISearchPopup(tabIndex);
         return;
     }
 
@@ -2102,9 +2174,6 @@ function getAIProviderBaseUrl(provider) {
         case "claude":
             providerUrl = claudeUrl;
             break;
-        case "you":
-            providerUrl = youUrl;
-            break;
         case "andi":
             providerUrl = andiUrl;
             break;
@@ -2125,29 +2194,26 @@ async function displaySearchResults(
 ) {
     const tabs = await browser.tabs.query({ active: true, currentWindow: true });
     const activeTab = tabs[0];
+    const searchEngine = searchEngines[id];
     selection = await getStoredData(STORAGE_KEYS.SELECTION);
     imageUrl = targetUrl;
     targetUrl = await setTargetUrl(id, aiEngine);
     await setStoredData(STORAGE_KEYS.TARGET_URL, targetUrl);
-    const postDomain = getDomain(targetUrl);
-    let searchEngine, url;
+    //const postDomain = getDomain(targetUrl);
+    let url = targetUrl;
     if (id.startsWith("chatgpt-")) {
         promptText = getPromptText(id, prompt);
         if (id !== "chatgpt-direct") {
-            searchEngine = searchEngines[id];
             if (searchEngine.aiProvider === "chatgpt") {
                 writeClipboardText(promptText);
             }
         }
     }
-    if (searchEngine && searchEngine.formData) {
-        url = postDomain;
-    } else {
-        url = targetUrl;
-    }
+
     if (logToConsole) console.log(`id: ${id}`);
     if (logToConsole) console.log(`prompt: ${promptText}`);
     if (logToConsole) console.log(`selection: ${selection}`);
+    if (logToConsole) console.log(`targetUrl: ${targetUrl}`);
 
     // Ignore bookmarklets in multi-search
     if (multisearch && id.startsWith("link-") && url.startsWith("javascript:"))
@@ -2349,7 +2415,6 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
         "perplexity",
         "poe",
         "claude",
-        "you",
         "andi"
     ];
     const multisearch = false;
@@ -2557,9 +2622,7 @@ async function buildSuggestion(text) {
         "perplexity",
         "poe",
         "claude",
-        "you",
-        "andi",
-        "exa",
+        "andi"
     ];
     const keyword = text.split(" ")[0];
     const searchTerms = text.replace(keyword, "").trim();
@@ -2704,8 +2767,10 @@ function isEncoded(uri) {
 // Send message to content scripts
 async function sendMessageToTab(tab, message) {
     const tabId = tab.id;
+    if (logToConsole) console.log('Sending message to tab:', tabId, message);
     try {
         const response = await browser.tabs.sendMessage(tabId, message);
+        if (logToConsole) console.log('Message response from tab:', response);
         if (logToConsole)
             console.log(`Message sent successfully to tab ${tab.id}: ${tab.title}`);
         return response;
@@ -2766,7 +2831,7 @@ function isEmpty(value) {
     else return !value;
 }
 
-async function openAISearchPopup() {
+async function openAISearchPopup(tabIndex) {
     const width = 700;
     const height = 125;
     // Get browser info directly
@@ -2782,7 +2847,7 @@ async function openAISearchPopup() {
     const top = browserTop + Math.floor((browserHeight - height) / 2) - 200;
 
     await browser.windows.create({
-        url: browser.runtime.getURL("/html/popup.html"),
+        url: browser.runtime.getURL(`/html/popup.html?tabIndex=${tabIndex}`), // Pass the tab index to the popup
         type: "popup",
         width: width,
         height: height,

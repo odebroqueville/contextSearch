@@ -6,7 +6,7 @@ import { STORAGE_KEYS } from './constants.js';
 
 // Make the listener async to use await
 document.addEventListener('DOMContentLoaded', async () => {
-    const aiEngines = ['chatgpt', 'gemini', 'grok', 'perplexity', 'poe', 'claude', 'you', 'andi'];
+    const aiEngines = ['chatgpt', 'gemini', 'grok', 'perplexity', 'poe', 'claude', 'andi'];
     const inputArea = document.getElementById('inputArea');
     const outputArea = document.getElementById('outputArea');
     let tagStyled = false;
@@ -75,11 +75,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function executeAISearch() {
         const aiEngine = getAIEngine();
         const prompt = inputArea.value.trim();
+        const tabIndex = new URLSearchParams(window.location.search).get('tabIndex') || 0; // Get tabIndex from URL or default to 0
         if (tagStyled && aiEngine && prompt) {
             // Prepare the message data
             const messagePayload = {
                 action: 'executeAISearch',
-                data: { aiEngine, prompt }
+                data: { aiEngine, prompt, tabIndex }
             };
 
             try {

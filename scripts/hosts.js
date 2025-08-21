@@ -11,6 +11,5 @@ export const grokUrl = 'https://grok.com';
 export const perplexityAIUrl = 'https://www.perplexity.ai';
 export const poeUrl = 'https://poe.com';
 export const claudeUrl = 'https://claude.ai';
-export const youUrl = 'https://you.com';
 export const andiUrl = 'https://andisearch.com';
-export const aiUrls = [chatGPTUrl, googleAIStudioUrl, grokUrl, perplexityAIUrl, poeUrl, claudeUrl, youUrl, andiUrl];
+export const aiUrls = [chatGPTUrl, googleAIStudioUrl, grokUrl, perplexityAIUrl, poeUrl, claudeUrl, andiUrl];

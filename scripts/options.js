@@ -17,6 +17,7 @@ const container = document.getElementById('container');
 
 // Options
 const exactMatch = document.getElementById('exactMatch');
+const disableDoubleClick = document.getElementById('disableDoubleClick');
 const openNewTab = document.getElementById('openNewTab');
 const sameTab = document.getElementById('sameTab');
 const openNewWindow = document.getElementById('openNewWindow');
@@ -110,6 +111,7 @@ browser.permissions.onRemoved.addListener(handlePermissionsChanges);
 
 // Options changes event handlers
 exactMatch.addEventListener('click', updateSearchOptions);
+disableDoubleClick.addEventListener('click', updateSearchOptions);
 displayFavicons.addEventListener('click', updateDisplayFavicons);
 quickIconGrid.addEventListener('click', updateQuickIconGrid);
 closeGridOnMouseOut.addEventListener('click', updateCloseGridOnMouseOut);
@@ -1328,8 +1330,8 @@ function handleKeyboardShortcutKeyUp(e) {
 
     // Ignore the keyup event if the released key is a modifier itself
     // or if no keys were actually recorded (e.g., if Escape/Backspace was just pressed)
-    if (modifierKeys.includes(releasedKey) || Object.keys(keysPressed).length === 0) {
-        if (logToConsole) console.log('keyup ignored (modifier released or keysPressed empty)');
+    if (!isKeyAllowed(releasedKey) || Object.keys(keysPressed).length === 0) {
+        if (logToConsole) console.log('keyup ignored (key not allowed or keysPressed empty)');
         return;
     }
 
@@ -1343,8 +1345,7 @@ function handleKeyboardShortcutKeyUp(e) {
     e.preventDefault(); // Prevent any default action associated with the non-modifier key release
     e.stopPropagation();
 
-    let input;
-    let id = null;
+    let id, input;
 
     // Determine the target input field
     const lineItem = e.target.closest('.search-engine, .folder'); // Use closest to find parent item
@@ -1364,18 +1365,16 @@ function handleKeyboardShortcutKeyUp(e) {
     // Define the desired order for modifier keys
     const modifierOrder = { meta: 1, 'Control': 2, 'Alt': 3, 'Shift': 4 };
     let currentModifiers = [];
-    let mainKey = null;
 
     // Separate modifiers and the main key from keysPressed
     for (const key in keysPressed) {
         if (modifierKeys.includes(key)) {
             currentModifiers.push(key);
-        } else {
-            // Assuming only one non-modifier key is used in a shortcut
-            // If multiple are allowed, this needs adjustment
-            mainKey = key;
+            delete keysPressed[key]; // Remove modifier from keysPressed
         }
     }
+
+    const mainKey = keysPressed[Object.keys(keysPressed)[0]]; // Get the main key (the only non-modifier key)
 
     // Sort modifiers based on the defined order
     currentModifiers.sort((a, b) => (modifierOrder[a] || 99) - (modifierOrder[b] || 99));
@@ -1646,6 +1645,12 @@ async function setOptions(options) {
         exactMatch.checked = false;
     }
 
+    if (options.disableDoubleClick === true) {
+        disableDoubleClick.checked = true;
+    } else {
+        disableDoubleClick.checked = false;
+    }
+
     switch (options.tabMode) {
         case 'openNewTab':
             openNewTab.checked = true;
@@ -1854,8 +1859,9 @@ async function sendOptionUpdate(updateType, data) {
 }
 
 async function updateSearchOptions() {
-    let em = exactMatch.checked;
-    await sendOptionUpdate('searchOptions', { exactMatch: em });
+    const em = exactMatch.checked;
+    const dd = disableDoubleClick.checked;
+    await sendOptionUpdate('searchOptions', { exactMatch: em, disableDoubleClick: dd });
 }
 
 async function updateTabMode() {

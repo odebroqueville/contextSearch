@@ -101,9 +101,8 @@ Prior to using this feature, **ensure that you have logged in** to the website(s
 - gemini (for Google AI Studio where different models are available)
 - grok
 - perplexity
-- poe (where you can choose amongst different LL models, namely Llama 3.1)
+- poe (where you can choose amongst different LLMs)
 - andi
-- you
 
  If the AI engine is recognized, then it will automatically be styled as a tag. You can then continue typing your prompt completed by 'Enter'. The command window should then close and the search results be displayed. Unless you are using poe, then  an additional step is required: select the LLM and submit the prompt.
 

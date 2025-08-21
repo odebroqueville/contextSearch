@@ -1,5 +1,14 @@
-6.1.2
+6.1.3
 =========
+
+* Bug fix: HTTP POST request were failing. Keyboard shortcuts now have to be added on the Options page.
+* Bug fix: Perplexity was broken due to changes on their web site.
+* You.com is no longer supported as it is now for enterprise customers only.
+* Bug fix: [#197](https://github.com/odebroqueville/contextSearch/issues/197)
+* Bug fix: [#234](https://github.com/odebroqueville/contextSearch/issues/234)
+
+6.1.2
+---------
 
 * Bug fix: [#233](https://github.com/odebroqueville/contextSearch/issues/233)
 
