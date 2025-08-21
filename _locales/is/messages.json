@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Leita að nákvæmri samsvörun við textastreng"
     },
+    "disableDoubleClick": {
+        "message": "Disable double click for adding search engines that use HTTP POST requests"
+    },
+    "disableAI": {
+        "message": "Disable AI search features"
+    },
     "gridMode": {
         "message": "Birta reiti með táknmyndum í stað lista yfir leitarvélar"
     },
