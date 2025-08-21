@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "搜尋完全符合的字串"
     },
+    "disableDoubleClick": {
+        "message": "停用添加使用 HTTP POST 請求的搜尋引擎的雙擊功能"
+    },
+    "disableAI": {
+        "message": "停用 AI 搜尋功能"
+    },
     "gridMode": {
         "message": "顯示圖示方格而非搜尋引擎清單"
     },
@@ -405,6 +411,6 @@
         "message": "剩餘天數"
     },
     "__WET_LOCALE__": {
-        "message": "zh_tw"
+        "message": "en"
     }
 }
