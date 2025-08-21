@@ -83,12 +83,6 @@
     "exactMatch": {
         "message": "Tam bir dize eşleşmesi arayın"
     },
-    "disableDoubleClick": {
-        "message": "HTTP POST isteklerini kullanan arama motorlarını eklemek için çift tıklamayı devre dışı bırakın"
-    },
-    "disableAI": {
-        "message": "AI arama özelliklerini devre dışı bırak"
-    },
     "gridMode": {
         "message": "Arama motorları listesi yerine simgelerden oluşan bir ızgara görüntüleme"
     },
