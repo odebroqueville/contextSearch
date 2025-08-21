@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Hae täsmällinen merkkijono"
     },
+    "disableDoubleClick": {
+        "message": "Poista kaksoisnapsautus käytöstä hakukoneiden lisäämiseksi, jotka käyttävät HTTP POST -pyyntöjä."
+    },
+    "disableAI": {
+        "message": "Poista AI-hakutoiminnot käytöstä"
+    },
     "gridMode": {
         "message": "Näyttää kuvakkeiden ruudukon hakukoneiden luettelon sijaan"
     },
