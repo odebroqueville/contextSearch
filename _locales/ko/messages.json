@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "정확한 문자열 일치 검색"
     },
+    "disableDoubleClick": {
+        "message": "HTTP POST 요청을 사용하는 검색 엔진을 추가할 때 이중 클릭을 비활성화합니다."
+    },
+    "disableAI": {
+        "message": "AI 검색 기능을 비활성화합니다."
+    },
     "gridMode": {
         "message": "검색 엔진 목록 대신 아이콘 그리드 표시"
     },
@@ -405,6 +411,6 @@
         "message": "남은 일수"
     },
     "__WET_LOCALE__": {
-        "message": "ko"
+        "message": "en"
     }
 }
