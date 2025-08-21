@@ -83,12 +83,6 @@
     "exactMatch": {
         "message": "Zoeken naar een exacte tekenreeks-overeenkomst"
     },
-    "disableDoubleClick": {
-        "message": "Dubbelklikken voor het toevoegen van zoekmachines die HTTP POST-verzoeken gebruiken uitschakelen"
-    },
-    "disableAI": {
-        "message": "AI-zoekfuncties uitschakelen"
-    },
     "gridMode": {
         "message": "Een raster van pictogrammen weergeven in plaats van een lijst met zoekmachines"
     },
