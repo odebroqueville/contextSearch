@@ -162,7 +162,7 @@
         "message": "Μετακίνηση"
     },
     "up": {
-        "message": "πάνω"
+        "message": "up"
     },
     "down": {
         "message": "κάτω"
@@ -405,6 +405,6 @@
         "message": "ημέρα(ες) που απομένουν"
     },
     "__WET_LOCALE__": {
-        "message": "el"
+        "message": "en"
     }
 }
