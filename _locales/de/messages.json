@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Suche nach einer exakten Zeichenkettenübereinstimmung"
     },
+    "disableDoubleClick": {
+        "message": "Deaktivieren Sie den Doppelklick zum Hinzufügen von Suchmaschinen, die HTTP-POST-Anfragen verwenden."
+    },
+    "disableAI": {
+        "message": "KI-Suchfunktionen deaktivieren"
+    },
     "gridMode": {
         "message": "Anzeige eines Rasters von Symbolen anstelle einer Liste von Suchmaschinen"
     },
@@ -405,6 +411,6 @@
         "message": "Verbleibende(r) Tag(e)"
     },
     "__WET_LOCALE__": {
-        "message": "de"
+        "message": "en"
     }
 }
