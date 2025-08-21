@@ -83,12 +83,6 @@
     "exactMatch": {
         "message": "Søg efter et nøjagtigt strengmatch"
     },
-    "disableDoubleClick": {
-        "message": "Deaktiver dobbeltklik for tilføjelse af søgemaskiner, der bruger HTTP POST-anmodninger"
-    },
-    "disableAI": {
-        "message": "Deaktiver AI-søgefunktioner"
-    },
     "gridMode": {
         "message": "Vis et gitter af ikoner i stedet for en liste over søgemaskiner"
     },
