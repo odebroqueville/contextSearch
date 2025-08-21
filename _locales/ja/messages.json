@@ -83,12 +83,6 @@
     "exactMatch": {
         "message": "完全に一致する文字列を検索する"
     },
-    "disableDoubleClick": {
-        "message": "HTTP POST リクエストを使用する検索エンジンの追加時にダブルクリックを無効にする"
-    },
-    "disableAI": {
-        "message": "AI検索機能を無効にする"
-    },
     "gridMode": {
         "message": "検索エンジンのリストではなく、アイコンのグリッドを表示する。"
     },
