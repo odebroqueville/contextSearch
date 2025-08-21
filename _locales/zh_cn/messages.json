@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "搜索完全匹配的字符串"
     },
+    "disableDoubleClick": {
+        "message": "禁用双击以添加使用HTTP POST请求的搜索引擎。"
+    },
+    "disableAI": {
+        "message": "关闭AI搜索功能"
+    },
     "gridMode": {
         "message": "显示图标网格，而不是搜索引擎列表"
     },
@@ -405,6 +411,6 @@
         "message": "剩余天数"
     },
     "__WET_LOCALE__": {
-        "message": "zh_cn"
+        "message": "EN"
     }
 }
