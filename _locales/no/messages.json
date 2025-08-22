@@ -84,10 +84,10 @@
         "message": "Søk etter et eksakt strengtreff"
     },
     "disableDoubleClick": {
-        "message": "Disable double click for adding search engines that use HTTP POST requests"
+        "message": "Deaktiver dobbeltklikk for å legge til søkemotorer som bruker HTTP POST-forespørsler"
     },
     "disableAI": {
-        "message": "Disable AI search features"
+        "message": "Deaktiver AI-søkefunksjoner"
     },
     "gridMode": {
         "message": "Vis et rutenett med ikoner i stedet for en liste over søkemotorer"
@@ -306,7 +306,7 @@
         "message": "aktivere nedlastingstillatelser for å eksportere søkemotorene dine."
     },
     "header11": {
-        "message": "Alternativer for rutenett for ikoner"
+        "message": "Ikoner rutenett"
     },
     "quickIconGrid": {
         "message": "Vis ikonrutenettet umiddelbart etter at teksten er valgt"
