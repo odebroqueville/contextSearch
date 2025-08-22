@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Пошук точного збігу рядка"
     },
+    "disableDoubleClick": {
+        "message": "Disable double click for adding search engines that use HTTP POST requests"
+    },
+    "disableAI": {
+        "message": "Disable AI search features"
+    },
     "gridMode": {
         "message": "Відображати сітку іконок замість списку пошукових систем"
     },
@@ -405,6 +411,6 @@
         "message": "день(и), що залишилися"
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "uk"
     }
 }
