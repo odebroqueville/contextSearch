@@ -84,10 +84,10 @@
         "message": "Søg efter et nøjagtigt strengmatch"
     },
     "disableDoubleClick": {
-        "message": "Disable double click for adding search engines that use HTTP POST requests"
+        "message": "Deaktiver dobbeltklik for tilføjelse af søgemaskiner, der bruger HTTP POST-anmodninger"
     },
     "disableAI": {
-        "message": "Disable AI search features"
+        "message": "Deaktiver AI-søgefunktioner"
     },
     "gridMode": {
         "message": "Vis et gitter af ikoner i stedet for en liste over søgemaskiner"
@@ -306,7 +306,7 @@
         "message": "aktiver tilladelser til downloads for at eksportere dine søgemaskiner."
     },
     "header11": {
-        "message": "Indstillinger for ikonernes gitter"
+        "message": "Ikoner Gitter"
     },
     "quickIconGrid": {
         "message": "Vis ikonerne med det samme, når teksten er valgt"
