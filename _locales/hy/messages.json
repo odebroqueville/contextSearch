@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Որոնել ճշգրիտ տողային համընկնում"
     },
+    "disableDoubleClick": {
+        "message": ""
+    },
+    "disableAI": {
+        "message": ""
+    },
     "gridMode": {
         "message": "Ցուցադրել պատկերակների ցանցը՝ որոնման համակարգերի ցանկի փոխարեն"
     },

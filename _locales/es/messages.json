@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Buscar una cadena exacta"
     },
+    "disableDoubleClick": {
+        "message": ""
+    },
+    "disableAI": {
+        "message": ""
+    },
     "gridMode": {
         "message": "Mostrar una cuadrícula de iconos en lugar de una lista de motores de búsqueda"
     },

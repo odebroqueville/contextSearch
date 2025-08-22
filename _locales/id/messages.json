@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Mencari pencocokan string yang tepat"
     },
+    "disableDoubleClick": {
+        "message": ""
+    },
+    "disableAI": {
+        "message": ""
+    },
     "gridMode": {
         "message": "Menampilkan kisi-kisi ikon, bukan daftar mesin pencari"
     },

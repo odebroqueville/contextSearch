@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Sök efter en exakt strängmatchning"
     },
+    "disableDoubleClick": {
+        "message": ""
+    },
+    "disableAI": {
+        "message": ""
+    },
     "gridMode": {
         "message": "Visa ett rutnät med ikoner i stället för en lista över sökmotorer"
     },

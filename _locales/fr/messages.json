@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Recherche d'une chaîne de caractères exacte"
     },
+    "disableDoubleClick": {
+        "message": ""
+    },
+    "disableAI": {
+        "message": ""
+    },
     "gridMode": {
         "message": "Afficher une grille d'icônes au lieu d'une liste de moteurs de recherche"
     },

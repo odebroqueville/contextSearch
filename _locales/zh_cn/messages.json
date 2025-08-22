@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "搜索完全匹配的字符串"
     },
+    "disableDoubleClick": {
+        "message": ""
+    },
+    "disableAI": {
+        "message": ""
+    },
     "gridMode": {
         "message": "显示图标网格，而不是搜索引擎列表"
     },

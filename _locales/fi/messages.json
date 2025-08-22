@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Hae täsmällinen merkkijono"
     },
+    "disableDoubleClick": {
+        "message": ""
+    },
+    "disableAI": {
+        "message": ""
+    },
     "gridMode": {
         "message": "Näyttää kuvakkeiden ruudukon hakukoneiden luettelon sijaan"
     },

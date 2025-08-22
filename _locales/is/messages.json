@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Leita að nákvæmri samsvörun við textastreng"
     },
+    "disableDoubleClick": {
+        "message": ""
+    },
+    "disableAI": {
+        "message": ""
+    },
     "gridMode": {
         "message": "Birta reiti með táknmyndum í stað lista yfir leitarvélar"
     },

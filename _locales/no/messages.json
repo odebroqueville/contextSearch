@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Søk etter et eksakt strengtreff"
     },
+    "disableDoubleClick": {
+        "message": ""
+    },
+    "disableAI": {
+        "message": ""
+    },
     "gridMode": {
         "message": "Vis et rutenett med ikoner i stedet for en liste over søkemotorer"
     },

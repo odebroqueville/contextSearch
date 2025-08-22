@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Поиск точного совпадения строк"
     },
+    "disableDoubleClick": {
+        "message": ""
+    },
+    "disableAI": {
+        "message": ""
+    },
     "gridMode": {
         "message": "Отображение сетки значков вместо списка поисковых систем"
     },

@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Suche nach einer exakten Zeichenkettenübereinstimmung"
     },
+    "disableDoubleClick": {
+        "message": ""
+    },
+    "disableAI": {
+        "message": ""
+    },
     "gridMode": {
         "message": "Anzeige eines Rasters von Symbolen anstelle einer Liste von Suchmaschinen"
     },

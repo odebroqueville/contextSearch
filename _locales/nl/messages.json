@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Zoeken naar een exacte tekenreeks-overeenkomst"
     },
+    "disableDoubleClick": {
+        "message": ""
+    },
+    "disableAI": {
+        "message": ""
+    },
     "gridMode": {
         "message": "Een raster van pictogrammen weergeven in plaats van een lijst met zoekmachines"
     },

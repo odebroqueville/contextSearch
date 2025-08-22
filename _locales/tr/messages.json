@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Tam bir dize eşleşmesi arayın"
     },
+    "disableDoubleClick": {
+        "message": ""
+    },
+    "disableAI": {
+        "message": ""
+    },
     "gridMode": {
         "message": "Arama motorları listesi yerine simgelerden oluşan bir ızgara görüntüleme"
     },

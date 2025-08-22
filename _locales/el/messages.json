@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Αναζήτηση για ακριβή αντιστοιχία συμβολοσειράς"
     },
+    "disableDoubleClick": {
+        "message": ""
+    },
+    "disableAI": {
+        "message": ""
+    },
     "gridMode": {
         "message": "Εμφάνιση ενός πλέγματος εικονιδίων αντί μιας λίστας μηχανών αναζήτησης"
     },

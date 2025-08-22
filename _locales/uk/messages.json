@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Пошук точного збігу рядка"
     },
+    "disableDoubleClick": {
+        "message": ""
+    },
+    "disableAI": {
+        "message": ""
+    },
     "gridMode": {
         "message": "Відображати сітку іконок замість списку пошукових систем"
     },

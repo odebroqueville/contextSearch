@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Wyszukiwanie dokładnego dopasowania ciągu znaków"
     },
+    "disableDoubleClick": {
+        "message": ""
+    },
+    "disableAI": {
+        "message": ""
+    },
     "gridMode": {
         "message": "Wyświetlanie siatki ikon zamiast listy wyszukiwarek"
     },

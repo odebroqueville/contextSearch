@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Søg efter et nøjagtigt strengmatch"
     },
+    "disableDoubleClick": {
+        "message": ""
+    },
+    "disableAI": {
+        "message": ""
+    },
     "gridMode": {
         "message": "Vis et gitter af ikoner i stedet for en liste over søgemaskiner"
     },

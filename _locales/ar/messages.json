@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "البحث عن سلسلة مطابقة تامة"
     },
+    "disableDoubleClick": {
+        "message": ""
+    },
+    "disableAI": {
+        "message": ""
+    },
     "gridMode": {
         "message": "عرض شبكة من الرموز بدلاً من قائمة محركات البحث"
     },
