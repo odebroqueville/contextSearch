@@ -84,10 +84,10 @@
         "message": "Hae täsmällinen merkkijono"
     },
     "disableDoubleClick": {
-        "message": ""
+        "message": "Poista kaksoisnapsautus käytöstä hakukoneiden lisäämiseksi, jotka käyttävät HTTP POST -pyyntöjä."
     },
     "disableAI": {
-        "message": ""
+        "message": "Poista AI-hakutoiminnot käytöstä"
     },
     "gridMode": {
         "message": "Näyttää kuvakkeiden ruudukon hakukoneiden luettelon sijaan"
@@ -306,7 +306,7 @@
         "message": "ota käyttöön Latausoikeudet hakukoneiden vientiä varten."
     },
     "header11": {
-        "message": "Kuvakkeet Ruutuvaihtoehdot"
+        "message": "Kuvakkeet Ruudukko"
     },
     "quickIconGrid": {
         "message": "Näyttää kuvakkeiden ruudukon heti tekstin valinnan jälkeen."

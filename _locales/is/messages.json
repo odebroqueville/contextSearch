@@ -84,10 +84,10 @@
         "message": "Leita að nákvæmri samsvörun við textastreng"
     },
     "disableDoubleClick": {
-        "message": ""
+        "message": "Slökktu á tvísmelli til að bæta við leitarvélum sem nota HTTP POST beiðnir"
     },
     "disableAI": {
-        "message": ""
+        "message": "Slökktu á gervigreindarleitaraðgerðum"
     },
     "gridMode": {
         "message": "Birta reiti með táknmyndum í stað lista yfir leitarvélar"
@@ -306,7 +306,7 @@
         "message": "virkjaðu niðurhalsheimildir til að flytja út leitarvélarnar þínar."
     },
     "header11": {
-        "message": "Tákn Taflavalkostir"
+        "message": "Tákn rist"
     },
     "quickIconGrid": {
         "message": "Sýndu táknhnitinn strax eftir að texti hefur verið valinn"

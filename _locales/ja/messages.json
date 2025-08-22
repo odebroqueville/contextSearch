@@ -84,10 +84,10 @@
         "message": "完全に一致する文字列を検索する"
     },
     "disableDoubleClick": {
-        "message": ""
+        "message": "HTTP POST リクエストを使用する検索エンジンの追加時にダブルクリックを無効にする"
     },
     "disableAI": {
-        "message": ""
+        "message": "AI検索機能を無効にする"
     },
     "gridMode": {
         "message": "検索エンジンのリストではなく、アイコンのグリッドを表示する。"
@@ -306,7 +306,7 @@
         "message": "検索エンジンをエクスポートするには、ダウンロード権限を有効にします。"
     },
     "header11": {
-        "message": "アイコンのグリッドオプション"
+        "message": "アイコン グリッド"
     },
     "quickIconGrid": {
         "message": "テキスト選択後、アイコンのグリッドを即座に表示する。"

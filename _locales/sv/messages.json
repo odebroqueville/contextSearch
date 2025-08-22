@@ -84,10 +84,10 @@
         "message": "Sök efter en exakt strängmatchning"
     },
     "disableDoubleClick": {
-        "message": ""
+        "message": "Inaktivera dubbelklick för att lägga till sökmotorer som använder HTTP POST-förfrågningar"
     },
     "disableAI": {
-        "message": ""
+        "message": "Inaktivera AI-sökfunktioner"
     },
     "gridMode": {
         "message": "Visa ett rutnät med ikoner i stället för en lista över sökmotorer"
@@ -306,7 +306,7 @@
         "message": "aktivera nedladdningsbehörigheter för att exportera dina sökmotorer."
     },
     "header11": {
-        "message": "Alternativ för ikoner i rutnätet"
+        "message": "Ikonrutnät"
     },
     "quickIconGrid": {
         "message": "Omedelbar visning av ikonerna efter att texten har markerats"

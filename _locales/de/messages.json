@@ -72,7 +72,7 @@
         "message": "Export auf lokale Festplatte"
     },
     "header2": {
-        "message": "Favicons & Icons"
+        "message": "Favicons & Symbole"
     },
     "note": {
         "message": "Diese Funktion erfordert Firefox 56 oder höher."
@@ -84,10 +84,10 @@
         "message": "Suche nach einer exakten Zeichenkettenübereinstimmung"
     },
     "disableDoubleClick": {
-        "message": ""
+        "message": "Deaktivieren Sie den Doppelklick zum Hinzufügen von Suchmaschinen, die HTTP-POST-Anfragen verwenden."
     },
     "disableAI": {
-        "message": ""
+        "message": "KI-Suchfunktionen deaktivieren"
     },
     "gridMode": {
         "message": "Anzeige eines Rasters von Symbolen anstelle einer Liste von Suchmaschinen"
@@ -306,7 +306,7 @@
         "message": "aktivieren Sie die Downloads-Berechtigung, um Ihre Suchmaschinen zu exportieren."
     },
     "header11": {
-        "message": "Icons Rasteroptionen"
+        "message": "Symbole-Raster"
     },
     "quickIconGrid": {
         "message": "Sofortige Anzeige des Symbolrasters, nachdem der Text ausgewählt wurde"

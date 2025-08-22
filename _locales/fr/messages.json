@@ -1,6 +1,6 @@
 {
     "extensionName": {
-        "message": "Context Search",
+        "message": "Recherche contextuelle",
         "description": "Name of the extension"
     },
     "extensionDescription": {
@@ -84,10 +84,10 @@
         "message": "Recherche d'une chaîne de caractères exacte"
     },
     "disableDoubleClick": {
-        "message": ""
+        "message": "Désactiver le double clic pour ajouter des moteurs de recherche qui utilisent des requêtes HTTP POST."
     },
     "disableAI": {
-        "message": ""
+        "message": "Désactiver les fonctionnalités de recherche IA"
     },
     "gridMode": {
         "message": "Afficher une grille d'icônes au lieu d'une liste de moteurs de recherche"
@@ -306,7 +306,7 @@
         "message": "activer les autorisations de téléchargement pour exporter vos moteurs de recherche."
     },
     "header11": {
-        "message": "Options de la grille d'icônes"
+        "message": "Grille d'icônes"
     },
     "quickIconGrid": {
         "message": "Afficher immédiatement la grille d'icônes après la sélection du texte"
