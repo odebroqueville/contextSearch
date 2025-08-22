@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Tam bir dize eşleşmesi arayın"
     },
+    "disableDoubleClick": {
+        "message": "Disable double click for adding search engines that use HTTP POST requests"
+    },
+    "disableAI": {
+        "message": "Disable AI search features"
+    },
     "gridMode": {
         "message": "Arama motorları listesi yerine simgelerden oluşan bir ızgara görüntüleme"
     },
@@ -405,6 +411,6 @@
         "message": "kalan gün(ler)"
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "tr"
     }
 }
