@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Sök efter en exakt strängmatchning"
     },
+    "disableDoubleClick": {
+        "message": "Disable double click for adding search engines that use HTTP POST requests"
+    },
+    "disableAI": {
+        "message": "Disable AI search features"
+    },
     "gridMode": {
         "message": "Visa ett rutnät med ikoner i stället för en lista över sökmotorer"
     },
@@ -405,6 +411,6 @@
         "message": "återstående dag(ar)"
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "sv"
     }
 }
