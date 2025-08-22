@@ -84,10 +84,10 @@
         "message": "Mencari pencocokan string yang tepat"
     },
     "disableDoubleClick": {
-        "message": "Disable double click for adding search engines that use HTTP POST requests"
+        "message": "Nonaktifkan klik ganda untuk menambahkan mesin pencari yang menggunakan permintaan HTTP POST."
     },
     "disableAI": {
-        "message": "Disable AI search features"
+        "message": "Nonaktifkan fitur pencarian AI"
     },
     "gridMode": {
         "message": "Menampilkan kisi-kisi ikon, bukan daftar mesin pencari"
@@ -306,7 +306,7 @@
         "message": "aktifkan Izin unduhan untuk mengekspor mesin pencari Anda."
     },
     "header11": {
-        "message": "Opsi kisi-kisi ikon"
+        "message": "Grid Ikon"
     },
     "quickIconGrid": {
         "message": "Segera tampilkan kisi-kisi ikon setelah teks dipilih"
