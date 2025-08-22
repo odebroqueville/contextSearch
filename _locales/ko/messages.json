@@ -84,10 +84,10 @@
         "message": "정확한 문자열 일치 검색"
     },
     "disableDoubleClick": {
-        "message": "Disable double click for adding search engines that use HTTP POST requests"
+        "message": "HTTP POST 요청을 사용하는 검색 엔진을 추가할 때 이중 클릭을 비활성화합니다."
     },
     "disableAI": {
-        "message": "Disable AI search features"
+        "message": "AI 검색 기능을 비활성화합니다."
     },
     "gridMode": {
         "message": "검색 엔진 목록 대신 아이콘 그리드 표시"
@@ -168,10 +168,10 @@
         "message": "이동"
     },
     "up": {
-        "message": "up"
+        "message": "올라가다"
     },
     "down": {
-        "message": "down"
+        "message": "아래로"
     },
     "remove": {
         "message": "제거"
@@ -306,7 +306,7 @@
         "message": "다운로드 권한을 활성화하여 검색 엔진을 내보낼 수 있습니다."
     },
     "header11": {
-        "message": "아이콘 그리드 옵션"
+        "message": "아이콘 그리드"
     },
     "quickIconGrid": {
         "message": "텍스트를 선택한 후 아이콘 그리드를 즉시 표시합니다."
