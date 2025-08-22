@@ -1,0 +1,416 @@
+{
+    "extensionName": {
+        "message": "Context Search",
+        "description": "Name of the extension"
+    },
+    "extensionDescription": {
+        "message": "Searches the selected text using a search engine or AI prompt from your custom list of search engines and AI prompts managed in the extension's preferences page.",
+        "description": "Description of the extension"
+    },
+    "multisearch": {
+        "message": " is a search with multiple search engines simultaneously.",
+        "description": "multi-search - it's a search with multiple search engines simultaneously."
+    },
+    "multisearchHowTo": {
+        "message": "Check the middle checkbox to include a search engine in a"
+    },
+    "multisearchLaunch": {
+        "message": "You can launch a"
+    },
+    "multisearchEnd": {
+        "message": "from the context menu or from the address bar by typing:"
+    },
+    "multisearchEndOfSentence": {
+        "message": "followed by your search terms."
+    },
+    "pageTitle": {
+        "message": "Context Search Preferences"
+    },
+    "header1": {
+        "message": "Where should search results appear?"
+    },
+    "newTab": {
+        "message": "In a new tab"
+    },
+    "sameTab": {
+        "message": "In the same tab"
+    },
+    "newWindow": {
+        "message": "In a new window"
+    },
+    "active": {
+        "message": "Make the new tab or window active"
+    },
+    "position": {
+        "message": "Display the search results after the last tab"
+    },
+    "header3": {
+        "message": "Position of options in the context menu"
+    },
+    "subheader31": {
+        "message": "Where would you like the options menu to appear in the context menu?"
+    },
+    "bottom": {
+        "message": "At the bottom"
+    },
+    "top": {
+        "message": "At the top"
+    },
+    "hide": {
+        "message": "Neither (hide the options menu)"
+    },
+    "header5": {
+        "message": "Import/export search engines"
+    },
+    "import": {
+        "message": "Import JSON from local disk"
+    },
+    "export": {
+        "message": "Export search engines to JSON"
+    },
+    "download": {
+        "message": "Export to local disk"
+    },
+    "header2": {
+        "message": "Favicons & Icons"
+    },
+    "note": {
+        "message": "This feature requires Firefox 56 or above."
+    },
+    "header4": {
+        "message": "Search options"
+    },
+    "exactMatch": {
+        "message": "Search for an exact string match"
+    },
+    "disableDoubleClick": {
+        "message": "Disable double click for adding search engines that use HTTP POST requests"
+    },
+    "disableAI": {
+        "message": "Disable AI search features"
+    },
+    "gridMode": {
+        "message": "Display a grid of icons instead of a list of search engines"
+    },
+    "warning": {
+        "message": "Warning: Please note that enabling this feature will prevent context menus from other extensions to be displayed."
+    },
+    "savePreferences": {
+        "message": "Save preferences"
+    },
+    "header6": {
+        "message": "Which search engines would you like to appear in the context menu or grid?"
+    },
+    "clearAll": {
+        "message": "Clear All"
+    },
+    "selectAll": {
+        "message": "Select All"
+    },
+    "sortAlphabetically": {
+        "message": "Sort alphabetically"
+    },
+    "showAdvancedFeatures": {
+        "message": "Show advanced features"
+    },
+    "hideAdvancedFeatures": {
+        "message": "Hide advanced features"
+    },
+    "reset": {
+        "message": "Reset"
+    },
+    "subheader61": {
+        "message": "Add a new search engine"
+    },
+    "showSearchEngine": {
+        "message": "Show search engine in grid or context menu"
+    },
+    "searchEngineName": {
+        "message": "Search engine name"
+    },
+    "placeHolderKeyword": {
+        "message": "Keyword"
+    },
+    "warningText": {
+        "message": "Warning"
+    },
+    "keyboardShortcutWarning": {
+        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
+    },
+    "placeHolderKeyboardShortcut": {
+        "message": "Keyboard shortcut"
+    },
+    "multipleSearchEngines": {
+        "message": "Include in multi-search"
+    },
+    "searchEngineURL": {
+        "message": "Search engine URL"
+    },
+    "regex": {
+        "message": "Regular expression"
+    },
+    "testSearchEngine": {
+        "message": "Test search engine"
+    },
+    "addSearchEngine": {
+        "message": "Add search engine"
+    },
+    "addSeparator": {
+        "message": "Add a separator"
+    },
+    "clear": {
+        "message": "Clear"
+    },
+    "disableGrid": {
+        "message": "Disable grid of icons"
+    },
+    "move": {
+        "message": "Move"
+    },
+    "up": {
+        "message": "up"
+    },
+    "down": {
+        "message": "down"
+    },
+    "remove": {
+        "message": "Remove"
+    },
+    "multipleSearchEnginesSearch": {
+        "message": "Include this search engine in a multi-search"
+    },
+    "notifySavedPreferences": {
+        "message": "Saved preferences."
+    },
+    "notifySearchEngineAdded": {
+        "message": "Search engine added."
+    },
+    "titleShowEngine": {
+        "message": "Show this search engine in the context menu or grid"
+    },
+    "notifyEnableStorageSync": {
+        "message": "Please ensure that the flag 'webextensions.storage.sync.enabled' is set to 'true' in 'about:config', otherwise Context Search won't work."
+    },
+    "notifySearchEnginesLoaded": {
+        "message": "Default list of search engines has been loaded."
+    },
+    "notifySearchEngineNotFound": {
+        "message": "A search engine couldn't be found on the current web page"
+    },
+    "titleMultipleSearchEngines": {
+        "message": "Multiple search engines search"
+    },
+    "titleAISearch": {
+        "message": "AI Search"
+    },
+    "titleSiteSearch": {
+        "message": "Search this site with"
+    },
+    "titleOptions": {
+        "message": "Options"
+    },
+    "windowTitle": {
+        "message": "Search results for"
+    },
+    "omniboxDescription": {
+        "message": "Search using Context Search with keywords. Usage: cs [keyword] [search terms] (e.g. 'cs w Linux' searches Wikipedia for the term 'Linux')"
+    },
+    "notifyUsage": {
+        "message": "Usage: cs [keyword] [search terms] (for example: cs w Linux)"
+    },
+    "notifySearchEngineWithKeyword": {
+        "message": "Search engine with keyword"
+    },
+    "notifyUnknown": {
+        "message": "is unknown."
+    },
+    "notifySearchEngineUrlRequired": {
+        "message": "Please fill in a valid search engine URL."
+    },
+    "header7": {
+        "message": "Reset options"
+    },
+    "sidebar": {
+        "message": "In the sidebar"
+    },
+    "displayFavicons": {
+        "message": "Display favicons in the context menu"
+    },
+    "disableAltClick": {
+        "message": "Disable icon grid (Alt + Click)"
+    },
+    "resetPreferences": {
+        "message": "Reset preferences to default settings"
+    },
+    "forceSearchEnginesReload": {
+        "message": "Force reload of default search engines list"
+    },
+    "forceFaviconsReload": {
+        "message": "Force favicons to be reloaded"
+    },
+    "restriction": {
+        "message": "If the sidebar isn't already open, then you may have to click on the 'Show sidebars' icon from the browser toolbar."
+    },
+    "reverseImage": {
+        "message": "Also, reverse image search results cannot be displayed in the sidebar."
+    },
+    "siteSearch": {
+        "message": "Search engine for searching current site:"
+    },
+    "header9": {
+        "message": "Advanced features"
+    },
+    "useRegex": {
+        "message": "Use regular expressions to build the context menu"
+    },
+    "regexNote": {
+        "message": "This feature doesn't apply to the grid of icons."
+    },
+    "subheader62": {
+        "message": "Add a new folder"
+    },
+    "folderName": {
+        "message": "Folder name"
+    },
+    "folder": {
+        "message": "folder"
+    },
+    "addFolder": {
+        "message": "Add folder"
+    },
+    "keyboardShortcut": {
+        "message": "Keyboard shortcut"
+    },
+    "header10": {
+        "message": "Multisearch options"
+    },
+    "multisearchIntro": {
+        "message": "Open multiple search results/tabs"
+    },
+    "multiNewWindow": {
+        "message": "In a new window"
+    },
+    "multiAfterLastTab": {
+        "message": "After the last tab in the current window"
+    },
+    "multiActiveTab": {
+        "message": "Right after the active tab in the current window"
+    },
+    "privacy": {
+        "message": "Make new window private"
+    },
+    "reminder": {
+        "message": "Reminder"
+    },
+    "enableDownloadsReminder": {
+        "message": "enable Downloads permissions to export your search engines."
+    },
+    "header11": {
+        "message": "Icons Grid options"
+    },
+    "quickIconGrid": {
+        "message": "Immediately display the icons grid after text has been selected"
+    },
+    "closeGridOnMouseOut": {
+        "message": "Close the icons grid on mouse out"
+    },
+    "xOffset": {
+        "message": "Horizontal offset of the icons grid: "
+    },
+    "yOffset": {
+        "message": "Vertical offset of the icons grid: "
+    },
+    "clearKeyboardShortcuts": {
+        "message": "Clear all keyboard shortcuts"
+    },
+    "subheader63": {
+        "message": "Add a new AI prompt"
+    },
+    "subheader64": {
+        "message": "Add a separator"
+    },
+    "testChatGPT": {
+        "message": "Test AI Prompt"
+    },
+    "addChatGPTPrompt": {
+        "message": "Add AI Prompt"
+    },
+    "promptShow": {
+        "message": "Show prompt in grid or context menu"
+    },
+    "promptName": {
+        "message": "Prompt name"
+    },
+    "prompt": {
+        "message": "Prompt"
+    },
+    "overwriteSearchEngines": {
+        "message": "Overwrite the existing search engines with the imported search engines"
+    },
+    "removeFolderConfirmPrefix": {
+        "message": "Are you sure that you want to remove the folder"
+    },
+    "removeFolderConfirmSuffix": {
+        "message": "and all of its contents"
+    },
+    "removeSearchEngineConfirm": {
+        "message": "Are you sure you want to remove the search engine"
+    },
+    "popupBlockedMessage": {
+        "message": "Popup blocked! Please allow popups for this site."
+    },
+    "subscriptionOptions": {
+        "message": "Context Search Subscription Options"
+    },
+    "startNewTrial": {
+        "message": "Start a new 7 days trial"
+    },
+    "startSubscription": {
+        "message": "Start a new monthly, yearly or lifetime subscription"
+    },
+    "subscriptionStatus": {
+        "message": "Subscription status"
+    },
+    "notifyMissingSearchEngine": {
+        "message": "No search engines have been selected for a multi-search"
+    },
+    "notifyMissingBookmarkUrl": {
+        "message": "Could not retrieve URL for bookmark removal"
+    },
+    "notifyAIMinimalRequirements": {
+        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+    },
+    "bookmarkPage": {
+        "message": "Bookmark This Page"
+    },
+    "unbookmarkPage": {
+        "message": "Unbookmark This Page"
+    },
+    "pay": {
+        "message": "Pay"
+    },
+    "startTrial": {
+        "message": "Start trial"
+    },
+    "trialActive": {
+        "message": "Trial active: "
+    },
+    "trialExpired": {
+        "message": "Trial expired"
+    },
+    "subscriptionActive": {
+        "message": "Subscription: Active"
+    },
+    "subscriptionInactive": {
+        "message": "Subscription: Inactive"
+    },
+    "noTrialStarted": {
+        "message": "No trial started"
+    },
+    "daysRemaining": {
+        "message": "day(s) remaining"
+    },
+    "__WET_LOCALE__": {
+        "message": "en"
+    }
+}
