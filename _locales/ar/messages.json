@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "البحث عن سلسلة مطابقة تامة"
     },
+    "disableDoubleClick": {
+        "message": "Disable double click for adding search engines that use HTTP POST requests"
+    },
+    "disableAI": {
+        "message": "Disable AI search features"
+    },
     "gridMode": {
         "message": "عرض شبكة من الرموز بدلاً من قائمة محركات البحث"
     },
@@ -405,6 +411,6 @@
         "message": "اليوم (الأيام) المتبقية"
     },
     "__WET_LOCALE__": {
-        "message": "إن"
+        "message": "ar"
     }
 }
