@@ -1,6 +1,6 @@
 {
     "extensionName": {
-        "message": "Context Search",
+        "message": "內容搜尋",
         "description": "Name of the extension"
     },
     "extensionDescription": {
@@ -82,6 +82,12 @@
     },
     "exactMatch": {
         "message": "搜尋完全符合的字串"
+    },
+    "disableDoubleClick": {
+        "message": "停用添加使用 HTTP POST 請求的搜尋引擎的雙擊功能"
+    },
+    "disableAI": {
+        "message": "停用 AI 搜尋功能"
     },
     "gridMode": {
         "message": "顯示圖示方格而非搜尋引擎清單"
@@ -300,7 +306,7 @@
         "message": "啟用下載權限以匯出您的搜尋引擎。"
     },
     "header11": {
-        "message": "圖示網格選項"
+        "message": "圖示網格"
     },
     "quickIconGrid": {
         "message": "選取文字後立即顯示圖示方格"
@@ -405,6 +411,6 @@
         "message": "剩餘天數"
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "zh_tw"
     }
 }
