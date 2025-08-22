@@ -84,10 +84,10 @@
         "message": "Tam bir dize eşleşmesi arayın"
     },
     "disableDoubleClick": {
-        "message": "Disable double click for adding search engines that use HTTP POST requests"
+        "message": "HTTP POST isteklerini kullanan arama motorlarını eklemek için çift tıklamayı devre dışı bırakın"
     },
     "disableAI": {
-        "message": "Disable AI search features"
+        "message": "AI arama özelliklerini devre dışı bırak"
     },
     "gridMode": {
         "message": "Arama motorları listesi yerine simgelerden oluşan bir ızgara görüntüleme"
@@ -306,7 +306,7 @@
         "message": "Arama motorlarınızı dışa aktarmak için İndirilenler izinlerini etkinleştirin."
     },
     "header11": {
-        "message": "Simgeler Izgara seçenekleri"
+        "message": "Simgeler Izgarası"
     },
     "quickIconGrid": {
         "message": "Metin seçildikten sonra simgeler kılavuzunu hemen görüntüleyin"
