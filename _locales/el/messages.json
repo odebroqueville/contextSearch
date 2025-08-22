@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Αναζήτηση για ακριβή αντιστοιχία συμβολοσειράς"
     },
+    "disableDoubleClick": {
+        "message": "Disable double click for adding search engines that use HTTP POST requests"
+    },
+    "disableAI": {
+        "message": "Disable AI search features"
+    },
     "gridMode": {
         "message": "Εμφάνιση ενός πλέγματος εικονιδίων αντί μιας λίστας μηχανών αναζήτησης"
     },
@@ -162,7 +168,7 @@
         "message": "Μετακίνηση"
     },
     "up": {
-        "message": "up"
+        "message": "πάνω"
     },
     "down": {
         "message": "κάτω"
@@ -405,6 +411,6 @@
         "message": "ημέρα(ες) που απομένουν"
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "el"
     }
 }
