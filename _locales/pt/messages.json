@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Procurar uma correspondência de cadeia exacta"
     },
+    "disableDoubleClick": {
+        "message": "Disable double click for adding search engines that use HTTP POST requests"
+    },
+    "disableAI": {
+        "message": "Disable AI search features"
+    },
     "gridMode": {
         "message": "Apresentar uma grelha de ícones em vez de uma lista de motores de busca"
     },
@@ -405,6 +411,6 @@
         "message": "dia(s) restante(s)"
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "pt"
     }
 }
