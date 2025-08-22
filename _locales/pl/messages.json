@@ -72,7 +72,7 @@
         "message": "Eksport na dysk lokalny"
     },
     "header2": {
-        "message": "Favicons & Icons"
+        "message": "Favicony i ikony"
     },
     "note": {
         "message": "Ta funkcja wymaga przeglądarki Firefox 56 lub nowszej."
@@ -84,10 +84,10 @@
         "message": "Wyszukiwanie dokładnego dopasowania ciągu znaków"
     },
     "disableDoubleClick": {
-        "message": "Disable double click for adding search engines that use HTTP POST requests"
+        "message": "Wyłącz podwójne kliknięcie w celu dodania wyszukiwarek korzystających z żądań HTTP POST."
     },
     "disableAI": {
-        "message": "Disable AI search features"
+        "message": "Wyłącz funkcje wyszukiwania AI"
     },
     "gridMode": {
         "message": "Wyświetlanie siatki ikon zamiast listy wyszukiwarek"
@@ -117,7 +117,7 @@
         "message": "Ukryj zaawansowane funkcje"
     },
     "reset": {
-        "message": "Reset"
+        "message": "Zresetuj"
     },
     "subheader61": {
         "message": "Dodaj nową wyszukiwarkę"
@@ -306,7 +306,7 @@
         "message": "Włącz uprawnienia pobierania, aby eksportować wyszukiwarki."
     },
     "header11": {
-        "message": "Opcje siatki ikon"
+        "message": "Siatka ikon"
     },
     "quickIconGrid": {
         "message": "Natychmiastowe wyświetlenie siatki ikon po wybraniu tekstu"
