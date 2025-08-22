@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "Mencari pencocokan string yang tepat"
     },
+    "disableDoubleClick": {
+        "message": "Disable double click for adding search engines that use HTTP POST requests"
+    },
+    "disableAI": {
+        "message": "Disable AI search features"
+    },
     "gridMode": {
         "message": "Menampilkan kisi-kisi ikon, bukan daftar mesin pencari"
     },
@@ -162,7 +168,7 @@
         "message": "Pindah"
     },
     "up": {
-        "message": "up"
+        "message": "ke atas"
     },
     "down": {
         "message": "turun"
@@ -267,7 +273,7 @@
         "message": "Nama folder"
     },
     "folder": {
-        "message": "folder"
+        "message": "map"
     },
     "addFolder": {
         "message": "Tambahkan folder"
@@ -405,6 +411,6 @@
         "message": "hari yang tersisa"
     },
     "__WET_LOCALE__": {
-        "message": "en"
+        "message": "id"
     }
 }
