@@ -84,10 +84,10 @@
         "message": "Ricerca di una corrispondenza esatta di stringhe"
     },
     "disableDoubleClick": {
-        "message": "Disable double click for adding search engines that use HTTP POST requests"
+        "message": "Disattiva il doppio clic per aggiungere motori di ricerca che utilizzano richieste HTTP POST."
     },
     "disableAI": {
-        "message": "Disable AI search features"
+        "message": "Disattiva le funzioni di ricerca AI"
     },
     "gridMode": {
         "message": "Visualizzazione di una griglia di icone invece di un elenco di motori di ricerca"
@@ -117,7 +117,7 @@
         "message": "Nascondere le funzioni avanzate"
     },
     "reset": {
-        "message": "Reset"
+        "message": "Reimposta"
     },
     "subheader61": {
         "message": "Aggiungere un nuovo motore di ricerca"
@@ -306,7 +306,7 @@
         "message": "abilitare i permessi di download per esportare i motori di ricerca."
     },
     "header11": {
-        "message": "Opzioni della griglia delle icone"
+        "message": "Griglia icone"
     },
     "quickIconGrid": {
         "message": "Visualizzare immediatamente la griglia delle icone dopo la selezione del testo."
