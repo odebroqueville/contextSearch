@@ -83,6 +83,12 @@
     "exactMatch": {
         "message": "完全に一致する文字列を検索する"
     },
+    "disableDoubleClick": {
+        "message": "Disable double click for adding search engines that use HTTP POST requests"
+    },
+    "disableAI": {
+        "message": "Disable AI search features"
+    },
     "gridMode": {
         "message": "検索エンジンのリストではなく、アイコンのグリッドを表示する。"
     },
@@ -405,6 +411,6 @@
         "message": "残り日数"
     },
     "__WET_LOCALE__": {
-        "message": "エン"
+        "message": "ja"
     }
 }
