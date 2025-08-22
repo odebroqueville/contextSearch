@@ -84,10 +84,10 @@
         "message": "Procurar uma correspondência de cadeia exacta"
     },
     "disableDoubleClick": {
-        "message": "Disable double click for adding search engines that use HTTP POST requests"
+        "message": "Desativar clique duplo para adicionar motores de pesquisa que utilizam pedidos HTTP POST"
     },
     "disableAI": {
-        "message": "Disable AI search features"
+        "message": "Desativar funcionalidades de pesquisa AI"
     },
     "gridMode": {
         "message": "Apresentar uma grelha de ícones em vez de uma lista de motores de busca"
@@ -306,7 +306,7 @@
         "message": "ativar as permissões de transferências para exportar os seus motores de busca."
     },
     "header11": {
-        "message": "Opções de grelha de ícones"
+        "message": "Grelha de ícones"
     },
     "quickIconGrid": {
         "message": "Apresentar imediatamente a grelha de ícones depois de o texto ter sido selecionado"
