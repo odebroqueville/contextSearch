@@ -1,6 +1,6 @@
 {
     "extensionName": {
-        "message": "Context Search",
+        "message": "Пошук за контекстом",
         "description": "Name of the extension"
     },
     "extensionDescription": {
@@ -84,10 +84,10 @@
         "message": "Пошук точного збігу рядка"
     },
     "disableDoubleClick": {
-        "message": "Disable double click for adding search engines that use HTTP POST requests"
+        "message": "Вимкнути подвійне клацання для додавання пошукових систем, які використовують запити HTTP POST"
     },
     "disableAI": {
-        "message": "Disable AI search features"
+        "message": "Вимкнути функції пошуку за допомогою штучного інтелекту"
     },
     "gridMode": {
         "message": "Відображати сітку іконок замість списку пошукових систем"
@@ -306,7 +306,7 @@
         "message": "увімкніть Дозволи на завантаження для експорту ваших пошукових систем."
     },
     "header11": {
-        "message": "Іконки Параметри сітки"
+        "message": "Сітка піктограм"
     },
     "quickIconGrid": {
         "message": "Негайне відображення сітки піктограм після виділення тексту"
