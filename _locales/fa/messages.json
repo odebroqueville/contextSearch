@@ -1,6 +1,6 @@
 {
     "extensionName": {
-        "message": "Context Search",
+        "message": "جستجوی زمینه",
         "description": "Name of the extension"
     },
     "extensionDescription": {
@@ -84,10 +84,10 @@
         "message": "جستجوی یک تطابق دقیق رشته"
     },
     "disableDoubleClick": {
-        "message": "Disable double click for adding search engines that use HTTP POST requests"
+        "message": "غیرفعال کردن دوبار کلیک برای افزودن موتورهای جستجو که از درخواست های HTTP POST استفاده می کنند"
     },
     "disableAI": {
-        "message": "Disable AI search features"
+        "message": "ویژگی های جستجوی هوش مصنوعی را غیرفعال کنید"
     },
     "gridMode": {
         "message": "نمایش شبکه ای از نمادها به جای لیستی از موتورهای جستجو"
@@ -306,7 +306,7 @@
         "message": "مجوزهای دانلودها را برای صادرات موتورهای جستجوی خود فعال کنید."
     },
     "header11": {
-        "message": "گزینه های Icons Grid"
+        "message": "شبکه آیکون ها"
     },
     "quickIconGrid": {
         "message": "بلافاصله پس از انتخاب متن، شبکه آیکون ها را نمایش دهید"
