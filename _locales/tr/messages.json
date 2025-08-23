@@ -72,13 +72,13 @@
         "message": "Yerel diske aktarma"
     },
     "header2": {
-        "message": "Faviconlar ve Simgeler"
+        "message": "Favicons & Icons"
     },
     "note": {
         "message": "Bu özellik için Firefox 56 veya üstü gerekir."
     },
     "header4": {
-        "message": "Arama seçenekleri"
+        "message": "Search options"
     },
     "exactMatch": {
         "message": "Tam bir dize eşleşmesi arayın"
@@ -228,13 +228,13 @@
         "message": "Lütfen geçerli bir arama motoru URL'si girin."
     },
     "header7": {
-        "message": "Seçenekleri sıfırla"
+        "message": "Reset options"
     },
     "sidebar": {
         "message": "Kenar çubuğunda"
     },
     "displayFavicons": {
-        "message": "İçerik menüsünde favicon'ları görüntüleme"
+        "message": "Display favicons in the context menu"
     },
     "disableAltClick": {
         "message": "Simge ızgarasını devre dışı bırakma (Alt + Tıklama)"
@@ -246,7 +246,7 @@
         "message": "Varsayılan arama motorları listesini yeniden yüklemeye zorla"
     },
     "forceFaviconsReload": {
-        "message": "Favicon'ları yeniden yüklenmeye zorlama"
+        "message": "Force favicons to be reloaded"
     },
     "restriction": {
         "message": "Kenar çubuğu zaten açık değilse, tarayıcı araç çubuğundan 'Kenar çubuklarını göster' simgesine tıklamanız gerekebilir."
@@ -282,7 +282,7 @@
         "message": "Klavye kısayolu"
     },
     "header10": {
-        "message": "Çoklu arama seçenekleri"
+        "message": "Multisearch options"
     },
     "multisearchIntro": {
         "message": "Birden fazla arama sonucu/sekmesi açma"
