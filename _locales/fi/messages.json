@@ -72,13 +72,13 @@
         "message": "Vie paikalliselle levylle"
     },
     "header2": {
-        "message": "Suosikit & kuvakkeet"
+        "message": "Favicons & Icons"
     },
     "note": {
         "message": "Tämä ominaisuus vaatii Firefox 56:n tai uudemman version."
     },
     "header4": {
-        "message": "Hakuvaihtoehdot"
+        "message": "Search options"
     },
     "exactMatch": {
         "message": "Hae täsmällinen merkkijono"
@@ -228,13 +228,13 @@
         "message": "Täytä kelvollinen hakukoneen URL-osoite."
     },
     "header7": {
-        "message": "Nollaa vaihtoehdot"
+        "message": "Reset options"
     },
     "sidebar": {
         "message": "Sivupalkissa"
     },
     "displayFavicons": {
-        "message": "Näytä suosikkikuvakkeet kontekstivalikossa"
+        "message": "Display favicons in the context menu"
     },
     "disableAltClick": {
         "message": "Poista kuvakeverkko käytöstä (Alt + klikkaus)"
@@ -246,7 +246,7 @@
         "message": "Pakota oletushakukoneiden luettelon uudelleenlataus"
     },
     "forceFaviconsReload": {
-        "message": "Pakota suosikkikuvakkeet latautumaan uudelleen"
+        "message": "Force favicons to be reloaded"
     },
     "restriction": {
         "message": "Jos sivupalkki ei ole vielä auki, sinun on ehkä napsautettava selaimen työkalurivin Näytä sivupalkit -kuvaketta."
@@ -282,7 +282,7 @@
         "message": "Näppäimistön pikavalinta"
     },
     "header10": {
-        "message": "Monihakuvaihtoehdot"
+        "message": "Multisearch options"
     },
     "multisearchIntro": {
         "message": "Avaa useita hakutuloksia/välilehtiä"
