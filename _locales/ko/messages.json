@@ -72,13 +72,13 @@
         "message": "로컬 디스크로 내보내기"
     },
     "header2": {
-        "message": "파비콘 및 아이콘"
+        "message": "Favicons & Icons"
     },
     "note": {
         "message": "이 기능을 사용하려면 Firefox 56 이상이 필요합니다."
     },
     "header4": {
-        "message": "검색 옵션"
+        "message": "Search options"
     },
     "exactMatch": {
         "message": "정확한 문자열 일치 검색"
@@ -228,13 +228,13 @@
         "message": "유효한 검색 엔진 URL을 입력하세요."
     },
     "header7": {
-        "message": "재설정 옵션"
+        "message": "Reset options"
     },
     "sidebar": {
         "message": "사이드바에서"
     },
     "displayFavicons": {
-        "message": "컨텍스트 메뉴에 파비콘 표시"
+        "message": "Display favicons in the context menu"
     },
     "disableAltClick": {
         "message": "아이콘 그리드 비활성화(Alt + 클릭)"
@@ -246,7 +246,7 @@
         "message": "기본 검색 엔진 목록 강제 새로 고침"
     },
     "forceFaviconsReload": {
-        "message": "페이비콘 강제로 다시 로드하기"
+        "message": "Force favicons to be reloaded"
     },
     "restriction": {
         "message": "사이드바가 아직 열려 있지 않은 경우 브라우저 도구 모음에서 '사이드바 표시' 아이콘을 클릭해야 할 수 있습니다."
@@ -282,7 +282,7 @@
         "message": "키보드 단축키"
     },
     "header10": {
-        "message": "다중 검색 옵션"
+        "message": "Multisearch options"
     },
     "multisearchIntro": {
         "message": "여러 검색 결과/탭 열기"
