@@ -1,6 +1,6 @@
 {
     "extensionName": {
-        "message": "Context Search",
+        "message": "Համատեքստային որոնում",
         "description": "Name of the extension"
     },
     "extensionDescription": {
@@ -72,13 +72,13 @@
         "message": "Արտահանել տեղային սկավառակ"
     },
     "header2": {
-        "message": "Ֆավիկոններ և պատկերակներ"
+        "message": "Favicons & Icons"
     },
     "note": {
         "message": "Այս առանձնահատկությունը պահանջում է Firefox 56 կամ ավելի բարձր:"
     },
     "header4": {
-        "message": "Որոնման ընտրանքներ"
+        "message": "Search options"
     },
     "exactMatch": {
         "message": "Որոնել ճշգրիտ տողային համընկնում"
@@ -228,13 +228,13 @@
         "message": "Լրացրեք վավեր որոնման համակարգի URL:"
     },
     "header7": {
-        "message": "Վերականգնել ընտրանքները"
+        "message": "Reset options"
     },
     "sidebar": {
         "message": "Կողագոտիում"
     },
     "displayFavicons": {
-        "message": "Ցուցադրել ֆավիկոնները համատեքստային մենյուում"
+        "message": "Display favicons in the context menu"
     },
     "disableAltClick": {
         "message": "Անջատել պատկերակների ցանցը (Alt + Click)"
@@ -246,7 +246,7 @@
         "message": "Պարտադիր լռելյայն որոնման համակարգերի ցանկի վերբեռնում"
     },
     "forceFaviconsReload": {
-        "message": "Ստիպեք ֆավիկոնները վերալիցքավորվել"
+        "message": "Force favicons to be reloaded"
     },
     "restriction": {
         "message": "Եթե կողագոտին արդեն բաց չէ, ապա պետք է սեղմեք բրաուզերի գործիքագոտիի «Ցուցադրել կողագոտիները» պատկերակը:"
@@ -282,7 +282,7 @@
         "message": "Ստեղնաշարի կարճատ"
     },
     "header10": {
-        "message": "Multisearch ընտրանքներ"
+        "message": "Multisearch options"
     },
     "multisearchIntro": {
         "message": "Բացել բազմաթիվ որոնման արդյունքներ / ներդիրներ"
