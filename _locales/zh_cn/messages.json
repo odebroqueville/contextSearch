@@ -72,13 +72,13 @@
         "message": "导出到本地磁盘"
     },
     "header2": {
-        "message": "收藏夹和图标"
+        "message": "Favicons & Icons"
     },
     "note": {
         "message": "此功能需要 Firefox 56 或以上版本。"
     },
     "header4": {
-        "message": "搜索选项"
+        "message": "Search options"
     },
     "exactMatch": {
         "message": "搜索完全匹配的字符串"
@@ -228,13 +228,13 @@
         "message": "请填写有效的搜索引擎 URL。"
     },
     "header7": {
-        "message": "重置选项"
+        "message": "Reset options"
     },
     "sidebar": {
         "message": "侧边栏"
     },
     "displayFavicons": {
-        "message": "在右键菜单中显示收藏夹"
+        "message": "Display favicons in the context menu"
     },
     "disableAltClick": {
         "message": "禁用图标网格（Alt + 点击）"
@@ -246,7 +246,7 @@
         "message": "强制重新加载默认搜索引擎列表"
     },
     "forceFaviconsReload": {
-        "message": "强制重新加载收藏夹"
+        "message": "Force favicons to be reloaded"
     },
     "restriction": {
         "message": "如果侧边栏还没有打开，则可能需要点击浏览器工具栏上的 \"显示侧边栏 \"图标。"
@@ -282,7 +282,7 @@
         "message": "键盘快捷键"
     },
     "header10": {
-        "message": "多重搜索选项"
+        "message": "Multisearch options"
     },
     "multisearchIntro": {
         "message": "打开多个搜索结果/标签"
