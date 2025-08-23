@@ -72,13 +72,13 @@
         "message": "Exporteren naar lokale schijf"
     },
     "header2": {
-        "message": "Favicons en pictogrammen"
+        "message": "Favicons & Icons"
     },
     "note": {
         "message": "Deze functie vereist Firefox 56 of hoger."
     },
     "header4": {
-        "message": "Zoekopties"
+        "message": "Search options"
     },
     "exactMatch": {
         "message": "Zoeken naar een exacte tekenreeks-overeenkomst"
@@ -228,13 +228,13 @@
         "message": "Vul een geldige URL van een zoekmachine in."
     },
     "header7": {
-        "message": "Opties opnieuw instellen"
+        "message": "Reset options"
     },
     "sidebar": {
         "message": "In de zijbalk"
     },
     "displayFavicons": {
-        "message": "Geef favicons weer in het contextmenu"
+        "message": "Display favicons in the context menu"
     },
     "disableAltClick": {
         "message": "Pictogrammenraster uitschakelen (Alt + Klik)"
@@ -246,7 +246,7 @@
         "message": "Forceer herladen van standaard zoekmachinelijst"
     },
     "forceFaviconsReload": {
-        "message": "Forceer dat favicons worden herladen"
+        "message": "Force favicons to be reloaded"
     },
     "restriction": {
         "message": "Als de zijbalk nog niet geopend is, moet je misschien op het pictogram 'Toon zijbalken' klikken in de werkbalk van de browser."
@@ -282,7 +282,7 @@
         "message": "Sneltoets"
     },
     "header10": {
-        "message": "Opties voor meerdere zoekopdrachten"
+        "message": "Multisearch options"
     },
     "multisearchIntro": {
         "message": "Meerdere zoekresultaten/tabbladen openen"
