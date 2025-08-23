@@ -72,13 +72,13 @@
         "message": "تصدير إلى القرص المحلي"
     },
     "header2": {
-        "message": "الأيقونات والرموز المفضلة"
+        "message": "Favicons & Icons"
     },
     "note": {
         "message": "تتطلب هذه الميزة فايرفوكس 56 أو أعلى."
     },
     "header4": {
-        "message": "خيارات البحث"
+        "message": "Search options"
     },
     "exactMatch": {
         "message": "البحث عن سلسلة مطابقة تامة"
@@ -228,13 +228,13 @@
         "message": "يُرجى ملء عنوان URL صالح لمحرك البحث."
     },
     "header7": {
-        "message": "خيارات إعادة التعيين"
+        "message": "Reset options"
     },
     "sidebar": {
         "message": "في الشريط الجانبي"
     },
     "displayFavicons": {
-        "message": "عرض المفضلة في قائمة السياق"
+        "message": "Display favicons in the context menu"
     },
     "disableAltClick": {
         "message": "تعطيل شبكة الأيقونات (Alt + النقر)"
@@ -246,7 +246,7 @@
         "message": "فرض إعادة تحميل قائمة محركات البحث الافتراضية"
     },
     "forceFaviconsReload": {
-        "message": "فرض إعادة تحميل الأيقونات المفضلة"
+        "message": "Force favicons to be reloaded"
     },
     "restriction": {
         "message": "إذا لم يكن الشريط الجانبي مفتوحًا بالفعل، فقد يتعين عليك النقر على أيقونة \"إظهار الأشرطة الجانبية\" من شريط أدوات المتصفح."
@@ -282,7 +282,7 @@
         "message": "اختصار لوحة المفاتيح"
     },
     "header10": {
-        "message": "خيارات البحث المتعدد"
+        "message": "Multisearch options"
     },
     "multisearchIntro": {
         "message": "فتح نتائج/علامات تبويب بحث متعددة"
