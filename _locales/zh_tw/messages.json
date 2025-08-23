@@ -72,13 +72,13 @@
         "message": "匯出至本機磁碟"
     },
     "header2": {
-        "message": "首頁圖示與圖示"
+        "message": "Favicons & Icons"
     },
     "note": {
         "message": "此功能需要 Firefox 56 或以上版本。"
     },
     "header4": {
-        "message": "搜尋選項"
+        "message": "Search options"
     },
     "exactMatch": {
         "message": "搜尋完全符合的字串"
@@ -228,13 +228,13 @@
         "message": "請填入有效的搜尋引擎 URL。"
     },
     "header7": {
-        "message": "重設選項"
+        "message": "Reset options"
     },
     "sidebar": {
         "message": "在側邊欄中"
     },
     "displayFavicons": {
-        "message": "在上下文功能表中顯示收藏夾"
+        "message": "Display favicons in the context menu"
     },
     "disableAltClick": {
         "message": "停用圖示方格 (Alt + 按一下)"
@@ -246,7 +246,7 @@
         "message": "強制重新載入預設搜尋引擎清單"
     },
     "forceFaviconsReload": {
-        "message": "強制重新載入收藏夾"
+        "message": "Force favicons to be reloaded"
     },
     "restriction": {
         "message": "如果側邊欄尚未開啟，那麼您可能需要點選瀏覽器工具列上的「顯示側邊欄」圖示。"
@@ -282,7 +282,7 @@
         "message": "鍵盤捷徑"
     },
     "header10": {
-        "message": "多重搜尋選項"
+        "message": "Multisearch options"
     },
     "multisearchIntro": {
         "message": "開啟多個搜尋結果/標籤"
