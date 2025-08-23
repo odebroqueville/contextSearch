@@ -72,13 +72,13 @@
         "message": "Експорт на локальний диск"
     },
     "header2": {
-        "message": "Значки та іконки"
+        "message": "Favicons & Icons"
     },
     "note": {
         "message": "Для використання цієї функції потрібен Firefox 56 або новішої версії."
     },
     "header4": {
-        "message": "Параметри пошуку"
+        "message": "Search options"
     },
     "exactMatch": {
         "message": "Пошук точного збігу рядка"
@@ -228,13 +228,13 @@
         "message": "Будь ласка, введіть дійсну URL-адресу пошукової системи."
     },
     "header7": {
-        "message": "Параметри скидання"
+        "message": "Reset options"
     },
     "sidebar": {
         "message": "На бічній панелі"
     },
     "displayFavicons": {
-        "message": "Відображати піктограми в контекстному меню"
+        "message": "Display favicons in the context menu"
     },
     "disableAltClick": {
         "message": "Вимкнути сітку піктограм (Alt + клік)"
@@ -246,7 +246,7 @@
         "message": "Примусове перезавантаження списку пошукових систем за замовчуванням"
     },
     "forceFaviconsReload": {
-        "message": "Примусове перезавантаження іконок"
+        "message": "Force favicons to be reloaded"
     },
     "restriction": {
         "message": "Якщо бічна панель ще не відкрита, можливо, вам доведеться натиснути на іконку \"Показати бічні панелі\" на панелі інструментів браузера."
@@ -282,7 +282,7 @@
         "message": "Комбінація клавіш"
     },
     "header10": {
-        "message": "Параметри багаторазового пошуку"
+        "message": "Multisearch options"
     },
     "multisearchIntro": {
         "message": "Відкрити кілька результатів пошуку/вкладок"
