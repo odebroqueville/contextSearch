@@ -72,13 +72,13 @@
         "message": "Exportar para o disco local"
     },
     "header2": {
-        "message": "Favicons & Icons"
+        "message": "Ícones"
     },
     "note": {
         "message": "Esta funcionalidade requer o Firefox 56 ou superior."
     },
     "header4": {
-        "message": "Search options"
+        "message": "Pesquisar"
     },
     "exactMatch": {
         "message": "Procurar uma correspondência de cadeia exacta"
@@ -228,13 +228,13 @@
         "message": "Preencha um URL de motor de busca válido."
     },
     "header7": {
-        "message": "Reset options"
+        "message": "Reiniciar"
     },
     "sidebar": {
         "message": "Na barra lateral"
     },
     "displayFavicons": {
-        "message": "Display favicons in the context menu"
+        "message": "Exibir ícones no menu de contexto"
     },
     "disableAltClick": {
         "message": "Desativar a grelha de ícones (Alt + Clique)"
@@ -246,7 +246,7 @@
         "message": "Forçar o recarregamento da lista de motores de busca predefinidos"
     },
     "forceFaviconsReload": {
-        "message": "Force favicons to be reloaded"
+        "message": "Forçar a recarga dos ícones"
     },
     "restriction": {
         "message": "Se a barra lateral ainda não estiver aberta, poderá ter de clicar no ícone \"Mostrar barras laterais\" na barra de ferramentas do browser."
@@ -282,7 +282,7 @@
         "message": "Atalho de teclado"
     },
     "header10": {
-        "message": "Multisearch options"
+        "message": "Pesquisa múltipla"
     },
     "multisearchIntro": {
         "message": "Abrir vários resultados/guias de pesquisa"
