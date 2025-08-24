@@ -72,13 +72,13 @@
         "message": "Export auf lokale Festplatte"
     },
     "header2": {
-        "message": "Favicons & Icons"
+        "message": "Symbole"
     },
     "note": {
         "message": "Diese Funktion erfordert Firefox 56 oder höher."
     },
     "header4": {
-        "message": "Search options"
+        "message": "Suchen"
     },
     "exactMatch": {
         "message": "Suche nach einer exakten Zeichenkettenübereinstimmung"
@@ -228,13 +228,13 @@
         "message": "Bitte geben Sie eine gültige URL für die Suchmaschine ein."
     },
     "header7": {
-        "message": "Reset options"
+        "message": "Zurücksetzen"
     },
     "sidebar": {
         "message": "In der Seitenleiste"
     },
     "displayFavicons": {
-        "message": "Display favicons in the context menu"
+        "message": "Symbole im Kontextmenü anzeigen"
     },
     "disableAltClick": {
         "message": "Symbolgitter deaktivieren (Alt + Klick)"
@@ -246,7 +246,7 @@
         "message": "Neuladen der Standard-Suchmaschinenliste erzwingen"
     },
     "forceFaviconsReload": {
-        "message": "Force favicons to be reloaded"
+        "message": "Symbole zwangsweise neu laden"
     },
     "restriction": {
         "message": "Wenn die Seitenleiste noch nicht geöffnet ist, müssen Sie in der Browser-Symbolleiste auf das Symbol \"Seitenleisten anzeigen\" klicken."
@@ -282,7 +282,7 @@
         "message": "Tastaturkürzel"
     },
     "header10": {
-        "message": "Multisearch options"
+        "message": "Mehrfachsuche"
     },
     "multisearchIntro": {
         "message": "Mehrere Suchergebnisse/Registerkarten öffnen"
