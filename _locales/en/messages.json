@@ -72,13 +72,13 @@
         "message": "Export to local disk"
     },
     "header2": {
-        "message": "Favicons & Icons"
+        "message": "Icons"
     },
     "note": {
         "message": "This feature requires Firefox 56 or above."
     },
     "header4": {
-        "message": "Search options"
+        "message": "Search"
     },
     "exactMatch": {
         "message": "Search for an exact string match"
@@ -228,13 +228,13 @@
         "message": "Please fill in a valid search engine URL."
     },
     "header7": {
-        "message": "Reset options"
+        "message": "Reset"
     },
     "sidebar": {
         "message": "In the sidebar"
     },
     "displayFavicons": {
-        "message": "Display favicons in the context menu"
+        "message": "Display icons in the context menu"
     },
     "disableAltClick": {
         "message": "Disable icon grid (Alt + Click)"
@@ -246,7 +246,7 @@
         "message": "Force reload of default search engines list"
     },
     "forceFaviconsReload": {
-        "message": "Force favicons to be reloaded"
+        "message": "Force icons to be reloaded"
     },
     "restriction": {
         "message": "If the sidebar isn't already open, then you may have to click on the 'Show sidebars' icon from the browser toolbar."
@@ -282,7 +282,7 @@
         "message": "Keyboard shortcut"
     },
     "header10": {
-        "message": "Multisearch options"
+        "message": "Multisearch"
     },
     "multisearchIntro": {
         "message": "Open multiple search results/tabs"
