@@ -4,7 +4,7 @@
         "description": "Name of the extension"
     },
     "extensionDescription": {
-        "message": "Recherche le texte sélectionné à l'aide d'un moteur de recherche ou d'une invite AI à partir de votre liste personnalisée de moteurs de recherche et d'invites AI gérée dans la page des préférences de l'extension.",
+        "message": "Recherche le texte sélectionné à l'aide d'un moteur de recherche ou d'une invite IA à partir de votre liste personnalisée de moteurs de recherche et d'invites IA gérée dans la page des préférences de l'extension.",
         "description": "Description of the extension"
     },
     "multisearch": {
@@ -72,13 +72,13 @@
         "message": "Exporter vers le disque local"
     },
     "header2": {
-        "message": "Favicons et icônes"
+        "message": "Icônes"
     },
     "note": {
         "message": "Cette fonctionnalité nécessite Firefox 56 ou une version plus récente."
     },
     "header4": {
-        "message": "Options de recherche"
+        "message": "Recherche"
     },
     "exactMatch": {
         "message": "Recherche d'une chaîne de caractères exacte"
@@ -228,13 +228,13 @@
         "message": "Veuillez indiquer l'URL d'un moteur de recherche valide."
     },
     "header7": {
-        "message": "Réinitialiser les options"
+        "message": "Réinitialiser"
     },
     "sidebar": {
         "message": "Dans la barre latérale"
     },
     "displayFavicons": {
-        "message": "Afficher les favicons dans le menu contextuel"
+        "message": "Afficher les icônes dans le menu contextuel"
     },
     "disableAltClick": {
         "message": "Désactiver la grille d'icônes (Alt + Click)"
@@ -246,7 +246,7 @@
         "message": "Forcer le rechargement de la liste des moteurs de recherche par défaut"
     },
     "forceFaviconsReload": {
-        "message": "Forcer le rechargement des favicons"
+        "message": "Forcer le rechargement des icônes"
     },
     "restriction": {
         "message": "Si la barre latérale n'est pas déjà ouverte, vous devrez peut-être cliquer sur l'icône \"Afficher les barres latérales\" dans la barre d'outils du navigateur."
@@ -282,7 +282,7 @@
         "message": "Raccourci clavier"
     },
     "header10": {
-        "message": "Options de recherche multiple"
+        "message": "Recherche multiple"
     },
     "multisearchIntro": {
         "message": "Ouvrir plusieurs résultats de recherche/onglets"
@@ -324,7 +324,7 @@
         "message": "Effacer tous les raccourcis clavier"
     },
     "subheader63": {
-        "message": "Ajouter une nouvelle invite AI"
+        "message": "Ajouter une nouvelle invite IA"
     },
     "subheader64": {
         "message": "Ajouter un séparateur"
@@ -333,7 +333,7 @@
         "message": "Tester l’invite IA"
     },
     "addChatGPTPrompt": {
-        "message": "Ajouter une invite AI"
+        "message": "Ajouter une invite IA"
     },
     "promptShow": {
         "message": "Afficher l'invite dans la grille ou le menu contextuel"

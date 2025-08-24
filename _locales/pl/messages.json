@@ -72,13 +72,13 @@
         "message": "Eksport na dysk lokalny"
     },
     "header2": {
-        "message": "Favicony i ikony"
+        "message": "Ikony"
     },
     "note": {
         "message": "Ta funkcja wymaga przeglądarki Firefox 56 lub nowszej."
     },
     "header4": {
-        "message": "Opcje wyszukiwania"
+        "message": "Wyszukiwanie"
     },
     "exactMatch": {
         "message": "Wyszukiwanie dokładnego dopasowania ciągu znaków"
@@ -228,13 +228,13 @@
         "message": "Podaj prawidłowy adres URL wyszukiwarki."
     },
     "header7": {
-        "message": "Opcje resetowania"
+        "message": "Zresetuj"
     },
     "sidebar": {
         "message": "Na pasku bocznym"
     },
     "displayFavicons": {
-        "message": "Wyświetlanie ikon ulubionych w menu kontekstowym"
+        "message": "Wyświetl ikony w menu kontekstowym"
     },
     "disableAltClick": {
         "message": "Wyłącz siatkę ikon (Alt + kliknięcie)"
@@ -246,7 +246,7 @@
         "message": "Wymuś przeładowanie domyślnej listy wyszukiwarek"
     },
     "forceFaviconsReload": {
-        "message": "Wymuś przeładowanie ikon ulubionych"
+        "message": "Wymuś ponowne załadowanie ikon"
     },
     "restriction": {
         "message": "Jeśli pasek boczny nie jest jeszcze otwarty, konieczne może być kliknięcie ikony \"Pokaż paski boczne\" na pasku narzędzi przeglądarki."
@@ -282,7 +282,7 @@
         "message": "Skrót klawiaturowy"
     },
     "header10": {
-        "message": "Opcje wyszukiwania wielokrotnego"
+        "message": "Wyszukiwanie wielokrotne"
     },
     "multisearchIntro": {
         "message": "Otwieranie wielu wyników wyszukiwania/zakładek"
@@ -330,7 +330,7 @@
         "message": "Dodaj separator"
     },
     "testChatGPT": {
-        "message": "Test AI Prompt"
+        "message": "Testuj monit AI"
     },
     "addChatGPTPrompt": {
         "message": "Dodaj monit AI"

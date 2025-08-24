@@ -72,13 +72,13 @@
         "message": "Exportera till lokal disk"
     },
     "header2": {
-        "message": "Favicons och ikoner"
+        "message": "Ikoner"
     },
     "note": {
         "message": "Denna funktion kräver Firefox 56 eller senare."
     },
     "header4": {
-        "message": "Sökalternativ"
+        "message": "Sök"
     },
     "exactMatch": {
         "message": "Sök efter en exakt strängmatchning"
@@ -228,13 +228,13 @@
         "message": "Vänligen fyll i en giltig URL för sökmotorn."
     },
     "header7": {
-        "message": "Återställ alternativ"
+        "message": "Återställ"
     },
     "sidebar": {
         "message": "I sidofältet"
     },
     "displayFavicons": {
-        "message": "Visa favicons i snabbmenyn"
+        "message": "Visa ikoner i snabbmenyn"
     },
     "disableAltClick": {
         "message": "Inaktivera ikonrutnätet (Alt + Klicka)"
@@ -246,7 +246,7 @@
         "message": "Tvinga omladdning av standardlistan över sökmotorer"
     },
     "forceFaviconsReload": {
-        "message": "Tvinga favicons att laddas om"
+        "message": "Tvinga ikoner att laddas om"
     },
     "restriction": {
         "message": "Om sidofältet inte redan är öppet kan du behöva klicka på ikonen \"Visa sidofält\" i webbläsarens verktygsfält."
@@ -282,7 +282,7 @@
         "message": "Kortkommando på tangentbordet"
     },
     "header10": {
-        "message": "Alternativ för multisökning"
+        "message": "Multisökning"
     },
     "multisearchIntro": {
         "message": "Öppna flera sökresultat/flikar"

@@ -78,7 +78,7 @@
         "message": "Þessi eiginleiki krefst Firefox 56 eða nýrri."
     },
     "header4": {
-        "message": "Valkostir leitar"
+        "message": "Leita"
     },
     "exactMatch": {
         "message": "Leita að nákvæmri samsvörun við textastreng"
@@ -228,13 +228,13 @@
         "message": "Settu inn gilda URL-slóð leitarvélar."
     },
     "header7": {
-        "message": "Endurstilla valkosti"
+        "message": "Endurstilla"
     },
     "sidebar": {
         "message": "Á hliðarslá"
     },
     "displayFavicons": {
-        "message": "Birta favicons í samhengisvalmynd"
+        "message": "Birtu tákn í samhengisvalmyndinni"
     },
     "disableAltClick": {
         "message": "Gera táknmyndareiti óvirka (Alt + smella)"
@@ -246,7 +246,7 @@
         "message": "Þvinga endurhleðslu á sjálfgefnum leitarvélalista"
     },
     "forceFaviconsReload": {
-        "message": "Þvinga endurhleðslu á táknmyndum"
+        "message": "Þvinga tákn til að endurhlaða"
     },
     "restriction": {
         "message": "Ef hliðarsláin er ekki þegar opin, þá gætirðu þurft að velja táknið 'Birta hliðarslár' í verkfærastiku vafrans."
@@ -282,7 +282,7 @@
         "message": "Flýtileiðir"
     },
     "header10": {
-        "message": "Fjölleitarvalkostir"
+        "message": "Fjölleit"
     },
     "multisearchIntro": {
         "message": "Opnaðu margar leitarniðurstöður/flipa"

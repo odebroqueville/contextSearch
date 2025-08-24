@@ -72,13 +72,13 @@
         "message": "Eksporter til lokal disk"
     },
     "header2": {
-        "message": "Favorittikoner og ikoner"
+        "message": "Ikoner"
     },
     "note": {
         "message": "Denne funksjonen krever Firefox 56 eller nyere."
     },
     "header4": {
-        "message": "Søkealternativer"
+        "message": "Søke"
     },
     "exactMatch": {
         "message": "Søk etter et eksakt strengtreff"
@@ -228,13 +228,13 @@
         "message": "Vennligst fyll inn en gyldig søkemotor-URL."
     },
     "header7": {
-        "message": "Alternativer for tilbakestilling"
+        "message": "Nullstille"
     },
     "sidebar": {
         "message": "I sidepanelet"
     },
     "displayFavicons": {
-        "message": "Vis favorittikoner i kontekstmenyen"
+        "message": "Vis ikoner i kontekstmenyen"
     },
     "disableAltClick": {
         "message": "Deaktiver ikonrutenett (Alt + klikk)"
@@ -246,7 +246,7 @@
         "message": "Tving innlasting av standard søkemotorliste"
     },
     "forceFaviconsReload": {
-        "message": "Tving favorittikoner til å lastes inn på nytt"
+        "message": "Tving ikoner til å lastes inn på nytt"
     },
     "restriction": {
         "message": "Hvis sidefeltet ikke allerede er åpent, kan det hende du må klikke på \"Vis sidefelt\"-ikonet fra nettleserens verktøylinje."
@@ -282,7 +282,7 @@
         "message": "Hurtigtast"
     },
     "header10": {
-        "message": "Alternativer for flere søk"
+        "message": "Flersøk"
     },
     "multisearchIntro": {
         "message": "Åpne flere søkeresultater/faner"
