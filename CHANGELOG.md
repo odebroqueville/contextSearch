@@ -1,5 +1,14 @@
-6.1.3
+6.1.4
 =========
+
+* Bug fix [#234](https://github.com/odebroqueville/contextSearch/issues/234)
+* Bug fix [#235](https://github.com/odebroqueville/contextSearch/issues/235)
+* Enhancement: Added option to disable AI features in the Options page
+* Enhancement [#240](https://github.com/odebroqueville/contextSearch/issues/240)
+* Enhancement [#242](https://github.com/odebroqueville/contextSearch/issues/242)
+
+6.1.3
+---------
 
 * Bug fix: HTTP POST request were failing. Keyboard shortcuts now have to be added on the Options page.
 * Bug fix: Perplexity was broken due to changes on their web site.

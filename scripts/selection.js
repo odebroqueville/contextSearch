@@ -28,7 +28,7 @@ const ICON32 = '32px'; // icon width is 32px
 const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
 
 // Global variables
-let logToConsole = false; // Debug (default)
+let logToConsole = true; // Debug (default)
 let os = null;
 let meta = ''; // meta key: cmd for macOS, win for Windows, super for Linux
 let tabUrl = '';
@@ -267,6 +267,15 @@ function getOpenSearchSupportStatus() {
 
 async function openAiSearchPopup() {
     try {
+        // Check if AI features are disabled in options
+        const storedOptions = await browser.storage.local.get('options');
+        const options = storedOptions.options || {};
+
+        if (options.disableAI) {
+            if (logToConsole) console.log("AI search features are disabled in options.");
+            return;
+        }
+
         const response = await browser.runtime.sendMessage({ action: "openAiSearchPopup" });
         if (logToConsole) {
             if (response && response.success) {
@@ -934,31 +943,36 @@ async function handleKeyUp(e) {
 
     if (logToConsole) console.log(`Keys pressed: ${input}`);
 
-    // Check for browser command shortcuts and let the browser handle them
-    const browserType = getBrowserType();
-    if (logToConsole) console.log(`Browser type: ${browserType}`);
+    // --- Check for command shortcuts first ---
 
     // Define the command shortcuts from the manifest
-    const commandShortcuts = browserType === 'firefox'
-        ? ["Control+Shift+J", "Control+Shift+K"]
-        : ["Alt+J", "Alt+K"];
+    const commandShortcuts = ["Alt+I", "Alt+K"];
 
     // If this is a command shortcut, let the browser handle it
     if (commandShortcuts.some(cmd => cmd.toLowerCase() === input.toLowerCase())) {
         if (logToConsole) console.log(`Allowing browser to handle command shortcut: ${input}`);
         keysPressed = {};
 
-        if ((browserType === 'firefox' && input.toLowerCase() === "control+shift+j") || (browserType === 'chrome' && input.toLowerCase() === "alt+j")) {
-            // If the command is Ctrl+Shift+J in Firefox or Alt+J in Chrome, handle it with the grid
+        if (input.toLowerCase() === "alt+i") {
+            // If the command is Alt+I in Firefox or in Chrome, handle it with the grid
             e.preventDefault(); // Prevent default browser action
             e.stopPropagation(); // Stop propagation to prevent other handlers from running
-            handleAltClickWithGrid(null);
+            await handleAltClickWithGrid(null);
         }
-        if ((browserType === 'firefox' && input.toLowerCase() === "control+shift+k") || (browserType === 'chrome' && input.toLowerCase() === "alt+k")) {
-            // If the command is Ctrl+Shift+K in Firefox or Alt+K in Chrome, open AI Search popup
+        if (input.toLowerCase() === "alt+k") {
+            // If the command is Alt+K in Firefox or in Chrome, open AI Search popup
             e.preventDefault(); // Prevent default browser action
             e.stopPropagation(); // Stop propagation to prevent other handlers from running
-            openAiSearchPopup();
+
+            // Check if AI features are disabled before opening the popup
+            const storedOptions = await browser.storage.local.get('options');
+            const options = storedOptions.options || {};
+
+            if (!options.disableAI) {
+                await openAiSearchPopup();
+            } else if (logToConsole) {
+                console.log("AI search features are disabled in options. Ignoring keyboard shortcut.");
+            }
         }
         return;
     }

@@ -119,8 +119,57 @@ let isInitialized = false;
 // Context menu creation in progress flag
 let menuCreationInProgress = false;
 
+// Track number of active click listeners
+let clickListenerCounter = 0;
+
+// Track when service worker was last active
+let lastActivityTime = Date.now();
+
+// Service worker wake-up detection
+function onServiceWorkerWakeUp() {
+    const now = Date.now();
+    const timeSinceLastActivity = now - lastActivityTime;
+    
+    // If more than 30 seconds have passed, assume the service worker was asleep
+    if (timeSinceLastActivity > 30000) {
+        if (logToConsole) console.log(`Service worker woke up after ${Math.round(timeSinceLastActivity / 1000)}s of inactivity`);
+        
+        // Reset initialization state to force proper reinitialization
+        if (isInitialized) {
+            isInitialized = false;
+            if (logToConsole) console.log("Marking service worker as uninitialized due to wake-up");
+        }
+    }
+    
+    lastActivityTime = now;
+}
+
+// Call wake-up detection at the start of critical functions
+function markActivity() {
+    onServiceWorkerWakeUp();
+    
+    // Set up or update the keepalive alarm
+    browser.alarms.create('keepalive', { delayInMinutes: 0.5 }); // 30 seconds
+}
+
+// Listen for alarm events to maintain service worker state
+browser.alarms.onAlarm.addListener((alarm) => {
+    if (alarm.name === 'keepalive') {
+        markActivity();
+        if (logToConsole) console.log('Service worker keepalive triggered');
+        
+        // Only create next alarm if we're actively being used
+        const now = Date.now();
+        if (now - lastActivityTime < 60000) { // If activity within last minute
+            browser.alarms.create('keepalive', { delayInMinutes: 0.5 });
+        }
+    }
+});
+
 // Initialize service worker
 (async function () {
+    markActivity();
+    
     // ({ paid, trialActive, trialStarted } = await getPaymentStatus());
     paid = true; // For testing purposes, set to true
     trialActive = false; // For testing purposes, set to false
@@ -140,8 +189,6 @@ let menuCreationInProgress = false;
             console.error('Failed to initialize storage:', error);
         }
     }
-
-    addClickListener();
 })();
 
 /// Listeners
@@ -194,6 +241,8 @@ browser.storage.onChanged.addListener(handleStorageChange);
 
 // Listen for messages from the content or options script
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    markActivity(); // Track service worker activity
+    
     const action = message.action;
     const data = message.data;
 
@@ -668,33 +717,6 @@ async function initializeStoredData() {
     }
 }
 
-async function sendMessage(action, data) {
-    try {
-        // Check if browser/chrome API is available
-        if (!browser.runtime?.sendMessage) {
-            throw new Error('Browser API not available');
-        }
-        if (logToConsole) console.log(`Sending message: action=${action}, data=${JSON.stringify(data)}`);
-        const response = await browser.runtime.sendMessage({ action: action, data: data });
-        if (logToConsole) console.log(`Received response: ${JSON.stringify(response)}`);
-        return response;  // Return the response received from the background script
-    } catch (error) {
-        const errorMessage = error?.message || String(error);
-        // Ignore specific, expected errors during startup or context invalidation
-        const isExpectedError = errorMessage.includes("Extension context invalidated") ||
-            errorMessage.includes("Receiving end does not exist");
-
-        if (logToConsole && !isExpectedError) {
-            console.error(`Error sending message: ${errorMessage}`);
-        } else if (logToConsole && errorMessage.includes("Receiving end does not exist")) {
-            // Optionally log as a warning or info message instead of an error
-            console.warn(`Attempted to send message when receiving end did not exist (action: ${action}). This may be expected during startup.`);
-        }
-        // Still return a consistent failure indicator
-        return { success: false, error: errorMessage };
-    }
-}
-
 async function handleStorageChange(changes, areaName) {
     if (areaName === "local" && changes) {
         // Check if options were changed
@@ -1114,14 +1136,27 @@ async function init() {
 
     if (logToConsole) console.log("Initializing extension...");
 
-    await initializeHeaderRules();
-    await checkNotificationsPermission();
-    await initializeStoredData();
-    await initialiseSearchEngines();
-    await updateAddonStateForActiveTab();
+    try {
+        // Check if we somehow have active click listeners before initialization
+        // This could happen if the service worker was reactivated
+        if (clickListenerCounter > 0 && logToConsole) {
+            console.log(`Warning: ${clickListenerCounter} click listeners are active before initialization`);
+            // We don't remove them here because buildContextMenu will handle that
+        }
 
-    isInitialized = true;
-    if (logToConsole) console.log('Service worker initialization complete.');
+        await initializeHeaderRules();
+        await checkNotificationsPermission();
+        await initializeStoredData();
+        await initialiseSearchEngines();
+        await updateAddonStateForActiveTab();
+
+        isInitialized = true;
+        if (logToConsole) console.log('Service worker initialization complete.');
+    } catch (error) {
+        console.error('Error during initialization:', error);
+        isInitialized = false; // Ensure we can retry initialization
+        throw error; // Re-throw to allow caller to handle
+    }
 }
 
 // Check if notifications are enabled
@@ -1494,102 +1529,220 @@ function getFaviconForPrompt(id, aiProvider) {
     return { id: id, imageFormat: imageFormat, base64: b64 };
 }
 
+// Simple menu click handler
 async function menuClickHandler(info, tab) {
-    if (logToConsole) console.log(info.menuItemId);
-    if (info.menuItemId === "subscription-status") {
-        // Handle subscription status menu item
-        await openSubscriptionStatusPopup();
-        return;
-    }
+    try {
+        markActivity(); // Track service worker activity
+        
+        if (logToConsole) console.log("Menu click handler started for: ", info.menuItemId);
 
-    // Ensure extension is initialized before proceeding
-    if (!isInitialized && (paid || trialActive)) {
-        if (logToConsole) console.log("Service worker not initialized, initializing now");
-        init().then(() => {
-            // After initialization, proceed with the menu click handling
-            handleMenuClick(info, tab);
-        });
-    } else if (paid || trialActive) {
-        // If already initialized, proceed with normal handling
-        handleMenuClick(info, tab);
+        // Special case for options page
+        if (info.menuItemId === "cs-options") {
+            browser.runtime.openOptionsPage().catch(err => {
+                console.error("Failed to open options page:", err);
+                // Try an alternative method
+                browser.tabs.create({ url: browser.runtime.getURL("/html/options.html") });
+            });
+            return;
+        }
+
+        // Handle subscription status menu item
+        if (info.menuItemId === "subscription-status") {
+            openSubscriptionStatusPopup();
+            return;
+        }
+
+        // Ensure service worker is properly initialized before proceeding
+        if (!isInitialized || isEmpty(searchEngines) || !hasClickListener()) {
+            if (logToConsole) console.log("Service worker not properly initialized, reinitializing now");
+            
+            // Force re-initialization to ensure proper state
+            isInitialized = false;
+            
+            try {
+                await init();
+                if (logToConsole) console.log("Service worker reinitialized successfully");
+            } catch (err) {
+                console.error("Error reinitializing service worker:", err);
+                return;
+            }
+        }
+        
+        if (paid || trialActive) {
+            // Proceed with normal handling
+            await handleMenuClick(info, tab);
+        }
+    } catch (err) {
+        console.error("Error in menu click handler:", err);
     }
 }
 
-function handleMenuClick(info, tab) {
-    const browser_type = getBrowserType();
-    const multisearch = info.menuItemId.endsWith("-multisearch") || info.menuItemId === "cs-multitab";
-    if (options.tabMode === "openSidebar" && !multisearch) {
-        if (browser_type === 'firefox') {
-            if (logToConsole) console.log("Opening the sidebar.");
-            browser.sidebarAction.open().then(() => {
-                // After sidebar is open, set up panel and process search
-                setBrowserPanel().then(() => {
-                    processSearch(info, tab);
-                });
-            }).catch(error => {
-                console.error('Error opening Firefox sidebar:', error);
-                // Still try to process search even if sidebar fails
-                processSearch(info, tab);
-            });
-        } else if (browser_type === 'chrome' && chrome.sidePanel) {
-            if (logToConsole) console.log("Opening the side panel.");
+async function handleMenuClick(info, tab) {
+    try {
+        const browser_type = getBrowserType();
+        const multisearch = info.menuItemId.endsWith("-multisearch") || info.menuItemId === "cs-multitab";
 
-            // Register the side panel first synchronously
-            try {
-                // First, ensure global setup is done (not tab-specific)
-                chrome.sidePanel.setOptions({
-                    path: 'html/sidebar.html',
-                    enabled: true
-                });
+        if (logToConsole) console.log(`Handling menu click for ${info.menuItemId}, using ${browser_type} browser in ${options.tabMode} mode`);
 
-                // Then try to open it immediately while we're still in the user gesture context
-                chrome.sidePanel.open({
-                    tabId: tab.id, // The tabId is required
-                    windowId: tab.windowId  // Optional
-                }).then(() => {
+        // Ensure we have the latest selection data from storage
+        selection = await getStoredData(STORAGE_KEYS.SELECTION) || "";
+        
+        if (options.tabMode === "openSidebar" && !multisearch) {
+            if (browser_type === 'firefox') {
+                if (logToConsole) console.log("Opening the sidebar.");
+                browser.sidebarAction.open().then(() => {
+                    // After sidebar is open, set up panel and process search
                     return setBrowserPanel();
                 }).then(() => {
                     processSearch(info, tab);
                 }).catch(error => {
-                    console.error('Error opening Chrome side panel:', error);
+                    console.error('Error opening Firefox sidebar:', error);
+                    // Still try to process search even if sidebar fails
                     processSearch(info, tab);
                 });
-            } catch (error) {
-                console.error('Error with Chrome side panel initial setup:', error);
-                processSearch(info, tab);
-            }
-        } else {
-            // No sidebar/panel support, just process the search
-            setBrowserPanel().then(() => {
-                processSearch(info, tab);
-            });
-        }
-    } else {
-        // Handle non-sidebar mode
-        try {
-            if (browser_type === 'firefox') {
-                if (logToConsole) console.log("Closing the sidebar.");
-                browser.sidebarAction.close();
             } else if (browser_type === 'chrome' && chrome.sidePanel) {
-                chrome.sidePanel.setOptions({
-                    enabled: false
+                if (logToConsole) console.log("Opening the side panel.");
+
+                // Register the side panel first synchronously
+                try {
+                    // First, ensure global setup is done (not tab-specific)
+                    chrome.sidePanel.setOptions({
+                        path: 'html/sidebar.html',
+                        enabled: true
+                    });
+
+                    // Then try to open it immediately while we're still in the user gesture context
+                    chrome.sidePanel.open({
+                        tabId: tab.id, // The tabId is required
+                        windowId: tab.windowId  // Optional
+                    }).then(() => {
+                        return setBrowserPanel();
+                    }).then(() => {
+                        processSearch(info, tab);
+                    }).catch(error => {
+                        console.error('Error opening Chrome side panel:', error);
+                        processSearch(info, tab);
+                    });
+                } catch (error) {
+                    console.error('Error with Chrome side panel initial setup:', error);
+                    processSearch(info, tab);
+                }
+            } else {
+                // No sidebar/panel support, just process the search
+                if (logToConsole) console.log("No sidebar support detected, processing search directly");
+                setBrowserPanel().then(() => {
+                    processSearch(info, tab);
+                }).catch(error => {
+                    console.error('Error setting browser panel:', error);
+                    processSearch(info, tab);
                 });
             }
-        } catch (error) {
-            console.error('Error closing browser panel:', error);
+        } else {
+            // Handle non-sidebar mode
+            try {
+                if (browser_type === 'firefox') {
+                    if (logToConsole) console.log("Closing the sidebar.");
+                    browser.sidebarAction.close();
+                } else if (browser_type === 'chrome' && chrome.sidePanel) {
+                    chrome.sidePanel.setOptions({
+                        enabled: false
+                    });
+                }
+            } catch (error) {
+                console.error('Error closing browser panel:', error);
+            }
+            // Process search directly
+            await processSearch(info, tab);
         }
-        // Process search directly
-        processSearch(info, tab);
+    } catch (error) {
+        console.error("Unexpected error in handleMenuClick:", error);
     }
 }
 
 function addClickListener() {
-    browser.contextMenus.onClicked.addListener(menuClickHandler);
+    try {
+        // Remove any existing listener to prevent duplicates
+        removeClickListener();
+
+        // Add the click listener
+        browser.contextMenus.onClicked.addListener(menuClickHandler);
+        clickListenerCounter++; // Increment the counter
+
+        if (logToConsole) console.log(`Context menu click listener added successfully. Total listeners: ${clickListenerCounter}`);
+    } catch (error) {
+        console.error("Error adding context menu click listener:", error);
+        // Do not decrement counter here as removeClickListener was already called
+    }
 }
 
 function removeClickListener() {
-    browser.contextMenus.onClicked.removeListener(menuClickHandler);
+    try {
+        browser.contextMenus.onClicked.removeListener(menuClickHandler);
+        if (clickListenerCounter > 0) {
+            clickListenerCounter--; // Decrement the counter only if it's greater than 0
+        }
+        if (logToConsole) console.log(`Context menu click listener removed. Remaining listeners: ${clickListenerCounter}`);
+    } catch (error) {
+        console.error("Error removing context menu click listener:", error);
+        // We don't modify the counter here because the operation failed
+    }
 }
+
+// Add a method that can be called via the browser console to check for listeners
+// This is useful for debugging
+function debugListenerStatus() {
+    if (logToConsole) {
+        console.log(`Click listener count from counter: ${clickListenerCounter}`);
+
+        if (isFirefox && typeof browser.contextMenus.onClicked.hasListener === 'function') {
+            const hasListener = browser.contextMenus.onClicked.hasListener(menuClickHandler);
+            console.log(`menuClickHandler registered according to Firefox API: ${hasListener}`);
+
+            if ((clickListenerCounter > 0) !== hasListener) {
+                console.warn(`Warning: Mismatch between clickListenerCounter (${clickListenerCounter}) and actual listener status (${hasListener})`);
+
+                if (clickListenerCounter > 0 && !hasListener) {
+                    console.warn("The counter says listeners exist, but Firefox says none are registered.");
+                    console.warn("This could indicate that listeners were not properly removed or the counter was not properly decremented.");
+                } else if (clickListenerCounter === 0 && hasListener) {
+                    console.warn("Firefox reports a listener is registered, but the counter is 0.");
+                    console.warn("This could indicate that a listener was added without incrementing the counter.");
+                }
+            }
+        }
+    }
+
+    // Try to estimate actual listener count for Firefox
+    let estimatedListenerCount = 0;
+    if (isFirefox && typeof browser.contextMenus.onClicked.hasListener === 'function') {
+        if (browser.contextMenus.onClicked.hasListener(menuClickHandler)) {
+            // At least one listener exists, but we can't tell how many
+            // The count in clickListenerCounter might be more accurate
+            estimatedListenerCount = Math.max(1, clickListenerCounter);
+        }
+    }
+
+    return {
+        clickListenerCount: clickListenerCounter,
+        estimatedActualListeners: isFirefox ? estimatedListenerCount : "Unknown (only detectable in Firefox)",
+        isFirefox,
+        hasFirefoxCheck: isFirefox && typeof browser.contextMenus.onClicked.hasListener === 'function',
+        menuHandlerRegistered: isFirefox && typeof browser.contextMenus.onClicked.hasListener === 'function'
+            ? browser.contextMenus.onClicked.hasListener(menuClickHandler)
+            : "Unknown (only detectable in Firefox)"
+    };
+}
+
+// Check if any click listeners are currently registered
+function hasClickListener() {
+    // The simplest approach is to check our tracking variable
+    return clickListenerCounter > 0;
+}
+
+// Make debugging functions available to the browser console
+// This allows them to be called from the console like: browser.runtime.getBackgroundPage().then(bg => bg.debugListenerStatus())
+globalThis.debugListenerStatus = debugListenerStatus;
+globalThis.hasClickListener = hasClickListener;
 
 /// Functions used to build the context menu
 async function createMenuItem(id, title, contexts, parentId, faviconUrl) {
@@ -1671,11 +1824,14 @@ async function buildContextOptionsMenu() {
         contexts: ["selection"],
     });
 
-    await contextMenus.create({
-        id: "cs-ai-search",
-        title: titleAISearch + "...",
-        contexts: ["editable", "frame", "page", "selection"],
-    });
+    // Only show AI search option if not disabled
+    if (!options.disableAI) {
+        await contextMenus.create({
+            id: "cs-ai-search",
+            title: titleAISearch + "...",
+            contexts: ["editable", "frame", "page", "selection"],
+        });
+    }
 
     await contextMenus.create({
         id: "cs-site-search",
@@ -1735,45 +1891,72 @@ async function buildContextMenu() {
         return;
     }
 
-    try {
-        const rootChildren = searchEngines["root"]?.children || [];
+    const MAX_RETRIES = 3;
+    let retryCount = 0;
+    let success = false;
 
-        menuCreationInProgress = true;
+    while (!success && retryCount < MAX_RETRIES) {
+        try {
+            menuCreationInProgress = true;
+            if (logToConsole) console.log(`Building context menu (attempt ${retryCount + 1})...`);
 
-        if (logToConsole) console.log("Building context menu..");
+            // First, remove any existing click listeners to prevent orphaned listeners
+            // This should happen before removing menu items to ensure clean state
+            if (clickListenerCounter > 0) {
+                if (logToConsole) console.log(`Removing ${clickListenerCounter} click listeners before rebuilding menu`);
+                // Reset listener count and remove listener
+                while (clickListenerCounter > 0) {
+                    removeClickListener();
+                }
+            }
 
-        // Remove listener for context menu clicks
-        removeClickListener();
+            // Remove all existing context menu items and wait for completion
+            await contextMenus.removeAll();
 
-        // Remove all existing context menu items and wait for completion
-        await contextMenus.removeAll();
+            const rootChildren = searchEngines["root"]?.children || [];
+            if (logToConsole) console.log('Root children:', rootChildren);
 
-        if (logToConsole) console.log('Root children:', rootChildren);
+            // Create menus in sequence
+            if (options.optionsMenuLocation === "top") {
+                await buildContextOptionsMenu();
+            }
 
-        // Create menus in sequence
-        if (options.optionsMenuLocation === "top") {
-            await buildContextOptionsMenu();
+            // Build root menu items
+            for (let id of rootChildren) {
+                await buildContextMenuItem(id, "root");
+            }
+
+            await buildContextMenuForImages();
+
+            if (options.optionsMenuLocation === "bottom") {
+                await buildContextOptionsMenu();
+            }
+
+            await buildActionButtonMenus();
+
+            // Add listener for context menu clicks
+            addClickListener();
+
+            success = true;
+            if (logToConsole) console.log("Context menu built successfully");
+        } catch (error) {
+            retryCount++;
+            console.error(`Error building context menu (attempt ${retryCount}):`, error);
+
+            // Wait a moment before retrying
+            if (retryCount < MAX_RETRIES) {
+                await new Promise(resolve => setTimeout(resolve, 500 * retryCount));
+            }
+        } finally {
+            if (success || retryCount >= MAX_RETRIES) {
+                menuCreationInProgress = false;
+            }
         }
+    }
 
-        // Build root menu items
-        for (let id of rootChildren) {
-            await buildContextMenuItem(id, "root");
-        }
-
-        await buildContextMenuForImages();
-
-        if (options.optionsMenuLocation === "bottom") {
-            await buildContextOptionsMenu();
-        }
-
-        await buildActionButtonMenus();
-
-        // Add listener for context menu clicks
-        addClickListener();
-
-    } catch (error) {
-        console.error('Error building context menu:', error);
-    } finally {
+    if (!success) {
+        console.error(`Failed to build context menu after ${MAX_RETRIES} attempts`);
+        // Reset the creation flag so future attempts can be made
         menuCreationInProgress = false;
     }
 }
@@ -1822,7 +2005,7 @@ async function buildActionButtonMenus() {
 
     await contextMenus.create(searchEngineMenuItem);
 
-    await buildSubscriptionStatusMenuItem();
+    //await buildSubscriptionStatusMenuItem();
 }
 
 async function buildSubscriptionStatusMenuItem() {
@@ -1845,71 +2028,79 @@ async function buildSubscriptionStatusMenuItem() {
 
 // Perform search based on selected search engine, i.e. selected context menu item
 async function processSearch(info, tab) {
-    if (logToConsole) console.log(info);
-    const currentWindow = await browser.windows.getCurrent({ populate: true });
-    let multisearch = false;
-    let id = info.menuItemId.startsWith("cs-")
-        ? info.menuItemId.replace("cs-", "")
-        : info.menuItemId;
+    try {
+        if (logToConsole) console.log("Processing search with menu item:", info.menuItemId);
 
-    if (info.selectionText) {
-        await setStoredData(STORAGE_KEYS.SELECTION, info.selectionText);
-    }
+        const currentWindow = await browser.windows.getCurrent({ populate: true });
+        let multisearch = false;
+        let id = info.menuItemId.startsWith("cs-")
+            ? info.menuItemId.replace("cs-", "")
+            : info.menuItemId;
 
-    // By default, open the search results right after the active tab
-    let tabIndex = tab.index + 1;
+        if (info.selectionText) {
+            await setStoredData(STORAGE_KEYS.SELECTION, info.selectionText);
+        }
 
-    // If search engines are set to be opened after the last tab, then adjust the tabIndex
-    if (options.multiMode === "multiAfterLastTab" || (options.tabMode === "openNewTab" && options.lastTab)) {
-        tabIndex = currentWindow.tabs.length;
-    }
-    if (logToConsole) console.log('Active tab (index, title):', tabIndex - 1, tab.title);
+        // By default, open the search results right after the active tab
+        let tabIndex = tab.index + 1;
 
-    // If the selected search engine is a folder, process it as a multisearch
-    if (id.endsWith("-multisearch")) {
-        id = id.replace("-multisearch", "");
-        multisearch = true;
-        await processMultisearch([], id, tabIndex);
-        return;
-    }
-    if (id === "bookmark-page") {
-        await toggleBookmark();
-        return;
-    }
-    if (id === "add-search-engine") {
-        await handlePageAction(tab);
-        return;
-    }
-    if (id === "subscription-status") {
-        await openSubscriptionStatusPopup();
-        return;
-    }
-    if (id === "options") {
-        await browser.runtime.openOptionsPage();
-        return;
-    }
-    if (id === "multitab") {
-        await processMultisearch([], "root", tabIndex);
-        return;
-    }
-    if (id === "match") {
-        if (logToConsole)
-            console.log(
-                `Preferences retrieved from sync storage: ${JSON.stringify(options)}`,
-            );
-        options.exactMatch = !options.exactMatch;
-        await saveOptions(true);
-        return;
-    }
-    if (id === "ai-search") {
-        await openAISearchPopup(tabIndex);
-        return;
-    }
+        // If search engines are set to be opened after the last tab, then adjust the tabIndex
+        if (options.multiMode === "multiAfterLastTab" || (options.tabMode === "openNewTab" && options.lastTab)) {
+            tabIndex = currentWindow.tabs.length;
+        }
+        if (logToConsole) console.log('Active tab (index, title):', tabIndex - 1, tab.title);
 
-    // If search engine is none of the above and not a folder, then perform search
-    // The search engine corresponds to an HTTP GET or POST request or an AI prompt
-    if (!id.startsWith("separator-")) {
-        await displaySearchResults(id, tabIndex, multisearch, currentWindow.id);
+        // If the selected search engine is a folder, process it as a multisearch
+        if (id.endsWith("-multisearch")) {
+            id = id.replace("-multisearch", "");
+            multisearch = true;
+            await processMultisearch([], id, tabIndex);
+            return;
+        }
+        if (id === "bookmark-page") {
+            await toggleBookmark();
+            return;
+        }
+        if (id === "add-search-engine") {
+            await handlePageAction(tab);
+            return;
+        }
+        if (id === "subscription-status") {
+            await openSubscriptionStatusPopup();
+            return;
+        }
+        if (id === "options") {
+            await browser.runtime.openOptionsPage();
+            return;
+        }
+        if (id === "multitab") {
+            await processMultisearch([], "root", tabIndex);
+            return;
+        }
+        if (id === "match") {
+            if (logToConsole)
+                console.log(
+                    `Preferences retrieved from sync storage: ${JSON.stringify(options)}`,
+                );
+            options.exactMatch = !options.exactMatch;
+            await saveOptions(true);
+            return;
+        }
+        if (id === "ai-search") {
+            // Only open AI search popup if AI features are not disabled
+            if (!options.disableAI) {
+                await openAISearchPopup(tabIndex);
+            }
+            return;
+        }
+
+        // If search engine is none of the above and not a folder, then perform search
+        // The search engine corresponds to an HTTP GET or POST request or an AI prompt
+        if (!id.startsWith("separator-")) {
+            await displaySearchResults(id, tabIndex, multisearch, currentWindow.id);
+        }
+    } catch (error) {
+        console.error("Error in processSearch function:", error);
     }
 }
 
@@ -2390,6 +2581,8 @@ browser.omnibox.setDefaultSuggestion({
 
 // Update the suggestions whenever the input is changed
 browser.omnibox.onInputChanged.addListener(async (input, suggest) => {
+    markActivity(); // Track service worker activity
+    
     if (input.indexOf(" ") > 0) {
         const suggestion = await buildSuggestion(input);
         if (suggestion.length === 1) {
@@ -2400,6 +2593,8 @@ browser.omnibox.onInputChanged.addListener(async (input, suggest) => {
 
 // Open the page based on how the user clicks on a suggestion
 browser.omnibox.onInputEntered.addListener(async (input) => {
+    markActivity(); // Track service worker activity
+    
     if (logToConsole) console.log(`Input entered: ${input}`);
 
     // Ensure extension is initialized before processing any omnibox command

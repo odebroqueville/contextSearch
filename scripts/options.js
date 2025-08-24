@@ -18,6 +18,7 @@ const container = document.getElementById('container');
 // Options
 const exactMatch = document.getElementById('exactMatch');
 const disableDoubleClick = document.getElementById('disableDoubleClick');
+const disableAI = document.getElementById('disableAI');
 const openNewTab = document.getElementById('openNewTab');
 const sameTab = document.getElementById('sameTab');
 const openNewWindow = document.getElementById('openNewWindow');
@@ -112,6 +113,7 @@ browser.permissions.onRemoved.addListener(handlePermissionsChanges);
 // Options changes event handlers
 exactMatch.addEventListener('click', updateSearchOptions);
 disableDoubleClick.addEventListener('click', updateSearchOptions);
+disableAI.addEventListener('click', updateSearchOptions);
 displayFavicons.addEventListener('click', updateDisplayFavicons);
 quickIconGrid.addEventListener('click', updateQuickIconGrid);
 closeGridOnMouseOut.addEventListener('click', updateCloseGridOnMouseOut);
@@ -1374,7 +1376,7 @@ function handleKeyboardShortcutKeyUp(e) {
         }
     }
 
-    const mainKey = keysPressed[Object.keys(keysPressed)[0]]; // Get the main key (the only non-modifier key)
+    const mainKey = Object.keys(keysPressed)[0]; // Get the main key (the only non-modifier key)
 
     // Sort modifiers based on the defined order
     currentModifiers.sort((a, b) => (modifierOrder[a] || 99) - (modifierOrder[b] || 99));
@@ -1651,6 +1653,12 @@ async function setOptions(options) {
         disableDoubleClick.checked = false;
     }
 
+    if (options.disableAI === true) {
+        disableAI.checked = true;
+    } else {
+        disableAI.checked = false;
+    }
+
     switch (options.tabMode) {
         case 'openNewTab':
             openNewTab.checked = true;
@@ -1861,7 +1869,8 @@ async function sendOptionUpdate(updateType, data) {
 async function updateSearchOptions() {
     const em = exactMatch.checked;
     const dd = disableDoubleClick.checked;
-    await sendOptionUpdate('searchOptions', { exactMatch: em, disableDoubleClick: dd });
+    const da = disableAI.checked;
+    await sendOptionUpdate('searchOptions', { exactMatch: em, disableDoubleClick: dd, disableAI: da });
 }
 
 async function updateTabMode() {
@@ -2012,7 +2021,7 @@ function translateContent(attribute, type) {
         try {
             const message = browser.i18n.getMessage(i18n_attrib); // Call getMessage
 
-            if (logToConsole) console.log(`Translating key: "${i18n_attrib}" used by element:`, i, 'Message:', message);
+            //if (logToConsole) console.log(`Translating key: "${i18n_attrib}" used by element:`, i, 'Message:', message);
 
             // Check if the message is empty or same as the key (indicates missing translation)
             if (!message || message === i18n_attrib) {

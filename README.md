@@ -37,7 +37,7 @@ To open search results in a new private window, in the extensions manager, allow
 
 <ol>
 <li>Select some text on a webpage</li>
-<li>Right click (or Alt-click or Alt+J for Chromium-based browsers or Ctrl+Shift+J for Firefox) on a selection</li>
+<li>Right click (or Alt-click or Alt+I) on a selection</li>
 <li>A context menu (or a grid of icons) appears, displaying the list of search engines chosen in the extension's preferences</li>
 <li>Click on the search engine with which you’d like to search for the selected text</li>
 </ol>
@@ -94,7 +94,7 @@ From the Options page, click on the favicon right before the search engine's nam
 
 ## How to perform an AI search using the command window
 
-Prior to using this feature, **ensure that you have logged in** to the website(s) of the AI engine(s) that you'd like to use. This is required when using ChatGPT, Calude, Google AI Studio and Poe. 'ALT+K' for Chromium-based browsers or 'Ctrl+Shift+K' for Firefox opens a command window from which to carry out a direct AI search. Start by typing the keyword corresponding to the AI engine that you'd like to use followed by a 'Space' character. The current list of valid keywords is:
+Prior to using this feature, **ensure that you have logged in** to the website(s) of the AI engine(s) that you'd like to use. This is required when using ChatGPT, Calude, Google AI Studio and Poe. 'ALT+K' opens a command window from which to carry out a direct AI search. Start by typing the keyword corresponding to the AI engine that you'd like to use followed by a 'Space' character. The current list of valid keywords is:
 
 - chatgpt
 - claude
