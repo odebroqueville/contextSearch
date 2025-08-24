@@ -72,13 +72,13 @@
         "message": "ローカルディスクへのエクスポート"
     },
     "header2": {
-        "message": "Favicons & Icons"
+        "message": "アイコン"
     },
     "note": {
         "message": "この機能にはFirefox 56以上が必要です。"
     },
     "header4": {
-        "message": "Search options"
+        "message": "検索"
     },
     "exactMatch": {
         "message": "完全に一致する文字列を検索する"
@@ -228,13 +228,13 @@
         "message": "有効な検索エンジンのURLを入力してください。"
     },
     "header7": {
-        "message": "Reset options"
+        "message": "リセット"
     },
     "sidebar": {
         "message": "サイドバー"
     },
     "displayFavicons": {
-        "message": "Display favicons in the context menu"
+        "message": "コンテキスト メニューにアイコンを表示する"
     },
     "disableAltClick": {
         "message": "アイコングリッドを無効にする（Alt + クリック）"
@@ -246,7 +246,7 @@
         "message": "デフォルト検索エンジンリストの強制再読み込み"
     },
     "forceFaviconsReload": {
-        "message": "Force favicons to be reloaded"
+        "message": "アイコンを強制的に再読み込みする"
     },
     "restriction": {
         "message": "サイドバーがまだ開いていない場合は、ブラウザのツールバーから「サイドバーを表示」アイコンをクリックしてください。"
@@ -282,7 +282,7 @@
         "message": "キーボードショートカット"
     },
     "header10": {
-        "message": "Multisearch options"
+        "message": "マルチ検索"
     },
     "multisearchIntro": {
         "message": "複数の検索結果／タブを開く"
