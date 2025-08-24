@@ -72,13 +72,13 @@
         "message": "Ekspor ke disk lokal"
     },
     "header2": {
-        "message": "Favicons & Icons"
+        "message": "Ikon"
     },
     "note": {
         "message": "Fitur ini membutuhkan Firefox 56 atau lebih tinggi."
     },
     "header4": {
-        "message": "Search options"
+        "message": "Cari"
     },
     "exactMatch": {
         "message": "Mencari pencocokan string yang tepat"
@@ -228,13 +228,13 @@
         "message": "Silakan isi URL mesin pencari yang valid."
     },
     "header7": {
-        "message": "Reset options"
+        "message": "Reset"
     },
     "sidebar": {
         "message": "Di bilah samping"
     },
     "displayFavicons": {
-        "message": "Display favicons in the context menu"
+        "message": "Tampilkan ikon di menu konteks"
     },
     "disableAltClick": {
         "message": "Menonaktifkan kisi ikon (Alt + Klik)"
@@ -246,7 +246,7 @@
         "message": "Memuat ulang secara paksa daftar mesin pencari default"
     },
     "forceFaviconsReload": {
-        "message": "Force favicons to be reloaded"
+        "message": "Memaksa ikon untuk dimuat ulang"
     },
     "restriction": {
         "message": "Jika bilah sisi belum terbuka, Anda mungkin harus mengklik ikon 'Tampilkan bilah sisi' dari bilah alat peramban."
@@ -282,7 +282,7 @@
         "message": "Pintasan keyboard"
     },
     "header10": {
-        "message": "Multisearch options"
+        "message": "Pencarian Multi"
     },
     "multisearchIntro": {
         "message": "Membuka beberapa hasil pencarian/tab"
