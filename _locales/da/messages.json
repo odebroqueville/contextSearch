@@ -72,13 +72,13 @@
         "message": "Eksporter til lokal disk"
     },
     "header2": {
-        "message": "Favicons & Icons"
+        "message": "Ikoner"
     },
     "note": {
         "message": "Denne funktion kræver Firefox 56 eller nyere."
     },
     "header4": {
-        "message": "Search options"
+        "message": "Søg"
     },
     "exactMatch": {
         "message": "Søg efter et nøjagtigt strengmatch"
@@ -228,13 +228,13 @@
         "message": "Udfyld venligst en gyldig søgemaskine-URL."
     },
     "header7": {
-        "message": "Reset options"
+        "message": "Nulstil"
     },
     "sidebar": {
         "message": "I sidepanelet"
     },
     "displayFavicons": {
-        "message": "Display favicons in the context menu"
+        "message": "Vis ikoner i kontekstmenuen"
     },
     "disableAltClick": {
         "message": "Deaktiver ikon-gitter (Alt + klik)"
@@ -246,7 +246,7 @@
         "message": "Tving genindlæsning af standardlisten over søgemaskiner"
     },
     "forceFaviconsReload": {
-        "message": "Force favicons to be reloaded"
+        "message": "Tving ikoner til at blive genindlæst"
     },
     "restriction": {
         "message": "Hvis sidebjælken ikke allerede er åben, skal du muligvis klikke på ikonet \"Vis sidebjælker\" på browserens værktøjslinje."
@@ -282,7 +282,7 @@
         "message": "Tastaturgenvej"
     },
     "header10": {
-        "message": "Multisearch options"
+        "message": "Multisøgning"
     },
     "multisearchIntro": {
         "message": "Åbn flere søgeresultater/faner"
