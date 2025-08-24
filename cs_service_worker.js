@@ -122,6 +122,40 @@ let menuCreationInProgress = false;
 // Track number of active click listeners
 let clickListenerCounter = 0;
 
+// Cache for OpenSearch support status per tab
+const openSearchCache = new Map();
+
+// Clear OpenSearch cache for a specific tab
+function clearOpenSearchCache(tabId) {
+    if (openSearchCache.has(tabId)) {
+        openSearchCache.delete(tabId);
+        if (logToConsole) console.log(`[OpenSearchCache] Cleared cache for tab ${tabId}`);
+    }
+}
+
+// Get cached OpenSearch status or null if not cached
+function getCachedOpenSearchStatus(tabId, url) {
+    const cached = openSearchCache.get(tabId);
+    if (cached && cached.url === url) {
+        if (logToConsole) console.log(`[OpenSearchCache] Using cached result for tab ${tabId}: ${cached.hasOpenSearch}`);
+        return cached.hasOpenSearch;
+    }
+    return null;
+}
+
+// Cache OpenSearch status for a tab
+function setCachedOpenSearchStatus(tabId, url, hasOpenSearch) {
+    openSearchCache.set(tabId, { url, hasOpenSearch });
+    if (logToConsole) console.log(`[OpenSearchCache] Cached result for tab ${tabId}: ${hasOpenSearch}`);
+}
+
+// Clear all OpenSearch cache (useful for debugging or major state changes)
+function clearAllOpenSearchCache() {
+    const cacheSize = openSearchCache.size;
+    openSearchCache.clear();
+    if (logToConsole) console.log(`[OpenSearchCache] Cleared entire cache (${cacheSize} entries)`);
+}
+
 // Track when service worker was last active
 let lastActivityTime = Date.now();
 
@@ -227,13 +261,22 @@ browser.permissions.onRemoved.addListener(async (permissions) => {
 });
 
 // listen to tab URL changes
-browser.tabs.onUpdated.addListener(() => {
+browser.tabs.onUpdated.addListener((tabId, changeInfo) => {
+    // Clear cache if URL changed
+    if (changeInfo.url) {
+        clearOpenSearchCache(tabId);
+    }
     if (paid || trialActive) debouncedUpdateAddonStateForActiveTab();
 });
 
 // listen to tab switching
 browser.tabs.onActivated.addListener(() => {
     if (paid || trialActive) debouncedUpdateAddonStateForActiveTab();
+});
+
+// listen to tab removal to clean up cache
+browser.tabs.onRemoved.addListener((tabId) => {
+    clearOpenSearchCache(tabId);
 });
 
 // Listen for storage changes
@@ -723,34 +766,18 @@ async function handleStorageChange(changes, areaName) {
         if (changes.options) {
             if (logToConsole) console.log('Options changed:', changes.options.newValue);
             options = changes.options.newValue;
-            // Send message to content scripts (must use tabs messaging)
-            if (options) {
-                try {
-                    const tabs = await browser.tabs.query({});
-                    for (const tab of tabs) {
-                        await sendMessageToTab(tab, { action: 'updateOptions', data: { options } });
-                    }
-                } catch (err) {
-                    if (logToConsole) console.error('Failed to broadcast updateOptions to tabs:', err?.message || err);
-                }
-            }
+            // Mark that options have changed - content scripts will request updated options when needed
+            // This is more efficient than broadcasting to all tabs
+            if (logToConsole) console.log('Options updated, content scripts will request updated data when needed');
         }
 
         // Check if search engines were changed
         if (changes.searchEngines) {
             if (logToConsole) console.log('Search engines changed:', changes.searchEngines.newValue);
             searchEngines = changes.searchEngines.newValue;
-            // Send message to content scripts (must use tabs messaging)
-            if (searchEngines) {
-                try {
-                    const tabs = await browser.tabs.query({});
-                    for (const tab of tabs) {
-                        await sendMessageToTab(tab, { action: 'updateSearchEngines', data: { searchEngines } });
-                    }
-                } catch (err) {
-                    if (logToConsole) console.error('Failed to broadcast updateSearchEngines to tabs:', err?.message || err);
-                }
-            }
+            // Mark that search engines have changed - content scripts will request updated data when needed
+            // This is more efficient than broadcasting to all tabs
+            if (logToConsole) console.log('Search engines updated, content scripts will request updated data when needed');
         }
 
         // Check if selection was changed
@@ -1743,6 +1770,7 @@ function hasClickListener() {
 // This allows them to be called from the console like: browser.runtime.getBackgroundPage().then(bg => bg.debugListenerStatus())
 globalThis.debugListenerStatus = debugListenerStatus;
 globalThis.hasClickListener = hasClickListener;
+globalThis.clearAllOpenSearchCache = clearAllOpenSearchCache;
 
 /// Functions used to build the context menu
 async function createMenuItem(id, title, contexts, parentId, faviconUrl) {
@@ -3194,12 +3222,25 @@ async function updateAddonStateForActiveTab() {
                 let response = false; // Default to false
                 // Only check for OpenSearch on http/https pages where content scripts run
                 if (activeTab.url && (activeTab.url.startsWith('http:') || activeTab.url.startsWith('https:'))) {
-                    try {
-                        response = await browser.tabs.sendMessage(activeTab.id, { action: 'getOpenSearchSupportStatus' });
-                    } catch (error) {
-                        // Log the specific error if sending message fails
-                        if (logToConsole) console.warn(`[ActionMenu] Failed to get OpenSearch status from content script for tab ${activeTab.id}: ${error.message}`);
-                        // Keep hasOpenSearch as false
+                    // Check cache first
+                    const cachedResult = getCachedOpenSearchStatus(activeTab.id, activeTab.url);
+                    if (cachedResult !== null) {
+                        // Use cached result
+                        response = { hasOpenSearch: cachedResult };
+                    } else {
+                        // Cache miss - send message to content script
+                        try {
+                            response = await browser.tabs.sendMessage(activeTab.id, { action: 'getOpenSearchSupportStatus' });
+                            // Cache the result if we got a valid response
+                            if (response && typeof response === 'object' && 'hasOpenSearch' in response) {
+                                setCachedOpenSearchStatus(activeTab.id, activeTab.url, response.hasOpenSearch);
+                            }
+                        } catch (error) {
+                            // Log the specific error if sending message fails
+                            if (logToConsole) console.warn(`[ActionMenu] Failed to get OpenSearch status from content script for tab ${activeTab.id}: ${error.message}`);
+                            // Keep hasOpenSearch as false and cache the negative result
+                            setCachedOpenSearchStatus(activeTab.id, activeTab.url, false);
+                        }
                     }
                 }
 

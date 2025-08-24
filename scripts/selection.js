@@ -69,52 +69,10 @@ document.addEventListener('mousedown', startSelection);
 document.addEventListener('mouseup', handleAltClickWithGrid);
 
 // Key down event listener
-document.addEventListener('keydown', (event) => {
-    const key = event.key;
-    const code = event.code;
-    if (logToConsole) console.log('Key down (key, code):', { key, code });
-
-    // Debug line to see what's happening
-    if (logToConsole) console.log('Keydown target check:', {
-        isInputField: event.target.nodeName === 'INPUT',
-        isContentEditable: event.target.isContentEditable,
-        isKeyAllowed: isKeyAllowed(event),
-        target: event.target.nodeName
-    });
-
-    // Don't process keydown events if typing in INPUT or contentEditable elements
-    if (event.target.nodeName === 'INPUT' || event.target.isContentEditable || !isKeyAllowed(event)) return;
-
-    // Store the key state - this works for both regular keys and browser command shortcuts
-    keysPressed[key] = code;
-
-    // Track Alt key specifically
-    if (key === 'Alt') {
-        if (logToConsole) console.log('Alt key pressed and held down');
-
-        // Store current text selection when Alt is pressed
-        const sel = window.getSelection();
-        if (sel && !sel.isCollapsed && sel.toString().trim().length > 0) {
-            selectionBeforeAlt = sel.toString().trim();
-            if (logToConsole) console.log('Stored selection on Alt press:', selectionBeforeAlt);
-        }
-    }
-});
+document.addEventListener('keydown', handleKeyDown);
 
 // Key up event listener
-document.addEventListener('keyup', (e) => {
-    const key = e.key;
-
-    if (logToConsole) console.log('Key up detected:', { key, keysPressed });
-
-    // Track Alt key specifically
-    if (key === 'Alt') {
-        if (logToConsole) console.log('Alt key released');
-        selectionBeforeAlt = ''; // Clear stored selection when Alt is released
-    }
-
-    handleKeyUp(e);
-});
+document.addEventListener('keyup', handleKeyUp);
 
 // Add window blur and focus event listeners to ensure keysPressed is reset when window loses focus
 // This handles browser shortcuts like Cmd+Alt+I that might not trigger keyup events
@@ -140,16 +98,6 @@ browser.runtime.onMessage.addListener((message, _ignored, sendResponse) => { // 
     const handleMessage = async () => {
         try {
             switch (action) {
-                case 'updateOptions':
-                    options = data.options;
-                    if (logToConsole) console.log('Options updated:', options);
-                    sendResponse({ success: true });
-                    return true;
-                case 'updateSearchEngines':
-                    searchEngines = data.searchEngines;
-                    if (logToConsole) console.log('Search engines updated:', searchEngines);
-                    sendResponse({ success: true });
-                    return true;
                 case 'getOpenSearchSupportStatus':
                     const response = getOpenSearchSupportStatus();
                     if (logToConsole) console.log('OpenSearch support status:', response);
@@ -192,6 +140,41 @@ browser.runtime.onMessage.addListener((message, _ignored, sendResponse) => { // 
     handleMessage();
 });
 
+/// Main functions
+
+// Handle key down
+function handleKeyDown(event) {
+    const key = event.key;
+    const code = event.code;
+    if (logToConsole) console.log('Key down (key, code):', { key, code });
+
+    // Debug line to see what's happening
+    if (logToConsole) console.log('Keydown target check:', {
+        isInputField: event.target.nodeName === 'INPUT',
+        isContentEditable: event.target.isContentEditable,
+        isKeyAllowed: isKeyAllowed(event),
+        target: event.target.nodeName
+    });
+
+    // Don't process keydown events if typing in INPUT or contentEditable elements
+    if (event.target.nodeName === 'INPUT' || event.target.isContentEditable || !isKeyAllowed(event)) return;
+
+    // Store the key state - this works for both regular keys and browser command shortcuts
+    keysPressed[key] = code;
+
+    // Track Alt key specifically
+    if (key === 'Alt') {
+        if (logToConsole) console.log('Alt key pressed and held down');
+
+        // Store current text selection when Alt is pressed
+        const sel = window.getSelection();
+        if (sel && !sel.isCollapsed && sel.toString().trim().length > 0) {
+            selectionBeforeAlt = sel.toString().trim();
+            if (logToConsole) console.log('Stored selection on Alt press:', selectionBeforeAlt);
+        }
+    }
+}
+
 // Detect the underlying OS
 async function getOS() {
     try {
@@ -216,12 +199,6 @@ async function getOS() {
         console.error('Error detecting OS:', error);
         return 'Windows';
     }
-}
-
-// Function that determines if the browser being used is Chromium-based (e.g. Chrome) or is Gecko-based (e.g. Firefox)
-function getBrowserType() {
-    const userAgent = navigator.userAgent.toLowerCase();
-    return userAgent.includes("chrome") ? "chrome" : "firefox";
 }
 
 // Function that determines the meta key based on the OS
@@ -721,7 +698,7 @@ async function init() {
     } else if (!googleReverseImageSearchUrl.startsWith(trimmedUrl) && !googleLensUrl.startsWith(trimmedUrl)) {
         // Identify the search engine corresponding to the domain and determine if it uses an HTTP POST request
         for (let id in searchEngines) {
-            if (id.startsWith('separator-') || id.startsWith('link-') || id.startsWith('chatgpt-') || searchEngines[id].isFolder) continue;
+            if (id.startsWith('separator-') || id.startsWith('link-') || id.startsWith('chatgpt-') || !searchEngines[id] || searchEngines[id].isFolder) continue;
             const url = searchEngines[id].url;
             const post = (searchEngines[id].formData) ? true : false;
             if (url.startsWith('https://' + domain) && post) {
@@ -791,6 +768,12 @@ function hasContextSearchImage() {
 
 // Handle double click event on input elements for websites that use HTTP POST method
 async function handleInputDblclick(e) {
+    // Get fresh options to ensure we have the latest settings
+    const freshOptions = await getFreshStoredData('options');
+    if (freshOptions) {
+        options = freshOptions;
+    }
+
     if (options.disableDoubleClick) return;
     if (logToConsole) console.log(e);
     const inputElement = e.target;
@@ -895,6 +878,22 @@ async function checkForSelection(e) {
 async function handleKeyUp(e) {
     if (logToConsole) console.log('handleKeyUp called with:', e);
 
+    let key = e.key;
+
+    if (logToConsole) console.log('Key up detected:', { key, keysPressed });
+
+    // Track Alt key specifically
+    if (key === 'Alt') {
+        if (logToConsole) console.log('Alt key released');
+        selectionBeforeAlt = ''; // Clear stored selection when Alt is released
+    }
+
+    // If the Escape key was pressed and the Icons Grid is open, close the grid
+    if (key === 'Escape' && isIconsGridOpen()) {
+        closeGrid();
+        return;
+    }
+
     const modifiers = ['Meta', 'Control', 'Shift', 'Alt'];
 
     await checkForSelection(e);
@@ -933,12 +932,14 @@ async function handleKeyUp(e) {
     if (logToConsole) console.log(keysPressed);
 
     // If more than one non-modifier key was pressed, then only the first key is used
-    const key = Object.keys(keysPressed)[0];
+    key = Object.keys(keysPressed)[0];
 
     if (os === 'macOS' && key && keysPressed[key]) {
         input += keysPressed[key].substring(3);
     } else if (key) {
         input += key;
+    } else if (!input) {
+        return; // No valid key combination
     }
 
     if (logToConsole) console.log(`Keys pressed: ${input}`);
@@ -990,6 +991,12 @@ async function handleKeyUp(e) {
 }
 
 async function searchForKeyboardShortcut(input) {
+    // Get fresh searchEngines data
+    const freshSearchEngines = await getFreshStoredData('searchEngines');
+    if (freshSearchEngines) {
+        searchEngines = freshSearchEngines;
+    }
+    
     // Check if the input text matches any search engine keyboard shortcut
     for (let id in searchEngines) {
         if (logToConsole) console.log(id);
@@ -1017,6 +1024,10 @@ async function searchForKeyboardShortcut(input) {
     }
 }
 
+function isIconsGridOpen() {
+    return document.getElementById('context-search-icon-grid') !== null;
+}
+
 // Use mouse down to store selected text
 function startSelection(event) {
     if (event.button === 0) { // 0 indicates the left mouse button
@@ -1042,17 +1053,11 @@ async function handleAltClickWithGrid(e) {
     // e is null when the content script received the message to launch the Icons Grid (Ctrl+Shift+J)
     if (logToConsole) console.log('handleAltClickWithGrid called with event:', e);
 
-    // Ensure options is initialized
-    if (!options) {
-        try {
-            const response = await sendMessage('getStoredData', { key: 'options' });
-            if (response && response.success && response.data && response.data.options) {
-                options = response.data.options;
-                if (logToConsole) console.log('Retrieved options:', options);
-            }
-        } catch (error) {
-            if (logToConsole) console.error('Error retrieving options:', error);
-        }
+    // Get fresh options to ensure we have the latest settings
+    const freshOptions = await getFreshStoredData('options');
+    if (freshOptions) {
+        options = freshOptions;
+        if (logToConsole) console.log('Retrieved fresh options:', options);
     }
     if (logToConsole) console.log('Options:', options);
 
@@ -1110,8 +1115,7 @@ async function handleAltClickWithGrid(e) {
     if (logToConsole) console.log('Selection:', textSelection);
 
     // If the grid of icons is already displayed, then close the grid
-    const nav = document.getElementById('context-search-icon-grid');
-    if (nav !== undefined && nav !== null) {
+    if (isIconsGridOpen()) {
         closeGrid();
     }
 
@@ -1288,32 +1292,16 @@ async function createIconsGrid(folderId) {
             searchEnginesKeys: searchEngines ? Object.keys(searchEngines) : []
         });
 
-        try {
-            // Request searchEngines specifically
-            const response = await sendMessage('getStoredData', { key: 'searchEngines' });
-
-            if (logToConsole) console.log('Received response in createIconsGrid:', response);
-
-            if (response && response.success) {
-                if (response.data && response.data.searchEngines) {
-                    searchEngines = response.data.searchEngines;
-                    if (logToConsole) console.log('Updated searchEngines:', {
-                        keys: Object.keys(searchEngines),
-                        folderExists: folderId in searchEngines
-                    });
-                } else if (response.data) {
-                    // Handle case where data is not nested under searchEngines
-                    searchEngines = response.data;
-                    if (logToConsole) console.log('Updated searchEngines (direct data):', {
-                        keys: Object.keys(searchEngines),
-                        folderExists: folderId in searchEngines
-                    });
-                }
-            } else if (response) {
-                if (logToConsole) console.error('Error in response:', response.error || 'Unknown error');
-            }
-        } catch (err) {
-            if (logToConsole) console.error('Failed to refresh search engines from storage:', err);
+        // Try to get fresh search engines
+        const freshSearchEngines = await getFreshStoredData('searchEngines');
+        if (freshSearchEngines) {
+            searchEngines = freshSearchEngines;
+            if (logToConsole) console.log('Updated searchEngines:', {
+                keys: Object.keys(searchEngines),
+                folderExists: folderId in searchEngines
+            });
+        } else {
+            if (logToConsole) console.error('Failed to refresh search engines from storage');
         }
     }
 
@@ -1464,26 +1452,42 @@ async function onGridClick(e, folderId) {
     if (logToConsole) console.log('Search engine clicked:' + id);
     closeGrid();
 
+    // Get fresh searchEngines data  
+    const freshSearchEngines = await getFreshStoredData('searchEngines');
+    if (freshSearchEngines) {
+        searchEngines = freshSearchEngines;
+    }
+
     if (id === 'back') {
-        const parentId = getParentFolderOf(folderId, 'root');
+        const parentId = await getParentFolderOf(folderId, 'root');
         if (logToConsole) console.log('Parent folder of ' + folderId + ' is ' + parentId);
         await createIconsGrid(parentId);
         return;
     }
 
-    if (id === 'multisearch' || !searchEngines[id].isFolder) {
+    if (id === 'multisearch' || !searchEngines[id] || !searchEngines[id].isFolder) {
         await sendMessage('doSearch', { id: id });
     } else {
         await createIconsGrid(id);
     }
 }
 
-function getParentFolderOf(folderId, startFolder) {
+async function getParentFolderOf(folderId, startFolder) {
+    // Get fresh searchEngines data
+    const freshSearchEngines = await getFreshStoredData('searchEngines');
+    if (freshSearchEngines) {
+        searchEngines = freshSearchEngines;
+    }
+    
+    if (!searchEngines[startFolder] || !Array.isArray(searchEngines[startFolder].children)) {
+        return null;
+    }
+    
     for (const id of searchEngines[startFolder].children) {
         if (id === folderId) {
             return startFolder;
-        } else if (searchEngines[id].isFolder) {
-            const result = getParentFolderOf(folderId, id);
+        } else if (searchEngines[id] && searchEngines[id].isFolder) {
+            const result = await getParentFolderOf(folderId, id);
             if (result) {
                 return result;
             }
@@ -1497,6 +1501,12 @@ function onHover() {
 }
 
 async function onLeave() {
+    // Get fresh options to ensure we have the latest settings
+    const freshOptions = await getFreshStoredData('options');
+    if (freshOptions) {
+        options = freshOptions;
+    }
+
     if (!options.closeGridOnMouseOut) return;
     if (logToConsole) console.log('Closing Icons Grid...');
     closeGrid();
@@ -1600,6 +1610,20 @@ async function sendMessage(action, data, retryCount = 0) {
     }
 }
 
+// Helper function to get fresh data from storage
+async function getFreshStoredData(key) {
+    try {
+        const response = await sendMessage('getStoredData', { key });
+        if (response && response.success && response.data) {
+            return response.data[key];
+        }
+        return null;
+    } catch (error) {
+        if (logToConsole) console.error(`Failed to get fresh ${key}:`, error);
+        return null;
+    }
+}
+
 function absoluteUrl(url) {
     // Create an anchor element (it automatically resolves relative URLs)
     const anchor = document.createElement('a');
@@ -1612,16 +1636,22 @@ function absoluteUrl(url) {
 }
 
 async function getNewSearchEngine(url) {
+    // Get fresh searchEngines data
+    const freshSearchEngines = await getFreshStoredData('searchEngines');
+    if (freshSearchEngines) {
+        searchEngines = freshSearchEngines;
+    }
+    
     const xml = await fetchXML(url);
     const { shortName, queryString } = getNameAndQueryString(xml);
 
     // Prevent duplicates
     for (let id in searchEngines) {
-        if (queryString === searchEngines[id].url) return null;
+        if (searchEngines[id] && queryString === searchEngines[id].url) return null;
     }
 
     let id = shortName.replace(/\s/g, '-').toLowerCase();
-    while (!isIdUnique(id)) {
+    while (!(await isIdUnique(id))) {
         id = defineNewId(shortName);
     }
     id = id.trim();
@@ -1712,7 +1742,13 @@ function defineNewId(shortName) {
 }
 
 // Ensure the ID generated is unique
-function isIdUnique(testId) {
+async function isIdUnique(testId) {
+    // Get fresh searchEngines data
+    const freshSearchEngines = await getFreshStoredData('searchEngines');
+    if (freshSearchEngines) {
+        searchEngines = freshSearchEngines;
+    }
+    
     for (let id in searchEngines) {
         if (id === testId) {
             return false;
