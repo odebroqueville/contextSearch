@@ -72,13 +72,13 @@
         "message": "Արտահանել տեղային սկավառակ"
     },
     "header2": {
-        "message": "Favicons & Icons"
+        "message": "Սրբապատկերներ"
     },
     "note": {
         "message": "Այս առանձնահատկությունը պահանջում է Firefox 56 կամ ավելի բարձր:"
     },
     "header4": {
-        "message": "Search options"
+        "message": "Որոնում"
     },
     "exactMatch": {
         "message": "Որոնել ճշգրիտ տողային համընկնում"
@@ -228,13 +228,13 @@
         "message": "Լրացրեք վավեր որոնման համակարգի URL:"
     },
     "header7": {
-        "message": "Reset options"
+        "message": "Վերակայել"
     },
     "sidebar": {
         "message": "Կողագոտիում"
     },
     "displayFavicons": {
-        "message": "Display favicons in the context menu"
+        "message": "Ցուցադրել պատկերակները համատեքստային մենյուում"
     },
     "disableAltClick": {
         "message": "Անջատել պատկերակների ցանցը (Alt + Click)"
@@ -246,7 +246,7 @@
         "message": "Պարտադիր լռելյայն որոնման համակարգերի ցանկի վերբեռնում"
     },
     "forceFaviconsReload": {
-        "message": "Force favicons to be reloaded"
+        "message": "Ստիպել պատկերակների վերբեռնումը"
     },
     "restriction": {
         "message": "Եթե կողագոտին արդեն բաց չէ, ապա պետք է սեղմեք բրաուզերի գործիքագոտիի «Ցուցադրել կողագոտիները» պատկերակը:"
@@ -282,7 +282,7 @@
         "message": "Ստեղնաշարի կարճատ"
     },
     "header10": {
-        "message": "Multisearch options"
+        "message": "Մուլտիորոնում"
     },
     "multisearchIntro": {
         "message": "Բացել բազմաթիվ որոնման արդյունքներ / ներդիրներ"
