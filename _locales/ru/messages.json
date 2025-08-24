@@ -72,13 +72,13 @@
         "message": "Экспорт на локальный диск"
     },
     "header2": {
-        "message": "Favicons & Icons"
+        "message": "Иконки"
     },
     "note": {
         "message": "Для работы этой функции требуется Firefox 56 или выше."
     },
     "header4": {
-        "message": "Search options"
+        "message": "Поиск"
     },
     "exactMatch": {
         "message": "Поиск точного совпадения строк"
@@ -228,13 +228,13 @@
         "message": "Введите правильный URL-адрес поисковой системы."
     },
     "header7": {
-        "message": "Reset options"
+        "message": "Сброс"
     },
     "sidebar": {
         "message": "В боковой панели"
     },
     "displayFavicons": {
-        "message": "Display favicons in the context menu"
+        "message": "Отображать значки в контекстном меню"
     },
     "disableAltClick": {
         "message": "Отключить сетку значков (Alt + щелчок)"
@@ -246,7 +246,7 @@
         "message": "Принудительная перезагрузка списка поисковых систем по умолчанию"
     },
     "forceFaviconsReload": {
-        "message": "Force favicons to be reloaded"
+        "message": "Принудительная перезагрузка значков"
     },
     "restriction": {
         "message": "Если боковая панель еще не открыта, то вам придется нажать на значок \"Показать боковые панели\" на панели инструментов браузера."
@@ -282,7 +282,7 @@
         "message": "Сочетание клавиш"
     },
     "header10": {
-        "message": "Multisearch options"
+        "message": "Мультипоиск"
     },
     "multisearchIntro": {
         "message": "Открывайте несколько результатов поиска/вкладок"
