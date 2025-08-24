@@ -72,13 +72,13 @@
         "message": "Εξαγωγή σε τοπικό δίσκο"
     },
     "header2": {
-        "message": "Favicons & Icons"
+        "message": "Εικονίδια"
     },
     "note": {
         "message": "Αυτή η λειτουργία απαιτεί Firefox 56 ή νεότερη έκδοση."
     },
     "header4": {
-        "message": "Search options"
+        "message": "Αναζήτηση"
     },
     "exactMatch": {
         "message": "Αναζήτηση για ακριβή αντιστοιχία συμβολοσειράς"
@@ -228,13 +228,13 @@
         "message": "Παρακαλούμε συμπληρώστε μια έγκυρη διεύθυνση URL μιας μηχανής αναζήτησης."
     },
     "header7": {
-        "message": "Reset options"
+        "message": "Επαναφορά"
     },
     "sidebar": {
         "message": "Στην πλαϊνή μπάρα"
     },
     "displayFavicons": {
-        "message": "Display favicons in the context menu"
+        "message": "Εμφάνιση εικονιδίων στο μενού περιβάλλοντος"
     },
     "disableAltClick": {
         "message": "Απενεργοποίηση πλέγματος εικονιδίων (Alt + κλικ)"
@@ -246,7 +246,7 @@
         "message": "Αναγκαστική επαναφόρτωση της προεπιλεγμένης λίστας μηχανών αναζήτησης"
     },
     "forceFaviconsReload": {
-        "message": "Force favicons to be reloaded"
+        "message": "Αναγκαστική επαναφόρτωση εικονιδίων"
     },
     "restriction": {
         "message": "Εάν η πλευρική γραμμή δεν είναι ήδη ανοιχτή, τότε ίσως χρειαστεί να κάνετε κλικ στο εικονίδιο \"Εμφάνιση πλευρικών γραμμών\" από τη γραμμή εργαλείων του προγράμματος περιήγησης."
@@ -282,7 +282,7 @@
         "message": "Συντόμευση πληκτρολογίου"
     },
     "header10": {
-        "message": "Multisearch options"
+        "message": "Πολυαναζήτηση"
     },
     "multisearchIntro": {
         "message": "Άνοιγμα πολλαπλών αποτελεσμάτων/καρτέλες αναζήτησης"
