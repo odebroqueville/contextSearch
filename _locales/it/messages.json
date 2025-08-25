@@ -48,7 +48,7 @@
         "message": "Posizione delle opzioni nel menu contestuale"
     },
     "subheader31": {
-        "message": "Dove si desidera che appaia il menu delle opzioni nel menu contestuale?"
+        "message": "Where would you like the options menu to appear in the context menu?"
     },
     "bottom": {
         "message": "In basso"
@@ -57,16 +57,16 @@
         "message": "In alto"
     },
     "hide": {
-        "message": "Nessuno dei due (nascondere il menu delle opzioni)"
+        "message": "Neither (hide the options menu)"
     },
     "header5": {
         "message": "Motori di ricerca di importazione/esportazione"
     },
     "import": {
-        "message": "Importare JSON dal disco locale"
+        "message": "Import JSON from local disk"
     },
     "export": {
-        "message": "Esportazione di motori di ricerca in JSON"
+        "message": "Export search engines to JSON"
     },
     "download": {
         "message": "Esportazione su disco locale"
@@ -99,7 +99,7 @@
         "message": "Salva le preferenze"
     },
     "header6": {
-        "message": "Quali motori di ricerca volete che appaiano nel menu contestuale o nella griglia?"
+        "message": "Which search engines would you like to appear in the context menu or grid?"
     },
     "clearAll": {
         "message": "Cancella tutto"
@@ -123,7 +123,7 @@
         "message": "Aggiungere un nuovo motore di ricerca"
     },
     "showSearchEngine": {
-        "message": "Mostra il motore di ricerca nella griglia o nel menu contestuale"
+        "message": "Show search engine in grid or context menu"
     },
     "searchEngineName": {
         "message": "Nome del motore di ricerca"
@@ -135,7 +135,7 @@
         "message": "Avvertenze"
     },
     "keyboardShortcutWarning": {
-        "message": "non tutte le combinazioni di tasti funzionano. Le scorciatoie da tastiera non possono iniziare con CMD su macOS o CTRL su Windows o Linux, in quanto sono solitamente riservate ai comandi di Firefox."
+        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Scorciatoia da tastiera"
@@ -186,7 +186,7 @@
         "message": "Motore di ricerca aggiunto."
     },
     "titleShowEngine": {
-        "message": "Mostra questo motore di ricerca nel menu contestuale o nella griglia"
+        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "Assicuratevi che il flag \"webextensions.storage.sync.enabled\" sia impostato su \"true\" in \"about:config\", altrimenti Context Search non funzionerà."
@@ -306,19 +306,19 @@
         "message": "abilitare i permessi di download per esportare i motori di ricerca."
     },
     "header11": {
-        "message": "Griglia icone"
+        "message": "Icons Grid"
     },
     "quickIconGrid": {
-        "message": "Visualizzare immediatamente la griglia delle icone dopo la selezione del testo."
+        "message": "Immediately display the icons grid after text has been selected"
     },
     "closeGridOnMouseOut": {
-        "message": "Chiudere la griglia delle icone all'uscita del mouse"
+        "message": "Close the icons grid on mouse out"
     },
     "xOffset": {
-        "message": "Spostamento orizzontale della griglia delle icone: "
+        "message": "Horizontal offset of the icons grid: "
     },
     "yOffset": {
-        "message": "Spostamento verticale della griglia delle icone: "
+        "message": "Vertical offset of the icons grid: "
     },
     "clearKeyboardShortcuts": {
         "message": "Cancella tutte le scorciatoie da tastiera"
@@ -336,10 +336,10 @@
         "message": "Aggiungere un prompt IA"
     },
     "promptShow": {
-        "message": "Mostra il prompt nella griglia o nel menu contestuale"
+        "message": "Show prompt in grid or context menu"
     },
     "promptName": {
-        "message": "Nome del prompt"
+        "message": "Prompt name"
     },
     "prompt": {
         "message": "Prompt"
@@ -378,7 +378,7 @@
         "message": "Impossibile recuperare l'URL per la rimozione del segnalibro"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Selezionare almeno un fornitore di IA e fornire un nome e un nome di richiesta."
+        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
     },
     "bookmarkPage": {
         "message": "Aggiungi ai preferiti questa pagina"
@@ -412,9 +412,5 @@
     },
     "__WET_LOCALE__": {
         "message": "it"
-    },
-    "titleSearchEngines": {
-        "message": "Search engines",
-        "description": "Title of search engines tab in the Options page"
     }
 }
