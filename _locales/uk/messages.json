@@ -48,7 +48,7 @@
         "message": "Розташування опцій у контекстному меню"
     },
     "subheader31": {
-        "message": "Де ви хочете, щоб меню параметрів відображалося в контекстному меню?"
+        "message": "Where would you like the options menu to appear in the context menu?"
     },
     "bottom": {
         "message": "Внизу"
@@ -57,16 +57,16 @@
         "message": "Вгорі"
     },
     "hide": {
-        "message": "Ні те, ні інше (приховати меню параметрів)"
+        "message": "Neither (hide the options menu)"
     },
     "header5": {
         "message": "Пошукові системи для імпорту/експорту"
     },
     "import": {
-        "message": "Імпорт JSON з локального диска"
+        "message": "Import JSON from local disk"
     },
     "export": {
-        "message": "Експорт пошукових систем в JSON"
+        "message": "Export search engines to JSON"
     },
     "download": {
         "message": "Експорт на локальний диск"
@@ -99,7 +99,7 @@
         "message": "Зберегти налаштування"
     },
     "header6": {
-        "message": "Які пошукові системи ви хотіли б бачити в контекстному меню або сітці?"
+        "message": "Which search engines would you like to appear in the context menu or grid?"
     },
     "clearAll": {
         "message": "Очистити все."
@@ -123,7 +123,7 @@
         "message": "Додати нову пошукову систему"
     },
     "showSearchEngine": {
-        "message": "Показати пошукову систему в сітці або контекстному меню"
+        "message": "Show search engine in grid or context menu"
     },
     "searchEngineName": {
         "message": "Назва пошукової системи"
@@ -135,7 +135,7 @@
         "message": "Попередження"
     },
     "keyboardShortcutWarning": {
-        "message": "не всі комбінації клавіш працюватимуть. Комбінації клавіш можуть не починатися з CMD у macOS або CTRL у Windows або Linux, оскільки вони зазвичай зарезервовані для команд Firefox."
+        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Комбінація клавіш"
@@ -186,7 +186,7 @@
         "message": "Додано пошукову систему."
     },
     "titleShowEngine": {
-        "message": "Показати цю пошукову систему в контекстному меню або сітці"
+        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "Будь ласка, переконайтеся, що прапор 'webextensions.storage.sync.enabled' встановлено в 'about:config', інакше контекстний пошук не працюватиме."
@@ -306,19 +306,19 @@
         "message": "увімкніть Дозволи на завантаження для експорту ваших пошукових систем."
     },
     "header11": {
-        "message": "Сітка піктограм"
+        "message": "Icons Grid"
     },
     "quickIconGrid": {
-        "message": "Негайне відображення сітки піктограм після виділення тексту"
+        "message": "Immediately display the icons grid after text has been selected"
     },
     "closeGridOnMouseOut": {
-        "message": "Закрийте сітку піктограм при виведенні миші"
+        "message": "Close the icons grid on mouse out"
     },
     "xOffset": {
-        "message": "Горизонтальний зсув сітки іконок: "
+        "message": "Horizontal offset of the icons grid: "
     },
     "yOffset": {
-        "message": "Вертикальне зміщення сітки іконок: "
+        "message": "Vertical offset of the icons grid: "
     },
     "clearKeyboardShortcuts": {
         "message": "Очистити всі комбінації клавіш"
@@ -336,13 +336,13 @@
         "message": "Додати підказку штучного інтелекту"
     },
     "promptShow": {
-        "message": "Показати підказку в сітці або контекстному меню"
+        "message": "Show prompt in grid or context menu"
     },
     "promptName": {
-        "message": "Запропонована назва"
+        "message": "Prompt name"
     },
     "prompt": {
-        "message": "Швидко"
+        "message": "Prompt"
     },
     "overwriteSearchEngines": {
         "message": "Замінити існуючі пошукові системи імпортованими пошуковими системами"
@@ -378,7 +378,7 @@
         "message": "Не вдалося отримати URL-адресу для видалення закладок"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Будь ласка, принаймні виберіть постачальника ШІ та вкажіть його ім'я та підказку"
+        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
     },
     "bookmarkPage": {
         "message": "Додайте цю сторінку в закладки"
@@ -412,9 +412,5 @@
     },
     "__WET_LOCALE__": {
         "message": "uk"
-    },
-    "titleSearchEngines": {
-        "message": "Search engines",
-        "description": "Title of search engines tab in the Options page"
     }
 }
