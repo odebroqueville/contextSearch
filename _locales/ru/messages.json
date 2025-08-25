@@ -48,7 +48,7 @@
         "message": "Положение опций в контекстном меню"
     },
     "subheader31": {
-        "message": "Где вы хотите видеть меню опций в контекстном меню?"
+        "message": "Where would you like the options menu to appear in the context menu?"
     },
     "bottom": {
         "message": "Внизу"
@@ -57,16 +57,16 @@
         "message": "На вершине"
     },
     "hide": {
-        "message": "Ни (скрыть меню опций)"
+        "message": "Neither (hide the options menu)"
     },
     "header5": {
         "message": "Импорт/экспорт поисковых систем"
     },
     "import": {
-        "message": "Импорт JSON с локального диска"
+        "message": "Import JSON from local disk"
     },
     "export": {
-        "message": "Экспорт поисковых систем в JSON"
+        "message": "Export search engines to JSON"
     },
     "download": {
         "message": "Экспорт на локальный диск"
@@ -99,7 +99,7 @@
         "message": "Сохранить предпочтения"
     },
     "header6": {
-        "message": "Какие поисковые системы вы хотели бы видеть в контекстном меню или сетке?"
+        "message": "Which search engines would you like to appear in the context menu or grid?"
     },
     "clearAll": {
         "message": "Очистить все"
@@ -123,7 +123,7 @@
         "message": "Добавьте новую поисковую систему"
     },
     "showSearchEngine": {
-        "message": "Показывайте поисковую систему в сетке или контекстном меню"
+        "message": "Show search engine in grid or context menu"
     },
     "searchEngineName": {
         "message": "Название поисковой системы"
@@ -135,7 +135,7 @@
         "message": "Внимание"
     },
     "keyboardShortcutWarning": {
-        "message": "Не все комбинации клавиш будут работать. Клавиатурные сокращения не могут начинаться с CMD в macOS или CTRL в Windows или Linux, поскольку они обычно предназначены для команд Firefox."
+        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Сочетание клавиш"
@@ -186,7 +186,7 @@
         "message": "Добавлена поисковая система."
     },
     "titleShowEngine": {
-        "message": "Показать эту поисковую систему в контекстном меню или сетке"
+        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "Убедитесь, что флаг 'webextensions.storage.sync.enabled' установлен на 'true' в 'about:config', иначе Контекстный поиск не будет работать."
@@ -306,19 +306,19 @@
         "message": "включите разрешение \"Загрузки\" для экспорта поисковых систем."
     },
     "header11": {
-        "message": "Сетка значков"
+        "message": "Icons Grid"
     },
     "quickIconGrid": {
-        "message": "Немедленное отображение сетки значков после выделения текста"
+        "message": "Immediately display the icons grid after text has been selected"
     },
     "closeGridOnMouseOut": {
-        "message": "Закрытие сетки значков при наведении курсора"
+        "message": "Close the icons grid on mouse out"
     },
     "xOffset": {
-        "message": "Горизонтальное смещение сетки иконок: "
+        "message": "Horizontal offset of the icons grid: "
     },
     "yOffset": {
-        "message": "Вертикальное смещение сетки значков: "
+        "message": "Vertical offset of the icons grid: "
     },
     "clearKeyboardShortcuts": {
         "message": "Очистить все сочетания клавиш"
@@ -336,13 +336,13 @@
         "message": "Добавить подсказку искусственного интеллекта"
     },
     "promptShow": {
-        "message": "Показать подсказку в сетке или контекстном меню"
+        "message": "Show prompt in grid or context menu"
     },
     "promptName": {
-        "message": "Имя подсказки"
+        "message": "Prompt name"
     },
     "prompt": {
-        "message": "Подсказка"
+        "message": "Prompt"
     },
     "overwriteSearchEngines": {
         "message": "Перезапишите существующие поисковые системы импортированными поисковыми системами"
@@ -378,7 +378,7 @@
         "message": "Не удалось получить URL-адрес для удаления закладок"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Пожалуйста, выберите поставщика ИИ и укажите его имя и подсказку."
+        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
     },
     "bookmarkPage": {
         "message": "Добавьте эту страницу в закладки"
@@ -412,9 +412,5 @@
     },
     "__WET_LOCALE__": {
         "message": "ru"
-    },
-    "titleSearchEngines": {
-        "message": "Search engines",
-        "description": "Title of search engines tab in the Options page"
     }
 }
