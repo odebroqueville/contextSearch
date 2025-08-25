@@ -48,7 +48,7 @@
         "message": "Plassering av alternativer i hurtigmenyen"
     },
     "subheader31": {
-        "message": "Hvor vil du at alternativmenyen skal vises i hurtigmenyen?"
+        "message": "Where would you like the options menu to appear in the context menu?"
     },
     "bottom": {
         "message": "Nederst"
@@ -57,16 +57,16 @@
         "message": "Øverst"
     },
     "hide": {
-        "message": "Verken (skjul alternativmenyen)"
+        "message": "Neither (hide the options menu)"
     },
     "header5": {
         "message": "Importere/eksportere søkemotorer"
     },
     "import": {
-        "message": "Importer JSON fra lokal disk"
+        "message": "Import JSON from local disk"
     },
     "export": {
-        "message": "Eksportere søkemotorer til JSON"
+        "message": "Export search engines to JSON"
     },
     "download": {
         "message": "Eksporter til lokal disk"
@@ -99,7 +99,7 @@
         "message": "Lagre preferanser"
     },
     "header6": {
-        "message": "Hvilke søkemotorer vil du skal vises i kontekstmenyen eller rutenettet?"
+        "message": "Which search engines would you like to appear in the context menu or grid?"
     },
     "clearAll": {
         "message": "Fjern alt"
@@ -123,7 +123,7 @@
         "message": "Legg til en ny søkemotor"
     },
     "showSearchEngine": {
-        "message": "Vis søkemotor i rutenett eller kontekstmeny"
+        "message": "Show search engine in grid or context menu"
     },
     "searchEngineName": {
         "message": "Navn på søkemotor"
@@ -135,7 +135,7 @@
         "message": "Advarsel"
     },
     "keyboardShortcutWarning": {
-        "message": "Ikke alle tastekombinasjoner vil fungere. Hurtigtaster starter kanskje ikke med CMD på macOS eller CTRL på Windows eller Linux, da disse vanligvis er reservert for Firefox-kommandoer."
+        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Hurtigtast"
@@ -186,7 +186,7 @@
         "message": "Søkemotor lagt til."
     },
     "titleShowEngine": {
-        "message": "Vis denne søkemotoren i kontekstmenyen eller rutenettet"
+        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "Sørg for at flagget «webextensions.storage.sync.enabled» er satt til «true» i «about:config», ellers fungerer ikke kontekstsøk."
@@ -306,19 +306,19 @@
         "message": "aktivere nedlastingstillatelser for å eksportere søkemotorene dine."
     },
     "header11": {
-        "message": "Ikoner rutenett"
+        "message": "Icons Grid"
     },
     "quickIconGrid": {
-        "message": "Vis ikonrutenettet umiddelbart etter at teksten er valgt"
+        "message": "Immediately display the icons grid after text has been selected"
     },
     "closeGridOnMouseOut": {
-        "message": "Lukk ikonrutenettet når musen er ute"
+        "message": "Close the icons grid on mouse out"
     },
     "xOffset": {
-        "message": "Horisontal forskyvning av ikonrutenettet: "
+        "message": "Horizontal offset of the icons grid: "
     },
     "yOffset": {
-        "message": "Vertikal forskyvning av ikonrutenettet: "
+        "message": "Vertical offset of the icons grid: "
     },
     "clearKeyboardShortcuts": {
         "message": "Fjern alle hurtigtaster"
@@ -336,13 +336,13 @@
         "message": "Legg til AI-forespørsel"
     },
     "promptShow": {
-        "message": "Vis ledetekst i rutenett eller hurtigmeny"
+        "message": "Show prompt in grid or context menu"
     },
     "promptName": {
-        "message": "Spørsmål navn"
+        "message": "Prompt name"
     },
     "prompt": {
-        "message": "Omgående"
+        "message": "Prompt"
     },
     "overwriteSearchEngines": {
         "message": "Overskriv de eksisterende søkemotorene med de importerte søkemotorene"
@@ -378,7 +378,7 @@
         "message": "Kunne ikke hente URL for fjerning av bokmerker"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Velg i det minste en AI-leverandør og oppgi et spørsmål og en melding"
+        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
     },
     "bookmarkPage": {
         "message": "Bokmerk denne siden"
@@ -412,9 +412,5 @@
     },
     "__WET_LOCALE__": {
         "message": "no"
-    },
-    "titleSearchEngines": {
-        "message": "Search engines",
-        "description": "Title of search engines tab in the Options page"
     }
 }
