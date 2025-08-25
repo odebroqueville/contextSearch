@@ -48,7 +48,7 @@
         "message": "Positie van opties in het contextmenu"
     },
     "subheader31": {
-        "message": "Waar wil je dat het optiemenu verschijnt in het contextmenu?"
+        "message": "Where would you like the options menu to appear in the context menu?"
     },
     "bottom": {
         "message": "Onderaan"
@@ -57,16 +57,16 @@
         "message": "Bovenaan"
     },
     "hide": {
-        "message": "Geen van beide (het optiemenu verbergen)"
+        "message": "Neither (hide the options menu)"
     },
     "header5": {
         "message": "Zoekmachines importeren/exporteren"
     },
     "import": {
-        "message": "JSON importeren van lokale schijf"
+        "message": "Import JSON from local disk"
     },
     "export": {
-        "message": "Zoekmachines exporteren naar JSON"
+        "message": "Export search engines to JSON"
     },
     "download": {
         "message": "Exporteren naar lokale schijf"
@@ -99,7 +99,7 @@
         "message": "Voorkeuren opslaan"
     },
     "header6": {
-        "message": "Welke zoekmachines wil je laten verschijnen in het contextmenu of het raster?"
+        "message": "Which search engines would you like to appear in the context menu or grid?"
     },
     "clearAll": {
         "message": "Alles wissen"
@@ -123,7 +123,7 @@
         "message": "Een nieuwe zoekmachine toevoegen"
     },
     "showSearchEngine": {
-        "message": "Zoekmachine tonen in raster of contextmenu"
+        "message": "Show search engine in grid or context menu"
     },
     "searchEngineName": {
         "message": "Naam zoekmachine"
@@ -135,7 +135,7 @@
         "message": "Waarschuwing"
     },
     "keyboardShortcutWarning": {
-        "message": "niet alle toetscombinaties zullen werken. Sneltoetsen mogen niet beginnen met CMD op macOS of CTRL op Windows of Linux, omdat deze meestal gereserveerd zijn voor Firefox-opdrachten."
+        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Sneltoets"
@@ -186,7 +186,7 @@
         "message": "Zoekmachine toegevoegd."
     },
     "titleShowEngine": {
-        "message": "Toon deze zoekmachine in het contextmenu of het raster"
+        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "Zorg ervoor dat de vlag 'webextensions.storage.sync.enabled' is ingesteld op 'true' in 'about:config', anders werkt Context Search niet."
@@ -306,19 +306,19 @@
         "message": "machtigingen voor Downloads inschakelen om uw zoekmachines te exporteren."
     },
     "header11": {
-        "message": "Pictogrammenraster"
+        "message": "Icons Grid"
     },
     "quickIconGrid": {
-        "message": "Het pictogrammenraster onmiddellijk weergeven nadat tekst is geselecteerd"
+        "message": "Immediately display the icons grid after text has been selected"
     },
     "closeGridOnMouseOut": {
-        "message": "Sluit het pictogrammenraster bij het verlaten van de muis"
+        "message": "Close the icons grid on mouse out"
     },
     "xOffset": {
-        "message": "Horizontale verschuiving van het pictogrammenraster: "
+        "message": "Horizontal offset of the icons grid: "
     },
     "yOffset": {
-        "message": "Verticale verschuiving van het pictogrammenraster: "
+        "message": "Vertical offset of the icons grid: "
     },
     "clearKeyboardShortcuts": {
         "message": "Alle sneltoetsen wissen"
@@ -336,10 +336,10 @@
         "message": "AI-oproep toevoegen"
     },
     "promptShow": {
-        "message": "Toon prompt in raster of contextmenu"
+        "message": "Show prompt in grid or context menu"
     },
     "promptName": {
-        "message": "Naam prompt"
+        "message": "Prompt name"
     },
     "prompt": {
         "message": "Prompt"
@@ -378,7 +378,7 @@
         "message": "Kon URL voor bladwijzerverwijdering niet ophalen"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Selecteer ten minste een AI-aanbieder en geef een promptnaam en een prompt op"
+        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
     },
     "bookmarkPage": {
         "message": "Bladwijzer van deze pagina"
@@ -412,9 +412,5 @@
     },
     "__WET_LOCALE__": {
         "message": "nl"
-    },
-    "titleSearchEngines": {
-        "message": "Search engines",
-        "description": "Title of search engines tab in the Options page"
     }
 }
