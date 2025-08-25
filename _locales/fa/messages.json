@@ -48,7 +48,7 @@
         "message": "موقعیت گزینه ها در منوی زمینه"
     },
     "subheader31": {
-        "message": "دوست دارید منوی گزینه ها در کجای منوی زمینه ظاهر شود؟"
+        "message": "Where would you like the options menu to appear in the context menu?"
     },
     "bottom": {
         "message": "در پایین"
@@ -57,16 +57,16 @@
         "message": "در بالا"
     },
     "hide": {
-        "message": "هیچ کدام (منوی گزینه ها را مخفی کنید)"
+        "message": "Neither (hide the options menu)"
     },
     "header5": {
         "message": "واردات/صادرات موتورهای جستجو"
     },
     "import": {
-        "message": "JSON را از دیسک محلی وارد کنید"
+        "message": "Import JSON from local disk"
     },
     "export": {
-        "message": "موتورهای جستجو را به JSON صادر کنید"
+        "message": "Export search engines to JSON"
     },
     "download": {
         "message": "صادرات به دیسک محلی"
@@ -99,7 +99,7 @@
         "message": "ذخیره تنظیمات برگزیده"
     },
     "header6": {
-        "message": "کدام موتورهای جستجو را می خواهید در منوی زمینه یا شبکه ظاهر شوند؟"
+        "message": "Which search engines would you like to appear in the context menu or grid?"
     },
     "clearAll": {
         "message": "پاک کردن همه"
@@ -123,7 +123,7 @@
         "message": "افزودن موتور جستجوی جدید"
     },
     "showSearchEngine": {
-        "message": "نمایش موتور جستجو در منوی شبکه یا زمینه"
+        "message": "Show search engine in grid or context menu"
     },
     "searchEngineName": {
         "message": "نام موتور جستجو"
@@ -135,7 +135,7 @@
         "message": "هشدار"
     },
     "keyboardShortcutWarning": {
-        "message": "همه ترکیب های کلیدی کار نمی کنند. میانبرهای صفحه کلید ممکن است با CMD در macOS یا CTRL در ویندوز یا لینوکس شروع نشوند، زیرا این موارد معمولا برای دستورات فایرفاکس محفوظ هستند."
+        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
     },
     "placeHolderKeyboardShortcut": {
         "message": "میانبر صفحه کلید"
@@ -186,7 +186,7 @@
         "message": "موتور جستجو اضافه شد."
     },
     "titleShowEngine": {
-        "message": "این موتور جستجو را در منوی زمینه یا شبکه نمایش دهید"
+        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "لطفا مطمئن شوید که پرچم 'webextensions.storage.sync.enabled' روی 'true' در 'about:config' تنظیم شده است، در غیر این صورت جستجوی زمینه کار نخواهد کرد."
@@ -306,19 +306,19 @@
         "message": "مجوزهای دانلودها را برای صادرات موتورهای جستجوی خود فعال کنید."
     },
     "header11": {
-        "message": "شبکه آیکون ها"
+        "message": "Icons Grid"
     },
     "quickIconGrid": {
-        "message": "بلافاصله پس از انتخاب متن، شبکه آیکون ها را نمایش دهید"
+        "message": "Immediately display the icons grid after text has been selected"
     },
     "closeGridOnMouseOut": {
-        "message": "شبکه آیکون ها را روی ماوس ببندید"
+        "message": "Close the icons grid on mouse out"
     },
     "xOffset": {
-        "message": "افست افقی شبکه آیکون ها: "
+        "message": "Horizontal offset of the icons grid: "
     },
     "yOffset": {
-        "message": "افست عمودی شبکه آیکون ها: "
+        "message": "Vertical offset of the icons grid: "
     },
     "clearKeyboardShortcuts": {
         "message": "پاک کردن همه میان برهای صفحه کلید"
@@ -336,13 +336,13 @@
         "message": "اضافه کردن AI Prompt"
     },
     "promptShow": {
-        "message": "نمایش اعلان در منوی شبکه یا زمینه"
+        "message": "Show prompt in grid or context menu"
     },
     "promptName": {
-        "message": "نام اعلان"
+        "message": "Prompt name"
     },
     "prompt": {
-        "message": "اعلان"
+        "message": "Prompt"
     },
     "overwriteSearchEngines": {
         "message": "بازنویسی موتورهای جستجوی موجود با موتورهای جستجوی وارد شده"
@@ -378,7 +378,7 @@
         "message": "نمی توان URL را برای حذف نشانک بازیابی کرد"
     },
     "notifyAIMinimalRequirements": {
-        "message": "لطفا حداقل یک ارائه دهنده هوش مصنوعی را انتخاب کنید و یک نام سریع و یک اعلان ارائه دهید"
+        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
     },
     "bookmarkPage": {
         "message": "این صفحه را نشانه گذاری کنید"
@@ -412,9 +412,5 @@
     },
     "__WET_LOCALE__": {
         "message": "fa"
-    },
-    "titleSearchEngines": {
-        "message": "Search engines",
-        "description": "Title of search engines tab in the Options page"
     }
 }
