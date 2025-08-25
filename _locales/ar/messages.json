@@ -48,7 +48,7 @@
         "message": "موضع الخيارات في قائمة السياق"
     },
     "subheader31": {
-        "message": "أين تريد أن تظهر قائمة الخيارات في قائمة السياق؟"
+        "message": "Where would you like the options menu to appear in the context menu?"
     },
     "bottom": {
         "message": "في الأسفل"
@@ -57,16 +57,16 @@
         "message": "في الأعلى"
     },
     "hide": {
-        "message": "لا هذا ولا ذاك (إخفاء قائمة الخيارات)"
+        "message": "Neither (hide the options menu)"
     },
     "header5": {
         "message": "محركات بحث الاستيراد/التصدير"
     },
     "import": {
-        "message": "استيراد JSON من القرص المحلي"
+        "message": "Import JSON from local disk"
     },
     "export": {
-        "message": "تصدير محركات البحث إلى JSON"
+        "message": "Export search engines to JSON"
     },
     "download": {
         "message": "تصدير إلى القرص المحلي"
@@ -99,7 +99,7 @@
         "message": "حفظ التفضيلات"
     },
     "header6": {
-        "message": "ما هي محركات البحث التي ترغب في ظهورها في قائمة السياق أو الشبكة؟"
+        "message": "Which search engines would you like to appear in the context menu or grid?"
     },
     "clearAll": {
         "message": "مسح الكل"
@@ -123,7 +123,7 @@
         "message": "إضافة محرك بحث جديد"
     },
     "showSearchEngine": {
-        "message": "إظهار محرك البحث في الشبكة أو قائمة السياق"
+        "message": "Show search engine in grid or context menu"
     },
     "searchEngineName": {
         "message": "اسم محرك البحث"
@@ -135,7 +135,7 @@
         "message": "تحذير"
     },
     "keyboardShortcutWarning": {
-        "message": "لن تعمل جميع مجموعات المفاتيح. قد لا تبدأ اختصارات لوحة المفاتيح ب CMD على ماك أو CTRL على ويندوز أو لينكس، لأن هذه الاختصارات عادةً ما تكون محجوزة لأوامر فايرفوكس."
+        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
     },
     "placeHolderKeyboardShortcut": {
         "message": "اختصار لوحة المفاتيح"
@@ -186,7 +186,7 @@
         "message": "تمت إضافة محرك البحث."
     },
     "titleShowEngine": {
-        "message": "إظهار محرك البحث هذا في قائمة السياق أو الشبكة"
+        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "يُرجى التأكد من ضبط العلامة \"webextensions.storage.sync.enabled\" على \"صواب\" في \"about:config\"، وإلا فلن يعمل بحث السياق."
@@ -306,19 +306,19 @@
         "message": "تمكين أذونات التنزيلات لتصدير محركات البحث الخاصة بك."
     },
     "header11": {
-        "message": "شبكة الرموز"
+        "message": "Icons Grid"
     },
     "quickIconGrid": {
-        "message": "عرض شبكة الرموز مباشرةً بعد تحديد النص"
+        "message": "Immediately display the icons grid after text has been selected"
     },
     "closeGridOnMouseOut": {
-        "message": "إغلاق شبكة الرموز عند خروج الفأرة"
+        "message": "Close the icons grid on mouse out"
     },
     "xOffset": {
-        "message": "إزاحة أفقية لشبكة الأيقونات: "
+        "message": "Horizontal offset of the icons grid: "
     },
     "yOffset": {
-        "message": "الإزاحة الرأسية لشبكة الأيقونات: "
+        "message": "Vertical offset of the icons grid: "
     },
     "clearKeyboardShortcuts": {
         "message": "مسح جميع اختصارات لوحة المفاتيح"
@@ -336,13 +336,13 @@
         "message": "إضافة موجه الذكاء الاصطناعي"
     },
     "promptShow": {
-        "message": "إظهار المطالبة في الشبكة أو قائمة السياق"
+        "message": "Show prompt in grid or context menu"
     },
     "promptName": {
-        "message": "اسم الموجه"
+        "message": "Prompt name"
     },
     "prompt": {
-        "message": "موجه"
+        "message": "Prompt"
     },
     "overwriteSearchEngines": {
         "message": "الكتابة فوق محركات البحث الحالية بمحركات البحث المستوردة"
@@ -378,7 +378,7 @@
         "message": "تعذر استرداد عنوان URL لإزالة الإشارة المرجعية"
     },
     "notifyAIMinimalRequirements": {
-        "message": "يرجى تحديد موفر ذكاء اصطناعي على الأقل وتقديم اسم موجه وموجه"
+        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
     },
     "bookmarkPage": {
         "message": "ضع إشارة مرجعية على هذه الصفحة"
@@ -412,9 +412,5 @@
     },
     "__WET_LOCALE__": {
         "message": "ar"
-    },
-    "titleSearchEngines": {
-        "message": "Search engines",
-        "description": "Title of search engines tab in the Options page"
     }
 }
