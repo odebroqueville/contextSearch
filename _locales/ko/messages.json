@@ -48,7 +48,7 @@
         "message": "컨텍스트 메뉴의 옵션 위치"
     },
     "subheader31": {
-        "message": "컨텍스트 메뉴에서 옵션 메뉴를 어디에 표시하고 싶으신가요?"
+        "message": "Where would you like the options menu to appear in the context menu?"
     },
     "bottom": {
         "message": "하단에서"
@@ -57,16 +57,16 @@
         "message": "상단에서"
     },
     "hide": {
-        "message": "둘 다 없음(옵션 메뉴 숨기기)"
+        "message": "Neither (hide the options menu)"
     },
     "header5": {
         "message": "검색 엔진 가져오기/내보내기"
     },
     "import": {
-        "message": "로컬 디스크에서 JSON 가져오기"
+        "message": "Import JSON from local disk"
     },
     "export": {
-        "message": "검색 엔진을 JSON으로 내보내기"
+        "message": "Export search engines to JSON"
     },
     "download": {
         "message": "로컬 디스크로 내보내기"
@@ -99,7 +99,7 @@
         "message": "환경설정 저장"
     },
     "header6": {
-        "message": "컨텍스트 메뉴 또는 그리드에 어떤 검색 엔진을 표시하고 싶으신가요?"
+        "message": "Which search engines would you like to appear in the context menu or grid?"
     },
     "clearAll": {
         "message": "모두 지우기"
@@ -123,7 +123,7 @@
         "message": "새 검색 엔진 추가"
     },
     "showSearchEngine": {
-        "message": "그리드 또는 컨텍스트 메뉴에 검색 엔진 표시"
+        "message": "Show search engine in grid or context menu"
     },
     "searchEngineName": {
         "message": "검색 엔진 이름"
@@ -135,7 +135,7 @@
         "message": "경고"
     },
     "keyboardShortcutWarning": {
-        "message": "모든 키 조합이 작동하는 것은 아닙니다. 키보드 단축키는 일반적으로 Firefox 명령용으로 예약되어 있으므로 macOS의 경우 CMD로 시작하거나 Windows 또는 Linux의 경우 CTRL로 시작하지 못할 수 있습니다."
+        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
     },
     "placeHolderKeyboardShortcut": {
         "message": "키보드 단축키"
@@ -186,7 +186,7 @@
         "message": "검색 엔진이 추가되었습니다."
     },
     "titleShowEngine": {
-        "message": "컨텍스트 메뉴 또는 그리드에 이 검색 엔진을 표시합니다."
+        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "그렇지 않으면 컨텍스트 검색이 작동하지 않으므로 'about:config'에서 'webextensions.storage.sync.enabled' 플래그가 'true'로 설정되어 있는지 확인하세요."
@@ -306,19 +306,19 @@
         "message": "다운로드 권한을 활성화하여 검색 엔진을 내보낼 수 있습니다."
     },
     "header11": {
-        "message": "아이콘 그리드"
+        "message": "Icons Grid"
     },
     "quickIconGrid": {
-        "message": "텍스트를 선택한 후 아이콘 그리드를 즉시 표시합니다."
+        "message": "Immediately display the icons grid after text has been selected"
     },
     "closeGridOnMouseOut": {
-        "message": "마우스 아웃 시 아이콘 그리드 닫기"
+        "message": "Close the icons grid on mouse out"
     },
     "xOffset": {
-        "message": "아이콘 그리드의 수평 오프셋: "
+        "message": "Horizontal offset of the icons grid: "
     },
     "yOffset": {
-        "message": "아이콘 그리드의 수직 오프셋: "
+        "message": "Vertical offset of the icons grid: "
     },
     "clearKeyboardShortcuts": {
         "message": "모든 키보드 단축키 지우기"
@@ -336,13 +336,13 @@
         "message": "AI 프롬프트 추가"
     },
     "promptShow": {
-        "message": "그리드 또는 컨텍스트 메뉴에 프롬프트 표시"
+        "message": "Show prompt in grid or context menu"
     },
     "promptName": {
-        "message": "프롬프트 이름"
+        "message": "Prompt name"
     },
     "prompt": {
-        "message": "프롬프트"
+        "message": "Prompt"
     },
     "overwriteSearchEngines": {
         "message": "기존 검색 엔진을 가져온 검색 엔진으로 덮어쓰기"
@@ -378,7 +378,7 @@
         "message": "북마크 제거를 위한 URL을 검색할 수 없습니다."
     },
     "notifyAIMinimalRequirements": {
-        "message": "최소한 AI 제공업체를 선택하고 프롬프트 이름과 프롬프트를 입력하세요."
+        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
     },
     "bookmarkPage": {
         "message": "이 페이지 북마크하기"
@@ -412,9 +412,5 @@
     },
     "__WET_LOCALE__": {
         "message": "ko"
-    },
-    "titleSearchEngines": {
-        "message": "Search engines",
-        "description": "Title of search engines tab in the Options page"
     }
 }
