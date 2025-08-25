@@ -48,7 +48,7 @@
         "message": "选项在右键菜单中的位置"
     },
     "subheader31": {
-        "message": "您希望选项菜单出现在右键菜单的什么位置？"
+        "message": "Where would you like the options menu to appear in the context menu?"
     },
     "bottom": {
         "message": "在底部"
@@ -57,16 +57,16 @@
         "message": "在顶部"
     },
     "hide": {
-        "message": "都不是（隐藏选项菜单）"
+        "message": "Neither (hide the options menu)"
     },
     "header5": {
         "message": "导入/导出搜索引擎"
     },
     "import": {
-        "message": "从本地磁盘导入 JSON"
+        "message": "Import JSON from local disk"
     },
     "export": {
-        "message": "将搜索引擎导出为 JSON"
+        "message": "Export search engines to JSON"
     },
     "download": {
         "message": "导出到本地磁盘"
@@ -99,7 +99,7 @@
         "message": "保存首选项"
     },
     "header6": {
-        "message": "您希望哪些搜索引擎出现在右键菜单或网格中？"
+        "message": "Which search engines would you like to appear in the context menu or grid?"
     },
     "clearAll": {
         "message": "全部清除"
@@ -123,7 +123,7 @@
         "message": "添加新的搜索引擎"
     },
     "showSearchEngine": {
-        "message": "在网格或右键菜单中显示搜索引擎"
+        "message": "Show search engine in grid or context menu"
     },
     "searchEngineName": {
         "message": "搜索引擎名称"
@@ -135,7 +135,7 @@
         "message": "警告"
     },
     "keyboardShortcutWarning": {
-        "message": "并非所有组合键都能使用。键盘快捷键可能不会以 macOS 上的 CMD 或 Windows 或 Linux 上的 CTRL 开头，因为这些通常是为 Firefox 命令保留的。"
+        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
     },
     "placeHolderKeyboardShortcut": {
         "message": "键盘快捷键"
@@ -186,7 +186,7 @@
         "message": "增加了搜索引擎。"
     },
     "titleShowEngine": {
-        "message": "在右键菜单或网格中显示该搜索引擎"
+        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "请确保在 \"about:config \"中将标志 \"webextensions.storage.sync.enabled \"设置为 \"true\"，否则 \"上下文搜索 \"将无法运行。"
@@ -306,19 +306,19 @@
         "message": "启用下载权限以导出搜索引擎。"
     },
     "header11": {
-        "message": "图标网格"
+        "message": "Icons Grid"
     },
     "quickIconGrid": {
-        "message": "选择文本后立即显示图标网格"
+        "message": "Immediately display the icons grid after text has been selected"
     },
     "closeGridOnMouseOut": {
-        "message": "鼠标移出时关闭图标网格"
+        "message": "Close the icons grid on mouse out"
     },
     "xOffset": {
-        "message": "图标网格的水平偏移： "
+        "message": "Horizontal offset of the icons grid: "
     },
     "yOffset": {
-        "message": "图标网格的垂直偏移量： "
+        "message": "Vertical offset of the icons grid: "
     },
     "clearKeyboardShortcuts": {
         "message": "清除所有键盘快捷键"
@@ -336,13 +336,13 @@
         "message": "添加人工智能提示"
     },
     "promptShow": {
-        "message": "在网格或右键菜单中显示提示"
+        "message": "Show prompt in grid or context menu"
     },
     "promptName": {
-        "message": "提示名称"
+        "message": "Prompt name"
     },
     "prompt": {
-        "message": "提示"
+        "message": "Prompt"
     },
     "overwriteSearchEngines": {
         "message": "用导入的搜索引擎覆盖现有搜索引擎"
@@ -378,7 +378,7 @@
         "message": "无法检索删除书签的 URL"
     },
     "notifyAIMinimalRequirements": {
-        "message": "请至少选择一个人工智能提供商，并提供一个提示符名称和一个提示符"
+        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
     },
     "bookmarkPage": {
         "message": "收藏本页"
@@ -412,9 +412,5 @@
     },
     "__WET_LOCALE__": {
         "message": "zh_cn"
-    },
-    "titleSearchEngines": {
-        "message": "Search engines",
-        "description": "Title of search engines tab in the Options page"
     }
 }
