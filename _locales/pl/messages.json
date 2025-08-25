@@ -330,7 +330,7 @@
         "message": "Dodaj separator"
     },
     "testChatGPT": {
-        "message": "Testuj monit AI"
+        "message": "Test szybkiego dostępu AI"
     },
     "addChatGPTPrompt": {
         "message": "Dodaj monit AI"
@@ -412,5 +412,9 @@
     },
     "__WET_LOCALE__": {
         "message": "pl"
+    },
+    "titleSearchEngines": {
+        "message": "Search engines",
+        "description": "Title of search engines tab in the Options page"
     }
 }
