@@ -48,7 +48,7 @@
         "message": "選項在上下文功能表中的位置"
     },
     "subheader31": {
-        "message": "您希望選項功能表出現在上下文功能表的哪個位置？"
+        "message": "Where would you like the options menu to appear in the context menu?"
     },
     "bottom": {
         "message": "在底部"
@@ -57,16 +57,16 @@
         "message": "在頂端"
     },
     "hide": {
-        "message": "兩者皆非（隱藏選項功能表）"
+        "message": "Neither (hide the options menu)"
     },
     "header5": {
         "message": "輸入/輸出搜尋引擎"
     },
     "import": {
-        "message": "從本機磁碟匯入 JSON"
+        "message": "Import JSON from local disk"
     },
     "export": {
-        "message": "匯出搜尋引擎至 JSON"
+        "message": "Export search engines to JSON"
     },
     "download": {
         "message": "匯出至本機磁碟"
@@ -99,7 +99,7 @@
         "message": "儲存偏好設定"
     },
     "header6": {
-        "message": "您希望哪些搜尋引擎出現在上下文功能表或網格中？"
+        "message": "Which search engines would you like to appear in the context menu or grid?"
     },
     "clearAll": {
         "message": "全部清除"
@@ -123,7 +123,7 @@
         "message": "新增搜尋引擎"
     },
     "showSearchEngine": {
-        "message": "在網格或上下文功能表中顯示搜尋引擎"
+        "message": "Show search engine in grid or context menu"
     },
     "searchEngineName": {
         "message": "搜尋引擎名稱"
@@ -135,7 +135,7 @@
         "message": "警告"
     },
     "keyboardShortcutWarning": {
-        "message": "並非所有按鍵組合都適用。鍵盤捷徑可能不會以 macOS 上的 CMD 或 Windows 或 Linux 上的 CTRL 開頭，因為這些通常是預留給 Firefox 指令的。"
+        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
     },
     "placeHolderKeyboardShortcut": {
         "message": "鍵盤捷徑"
@@ -186,7 +186,7 @@
         "message": "新增搜尋引擎。"
     },
     "titleShowEngine": {
-        "message": "在上下文功能表或網格中顯示此搜尋引擎"
+        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "請確認「about:config」中的標誌「webextensions.storage.sync.enabled」設為「true」，否則 Context Search 將無法運作。"
@@ -306,19 +306,19 @@
         "message": "啟用下載權限以匯出您的搜尋引擎。"
     },
     "header11": {
-        "message": "圖示網格"
+        "message": "Icons Grid"
     },
     "quickIconGrid": {
-        "message": "選取文字後立即顯示圖示方格"
+        "message": "Immediately display the icons grid after text has been selected"
     },
     "closeGridOnMouseOut": {
-        "message": "滑鼠移出時關閉圖示方格"
+        "message": "Close the icons grid on mouse out"
     },
     "xOffset": {
-        "message": "圖示方格的水平偏移： "
+        "message": "Horizontal offset of the icons grid: "
     },
     "yOffset": {
-        "message": "圖示方格的垂直偏移： "
+        "message": "Vertical offset of the icons grid: "
     },
     "clearKeyboardShortcuts": {
         "message": "清除所有鍵盤捷徑"
@@ -336,13 +336,13 @@
         "message": "新增 AI 提示"
     },
     "promptShow": {
-        "message": "在網格或上下文功能表中顯示提示"
+        "message": "Show prompt in grid or context menu"
     },
     "promptName": {
-        "message": "提示名稱"
+        "message": "Prompt name"
     },
     "prompt": {
-        "message": "提示"
+        "message": "Prompt"
     },
     "overwriteSearchEngines": {
         "message": "使用匯入的搜尋引擎覆寫現有的搜尋引擎"
@@ -378,7 +378,7 @@
         "message": "無法檢索移除書籤的 URL"
     },
     "notifyAIMinimalRequirements": {
-        "message": "請至少選擇一個 AI 提供者，並提供提示名稱和提示"
+        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
     },
     "bookmarkPage": {
         "message": "將此頁加入書籤"
@@ -412,9 +412,5 @@
     },
     "__WET_LOCALE__": {
         "message": "zh_tw"
-    },
-    "titleSearchEngines": {
-        "message": "Search engines",
-        "description": "Title of search engines tab in the Options page"
     }
 }
