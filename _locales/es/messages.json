@@ -412,5 +412,9 @@
     },
     "__WET_LOCALE__": {
         "message": "es"
+    },
+    "titleSearchEngines": {
+        "message": "Search engines",
+        "description": "Title of search engines tab in the Options page"
     }
 }
