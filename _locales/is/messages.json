@@ -72,7 +72,7 @@
         "message": "Flytja út á disk á tölvunni"
     },
     "header2": {
-        "message": "Táknmyndir"
+        "message": "Helgimynd"
     },
     "note": {
         "message": "Þessi eiginleiki krefst Firefox 56 eða nýrri."
@@ -412,5 +412,9 @@
     },
     "__WET_LOCALE__": {
         "message": "is"
+    },
+    "titleSearchEngines": {
+        "message": "Search engines",
+        "description": "Title of search engines tab in the Options page"
     }
 }
