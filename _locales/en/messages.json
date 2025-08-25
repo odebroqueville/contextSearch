@@ -48,7 +48,7 @@
         "message": "Position of options in the context menu"
     },
     "subheader31": {
-        "message": "Where would you like the options menu to appear in the context menu?"
+        "message": "Where would you like the options menu item to appear in the context menu?"
     },
     "bottom": {
         "message": "At the bottom"
@@ -57,16 +57,16 @@
         "message": "At the top"
     },
     "hide": {
-        "message": "Neither (hide the options menu)"
+        "message": "Neither (hide the options menu item)"
     },
     "header5": {
         "message": "Import/export search engines"
     },
     "import": {
-        "message": "Import JSON from local disk"
+        "message": "Import search engines (in JSON format) from local disk"
     },
     "export": {
-        "message": "Export search engines to JSON"
+        "message": "Export search engines (in JSON format) to local disk"
     },
     "download": {
         "message": "Export to local disk"
@@ -99,7 +99,7 @@
         "message": "Save preferences"
     },
     "header6": {
-        "message": "Which search engines would you like to appear in the context menu or grid?"
+        "message": "Which search engines would you like to see appear in the context menu or grid of icons?"
     },
     "clearAll": {
         "message": "Clear All"
@@ -123,7 +123,7 @@
         "message": "Add a new search engine"
     },
     "showSearchEngine": {
-        "message": "Show search engine in grid or context menu"
+        "message": "Show search engine in the context menu or grid of icons"
     },
     "searchEngineName": {
         "message": "Search engine name"
@@ -135,7 +135,7 @@
         "message": "Warning"
     },
     "keyboardShortcutWarning": {
-        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
+        "message": "not all key combinations will work. Avoid using keyboard shortcuts that start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Keyboard shortcut"
@@ -184,9 +184,6 @@
     },
     "notifySearchEngineAdded": {
         "message": "Search engine added."
-    },
-    "titleShowEngine": {
-        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "Please ensure that the flag 'webextensions.storage.sync.enabled' is set to 'true' in 'about:config', otherwise Context Search won't work."
@@ -306,19 +303,19 @@
         "message": "enable Downloads permissions to export your search engines."
     },
     "header11": {
-        "message": "Icons Grid"
+        "message": "Grid of icons"
     },
     "quickIconGrid": {
-        "message": "Immediately display the icons grid after text has been selected"
+        "message": "Immediately display the grid of icons after text has been selected"
     },
     "closeGridOnMouseOut": {
-        "message": "Close the icons grid on mouse out"
+        "message": "Close the grid of icons on mouse out"
     },
     "xOffset": {
-        "message": "Horizontal offset of the icons grid: "
+        "message": "Horizontal offset of the grid of icons: "
     },
     "yOffset": {
-        "message": "Vertical offset of the icons grid: "
+        "message": "Vertical offset of the grid of icons: "
     },
     "clearKeyboardShortcuts": {
         "message": "Clear all keyboard shortcuts"
@@ -336,13 +333,13 @@
         "message": "Add AI Prompt"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "Show AI prompt in the context menu or grid of icons"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "AI prompt name"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "AI prompt"
     },
     "overwriteSearchEngines": {
         "message": "Overwrite the existing search engines with the imported search engines"
@@ -378,7 +375,7 @@
         "message": "Could not retrieve URL for bookmark removal"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "Please at least select an AI service provider and input an AI prompt name and an AI prompt"
     },
     "bookmarkPage": {
         "message": "Bookmark This Page"
