@@ -48,7 +48,7 @@
         "message": "コンテキストメニューのオプションの位置"
     },
     "subheader31": {
-        "message": "コンテキストメニューのどこにオプションメニューを表示しますか？"
+        "message": "Where would you like the options menu to appear in the context menu?"
     },
     "bottom": {
         "message": "一番下"
@@ -57,16 +57,16 @@
         "message": "トップ"
     },
     "hide": {
-        "message": "どちらでもない（オプションメニューを隠す）"
+        "message": "Neither (hide the options menu)"
     },
     "header5": {
         "message": "検索エンジンのインポート/エクスポート"
     },
     "import": {
-        "message": "ローカルディスクからJSONをインポートする"
+        "message": "Import JSON from local disk"
     },
     "export": {
-        "message": "検索エンジンをJSONにエクスポート"
+        "message": "Export search engines to JSON"
     },
     "download": {
         "message": "ローカルディスクへのエクスポート"
@@ -99,7 +99,7 @@
         "message": "プリファレンスの保存"
     },
     "header6": {
-        "message": "どの検索エンジンをコンテキストメニューやグリッドに表示させたいですか？"
+        "message": "Which search engines would you like to appear in the context menu or grid?"
     },
     "clearAll": {
         "message": "すべてクリア"
@@ -123,7 +123,7 @@
         "message": "新しい検索エンジンを追加する"
     },
     "showSearchEngine": {
-        "message": "検索エンジンをグリッドまたはコンテキストメニューに表示する"
+        "message": "Show search engine in grid or context menu"
     },
     "searchEngineName": {
         "message": "検索エンジン名"
@@ -135,7 +135,7 @@
         "message": "警告"
     },
     "keyboardShortcutWarning": {
-        "message": "すべてのキーの組み合わせが動作するわけではありません。キーボードショートカットは、macOSではCMD、WindowsやLinuxではCTRLで始まらない場合があります。"
+        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
     },
     "placeHolderKeyboardShortcut": {
         "message": "キーボードショートカット"
@@ -186,7 +186,7 @@
         "message": "検索エンジンが追加された。"
     },
     "titleShowEngine": {
-        "message": "この検索エンジンをコンテキストメニューまたはグリッドに表示する。"
+        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "about:config'で'webextensions.storage.sync.enabled'が'true'に設定されていることを確認してください。"
@@ -306,19 +306,19 @@
         "message": "検索エンジンをエクスポートするには、ダウンロード権限を有効にします。"
     },
     "header11": {
-        "message": "アイコン グリッド"
+        "message": "Icons Grid"
     },
     "quickIconGrid": {
-        "message": "テキスト選択後、アイコンのグリッドを即座に表示する。"
+        "message": "Immediately display the icons grid after text has been selected"
     },
     "closeGridOnMouseOut": {
-        "message": "マウスアウトでアイコングリッドを閉じる"
+        "message": "Close the icons grid on mouse out"
     },
     "xOffset": {
-        "message": "アイコンのグリッドの水平オフセット： "
+        "message": "Horizontal offset of the icons grid: "
     },
     "yOffset": {
-        "message": "アイコンのグリッドの垂直オフセット： "
+        "message": "Vertical offset of the icons grid: "
     },
     "clearKeyboardShortcuts": {
         "message": "すべてのキーボードショートカットを消去する"
@@ -336,13 +336,13 @@
         "message": "AIプロンプトの追加"
     },
     "promptShow": {
-        "message": "グリッドまたはコンテキストメニューにプロンプトを表示する"
+        "message": "Show prompt in grid or context menu"
     },
     "promptName": {
-        "message": "プロンプト名"
+        "message": "Prompt name"
     },
     "prompt": {
-        "message": "プロンプト"
+        "message": "Prompt"
     },
     "overwriteSearchEngines": {
         "message": "既存の検索エンジンをインポートした検索エンジンで上書きする。"
@@ -378,7 +378,7 @@
         "message": "ブックマーク削除用のURLを取得できませんでした"
     },
     "notifyAIMinimalRequirements": {
-        "message": "少なくともAIプロバイダーを選択し、プロンプト名とプロンプトを記入してください。"
+        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
     },
     "bookmarkPage": {
         "message": "このページをブックマークする"
@@ -412,9 +412,5 @@
     },
     "__WET_LOCALE__": {
         "message": "ja"
-    },
-    "titleSearchEngines": {
-        "message": "Search engines",
-        "description": "Title of search engines tab in the Options page"
     }
 }
