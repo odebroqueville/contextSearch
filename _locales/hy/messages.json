@@ -72,7 +72,7 @@
         "message": "Արտահանել տեղային սկավառակ"
     },
     "header2": {
-        "message": "Պատկերակներ"
+        "message": "Սրբապատկերներ"
     },
     "note": {
         "message": "Այս առանձնահատկությունը պահանջում է Firefox 56 կամ ավելի բարձր:"
@@ -412,5 +412,9 @@
     },
     "__WET_LOCALE__": {
         "message": "hy"
+    },
+    "titleSearchEngines": {
+        "message": "Search engines",
+        "description": "Title of search engines tab in the Options page"
     }
 }
