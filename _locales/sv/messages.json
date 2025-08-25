@@ -48,7 +48,7 @@
         "message": "Placering av alternativ i snabbmenyn"
     },
     "subheader31": {
-        "message": "Var vill du att alternativmenyn ska visas i snabbmenyn?"
+        "message": "Where would you like the options menu to appear in the context menu?"
     },
     "bottom": {
         "message": "Längst ner"
@@ -57,16 +57,16 @@
         "message": "Högst upp"
     },
     "hide": {
-        "message": "Varken eller (dölj alternativmenyn)"
+        "message": "Neither (hide the options menu)"
     },
     "header5": {
         "message": "Importera/exportera sökmotorer"
     },
     "import": {
-        "message": "Importera JSON från lokal disk"
+        "message": "Import JSON from local disk"
     },
     "export": {
-        "message": "Exportera sökmotorer till JSON"
+        "message": "Export search engines to JSON"
     },
     "download": {
         "message": "Exportera till lokal disk"
@@ -99,7 +99,7 @@
         "message": "Spara inställningar"
     },
     "header6": {
-        "message": "Vilka sökmotorer vill du ska visas i snabbmenyn eller i rutnätet?"
+        "message": "Which search engines would you like to appear in the context menu or grid?"
     },
     "clearAll": {
         "message": "Rensa alla"
@@ -123,7 +123,7 @@
         "message": "Lägg till en ny sökmotor"
     },
     "showSearchEngine": {
-        "message": "Visa sökmotor i rutnätet eller i snabbmenyn"
+        "message": "Show search engine in grid or context menu"
     },
     "searchEngineName": {
         "message": "Sökmotorns namn"
@@ -135,7 +135,7 @@
         "message": "Varning"
     },
     "keyboardShortcutWarning": {
-        "message": "inte alla tangentkombinationer fungerar. Kortkommandon får inte börja med CMD på macOS eller CTRL på Windows eller Linux, eftersom dessa vanligtvis är reserverade för Firefox-kommandon."
+        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Kortkommando på tangentbordet"
@@ -186,7 +186,7 @@
         "message": "Sökmotor tillagd."
     },
     "titleShowEngine": {
-        "message": "Visa denna sökmotor i snabbmenyn eller i rutnätet"
+        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "Se till att flaggan \"webextensions.storage.sync.enabled\" är inställd på \"true\" i \"about:config\", annars fungerar inte Context Search."
@@ -306,19 +306,19 @@
         "message": "aktivera nedladdningsbehörigheter för att exportera dina sökmotorer."
     },
     "header11": {
-        "message": "Ikonrutnät"
+        "message": "Icons Grid"
     },
     "quickIconGrid": {
-        "message": "Omedelbar visning av ikonerna efter att texten har markerats"
+        "message": "Immediately display the icons grid after text has been selected"
     },
     "closeGridOnMouseOut": {
-        "message": "Stäng ikonrutnätet när musen försvinner"
+        "message": "Close the icons grid on mouse out"
     },
     "xOffset": {
-        "message": "Horisontell förskjutning av ikonerna: "
+        "message": "Horizontal offset of the icons grid: "
     },
     "yOffset": {
-        "message": "Vertikal förskjutning av ikonerna: "
+        "message": "Vertical offset of the icons grid: "
     },
     "clearKeyboardShortcuts": {
         "message": "Rensa alla kortkommandon på tangentbordet"
@@ -336,13 +336,13 @@
         "message": "Lägg till AI-prompt"
     },
     "promptShow": {
-        "message": "Visa prompt i rutnätet eller i snabbmenyn"
+        "message": "Show prompt in grid or context menu"
     },
     "promptName": {
-        "message": "Namn på frågeformulär"
+        "message": "Prompt name"
     },
     "prompt": {
-        "message": "Frågeställning"
+        "message": "Prompt"
     },
     "overwriteSearchEngines": {
         "message": "Skriv över de befintliga sökmotorerna med de importerade sökmotorerna"
@@ -378,7 +378,7 @@
         "message": "Det gick inte att hämta URL för borttagning av bokmärke"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Vänligen välj åtminstone en AI Provider och ange ett promptnamn och en prompt"
+        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
     },
     "bookmarkPage": {
         "message": "Bokmärk denna sida"
@@ -412,9 +412,5 @@
     },
     "__WET_LOCALE__": {
         "message": "sv"
-    },
-    "titleSearchEngines": {
-        "message": "Search engines",
-        "description": "Title of search engines tab in the Options page"
     }
 }
