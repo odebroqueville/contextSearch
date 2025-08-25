@@ -48,7 +48,7 @@
         "message": "Placering af valgmuligheder i kontekstmenuen"
     },
     "subheader31": {
-        "message": "Hvor vil du gerne have, at indstillingsmenuen vises i kontekstmenuen?"
+        "message": "Where would you like the options menu to appear in the context menu?"
     },
     "bottom": {
         "message": "I bunden"
@@ -57,16 +57,16 @@
         "message": "På toppen"
     },
     "hide": {
-        "message": "Hverken eller (skjul indstillingsmenuen)"
+        "message": "Neither (hide the options menu)"
     },
     "header5": {
         "message": "Import/eksport af søgemaskiner"
     },
     "import": {
-        "message": "Importer JSON fra lokal disk"
+        "message": "Import JSON from local disk"
     },
     "export": {
-        "message": "Eksporter søgemaskiner til JSON"
+        "message": "Export search engines to JSON"
     },
     "download": {
         "message": "Eksporter til lokal disk"
@@ -99,7 +99,7 @@
         "message": "Gem præferencer"
     },
     "header6": {
-        "message": "Hvilke søgemaskiner vil du gerne have vist i kontekstmenuen eller gitteret?"
+        "message": "Which search engines would you like to appear in the context menu or grid?"
     },
     "clearAll": {
         "message": "Ryd alt"
@@ -123,7 +123,7 @@
         "message": "Tilføj en ny søgemaskine"
     },
     "showSearchEngine": {
-        "message": "Vis søgemaskine i gitter eller kontekstmenu"
+        "message": "Show search engine in grid or context menu"
     },
     "searchEngineName": {
         "message": "Søgemaskinens navn"
@@ -135,7 +135,7 @@
         "message": "Advarsel"
     },
     "keyboardShortcutWarning": {
-        "message": "Ikke alle tastekombinationer vil virke. Tastaturgenveje må ikke starte med CMD på macOS eller CTRL på Windows eller Linux, da disse normalt er reserveret til Firefox-kommandoer."
+        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Tastaturgenvej"
@@ -186,7 +186,7 @@
         "message": "Søgemaskine tilføjet."
     },
     "titleShowEngine": {
-        "message": "Vis denne søgemaskine i genvejsmenuen eller i gitteret"
+        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "Sørg for, at flaget 'webextensions.storage.sync.enabled' er sat til 'true' i 'about:config', ellers vil Context Search ikke fungere."
@@ -306,19 +306,19 @@
         "message": "aktiver tilladelser til downloads for at eksportere dine søgemaskiner."
     },
     "header11": {
-        "message": "Ikoner Gitter"
+        "message": "Icons Grid"
     },
     "quickIconGrid": {
-        "message": "Vis ikonerne med det samme, når teksten er valgt"
+        "message": "Immediately display the icons grid after text has been selected"
     },
     "closeGridOnMouseOut": {
-        "message": "Luk ikongitteret, når du trækker musen ud"
+        "message": "Close the icons grid on mouse out"
     },
     "xOffset": {
-        "message": "Vandret forskydning af ikongitteret: "
+        "message": "Horizontal offset of the icons grid: "
     },
     "yOffset": {
-        "message": "Lodret forskydning af ikongitteret: "
+        "message": "Vertical offset of the icons grid: "
     },
     "clearKeyboardShortcuts": {
         "message": "Ryd alle tastaturgenveje"
@@ -336,10 +336,10 @@
         "message": "Tilføj AI-prompt"
     },
     "promptShow": {
-        "message": "Vis prompt i gitter eller kontekstmenu"
+        "message": "Show prompt in grid or context menu"
     },
     "promptName": {
-        "message": "Prompt-navn"
+        "message": "Prompt name"
     },
     "prompt": {
         "message": "Prompt"
@@ -378,7 +378,7 @@
         "message": "Kunne ikke hente URL til fjernelse af bogmærke"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Vælg i det mindste en AI-udbyder og angiv et prompt-navn og en prompt"
+        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
     },
     "bookmarkPage": {
         "message": "Bogmærke denne side"
@@ -412,9 +412,5 @@
     },
     "__WET_LOCALE__": {
         "message": "da"
-    },
-    "titleSearchEngines": {
-        "message": "Search engines",
-        "description": "Title of search engines tab in the Options page"
     }
 }
