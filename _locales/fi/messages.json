@@ -237,7 +237,7 @@
         "message": "Näytä kuvakkeet kontekstivalikossa"
     },
     "disableAltClick": {
-        "message": "Poista kuvakeverkko käytöstä (Alt + klikkaus)"
+        "message": "Disable icon grid (Alt + Click)"
     },
     "resetPreferences": {
         "message": "Asetusten palauttaminen oletusasetuksiin"
