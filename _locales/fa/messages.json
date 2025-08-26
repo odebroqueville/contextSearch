@@ -237,7 +237,7 @@
         "message": "نمایش آیکون ها در منوی زمینه"
     },
     "disableAltClick": {
-        "message": "غیرفعال کردن شبکه آیکون (Alt + Click)"
+        "message": "Disable icon grid (Alt + Click)"
     },
     "resetPreferences": {
         "message": "بازنشانی تنظیمات برگزیده به تنظیمات پیش فرض"
