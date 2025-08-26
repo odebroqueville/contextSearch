@@ -309,7 +309,7 @@
         "message": "Birtu strax rist tákna eftir að texti hefur verið valinn"
     },
     "closeGridOnMouseOut": {
-        "message": "Lokaðu rist tákna á músinni út"
+        "message": "Lokaðu rist tákna þegar músin fer út af svæðinu"
     },
     "xOffset": {
         "message": "Lárétt offset á rist táknanna: "
