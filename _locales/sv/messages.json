@@ -48,7 +48,7 @@
         "message": "Placering av alternativ i snabbmenyn"
     },
     "subheader31": {
-        "message": "Where would you like the options menu to appear in the context menu?"
+        "message": "Var vill du att alternativmenyn ska visas i snabbmenyn?"
     },
     "bottom": {
         "message": "Längst ner"
@@ -57,16 +57,16 @@
         "message": "Högst upp"
     },
     "hide": {
-        "message": "Neither (hide the options menu)"
+        "message": "Ingetdera (dölj alternativmenyn)"
     },
     "header5": {
         "message": "Importera/exportera sökmotorer"
     },
     "import": {
-        "message": "Import JSON from local disk"
+        "message": "Importera sökmotorer (i JSON-format) från lokal disk"
     },
     "export": {
-        "message": "Export search engines to JSON"
+        "message": "Exportera sökmotorer (i JSON-format) till lokal disk"
     },
     "download": {
         "message": "Exportera till lokal disk"
@@ -99,7 +99,7 @@
         "message": "Spara inställningar"
     },
     "header6": {
-        "message": "Which search engines would you like to appear in the context menu or grid?"
+        "message": "Vilka sökmotorer skulle du vilja se visas i snabbmenyn eller rutnätet med ikoner?"
     },
     "clearAll": {
         "message": "Rensa alla"
@@ -123,7 +123,7 @@
         "message": "Lägg till en ny sökmotor"
     },
     "showSearchEngine": {
-        "message": "Show search engine in grid or context menu"
+        "message": "Visa sökmotor i snabbmenyn eller ikonrutnätet"
     },
     "searchEngineName": {
         "message": "Sökmotorns namn"
@@ -135,7 +135,7 @@
         "message": "Varning"
     },
     "keyboardShortcutWarning": {
-        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
+        "message": "Alla tangentkombinationer fungerar inte. Undvik att använda kortkommandon som börjar med CMD på macOS eller CTRL på Windows eller Linux, eftersom dessa vanligtvis är reserverade för Firefox-kommandon."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Kortkommando på tangentbordet"
@@ -184,9 +184,6 @@
     },
     "notifySearchEngineAdded": {
         "message": "Sökmotor tillagd."
-    },
-    "titleShowEngine": {
-        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "Se till att flaggan \"webextensions.storage.sync.enabled\" är inställd på \"true\" i \"about:config\", annars fungerar inte Context Search."
@@ -237,7 +234,7 @@
         "message": "Visa ikoner i snabbmenyn"
     },
     "disableAltClick": {
-        "message": "Disable icon grid (Alt + Click)"
+        "message": "Inaktivera ikonrutnätet (Alt + Klicka)"
     },
     "resetPreferences": {
         "message": "Återställ inställningar till standardinställningar"
@@ -306,19 +303,19 @@
         "message": "aktivera nedladdningsbehörigheter för att exportera dina sökmotorer."
     },
     "header11": {
-        "message": "Icons Grid"
+        "message": "Rutnät av ikoner"
     },
     "quickIconGrid": {
-        "message": "Immediately display the icons grid after text has been selected"
+        "message": "Visa omedelbart rutnätet med ikoner efter att text har markerats"
     },
     "closeGridOnMouseOut": {
-        "message": "Close the icons grid on mouse out"
+        "message": "Stäng rutnätet med ikoner på musen ut"
     },
     "xOffset": {
-        "message": "Horizontal offset of the icons grid: "
+        "message": "Horisontell förskjutning av rutnätet med ikoner: "
     },
     "yOffset": {
-        "message": "Vertical offset of the icons grid: "
+        "message": "Vertikal förskjutning av rutnätet med ikoner: "
     },
     "clearKeyboardShortcuts": {
         "message": "Rensa alla kortkommandon på tangentbordet"
@@ -336,13 +333,13 @@
         "message": "Lägg till AI-prompt"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "Visa AI-prompt i snabbmenyn eller ikonrutnätet"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "AI-promptnamn"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "AI-prompt"
     },
     "overwriteSearchEngines": {
         "message": "Skriv över de befintliga sökmotorerna med de importerade sökmotorerna"
@@ -378,7 +375,7 @@
         "message": "Det gick inte att hämta URL för borttagning av bokmärke"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "Välj åtminstone en AI-tjänsteleverantör och ange ett AI-promptnamn och en AI-prompt."
     },
     "bookmarkPage": {
         "message": "Bokmärk denna sida"
@@ -409,6 +406,10 @@
     },
     "daysRemaining": {
         "message": "återstående dag(ar)"
+    },
+    "titleSearchEngines": {
+        "message": "Sökmotorer",
+        "description": "Title of search engines tab in the Options page"
     },
     "__WET_LOCALE__": {
         "message": "sv"
