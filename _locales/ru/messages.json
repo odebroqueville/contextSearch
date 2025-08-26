@@ -237,7 +237,7 @@
         "message": "Отображать значки в контекстном меню"
     },
     "disableAltClick": {
-        "message": "Отключить сетку значков (Alt + щелчок)"
+        "message": "Disable icon grid (Alt + Click)"
     },
     "resetPreferences": {
         "message": "Сброс настроек по умолчанию"
