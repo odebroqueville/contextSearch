@@ -1,6 +1,43 @@
 const fs = require('fs');
 const path = require('path');
 
+// Load environment variables from .env file
+function loadEnv() {
+    const envPath = path.join(__dirname, '.env');
+    const env = {};
+    
+    if (fs.existsSync(envPath)) {
+        const envContent = fs.readFileSync(envPath, 'utf8');
+        
+        envContent.split('\n').forEach(line => {
+            if (!line || line.trim() === '' || line.trim().startsWith('#')) {
+                return;
+            }
+            
+            const [key, ...valueParts] = line.split('=');
+            const value = valueParts.join('=').trim();
+            
+            if (key && value !== undefined) {
+                let processedValue = value.replace(/^["']|["']$/g, '');
+                
+                if (processedValue.toLowerCase() === 'true') {
+                    processedValue = true;
+                } else if (processedValue.toLowerCase() === 'false') {
+                    processedValue = false;
+                }
+                
+                env[key.trim()] = processedValue;
+            }
+        });
+    }
+    
+    return env;
+}
+
+// Load environment variables
+const ENV = loadEnv();
+console.log('🔧 Environment variables loaded:', ENV);
+
 // Get the current directory
 const currentDir = path.resolve();
 
@@ -64,6 +101,18 @@ function processJsFile(src, dest, browser) {
         content = content.replace(/\/\/\/ Import browser polyfill for compatibility with Chrome and other browsers\nimport '\/libs\/browser-polyfill\.min\.js';\n?/g, '');
     }
 
+        // Replace DEBUG_VALUE with environment variable value
+    if (ENV.DEBUG !== undefined) {
+        const debugValue = ENV.DEBUG;
+        
+        // Replace all DEBUG_VALUE occurrences with the actual boolean value
+        content = content.replace(/DEBUG_VALUE/g, debugValue);
+        
+        if (content.includes(debugValue)) {
+            console.log(`📝 Replaced DEBUG_VALUE with ${debugValue} in ${path.basename(src)}`);
+        }
+    }
+
     fs.writeFileSync(dest, content);
 }
 
@@ -74,6 +123,18 @@ function processServiceWorkerFile(src, dest, browser) {
     if (browser === 'firefox' && path.basename(src) === 'cs_service_worker.js') {
         // Remove first 3 lines for Firefox
         content = content.split('\n').slice(2).join('\n');
+    }
+
+    // Replace DEBUG_VALUE with environment variable value
+    if (ENV.DEBUG !== undefined) {
+        const debugValue = ENV.DEBUG;
+        
+        // Replace all DEBUG_VALUE occurrences with the actual boolean value
+        content = content.replace(/DEBUG_VALUE/g, debugValue);
+        
+        if (content.includes(debugValue)) {
+            console.log(`📝 Replaced DEBUG_VALUE with ${debugValue} in ${path.basename(src)}`);
+        }
     }
 
     fs.writeFileSync(dest, content);

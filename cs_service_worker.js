@@ -2,6 +2,8 @@
 import '/libs/browser-polyfill.min.js';
 import ExtPay from '/libs/ExtPay.js';
 
+/* global DEBUG_VALUE */
+
 /// Import constants
 import {
     bingUrl,
@@ -31,7 +33,6 @@ import {
     base64FolderIcon
 } from "/scripts/favicons.js";
 import {
-    DEBUG,
     STORAGE_KEYS,
     DEFAULT_SEARCH_ENGINES,
     DEFAULT_OPTIONS,
@@ -59,10 +60,21 @@ import {
     subscriptionStatus
 } from "/scripts/constants.js";
 
+// Utility function: debounce
+function debounce(func, delay) {
+    let timeout;
+    return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
+    }
+}
+
 /// Global variables
 
 // Debug
-const logToConsole = DEBUG;
+const logToConsole = DEBUG_VALUE;
 
 // ExtPay
 const extpay = ExtPay('context-search');
@@ -349,7 +361,6 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
                         if (!responseData.options) responseData.options = { ...DEFAULT_OPTIONS };
                         if (!responseData.searchEngines) responseData.searchEngines = {};
                         if (!responseData.selection) responseData.selection = "";
-                        if (responseData.logToConsole === undefined) responseData.logToConsole = DEBUG;
                     }
 
                     const response = { success: true, data: responseData };
@@ -363,8 +374,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
                     const fallbackData = {
                         options: { ...DEFAULT_OPTIONS },
                         searchEngines: {},
-                        selection: "",
-                        logToConsole: DEBUG
+                        selection: ""
                     };
                     const response = { success: true, data: key ? { [key]: fallbackData[key] } : fallbackData };
                     if (logToConsole) console.log('Sending fallback getStoredData response:', response);
@@ -659,7 +669,6 @@ async function getStoredData(key) {
                 if (key === STORAGE_KEYS.OPTIONS) return { ...DEFAULT_OPTIONS };
                 if (key === STORAGE_KEYS.SEARCH_ENGINES) return {};
                 if (key === STORAGE_KEYS.SELECTION) return '';
-                if (key === STORAGE_KEYS.LOG_TO_CONSOLE) return DEBUG;
             }
 
             return result[key];
@@ -672,8 +681,7 @@ async function getStoredData(key) {
             const defaults = {
                 [STORAGE_KEYS.OPTIONS]: { ...DEFAULT_OPTIONS },
                 [STORAGE_KEYS.SEARCH_ENGINES]: {},
-                [STORAGE_KEYS.SELECTION]: '',
-                [STORAGE_KEYS.LOG_TO_CONSOLE]: DEBUG
+                [STORAGE_KEYS.SELECTION]: ''
             };
 
             // Merge with defaults for any missing keys
@@ -698,15 +706,13 @@ async function getStoredData(key) {
             if (key === STORAGE_KEYS.OPTIONS) return { ...DEFAULT_OPTIONS };
             if (key === STORAGE_KEYS.SEARCH_ENGINES) return {};
             if (key === STORAGE_KEYS.SELECTION) return '';
-            if (key === STORAGE_KEYS.LOG_TO_CONSOLE) return DEBUG;
             return null;
         } else {
             // Return a basic data structure with defaults
             return {
                 [STORAGE_KEYS.OPTIONS]: { ...DEFAULT_OPTIONS },
                 [STORAGE_KEYS.SEARCH_ENGINES]: {},
-                [STORAGE_KEYS.SELECTION]: '',
-                [STORAGE_KEYS.LOG_TO_CONSOLE]: DEBUG
+                [STORAGE_KEYS.SELECTION]: ''
             };
         }
     }
@@ -726,9 +732,6 @@ async function setStoredData(key, value) {
 async function initializeStoredData() {
     if (logToConsole) console.log('Initializing stored data...');
     try {
-        // Initialize debug setting
-        await setStoredData(STORAGE_KEYS.LOG_TO_CONSOLE, DEBUG);
-
         // Initialize options
         const storedOptions = await getStoredData(STORAGE_KEYS.OPTIONS);
         options = {
@@ -3332,17 +3335,6 @@ async function setBrowserPanel(url = 'about:blank', title = 'Search results') {
         }
     } catch (error) {
         if (logToConsole) console.error('Error opening browser panel:', error);
-    }
-}
-
-// Utility function: debounce
-function debounce(func, delay) {
-    let timeout;
-    return function (...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-            func.apply(this, args);
-        }, delay);
     }
 }
 

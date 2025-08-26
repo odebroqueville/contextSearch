@@ -240,7 +240,6 @@ async function init() {
         initMetaKey();
 
         // Initialize the UI with stored data
-        logToConsole = await getStoredData(STORAGE_KEYS.LOG_TO_CONSOLE);
         searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES);
 
         // Now you can use these variables (uniqueId, parentId, newIndex) in your script

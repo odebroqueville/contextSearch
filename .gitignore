@@ -3,7 +3,6 @@
 .eslintrc.json
 *.zip
 build/
-config.json
 crowdin.yml
 node_modules/
 web-ext-artifacts/

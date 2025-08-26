@@ -1,9 +1,9 @@
 /// Import browser polyfill for compatibility with Chrome and other browsers
 import '/libs/browser-polyfill.min.js';
 import ExtPay from '/libs/ExtPay.js';
-import { DEBUG } from './constants.js';
 
-const logToConsole = DEBUG;
+/* global DEBUG_VALUE */
+const logToConsole = DEBUG_VALUE;
 const extpay = ExtPay('context-search');
 
 document.getElementById('trialBtn').addEventListener('click', () => {

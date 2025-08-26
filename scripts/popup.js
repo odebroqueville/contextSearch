@@ -1,8 +1,7 @@
 /// Import browser polyfill for compatibility with Chrome and other browsers
 import '/libs/browser-polyfill.min.js';
 
-// Import constants to use STORAGE_KEYS
-import { STORAGE_KEYS } from './constants.js';
+/* global DEBUG_VALUE */
 
 // Make the listener async to use await
 document.addEventListener('DOMContentLoaded', async () => {
@@ -11,20 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const outputArea = document.getElementById('outputArea');
     let tagStyled = false;
 
-    // --- Load logToConsole from storage ---
-    let logToConsole = false; // Default value
-    try {
-        // Fetch using the correct key directly
-        const data = await browser.storage.local.get(STORAGE_KEYS.LOG_TO_CONSOLE);
-        // Check if the key exists and is a boolean
-        if (typeof data[STORAGE_KEYS.LOG_TO_CONSOLE] === 'boolean') {
-            logToConsole = data[STORAGE_KEYS.LOG_TO_CONSOLE];
-        }
-    } catch (error) {
-        console.error("Error loading logToConsole setting from storage:", error);
-        // Keep the default value if loading fails
-    }
-    // --------------------------------------
+    const logToConsole = DEBUG_VALUE; // Debug (from environment)
 
     // Focus the textarea when the popup opens
     inputArea.focus();
@@ -91,7 +77,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 window.close();
 
             } catch (error) {
-                // Use logToConsole value loaded from storage
                 if (logToConsole) console.error(`Error sending/handling executeAISearch message: ${error.message}`);
                 // Optionally, inform the user via an alert or keep the popup open
                 // alert(`Error: ${error.message}`); 

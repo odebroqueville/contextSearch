@@ -1325,14 +1325,21 @@ async function folderKeywordChanged(e) {
 // Handle the input of a keyboard shortcut for a search engine in the Options page
 function handleKeyboardShortcutKeyUp(e) {
     const releasedKey = e.key;
-    if (logToConsole) console.log('keyup:', releasedKey, 'keysPressed:', keysPressed);
+
+    // For letter keys with modifiers, use e.code to match what was stored in keydown
+    let keyToCheck = releasedKey;
+    if ((e.ctrlKey || e.altKey) && e.code.startsWith('Key')) {
+        keyToCheck = e.code.substring(3);
+    }
+
+    if (logToConsole) console.log('keyup:', releasedKey, 'checking:', keyToCheck, 'keysPressed:', keysPressed);
 
     // List of modifier keys
     const modifierKeys = [meta, 'Control', 'Alt', 'Shift'];
 
     // Ignore the keyup event if the released key is a modifier itself
     // or if no keys were actually recorded (e.g., if Escape/Backspace was just pressed)
-    if (!isKeyAllowed(releasedKey) || Object.keys(keysPressed).length === 0) {
+    if (!isKeyAllowed(keyToCheck) || Object.keys(keysPressed).length === 0) {
         if (logToConsole) console.log('keyup ignored (key not allowed or keysPressed empty)');
         return;
     }
@@ -1659,36 +1666,43 @@ async function setOptions(options) {
         disableAI.checked = false;
     }
 
+    const sidebarRestrictionParagraph = document.querySelector('p [data-i18n="restriction"]').parentElement;
+
     switch (options.tabMode) {
         case 'openNewTab':
             openNewTab.checked = true;
             active.style.display = 'block';
             position.style.display = 'block';
             privacy.style.display = 'none';
+            sidebarRestrictionParagraph.style.display = 'none';
             break;
         case 'sameTab':
             sameTab.checked = true;
             active.style.display = 'none';
             position.style.display = 'none';
             privacy.style.display = 'none';
+            sidebarRestrictionParagraph.style.display = 'none';
             break;
         case 'openNewWindow':
             openNewWindow.checked = true;
             active.style.display = 'block';
             position.style.display = 'none';
             privacy.style.display = 'block';
+            sidebarRestrictionParagraph.style.display = 'none';
             break;
         case 'openSidebar':
             openSidebar.checked = true;
             active.style.display = 'none';
             position.style.display = 'none';
             privacy.style.display = 'none';
+            sidebarRestrictionParagraph.style.display = 'block';
             break;
         default:
             openNewTab.checked = true;
             active.style.display = 'block';
             position.style.display = 'block';
             privacy.style.display = 'none';
+            sidebarRestrictionParagraph.style.display = 'none';
             break;
     }
 
@@ -1874,6 +1888,8 @@ async function updateSearchOptions() {
 }
 
 async function updateTabMode() {
+    const sidebarRestrictionParagraph = document.querySelector('p [data-i18n="restriction"]').parentElement;
+    
     if (sameTab.checked || openSidebar.checked) {
         active.style.display = 'none';
         position.style.display = 'none';
@@ -1887,6 +1903,13 @@ async function updateTabMode() {
             position.style.display = 'block';
             privacy.style.display = 'none';
         }
+    }
+
+    // Show/hide the sidebar restriction paragraph based on sidebar selection
+    if (openSidebar.checked) {
+        sidebarRestrictionParagraph.style.display = 'block';
+    } else {
+        sidebarRestrictionParagraph.style.display = 'none';
     }
 
     let data = {};
@@ -2055,19 +2078,34 @@ function handleKeyboardShortcutKeyDown(e) {
     // Ensure event target is an input and is focused
     if (e.target.nodeName !== 'INPUT' || !isInFocus(e.target)) return;
 
-    // If Escape, Backspace, or Delete is pressed, clear keysPressed and the input
-    if (e.key === 'Escape' || e.key === 'Backspace' || e.key === 'Delete') {
+    // If Escape is pressed, restore original value and don't save
+    if (e.key === 'Escape' && e.target.nodeName === 'INPUT') {
+        if (logToConsole) console.log(`${e.key} pressed, restoring original value`);
+        keysPressed = {};
+        // Find the original value from searchEngines
+        const lineItem = e.target.closest('.search-engine, .folder');
+        if (lineItem) {
+            const id = lineItem.getAttribute('id');
+            if (searchEngines[id]) {
+                e.target.value = searchEngines[id].keyboardShortcut || '';
+            }
+        }
+        e.preventDefault();
+        e.stopPropagation();
+        return; // Don't record these keys and don't save
+    }
+
+    // If Backspace or Delete is pressed, clear keysPressed and the input, then save
+    if (e.key === 'Backspace' || e.key === 'Delete') {
         if (logToConsole) console.log(`${e.key} pressed, clearing keysPressed and input`);
         keysPressed = {};
         e.target.value = ''; // Clear the visual input
         // Prevent default actions (like navigating back on Backspace)
         e.preventDefault();
         e.stopPropagation();
-        // Trigger change event manually ONLY if clearing the value should be saved immediately
-        // Normally, we wait for blur, but if an existing shortcut was cleared,
-        // we might want to save the empty string.
-        // const changeEvent = new Event('change', { bubbles: true });
-        // e.target.dispatchEvent(changeEvent);
+        // Trigger change event manually to save the empty string
+        const changeEvent = new Event('change', { bubbles: true });
+        e.target.dispatchEvent(changeEvent);
         return; // Don't record these keys
     }
 
@@ -2079,12 +2117,19 @@ function handleKeyboardShortcutKeyDown(e) {
 
     const key = e.key; // Use e.key for consistency
 
+    // For letter keys with modifiers, use e.code to avoid AltGr issues
+    let keyToStore = key;
+    if ((e.ctrlKey || e.altKey) && e.code.startsWith('Key')) {
+        // Extract the letter from e.code (e.g., 'KeyO' becomes 'O')
+        keyToStore = e.code.substring(3);
+    }
+
     // Record the key if allowed (using true for presence)
-    if (isKeyAllowed(key)) {
-        keysPressed[key] = true;
-        if (logToConsole) console.log('Stored keydown:', key, 'keysPressed:', keysPressed);
+    if (isKeyAllowed(keyToStore)) {
+        keysPressed[keyToStore] = true;
+        if (logToConsole) console.log('Stored keydown:', keyToStore, 'keysPressed:', keysPressed);
     } else {
-        if (logToConsole) console.log('Key not allowed or ignored:', key);
+        if (logToConsole) console.log('Key not allowed or ignored:', keyToStore);
         // Optionally prevent default for disallowed keys if they cause issues
         // e.preventDefault();
     }

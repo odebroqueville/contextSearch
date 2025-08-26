@@ -1,6 +1,8 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-control-regex */
 
+/* global DEBUG_VALUE */
+
 // Global Constants
 const mycroftUrl = 'https://mycroftproject.com/installos.php/';
 const bingUrl = 'https://www.bing.com/visualsearch';
@@ -28,7 +30,7 @@ const ICON32 = '32px'; // icon width is 32px
 const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
 
 // Global variables
-let logToConsole = true; // Debug (default)
+let logToConsole = DEBUG_VALUE; // Debug (from environment)
 let os = null;
 let meta = ''; // meta key: cmd for macOS, win for Windows, super for Linux
 let tabUrl = '';

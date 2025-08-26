@@ -28,20 +28,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     os = await getOS();
     initMetaKey();
 
-    // --- Load logToConsole from storage ---
-    try {
-        // Fetch using the correct key directly
-        const data = await browser.storage.local.get(STORAGE_KEYS.LOG_TO_CONSOLE);
-        // Check if the key exists and is a boolean
-        if (typeof data[STORAGE_KEYS.LOG_TO_CONSOLE] === 'boolean') {
-            logToConsole = data[STORAGE_KEYS.LOG_TO_CONSOLE];
-        }
-    } catch (error) {
-        console.error("Error loading logToConsole setting from storage:", error);
-        // Keep the default value if loading fails
-    }
-    // --------------------------------------
-
     if (logToConsole) console.log(searchEngines);
     if (logToConsole) console.log(activeTab);
     if (logToConsole) console.log(os);
