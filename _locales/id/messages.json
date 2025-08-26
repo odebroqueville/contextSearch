@@ -237,7 +237,7 @@
         "message": "Tampilkan ikon di menu konteks"
     },
     "disableAltClick": {
-        "message": "Menonaktifkan kisi ikon (Alt + Klik)"
+        "message": "Disable icon grid (Alt + Click)"
     },
     "resetPreferences": {
         "message": "Mengatur ulang preferensi ke pengaturan default"
