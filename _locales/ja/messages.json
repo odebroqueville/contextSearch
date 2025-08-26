@@ -48,7 +48,7 @@
         "message": "コンテキストメニューのオプションの位置"
     },
     "subheader31": {
-        "message": "Where would you like the options menu to appear in the context menu?"
+        "message": "コンテキストメニューにオプションメニュー項目を表示する位置はどこにしますか？"
     },
     "bottom": {
         "message": "一番下"
@@ -57,16 +57,16 @@
         "message": "トップ"
     },
     "hide": {
-        "message": "Neither (hide the options menu)"
+        "message": "どちらでもない（オプションメニュー項目を非表示にする）"
     },
     "header5": {
         "message": "検索エンジンのインポート/エクスポート"
     },
     "import": {
-        "message": "Import JSON from local disk"
+        "message": "ローカルディスクから検索エンジン（JSON形式）をインポートする"
     },
     "export": {
-        "message": "Export search engines to JSON"
+        "message": "エクスポート検索エンジン（JSON形式）をローカルディスクに保存する"
     },
     "download": {
         "message": "ローカルディスクへのエクスポート"
@@ -99,7 +99,7 @@
         "message": "プリファレンスの保存"
     },
     "header6": {
-        "message": "Which search engines would you like to appear in the context menu or grid?"
+        "message": "コンテキストメニューまたはアイコンのグリッドに表示したい検索エンジンはどれですか?"
     },
     "clearAll": {
         "message": "すべてクリア"
@@ -123,7 +123,7 @@
         "message": "新しい検索エンジンを追加する"
     },
     "showSearchEngine": {
-        "message": "Show search engine in grid or context menu"
+        "message": "コンテキストメニューまたはアイコンのグリッドに検索エンジンを表示する"
     },
     "searchEngineName": {
         "message": "検索エンジン名"
@@ -135,7 +135,7 @@
         "message": "警告"
     },
     "keyboardShortcutWarning": {
-        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
+        "message": "すべてのキーの組み合わせが機能するわけではありません。macOS では CMD で始まるキーボード ショートカット、Windows または Linux では CTRL で始まるキーボード ショートカットは、通常 Firefox コマンド用に予約されているため、使用しないでください。"
     },
     "placeHolderKeyboardShortcut": {
         "message": "キーボードショートカット"
@@ -184,9 +184,6 @@
     },
     "notifySearchEngineAdded": {
         "message": "検索エンジンが追加された。"
-    },
-    "titleShowEngine": {
-        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "about:config'で'webextensions.storage.sync.enabled'が'true'に設定されていることを確認してください。"
@@ -237,7 +234,7 @@
         "message": "コンテキスト メニューにアイコンを表示する"
     },
     "disableAltClick": {
-        "message": "Disable icon grid (Alt + Click)"
+        "message": "アイコングリッドを無効にする（Alt + クリック）"
     },
     "resetPreferences": {
         "message": "環境設定をデフォルトに戻す"
@@ -306,19 +303,19 @@
         "message": "検索エンジンをエクスポートするには、ダウンロード権限を有効にします。"
     },
     "header11": {
-        "message": "Icons Grid"
+        "message": "アイコンのグリッド"
     },
     "quickIconGrid": {
-        "message": "Immediately display the icons grid after text has been selected"
+        "message": "テキストを選択した後、アイコンのグリッドをすぐに表示します"
     },
     "closeGridOnMouseOut": {
-        "message": "Close the icons grid on mouse out"
+        "message": "マウスアウト時にアイコンのグリッドを閉じる"
     },
     "xOffset": {
-        "message": "Horizontal offset of the icons grid: "
+        "message": "アイコンのグリッドの水平オフセット: "
     },
     "yOffset": {
-        "message": "Vertical offset of the icons grid: "
+        "message": "アイコンのグリッドの垂直方向のオフセット: "
     },
     "clearKeyboardShortcuts": {
         "message": "すべてのキーボードショートカットを消去する"
@@ -336,13 +333,13 @@
         "message": "AIプロンプトの追加"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "AIプロンプトをコンテキストメニューまたはアイコンのグリッドに表示する"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "AIプロンプト名"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "AIプロンプト"
     },
     "overwriteSearchEngines": {
         "message": "既存の検索エンジンをインポートした検索エンジンで上書きする。"
@@ -378,7 +375,7 @@
         "message": "ブックマーク削除用のURLを取得できませんでした"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "少なくともAIサービスプロバイダーを選択し、AIプロンプト名とAIプロンプトを入力してください。"
     },
     "bookmarkPage": {
         "message": "このページをブックマークする"
@@ -409,6 +406,10 @@
     },
     "daysRemaining": {
         "message": "残り日数"
+    },
+    "titleSearchEngines": {
+        "message": "検索エンジン",
+        "description": "Title of search engines tab in the Options page"
     },
     "__WET_LOCALE__": {
         "message": "ja"
