@@ -2,9 +2,12 @@
 =========
 
 * Added the possibility to close an open Icons Grid using the 'Escape' key
+* Improved the UI of the Options page
 * Improved handling of local storage changes in content scripts
 * Reduced the broadcasting to all tabs for Open Search status updates, options and search engines updates
 * Implemented Open Search cache management in service worker
+* Implemented environment variable for debugging
+* Updated translations
 
 6.1.4
 ---------

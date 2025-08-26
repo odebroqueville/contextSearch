@@ -21,6 +21,28 @@ Firefox add-on to search selected text in a web page using your favorite search 
 * Assign keyboard shortcuts to your search engines
 * Export/Import your list of search engines as a safe backup
 
+## Development Configuration
+
+### Environment Variables
+
+This project supports environment-based configuration using a `.env` file. Currently supported variables:
+
+- `DEBUG` - Controls debug logging throughout the application (true/false)
+
+To configure the debug mode:
+
+1. Edit the `.env` file in the project root:
+   ```
+   DEBUG=false
+   ```
+
+2. Run the build process to apply the configuration:
+   ```bash
+   npm run build
+   ```
+
+The build process will automatically read the `.env` file and replace debug values in the compiled extension files.
+
 
 ## Permissions
 
@@ -37,7 +59,7 @@ To open search results in a new private window, in the extensions manager, allow
 
 <ol>
 <li>Select some text on a webpage</li>
-<li>Right click (or Alt-click or Alt+I) on a selection</li>
+<li>Right click (or Alt-click) on a selection</li>
 <li>A context menu (or a grid of icons) appears, displaying the list of search engines chosen in the extension's preferences</li>
 <li>Click on the search engine with which you’d like to search for the selected text</li>
 </ol>
@@ -78,11 +100,11 @@ You can also import a JSON file containing your own list of search engines. It i
 
 ## How to add an AI prompt to your custom list of search engines
 
-For trouble-free use, **it is recommended that you log in** prior to using an AI provider. This is required when using Claude, Google AI Studio, Poe and You. At the bottom of the Options page, select the tab to 'Add a new AI prompt'. Chose the AI provider you'd like to use, add a name for your prompt and enter your prompt by inserting %s where you'd like your text selection to appear (e.g. 'Comprehensively explain the following for a 10 year old: %s'). 
+For trouble-free use, **it is recommended that you log in** prior to using an AI provider. This is required when using Claude, Google AI Studio and Poe. On the Options page, first select the Search engines tab, then click on a green plus button. Then, select the tab to 'Add a new AI prompt'. Chose the AI provider you'd like to use, add a name for your prompt and enter your prompt by inserting %s where you'd like your text selection to appear (e.g. 'Comprehensively explain the following for a 10 year old: %s'). 
 
 In most cases, after selecting text on a web page and selecting your prompt in the context menu, a new tab will open with the relevant AI engine. When possible, the prompt will be pasted in the search box and automatically submitted to the AI engine, except for Poe so that users can choose their preferred large language model. The search results should then appear.
 
-N.B.: If the prompt is missing from the text area, you can paste the contents of the clipboard to which your prompt will have been copied. For this to work, you have to enable the Clipboard permission in the extension's preferences. Alternatively, it is possible to use Chatgpt's AI engines (GPT-4o) on Poe.
+N.B.: If the prompt is missing from the text area, you can paste the contents of the clipboard to which your prompt will have been copied. For this to work, you have to enable the Clipboard permission in the extension's preferences. Alternatively, it is possible to use Chatgpt's AI engines on Poe.
 
 ## How to add a separator (horizontal line) in the context menu
 
