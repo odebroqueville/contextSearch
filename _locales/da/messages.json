@@ -48,7 +48,7 @@
         "message": "Placering af valgmuligheder i kontekstmenuen"
     },
     "subheader31": {
-        "message": "Hvor vil du gerne have, at indstillingsmenuen vises i kontekstmenuen?"
+        "message": "Hvor vil du gerne have, at menupunktet \"Indstillinger\" skal vises i kontekstmenuen?"
     },
     "bottom": {
         "message": "I bunden"
@@ -57,16 +57,16 @@
         "message": "På toppen"
     },
     "hide": {
-        "message": "Hverken eller (skjul indstillingsmenuen)"
+        "message": "Ingen af delene (skjul menupunktet)"
     },
     "header5": {
         "message": "Import/eksport af søgemaskiner"
     },
     "import": {
-        "message": "Importer JSON fra lokal disk"
+        "message": "Importer søgemaskiner (i JSON-format) fra lokal disk"
     },
     "export": {
-        "message": "Eksporter søgemaskiner til JSON"
+        "message": "Eksporter søgemaskiner (i JSON-format) til lokal disk"
     },
     "download": {
         "message": "Eksporter til lokal disk"
@@ -99,7 +99,7 @@
         "message": "Gem præferencer"
     },
     "header6": {
-        "message": "Hvilke søgemaskiner vil du gerne have vist i kontekstmenuen eller gitteret?"
+        "message": "Hvilke søgemaskiner vil du gerne se vises i genvejsmenuen eller gitteret af ikoner?"
     },
     "clearAll": {
         "message": "Ryd alt"
@@ -123,7 +123,7 @@
         "message": "Tilføj en ny søgemaskine"
     },
     "showSearchEngine": {
-        "message": "Vis søgemaskine i gitter eller kontekstmenu"
+        "message": "Vis søgemaskine i kontekstmenuen eller ikonoversigten"
     },
     "searchEngineName": {
         "message": "Søgemaskinens navn"
@@ -135,7 +135,7 @@
         "message": "Advarsel"
     },
     "keyboardShortcutWarning": {
-        "message": "Ikke alle tastekombinationer vil virke. Tastaturgenveje må ikke starte med CMD på macOS eller CTRL på Windows eller Linux, da disse normalt er reserveret til Firefox-kommandoer."
+        "message": "Ikke alle tastekombinationer fungerer. Undgå at bruge tastaturgenveje, der starter med CMD på macOS eller CTRL på Windows eller Linux, da disse normalt er forbeholdt Firefox-kommandoer."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Tastaturgenvej"
@@ -184,9 +184,6 @@
     },
     "notifySearchEngineAdded": {
         "message": "Søgemaskine tilføjet."
-    },
-    "titleShowEngine": {
-        "message": "Vis denne søgemaskine i genvejsmenuen eller i gitteret"
     },
     "notifyEnableStorageSync": {
         "message": "Sørg for, at flaget 'webextensions.storage.sync.enabled' er sat til 'true' i 'about:config', ellers vil Context Search ikke fungere."
@@ -306,19 +303,19 @@
         "message": "aktiver tilladelser til downloads for at eksportere dine søgemaskiner."
     },
     "header11": {
-        "message": "Ikoner Gitter"
+        "message": "Gitter af ikoner"
     },
     "quickIconGrid": {
-        "message": "Vis ikonerne med det samme, når teksten er valgt"
+        "message": "Vis straks gitteret med ikoner, når teksten er markeret"
     },
     "closeGridOnMouseOut": {
-        "message": "Luk ikongitteret, når du trækker musen ud"
+        "message": "Luk gitteret med ikoner ved mus ud"
     },
     "xOffset": {
-        "message": "Vandret forskydning af ikongitteret: "
+        "message": "Vandret forskydning af gitteret af ikoner: "
     },
     "yOffset": {
-        "message": "Lodret forskydning af ikongitteret: "
+        "message": "Lodret forskydning af gitteret af ikoner: "
     },
     "clearKeyboardShortcuts": {
         "message": "Ryd alle tastaturgenveje"
@@ -336,13 +333,13 @@
         "message": "Tilføj AI-prompt"
     },
     "promptShow": {
-        "message": "Vis prompt i gitter eller kontekstmenu"
+        "message": "Vis AI-prompt i kontekstmenuen eller ikonoversigten"
     },
     "promptName": {
-        "message": "Prompt-navn"
+        "message": "AI-promptnavn"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "AI-prompt"
     },
     "overwriteSearchEngines": {
         "message": "Overskriv de eksisterende søgemaskiner med de importerede søgemaskiner"
@@ -378,7 +375,7 @@
         "message": "Kunne ikke hente URL til fjernelse af bogmærke"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Vælg i det mindste en AI-udbyder og angiv et prompt-navn og en prompt"
+        "message": "Vælg mindst en AI-udbyder og indtast et AI-promptnavn og en AI-prompt."
     },
     "bookmarkPage": {
         "message": "Bogmærke denne side"
@@ -409,6 +406,10 @@
     },
     "daysRemaining": {
         "message": "resterende dag(e)"
+    },
+    "titleSearchEngines": {
+        "message": "Søgemaskiner",
+        "description": "Title of search engines tab in the Options page"
     },
     "__WET_LOCALE__": {
         "message": "da"
