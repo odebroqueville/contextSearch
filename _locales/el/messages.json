@@ -237,7 +237,7 @@
         "message": "Εμφάνιση εικονιδίων στο μενού περιβάλλοντος"
     },
     "disableAltClick": {
-        "message": "Απενεργοποίηση πλέγματος εικονιδίων (Alt + κλικ)"
+        "message": "Disable icon grid (Alt + Click)"
     },
     "resetPreferences": {
         "message": "Επαναφορά προτιμήσεων στις προεπιλεγμένες ρυθμίσεις"
