@@ -309,7 +309,7 @@
         "message": "Visa omedelbart rutnätet med ikoner efter att text har markerats"
     },
     "closeGridOnMouseOut": {
-        "message": "Stäng rutnätet med ikoner på musen ut"
+        "message": "Stäng rutnätet med ikoner när muspekaren lämnar området"
     },
     "xOffset": {
         "message": "Horisontell förskjutning av rutnätet med ikoner: "
