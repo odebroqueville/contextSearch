@@ -309,7 +309,7 @@
         "message": "选择文本后立即显示图标网格"
     },
     "closeGridOnMouseOut": {
-        "message": "关闭鼠标输出时的图标网格"
+        "message": "鼠标移出时关闭图标网格"
     },
     "xOffset": {
         "message": "图标网格的水平偏移： "
