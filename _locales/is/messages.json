@@ -72,7 +72,7 @@
         "message": "Flytja út á disk á tölvunni"
     },
     "header2": {
-        "message": "Helgimynd"
+        "message": "Táknmyndir"
     },
     "note": {
         "message": "Þessi eiginleiki krefst Firefox 56 eða nýrri."
@@ -237,7 +237,7 @@
         "message": "Birtu tákn í samhengisvalmyndinni"
     },
     "disableAltClick": {
-        "message": "Gera táknmyndareiti óvirka (Alt + smella)"
+        "message": "Disable icon grid (Alt + Click)"
     },
     "resetPreferences": {
         "message": "Endurstilla kjörstillingar á sjálfgefnar stillingar"
