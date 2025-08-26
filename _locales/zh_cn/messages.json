@@ -48,7 +48,7 @@
         "message": "选项在右键菜单中的位置"
     },
     "subheader31": {
-        "message": "Where would you like the options menu to appear in the context menu?"
+        "message": "您希望在上下文菜单中将“选项”菜单项显示在哪个位置？"
     },
     "bottom": {
         "message": "在底部"
@@ -57,16 +57,16 @@
         "message": "在顶部"
     },
     "hide": {
-        "message": "Neither (hide the options menu)"
+        "message": "两者皆不（隐藏选项菜单项）"
     },
     "header5": {
         "message": "导入/导出搜索引擎"
     },
     "import": {
-        "message": "Import JSON from local disk"
+        "message": "从本地磁盘导入搜索引擎（JSON格式）"
     },
     "export": {
-        "message": "Export search engines to JSON"
+        "message": "将搜索引擎（以 JSON 格式）导出到本地磁盘"
     },
     "download": {
         "message": "导出到本地磁盘"
@@ -99,7 +99,7 @@
         "message": "保存首选项"
     },
     "header6": {
-        "message": "Which search engines would you like to appear in the context menu or grid?"
+        "message": "您希望看到哪些搜索引擎出现在上下文菜单或图标网格中？"
     },
     "clearAll": {
         "message": "全部清除"
@@ -123,7 +123,7 @@
         "message": "添加新的搜索引擎"
     },
     "showSearchEngine": {
-        "message": "Show search engine in grid or context menu"
+        "message": "在上下文菜单或图标网格中显示搜索引擎"
     },
     "searchEngineName": {
         "message": "搜索引擎名称"
@@ -135,7 +135,7 @@
         "message": "警告"
     },
     "keyboardShortcutWarning": {
-        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
+        "message": "并非所有组合键都有效。避免使用在 macOS 上以 CMD 开头的键盘快捷键或在 Windows 或 Linux 上以 CTRL 开头的键盘快捷键，因为这些快捷键通常是为 Firefox 命令保留的。"
     },
     "placeHolderKeyboardShortcut": {
         "message": "键盘快捷键"
@@ -184,9 +184,6 @@
     },
     "notifySearchEngineAdded": {
         "message": "增加了搜索引擎。"
-    },
-    "titleShowEngine": {
-        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "请确保在 \"about:config \"中将标志 \"webextensions.storage.sync.enabled \"设置为 \"true\"，否则 \"上下文搜索 \"将无法运行。"
@@ -237,7 +234,7 @@
         "message": "在上下文菜单中显示图标"
     },
     "disableAltClick": {
-        "message": "Disable icon grid (Alt + Click)"
+        "message": "禁用图标网格（Alt + 点击）"
     },
     "resetPreferences": {
         "message": "将首选项重置为默认设置"
@@ -306,19 +303,19 @@
         "message": "启用下载权限以导出搜索引擎。"
     },
     "header11": {
-        "message": "Icons Grid"
+        "message": "图标网格"
     },
     "quickIconGrid": {
-        "message": "Immediately display the icons grid after text has been selected"
+        "message": "选择文本后立即显示图标网格"
     },
     "closeGridOnMouseOut": {
-        "message": "Close the icons grid on mouse out"
+        "message": "关闭鼠标输出时的图标网格"
     },
     "xOffset": {
-        "message": "Horizontal offset of the icons grid: "
+        "message": "图标网格的水平偏移： "
     },
     "yOffset": {
-        "message": "Vertical offset of the icons grid: "
+        "message": "图标网格的垂直偏移量： "
     },
     "clearKeyboardShortcuts": {
         "message": "清除所有键盘快捷键"
@@ -336,13 +333,13 @@
         "message": "添加人工智能提示"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "在上下文菜单或图标网格中显示 AI 提示"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "AI提示词名称"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "人工智能提示"
     },
     "overwriteSearchEngines": {
         "message": "用导入的搜索引擎覆盖现有搜索引擎"
@@ -378,7 +375,7 @@
         "message": "无法检索删除书签的 URL"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "请至少选择一个AI服务提供商，并输入一个AI提示词名称和一个AI提示词。"
     },
     "bookmarkPage": {
         "message": "收藏本页"
@@ -409,6 +406,10 @@
     },
     "daysRemaining": {
         "message": "剩余天数"
+    },
+    "titleSearchEngines": {
+        "message": "搜索引擎",
+        "description": "Title of search engines tab in the Options page"
     },
     "__WET_LOCALE__": {
         "message": "zh_cn"
