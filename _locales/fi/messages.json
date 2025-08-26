@@ -309,7 +309,7 @@
         "message": "Näytä kuvakeruudukko heti, kun teksti on valittu"
     },
     "closeGridOnMouseOut": {
-        "message": "Sulje kuvakeruudukko hiiren ollessa ulospäin"
+        "message": "Sulje kuvakeruudukko, kun hiiri poistuu alueelta"
     },
     "xOffset": {
         "message": "Kuvakeruudukon vaakasuuntainen siirtymä: "
