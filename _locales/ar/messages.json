@@ -48,7 +48,7 @@
         "message": "موضع الخيارات في قائمة السياق"
     },
     "subheader31": {
-        "message": "Where would you like the options menu to appear in the context menu?"
+        "message": "أين تريد أن يظهر عنصر قائمة الخيارات في قائمة السياق؟"
     },
     "bottom": {
         "message": "في الأسفل"
@@ -57,16 +57,16 @@
         "message": "في الأعلى"
     },
     "hide": {
-        "message": "Neither (hide the options menu)"
+        "message": "لا هذا ولا ذاك (إخفاء عنصر قائمة الخيارات)"
     },
     "header5": {
         "message": "محركات بحث الاستيراد/التصدير"
     },
     "import": {
-        "message": "Import JSON from local disk"
+        "message": "استيراد محركات البحث (بتنسيق JSON) من القرص المحلي"
     },
     "export": {
-        "message": "Export search engines to JSON"
+        "message": "تصدير محركات البحث (بتنسيق JSON) إلى القرص المحلي"
     },
     "download": {
         "message": "تصدير إلى القرص المحلي"
@@ -99,7 +99,7 @@
         "message": "حفظ التفضيلات"
     },
     "header6": {
-        "message": "Which search engines would you like to appear in the context menu or grid?"
+        "message": "ما هي محركات البحث التي ترغب في رؤيتها تظهر في قائمة السياق أو شبكة الرموز؟"
     },
     "clearAll": {
         "message": "مسح الكل"
@@ -123,7 +123,7 @@
         "message": "إضافة محرك بحث جديد"
     },
     "showSearchEngine": {
-        "message": "Show search engine in grid or context menu"
+        "message": "إظهار محرك البحث في قائمة السياق أو شبكة الرموز"
     },
     "searchEngineName": {
         "message": "اسم محرك البحث"
@@ -135,7 +135,7 @@
         "message": "تحذير"
     },
     "keyboardShortcutWarning": {
-        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
+        "message": "لن تعمل جميع مجموعات المفاتيح. تجنب استخدام اختصارات لوحة المفاتيح التي تبدأ ب CMD على macOS أو CTRL على Windows أو Linux ، حيث يتم حجزها عادة لأوامر Firefox."
     },
     "placeHolderKeyboardShortcut": {
         "message": "اختصار لوحة المفاتيح"
@@ -184,9 +184,6 @@
     },
     "notifySearchEngineAdded": {
         "message": "تمت إضافة محرك البحث."
-    },
-    "titleShowEngine": {
-        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "يُرجى التأكد من ضبط العلامة \"webextensions.storage.sync.enabled\" على \"صواب\" في \"about:config\"، وإلا فلن يعمل بحث السياق."
@@ -237,7 +234,7 @@
         "message": "عرض الرموز في قائمة السياق"
     },
     "disableAltClick": {
-        "message": "Disable icon grid (Alt + Click)"
+        "message": "تعطيل شبكة الأيقونات (Alt + النقر)"
     },
     "resetPreferences": {
         "message": "إعادة تعيين التفضيلات إلى الإعدادات الافتراضية"
@@ -306,19 +303,19 @@
         "message": "تمكين أذونات التنزيلات لتصدير محركات البحث الخاصة بك."
     },
     "header11": {
-        "message": "Icons Grid"
+        "message": "شبكة من الرموز"
     },
     "quickIconGrid": {
-        "message": "Immediately display the icons grid after text has been selected"
+        "message": "عرض شبكة الأيقونات على الفور بعد تحديد النص"
     },
     "closeGridOnMouseOut": {
-        "message": "Close the icons grid on mouse out"
+        "message": "إغلاق شبكة الرموز على خرج الماوس"
     },
     "xOffset": {
-        "message": "Horizontal offset of the icons grid: "
+        "message": "الإزاحة الأفقية لشبكة الرموز: "
     },
     "yOffset": {
-        "message": "Vertical offset of the icons grid: "
+        "message": "الإزاحة الرأسية لشبكة الرموز: "
     },
     "clearKeyboardShortcuts": {
         "message": "مسح جميع اختصارات لوحة المفاتيح"
@@ -336,13 +333,13 @@
         "message": "إضافة موجه الذكاء الاصطناعي"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "إظهار موجه AI في قائمة السياق أو شبكة الرموز"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "اسم موجه الذكاء الاصطناعي"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "موجه الذكاء الاصطناعي"
     },
     "overwriteSearchEngines": {
         "message": "الكتابة فوق محركات البحث الحالية بمحركات البحث المستوردة"
@@ -378,7 +375,7 @@
         "message": "تعذر استرداد عنوان URL لإزالة الإشارة المرجعية"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "يرجى على الأقل تحديد مزود خدمة الذكاء الاصطناعي وإدخال اسم موجه الذكاء الاصطناعي وموجه الذكاء الاصطناعي"
     },
     "bookmarkPage": {
         "message": "ضع إشارة مرجعية على هذه الصفحة"
@@ -409,6 +406,10 @@
     },
     "daysRemaining": {
         "message": "اليوم (الأيام) المتبقية"
+    },
+    "titleSearchEngines": {
+        "message": "محركات البحث",
+        "description": "Title of search engines tab in the Options page"
     },
     "__WET_LOCALE__": {
         "message": "ar"
