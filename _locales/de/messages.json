@@ -123,7 +123,7 @@
         "message": "Eine neue Suchmaschine hinzufügen"
     },
     "showSearchEngine": {
-        "message": "Suchmaschine im Kontextmenü oder in der Symbolleiste anzeigen"
+        "message": "Suchmaschine im Kontextmenü oder im Icon-Raster anzeigen"
     },
     "searchEngineName": {
         "message": "Name der Suchmaschine"
