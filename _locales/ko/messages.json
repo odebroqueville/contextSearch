@@ -237,7 +237,7 @@
         "message": "컨텍스트 메뉴에 아이콘 표시"
     },
     "disableAltClick": {
-        "message": "아이콘 그리드 비활성화(Alt + 클릭)"
+        "message": "Disable icon grid (Alt + Click)"
     },
     "resetPreferences": {
         "message": "환경설정을 기본 설정으로 재설정"
