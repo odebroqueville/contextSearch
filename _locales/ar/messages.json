@@ -237,7 +237,7 @@
         "message": "عرض الرموز في قائمة السياق"
     },
     "disableAltClick": {
-        "message": "تعطيل شبكة الأيقونات (Alt + النقر)"
+        "message": "Disable icon grid (Alt + Click)"
     },
     "resetPreferences": {
         "message": "إعادة تعيين التفضيلات إلى الإعدادات الافتراضية"
