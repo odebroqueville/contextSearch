@@ -48,7 +48,7 @@
         "message": "Posisi opsi dalam menu konteks"
     },
     "subheader31": {
-        "message": "Where would you like the options menu to appear in the context menu?"
+        "message": "Di mana Anda ingin menu opsi muncul di menu konteks?"
     },
     "bottom": {
         "message": "Di bagian bawah"
@@ -57,16 +57,16 @@
         "message": "Di atas"
     },
     "hide": {
-        "message": "Neither (hide the options menu)"
+        "message": "Tidak (sembunyikan item menu opsi)"
     },
     "header5": {
         "message": "Mesin pencari impor/ekspor"
     },
     "import": {
-        "message": "Import JSON from local disk"
+        "message": "Impor mesin pencari (dalam format JSON) dari disk lokal"
     },
     "export": {
-        "message": "Export search engines to JSON"
+        "message": "Ekspor mesin pencari (dalam format JSON) ke disk lokal"
     },
     "download": {
         "message": "Ekspor ke disk lokal"
@@ -99,7 +99,7 @@
         "message": "Menyimpan preferensi"
     },
     "header6": {
-        "message": "Which search engines would you like to appear in the context menu or grid?"
+        "message": "Mesin pencari mana yang ingin Anda lihat muncul di menu konteks atau kisi ikon?"
     },
     "clearAll": {
         "message": "Hapus Semua"
@@ -123,7 +123,7 @@
         "message": "Menambahkan mesin pencari baru"
     },
     "showSearchEngine": {
-        "message": "Show search engine in grid or context menu"
+        "message": "Tampilkan mesin pencari di menu konteks atau grid ikon."
     },
     "searchEngineName": {
         "message": "Nama mesin pencari"
@@ -135,7 +135,7 @@
         "message": "Peringatan"
     },
     "keyboardShortcutWarning": {
-        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
+        "message": "Tidak semua kombinasi tombol akan berfungsi. Hindari menggunakan pintasan keyboard yang dimulai dengan CMD di macOS atau CTRL di Windows atau Linux, karena ini biasanya disediakan untuk perintah Firefox."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Pintasan keyboard"
@@ -184,9 +184,6 @@
     },
     "notifySearchEngineAdded": {
         "message": "Mesin pencari ditambahkan."
-    },
-    "titleShowEngine": {
-        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "Pastikan bahwa flag 'webextensions.storage.sync.enabled' disetel ke 'true' di 'about:config', jika tidak, Pencarian Konteks tidak akan berfungsi."
@@ -237,7 +234,7 @@
         "message": "Tampilkan ikon di menu konteks"
     },
     "disableAltClick": {
-        "message": "Disable icon grid (Alt + Click)"
+        "message": "Menonaktifkan kisi ikon (Alt + Klik)"
     },
     "resetPreferences": {
         "message": "Mengatur ulang preferensi ke pengaturan default"
@@ -306,19 +303,19 @@
         "message": "aktifkan Izin unduhan untuk mengekspor mesin pencari Anda."
     },
     "header11": {
-        "message": "Icons Grid"
+        "message": "Kisi ikon"
     },
     "quickIconGrid": {
-        "message": "Immediately display the icons grid after text has been selected"
+        "message": "Segera tampilkan kisi ikon setelah teks dipilih"
     },
     "closeGridOnMouseOut": {
-        "message": "Close the icons grid on mouse out"
+        "message": "Tutup kisi ikon saat mouse keluar"
     },
     "xOffset": {
-        "message": "Horizontal offset of the icons grid: "
+        "message": "Offset horizontal dari kisi ikon: "
     },
     "yOffset": {
-        "message": "Vertical offset of the icons grid: "
+        "message": "Offset vertikal dari kisi ikon: "
     },
     "clearKeyboardShortcuts": {
         "message": "Menghapus semua pintasan keyboard"
@@ -336,13 +333,13 @@
         "message": "Tambahkan Prompt AI"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "Tampilkan prompt AI di menu konteks atau grid ikon."
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "Nama prompt AI"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "Prompt AI"
     },
     "overwriteSearchEngines": {
         "message": "Menimpa mesin pencari yang ada dengan mesin pencari yang diimpor"
@@ -378,7 +375,7 @@
         "message": "Tidak dapat mengambil URL untuk menghapus bookmark"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "Silakan pilih setidaknya satu penyedia layanan AI dan masukkan nama prompt AI serta prompt AI."
     },
     "bookmarkPage": {
         "message": "Tandai Halaman Ini"
@@ -409,6 +406,10 @@
     },
     "daysRemaining": {
         "message": "hari yang tersisa"
+    },
+    "titleSearchEngines": {
+        "message": "Pencari",
+        "description": "Title of search engines tab in the Options page"
     },
     "__WET_LOCALE__": {
         "message": "id"
