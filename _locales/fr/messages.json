@@ -237,7 +237,7 @@
         "message": "Afficher les icônes dans le menu contextuel"
     },
     "disableAltClick": {
-        "message": "Désactiver la grille d'icônes (Alt + Click)"
+        "message": "Disable icon grid (Alt + Click)"
     },
     "resetPreferences": {
         "message": "Rétablir les préférences par défaut"
