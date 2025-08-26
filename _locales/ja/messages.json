@@ -237,7 +237,7 @@
         "message": "コンテキスト メニューにアイコンを表示する"
     },
     "disableAltClick": {
-        "message": "アイコングリッドを無効にする（Alt + クリック）"
+        "message": "Disable icon grid (Alt + Click)"
     },
     "resetPreferences": {
         "message": "環境設定をデフォルトに戻す"
