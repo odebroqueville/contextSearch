@@ -48,7 +48,7 @@
         "message": "İçerik menüsündeki seçeneklerin konumu"
     },
     "subheader31": {
-        "message": "Where would you like the options menu to appear in the context menu?"
+        "message": "Seçenekler menüsü öğesinin bağlam menüsünde nerede görünmesini istersiniz?"
     },
     "bottom": {
         "message": "En altta"
@@ -57,16 +57,16 @@
         "message": "En üstte"
     },
     "hide": {
-        "message": "Neither (hide the options menu)"
+        "message": "Hiçbiri (seçenekler menü öğesini gizle)"
     },
     "header5": {
         "message": "Arama motorlarını içe/dışa aktarma"
     },
     "import": {
-        "message": "Import JSON from local disk"
+        "message": "Yerel diskten arama motorlarını (JSON formatında) içe aktarın"
     },
     "export": {
-        "message": "Export search engines to JSON"
+        "message": "Arama motorlarını (JSON formatında) yerel diske aktarın"
     },
     "download": {
         "message": "Yerel diske aktarma"
@@ -99,7 +99,7 @@
         "message": "Tercihleri kaydet"
     },
     "header6": {
-        "message": "Which search engines would you like to appear in the context menu or grid?"
+        "message": "Bağlam menüsünde veya simgeler ızgarasında hangi arama motorlarının görünmesini istersiniz?"
     },
     "clearAll": {
         "message": "Tümünü Temizle"
@@ -123,7 +123,7 @@
         "message": "Yeni bir arama motoru ekleyin"
     },
     "showSearchEngine": {
-        "message": "Show search engine in grid or context menu"
+        "message": "Arama motorunu bağlam menüsünde veya simge ızgarasında göster"
     },
     "searchEngineName": {
         "message": "Arama motoru adı"
@@ -135,7 +135,7 @@
         "message": "Uyarı"
     },
     "keyboardShortcutWarning": {
-        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
+        "message": "Tüm tuş kombinasyonları çalışmayacaktır. macOS'ta CMD veya Windows veya Linux'ta CTRL ile başlayan klavye kısayollarını kullanmaktan kaçının, çünkü bunlar genellikle Firefox komutları için ayrılmıştır."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Klavye kısayolu"
@@ -184,9 +184,6 @@
     },
     "notifySearchEngineAdded": {
         "message": "Arama motoru eklendi."
-    },
-    "titleShowEngine": {
-        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "Lütfen 'webextensions.storage.sync.enabled' bayrağının 'about:config' içinde 'true' olarak ayarlandığından emin olun, aksi takdirde Context Search çalışmayacaktır."
@@ -237,7 +234,7 @@
         "message": "Bağlam menüsünde simgeleri göster"
     },
     "disableAltClick": {
-        "message": "Disable icon grid (Alt + Click)"
+        "message": "Simge ızgarasını devre dışı bırakma (Alt + Tıklama)"
     },
     "resetPreferences": {
         "message": "Tercihleri varsayılan ayarlara sıfırla"
@@ -306,19 +303,19 @@
         "message": "Arama motorlarınızı dışa aktarmak için İndirilenler izinlerini etkinleştirin."
     },
     "header11": {
-        "message": "Icons Grid"
+        "message": "Simgeler ızgarası"
     },
     "quickIconGrid": {
-        "message": "Immediately display the icons grid after text has been selected"
+        "message": "Metin seçildikten hemen sonra simge ızgarasını görüntüleyin"
     },
     "closeGridOnMouseOut": {
-        "message": "Close the icons grid on mouse out"
+        "message": "Fare çıkışındaki simgeler ızgarasını kapatın"
     },
     "xOffset": {
-        "message": "Horizontal offset of the icons grid: "
+        "message": "Simge ızgarasının yatay uzaklığı: "
     },
     "yOffset": {
-        "message": "Vertical offset of the icons grid: "
+        "message": "Simge ızgarasının dikey uzaklığı: "
     },
     "clearKeyboardShortcuts": {
         "message": "Tüm klavye kısayollarını temizle"
@@ -336,13 +333,13 @@
         "message": "Yapay Zeka İstemi Ekle"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "AI istemini bağlam menüsünde veya simge ızgarasında göster"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "AI komut adı"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "AI komut istemi"
     },
     "overwriteSearchEngines": {
         "message": "Mevcut arama motorlarının üzerine içe aktarılan arama motorlarını yazın"
@@ -378,7 +375,7 @@
         "message": "Yer imi kaldırma için URL alınamadı"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "Lütfen en azından bir AI hizmet sağlayıcısı seçin ve bir AI komut adı ve bir AI komut girin."
     },
     "bookmarkPage": {
         "message": "Bu Sayfayı Yer İşaretlerine Ekle"
@@ -409,6 +406,10 @@
     },
     "daysRemaining": {
         "message": "kalan gün(ler)"
+    },
+    "titleSearchEngines": {
+        "message": "Arama motorları",
+        "description": "Title of search engines tab in the Options page"
     },
     "__WET_LOCALE__": {
         "message": "tr"
