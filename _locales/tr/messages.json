@@ -309,7 +309,7 @@
         "message": "Metin seçildikten hemen sonra simge ızgarasını görüntüleyin"
     },
     "closeGridOnMouseOut": {
-        "message": "Fare çıkışındaki simgeler ızgarasını kapatın"
+        "message": "Fare imleci alandan çıktığında simgeler ızgarasını kapatın"
     },
     "xOffset": {
         "message": "Simge ızgarasının yatay uzaklığı: "
