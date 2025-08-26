@@ -309,7 +309,7 @@
         "message": "Affichage immédiat de la grille d’icônes après la sélection du texte"
     },
     "closeGridOnMouseOut": {
-        "message": "Fermer la grille d’icônes au passage de la souris"
+        "message": "Fermer la grille d’icônes quand le curseur quitte la zone"
     },
     "xOffset": {
         "message": "Décalage horizontal de la grille d’icônes : "
