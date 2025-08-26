@@ -48,7 +48,7 @@
         "message": "Position der Optionen im Kontextmenü"
     },
     "subheader31": {
-        "message": "Wo soll das Optionsmenü im Kontextmenü erscheinen?"
+        "message": "Wo soll der Menüpunkt „Optionen“ im Kontextmenü angezeigt werden?"
     },
     "bottom": {
         "message": "Unten"
@@ -57,16 +57,16 @@
         "message": "An der Spitze"
     },
     "hide": {
-        "message": "Weder noch (das Optionsmenü ausblenden)"
+        "message": "Weder noch (Optionsmenüpunkt ausblenden)"
     },
     "header5": {
         "message": "Import/Export-Suchmaschinen"
     },
     "import": {
-        "message": "JSON von der lokalen Festplatte importieren"
+        "message": "Suchmaschinen (im JSON-Format) von der lokalen Festplatte importieren"
     },
     "export": {
-        "message": "Suchmaschinen nach JSON exportieren"
+        "message": "Exportieren Sie Suchmaschinen (im JSON-Format) auf die lokale Festplatte."
     },
     "download": {
         "message": "Export auf lokale Festplatte"
@@ -99,7 +99,7 @@
         "message": "Einstellungen speichern"
     },
     "header6": {
-        "message": "Welche Suchmaschinen möchten Sie im Kontextmenü oder im Raster anzeigen lassen?"
+        "message": "Welche Suchmaschinen möchten Sie im Kontextmenü oder im Icon-Raster sehen?"
     },
     "clearAll": {
         "message": "Alle löschen"
@@ -123,7 +123,7 @@
         "message": "Eine neue Suchmaschine hinzufügen"
     },
     "showSearchEngine": {
-        "message": "Suchmaschine im Gitter oder Kontextmenü anzeigen"
+        "message": "Suchmaschine im Kontextmenü oder im Icon-Raster anzeigen"
     },
     "searchEngineName": {
         "message": "Name der Suchmaschine"
@@ -135,7 +135,7 @@
         "message": "Warnung"
     },
     "keyboardShortcutWarning": {
-        "message": "nicht alle Tastenkombinationen werden funktionieren. Tastaturkürzel dürfen unter macOS nicht mit CMD und unter Windows oder Linux nicht mit CTRL beginnen, da diese normalerweise für Firefox-Befehle reserviert sind."
+        "message": "Nicht alle Tastenkombinationen funktionieren. Vermeiden Sie die Verwendung von Tastenkombinationen, die unter macOS mit CMD oder unter Windows oder Linux mit STRG beginnen, da diese normalerweise für Firefox-Befehle reserviert sind."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Tastaturkürzel"
@@ -184,9 +184,6 @@
     },
     "notifySearchEngineAdded": {
         "message": "Suchmaschine hinzugefügt."
-    },
-    "titleShowEngine": {
-        "message": "Diese Suchmaschine im Kontextmenü oder Gitter anzeigen"
     },
     "notifyEnableStorageSync": {
         "message": "Bitte stellen Sie sicher, dass das Flag 'webextensions.storage.sync.enabled' in 'about:config' auf 'true' gesetzt ist, sonst funktioniert die Kontextsuche nicht."
@@ -306,19 +303,19 @@
         "message": "aktivieren Sie die Downloads-Berechtigung, um Ihre Suchmaschinen zu exportieren."
     },
     "header11": {
-        "message": "Symbole-Raster"
+        "message": "Raster der Symbole"
     },
     "quickIconGrid": {
-        "message": "Sofortige Anzeige des Symbolrasters, nachdem der Text ausgewählt wurde"
+        "message": "Zeigen Sie sofort das Raster der Symbole an, nachdem Text ausgewählt wurde"
     },
     "closeGridOnMouseOut": {
-        "message": "Schließen des Icon-Gitters bei Mouse-Out"
+        "message": "Schließen Sie das Raster der Symbole, wenn der Mauszeiger den Bereich verlässt"
     },
     "xOffset": {
-        "message": "Horizontaler Versatz des Ikonenrasters: "
+        "message": "Horizontaler Versatz des Rasters der Symbole: "
     },
     "yOffset": {
-        "message": "Vertikaler Versatz des Ikonenrasters: "
+        "message": "Vertikaler Versatz des Rasters der Symbole: "
     },
     "clearKeyboardShortcuts": {
         "message": "Alle Tastaturkürzel löschen"
@@ -336,13 +333,13 @@
         "message": "AI-Eingabeaufforderung hinzufügen"
     },
     "promptShow": {
-        "message": "Eingabeaufforderung im Raster oder Kontextmenü anzeigen"
+        "message": "AI-Eingabeaufforderung im Kontextmenü oder im Icon-Raster anzeigen"
     },
     "promptName": {
-        "message": "Name der Aufforderung"
+        "message": "Name der KI-Eingabeaufforderung"
     },
     "prompt": {
-        "message": "Eingabeaufforderung"
+        "message": "KI-Eingabeaufforderung"
     },
     "overwriteSearchEngines": {
         "message": "Überschreiben Sie die vorhandenen Suchmaschinen mit den importierten Suchmaschinen"
@@ -378,7 +375,7 @@
         "message": "URL zum Entfernen des Lesezeichens konnte nicht abgerufen werden"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Bitte wählen Sie mindestens einen AI-Anbieter aus und geben Sie einen Prompt-Namen und einen Prompt an"
+        "message": "Bitte wählen Sie mindestens einen KI-Dienstleister aus und geben Sie einen KI-Prompt-Namen und einen KI-Prompt ein."
     },
     "bookmarkPage": {
         "message": "Lesezeichen für diese Seite"
@@ -409,6 +406,10 @@
     },
     "daysRemaining": {
         "message": "Verbleibende(r) Tag(e)"
+    },
+    "titleSearchEngines": {
+        "message": "Suchmaschinen",
+        "description": "Title of search engines tab in the Options page"
     },
     "__WET_LOCALE__": {
         "message": "de"

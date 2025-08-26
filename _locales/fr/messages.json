@@ -15,7 +15,7 @@
         "message": "Cochez la case du milieu pour inclure un moteur de recherche dans une"
     },
     "multisearchLaunch": {
-        "message": "Vous pouvez lancer un"
+        "message": "Vous pouvez lancer une"
     },
     "multisearchEnd": {
         "message": "à partir du menu contextuel ou de la barre d'adresse en tapant :"
@@ -48,7 +48,7 @@
         "message": "Position des options dans le menu contextuel"
     },
     "subheader31": {
-        "message": "Où voulez-vous que le menu d'options apparaisse dans le menu contextuel ?"
+        "message": "Où souhaitez-vous que l'élément de menu Options apparaisse dans le menu contextuel ?"
     },
     "bottom": {
         "message": "En bas"
@@ -57,16 +57,16 @@
         "message": "Au sommet"
     },
     "hide": {
-        "message": "Ni l'un ni l'autre (cacher le menu des options)"
+        "message": "Ni l'un ni l'autre (masquer l'élément de menu Options)"
     },
     "header5": {
-        "message": "Importer/exporter des moteurs de recherche"
+        "message": "Importer/exporter les moteurs de recherche"
     },
     "import": {
-        "message": "Importer JSON à partir d'un disque local"
+        "message": "Importer des moteurs de recherche (au format JSON) depuis le disque local"
     },
     "export": {
-        "message": "Exporter les moteurs de recherche vers JSON"
+        "message": "Exporter les moteurs de recherche (au format JSON) vers le disque local"
     },
     "download": {
         "message": "Exporter vers le disque local"
@@ -84,7 +84,7 @@
         "message": "Recherche d'une chaîne de caractères exacte"
     },
     "disableDoubleClick": {
-        "message": "Désactiver le double clic pour ajouter des moteurs de recherche qui utilisent des requêtes HTTP POST."
+        "message": "Désactiver le double clic pour ajouter des moteurs de recherche qui utilisent des requêtes HTTP POST"
     },
     "disableAI": {
         "message": "Désactiver les fonctionnalités de recherche IA"
@@ -99,31 +99,31 @@
         "message": "Sauvegarder les préférences"
     },
     "header6": {
-        "message": "Quels sont les moteurs de recherche que vous souhaitez voir apparaître dans le menu contextuel ou la grille ?"
+        "message": "Quels moteurs de recherche aimeriez-vous voir apparaître dans le menu contextuel ou la grille d’icônes ?"
     },
     "clearAll": {
         "message": "Tout effacer"
     },
     "selectAll": {
-        "message": "Sélectionner tout"
+        "message": "Tout sélectionner"
     },
     "sortAlphabetically": {
         "message": "Trier par ordre alphabétique"
     },
     "showAdvancedFeatures": {
-        "message": "Afficher les fonctions avancées"
+        "message": "Afficher les fonctionnalités avancées"
     },
     "hideAdvancedFeatures": {
         "message": "Masquer les fonctionnalités avancées"
     },
     "reset": {
-        "message": "Remise à zéro"
+        "message": "Réinitialisation"
     },
     "subheader61": {
         "message": "Ajouter un nouveau moteur de recherche"
     },
     "showSearchEngine": {
-        "message": "Afficher le moteur de recherche dans la grille ou le menu contextuel"
+        "message": "Afficher le moteur de recherche dans le menu contextuel ou la grille d'icônes"
     },
     "searchEngineName": {
         "message": "Nom du moteur de recherche"
@@ -135,7 +135,7 @@
         "message": "Avertissement"
     },
     "keyboardShortcutWarning": {
-        "message": "toutes les combinaisons de touches ne fonctionneront pas. Les raccourcis clavier ne peuvent pas commencer par CMD sur macOS ou CTRL sur Windows ou Linux, car ils sont généralement réservés aux commandes Firefox."
+        "message": "Toutes les combinaisons de touches ne fonctionneront pas. Évitez d’utiliser des raccourcis clavier commençant par CMD sur macOS ou CTRL sur Windows ou Linux, car ils sont généralement réservés aux commandes Firefox."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Raccourci clavier"
@@ -185,9 +185,6 @@
     "notifySearchEngineAdded": {
         "message": "Ajout d'un moteur de recherche."
     },
-    "titleShowEngine": {
-        "message": "Afficher ce moteur de recherche dans le menu contextuel ou dans la grille d'icônes"
-    },
     "notifyEnableStorageSync": {
         "message": "Veillez à ce que le paramètre 'webextensions.storage.sync.enabled' soit défini sur 'true' dans 'about:config', sinon la recherche contextuelle ne fonctionnera pas."
     },
@@ -198,10 +195,10 @@
         "message": "Un moteur de recherche n'a pas pu être trouvé sur la page web actuelle"
     },
     "titleMultipleSearchEngines": {
-        "message": "Recherche dans plusieurs moteurs de recherche"
+        "message": "Recherche avec plusieurs moteurs de recherche"
     },
     "titleAISearch": {
-        "message": "Recherche d'IA"
+        "message": "Recherche IA"
     },
     "titleSiteSearch": {
         "message": "Rechercher sur ce site avec"
@@ -306,19 +303,19 @@
         "message": "activer les autorisations de téléchargement pour exporter vos moteurs de recherche."
     },
     "header11": {
-        "message": "Grille d'icônes"
+        "message": "Grille d’icônes"
     },
     "quickIconGrid": {
-        "message": "Afficher immédiatement la grille d'icônes après la sélection du texte"
+        "message": "Affichage immédiat de la grille d’icônes après la sélection du texte"
     },
     "closeGridOnMouseOut": {
-        "message": "Fermer la grille d'icônes à la sortie de la souris"
+        "message": "Fermer la grille d’icônes quand le curseur quitte la zone"
     },
     "xOffset": {
-        "message": "Décalage horizontal de la grille d'icônes : "
+        "message": "Décalage horizontal de la grille d’icônes : "
     },
     "yOffset": {
-        "message": "Décalage vertical de la grille d'icônes : "
+        "message": "Décalage vertical de la grille d’icônes : "
     },
     "clearKeyboardShortcuts": {
         "message": "Effacer tous les raccourcis clavier"
@@ -336,13 +333,13 @@
         "message": "Ajouter une invite IA"
     },
     "promptShow": {
-        "message": "Afficher l'invite dans la grille ou le menu contextuel"
+        "message": "Afficher l'invite IA dans le menu contextuel ou la grille d'icônes"
     },
     "promptName": {
-        "message": "Nom de l'invite"
+        "message": "Nom de l'invite IA"
     },
     "prompt": {
-        "message": "Invite"
+        "message": "Invite IA"
     },
     "overwriteSearchEngines": {
         "message": "Remplacer les moteurs de recherche existants par les moteurs de recherche importés"
@@ -378,13 +375,13 @@
         "message": "Impossible de récupérer l'URL pour la suppression des signets"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Veuillez au moins sélectionner un fournisseur d'IA et fournir un nom d'invite et une invite."
+        "message": "Veuillez au moins sélectionner un fournisseur de services d'IA et saisir un nom et une invite pour l'IA."
     },
     "bookmarkPage": {
         "message": "Ajouter cette page à vos favoris"
     },
     "unbookmarkPage": {
-        "message": "Supprimer les signets de cette page"
+        "message": "Supprimer le signet de cette page"
     },
     "pay": {
         "message": "Payer"
@@ -409,6 +406,10 @@
     },
     "daysRemaining": {
         "message": "jour(s) restant(s)"
+    },
+    "titleSearchEngines": {
+        "message": "Moteurs de recherche",
+        "description": "Title of search engines tab in the Options page"
     },
     "__WET_LOCALE__": {
         "message": "fr"

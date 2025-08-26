@@ -48,7 +48,7 @@
         "message": "Położenie opcji w menu kontekstowym"
     },
     "subheader31": {
-        "message": "Gdzie w menu kontekstowym ma być wyświetlane menu opcji?"
+        "message": "Gdzie chcesz, aby pojawiła się opcja menu w menu kontekstowym?"
     },
     "bottom": {
         "message": "Na dole"
@@ -57,16 +57,16 @@
         "message": "Na górze"
     },
     "hide": {
-        "message": "Żadne (ukryj menu opcji)"
+        "message": "Żadne (ukryj pozycję menu opcji)"
     },
     "header5": {
         "message": "Import/eksport wyszukiwarek"
     },
     "import": {
-        "message": "Import JSON z dysku lokalnego"
+        "message": "Importuj wyszukiwarki (w formacie JSON) z dysku lokalnego"
     },
     "export": {
-        "message": "Eksportowanie wyszukiwarek do formatu JSON"
+        "message": "Eksportuj wyszukiwarki (w formacie JSON) na dysk lokalny"
     },
     "download": {
         "message": "Eksport na dysk lokalny"
@@ -99,7 +99,7 @@
         "message": "Zapisywanie preferencji"
     },
     "header6": {
-        "message": "Które wyszukiwarki mają być wyświetlane w menu kontekstowym lub siatce?"
+        "message": "Które wyszukiwarki chciałbyś, aby pojawiały się w menu kontekstowym lub siatce ikon?"
     },
     "clearAll": {
         "message": "Wyczyść wszystko"
@@ -123,7 +123,7 @@
         "message": "Dodaj nową wyszukiwarkę"
     },
     "showSearchEngine": {
-        "message": "Wyświetlanie wyszukiwarki w siatce lub menu kontekstowym"
+        "message": "Pokaż wyszukiwarkę w menu kontekstowym lub siatce ikon"
     },
     "searchEngineName": {
         "message": "Nazwa wyszukiwarki"
@@ -135,7 +135,7 @@
         "message": "Ostrzeżenie"
     },
     "keyboardShortcutWarning": {
-        "message": "nie wszystkie kombinacje klawiszy będą działać. Skróty klawiaturowe nie mogą zaczynać się od CMD w macOS lub CTRL w Windows lub Linux, ponieważ są one zwykle zarezerwowane dla poleceń Firefox."
+        "message": "Nie wszystkie kombinacje będą działać. Unikaj używania skrótów klawiaturowych zaczynających się od CMD w systemie macOS lub CTRL w systemie Windows lub Linux, ponieważ są one zwykle zarezerwowane dla poleceń Firefoksa."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Skrót klawiaturowy"
@@ -184,9 +184,6 @@
     },
     "notifySearchEngineAdded": {
         "message": "Dodano wyszukiwarkę."
-    },
-    "titleShowEngine": {
-        "message": "Pokaż tę wyszukiwarkę w menu kontekstowym lub siatce"
     },
     "notifyEnableStorageSync": {
         "message": "Upewnij się, że flaga \"webextensions.storage.sync.enabled\" jest ustawiona na \"true\" w \"about:config\", w przeciwnym razie wyszukiwanie kontekstowe nie będzie działać."
@@ -309,16 +306,16 @@
         "message": "Siatka ikon"
     },
     "quickIconGrid": {
-        "message": "Natychmiastowe wyświetlenie siatki ikon po wybraniu tekstu"
+        "message": "Natychmiastowe wyświetlanie siatki ikon po wybraniu tekstu"
     },
     "closeGridOnMouseOut": {
-        "message": "Zamknięcie siatki ikon po wyciągnięciu myszy"
+        "message": "Zamknij siatkę ikon po opuszczeniu obszaru przez kursor myszy"
     },
     "xOffset": {
-        "message": "Poziome przesunięcie siatki ikon: "
+        "message": "Przesunięcie siatki ikon w poziomie: "
     },
     "yOffset": {
-        "message": "Pionowe przesunięcie siatki ikon: "
+        "message": "Przesunięcie siatki ikon w pionie: "
     },
     "clearKeyboardShortcuts": {
         "message": "Wyczyść wszystkie skróty klawiaturowe"
@@ -336,13 +333,13 @@
         "message": "Dodaj monit AI"
     },
     "promptShow": {
-        "message": "Pokaż monit w siatce lub menu kontekstowym"
+        "message": "Pokaż podpowiedź AI w menu kontekstowym lub siatce ikon"
     },
     "promptName": {
-        "message": "Nazwa zachęty"
+        "message": "Nazwa podpowiedzi AI"
     },
     "prompt": {
-        "message": "Podpowiedź"
+        "message": "Podpowiedź AI"
     },
     "overwriteSearchEngines": {
         "message": "Zastąp istniejące wyszukiwarki zaimportowanymi wyszukiwarkami."
@@ -378,7 +375,7 @@
         "message": "Nie można pobrać adresu URL do usunięcia zakładki"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Wybierz przynajmniej dostawcę AI i podaj nazwę monitu oraz monit"
+        "message": "Proszę wybrać przynajmniej jednego dostawcę usług AI oraz wprowadzić nazwę polecenia AI i polecenie AI."
     },
     "bookmarkPage": {
         "message": "Dodaj tę stronę do zakładek"
@@ -409,6 +406,10 @@
     },
     "daysRemaining": {
         "message": "pozostałe dni"
+    },
+    "titleSearchEngines": {
+        "message": "Wyszukiwarek",
+        "description": "Title of search engines tab in the Options page"
     },
     "__WET_LOCALE__": {
         "message": "pl"
