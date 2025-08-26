@@ -237,7 +237,7 @@
         "message": "Bağlam menüsünde simgeleri göster"
     },
     "disableAltClick": {
-        "message": "Simge ızgarasını devre dışı bırakma (Alt + Tıklama)"
+        "message": "Disable icon grid (Alt + Click)"
     },
     "resetPreferences": {
         "message": "Tercihleri varsayılan ayarlara sıfırla"
