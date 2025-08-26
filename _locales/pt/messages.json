@@ -237,7 +237,7 @@
         "message": "Exibir ícones no menu de contexto"
     },
     "disableAltClick": {
-        "message": "Desativar a grelha de ícones (Alt + Clique)"
+        "message": "Disable icon grid (Alt + Click)"
     },
     "resetPreferences": {
         "message": "Repor as preferências para as predefinições"
