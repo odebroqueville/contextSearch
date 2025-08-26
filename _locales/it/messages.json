@@ -309,7 +309,7 @@
         "message": "Visualizza immediatamente la griglia di icone dopo che il testo è stato selezionato"
     },
     "closeGridOnMouseOut": {
-        "message": "Chiudi la griglia di icone con il mouse fuori"
+        "message": "Chiudi la griglia di icone quando il cursore esce dall'area"
     },
     "xOffset": {
         "message": "Offset orizzontale della griglia di icone: "
