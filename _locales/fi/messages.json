@@ -48,7 +48,7 @@
         "message": "Vaihtoehtojen sijainti kontekstivalikossa"
     },
     "subheader31": {
-        "message": "Missä haluat, että valintavalikko näkyy kontekstivalikossa?"
+        "message": "Mihin haluat, että valikkoasetukset näkyvät kontekstivalikossa?"
     },
     "bottom": {
         "message": "Alareunassa"
@@ -57,16 +57,16 @@
         "message": "Huipulla"
     },
     "hide": {
-        "message": "Ei kumpikaan (piilota asetusvalikko)"
+        "message": "Kumpikaan (piilota valikkovaihtoehto)"
     },
     "header5": {
         "message": "Hakukoneiden tuonti/vienti"
     },
     "import": {
-        "message": "Tuo JSON paikalliselta levyltä"
+        "message": "Tuo hakukoneet (JSON-muodossa) paikalliselta levyltä"
     },
     "export": {
-        "message": "Vie hakukoneet JSON:iin"
+        "message": "Vie hakukoneet (JSON-muodossa) paikalliselle levylle"
     },
     "download": {
         "message": "Vie paikalliselle levylle"
@@ -99,7 +99,7 @@
         "message": "Tallenna asetukset"
     },
     "header6": {
-        "message": "Mitkä hakukoneet haluat näkyviin kontekstivalikkoon tai ruudukkoon?"
+        "message": "Mitkä hakukoneet haluaisit nähdä näkyvän kontekstivalikossa tai kuvakeruudukossa?"
     },
     "clearAll": {
         "message": "Tyhjennä kaikki"
@@ -123,7 +123,7 @@
         "message": "Lisää uusi hakukone"
     },
     "showSearchEngine": {
-        "message": "Näytä hakukone ruudukossa tai kontekstivalikossa"
+        "message": "Näytä hakukone kontekstivalikossa tai kuvakkeiden ruudukossa"
     },
     "searchEngineName": {
         "message": "Hakukoneen nimi"
@@ -135,7 +135,7 @@
         "message": "Varoitus"
     },
     "keyboardShortcutWarning": {
-        "message": "kaikki näppäinyhdistelmät eivät toimi. Näppäimistön pikanäppäimet eivät välttämättä ala CMD-näppäimellä macOS:ssä tai CTRL-näppäimellä Windowsissa tai Linuxissa, koska ne on yleensä varattu Firefox-komentoja varten."
+        "message": "Kaikki näppäinyhdistelmät eivät toimi. Vältä pikanäppäimiä, jotka alkavat CMD:llä macOS:ssä tai CTRL:llä Windowsissa tai Linuxissa, koska ne on yleensä varattu Firefox-komentoihin."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Näppäimistön pikavalinta"
@@ -184,9 +184,6 @@
     },
     "notifySearchEngineAdded": {
         "message": "Hakukone lisätty."
-    },
-    "titleShowEngine": {
-        "message": "Näytä tämä hakukone kontekstivalikossa tai ruudukossa."
     },
     "notifyEnableStorageSync": {
         "message": "Varmista, että lipun 'webextensions.storage.sync.enabled' arvoksi on asetettu 'true' kohdassa 'about:config', muuten Context Search ei toimi."
@@ -306,19 +303,19 @@
         "message": "ota käyttöön Latausoikeudet hakukoneiden vientiä varten."
     },
     "header11": {
-        "message": "Kuvakkeet Ruudukko"
+        "message": "Kuvakkeiden ruudukko"
     },
     "quickIconGrid": {
-        "message": "Näyttää kuvakkeiden ruudukon heti tekstin valinnan jälkeen."
+        "message": "Näytä kuvakeruudukko heti, kun teksti on valittu"
     },
     "closeGridOnMouseOut": {
-        "message": "Sulje kuvakkeiden ruudukko hiiren poistuessa"
+        "message": "Sulje kuvakeruudukko hiiren ollessa ulospäin"
     },
     "xOffset": {
-        "message": "Kuvakkeiden ruudukon vaakasuora siirtymä: "
+        "message": "Kuvakeruudukon vaakasuuntainen siirtymä: "
     },
     "yOffset": {
-        "message": "Kuvakkeiden ruudukon pystysuora siirtymä: "
+        "message": "Kuvakeruudukon pystysuuntainen siirtymä: "
     },
     "clearKeyboardShortcuts": {
         "message": "Tyhjennä kaikki pikanäppäimet"
@@ -336,13 +333,13 @@
         "message": "Lisää tekoälykehote"
     },
     "promptShow": {
-        "message": "Näytä kehote ruudukossa tai kontekstivalikossa"
+        "message": "Näytä AI-kehote kontekstivalikossa tai kuvakkeiden ruudukossa"
     },
     "promptName": {
-        "message": "Kehotteen nimi"
+        "message": "AI-kehotteen nimi"
     },
     "prompt": {
-        "message": "Kehotus"
+        "message": "AI-kehote"
     },
     "overwriteSearchEngines": {
         "message": "Korvaa olemassa olevat hakukoneet tuoduilla hakukoneilla."
@@ -378,7 +375,7 @@
         "message": "URL-osoitetta ei voitu hakea kirjanmerkin poistamista varten"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Valitse ainakin tekoälypalveluntarjoaja ja anna kehotteen nimi ja kehote."
+        "message": "Valitse ainakin AI-palveluntarjoaja ja syötä AI-kehotteen nimi ja AI-kehote."
     },
     "bookmarkPage": {
         "message": "Kirjanmerkki tälle sivulle"
@@ -409,6 +406,10 @@
     },
     "daysRemaining": {
         "message": "jäljellä oleva(t) päivä(t)"
+    },
+    "titleSearchEngines": {
+        "message": "Hakukoneet",
+        "description": "Title of search engines tab in the Options page"
     },
     "__WET_LOCALE__": {
         "message": "fi"
