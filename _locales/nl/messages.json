@@ -237,7 +237,7 @@
         "message": "Pictogrammen weergeven in het contextmenu"
     },
     "disableAltClick": {
-        "message": "Pictogrammenraster uitschakelen (Alt + Klik)"
+        "message": "Disable icon grid (Alt + Click)"
     },
     "resetPreferences": {
         "message": "Voorkeuren terugzetten naar standaardinstellingen"
