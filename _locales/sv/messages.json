@@ -237,7 +237,7 @@
         "message": "Visa ikoner i snabbmenyn"
     },
     "disableAltClick": {
-        "message": "Inaktivera ikonrutnätet (Alt + Klicka)"
+        "message": "Disable icon grid (Alt + Click)"
     },
     "resetPreferences": {
         "message": "Återställ inställningar till standardinställningar"
