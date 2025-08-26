@@ -48,7 +48,7 @@
         "message": "Staðsetning valkosta í samhengisvalmyndinni"
     },
     "subheader31": {
-        "message": "Where would you like the options menu to appear in the context menu?"
+        "message": "Hvar viltu að valmyndaratriðið birtist í samhengisvalmyndinni?"
     },
     "bottom": {
         "message": "Neðst"
@@ -57,16 +57,16 @@
         "message": "Efst"
     },
     "hide": {
-        "message": "Neither (hide the options menu)"
+        "message": "Hvorugt (fela valmyndaratriðið valkostir)"
     },
     "header5": {
         "message": "Flytja leitarvélar inn/út"
     },
     "import": {
-        "message": "Import JSON from local disk"
+        "message": "Flytja inn leitarvélar (á JSON sniði) af staðbundnum diski"
     },
     "export": {
-        "message": "Export search engines to JSON"
+        "message": "Flytja út leitarvélar (á JSON sniði) á staðbundinn disk"
     },
     "download": {
         "message": "Flytja út á disk á tölvunni"
@@ -99,7 +99,7 @@
         "message": "Vista kjörstillingar"
     },
     "header6": {
-        "message": "Which search engines would you like to appear in the context menu or grid?"
+        "message": "Hvaða leitarvélar myndir þú vilja sjá birtast í samhengisvalmyndinni eða rist tákna?"
     },
     "clearAll": {
         "message": "Hreinsa allt"
@@ -123,7 +123,7 @@
         "message": "Bæta við nýrri leitarvél"
     },
     "showSearchEngine": {
-        "message": "Show search engine in grid or context menu"
+        "message": "Sýna leitarvél í samhengisvalmynd eða rist tákna"
     },
     "searchEngineName": {
         "message": "Nafn leitarvélar"
@@ -135,7 +135,7 @@
         "message": "Viðvörun"
     },
     "keyboardShortcutWarning": {
-        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
+        "message": "Ekki munu allar lyklasamsetningar virka. Forðastu að nota flýtilykla sem byrja á CMD á macOS eða CTRL á Windows eða Linux, þar sem þeir eru venjulega fráteknir fyrir Firefox skipanir."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Flýtileiðir"
@@ -184,9 +184,6 @@
     },
     "notifySearchEngineAdded": {
         "message": "Leitarvél bætt við."
-    },
-    "titleShowEngine": {
-        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "Gakktu úr skugga um að færslan 'webextensions.storage.sync.enabled' sé stillt á 'true' í 'about:config', annars mun Context Search samhengisleitin ekki virka."
@@ -237,7 +234,7 @@
         "message": "Birtu tákn í samhengisvalmyndinni"
     },
     "disableAltClick": {
-        "message": "Disable icon grid (Alt + Click)"
+        "message": "Gera táknmyndareiti óvirka (Alt + smella)"
     },
     "resetPreferences": {
         "message": "Endurstilla kjörstillingar á sjálfgefnar stillingar"
@@ -306,19 +303,19 @@
         "message": "virkjaðu niðurhalsheimildir til að flytja út leitarvélarnar þínar."
     },
     "header11": {
-        "message": "Icons Grid"
+        "message": "Rist tákna"
     },
     "quickIconGrid": {
-        "message": "Immediately display the icons grid after text has been selected"
+        "message": "Birtu strax rist tákna eftir að texti hefur verið valinn"
     },
     "closeGridOnMouseOut": {
-        "message": "Close the icons grid on mouse out"
+        "message": "Lokaðu rist tákna á músinni út"
     },
     "xOffset": {
-        "message": "Horizontal offset of the icons grid: "
+        "message": "Lárétt offset á rist táknanna: "
     },
     "yOffset": {
-        "message": "Vertical offset of the icons grid: "
+        "message": "Lóðrétt offset á rist tákna: "
     },
     "clearKeyboardShortcuts": {
         "message": "Hreinsaðu alla flýtilykla"
@@ -336,13 +333,13 @@
         "message": "Bæta við gervigreindarkvaðningu"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "Sýna gervigreindarkvaðningu í samhengisvalmyndinni eða rist tákna"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "AI hvetja nafn"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "AI hvetja"
     },
     "overwriteSearchEngines": {
         "message": "Skrifaðu yfir núverandi leitarvélar með innfluttu leitarvélunum"
@@ -378,7 +375,7 @@
         "message": "Gat ekki sótt vefslóð til að fjarlægja bókamerki"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "Vinsamlegast veldu að minnsta kosti gervigreindarþjónustuaðila og sláðu inn gervigreindarhvetjandi nafn og gervigreindarkvaðningu"
     },
     "bookmarkPage": {
         "message": "Bókamerki þessa síðu"
@@ -409,6 +406,10 @@
     },
     "daysRemaining": {
         "message": "dag(ar) eftir"
+    },
+    "titleSearchEngines": {
+        "message": "Leitarvélum",
+        "description": "Title of search engines tab in the Options page"
     },
     "__WET_LOCALE__": {
         "message": "is"
