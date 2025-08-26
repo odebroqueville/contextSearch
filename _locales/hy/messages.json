@@ -48,7 +48,7 @@
         "message": "Ընտրանքների դիրքը համատեքստային մենյուում"
     },
     "subheader31": {
-        "message": "Where would you like the options menu to appear in the context menu?"
+        "message": "Որտե՞ղ կցանկանայիք, որ ընտրանքների ցանկի տարրը հայտնվի համատեքստային մենյուում:"
     },
     "bottom": {
         "message": "Ներքեւի մասում"
@@ -57,16 +57,16 @@
         "message": "Վերեւում"
     },
     "hide": {
-        "message": "Neither (hide the options menu)"
+        "message": "Ոչ էլ (թաքցնել ընտրանքների ցանկի տարրը)"
     },
     "header5": {
         "message": "Ներմուծման/արտահանման որոնման համակարգեր"
     },
     "import": {
-        "message": "Import JSON from local disk"
+        "message": "Ներմուծել որոնողական համակարգեր (JSON ձեւաչափով) տեղական սկավառակից"
     },
     "export": {
-        "message": "Export search engines to JSON"
+        "message": "Արտահանել որոնողական համակարգերը (JSON ձեւաչափով) տեղական սկավառակ"
     },
     "download": {
         "message": "Արտահանել տեղային սկավառակ"
@@ -99,7 +99,7 @@
         "message": "Պահպանել նախապատվությունները"
     },
     "header6": {
-        "message": "Which search engines would you like to appear in the context menu or grid?"
+        "message": "Ո՞ր որոնողական համակարգերը կցանկանայիք տեսնել պատկերակների համատեքստային մենյուում կամ ցանցում:"
     },
     "clearAll": {
         "message": "Ջնջել ամբողջը"
@@ -123,7 +123,7 @@
         "message": "Ավելացնել նոր որոնման համակարգ"
     },
     "showSearchEngine": {
-        "message": "Show search engine in grid or context menu"
+        "message": "Ցուցադրել որոնիչը համատեքստային ցանկում կամ պատկերակների ցանցում"
     },
     "searchEngineName": {
         "message": "Որոնման համակարգի անուն"
@@ -135,7 +135,7 @@
         "message": "Զգուշացում"
     },
     "keyboardShortcutWarning": {
-        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
+        "message": "ոչ բոլոր բանալիների կոմբինացիաները կաշխատեն։ Խուսափեք ստեղնաշարի կարճատներից օգտվելուց, որոնք սկսվում են CMD-ով macOS-ում կամ CTRL-ով Windows-ում կամ Linux-ում, քանի որ դրանք սովորաբար վերապահված են Firefox-ի հրամաններին:"
     },
     "placeHolderKeyboardShortcut": {
         "message": "Ստեղնաշարի կարճատ"
@@ -184,9 +184,6 @@
     },
     "notifySearchEngineAdded": {
         "message": "Որոնման համակարգը ավելացվել է։"
-    },
-    "titleShowEngine": {
-        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "Խնդրում ենք համոզվել, որ 'webextensions.storage.sync.enabled' դրոշը սահմանված է 'true' 'about:config'-ում, հակառակ դեպքում Context որոնումը չի աշխատի:"
@@ -237,7 +234,7 @@
         "message": "Ցուցադրել պատկերակները համատեքստային մենյուում"
     },
     "disableAltClick": {
-        "message": "Disable icon grid (Alt + Click)"
+        "message": "Անջատել պատկերակների ցանցը (Alt + Click)"
     },
     "resetPreferences": {
         "message": "Վերակայել նախապատվությունները լռելյայն կայանքներին"
@@ -306,19 +303,19 @@
         "message": "միացնել Ներբեռնումների թույլտվությունները՝ ձեր որոնման համակարգերը արտահանելու համար:"
     },
     "header11": {
-        "message": "Icons Grid"
+        "message": "Պատկերակների ցանց"
     },
     "quickIconGrid": {
-        "message": "Immediately display the icons grid after text has been selected"
+        "message": "Տեքստի ընտրումից հետո անմիջապես ցուցադրել պատկերակների ցանցը"
     },
     "closeGridOnMouseOut": {
-        "message": "Close the icons grid on mouse out"
+        "message": "Փակել պատկերակների ցանցը մկնիկի վրա"
     },
     "xOffset": {
-        "message": "Horizontal offset of the icons grid: "
+        "message": "Պատկերակների ցանցի հորիզոնական օֆսեթ. "
     },
     "yOffset": {
-        "message": "Vertical offset of the icons grid: "
+        "message": "Պատկերակների ցանցի ուղղահայաց օֆսեթ. "
     },
     "clearKeyboardShortcuts": {
         "message": "Մաքրել բոլոր ստեղնաշարի կարճատները"
@@ -336,13 +333,13 @@
         "message": "Արհեստական ​​բանականության հուշում ավելացնելը"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "Ցույց տալ AI հուշումը համատեքստային մենյուում կամ ցանցում պատկերակների"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "AI հուշման անուն"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "AI հուշում"
     },
     "overwriteSearchEngines": {
         "message": "Ներմուծված որոնողական համակարգերով վերգրեք գոյություն ունեցող որոնողական համակարգերը"
@@ -378,7 +375,7 @@
         "message": "Անհնար է վերցրել URL-ն՝ էջանիշերի հեռացման համար"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "Խնդրում ենք գոնե ընտրել AI ծառայություն մատուցող եւ մուտքագրել AI հուշման անունը եւ AI հուշում"
     },
     "bookmarkPage": {
         "message": "Էջանիշ այս էջը"
@@ -409,6 +406,10 @@
     },
     "daysRemaining": {
         "message": "Մնացած օր(ներ)"
+    },
+    "titleSearchEngines": {
+        "message": "Որոնման համակարգեր",
+        "description": "Title of search engines tab in the Options page"
     },
     "__WET_LOCALE__": {
         "message": "hy"
