@@ -237,7 +237,7 @@
         "message": "Visualizza le icone nel menu contestuale"
     },
     "disableAltClick": {
-        "message": "Disattivare la griglia di icone (Alt + Fare clic)"
+        "message": "Disable icon grid (Alt + Click)"
     },
     "resetPreferences": {
         "message": "Ripristino delle preferenze alle impostazioni predefinite"
