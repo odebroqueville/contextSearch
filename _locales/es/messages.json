@@ -309,7 +309,7 @@
         "message": "Mostrar inmediatamente la cuadrícula de iconos después de seleccionar el texto"
     },
     "closeGridOnMouseOut": {
-        "message": "Cierre la cuadrícula de iconos al salir del ratón"
+        "message": "Cierre la cuadrícula de iconos cuando el cursor salga del área"
     },
     "xOffset": {
         "message": "Desplazamiento horizontal de la cuadrícula de iconos: "
