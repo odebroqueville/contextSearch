@@ -48,7 +48,7 @@
         "message": "Posizione delle opzioni nel menu contestuale"
     },
     "subheader31": {
-        "message": "Where would you like the options menu to appear in the context menu?"
+        "message": "Dove desideri che appaia la voce del menu delle opzioni nel menu contestuale?"
     },
     "bottom": {
         "message": "In basso"
@@ -57,16 +57,16 @@
         "message": "In alto"
     },
     "hide": {
-        "message": "Neither (hide the options menu)"
+        "message": "Nessuna delle due (nascondi la voce del menu delle opzioni)"
     },
     "header5": {
         "message": "Motori di ricerca di importazione/esportazione"
     },
     "import": {
-        "message": "Import JSON from local disk"
+        "message": "Importa motori di ricerca (in formato JSON) dal disco locale"
     },
     "export": {
-        "message": "Export search engines to JSON"
+        "message": "Esporta i motori di ricerca (in formato JSON) sul disco locale"
     },
     "download": {
         "message": "Esportazione su disco locale"
@@ -99,7 +99,7 @@
         "message": "Salva le preferenze"
     },
     "header6": {
-        "message": "Which search engines would you like to appear in the context menu or grid?"
+        "message": "Quali motori di ricerca vorresti vedere apparire nel menu contestuale o nella griglia delle icone?"
     },
     "clearAll": {
         "message": "Cancella tutto"
@@ -123,7 +123,7 @@
         "message": "Aggiungere un nuovo motore di ricerca"
     },
     "showSearchEngine": {
-        "message": "Show search engine in grid or context menu"
+        "message": "Mostra il motore di ricerca nel menu contestuale o nella griglia delle icone"
     },
     "searchEngineName": {
         "message": "Nome del motore di ricerca"
@@ -135,7 +135,7 @@
         "message": "Avvertenze"
     },
     "keyboardShortcutWarning": {
-        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
+        "message": "Non tutte le combinazioni di tasti funzioneranno. Evita di utilizzare le scorciatoie da tastiera che iniziano con CMD su macOS o CTRL su Windows o Linux, poiché queste sono solitamente riservate ai comandi di Firefox."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Scorciatoia da tastiera"
@@ -184,9 +184,6 @@
     },
     "notifySearchEngineAdded": {
         "message": "Motore di ricerca aggiunto."
-    },
-    "titleShowEngine": {
-        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "Assicuratevi che il flag \"webextensions.storage.sync.enabled\" sia impostato su \"true\" in \"about:config\", altrimenti Context Search non funzionerà."
@@ -237,7 +234,7 @@
         "message": "Visualizza le icone nel menu contestuale"
     },
     "disableAltClick": {
-        "message": "Disable icon grid (Alt + Click)"
+        "message": "Disattivare la griglia di icone (Alt + Fare clic)"
     },
     "resetPreferences": {
         "message": "Ripristino delle preferenze alle impostazioni predefinite"
@@ -306,19 +303,19 @@
         "message": "abilitare i permessi di download per esportare i motori di ricerca."
     },
     "header11": {
-        "message": "Icons Grid"
+        "message": "Griglia di icone"
     },
     "quickIconGrid": {
-        "message": "Immediately display the icons grid after text has been selected"
+        "message": "Visualizza immediatamente la griglia di icone dopo che il testo è stato selezionato"
     },
     "closeGridOnMouseOut": {
-        "message": "Close the icons grid on mouse out"
+        "message": "Chiudi la griglia di icone con il mouse fuori"
     },
     "xOffset": {
-        "message": "Horizontal offset of the icons grid: "
+        "message": "Offset orizzontale della griglia di icone: "
     },
     "yOffset": {
-        "message": "Vertical offset of the icons grid: "
+        "message": "Offset verticale della griglia di icone: "
     },
     "clearKeyboardShortcuts": {
         "message": "Cancella tutte le scorciatoie da tastiera"
@@ -336,13 +333,13 @@
         "message": "Aggiungere un prompt IA"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "Mostra il prompt AI nel menu contestuale o nella griglia delle icone"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "Nome prompt AI"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "Prompt AI"
     },
     "overwriteSearchEngines": {
         "message": "Sovrascrivere i motori di ricerca esistenti con quelli importati."
@@ -378,7 +375,7 @@
         "message": "Impossibile recuperare l'URL per la rimozione del segnalibro"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "Seleziona almeno un fornitore di servizi AI e inserisci un nome per il prompt AI e un prompt AI."
     },
     "bookmarkPage": {
         "message": "Aggiungi ai preferiti questa pagina"
@@ -409,6 +406,10 @@
     },
     "daysRemaining": {
         "message": "giorno/i rimanente/i"
+    },
+    "titleSearchEngines": {
+        "message": "Motori di ricerca",
+        "description": "Title of search engines tab in the Options page"
     },
     "__WET_LOCALE__": {
         "message": "it"
