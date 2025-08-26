@@ -48,7 +48,7 @@
         "message": "選項在上下文功能表中的位置"
     },
     "subheader31": {
-        "message": "Where would you like the options menu to appear in the context menu?"
+        "message": "您希望選項功能表項目出現在上下文功能表的哪個位置？"
     },
     "bottom": {
         "message": "在底部"
@@ -57,16 +57,16 @@
         "message": "在頂端"
     },
     "hide": {
-        "message": "Neither (hide the options menu)"
+        "message": "兩者皆非（隱藏選項功能表項目）"
     },
     "header5": {
         "message": "輸入/輸出搜尋引擎"
     },
     "import": {
-        "message": "Import JSON from local disk"
+        "message": "從本機磁碟匯入搜尋引擎 (JSON 格式)"
     },
     "export": {
-        "message": "Export search engines to JSON"
+        "message": "匯出搜尋引擎（JSON 格式）到本機磁碟"
     },
     "download": {
         "message": "匯出至本機磁碟"
@@ -99,7 +99,7 @@
         "message": "儲存偏好設定"
     },
     "header6": {
-        "message": "Which search engines would you like to appear in the context menu or grid?"
+        "message": "您希望看到哪些搜索引擎出現在上下文菜單或圖標網格中？"
     },
     "clearAll": {
         "message": "全部清除"
@@ -123,7 +123,7 @@
         "message": "新增搜尋引擎"
     },
     "showSearchEngine": {
-        "message": "Show search engine in grid or context menu"
+        "message": "在上下文功能表或圖示方格中顯示搜尋引擎"
     },
     "searchEngineName": {
         "message": "搜尋引擎名稱"
@@ -135,7 +135,7 @@
         "message": "警告"
     },
     "keyboardShortcutWarning": {
-        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
+        "message": "並非所有組合鍵都有效。避免在 macOS 上使用 CMD 開頭的鍵盤快捷鍵或在 Windows 或 Linux 上以 CTRL 開頭的鍵盤快捷鍵，因為這些快捷鍵通常保留給 Firefox 命令。"
     },
     "placeHolderKeyboardShortcut": {
         "message": "鍵盤捷徑"
@@ -184,9 +184,6 @@
     },
     "notifySearchEngineAdded": {
         "message": "新增搜尋引擎。"
-    },
-    "titleShowEngine": {
-        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "請確認「about:config」中的標誌「webextensions.storage.sync.enabled」設為「true」，否則 Context Search 將無法運作。"
@@ -237,7 +234,7 @@
         "message": "在上下文功能表中顯示圖示"
     },
     "disableAltClick": {
-        "message": "Disable icon grid (Alt + Click)"
+        "message": "停用圖示方格 (Alt + 按一下)"
     },
     "resetPreferences": {
         "message": "將偏好設定重設為預設設定"
@@ -306,19 +303,19 @@
         "message": "啟用下載權限以匯出您的搜尋引擎。"
     },
     "header11": {
-        "message": "Icons Grid"
+        "message": "圖示網格"
     },
     "quickIconGrid": {
-        "message": "Immediately display the icons grid after text has been selected"
+        "message": "選取文字後立即顯示圖示格線"
     },
     "closeGridOnMouseOut": {
-        "message": "Close the icons grid on mouse out"
+        "message": "關閉滑鼠伸出時的圖示網格"
     },
     "xOffset": {
-        "message": "Horizontal offset of the icons grid: "
+        "message": "圖示格線的水平偏移： "
     },
     "yOffset": {
-        "message": "Vertical offset of the icons grid: "
+        "message": "圖示網格的垂直偏移： "
     },
     "clearKeyboardShortcuts": {
         "message": "清除所有鍵盤捷徑"
@@ -336,13 +333,13 @@
         "message": "新增 AI 提示"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "在上下文功能表或圖示方格中顯示 AI 提示"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "AI 提示名稱"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "AI 提示"
     },
     "overwriteSearchEngines": {
         "message": "使用匯入的搜尋引擎覆寫現有的搜尋引擎"
@@ -378,7 +375,7 @@
         "message": "無法檢索移除書籤的 URL"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "請至少選擇一家 AI 服務供應商，並輸入 AI 提示名稱和 AI 提示"
     },
     "bookmarkPage": {
         "message": "將此頁加入書籤"
@@ -409,6 +406,10 @@
     },
     "daysRemaining": {
         "message": "剩餘天數"
+    },
+    "titleSearchEngines": {
+        "message": "搜尋引擎",
+        "description": "Title of search engines tab in the Options page"
     },
     "__WET_LOCALE__": {
         "message": "zh_tw"
