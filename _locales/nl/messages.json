@@ -309,7 +309,7 @@
         "message": "Geef het raster met pictogrammen onmiddellijk weer nadat de tekst is geselecteerd"
     },
     "closeGridOnMouseOut": {
-        "message": "Sluit het raster van pictogrammen op de muis uit"
+        "message": "Sluit het raster van pictogrammen wanneer de muis het gebied verlaat"
     },
     "xOffset": {
         "message": "Horizontale verschuiving van het raster van pictogrammen: "
