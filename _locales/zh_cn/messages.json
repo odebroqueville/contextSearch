@@ -237,7 +237,7 @@
         "message": "在上下文菜单中显示图标"
     },
     "disableAltClick": {
-        "message": "禁用图标网格（Alt + 点击）"
+        "message": "Disable icon grid (Alt + Click)"
     },
     "resetPreferences": {
         "message": "将首选项重置为默认设置"
