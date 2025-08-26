@@ -79,6 +79,14 @@ input[type="number"] {
     width: 45%;
 }
 
+div#searchEngines {
+    margin-left: 0;
+}
+
+div#tabMode {
+    margin-bottom: 10px;
+}
+
 #searchEngines div {
     /* Set the default cursor style */
     cursor: default;
@@ -99,19 +107,33 @@ html[theme=dark] #searchEngines div.search-engine:hover {
 html[theme=light] #searchEngines div.folder:hover,
 html[theme=dark] #searchEngines div.folder:hover {
     /* Show the dotted border when hovered */
-    border: 3px dotted rgb(240, 177, 249);
+    border: 3px dotted rgb(115, 10, 129);
 
     /* Change the cursor to a hand when hovered */
     cursor: pointer;
 }
 
 #searchEngines div textarea {
-    margin: 0px;
+    margin-top: 10px;
+    margin-left: 55px;
     padding: 5px;
 }
 
+button.add,
 button.remove {
     text-align: center;
+}
+
+/* Vertically center buttons when in a container with textarea */
+#searchEngines div:has(textarea) {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#searchEngines div:has(textarea) button.add,
+#searchEngines div:has(textarea) button.remove {
+    align-self: center;
 }
 
 div,
@@ -195,6 +217,19 @@ h2 {
     margin-left: 10px;
 }
 
+button#reset {
+    display: block;
+    width: 70px;
+    margin-left: auto;
+    margin-right: 30px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+button#download {
+    width: 150px;
+}
+
 #container div {
     margin-bottom: 5px;
 }
@@ -204,6 +239,11 @@ h2 {
     margin-bottom: 8px;
 }
 
+h3 {
+    font-weight: bold;
+    margin: 5px;
+}
+
 h4 {
     margin-left: 0;
     margin-right: 0;
@@ -211,7 +251,11 @@ h4 {
     margin-bottom: 3px;
 }
 
-p,
+p {
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
 .right button,
 select {
     margin-top: 5px;
@@ -360,7 +404,7 @@ Slider bubble styling
 Style the tabs
 */
 .wrapper {
-    max-width: 75rem;
+    max-width: 95vw;
     width: 100%;
     margin: 0 auto;
 }
@@ -369,7 +413,9 @@ Style the tabs
     position: relative;
     margin: 1rem 0;
     background: #0000cc;
-    height: 27.75rem;
+    min-height: 30rem;
+    height: 100%;
+    width: 100%;
 }
 
 .tabs::before,
@@ -393,6 +439,7 @@ Style the tabs
 .tab-label {
     position: relative;
     display: inline-block;
+    font-weight: bold;
     line-height: 2.75em;
     height: 3em;
     padding: 0 1.618em;
@@ -410,17 +457,26 @@ Style the tabs
 }
 
 .tab-content {
-    height: 25rem;
-    min-width: 55rem;
+    height: auto;
+    min-height: 25rem;
+    min-width: 90vw;
+    width: auto;
     position: absolute;
     z-index: 1;
     top: 2.75em;
     left: 0;
-    padding: 1.618rem;
+    padding-top: 18px;
+    padding-left: 18px;
+    padding-bottom: 18px;
     background: #fff;
     color: #2c3e50;
     opacity: 0;
     transition: all 0.35s;
+}
+
+/* Add padding-right only for Options tab */
+#tab-1:checked+label+.tab-content {
+    padding-right: 18px;
 }
 
 .tab-switch:checked+.tab-label {
@@ -458,10 +514,60 @@ html[theme=dark] .tab-content {
     color: #0000cc;
 }
 
+/* Ensure fieldsets within tabs are styled properly */
+.tab-content fieldset {
+    border-radius: 5px;
+    border: 1px solid gray;
+    display: inline-block;
+    width: 480px;
+    margin-right: 10px;
+}
+
+/* Make Search engines tab fieldset span full width */
+#tab-2:checked+label+.tab-content fieldset {
+    width: calc(100% - 20px);
+    max-width: none;
+}
+
+/* Override the flexbox container styles for tabs */
+.tab-content #container {
+    margin-right: 25px;
+    width: 100%;
+}
+
+.tab-content #container hr {
+    display: inline-block;
+    height: 5px;
+    width: calc(100% - 12px);
+    margin-left: 6px;
+    border-width: 0;
+    background-color: #005588;
+}
+
 html[theme=dark] .tab-switch:checked+.tab-label {
     background: lightskyblue;
     color: #0000cc;
     border-right: 0.125rem solid #0000cc;
+}
+
+/* Tab content specific styling */
+.tab-content .preferences {
+    display: -ms-flex;
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: flex-start;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+.tab-content fieldset {
+    border-radius: 5px;
+    border: 1px solid gray;
+    display: inline-block;
+    width: 480px;
+    margin-right: 10px;
 }
 
 /* Loading and error states */
