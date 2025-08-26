@@ -237,7 +237,7 @@
         "message": "Vis ikoner i kontekstmenyen"
     },
     "disableAltClick": {
-        "message": "Deaktiver ikonrutenett (Alt + klikk)"
+        "message": "Disable icon grid (Alt + Click)"
     },
     "resetPreferences": {
         "message": "Tilbakestille innstillinger til standardinnstillinger"
