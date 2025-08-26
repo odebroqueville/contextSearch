@@ -333,7 +333,7 @@
         "message": "AI-Eingabeaufforderung hinzufügen"
     },
     "promptShow": {
-        "message": "AI-Eingabeaufforderung im Kontextmenü oder in der Symbolleiste anzeigen"
+        "message": "AI-Eingabeaufforderung im Kontextmenü oder im Icon-Raster anzeigen"
     },
     "promptName": {
         "message": "Name der KI-Eingabeaufforderung"
