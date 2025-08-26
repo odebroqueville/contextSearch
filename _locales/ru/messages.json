@@ -48,7 +48,7 @@
         "message": "Положение опций в контекстном меню"
     },
     "subheader31": {
-        "message": "Where would you like the options menu to appear in the context menu?"
+        "message": "Где вы хотите, чтобы пункт меню «Параметры» отображался в контекстном меню?"
     },
     "bottom": {
         "message": "Внизу"
@@ -57,16 +57,16 @@
         "message": "На вершине"
     },
     "hide": {
-        "message": "Neither (hide the options menu)"
+        "message": "Ни то, ни другое (скрыть пункт меню)"
     },
     "header5": {
         "message": "Импорт/экспорт поисковых систем"
     },
     "import": {
-        "message": "Import JSON from local disk"
+        "message": "Импорт поисковых систем (в формате JSON) с локального диска"
     },
     "export": {
-        "message": "Export search engines to JSON"
+        "message": "Экспорт поисковых систем (в формате JSON) на локальный диск"
     },
     "download": {
         "message": "Экспорт на локальный диск"
@@ -99,7 +99,7 @@
         "message": "Сохранить предпочтения"
     },
     "header6": {
-        "message": "Which search engines would you like to appear in the context menu or grid?"
+        "message": "Какие поисковые системы вы бы хотели видеть в контекстном меню или сетке иконок?"
     },
     "clearAll": {
         "message": "Очистить все"
@@ -123,7 +123,7 @@
         "message": "Добавьте новую поисковую систему"
     },
     "showSearchEngine": {
-        "message": "Show search engine in grid or context menu"
+        "message": "Показать поисковую систему в контекстном меню или сетке значков"
     },
     "searchEngineName": {
         "message": "Название поисковой системы"
@@ -135,7 +135,7 @@
         "message": "Внимание"
     },
     "keyboardShortcutWarning": {
-        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
+        "message": "Не все комбинации клавиш будут работать. Избегайте использования сочетаний клавиш, которые начинаются с CMD в macOS или CTRL в Windows или Linux, так как они обычно зарезервированы для команд Firefox."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Сочетание клавиш"
@@ -184,9 +184,6 @@
     },
     "notifySearchEngineAdded": {
         "message": "Добавлена поисковая система."
-    },
-    "titleShowEngine": {
-        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "Убедитесь, что флаг 'webextensions.storage.sync.enabled' установлен на 'true' в 'about:config', иначе Контекстный поиск не будет работать."
@@ -237,7 +234,7 @@
         "message": "Отображать значки в контекстном меню"
     },
     "disableAltClick": {
-        "message": "Disable icon grid (Alt + Click)"
+        "message": "Отключить сетку значков (Alt + щелчок)"
     },
     "resetPreferences": {
         "message": "Сброс настроек по умолчанию"
@@ -306,19 +303,19 @@
         "message": "включите разрешение \"Загрузки\" для экспорта поисковых систем."
     },
     "header11": {
-        "message": "Icons Grid"
+        "message": "Сетка иконок"
     },
     "quickIconGrid": {
-        "message": "Immediately display the icons grid after text has been selected"
+        "message": "Отображение сетки иконок сразу после выделения текста"
     },
     "closeGridOnMouseOut": {
-        "message": "Close the icons grid on mouse out"
+        "message": "Замыкаем сетку иконок при выходе из мыши"
     },
     "xOffset": {
-        "message": "Horizontal offset of the icons grid: "
+        "message": "Смещение сетки иконок по горизонтали: "
     },
     "yOffset": {
-        "message": "Vertical offset of the icons grid: "
+        "message": "Смещение сетки иконок по вертикали: "
     },
     "clearKeyboardShortcuts": {
         "message": "Очистить все сочетания клавиш"
@@ -336,13 +333,13 @@
         "message": "Добавить подсказку искусственного интеллекта"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "Показывать подсказку AI в контекстном меню или сетке значков"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "Название подсказки ИИ"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "подсказка ИИ"
     },
     "overwriteSearchEngines": {
         "message": "Перезапишите существующие поисковые системы импортированными поисковыми системами"
@@ -378,7 +375,7 @@
         "message": "Не удалось получить URL-адрес для удаления закладок"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "Пожалуйста, выберите хотя бы одного поставщика услуг ИИ и введите название подсказки ИИ и текст подсказки ИИ."
     },
     "bookmarkPage": {
         "message": "Добавьте эту страницу в закладки"
@@ -409,6 +406,10 @@
     },
     "daysRemaining": {
         "message": "оставшийся день(ы)"
+    },
+    "titleSearchEngines": {
+        "message": "Поисковые системы",
+        "description": "Title of search engines tab in the Options page"
     },
     "__WET_LOCALE__": {
         "message": "ru"
