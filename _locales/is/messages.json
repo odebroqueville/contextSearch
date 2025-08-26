@@ -48,7 +48,7 @@
         "message": "Staðsetning valkosta í samhengisvalmyndinni"
     },
     "subheader31": {
-        "message": "Hvar myndirðu vilja að valkostavalmyndin birtist í samhengisvalmyndinni?"
+        "message": "Hvar viltu að valmyndaratriðið birtist í samhengisvalmyndinni?"
     },
     "bottom": {
         "message": "Neðst"
@@ -57,16 +57,16 @@
         "message": "Efst"
     },
     "hide": {
-        "message": "Hvorugt (fela valkostavalmyndina)"
+        "message": "Hvorugt (fela valmyndaratriðið valkostir)"
     },
     "header5": {
         "message": "Flytja leitarvélar inn/út"
     },
     "import": {
-        "message": "Flytja inn JSON af diski á tölvunni"
+        "message": "Flytja inn leitarvélar (á JSON sniði) af staðbundnum diski"
     },
     "export": {
-        "message": "Flytja leitarvélar út sem JSON"
+        "message": "Flytja út leitarvélar (á JSON sniði) á staðbundinn disk"
     },
     "download": {
         "message": "Flytja út á disk á tölvunni"
@@ -99,7 +99,7 @@
         "message": "Vista kjörstillingar"
     },
     "header6": {
-        "message": "Hvaða leitarvélar myndirðu vilja að birtust í lista eða reitum í samhengisvalmyndinni?"
+        "message": "Hvaða leitarvélar myndir þú vilja sjá birtast í samhengisvalmyndinni eða rist tákna?"
     },
     "clearAll": {
         "message": "Hreinsa allt"
@@ -123,7 +123,7 @@
         "message": "Bæta við nýrri leitarvél"
     },
     "showSearchEngine": {
-        "message": "Birta leitarvél í lista eða reitum í samhengisvalmyndinni"
+        "message": "Sýna leitarvél í samhengisvalmynd eða rist tákna"
     },
     "searchEngineName": {
         "message": "Nafn leitarvélar"
@@ -135,7 +135,7 @@
         "message": "Viðvörun"
     },
     "keyboardShortcutWarning": {
-        "message": "ekki allar takkasamsetningar virka. Flýtivísar byrja kannski ekki með CMD á macOS eða CTRL á Windows eða Linux, þar sem þær eru venjulega fráteknar fyrir Firefox skipanir."
+        "message": "Ekki munu allar lyklasamsetningar virka. Forðastu að nota flýtilykla sem byrja á CMD á macOS eða CTRL á Windows eða Linux, þar sem þeir eru venjulega fráteknir fyrir Firefox skipanir."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Flýtileiðir"
@@ -184,9 +184,6 @@
     },
     "notifySearchEngineAdded": {
         "message": "Leitarvél bætt við."
-    },
-    "titleShowEngine": {
-        "message": "Birta þessa leitarvél í lista eða reitum í samhengisvalmyndinni"
     },
     "notifyEnableStorageSync": {
         "message": "Gakktu úr skugga um að færslan 'webextensions.storage.sync.enabled' sé stillt á 'true' í 'about:config', annars mun Context Search samhengisleitin ekki virka."
@@ -306,19 +303,19 @@
         "message": "virkjaðu niðurhalsheimildir til að flytja út leitarvélarnar þínar."
     },
     "header11": {
-        "message": "Tákn rist"
+        "message": "Rist tákna"
     },
     "quickIconGrid": {
-        "message": "Sýndu táknhnitinn strax eftir að texti hefur verið valinn"
+        "message": "Birtu strax rist tákna eftir að texti hefur verið valinn"
     },
     "closeGridOnMouseOut": {
-        "message": "Lokaðu táknatöflunni á músinni út"
+        "message": "Lokaðu rist tákna á músinni út"
     },
     "xOffset": {
-        "message": "Lárétt frávik á táknhnitinu:"
+        "message": "Lárétt offset á rist táknanna: "
     },
     "yOffset": {
-        "message": "Lóðrétt frávik á táknhnitnum:"
+        "message": "Lóðrétt offset á rist tákna: "
     },
     "clearKeyboardShortcuts": {
         "message": "Hreinsaðu alla flýtilykla"
@@ -336,13 +333,13 @@
         "message": "Bæta við gervigreindarkvaðningu"
     },
     "promptShow": {
-        "message": "Sýna kvaðningu í rist eða samhengisvalmynd"
+        "message": "Sýna gervigreindarkvaðningu í samhengisvalmyndinni eða rist tákna"
     },
     "promptName": {
-        "message": "Hvetja nafn"
+        "message": "AI hvetja nafn"
     },
     "prompt": {
-        "message": "Hvetja"
+        "message": "AI hvetja"
     },
     "overwriteSearchEngines": {
         "message": "Skrifaðu yfir núverandi leitarvélar með innfluttu leitarvélunum"
@@ -378,7 +375,7 @@
         "message": "Gat ekki sótt vefslóð til að fjarlægja bókamerki"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Vinsamlegast veldu að minnsta kosti gervigreindarveitu og gefðu upp hvetjandi nafn og hvetja"
+        "message": "Vinsamlegast veldu að minnsta kosti gervigreindarþjónustuaðila og sláðu inn gervigreindarhvetjandi nafn og gervigreindarkvaðningu"
     },
     "bookmarkPage": {
         "message": "Bókamerki þessa síðu"
@@ -409,6 +406,10 @@
     },
     "daysRemaining": {
         "message": "dag(ar) eftir"
+    },
+    "titleSearchEngines": {
+        "message": "Leitarvélum",
+        "description": "Title of search engines tab in the Options page"
     },
     "__WET_LOCALE__": {
         "message": "is"
