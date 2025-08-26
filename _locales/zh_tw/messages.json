@@ -237,7 +237,7 @@
         "message": "在上下文功能表中顯示圖示"
     },
     "disableAltClick": {
-        "message": "停用圖示方格 (Alt + 按一下)"
+        "message": "Disable icon grid (Alt + Click)"
     },
     "resetPreferences": {
         "message": "將偏好設定重設為預設設定"
