@@ -309,7 +309,7 @@
         "message": "選取文字後立即顯示圖示格線"
     },
     "closeGridOnMouseOut": {
-        "message": "關閉滑鼠伸出時的圖示網格"
+        "message": "滑鼠移出時關閉圖示網格"
     },
     "xOffset": {
         "message": "圖示格線的水平偏移： "
