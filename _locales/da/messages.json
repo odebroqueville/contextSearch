@@ -237,7 +237,7 @@
         "message": "Vis ikoner i kontekstmenuen"
     },
     "disableAltClick": {
-        "message": "Deaktiver ikon-gitter (Alt + klik)"
+        "message": "Disable icon grid (Alt + Click)"
     },
     "resetPreferences": {
         "message": "Nulstil præferencer til standardindstillinger"
