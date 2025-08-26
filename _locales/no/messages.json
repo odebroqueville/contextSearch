@@ -309,7 +309,7 @@
         "message": "Vis rutenettet med ikoner umiddelbart etter at teksten er valgt"
     },
     "closeGridOnMouseOut": {
-        "message": "Lukk rutenettet med ikoner når du holder musen ut"
+        "message": "Lukk rutenettet med ikoner når musepekeren forlater området"
     },
     "xOffset": {
         "message": "Horisontal forskyvning av rutenettet med ikoner: "
