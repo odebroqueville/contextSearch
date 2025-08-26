@@ -48,7 +48,7 @@
         "message": "Θέση των επιλογών στο μενού περιβάλλοντος"
     },
     "subheader31": {
-        "message": "Where would you like the options menu to appear in the context menu?"
+        "message": "Πού θα θέλατε να εμφανίζεται το στοιχείο του μενού επιλογών στο μενού περιβάλλοντος;"
     },
     "bottom": {
         "message": "Στο κάτω μέρος"
@@ -57,16 +57,16 @@
         "message": "Στην κορυφή"
     },
     "hide": {
-        "message": "Neither (hide the options menu)"
+        "message": "Κανένα από τα δύο (απόκρυψη του στοιχείου μενού επιλογών)"
     },
     "header5": {
         "message": "Μηχανές αναζήτησης εισαγωγής/εξαγωγής"
     },
     "import": {
-        "message": "Import JSON from local disk"
+        "message": "Εισαγωγή μηχανών αναζήτησης (σε μορφή JSON) από τοπικό δίσκο"
     },
     "export": {
-        "message": "Export search engines to JSON"
+        "message": "Εξαγωγή μηχανών αναζήτησης (σε μορφή JSON) σε τοπικό δίσκο"
     },
     "download": {
         "message": "Εξαγωγή σε τοπικό δίσκο"
@@ -99,7 +99,7 @@
         "message": "Αποθήκευση προτιμήσεων"
     },
     "header6": {
-        "message": "Which search engines would you like to appear in the context menu or grid?"
+        "message": "Ποιες μηχανές αναζήτησης θα θέλατε να δείτε να εμφανίζονται στο μενού περιβάλλοντος ή στο πλέγμα εικονιδίων;"
     },
     "clearAll": {
         "message": "Εκκαθάριση όλων"
@@ -123,7 +123,7 @@
         "message": "Προσθέστε μια νέα μηχανή αναζήτησης"
     },
     "showSearchEngine": {
-        "message": "Show search engine in grid or context menu"
+        "message": "Εμφάνιση μηχανής αναζήτησης στο μενού περιβάλλοντος ή στο πλέγμα εικονιδίων"
     },
     "searchEngineName": {
         "message": "Όνομα μηχανής αναζήτησης"
@@ -135,7 +135,7 @@
         "message": "Προειδοποίηση"
     },
     "keyboardShortcutWarning": {
-        "message": "not all key combinations will work. Keyboard shortcuts may not start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands."
+        "message": "Δεν λειτουργούν όλοι οι συνδυασμοί πλήκτρων. Αποφύγετε τη χρήση συντομεύσεων πληκτρολογίου που ξεκινούν με CMD σε macOS ή CTRL σε Windows ή Linux, καθώς συνήθως προορίζονται για εντολές του Firefox."
     },
     "placeHolderKeyboardShortcut": {
         "message": "Συντόμευση πληκτρολογίου"
@@ -184,9 +184,6 @@
     },
     "notifySearchEngineAdded": {
         "message": "Προστέθηκε μηχανή αναζήτησης."
-    },
-    "titleShowEngine": {
-        "message": "Show this search engine in the context menu or grid"
     },
     "notifyEnableStorageSync": {
         "message": "Βεβαιωθείτε ότι η σημαία 'webextensions.storage.sync.enabled' έχει οριστεί σε 'true' στο 'about:config', διαφορετικά η Αναζήτηση πλαισίου δεν θα λειτουργεί."
@@ -237,7 +234,7 @@
         "message": "Εμφάνιση εικονιδίων στο μενού περιβάλλοντος"
     },
     "disableAltClick": {
-        "message": "Disable icon grid (Alt + Click)"
+        "message": "Απενεργοποίηση πλέγματος εικονιδίων (Alt + κλικ)"
     },
     "resetPreferences": {
         "message": "Επαναφορά προτιμήσεων στις προεπιλεγμένες ρυθμίσεις"
@@ -306,19 +303,19 @@
         "message": "Ενεργοποιήστε τα δικαιώματα λήψης για να εξάγετε τις μηχανές αναζήτησής σας."
     },
     "header11": {
-        "message": "Icons Grid"
+        "message": "Πλέγμα εικονιδίων"
     },
     "quickIconGrid": {
-        "message": "Immediately display the icons grid after text has been selected"
+        "message": "Άμεση εμφάνιση του πλέγματος εικονιδίων μετά την επιλογή κειμένου"
     },
     "closeGridOnMouseOut": {
-        "message": "Close the icons grid on mouse out"
+        "message": "Κλείστε το πλέγμα των εικονιδίων στο ποντίκι έξω"
     },
     "xOffset": {
-        "message": "Horizontal offset of the icons grid: "
+        "message": "Οριζόντια μετατόπιση του πλέγματος εικονιδίων: "
     },
     "yOffset": {
-        "message": "Vertical offset of the icons grid: "
+        "message": "Κατακόρυφη μετατόπιση του πλέγματος εικονιδίων: "
     },
     "clearKeyboardShortcuts": {
         "message": "Εκκαθάριση όλων των συντομεύσεων πληκτρολογίου"
@@ -336,13 +333,13 @@
         "message": "Προσθήκη προτροπής AI"
     },
     "promptShow": {
-        "message": "Show prompt in grid or context menu"
+        "message": "Εμφάνιση προτροπής AI στο μενού περιβάλλοντος ή στο πλέγμα εικονιδίων"
     },
     "promptName": {
-        "message": "Prompt name"
+        "message": "Όνομα προτροπής AI"
     },
     "prompt": {
-        "message": "Prompt"
+        "message": "Προτροπή AI"
     },
     "overwriteSearchEngines": {
         "message": "Αντικατάσταση των υφιστάμενων μηχανών αναζήτησης με τις εισαγόμενες μηχανές αναζήτησης"
@@ -378,7 +375,7 @@
         "message": "Δεν ήταν δυνατή η ανάκτηση της διεύθυνσης URL για την αφαίρεση σελιδοδείκτη"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Please at least select an AI Provider and provide a prompt name and a prompt"
+        "message": "Επιλέξτε τουλάχιστον έναν πάροχο υπηρεσιών τεχνητής νοημοσύνης και εισαγάγετε ένα όνομα προτροπής τεχνητής νοημοσύνης και μια προτροπή τεχνη"
     },
     "bookmarkPage": {
         "message": "Σελιδοδείκτης Αυτή η σελίδα"
@@ -409,6 +406,10 @@
     },
     "daysRemaining": {
         "message": "ημέρα(ες) που απομένουν"
+    },
+    "titleSearchEngines": {
+        "message": "Μηχανές αναζήτησης",
+        "description": "Title of search engines tab in the Options page"
     },
     "__WET_LOCALE__": {
         "message": "el"
