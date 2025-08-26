@@ -309,7 +309,7 @@
         "message": "Zeigen Sie sofort das Raster der Symbole an, nachdem Text ausgewählt wurde"
     },
     "closeGridOnMouseOut": {
-        "message": "Schließen Sie das Raster der Symbole, wenn Sie die Maus herausnehmen"
+        "message": "Schließen Sie das Raster der Symbole, wenn der Mauszeiger den Bereich verlässt"
     },
     "xOffset": {
         "message": "Horizontaler Versatz des Rasters der Symbole: "
