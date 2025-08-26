@@ -237,7 +237,7 @@
         "message": "Відображати піктограми в контекстному меню"
     },
     "disableAltClick": {
-        "message": "Вимкнути сітку піктограм (Alt + клік)"
+        "message": "Disable icon grid (Alt + Click)"
     },
     "resetPreferences": {
         "message": "Скинути налаштування до налаштувань за замовчуванням"
