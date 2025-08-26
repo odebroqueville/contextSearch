@@ -237,7 +237,7 @@
         "message": "Symbole im Kontextmenü anzeigen"
     },
     "disableAltClick": {
-        "message": "Symbolgitter deaktivieren (Alt + Klick)"
+        "message": "Disable icon grid (Alt + Click)"
     },
     "resetPreferences": {
         "message": "Voreinstellungen auf Standardeinstellungen zurücksetzen"
