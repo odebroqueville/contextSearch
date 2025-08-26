@@ -234,7 +234,7 @@
         "message": "Display icons in the context menu"
     },
     "disableAltClick": {
-        "message": "Disable icon grid (Alt + Click)"
+        "message": "Disable grid of icons (Alt + Click)"
     },
     "resetPreferences": {
         "message": "Reset preferences to default settings"
