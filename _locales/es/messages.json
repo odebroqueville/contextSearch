@@ -237,7 +237,7 @@
         "message": "Mostrar iconos en el menú contextual"
     },
     "disableAltClick": {
-        "message": "Desactivar la cuadrícula de iconos (Alt + Clic)"
+        "message": "Disable icon grid (Alt + Click)"
     },
     "resetPreferences": {
         "message": "Restablecer las preferencias por defecto"
