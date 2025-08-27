@@ -3,6 +3,9 @@
 
 /* global DEBUG_VALUE */
 
+// TEST: Simple console log to verify content script is running
+console.log('🔍 Context Search content script starting...');
+
 // Global Constants
 const mycroftUrl = 'https://mycroftproject.com/installos.php/';
 const bingUrl = 'https://www.bing.com/visualsearch';
@@ -49,7 +52,7 @@ let selectionBeforeAlt = ''; // Store selection when Alt is pressed
 let selectionActive = false;
 
 // Current state
-console.log(`Document ready state: ${document.readyState}`);
+if (logToConsole) console.log(`Document ready state: ${document.readyState}`);
 
 (async () => {
     if (document.readyState === 'loading') {
@@ -65,16 +68,33 @@ document.addEventListener('mouseover', handleMouseOver);
 document.addEventListener('contextmenu', handleRightClickWithoutGrid);
 
 // Mouse down event listener
-document.addEventListener('mousedown', startSelection);
+document.addEventListener('mousedown', (e) => {
+    if (logToConsole) console.log('🖱️ Mouse down event detected:', { button: e.button, altKey: e.altKey });
+    startSelection(e);
+});
 
 // Mouse up event listener
-document.addEventListener('mouseup', handleAltClickWithGrid);
+document.addEventListener('mouseup', (e) => {
+    if (logToConsole) console.log('🖱️ Mouse up event detected:', {
+        button: e.button,
+        altKey: e.altKey,
+        keysPressed: JSON.stringify(keysPressed),
+        hasSelection: window.getSelection().toString().length > 0
+    });
+    handleAltClickWithGrid(e);
+});
 
 // Key down event listener
-document.addEventListener('keydown', handleKeyDown);
+document.addEventListener('keydown', (e) => {
+    if (logToConsole) console.log('🔽 Keydown event detected:', { key: e.key, code: e.code, altKey: e.altKey });
+    handleKeyDown(e);
+});
 
 // Key up event listener
-document.addEventListener('keyup', handleKeyUp);
+document.addEventListener('keyup', (e) => {
+    if (logToConsole) console.log('🔼 Keyup event detected:', { key: e.key, code: e.code, altKey: e.altKey });
+    handleKeyUp(e);
+});
 
 // Add window blur and focus event listeners to ensure keysPressed is reset when window loses focus
 // This handles browser shortcuts like Cmd+Alt+I that might not trigger keyup events
@@ -146,6 +166,7 @@ browser.runtime.onMessage.addListener((message, _ignored, sendResponse) => { // 
 
 // Handle key down
 function handleKeyDown(event) {
+    if (logToConsole) console.log('📥 handleKeyDown called with event:', event);
     const key = event.key;
     const code = event.code;
     if (logToConsole) console.log('Key down (key, code):', { key, code });
@@ -159,20 +180,24 @@ function handleKeyDown(event) {
     });
 
     // Don't process keydown events if typing in INPUT or contentEditable elements
-    if (event.target.nodeName === 'INPUT' || event.target.isContentEditable || !isKeyAllowed(event)) return;
+    if (event.target.nodeName === 'INPUT' || event.target.isContentEditable || !isKeyAllowed(event)) {
+        if (logToConsole) console.log('🚫 Keydown event ignored due to input field or disallowed key');
+        return;
+    }
 
     // Store the key state - this works for both regular keys and browser command shortcuts
     keysPressed[key] = code;
+    if (logToConsole) console.log('🔑 Updated keysPressed:', JSON.stringify(keysPressed));
 
     // Track Alt key specifically
     if (key === 'Alt') {
-        if (logToConsole) console.log('Alt key pressed and held down');
+        if (logToConsole) console.log('🔰 Alt key pressed and held down');
 
         // Store current text selection when Alt is pressed
         const sel = window.getSelection();
         if (sel && !sel.isCollapsed && sel.toString().trim().length > 0) {
             selectionBeforeAlt = sel.toString().trim();
-            if (logToConsole) console.log('Stored selection on Alt press:', selectionBeforeAlt);
+            if (logToConsole) console.log('📝 Stored selection on Alt press:', selectionBeforeAlt);
         }
     }
 }
@@ -258,7 +283,7 @@ async function openAiSearchPopup() {
         const response = await browser.runtime.sendMessage({ action: "openAiSearchPopup" });
         if (logToConsole) {
             if (response && response.success) {
-                console.log("AI Search popup opened successfully.");
+                if (logToConsole) console.log("AI Search popup opened successfully.");
             } else if (response) {
                 console.error("Failed to open AI Search popup:", response.error || "Unknown error");
             } else {
@@ -588,24 +613,23 @@ async function init() {
         const response = await sendMessage('getStoredData', { key: null });
         if (response && response.success && response.data) {
             const storedData = response.data;
-            logToConsole = storedData.logToConsole || false; // Default to false if not set
             options = storedData.options || {};
             searchEngines = storedData.searchEngines || {};
             textSelection = storedData.selection || '';
             if (logToConsole) console.log('Successfully retrieved stored data');
         } else {
-            console.log('No stored data found or incomplete data!');
+            if (logToConsole) console.log('No stored data found or incomplete data!');
             // Set defaults if data not available
-            logToConsole = false;
             options = {};
             searchEngines = {};
+            textSelection = '';
         }
     } catch (error) {
         console.warn('Failed to get stored data:', error);
         // Set defaults if error occurs
-        logToConsole = false;
         options = {};
         searchEngines = {};
+        textSelection = '';
     }
 
     // If debugging mode is enabled, log the tab url and domain
@@ -849,7 +873,10 @@ async function checkForSelection(e) {
     if (hasSelection) {
         element = document.activeElement;
     } else {
-        textSelection = '';
+        // Don't clear textSelection if Icons Grid is open - preserve it for search
+        if (!isIconsGridOpen()) {
+            textSelection = '';
+        }
     }
     if (!element) return;
 
@@ -998,7 +1025,7 @@ async function searchForKeyboardShortcut(input) {
     if (freshSearchEngines) {
         searchEngines = freshSearchEngines;
     }
-    
+
     // Check if the input text matches any search engine keyboard shortcut
     for (let id in searchEngines) {
         if (logToConsole) console.log(id);
@@ -1014,6 +1041,16 @@ async function searchForKeyboardShortcut(input) {
 
         if (keyboardShortcut && keyboardShortcut === input.toLowerCase()) {
             if (logToConsole) console.log(`Matched keyboard shortcut: ${keyboardShortcut} for engine: ${engine.name}`);
+
+            // Ensure we have the most current text selection before performing search
+            if (textSelection) {
+                try {
+                    await sendMessage('storeSelection', textSelection);
+                    if (logToConsole) console.log('Updated stored selection before search:', textSelection);
+                } catch (error) {
+                    if (logToConsole) console.error('Failed to update selection before search:', error);
+                }
+            }
 
             try {
                 await browser.runtime.sendMessage({ action: 'doSearch', data: { id: id } });
@@ -1052,104 +1089,161 @@ async function handleRightClickWithoutGrid(e) {
 
 // Triggered by mouse up event
 async function handleAltClickWithGrid(e) {
-    // e is null when the content script received the message to launch the Icons Grid (Ctrl+Shift+J)
-    if (logToConsole) console.log('handleAltClickWithGrid called with event:', e);
+    if (logToConsole) console.log('📥 handleAltClickWithGrid called with event:', e);
 
-    // Get fresh options to ensure we have the latest settings
-    const freshOptions = await getFreshStoredData('options');
-    if (freshOptions) {
-        options = freshOptions;
-        if (logToConsole) console.log('Retrieved fresh options:', options);
-    }
-    if (logToConsole) console.log('Options:', options);
-
-    // Check if alt+click is disabled
-    if (!options || options.disableAltClick) {
-        if (logToConsole) console.log('handleAltClickWithGrid: Alt+Click is disabled or options not loaded');
+    // Prevent multiple calls by checking if we're already processing
+    if (window.contextSearchProcessing) {
+        if (logToConsole) console.log('🔄 handleAltClickWithGrid already processing, skipping');
         return;
     }
+    window.contextSearchProcessing = true;
 
-    // Abort if quickIconGrid is not enabled and this is a left mouse up event and alt is not pressed
-    if (!options.quickIconGrid && e && e.type === 'mouseup' && e.button === 0 && !e.altKey) {
-        selectionActive = false;
-        return;
-    }
+    try {
+        // Get fresh options to ensure we have the latest settings
+        if (logToConsole) console.log('⚙️ Getting fresh options...');
+        const freshOptions = await getFreshStoredData('options');
+        if (freshOptions) {
+            options = freshOptions;
+            if (logToConsole) console.log('✅ Retrieved fresh options:', options);
+        }
+        if (logToConsole) console.log('📋 Options:', options);
 
-    if (e && e.type === 'mouseup' && e.button === 0) { // 0 indicates the left mouse button
-        selectionActive = false;
-    } else if (e && e.type === 'mouseup' && e.button !== 0) {
-        // If the left mouse button is not clicked, then abort
-        return;
-    }
+        // Check if alt+click is disabled
+        if (!options || options.disableAltClick) {
+            if (logToConsole) console.log('🚫 handleAltClickWithGrid: Alt+Click is disabled or options not loaded');
+            return;
+        }
 
-    // For keyboard shortcut (when e is null), ensure we get the current selection
-    if (e === null) {
-        if (logToConsole) console.log('Keyboard shortcut detected, retrieving selection');
-        await handleSelectionEnd();
-        // If no selection after trying to get one, use any stored selection
-        if (!textSelection) {
-            try {
-                const response = await sendMessage('getStoredData', { key: 'selection' });
-                if (response && response.success && response.data && response.data.selection) {
-                    textSelection = response.data.selection;
-                    if (logToConsole) console.log('Retrieved stored selection:', textSelection);
+        // Abort if quickIconGrid is not enabled and this is a left mouse up event and alt is not pressed
+        if (!options.quickIconGrid && e && e.type === 'mouseup' && e.button === 0 && !e.altKey) {
+            if (logToConsole) console.log('🚫 handleAltClickWithGrid: Aborting - quickIconGrid disabled and no Alt key. Event details:', {
+                quickIconGrid: options.quickIconGrid,
+                eventType: e.type,
+                button: e.button,
+                altKey: e.altKey,
+                keysPressed: JSON.stringify(keysPressed),
+                hasAltInKeysPressed: 'Alt' in keysPressed
+            });
+            selectionActive = false;
+            return;
+        }
+
+        if (e && e.type === 'mouseup' && e.button === 0) { // 0 indicates the left mouse button
+            selectionActive = false;
+        } else if (e && e.type === 'mouseup' && e.button !== 0) {
+            // If the left mouse button is not clicked, then abort
+            if (logToConsole) console.log('🚫 handleAltClickWithGrid: Aborting - not left mouse button');
+            return;
+        }
+
+        // For keyboard shortcut (when e is null), ensure we get the current selection
+        if (e === null) {
+            if (logToConsole) console.log('Keyboard shortcut detected, retrieving selection');
+            await handleSelectionEnd();
+            // If no selection after trying to get one, use any stored selection
+            if (!textSelection) {
+                try {
+                    const response = await sendMessage('getStoredData', { key: 'selection' });
+                    if (response && response.success && response.data && response.data.selection) {
+                        textSelection = response.data.selection;
+                        if (logToConsole) console.log('Retrieved stored selection:', textSelection);
+                    }
+                } catch (error) {
+                    if (logToConsole) console.error('Error retrieving stored selection:', error);
                 }
-            } catch (error) {
-                if (logToConsole) console.error('Error retrieving stored selection:', error);
+            }
+        } else {
+            if (logToConsole) console.log('🔍 Processing non-keyboard event, calling checkForSelection...');
+            await checkForSelection(e);
+
+            // If Alt key is held, always try to get the current selection first
+            if (e && e.altKey) {
+                if (logToConsole) console.log('🔰 Alt key detected, getting current selection...');
+                const sel = window.getSelection();
+                if (sel && !sel.isCollapsed && sel.toString().trim().length > 0) {
+                    textSelection = sel.toString().trim();
+                    if (logToConsole) console.log('✅ Got current selection on Alt+Click:', textSelection);
+                } else if (selectionBeforeAlt) {
+                    textSelection = selectionBeforeAlt;
+                    if (logToConsole) console.log('📝 Using stored selection from Alt press:', textSelection);
+                } else {
+                    if (logToConsole) console.log('❌ No current selection and no stored selection');
+                }
             }
         }
-    } else {
-        await checkForSelection(e);
 
-        // If Alt key is held and we have a stored selection, use it
-        if (e && e.altKey && !textSelection && selectionBeforeAlt) {
-            textSelection = selectionBeforeAlt;
-            if (logToConsole) console.log('Using stored selection:', textSelection);
+        // If no text is selected and this isn't a keyboard shortcut, return
+        if (logToConsole) console.log('🔍 Checking textSelection:', { textSelection, isKeyboardShortcut: e === null });
+        if (!textSelection && e !== null) {
+            if (logToConsole) console.log('🚫 No text selected, not displaying grid');
+            return;
         }
-    }
 
-    // If no text is selected and this isn't a keyboard shortcut, return
-    if (!textSelection && e !== null) {
-        if (logToConsole) console.log('No text selected, not displaying grid');
-        return;
-    }
+        if (logToConsole) console.log('✅ Text selection passed, continuing...');
+        if (logToConsole) console.log('📊 Selection:', textSelection);
+        if (logToConsole) console.log('📋 Event details:', {
+            type: e?.type,
+            altKey: e?.altKey,
+            quickIconGrid: options?.quickIconGrid
+        });
 
-    if (logToConsole) console.log('Selection:', textSelection);
+        // If the grid of icons is already displayed, then close the grid
+        if (isIconsGridOpen()) {
+            if (logToConsole) console.log('🗂️ Closing existing grid');
+            closeGrid();
+        }
 
-    // If the grid of icons is already displayed, then close the grid
-    if (isIconsGridOpen()) {
-        closeGrid();
-    }
+        if (logToConsole) console.log('🎯 Checking grid display conditions:', {
+            isKeyboardShortcut: e === null,
+            hasQuickIconGrid: options && options.quickIconGrid,
+            hasAltKey: e && e.altKey
+        });
 
-    // IF the content script received the message to launch the Icons Grid (e === null)
-    // OR the Quick Icons Grid is activated on mouse up (options.quickIconGrid)
-    // OR the option (alt) key is pressed on mouse up (e.altKey)
-    // Note: We only use direct e.altKey check to ensure we only respond to actual Alt key presses
-    if (e === null || (options && options.quickIconGrid) || (e && e.altKey)) {
-        // THEN display the Icons Grid
-        let x, y;
-        if (logToConsole) console.log('Displaying Icons Grid... ');
-        if (e !== null) {
-            x = e.clientX;
-            y = e.clientY;
+        // IF the content script received the message to launch the Icons Grid (e === null)
+        // OR the Quick Icons Grid is activated on mouse up (options.quickIconGrid)
+        // OR the option (alt) key is pressed on mouse up (e.altKey)
+        // Note: We only use direct e.altKey check to ensure we only respond to actual Alt key presses
+        if (e === null || (options && options.quickIconGrid) || (e && e.altKey)) {
+            if (logToConsole) console.log('🎉 Conditions met! Displaying Icons Grid...');
+            // THEN display the Icons Grid
+            let x, y;
+            if (e !== null) {
+                x = e.clientX;
+                y = e.clientY;
+            } else {
+                ({ x, y } = getSelectionEndPosition());
+                if (logToConsole) console.log('Using selection end position:', { x, y });
+            }
+            const offX = Number.isFinite(Number(options?.offsetX)) ? Number(options.offsetX) : 10;
+            const offY = Number.isFinite(Number(options?.offsetY)) ? Number(options.offsetY) : 10;
+            xPos = x + offX;
+            yPos = y + offY;
+            if (logToConsole) console.log('📍 Grid position calculated:', { xPos, yPos });
+
+            // Force valid coordinates for keyboard shortcut
+            if (!Number.isFinite(xPos) || !Number.isFinite(yPos) || xPos <= 0 || yPos <= 0) {
+                xPos = Math.max(100, window.innerWidth / 2); //ensures the horizontal position is at least at the center of the viewport
+                yPos = Math.max(100, window.innerHeight / 3); //ensures the vertical position is at least at the top third of the viewport
+                if (logToConsole) console.log('🔧 Adjusted grid position for keyboard shortcut:', { xPos, yPos });
+            }
+
+            if (logToConsole) console.log('🔥 About to call createIconsGrid...');
+            await createIconsGrid('root');
+            if (logToConsole) console.log('✨ createIconsGrid completed');
         } else {
-            ({ x, y } = getSelectionEndPosition());
-            if (logToConsole) console.log('Using selection end position:', { x, y });
+            if (logToConsole) console.log('❌ Conditions NOT met for displaying grid:', {
+                isKeyboardShortcut: e === null,
+                hasQuickIconGrid: options && options.quickIconGrid,
+                hasAltKey: e && e.altKey,
+                eventType: e?.type,
+                altKeyValue: e?.altKey
+            });
         }
-        const offX = Number.isFinite(Number(options?.offsetX)) ? Number(options.offsetX) : 10;
-        const offY = Number.isFinite(Number(options?.offsetY)) ? Number(options.offsetY) : 10;
-        xPos = x + offX;
-        yPos = y + offY;
-        if (logToConsole) console.log('Grid position:', xPos, yPos);
-
-        // Force valid coordinates for keyboard shortcut
-        if (!Number.isFinite(xPos) || !Number.isFinite(yPos) || xPos <= 0 || yPos <= 0) {
-            xPos = Math.max(100, window.innerWidth / 2); //ensures the horizontal position is at least at the center of the viewport
-            yPos = Math.max(100, window.innerHeight / 3); //ensures the vertical position is at least at the top third of the viewport
-            if (logToConsole) console.log('Adjusted grid position for keyboard shortcut:', xPos, yPos);
-        }
-
-        await createIconsGrid('root');
+    } catch (error) {
+        if (logToConsole) console.error('Error in handleAltClickWithGrid:', error);
+    } finally {
+        // Reset the processing flag
+        window.contextSearchProcessing = false;
     }
 }
 
@@ -1284,6 +1378,7 @@ function getPidAndName(string) {
 }
 
 async function createIconsGrid(folderId) {
+    if (logToConsole) console.log('createIconsGrid called with folderId:', folderId);
     let icons = [];
 
     // Ensure searchEngines and requested folder exist before proceeding
@@ -1295,6 +1390,7 @@ async function createIconsGrid(folderId) {
         });
 
         // Try to get fresh search engines
+        if (logToConsole) console.log('Getting fresh search engines...');
         const freshSearchEngines = await getFreshStoredData('searchEngines');
         if (freshSearchEngines) {
             searchEngines = freshSearchEngines;
@@ -1422,7 +1518,10 @@ async function createIconsGrid(folderId) {
     body.appendChild(nav);
 
     // Define event listeners for the icon grid
-    nav.addEventListener('mouseup', e => onGridClick(e, folderId));
+    nav.addEventListener('click', e => {
+        if (logToConsole) console.log('nav CLICK event detected, target:', e.target.id, 'target tagName:', e.target.tagName, 'navEntered:', navEntered);
+        onGridClick(e, folderId);
+    });
     nav.addEventListener('mouseenter', onHover);
     nav.addEventListener('mouseleave', onLeave);
 
@@ -1448,10 +1547,15 @@ async function createIconsGrid(folderId) {
 async function onGridClick(e, folderId) {
     e.preventDefault();
     e.stopPropagation();
-    if (!navEntered) return;
+    if (logToConsole) console.log('onGridClick called - navEntered:', navEntered, 'target:', e.target.id);
+    if (!navEntered) {
+        if (logToConsole) console.log('onGridClick: navEntered is false, returning early');
+        return;
+    }
     if (logToConsole) console.log('Icons Grid got clicked:' + e.type);
     const id = e.target.id;
     if (logToConsole) console.log('Search engine clicked:' + id);
+    if (logToConsole) console.log('Current textSelection value:', textSelection);
     closeGrid();
 
     // Get fresh searchEngines data  
@@ -1467,7 +1571,24 @@ async function onGridClick(e, folderId) {
         return;
     }
 
-    if (id === 'multisearch' || !searchEngines[id] || !searchEngines[id].isFolder) {
+    // Handle multi-search or non-folder clicks
+    if (id === 'multisearch' || (searchEngines[id] && !searchEngines[id].isFolder)) {
+        // Ensure we have the most current text selection before performing search
+        if (logToConsole) console.log('About to check textSelection value:', textSelection);
+        if (logToConsole) console.log('textSelection type:', typeof textSelection);
+        if (logToConsole) console.log('textSelection truthy:', !!textSelection);
+        if (textSelection) {
+            try {
+                if (logToConsole) console.log('Calling storeSelection with:', textSelection);
+                await sendMessage('storeSelection', textSelection);
+                if (logToConsole) console.log('Updated stored selection before search:', textSelection);
+            } catch (error) {
+                console.error('Failed to update selection before search:', error);
+            }
+        } else {
+            if (logToConsole) console.log('textSelection is falsy, NOT calling storeSelection');
+        }
+
         await sendMessage('doSearch', { id: id });
     } else {
         await createIconsGrid(id);
@@ -1480,11 +1601,11 @@ async function getParentFolderOf(folderId, startFolder) {
     if (freshSearchEngines) {
         searchEngines = freshSearchEngines;
     }
-    
+
     if (!searchEngines[startFolder] || !Array.isArray(searchEngines[startFolder].children)) {
         return null;
     }
-    
+
     for (const id of searchEngines[startFolder].children) {
         if (id === folderId) {
             return startFolder;
@@ -1515,14 +1636,18 @@ async function onLeave() {
 }
 
 function closeGrid() {
+    if (logToConsole) console.log('closeGrid() called');
     let nav = document.getElementById('context-search-icon-grid');
     if (nav) {
+        if (logToConsole) console.log('Removing Icons Grid from DOM');
         nav.parentElement.removeChild(nav);
         nav.removeEventListener('mouseup', onGridClick);
         nav.removeEventListener('mouseenter', onHover);
         nav.removeEventListener('mouseleave', onLeave);
         nav = null;
         navEntered = false;
+    } else {
+        if (logToConsole) console.log('Icons Grid not found when trying to close');
     }
 }
 
@@ -1545,6 +1670,11 @@ function removeBorder(e) {
 async function sendMessage(action, data, retryCount = 0) {
     const maxRetries = 3;
     if (logToConsole) console.log(`Sending message: action=${action}, data=`, data);
+
+    // Add stack trace for doSearch to see where it's coming from
+    if (action === 'doSearch') {
+        if (logToConsole) console.log('doSearch called from:', new Error().stack);
+    }
 
     // Check if browser/chrome API is available
     if (!browser.runtime?.sendMessage) {
@@ -1643,7 +1773,7 @@ async function getNewSearchEngine(url) {
     if (freshSearchEngines) {
         searchEngines = freshSearchEngines;
     }
-    
+
     const xml = await fetchXML(url);
     const { shortName, queryString } = getNameAndQueryString(xml);
 
@@ -1750,7 +1880,7 @@ async function isIdUnique(testId) {
     if (freshSearchEngines) {
         searchEngines = freshSearchEngines;
     }
-    
+
     for (let id in searchEngines) {
         if (id === testId) {
             return false;

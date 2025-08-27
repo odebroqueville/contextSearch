@@ -5,32 +5,32 @@ const path = require('path');
 function loadEnv() {
     const envPath = path.join(__dirname, '.env');
     const env = {};
-    
+
     if (fs.existsSync(envPath)) {
         const envContent = fs.readFileSync(envPath, 'utf8');
-        
+
         envContent.split('\n').forEach(line => {
             if (!line || line.trim() === '' || line.trim().startsWith('#')) {
                 return;
             }
-            
+
             const [key, ...valueParts] = line.split('=');
             const value = valueParts.join('=').trim();
-            
+
             if (key && value !== undefined) {
                 let processedValue = value.replace(/^["']|["']$/g, '');
-                
+
                 if (processedValue.toLowerCase() === 'true') {
                     processedValue = true;
                 } else if (processedValue.toLowerCase() === 'false') {
                     processedValue = false;
                 }
-                
+
                 env[key.trim()] = processedValue;
             }
         });
     }
-    
+
     return env;
 }
 
@@ -101,13 +101,19 @@ function processJsFile(src, dest, browser) {
         content = content.replace(/\/\/\/ Import browser polyfill for compatibility with Chrome and other browsers\nimport '\/libs\/browser-polyfill\.min\.js';\n?/g, '');
     }
 
-        // Replace DEBUG_VALUE with environment variable value
+    // Replace DEBUG_VALUE with environment variable value
     if (ENV.DEBUG !== undefined) {
         const debugValue = ENV.DEBUG;
-        
-        // Replace all DEBUG_VALUE occurrences with the actual boolean value
+
+        // First, temporarily replace ESLint global comments to protect them
+        content = content.replace(/\/\*\s*global\s+DEBUG_VALUE\s*\*\//g, '/*ESLINTTMP*/');
+
+        // Replace all other DEBUG_VALUE occurrences with the actual boolean value  
         content = content.replace(/DEBUG_VALUE/g, debugValue);
-        
+
+        // Restore ESLint global comments (without DEBUG_VALUE)
+        content = content.replace(/\/\*ESLINTTMP\*\//g, '');
+
         if (content.includes(debugValue)) {
             console.log(`📝 Replaced DEBUG_VALUE with ${debugValue} in ${path.basename(src)}`);
         }
@@ -128,10 +134,16 @@ function processServiceWorkerFile(src, dest, browser) {
     // Replace DEBUG_VALUE with environment variable value
     if (ENV.DEBUG !== undefined) {
         const debugValue = ENV.DEBUG;
-        
-        // Replace all DEBUG_VALUE occurrences with the actual boolean value
+
+        // First, temporarily replace ESLint global comments to protect them
+        content = content.replace(/\/\*\s*global\s+DEBUG_VALUE\s*\*\//g, '/*ESLINTTMP*/');
+
+        // Replace all other DEBUG_VALUE occurrences with the actual boolean value
         content = content.replace(/DEBUG_VALUE/g, debugValue);
-        
+
+        // Restore ESLint global comments (without DEBUG_VALUE)
+        content = content.replace(/\/\*ESLINTTMP\*\//g, '');
+
         if (content.includes(debugValue)) {
             console.log(`📝 Replaced DEBUG_VALUE with ${debugValue} in ${path.basename(src)}`);
         }
