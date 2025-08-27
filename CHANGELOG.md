@@ -1,5 +1,11 @@
-6.1.5
+6.1.6
 =========
+
+* Improved the UI of the Options page
+* Bug fix [#253](https://github.com/odebroqueville/contextSearch/issues/253)
+
+6.1.5
+---------
 
 * Added the possibility to close an open Icons Grid using the 'Escape' key
 * Improved the UI of the Options page

@@ -388,6 +388,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             if (data) {
                 setStoredData(STORAGE_KEYS.SELECTION, data)
                     .then(() => {
+                        if (logToConsole) console.log('Successfully stored selection:', data);
                         sendResponse({ success: true });
                     })
                     .catch(error => {
@@ -395,6 +396,9 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
                         sendResponse({ success: false, error: error.message });
                     });
                 return true; // Indicates we'll send a response asynchronously
+            } else {
+                if (logToConsole) console.log('storeSelection called with empty/null data');
+                sendResponse({ success: false, error: 'No data provided' });
             }
             break;
         case "storeTargetUrl":
@@ -889,6 +893,14 @@ async function handleDoSearch(data) {
     // The id of the search engine, folder, AI prompt or 'multisearch'
     // The source is either the grid of icons (for multisearch) or a keyboard shortcut
     const id = data.id;
+    
+    // Refresh selection to ensure we have the latest text selection
+    if (logToConsole) console.log("About to refresh selection from storage...");
+    selection = await getStoredData(STORAGE_KEYS.SELECTION) || '';
+    if (logToConsole) console.log("Current selection for search: '" + selection + "'");
+    if (logToConsole) console.log("Selection length:", selection.length);
+    if (logToConsole) console.log("Selection type:", typeof selection);
+    
     let multiTabArray = [];
     if (logToConsole) console.log("Search engine id: " + id);
     if (logToConsole) console.log(options.tabMode === "openSidebar");
