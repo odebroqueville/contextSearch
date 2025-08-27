@@ -1,5 +1,10 @@
-6.1.6
+6.1.7
 =========
+
+* Remove console logs for production release
+
+6.1.6
+---------
 
 * Improved the UI of the Options page
 * Bug fix [#253](https://github.com/odebroqueville/contextSearch/issues/253)
