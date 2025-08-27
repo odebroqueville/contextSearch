@@ -263,7 +263,8 @@
                                     <br />
                                     <input type="checkbox" id="forceFaviconsReload"><label for="forceFaviconsReload"
                                         data-i18n="forceFaviconsReload">Force favicons to be reloaded</label>
-                                    <button type="button" id="reset" data-i18n="reset">Reset</button>
+                                    <button type="button" class="file-upload-btn" id="reset"
+                                        data-i18n="reset">Reset</button>
                                 </div>
                             </fieldset>
                             <fieldset>
@@ -276,7 +277,10 @@
                                                 from
                                                 local
                                                 disk</label></span>
-                                        <span class="cell"><input type="file" id="upload" /></span>
+                                        <span class="cell">
+                                            <input type="file" id="upload" />
+                                            <label for="upload" class="file-upload-btn">Browse...</label>
+                                        </span>
                                     </div>
                                     <div>
                                         <input type="checkbox" id="overwriteSearchEngines"><label
@@ -289,7 +293,7 @@
                                                 engines to
                                                 JSON</label>
                                         </span>
-                                        <span class="cell"><button type="button" id="download"
+                                        <span class="cell"><button type="button" id="download" class="file-upload-btn"
                                                 data-i18n="download">Export to
                                                 local
                                                 disk</button></span>

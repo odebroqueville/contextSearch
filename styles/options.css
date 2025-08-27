@@ -76,7 +76,6 @@ input[type="number"] {
 .cell label,
 .cell input {
     display: inline-block;
-    width: 45%;
 }
 
 div#searchEngines {
@@ -227,6 +226,8 @@ button#reset {
 }
 
 button#download {
+    margin-top: 3px;
+    margin-bottom: 3px;
     width: 150px;
 }
 
@@ -235,8 +236,37 @@ button#download {
 }
 
 #upl {
-    margin-top: 10px;
-    margin-bottom: 8px;
+    margin-bottom: 3px;
+}
+
+#upload {
+    margin-bottom: 5px;
+    /* Hide the default file input */
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Style for the custom file upload button */
+.file-upload-btn {
+    display: inline-block;
+    margin-left: 5px;
+    padding: 3px 10px 3px 10px;
+    background-color: #000;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    color: #ddd;
+    transition: background-color 0.2s ease;
+}
+
+.file-upload-btn:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+    color: #333;
 }
 
 h3 {
