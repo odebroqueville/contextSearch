@@ -1,5 +1,12 @@
-6.1.7
+6.1.8
 =========
+
+* Updated README file 
+* Implemented short date format for bookmarks
+* Removed optional permissions in Chrome
+
+6.1.7
+---------
 
 * Remove console logs for production release
 
