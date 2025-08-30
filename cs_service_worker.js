@@ -175,25 +175,25 @@ let lastActivityTime = Date.now();
 function onServiceWorkerWakeUp() {
     const now = Date.now();
     const timeSinceLastActivity = now - lastActivityTime;
-    
+
     // If more than 30 seconds have passed, assume the service worker was asleep
     if (timeSinceLastActivity > 30000) {
         if (logToConsole) console.log(`Service worker woke up after ${Math.round(timeSinceLastActivity / 1000)}s of inactivity`);
-        
+
         // Reset initialization state to force proper reinitialization
         if (isInitialized) {
             isInitialized = false;
             if (logToConsole) console.log("Marking service worker as uninitialized due to wake-up");
         }
     }
-    
+
     lastActivityTime = now;
 }
 
 // Call wake-up detection at the start of critical functions
 function markActivity() {
     onServiceWorkerWakeUp();
-    
+
     // Set up or update the keepalive alarm
     browser.alarms.create('keepalive', { delayInMinutes: 0.5 }); // 30 seconds
 }
@@ -203,7 +203,7 @@ browser.alarms.onAlarm.addListener((alarm) => {
     if (alarm.name === 'keepalive') {
         markActivity();
         if (logToConsole) console.log('Service worker keepalive triggered');
-        
+
         // Only create next alarm if we're actively being used
         const now = Date.now();
         if (now - lastActivityTime < 60000) { // If activity within last minute
@@ -215,7 +215,7 @@ browser.alarms.onAlarm.addListener((alarm) => {
 // Initialize service worker
 (async function () {
     markActivity();
-    
+
     // ({ paid, trialActive, trialStarted } = await getPaymentStatus());
     paid = true; // For testing purposes, set to true
     trialActive = false; // For testing purposes, set to false
@@ -297,7 +297,7 @@ browser.storage.onChanged.addListener(handleStorageChange);
 // Listen for messages from the content or options script
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     markActivity(); // Track service worker activity
-    
+
     const action = message.action;
     const data = message.data;
 
@@ -893,14 +893,14 @@ async function handleDoSearch(data) {
     // The id of the search engine, folder, AI prompt or 'multisearch'
     // The source is either the grid of icons (for multisearch) or a keyboard shortcut
     const id = data.id;
-    
+
     // Refresh selection to ensure we have the latest text selection
     if (logToConsole) console.log("About to refresh selection from storage...");
     selection = await getStoredData(STORAGE_KEYS.SELECTION) || '';
     if (logToConsole) console.log("Current selection for search: '" + selection + "'");
     if (logToConsole) console.log("Selection length:", selection.length);
     if (logToConsole) console.log("Selection type:", typeof selection);
-    
+
     let multiTabArray = [];
     if (logToConsole) console.log("Search engine id: " + id);
     if (logToConsole) console.log(options.tabMode === "openSidebar");
@@ -1575,7 +1575,7 @@ function getFaviconForPrompt(id, aiProvider) {
 async function menuClickHandler(info, tab) {
     try {
         markActivity(); // Track service worker activity
-        
+
         if (logToConsole) console.log("Menu click handler started for: ", info.menuItemId);
 
         // Special case for options page
@@ -1597,10 +1597,10 @@ async function menuClickHandler(info, tab) {
         // Ensure service worker is properly initialized before proceeding
         if (!isInitialized || isEmpty(searchEngines) || !hasClickListener()) {
             if (logToConsole) console.log("Service worker not properly initialized, reinitializing now");
-            
+
             // Force re-initialization to ensure proper state
             isInitialized = false;
-            
+
             try {
                 await init();
                 if (logToConsole) console.log("Service worker reinitialized successfully");
@@ -1609,7 +1609,7 @@ async function menuClickHandler(info, tab) {
                 return;
             }
         }
-        
+
         if (paid || trialActive) {
             // Proceed with normal handling
             await handleMenuClick(info, tab);
@@ -1626,61 +1626,41 @@ async function handleMenuClick(info, tab) {
 
         if (logToConsole) console.log(`Handling menu click for ${info.menuItemId}, using ${browser_type} browser in ${options.tabMode} mode`);
 
-        // Ensure we have the latest selection data from storage
-        selection = await getStoredData(STORAGE_KEYS.SELECTION) || "";
-        
+        // For Chrome side panel, we need to open it immediately while in user gesture context
+        // before any async operations that could break the gesture context
         if (options.tabMode === "openSidebar" && !multisearch) {
-            if (browser_type === 'firefox') {
-                if (logToConsole) console.log("Opening the sidebar.");
-                browser.sidebarAction.open().then(() => {
-                    // After sidebar is open, set up panel and process search
-                    return setBrowserPanel();
-                }).then(() => {
-                    processSearch(info, tab);
-                }).catch(error => {
-                    console.error('Error opening Firefox sidebar:', error);
-                    // Still try to process search even if sidebar fails
-                    processSearch(info, tab);
-                });
-            } else if (browser_type === 'chrome' && chrome.sidePanel) {
-                if (logToConsole) console.log("Opening the side panel.");
-
-                // Register the side panel first synchronously
+            if (browser_type === 'chrome' && chrome.sidePanel) {
+                if (logToConsole) console.log("Opening the side panel immediately.");
                 try {
-                    // First, ensure global setup is done (not tab-specific)
+                    // Set up and open the side panel synchronously within user gesture
                     chrome.sidePanel.setOptions({
                         path: 'html/sidebar.html',
                         enabled: true
                     });
 
-                    // Then try to open it immediately while we're still in the user gesture context
                     chrome.sidePanel.open({
-                        tabId: tab.id, // The tabId is required
-                        windowId: tab.windowId  // Optional
-                    }).then(() => {
-                        return setBrowserPanel();
-                    }).then(() => {
-                        processSearch(info, tab);
-                    }).catch(error => {
-                        console.error('Error opening Chrome side panel:', error);
-                        processSearch(info, tab);
+                        tabId: tab.id,
+                        windowId: tab.windowId
                     });
+
+                    if (logToConsole) console.log("Chrome side panel opened successfully.");
                 } catch (error) {
-                    console.error('Error with Chrome side panel initial setup:', error);
+                    console.error('Error opening Chrome side panel:', error);
+                }
+            } else if (browser_type === 'firefox') {
+                if (logToConsole) console.log("Opening the Firefox sidebar.");
+                try {
+                    // Open sidebar synchronously to preserve user gesture context
+                    browser.sidebarAction.open();
+                    if (logToConsole) console.log("Firefox sidebar opened successfully.");
+                } catch (error) {
+                    console.error('Error opening Firefox sidebar:', error);
+                    // Still try to process search even if sidebar fails
                     processSearch(info, tab);
                 }
-            } else {
-                // No sidebar/panel support, just process the search
-                if (logToConsole) console.log("No sidebar support detected, processing search directly");
-                setBrowserPanel().then(() => {
-                    processSearch(info, tab);
-                }).catch(error => {
-                    console.error('Error setting browser panel:', error);
-                    processSearch(info, tab);
-                });
             }
         } else {
-            // Handle non-sidebar mode
+            // Handle non-sidebar mode: close sidebar if open
             try {
                 if (browser_type === 'firefox') {
                     if (logToConsole) console.log("Closing the sidebar.");
@@ -1693,6 +1673,21 @@ async function handleMenuClick(info, tab) {
             } catch (error) {
                 console.error('Error closing browser panel:', error);
             }
+        }
+
+        // Now we can safely do async operations
+        // Ensure we have the latest selection data from storage
+        selection = await getStoredData(STORAGE_KEYS.SELECTION) || "";
+
+        if (options.tabMode === "openSidebar" && !multisearch) {
+            // Handle subsequent operations asynchronously
+            setBrowserPanel().then(() => {
+                processSearch(info, tab);
+            }).catch(error => {
+                console.error('Error setting browser panel:', error);
+                processSearch(info, tab);
+            });
+        } else {
             // Process search directly
             await processSearch(info, tab);
         }
@@ -2625,7 +2620,7 @@ browser.omnibox.setDefaultSuggestion({
 // Update the suggestions whenever the input is changed
 browser.omnibox.onInputChanged.addListener(async (input, suggest) => {
     markActivity(); // Track service worker activity
-    
+
     if (input.indexOf(" ") > 0) {
         const suggestion = await buildSuggestion(input);
         if (suggestion.length === 1) {
@@ -2637,7 +2632,7 @@ browser.omnibox.onInputChanged.addListener(async (input, suggest) => {
 // Open the page based on how the user clicks on a suggestion
 browser.omnibox.onInputEntered.addListener(async (input) => {
     markActivity(); // Track service worker activity
-    
+
     if (logToConsole) console.log(`Input entered: ${input}`);
 
     // Ensure extension is initialized before processing any omnibox command
@@ -2733,34 +2728,52 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                     await processMultisearch([], "root", tabPosition);
                     break;
                 case "bookmarks":
-                case "!b":
-                    if (searchTerms === "recent") {
-                        bookmarkItems = await browser.bookmarks.getRecent(10);
-                    } else {
-                        bookmarkItems = await browser.bookmarks.search({
-                            query: searchTerms,
+                case "!b": {
+                    // Check if bookmarks permission is granted
+                    const hasBookmarksPermission = await browser.permissions.contains({
+                        permissions: ["bookmarks"],
+                    });
+                    if (hasBookmarksPermission) {
+                        if (searchTerms === "recent") {
+                            bookmarkItems = await browser.bookmarks.getRecent(10);
+                        } else {
+                            bookmarkItems = await browser.bookmarks.search({
+                                query: searchTerms,
+                            });
+                        }
+                        if (logToConsole) console.log(bookmarkItems);
+                        await setStoredData(STORAGE_KEYS.BOOKMARKS, bookmarkItems);
+                        await setStoredData(STORAGE_KEYS.SEARCH_TERMS, searchTerms);
+                        // Update current tab instead of creating new one for omnibox searches
+                        await browser.tabs.update(activeTab.id, {
+                            url: "/html/bookmarks.html",
                         });
+                    } else {
+                        if (logToConsole) console.log("Bookmarks permission not granted. Please enable Bookmarks permission in the extension settings.");
+                        if (notificationsEnabled) notify("Bookmarks permission not granted. Please enable Bookmarks permission in the extension settings.");
                     }
-                    if (logToConsole) console.log(bookmarkItems);
-                    await setStoredData(STORAGE_KEYS.BOOKMARKS, bookmarkItems);
-                    await setStoredData(STORAGE_KEYS.SEARCH_TERMS, searchTerms);
-                    await browser.tabs.create({
-                        active: options.tabActive,
-                        index: tabPosition,
-                        url: "/html/bookmarks.html",
-                    });
                     break;
+                }
                 case "history":
-                case "!h":
-                    historyItems = await browser.history.search({ text: searchTerms });
-                    await setStoredData(STORAGE_KEYS.HISTORY, historyItems);
-                    await setStoredData(STORAGE_KEYS.SEARCH_TERMS, searchTerms);
-                    await browser.tabs.create({
-                        active: options.tabActive,
-                        index: tabPosition,
-                        url: "/html/history.html",
+                case "!h": {
+                    // Check if history permission is granted
+                    const hasHistoryPermission = await browser.permissions.contains({
+                        permissions: ["history"],
                     });
+                    if (hasHistoryPermission) {
+                        historyItems = await browser.history.search({ text: searchTerms });
+                        await setStoredData(STORAGE_KEYS.HISTORY, historyItems);
+                        await setStoredData(STORAGE_KEYS.SEARCH_TERMS, searchTerms);
+                        // Update current tab instead of creating new one for omnibox searches
+                        await browser.tabs.update(activeTab.id, {
+                            url: "/html/history.html",
+                        });
+                    } else {
+                        if (logToConsole) console.log("History permission not granted. Please enable History permission in the extension settings.");
+                        if (notificationsEnabled) notify("History permission not granted. Please enable History permission in the extension settings.");
+                    }
                     break;
+                }
                 default:
                     if (suggestion.length > 1) {
                         let arraySearchEngineUrls = [];

@@ -69,7 +69,12 @@ document.addEventListener('contextmenu', handleRightClickWithoutGrid);
 
 // Mouse down event listener
 document.addEventListener('mousedown', (e) => {
-    if (logToConsole) console.log('🖱️ Mouse down event detected:', { button: e.button, altKey: e.altKey });
+    if (logToConsole) console.log('🖱️ Mouse down event detected:', {
+        button: e.button,
+        altKey: e.altKey,
+        keysPressed: JSON.stringify(keysPressed),
+        hasSelection: window.getSelection().toString().length > 0
+    });
     startSelection(e);
 });
 
@@ -875,7 +880,7 @@ async function checkForSelection(e) {
     } else {
         // Don't clear textSelection if Icons Grid is open - preserve it for search
         if (!isIconsGridOpen()) {
-            textSelection = '';
+            //textSelection = '';
         }
     }
     if (!element) return;
@@ -1028,7 +1033,6 @@ async function searchForKeyboardShortcut(input) {
 
     // Check if the input text matches any search engine keyboard shortcut
     for (let id in searchEngines) {
-        if (logToConsole) console.log(id);
         if (id.startsWith('separator-')) continue;
         const engine = searchEngines[id];
         if (logToConsole && engine.keyboardShortcut) console.log(`Engine: ${engine.name}, KeyboardShortcut: ${engine.keyboardShortcut}`);
@@ -1174,13 +1178,12 @@ async function handleAltClickWithGrid(e) {
 
         // If no text is selected and this isn't a keyboard shortcut, return
         if (logToConsole) console.log('🔍 Checking textSelection:', { textSelection, isKeyboardShortcut: e === null });
-        if (!textSelection && e !== null) {
+        if (!textSelection) {
             if (logToConsole) console.log('🚫 No text selected, not displaying grid');
             return;
         }
 
         if (logToConsole) console.log('✅ Text selection passed, continuing...');
-        if (logToConsole) console.log('📊 Selection:', textSelection);
         if (logToConsole) console.log('📋 Event details:', {
             type: e?.type,
             altKey: e?.altKey,
@@ -1381,6 +1384,8 @@ async function createIconsGrid(folderId) {
     if (logToConsole) console.log('createIconsGrid called with folderId:', folderId);
     let icons = [];
 
+    if (logToConsole) console.log('🔧 Step 1: Checking searchEngines...');
+
     // Ensure searchEngines and requested folder exist before proceeding
     if (!searchEngines || !searchEngines[folderId]) {
         if (logToConsole) console.warn('Search engines not ready or folder missing:', {
@@ -1417,10 +1422,14 @@ async function createIconsGrid(folderId) {
         folderId = 'root';
     }
 
+    if (logToConsole) console.log('🔧 Step 2: Checking children array...');
+
     if (!Array.isArray(searchEngines[folderId].children)) {
         if (logToConsole) console.error('Folder has no children array, creating empty array');
         searchEngines[folderId].children = [];
     }
+
+    if (logToConsole) console.log('🔧 Step 3: Creating icons array...');
 
     // If the parent folder is not the root folder, then add an icon for backwards navigation
     if (folderId !== 'root') {
@@ -1469,8 +1478,7 @@ async function createIconsGrid(folderId) {
     const m = Math.ceil(Math.sqrt(n)); // Grid dimension: m x m matrix
     const navMaxWidth = m * 38 + 16;
 
-    // Cleanup
-    closeGrid();
+    if (logToConsole) console.log('🔧 Step 4: Creating navigation element...');
 
     const nav = document.createElement('div');
     nav.setAttribute('id', 'context-search-icon-grid');
@@ -1498,7 +1506,6 @@ async function createIconsGrid(folderId) {
         nav.appendChild(messageDiv);
     } else {
         for (const icon of icons) {
-            if (logToConsole) console.log(icon);
             const iconElement = document.createElement("img");
             iconElement.style.width = ICON32;
             iconElement.style.height = ICON32;
@@ -1524,6 +1531,8 @@ async function createIconsGrid(folderId) {
     });
     nav.addEventListener('mouseenter', onHover);
     nav.addEventListener('mouseleave', onLeave);
+
+    if (logToConsole) console.log('🔧 Step 5: Positioning grid...');
 
     // Position icon grid contained in nav element
     nav.style.left = 0;

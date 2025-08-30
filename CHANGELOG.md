@@ -1,9 +1,10 @@
 6.1.8
 =========
 
-* Updated README file 
-* Implemented short date format for bookmarks
-* Removed optional permissions in Chrome
+* Implemented short date format for bookmarks and added a short description when available
+* Enhancement [#255](https://github.com/odebroqueville/contextSearch/issues/255): Updated README file 
+* Bug fix [#256](https://github.com/odebroqueville/contextSearch/issues/256)
+* Bug fix [#254](https://github.com/odebroqueville/contextSearch/issues/254): Removed optional permissions in Chrome
 
 6.1.7
 ---------
