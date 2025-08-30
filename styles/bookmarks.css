@@ -1,0 +1,35 @@
+/* Bookmark item styling */
+.bookmark-item {
+    margin: 0px 0px 20px 0px;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+}
+
+.bookmark-title {
+    margin: 0px 0px 5px 0px;
+    color: #1a0dab;
+}
+
+.bookmark-url {
+    color: #006621;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.bookmark-description {
+    margin: 5px 0px;
+    color: #545454;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.bookmark-description.no-description {
+    font-style: italic;
+}
+
+.bookmark-date {
+    margin: 5px 0px 0px 0px;
+    color: #999;
+    font-size: 12px;
+}
