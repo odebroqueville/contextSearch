@@ -4,42 +4,31 @@ body {
     padding-top: 80px; /* Space for fixed header (35px) + page info (45px) */
 }
 
-#bookmarkItems {
+#historyItems {
     margin-top: 20px;
 }
 
-/* Bookmark item styling */
-
-.bookmark-item {
+/* History item styling */
+.history-item {
     margin: 0px 30px 20px 0px;
     padding: 10px;
     border: 1px solid #e0e0e0;
     border-radius: 5px;
 }
 
-.bookmark-title {
+.history-title {
     margin: 0px 0px 5px 0px;
     color: #1a0dab;
 }
 
-.bookmark-url {
+.history-url {
     color: #006621;
     text-decoration: none;
     font-size: 14px;
-}
-
-.bookmark-description {
     margin: 5px 0px;
-    color: #545454;
-    font-size: 13px;
-    line-height: 1.4;
 }
 
-.bookmark-description.no-description {
-    font-style: italic;
-}
-
-.bookmark-date {
+.history-visit-time {
     margin: 5px 0px 0px 0px;
     color: #999;
     font-size: 12px;

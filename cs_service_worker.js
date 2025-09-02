@@ -2687,27 +2687,23 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
         }
     }
 
-    // If id isn't found, then check if the search engine corresponds to an AI engine
-    if (id === undefined) {
-        if (aiEngines.includes(keyword)) {
-            id = "chatgpt-direct";
-            aiEngine = keyword;
-        }
+    // If id isn't found and the search engine corresponds to an AI engine
+    if (!id && aiEngines.includes(keyword)) {
+        id = "chatgpt-direct";
+        aiEngine = keyword;
     }
 
-    // Get active tab's index and id
+    // Get active tab's index and id, then determine where to open the search results (tabPosition)
     tabIndex = activeTab.index;
     tabId = activeTab.id;
-
     tabPosition = tabIndex + 1;
-
     if (options.lastTab || options.multiMode === "multiAfterLastTab") {
         tabPosition = windowInfo.tabs.length;
     }
 
     if (logToConsole) console.log(tabPosition);
     if (logToConsole) console.log(input.indexOf("://"));
-
+    
     // Only display search results when there is a valid link inside of the url variable
     if (input.indexOf("://") > -1) {
         if (logToConsole) console.log("Processing search...");
@@ -2729,19 +2725,32 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                     break;
                 case "bookmarks":
                 case "!b": {
+                    if (logToConsole) console.log("Processing bookmarks case with searchTerms:", searchTerms);
                     // Check if bookmarks permission is granted
                     const hasBookmarksPermission = await browser.permissions.contains({
                         permissions: ["bookmarks"],
                     });
+                    if (logToConsole) console.log("Bookmarks permission:", hasBookmarksPermission);
                     if (hasBookmarksPermission) {
                         if (searchTerms === "recent") {
+                            if (logToConsole) console.log("Getting recent bookmarks");
                             bookmarkItems = await browser.bookmarks.getRecent(10);
-                        } else {
-                            bookmarkItems = await browser.bookmarks.search({
+                        } else if (searchTerms && searchTerms.trim() !== "") {
+                            // Search for specific bookmarks if search terms provided
+                            if (logToConsole) console.log("Searching bookmarks for:", searchTerms);
+                            const searchResults = await browser.bookmarks.search({
                                 query: searchTerms,
                             });
+                            // Filter out folders (items without URLs)
+                            bookmarkItems = searchResults.filter(item => item.url && item.url.trim() !== "");
+                        } else {
+                            // Show all bookmarks if no search terms provided
+                            if (logToConsole) console.log("Getting all bookmarks");
+                            const allBookmarks = await browser.bookmarks.search({});
+                            // Filter out folders (items without URLs)
+                            bookmarkItems = allBookmarks.filter(item => item.url && item.url.trim() !== "");
                         }
-                        if (logToConsole) console.log(bookmarkItems);
+                        if (logToConsole) console.log("Found bookmarks:", bookmarkItems.length);
                         await setStoredData(STORAGE_KEYS.BOOKMARKS, bookmarkItems);
                         await setStoredData(STORAGE_KEYS.SEARCH_TERMS, searchTerms);
                         // Update current tab instead of creating new one for omnibox searches
@@ -2897,7 +2906,7 @@ async function buildSuggestion(text) {
     if (keyword === "!") {
         const suggestion = [
             {
-                content: "",
+                content: "multisearch " + searchTerms,
                 description: "Perform multisearch for " + searchTerms,
             },
         ];
@@ -2905,7 +2914,7 @@ async function buildSuggestion(text) {
     } else if (keyword === ".") {
         const suggestion = [
             {
-                content: "",
+                content: "options",
                 description: "Open options page",
             },
         ];
@@ -2913,7 +2922,7 @@ async function buildSuggestion(text) {
     } else if (keyword === "!b" || keyword === "bookmarks") {
         const suggestion = [
             {
-                content: "",
+                content: "bookmarks " + searchTerms,
                 description: "Search bookmarks",
             },
         ];
@@ -2921,7 +2930,7 @@ async function buildSuggestion(text) {
     } else if (keyword === "!h" || keyword === "history") {
         const suggestion = [
             {
-                content: "",
+                content: "history " + searchTerms,
                 description: "Search history",
             },
         ];
@@ -2947,7 +2956,7 @@ async function buildSuggestion(text) {
                     searchEngines[id].name +
                     " for " +
                     searchTerms;
-                suggestion["content"] = "";
+                suggestion["content"] = "folder " + keyword + " " + searchTerms;
             } else {
                 const searchEngineUrl = searchEngines[id].url;
                 suggestion["description"] =
