@@ -4,6 +4,7 @@
 *.zip
 build/
 crowdin.yml
+libs/
 node_modules/
 web-ext-artifacts/
 web-ext-config.js

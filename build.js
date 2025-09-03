@@ -45,6 +45,7 @@ const currentDir = path.resolve();
 const excludeList = [
     'build',
     'crowdin.yml',
+    'libs',  // Exclude libs from main repo since it's generated during build
     'node_modules',
     'web-ext-artifacts',
     'web-ext-config.js',
@@ -106,13 +107,24 @@ function processJsFile(src, dest, browser) {
         const debugValue = ENV.DEBUG;
 
         // First, temporarily replace ESLint global comments to protect them
+        // Handle both single DEBUG_VALUE and multiple globals including DEBUG_VALUE
         content = content.replace(/\/\*\s*global\s+DEBUG_VALUE\s*\*\//g, '/*ESLINTTMP*/');
+        content = content.replace(/\/\*\s*global\s+([^*]*,\s*)?DEBUG_VALUE(\s*,\s*[^*]*)?\s*\*\//g, (_, before, after) => { // eslint-disable-line no-unused-vars
+            // Reconstruct the comment without DEBUG_VALUE
+            let globals = [];
+            if (before) globals.push(before.replace(/,\s*$/, ''));
+            if (after) globals.push(after.replace(/^\s*,\s*/, ''));
+            return globals.length > 0 ? `/*ESLINTTMP_MULTI ${globals.join(', ')} */` : '/*ESLINTTMP_MULTI*/';
+        });
 
         // Replace all other DEBUG_VALUE occurrences with the actual boolean value  
         content = content.replace(/DEBUG_VALUE/g, debugValue);
 
-        // Restore ESLint global comments (without DEBUG_VALUE)
+        // Restore ESLint global comments
         content = content.replace(/\/\*ESLINTTMP\*\//g, '');
+        content = content.replace(/\/\*ESLINTTMP_MULTI\s*(.*?)\s*\*\//g, (_, globals) => { // eslint-disable-line no-unused-vars
+            return globals.trim() ? `/* global ${globals.trim()} */` : '';
+        });
 
         if (content.includes(debugValue)) {
             console.log(`📝 Replaced DEBUG_VALUE with ${debugValue} in ${path.basename(src)}`);
@@ -136,13 +148,24 @@ function processServiceWorkerFile(src, dest, browser) {
         const debugValue = ENV.DEBUG;
 
         // First, temporarily replace ESLint global comments to protect them
+        // Handle both single DEBUG_VALUE and multiple globals including DEBUG_VALUE
         content = content.replace(/\/\*\s*global\s+DEBUG_VALUE\s*\*\//g, '/*ESLINTTMP*/');
+        content = content.replace(/\/\*\s*global\s+([^*]*,\s*)?DEBUG_VALUE(\s*,\s*[^*]*)?\s*\*\//g, (_, before, after) => { // eslint-disable-line no-unused-vars
+            // Reconstruct the comment without DEBUG_VALUE
+            let globals = [];
+            if (before) globals.push(before.replace(/,\s*$/, ''));
+            if (after) globals.push(after.replace(/^\s*,\s*/, ''));
+            return globals.length > 0 ? `/*ESLINTTMP_MULTI ${globals.join(', ')} */` : '/*ESLINTTMP_MULTI*/';
+        });
 
         // Replace all other DEBUG_VALUE occurrences with the actual boolean value
         content = content.replace(/DEBUG_VALUE/g, debugValue);
 
-        // Restore ESLint global comments (without DEBUG_VALUE)
+        // Restore ESLint global comments
         content = content.replace(/\/\*ESLINTTMP\*\//g, '');
+        content = content.replace(/\/\*ESLINTTMP_MULTI\s*(.*?)\s*\*\//g, (_, globals) => { // eslint-disable-line no-unused-vars
+            return globals.trim() ? `/* global ${globals.trim()} */` : '';
+        });
 
         if (content.includes(debugValue)) {
             console.log(`📝 Replaced DEBUG_VALUE with ${debugValue} in ${path.basename(src)}`);
@@ -254,45 +277,50 @@ function buildForBrowser(browser) {
     console.log(`✅ Build completed for ${browser}. Output directory: ${buildDir}`);
 }
 
-// Main build process
-console.log('🚀 Starting build process...');
+// Main execution
+const command = process.argv[2];
 
-try {
-    // Build for both browsers
+if (command === 'chrome') {
+    // Build only for Chrome
+    console.log('🚀 Building for Chrome only...');
     buildForBrowser('chrome');
+    copyExtPayToBuild('chrome');
+    console.log('✅ Chrome build completed!');
+} else if (command === 'firefox') {
+    // Build only for Firefox
+    console.log('🚀 Building for Firefox only...');
     buildForBrowser('firefox');
+    copyExtPayToBuild('firefox');
+    console.log('✅ Firefox build completed!');
+} else {
+    // Default: build for both browsers
+    console.log('🚀 Starting build process for both browsers...');
+    
+    try {
+        // Build for both browsers
+        buildForBrowser('chrome');
+        buildForBrowser('firefox');
 
-    // At the end of the build process, copy ExtPay.js to the libs directories for both Chrome and Firefox builds
+        // Copy ExtPay.js to both builds
+        copyExtPayToBuild('chrome');
+        copyExtPayToBuild('firefox');
+
+        console.log('✨ Build process completed successfully!');
+        console.log('📁 Build outputs:');
+        console.log('   - Chrome: ./build/chrome');
+        console.log('   - Firefox: ./build/firefox');
+    } catch (error) {
+        console.error('❌ Build failed:', error);
+        process.exit(1);
+    }
+}
+
+// Helper function to copy ExtPay to specific build
+function copyExtPayToBuild(browser) {
     const extPaySrc = path.join(__dirname, 'node_modules', 'extpay', 'dist', 'ExtPay.js');
-
-    // Define libs directories for Chrome and Firefox builds
-    const chromeLibsDir = path.join(__dirname, 'build', 'chrome', 'libs');
-    const firefoxLibsDir = path.join(__dirname, 'build', 'firefox', 'libs');
-
-    // Ensure the Chrome libs directory exists
-    if (!fs.existsSync(chromeLibsDir)) {
-        fs.mkdirSync(chromeLibsDir, { recursive: true });
-    }
-
-    // Ensure the Firefox libs directory exists
-    if (!fs.existsSync(firefoxLibsDir)) {
-        fs.mkdirSync(firefoxLibsDir, { recursive: true });
-    }
-
-    // Copy ExtPay.js into each libs directory
-    fs.copyFileSync(extPaySrc, path.join(chromeLibsDir, 'ExtPay.js'));
-    fs.copyFileSync(extPaySrc, path.join(firefoxLibsDir, 'ExtPay.js'));
-
-    // Append export default ExtPay; line to each file
-    fs.appendFileSync(path.join(chromeLibsDir, 'ExtPay.js'), "\nexport default ExtPay;\n");
-    fs.appendFileSync(path.join(firefoxLibsDir, 'ExtPay.js'), "\nexport default ExtPay;\n");
-
-    console.log('ExtPay.js has been copied to the libs directories for both Chrome and Firefox.');
-    console.log('✨ Build process completed successfully!');
-    console.log('📁 Build outputs:');
-    console.log('   - Chrome: ./build/chrome');
-    console.log('   - Firefox: ./build/firefox');
-} catch (error) {
-    console.error('❌ Build failed:', error);
-    process.exit(1);
+    const libsDir = path.join(__dirname, 'build', browser, 'libs');
+    
+    ensureDir(libsDir);
+    fs.copyFileSync(extPaySrc, path.join(libsDir, 'ExtPay.js'));
+    fs.appendFileSync(path.join(libsDir, 'ExtPay.js'), "\nexport default ExtPay;\n");
 }

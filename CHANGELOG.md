@@ -1,5 +1,13 @@
-6.1.8
+6.1.9
 =========
+
+* Bug fix grid of icons 
+* Bug fix multisearch
+* Added pagination and improved styling for bookmark and history items
+* Browser bookmarks and history items can now be bookmarked to Context Search from the Bookmarks and History pages
+
+6.1.8
+---------
 
 * Implemented short date format for bookmarks and added a short description when available
 * Enhancement [#255](https://github.com/odebroqueville/contextSearch/issues/255): Updated README file 
