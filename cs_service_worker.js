@@ -841,7 +841,6 @@ async function handleOpenModal(data) {
     const left = browserLeft + Math.floor((browserWidth - popupWidth) / 2);
     const top = browserTop + Math.floor((browserHeight - popupHeight) / 2) - 200;
     browser.windows.create({
-        allowScriptsToClose: true,
         type: "popup",
         top: top,
         left: left,
@@ -893,6 +892,7 @@ async function handleDoSearch(data) {
     // The id of the search engine, folder, AI prompt or 'multisearch'
     // The source is either the grid of icons (for multisearch) or a keyboard shortcut
     const id = data.id;
+    const hasCurrentSelection = data.hasCurrentSelection !== false; // Default to true for backward compatibility
 
     // Refresh selection to ensure we have the latest text selection
     if (logToConsole) console.log("About to refresh selection from storage...");
@@ -900,6 +900,7 @@ async function handleDoSearch(data) {
     if (logToConsole) console.log("Current selection for search: '" + selection + "'");
     if (logToConsole) console.log("Selection length:", selection.length);
     if (logToConsole) console.log("Selection type:", typeof selection);
+    if (logToConsole) console.log("Has current selection:", hasCurrentSelection);
 
     let multiTabArray = [];
     if (logToConsole) console.log("Search engine id: " + id);
@@ -926,7 +927,7 @@ async function handleDoSearch(data) {
         // If single search and search engine is a link, HTTP GET or POST request or AI prompt
         const multisearch = false;
         const windowInfo = await browser.windows.getCurrent();
-        await displaySearchResults(id, tabPosition, multisearch, windowInfo.id);
+        await displaySearchResults(id, tabPosition, multisearch, windowInfo.id, "", "", hasCurrentSelection);
     }
 }
 
@@ -1364,6 +1365,40 @@ async function loadDefaultSearchEngines(jsonFile) {
     }
 }
 
+// Function to notify options pages when search engines are updated
+async function notifyOptionsPages() {
+    try {
+        // Get all tabs
+        const tabs = await browser.tabs.query({});
+
+        // Find tabs with options.html
+        const optionsTabs = tabs.filter(tab =>
+            tab.url && tab.url.includes('options.html')
+        );
+
+        // Send message to each options tab
+        for (const tab of optionsTabs) {
+            try {
+                await browser.tabs.sendMessage(tab.id, {
+                    action: 'searchEnginesUpdated'
+                });
+                if (logToConsole) {
+                    console.log('Notified options page in tab:', tab.id);
+                }
+            } catch (error) {
+                // Tab might be closed or not ready to receive messages
+                if (logToConsole) {
+                    console.log('Could not notify options tab:', tab.id, error.message);
+                }
+            }
+        }
+    } catch (error) {
+        if (logToConsole) {
+            console.error('Error notifying options pages:', error);
+        }
+    }
+}
+
 async function saveSearchEnginesToLocalStorage() {
     if (logToConsole) {
         console.log("Saving search engines to local storage...");
@@ -1377,6 +1412,9 @@ async function saveSearchEnginesToLocalStorage() {
                 "Search engines have been successfully saved to local storage.",
             );
         }
+
+        // Notify options pages about the update
+        await notifyOptionsPages();
     } catch (error) {
         if (logToConsole) {
             console.error(error.message);
@@ -1823,7 +1861,18 @@ async function buildContextMenuItem(id, parentId) {
     const imageFormat = searchEngine.imageFormat;
     const base64String = searchEngine.base64;
     const faviconUrl = `data:${imageFormat};base64,${base64String}`;
-    const contexts = id.startsWith("link-") ? ["all"] : ["selection"];
+
+    // Determine context: use "all" for links or folders containing links, "selection" for others
+    let contexts;
+    if (id.startsWith("link-")) {
+        contexts = ["all"];
+    } else if (searchEngine.isFolder && searchEngine.children) {
+        // Check if folder contains any bookmark links
+        const hasBookmarks = searchEngine.children.some(childId => childId.startsWith("link-"));
+        contexts = hasBookmarks ? ["all"] : ["selection"];
+    } else {
+        contexts = ["selection"];
+    }
 
     if (searchEngine.isFolder) {
         await createMenuItem(id, title, contexts, parentId, faviconUrl);
@@ -1844,7 +1893,7 @@ async function buildContextOptionsMenu() {
         await contextMenus.create({
             id: "cs-separator-bottom",
             type: "separator",
-            contexts: ["selection"],
+            contexts: ["all"],
         });
     }
 
@@ -1852,7 +1901,7 @@ async function buildContextOptionsMenu() {
         id: "cs-match",
         type: "checkbox",
         title: titleExactMatch,
-        contexts: ["selection"],
+        contexts: ["all"],
         checked: options.exactMatch,
     });
 
@@ -1880,14 +1929,14 @@ async function buildContextOptionsMenu() {
     await contextMenus.create({
         id: "cs-options",
         title: titleOptions + "...",
-        contexts: ["selection"],
+        contexts: ["all"],
     });
 
     if (options.optionsMenuLocation === "top") {
         await contextMenus.create({
             id: "cs-separator-top",
             type: "separator",
-            contexts: ["selection"],
+            contexts: ["all"],
         });
     }
 }
@@ -2135,7 +2184,8 @@ async function processSearch(info, tab) {
         // If search engine is none of the above and not a folder, then perform search
         // The search engine corresponds to an HTTP GET or POST request or an AI prompt
         if (!id.startsWith("separator-")) {
-            await displaySearchResults(id, tabIndex, multisearch, currentWindow.id);
+            const hasCurrentSelection = Boolean(info.selectionText);
+            await displaySearchResults(id, tabIndex, multisearch, currentWindow.id, "", "", hasCurrentSelection);
         }
     } catch (error) {
         console.error("Error in processSearch function:", error);
@@ -2235,13 +2285,13 @@ async function processMultisearch(arraySearchEngineUrls, folderId, tabPosition) 
 
     // Open search results in a new window
     if (options.multiMode === "multiNewWindow") {
-        windowInfo = await browser.windows.create({
-            allowScriptsToClose: true,
-            titlePreface: windowTitle + "'" + selection + "'",
+        const windowCreateData = {
             focused: options.tabActive,
             incognito: options.privateMode,
-            url: urlArray,
-        });
+            url: urlArray
+        };
+
+        windowInfo = await browser.windows.create(windowCreateData);
         // Set the tab position in the new window to the last tab
         tabPosition = windowInfo.tabs.length;
     } else if (options.multiMode !== "multiNewWindow") {
@@ -2332,7 +2382,7 @@ async function getSearchEngineUrl(searchEngineUrl, sel) {
     return searchEngineUrl + quote + encodeUrl(sel) + quote;
 }
 
-async function setTargetUrl(id, aiEngine = "") {
+async function setTargetUrl(id, aiEngine = "", hasCurrentSelection = true) {
     const tabs = await browser.tabs.query({ active: true, currentWindow: true });
     const activeTab = tabs[0];
     if (logToConsole) console.log("Active tab is:");
@@ -2349,12 +2399,24 @@ async function setTargetUrl(id, aiEngine = "") {
     if (id === "bing-image-search") {
         return bingUrl;
     }
-    if (id === "site-search" ||
-        (id.startsWith("link-") && !searchEngines[id].url.startsWith('javascript:'))
-    ) {
+    if (id === "site-search") {
         let quote = "";
         if (options.exactMatch) quote = "%22";
         const domain = getDomain(activeTab.url).replace(/https?:\/\//, "");
+        return (
+            options.siteSearchUrl +
+            encodeUrl(`site:https://${domain} ${quote}${selection}${quote}`)
+        );
+    }
+    if (id.startsWith("link-") && !searchEngines[id].url.startsWith('javascript:')) {
+        // If there's no current selection, navigate directly to the bookmark URL
+        if (!hasCurrentSelection || !selection) {
+            return searchEngines[id].url;
+        }
+        // If there is a current selection, perform site search on the bookmark's domain
+        let quote = "";
+        if (options.exactMatch) quote = "%22";
+        const domain = getDomain(searchEngines[id].url).replace(/https?:\/\//, "");
         return (
             options.siteSearchUrl +
             encodeUrl(`site:https://${domain} ${quote}${selection}${quote}`)
@@ -2420,13 +2482,14 @@ async function displaySearchResults(
     windowId,
     aiEngine = "",
     prompt = "",
+    hasCurrentSelection = true
 ) {
     const tabs = await browser.tabs.query({ active: true, currentWindow: true });
     const activeTab = tabs[0];
     const searchEngine = searchEngines[id];
     selection = await getStoredData(STORAGE_KEYS.SELECTION);
     imageUrl = targetUrl;
-    targetUrl = await setTargetUrl(id, aiEngine);
+    targetUrl = await setTargetUrl(id, aiEngine, hasCurrentSelection);
     await setStoredData(STORAGE_KEYS.TARGET_URL, targetUrl);
     //const postDomain = getDomain(targetUrl);
     let url = targetUrl;
@@ -2703,7 +2766,7 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
 
     if (logToConsole) console.log(tabPosition);
     if (logToConsole) console.log(input.indexOf("://"));
-    
+
     // Only display search results when there is a valid link inside of the url variable
     if (input.indexOf("://") > -1) {
         if (logToConsole) console.log("Processing search...");
@@ -2770,7 +2833,17 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
                         permissions: ["history"],
                     });
                     if (hasHistoryPermission) {
-                        historyItems = await browser.history.search({ text: searchTerms });
+                        // Use more comprehensive search parameters
+                        const searchOptions = {
+                            text: searchTerms,
+                            maxResults: 10000,
+                            startTime: 0 // Search from the beginning of time
+                        };
+
+                        if (logToConsole) console.log("Searching history with options:", searchOptions);
+                        historyItems = await browser.history.search(searchOptions);
+                        if (logToConsole) console.log(`Found ${historyItems.length} history items`);
+
                         await setStoredData(STORAGE_KEYS.HISTORY, historyItems);
                         await setStoredData(STORAGE_KEYS.SEARCH_TERMS, searchTerms);
                         // Update current tab instead of creating new one for omnibox searches

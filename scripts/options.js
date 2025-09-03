@@ -6,7 +6,7 @@ import { STORAGE_KEYS, SORTABLE_BASE_OPTIONS } from './constants.js';
 
 /// Global constants
 
-/* global Sortable */
+/* global Sortable, DEBUG_VALUE */
 const sortableOptions = {
     ...SORTABLE_BASE_OPTIONS,
     onEnd: saveSearchEnginesOnDragEnded
@@ -74,7 +74,7 @@ let os = null;
 let meta = '';
 let searchEngines = {};
 let keysPressed = {};
-let logToConsole = true;
+const logToConsole = DEBUG_VALUE;
 
 /// Event listeners
 
@@ -222,9 +222,8 @@ async function restoreOptionsPage() {
     try {
         if (logToConsole) console.log('Starting restoreOptionsPage...');
 
-        // Get options first, including logToConsole setting
+        // Get options first
         const options = await getStoredData(STORAGE_KEYS.OPTIONS);
-        if (options?.logToConsole) logToConsole = options.logToConsole;
         if (!isEmpty(options)) {
             await setOptions(options);
             if (logToConsole) console.log('Options loaded:', options);
@@ -263,8 +262,11 @@ async function handleMessage(message) {
         if (logToConsole) console.log(message);
         await restoreOptionsPage();
     }
-    if (message.action === 'logToConsole') {
-        logToConsole = message.data;
+    if (message.action === 'searchEnginesUpdated') {
+        if (logToConsole) console.log('Search engines updated, refreshing display');
+        // Reload search engines from storage and refresh display
+        searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES);
+        displaySearchEngines();
     }
 }
 
@@ -319,6 +321,10 @@ async function getStoredData(key) {
 
 // Display the list of search engines
 function displaySearchEngines() {
+    // Preserve scroll position before rebuilding
+    const scrollY = window.scrollY;
+    const scrollX = window.scrollX;
+    
     // Get or create the searchEngines div
     let div = document.getElementById('searchEngines');
 
@@ -339,6 +345,11 @@ function displaySearchEngines() {
 
     expand('root', null);
     i18n();
+    
+    // Restore scroll position after rebuilding
+    requestAnimationFrame(() => {
+        window.scrollTo(scrollX, scrollY);
+    });
 }
 
 async function saveSearchEnginesOnDragEnded(evt) {
@@ -1889,7 +1900,7 @@ async function updateSearchOptions() {
 
 async function updateTabMode() {
     const sidebarRestrictionParagraph = document.querySelector('p [data-i18n="restriction"]').parentElement;
-    
+
     if (sameTab.checked || openSidebar.checked) {
         active.style.display = 'none';
         position.style.display = 'none';
