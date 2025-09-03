@@ -1,6 +1,9 @@
 /// Import browser polyfill for compatibility with Chrome and other browsers
 import '/libs/browser-polyfill.min.js';
 
+// Import bookmark utilities
+import { getSearchEngines, isItemBookmarked, createBookmarkIcon } from './bookmark-utils.js';
+
 document.addEventListener('DOMContentLoaded', getBookmarkItems);
 
 // Function to safely decode HTML entities
@@ -116,7 +119,7 @@ async function getBookmarkItems() {
     headerWrapper.parentNode.insertBefore(pageInfoContainer, headerWrapper.nextSibling);
 
     // Function to render items for a specific page
-    function renderPage(page) {
+    async function renderPage(page) {
         // Clear existing items by removing all child elements
         while (ol.firstChild) {
             ol.removeChild(ol.firstChild);
@@ -128,6 +131,9 @@ async function getBookmarkItems() {
 
         // Set the starting number for the ordered list based on current page
         ol.start = startIndex + 1;
+
+        // Get fresh search engines for bookmark checking
+        const currentSearchEngines = await getSearchEngines();
 
         // Process bookmarks with descriptions for current page
         for (let item of pageItems) {
@@ -159,6 +165,13 @@ async function getBookmarkItems() {
             let dateAdded = document.createElement('p');
             dateAdded.textContent = da;
             dateAdded.className = 'bookmark-date';
+
+            // Add bookmark icon for items with URLs
+            if (item.url && item.url.trim() !== "") {
+                const isBookmarked = isItemBookmarked(currentSearchEngines, item.url);
+                const bookmarkIcon = createBookmarkIcon(item.url, item.title, isBookmarked);
+                li.appendChild(bookmarkIcon);
+            }
 
             li.appendChild(title);
             if (item.url && item.url.trim() !== "") {
@@ -203,9 +216,9 @@ async function getBookmarkItems() {
             const prevButton = document.createElement('button');
             prevButton.textContent = '← Previous';
             prevButton.className = 'pagination-button prev-button';
-            prevButton.onclick = () => {
+            prevButton.onclick = async () => {
                 currentPage--;
-                renderPage(currentPage);
+                await renderPage(currentPage);
                 renderPaginationControls();
             };
             paginationContainer.appendChild(prevButton);
@@ -226,9 +239,9 @@ async function getBookmarkItems() {
             const firstPageButton = document.createElement('button');
             firstPageButton.textContent = '1';
             firstPageButton.className = 'pagination-button page-number';
-            firstPageButton.onclick = () => {
+            firstPageButton.onclick = async () => {
                 currentPage = 1;
-                renderPage(currentPage);
+                await renderPage(currentPage);
                 renderPaginationControls();
             };
             paginationContainer.appendChild(firstPageButton);
@@ -251,9 +264,9 @@ async function getBookmarkItems() {
                 pageButton.classList.add('current-page');
             }
             
-            pageButton.onclick = () => {
+            pageButton.onclick = async () => {
                 currentPage = i;
-                renderPage(currentPage);
+                await renderPage(currentPage);
                 renderPaginationControls();
             };
             paginationContainer.appendChild(pageButton);
@@ -271,9 +284,9 @@ async function getBookmarkItems() {
             const lastPageButton = document.createElement('button');
             lastPageButton.textContent = totalPages.toString();
             lastPageButton.className = 'pagination-button page-number';
-            lastPageButton.onclick = () => {
+            lastPageButton.onclick = async () => {
                 currentPage = totalPages;
-                renderPage(currentPage);
+                await renderPage(currentPage);
                 renderPaginationControls();
             };
             paginationContainer.appendChild(lastPageButton);
@@ -284,9 +297,9 @@ async function getBookmarkItems() {
             const nextButton = document.createElement('button');
             nextButton.textContent = 'Next →';
             nextButton.className = 'pagination-button next-button';
-            nextButton.onclick = () => {
+            nextButton.onclick = async () => {
                 currentPage++;
-                renderPage(currentPage);
+                await renderPage(currentPage);
                 renderPaginationControls();
             };
             paginationContainer.appendChild(nextButton);
@@ -303,6 +316,6 @@ async function getBookmarkItems() {
     }
 
     // Initial render
-    renderPage(currentPage);
+    await renderPage(currentPage);
     renderPaginationControls();
 }

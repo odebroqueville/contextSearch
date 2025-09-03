@@ -1,6 +1,9 @@
 /// Import browser polyfill for compatibility with Chrome and other browsers
 import '/libs/browser-polyfill.min.js';
 
+// Import bookmark utilities
+import { getSearchEngines, isItemBookmarked, createBookmarkIcon } from './bookmark-utils.js';
+
 document.addEventListener('DOMContentLoaded', getHistoryItems);
 
 // Function to safely decode HTML entities without using innerHTML
@@ -43,8 +46,16 @@ async function getHistoryItems() {
     } else {
         h2.textContent = "All history";
     }
-    console.log(historyItems);
-    console.log(searchTerms);
+    console.log("Debug: historyItems received:", historyItems);
+    console.log("Debug: historyItems length:", historyItems ? historyItems.length : 'undefined');
+    console.log("Debug: searchTerms:", searchTerms);
+
+    // Safety check - ensure historyItems is an array
+    if (!historyItems || !Array.isArray(historyItems)) {
+        console.error("Debug: historyItems is not a valid array:", historyItems);
+        h2.textContent = "No history items found";
+        return;
+    }
 
     // Pagination setup
     const itemsPerPage = 10;
@@ -73,7 +84,7 @@ async function getHistoryItems() {
     headerWrapper.parentNode.insertBefore(pageInfoContainer, headerWrapper.nextSibling);
 
     // Function to render items for a specific page
-    function renderPage(page) {
+    async function renderPage(page) {
         // Clear existing items by removing all child elements
         while (ol.firstChild) {
             ol.removeChild(ol.firstChild);
@@ -85,6 +96,9 @@ async function getHistoryItems() {
 
         // Set the starting number for the ordered list based on current page
         ol.start = startIndex + 1;
+
+        // Get fresh search engines for bookmark checking
+        const currentSearchEngines = await getSearchEngines();
 
         // Process history items for current page
         for (let item of pageItems) {
@@ -104,6 +118,13 @@ async function getHistoryItems() {
             let lastVisitTime = document.createElement('p');
             lastVisitTime.textContent = lvt;
             lastVisitTime.className = 'history-visit-time';
+
+            // Add bookmark icon for history items
+            if (item.url && item.url.trim() !== "") {
+                const isBookmarked = isItemBookmarked(currentSearchEngines, item.url);
+                const bookmarkIcon = createBookmarkIcon(item.url, item.title || 'Untitled', isBookmarked);
+                li.appendChild(bookmarkIcon);
+            }
 
             li.appendChild(title);
             li.appendChild(url);
@@ -128,9 +149,9 @@ async function getHistoryItems() {
             const prevButton = document.createElement('button');
             prevButton.textContent = '← Previous';
             prevButton.className = 'pagination-button prev-button';
-            prevButton.onclick = () => {
+            prevButton.onclick = async () => {
                 currentPage--;
-                renderPage(currentPage);
+                await renderPage(currentPage);
                 renderPaginationControls();
             };
             paginationContainer.appendChild(prevButton);
@@ -151,9 +172,9 @@ async function getHistoryItems() {
             const firstPageButton = document.createElement('button');
             firstPageButton.textContent = '1';
             firstPageButton.className = 'pagination-button page-number';
-            firstPageButton.onclick = () => {
+            firstPageButton.onclick = async () => {
                 currentPage = 1;
-                renderPage(currentPage);
+                await renderPage(currentPage);
                 renderPaginationControls();
             };
             paginationContainer.appendChild(firstPageButton);
@@ -176,9 +197,9 @@ async function getHistoryItems() {
                 pageButton.classList.add('current-page');
             }
             
-            pageButton.onclick = () => {
+            pageButton.onclick = async () => {
                 currentPage = i;
-                renderPage(currentPage);
+                await renderPage(currentPage);
                 renderPaginationControls();
             };
             paginationContainer.appendChild(pageButton);
@@ -196,9 +217,9 @@ async function getHistoryItems() {
             const lastPageButton = document.createElement('button');
             lastPageButton.textContent = totalPages.toString();
             lastPageButton.className = 'pagination-button page-number';
-            lastPageButton.onclick = () => {
+            lastPageButton.onclick = async () => {
                 currentPage = totalPages;
-                renderPage(currentPage);
+                await renderPage(currentPage);
                 renderPaginationControls();
             };
             paginationContainer.appendChild(lastPageButton);
@@ -209,9 +230,9 @@ async function getHistoryItems() {
             const nextButton = document.createElement('button');
             nextButton.textContent = 'Next →';
             nextButton.className = 'pagination-button next-button';
-            nextButton.onclick = () => {
+            nextButton.onclick = async () => {
                 currentPage++;
-                renderPage(currentPage);
+                await renderPage(currentPage);
                 renderPaginationControls();
             };
             paginationContainer.appendChild(nextButton);
@@ -228,6 +249,6 @@ async function getHistoryItems() {
     }
 
     // Initial render
-    renderPage(currentPage);
+    await renderPage(currentPage);
     renderPaginationControls();
 }
