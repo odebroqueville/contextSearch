@@ -28,7 +28,7 @@ function decodeHtmlEntities(text) {
         '&ldquo;': '\u201C',
         '&rdquo;': '\u201D'
     };
-    
+
     return text.replace(/&[#\w]+;/g, (entity) => {
         return entities[entity] || entity;
     });
@@ -38,9 +38,9 @@ async function getHistoryItems() {
     const historyItems = (await browser.storage.local.get('historyItems')).historyItems;
     const searchTerms = (await browser.storage.local.get('searchTerms')).searchTerms;
     await browser.storage.local.remove(['historyItems', 'searchTerms']);
-    const ol = document.getElementById('historyItems');
+    const ul = document.getElementById('historyItems');
     const h2 = document.getElementById('title');
-    
+
     if (searchTerms && searchTerms.trim() !== "") {
         h2.textContent = "History search results for " + searchTerms;
     } else {
@@ -57,6 +57,9 @@ async function getHistoryItems() {
         return;
     }
 
+    // Sort history items by date (most recent first)
+    historyItems.sort((a, b) => b.lastVisitTime - a.lastVisitTime);
+
     // Pagination setup
     const itemsPerPage = 10;
     const totalItems = historyItems.length;
@@ -67,69 +70,127 @@ async function getHistoryItems() {
     const paginationContainer = document.createElement('div');
     paginationContainer.id = 'pagination-container';
     paginationContainer.className = 'pagination-container';
-    
+
     // Create a wrapper div for h2 and pagination controls on the same line
     const headerWrapper = document.createElement('div');
     headerWrapper.className = 'header-wrapper';
-    
+
     // Insert wrapper before h2, then move h2 into wrapper
     h2.parentNode.insertBefore(headerWrapper, h2);
     headerWrapper.appendChild(h2);
     headerWrapper.appendChild(paginationContainer);
-    
+
     // Create separate container for page info below
     const pageInfoContainer = document.createElement('div');
     pageInfoContainer.id = 'page-info-container';
     pageInfoContainer.className = 'page-info-container';
     headerWrapper.parentNode.insertBefore(pageInfoContainer, headerWrapper.nextSibling);
 
+    // Function to group items by date
+    function groupItemsByDate(items) {
+        const groups = new Map();
+
+        for (let item of items) {
+            const date = new Date(item.lastVisitTime);
+            const dateKey = date.toDateString(); // e.g., "Mon Sep 04 2025"
+
+            if (!groups.has(dateKey)) {
+                groups.set(dateKey, {
+                    date: date,
+                    items: []
+                });
+            }
+            groups.get(dateKey).items.push(item);
+        }
+
+        // Convert to array and sort by date (most recent first)
+        const sortedGroups = Array.from(groups.values()).sort((a, b) => b.date - a.date);
+
+        // Sort items within each group by time (most recent first)
+        sortedGroups.forEach(group => {
+            group.items.sort((a, b) => b.lastVisitTime - a.lastVisitTime);
+        });
+
+        return sortedGroups;
+    }
+
     // Function to render items for a specific page
     async function renderPage(page) {
         // Clear existing items by removing all child elements
-        while (ol.firstChild) {
-            ol.removeChild(ol.firstChild);
+        while (ul.firstChild) {
+            ul.removeChild(ul.firstChild);
         }
-        
+
         const startIndex = (page - 1) * itemsPerPage;
         const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
         const pageItems = historyItems.slice(startIndex, endIndex);
 
-        // Set the starting number for the ordered list based on current page
-        ol.start = startIndex + 1;
+        // Group items by date
+        const groupedItems = groupItemsByDate(pageItems);
+
+        // Remove the ordered list start number since we're using date groups
+        ul.removeAttribute('start');
 
         // Get fresh search engines for bookmark checking
         const currentSearchEngines = await getSearchEngines();
 
-        // Process history items for current page
-        for (let item of pageItems) {
-            const lvt = "Last Visit Time: " + new Date(item.lastVisitTime).toLocaleDateString();
-            let li = document.createElement('li');
-            li.className = 'history-item';
+        // Process each date group
+        for (let group of groupedItems) {
+            // Create date header
+            const dateHeader = document.createElement('h3');
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
 
-            let title = document.createElement('h3');
-            // Decode HTML entities in the title safely
-            title.textContent = decodeHtmlEntities(item.title || 'Untitled');
-            title.className = 'history-title';
-
-            let url = document.createElement('p');
-            url.textContent = item.url;
-            url.className = 'history-url';
-
-            let lastVisitTime = document.createElement('p');
-            lastVisitTime.textContent = lvt;
-            lastVisitTime.className = 'history-visit-time';
-
-            // Add bookmark icon for history items
-            if (item.url && item.url.trim() !== "") {
-                const isBookmarked = isItemBookmarked(currentSearchEngines, item.url);
-                const bookmarkIcon = createBookmarkIcon(item.url, item.title || 'Untitled', isBookmarked);
-                li.appendChild(bookmarkIcon);
+            let dateText;
+            if (group.date.toDateString() === today.toDateString()) {
+                dateText = 'Today';
+            } else if (group.date.toDateString() === yesterday.toDateString()) {
+                dateText = 'Yesterday';
+            } else {
+                dateText = group.date.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
             }
 
-            li.appendChild(title);
-            li.appendChild(url);
-            li.appendChild(lastVisitTime);
-            ol.appendChild(li);
+            dateHeader.textContent = dateText;
+            dateHeader.className = 'date-header';
+            ul.appendChild(dateHeader);
+
+            // Process history items for this date group
+            for (let item of group.items) {
+                const lvt = "Last Visit Time: " + new Date(item.lastVisitTime).toLocaleTimeString();
+                let li = document.createElement('li');
+                li.className = 'history-item';
+
+                let title = document.createElement('h4');
+                // Decode HTML entities in the title safely
+                title.textContent = decodeHtmlEntities(item.title || 'Untitled');
+                title.className = 'history-title';
+
+                let url = document.createElement('p');
+                url.textContent = item.url;
+                url.className = 'history-url';
+
+                let lastVisitTime = document.createElement('p');
+                lastVisitTime.textContent = lvt;
+                lastVisitTime.className = 'history-visit-time';
+
+                // Add bookmark icon for history items
+                if (item.url && item.url.trim() !== "") {
+                    const isBookmarked = isItemBookmarked(currentSearchEngines, item.url);
+                    const bookmarkIcon = createBookmarkIcon(item.url, item.title || 'Untitled', isBookmarked);
+                    li.appendChild(bookmarkIcon);
+                }
+
+                li.appendChild(title);
+                li.appendChild(url);
+                li.appendChild(lastVisitTime);
+                ul.appendChild(li);
+            }
         }
     }
 
@@ -139,7 +200,7 @@ async function getHistoryItems() {
         while (paginationContainer.firstChild) {
             paginationContainer.removeChild(paginationContainer.firstChild);
         }
-        
+
         if (totalPages <= 1) {
             return; // No pagination needed
         }
@@ -161,7 +222,7 @@ async function getHistoryItems() {
         const maxVisiblePages = 5;
         let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
         let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-        
+
         // Adjust start if we're near the end
         if (endPage - startPage < maxVisiblePages - 1) {
             startPage = Math.max(1, endPage - maxVisiblePages + 1);
@@ -178,7 +239,7 @@ async function getHistoryItems() {
                 renderPaginationControls();
             };
             paginationContainer.appendChild(firstPageButton);
-            
+
             if (startPage > 2) {
                 const ellipsis = document.createElement('span');
                 ellipsis.textContent = '...';
@@ -192,11 +253,11 @@ async function getHistoryItems() {
             const pageButton = document.createElement('button');
             pageButton.textContent = i.toString();
             pageButton.className = 'pagination-button page-number';
-            
+
             if (i === currentPage) {
                 pageButton.classList.add('current-page');
             }
-            
+
             pageButton.onclick = async () => {
                 currentPage = i;
                 await renderPage(currentPage);
@@ -213,7 +274,7 @@ async function getHistoryItems() {
                 ellipsis.className = 'pagination-ellipsis';
                 paginationContainer.appendChild(ellipsis);
             }
-            
+
             const lastPageButton = document.createElement('button');
             lastPageButton.textContent = totalPages.toString();
             lastPageButton.className = 'pagination-button page-number';
