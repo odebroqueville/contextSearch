@@ -2,8 +2,9 @@
 
 Firefox and Chrome cross-browser extension to search selected text in a web page using your favorite search engines or your preferred AI chatbot and AI prompts.
 
-![Firefox add-on](https://addons.mozilla.org/en-US/firefox/addon/contextsearch/)
-![Chrome extension](https://chromewebstore.google.com/detail/context-search/kpgbcibefipipfnjiomkinfphlkballh)
+[Firefox add-on](https://addons.mozilla.org/en-US/firefox/addon/contextsearch/)
+
+[Chrome extension](https://chromewebstore.google.com/detail/context-search/kpgbcibefipipfnjiomkinfphlkballh)
 
 
 ## Features
