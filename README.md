@@ -1,6 +1,10 @@
 # Context Search
 
-Firefox and Chrome cross-browser extension to search selected text in a web page using your favorite search engines or your preferred AI chat engines and prompts.
+Firefox and Chrome cross-browser extension to search selected text in a web page using your favorite search engines or your preferred AI chatbot and AI prompts.
+
+![Firefox add-on](https://addons.mozilla.org/en-US/firefox/addon/contextsearch/)
+![Chrome extension](https://chromewebstore.google.com/detail/context-search/kpgbcibefipipfnjiomkinfphlkballh)
+
 
 ## Features
 
@@ -21,6 +25,7 @@ Firefox and Chrome cross-browser extension to search selected text in a web page
 * Assign keyboard shortcuts to your search engines
 * Export/Import your list of search engines as a safe backup
 
+
 ## Optional Permissions in Firefox
 
 **Notifications**, **Downloads**, **History** and **Bookmarks** are optional permissions in Firefox. They are disabled by default. If you'd like to:
@@ -31,6 +36,7 @@ Firefox and Chrome cross-browser extension to search selected text in a web page
 then open the extensions manager, select Context Search and, under the Permissions tab, enable the appropriate permissions.
 
 To open search results in a new private window, in the extensions manager, allow Context Search to <em>"Run in Private Windows"</em>.
+
 
 ## How does it work
 
@@ -43,11 +49,12 @@ To open search results in a new private window, in the extensions manager, allow
 
 The search results will appear as defined in the extension's preferences page.
 
+
 ## Managing search engines
 
 To manage your favorite search engines, you can go to the preferences page of Context Search. You can reach this page by opening the extensions page (Addon Manager) where all your add-ons are listed and then clicking on the "Preferences" button.
 
-![How to define a search engine](images/searchEngineDescription.png
+![How to define a search engine](images/searchEngineDescription.png)
 
 <ol>
 <li>The checkbox at the start of a line determines whether the search engine should appear in the context menu.</li>
@@ -66,7 +73,7 @@ The 'Reset' button will re-load the default list of search engines and their ass
 You can also import a JSON file containing your own list of search engines. It is strongly recommended to export your customized list of search engines as a backup in case anything goes wrong.
 
 
-## What is an AI search
+## What is an AI Search?
 
 There are 2 types of AI searches that can be performed:
 
@@ -75,6 +82,7 @@ There are 2 types of AI searches that can be performed:
 2) A **one-time AI Search** is not based on an existing AI prompt. A one-time AI search can be triggered in one of 2 ways: either by selecting "AI search..." from the context menu or by pressing the keyboard shortcut Alt+K. In both cases a new prompt window will open where you may first type the keyword corresponding to the AI chatbot that you'd like to use followed by a 'Space' character and then your AI prompt (which may contain %s if you'd like to use your text selection as the context for your AI search). Finally, press Enter.
 
 Typically, the predefined AI Search is based on an AI prompt template that you often plan to use, whereas the one-time AI Search, as its name suggests, is intended for a quick one-time use.
+
 
 ## How to add a search engine to your custom list of search engines
 
@@ -85,33 +93,37 @@ Typically, the predefined AI Search is based on an AI prompt template that you o
 
 [Here](https://youtu.be/_kV7JCgGQLk) is a video demonstrating the different ways that you can add a search engine to your custom list of search engines.
 
-## How to add an AI prompt to your custom list of search engines
+
+## How to add an AI prompt template to your custom list of search engines
 
 > [!TIP]
-> For trouble-free use, **it is recommended that you log in** prior to using an AI service provider. This is required when using ChatGPT, Claude, Google AI Studio and Poe.
+> For trouble-free use, **it is recommended that you log in** prior to using an AI chatbot. This is required when using ChatGPT, Claude, Google AI Studio and Poe.
 
-On the Options page, first select the Search engines tab, then click on a green plus button. 
+On the Options page, first select the Search engines tab, then click on a green plus button where you'd like to add your new AI search. 
 
-Then, select the tab to 'Add a new AI prompt'. Chose the AI service provider you'd like to use, add a name for your AI prompt and enter your AI prompt by inserting %s where you'd like your text selection to appear (e.g. 'Comprehensively explain the following for a college student: %s'). 
+Then, select the tab to 'Add a new AI prompt'. Chose the AI chatbot you'd like to use, add a name for your AI prompt and enter your AI prompt template by inserting %s where you'd like your text selection to appear (e.g. 'Comprehensively explain the following for a college student: %s'). 
 
-In most cases, after selecting text on a web page and clicking your prompt in the context menu, a new tab will open with the relevant AI engine. When possible, the prompt will be pasted in the search box and automatically submitted to the AI engine, except for Poe so that users can choose their preferred large language model. The search results should then appear.
+In most cases, after selecting text on a web page and clicking your prompt in the context menu, a new tab will open with the relevant AI chatbot. When possible, the AI prompt will be pasted in the search box and automatically submitted to the AI chatbot, except for Poe so that users can choose their preferred large language model. The search results should then appear.
 
-N.B.: If the prompt is missing from the text area, you can paste the contents of the clipboard to which your prompt will have been copied. For this to work, you have to enable the Clipboard permission in the extension's preferences. Alternatively, it is possible to use Chatgpt's AI engines on Poe.
+N.B.: If the prompt is missing from the text area, you can paste the contents of the clipboard to which your AI prompt will have been copied. For this to work, you have to enable the Clipboard permission in the extension's preferences. Alternatively, it is possible to use ChatGPT's AI chatbots on Poe.
+
 
 ## How to add a separator (horizontal line) in the context menu
 
 At the bottom of the Options page, simply click on the "Add separator" button. This will add a separator to the bottom of your search engines list. Then, use the arrow handle to the right of the horizontal line to move the separator to the position where you would like it to be. The separator should appear in the context menu.
 
+
 ## How to add a custom favicon for a search engine
 
 From the Options page, click on the favicon right before the search engine's name. A popup window will open displaying the current favicon and the associated base64 string. Drag & drop a new image onto the existing one, then click on the 'Save' button for your changes to take effect. The popup will automatically close after you click on the 'Save' button.
 
-## How to perform a direct AI search using the command window
+
+## How to perform a one-time AI search using the AI prompt window
 
 > [!TIP]
-> Prior to using this feature, **ensure that you have logged in** to the website(s) of the AI engine(s) that you'd like to use. This is required when using ChatGPT, Claude, Google AI Studio and Poe. 
+> Prior to using this feature, **ensure that you have logged in** to the website(s) of the AI chatbot(s) that you'd like to use. This is required when using ChatGPT, Claude, Google AI Studio and Poe. 
 
-'ALT+K' opens a command window from which to carry out a direct AI search. Start by typing the keyword corresponding to the AI engine that you'd like to use followed by a 'Space' character. The current list of valid keywords is:
+'ALT+K' opens an AI prompt window from which to carry out a one-time AI search. Start by typing the keyword corresponding to the AI chatbot that you'd like to use followed by a 'Space' character. The current list of valid keywords is:
 
 - chatgpt
 - claude
@@ -121,7 +133,8 @@ From the Options page, click on the favicon right before the search engine's nam
 - poe (where you can choose amongst different LLMs)
 - andi
 
- If the AI engine is recognized, then it will automatically be styled as a tag. You can then continue typing your prompt completed by 'Enter'. The command window should then close and the search results be displayed in a new tab. Unless you are using poe, then  an additional step is required: select the LLM you'd like to use and submit the prompt.
+ If the AI chatbot is recognized, then it will automatically be styled as a tag. You can then continue typing your AI prompt completed by 'Enter'. The AI prompt window should then close and the search results be displayed in a new tab. Unless you are using Poe, then an additional step is required: select the LLM you'd like to use and submit the prompt.
+
 
 ## How to perform a search in the omnibox
 
@@ -208,6 +221,7 @@ Here is an example of a JSON file containing 3 search engines:
 > [!NOTE]
 > It is not required to provide the base 64 string representation of any search engine's favicon. This string will automatically be loaded for you.
 
+
 ## Special thanks to the following contributors
 
 <ul>
@@ -220,6 +234,7 @@ Here is an example of a JSON file containing 3 search engines:
 </ul>
 
 Other translations were completed using [DeepL](https://www.deepl.com/translator), Microsoft Translator and Google Translate in [Crowdin](https://crowdin.com).
+
 
 ## Code made by others used in this extension
 
