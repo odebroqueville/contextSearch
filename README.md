@@ -47,9 +47,7 @@ The search results will appear as defined in the extension's preferences page.
 
 To manage your favorite search engines, you can go to the preferences page of Context Search. You can reach this page by opening the extensions page (Addon Manager) where all your add-ons are listed and then clicking on the "Preferences" button.
 
-![How to define a search engine](images/searchEngineDescription.png)
-
-Please refer to the 4th screenshot above.
+![How to define a search engine](images/searchEngineDescription.png
 
 <ol>
 <li>The checkbox at the start of a line determines whether the search engine should appear in the context menu.</li>
@@ -67,15 +65,16 @@ The 'Reset' button will re-load the default list of search engines and their ass
 
 You can also import a JSON file containing your own list of search engines. It is strongly recommended to export your customized list of search engines as a backup in case anything goes wrong.
 
+
 ## What is an AI search
 
 There are 2 types of AI searches that can be performed:
 
-1) A "classical" AI Search based on a prompt: you first select text on a web page which will be used as the context for your AI prompt. In your AI prompt, %s will be replaced by the selected text. A classical AI search is launched by clicking on the AI search engine (which contains the AI prompt that you want to use) from the context menu or from the grid of icons. For example, you could select a code block in a web page and use a search engine using the AI service provider ChatGPT with the AI prompt "Explain %s". This would open a new tab with the answer from ChatGPT explaing the code block selected.
+1) A **predefined AI Search** based on a prompt that you have saved in the Options page. You first select text on a web page which will be used as the context for your AI search. In your AI prompt template, %s will be replaced by the selected text. A predefined AI search is launched by clicking on the AI chatbot (which contains the AI prompt template that you want to use) from the context menu or from the grid of icons. For example, you could select a code block in a web page and use the AI chatbot ChatGPT with the AI prompt "Explain %s". This would open a new tab with the answer from ChatGPT explaining the code block selected.
 
-2) A "direct" AI Search is not based on an existing AI prompt. A direct search can be triggered in one of 2 ways: either by selecting "AI search..." from the context menu or by pressing the keyboard shortcut Alt+K. In both cases a new command window will open where you will first type the keyword corresponding to the AI engine you'd like to use followed by a 'Space' character and then your AI prompt (which may contain %s if you'd like to use your text selection as the context for your AI search). Finally, press Enter.
+2) A **one-time AI Search** is not based on an existing AI prompt. A one-time AI search can be triggered in one of 2 ways: either by selecting "AI search..." from the context menu or by pressing the keyboard shortcut Alt+K. In both cases a new prompt window will open where you may first type the keyword corresponding to the AI chatbot that you'd like to use followed by a 'Space' character and then your AI prompt (which may contain %s if you'd like to use your text selection as the context for your AI search). Finally, press Enter.
 
-Typically, the classical AI Search is based on an AI prompt you envisage using often, whilst the direct AI Search is intended for a quick one-time use.
+Typically, the predefined AI Search is based on an AI prompt template that you often plan to use, whereas the one-time AI Search, as its name suggests, is intended for a quick one-time use.
 
 ## How to add a search engine to your custom list of search engines
 

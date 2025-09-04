@@ -1,10 +1,12 @@
 6.1.9
 =========
 
-* Bug fix grid of icons 
-* Bug fix multisearch
+* Buf fix [#262](https://github.com/odebroqueville/contextSearch/issues/262)
+* Bug fix [#261](https://github.com/odebroqueville/contextSearch/issues/261)
+* Bug fix [#260](https://github.com/odebroqueville/contextSearch/issues/260)
 * Added pagination and improved styling for bookmark and history items
 * Browser bookmarks and history items can now be bookmarked to Context Search from the Bookmarks and History pages
+* Added clarifications to the README file for AI searches
 
 6.1.8
 ---------
