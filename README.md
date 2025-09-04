@@ -92,7 +92,7 @@ Typically, the predefined AI Search is based on an AI prompt template that you o
 * add a search engine manually via the Options page (you can test the query string before adding the search engine)
 * to add a search engine that uses a submit form via an HTTP POST request, double click in the website's search text box, then at least enter a search engine name in the dialog box that appears
 
-[Here](https://youtu.be/_kV7JCgGQLk) is a video demonstrating the different ways that you can add a search engine to your custom list of search engines.
+[Here is a video](https://youtu.be/_kV7JCgGQLk) demonstrating the different ways that you can add a search engine to your custom list of search engines.
 
 
 ## How to add an AI prompt template to your custom list of search engines
