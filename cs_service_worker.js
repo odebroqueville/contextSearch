@@ -43,7 +43,6 @@ import {
     titleSiteSearch,
     titleExactMatch,
     titleOptions,
-    windowTitle,
     omniboxDescription,
     notifySearchEnginesLoaded,
     notifySearchEngineAdded,
@@ -347,40 +346,53 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             });
             return true;
         case 'getStoredData': {
-            const key = data && data.key; // Get the key if provided
+            const key = data && data.key;
             if (logToConsole) console.log('getStoredData message received:', { key, data });
-            return getStoredData(key)
-                .then(result => {
-                    if (logToConsole) console.log('getStoredData result:', { key, result });
-                    // If a key was requested, return just that value, otherwise return all data
-                    const responseData = key ? { [key]: result } : result || {};
-
-                    // Always ensure we have the minimum required data structure
-                    if (!key) {
-                        // If we're getting all data, ensure basic structure exists
-                        if (!responseData.options) responseData.options = { ...DEFAULT_OPTIONS };
-                        if (!responseData.searchEngines) responseData.searchEngines = {};
-                        if (!responseData.selection) responseData.selection = "";
-                    }
-
-                    const response = { success: true, data: responseData };
-                    if (logToConsole) console.log('Sending getStoredData response:', response);
-                    sendResponse(response);
-                    return response;
-                })
-                .catch(error => {
-                    console.error("Error getting stored data:", error);
-                    // Return a fallback response with default values instead of an error
-                    const fallbackData = {
-                        options: { ...DEFAULT_OPTIONS },
-                        searchEngines: {},
-                        selection: ""
-                    };
-                    const response = { success: true, data: key ? { [key]: fallbackData[key] } : fallbackData };
-                    if (logToConsole) console.log('Sending fallback getStoredData response:', response);
-                    sendResponse(response);
-                    return response;
-                });
+            
+            let responseData;
+            if (key === 'searchEngines') {
+                // Return synchronously from module variable
+                responseData = { searchEngines };
+            } else if (key === 'options') {
+                // Return synchronously from module variable
+                responseData = { options };
+            } else if (key === 'selection') {
+                // Return synchronously from module variable
+                responseData = { selection };
+            } else {
+                // For other keys or all data, use async storage retrieval
+                getStoredData(key)
+                    .then(result => {
+                        if (logToConsole) console.log('getStoredData result:', { key, result });
+                        const responseDataAsync = key ? { [key]: result } : result || {};
+                        if (!key) {
+                            if (!responseDataAsync.options) responseDataAsync.options = { ...DEFAULT_OPTIONS };
+                            if (!responseDataAsync.searchEngines) responseDataAsync.searchEngines = {};
+                            if (!responseDataAsync.selection) responseDataAsync.selection = "";
+                        }
+                        const response = { success: true, data: responseDataAsync };
+                        if (logToConsole) console.log('Sending getStoredData response:', response);
+                        sendResponse(response);
+                    })
+                    .catch(error => {
+                        console.error("Error getting stored data:", error);
+                        const fallbackData = {
+                            options: { ...DEFAULT_OPTIONS },
+                            searchEngines: {},
+                            selection: ""
+                        };
+                        const response = { success: true, data: key ? { [key]: fallbackData[key] } : fallbackData };
+                        if (logToConsole) console.log('Sending fallback getStoredData response:', response);
+                        sendResponse(response);
+                    });
+                return true;  // Keep channel open for async response
+            }
+            
+            // Synchronous response for common keys
+            const response = { success: true, data: responseData };
+            if (logToConsole) console.log('Sending getStoredData response:', response);
+            sendResponse(response);
+            return false;  // Synchronous response, no need to keep channel open
         }
         case "storeSelection":
             if (logToConsole) console.log('storeSelection message received with data:', data);
@@ -1987,8 +1999,7 @@ async function buildContextMenu() {
             menuCreationInProgress = true;
             if (logToConsole) console.log(`Building context menu (attempt ${retryCount + 1})...`);
 
-            // First, remove any existing click listeners to prevent orphaned listeners
-            // This should happen before removing menu items to ensure clean state
+            // First, remove any click listeners to prevent orphaned listeners
             if (clickListenerCounter > 0) {
                 if (logToConsole) console.log(`Removing ${clickListenerCounter} click listeners before rebuilding menu`);
                 // Reset listener count and remove listener
@@ -2372,14 +2383,15 @@ async function processNonUrlArray(nonUrlArray, tabPosition, windowId) {
 
 // Handle search terms if there are any
 async function getSearchEngineUrl(searchEngineUrl, sel) {
+    const selection = sel.trim();
     let quote = "";
     if (options.exactMatch) quote = "%22";
     if (searchEngineUrl.includes("{searchTerms}")) {
-        return searchEngineUrl.replace(/{searchTerms}/g, encodeUrl(sel));
+        return searchEngineUrl.replace(/{searchTerms}/g, encodeUrl(selection));
     } else if (searchEngineUrl.includes("%s")) {
-        return searchEngineUrl.replace(/%s/g, encodeUrl(sel));
+        return searchEngineUrl.replace(/%s/g, encodeUrl(selection));
     }
-    return searchEngineUrl + quote + encodeUrl(sel) + quote;
+    return searchEngineUrl + quote + encodeUrl(selection) + quote;
 }
 
 async function setTargetUrl(id, aiEngine = "", hasCurrentSelection = true) {
@@ -2419,7 +2431,7 @@ async function setTargetUrl(id, aiEngine = "", hasCurrentSelection = true) {
         const domain = getDomain(searchEngines[id].url).replace(/https?:\/\//, "");
         return (
             options.siteSearchUrl +
-            encodeUrl(`site:https://${domain} ${quote}${selection}${quote}`)
+            encodeUrl(`site:https://${domain} ${quote}${selection.trim()}${quote}`)
         );
     }
     if (!id.startsWith("chatgpt-")) {

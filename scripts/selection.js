@@ -1624,50 +1624,51 @@ async function sendMessage(action, data, retryCount = 0) {
     // Check if browser/chrome API is available
     if (!browser.runtime?.sendMessage) {
         const errorMsg = 'browser.runtime.sendMessage is not available';
-        if (logToConsole) console.error(errorMsg);
+        if (logToConsole) console.error(errorMsg); // CHANGED: Added console.error
         return { success: false, error: errorMsg };
     }
 
     try {
-        // Set up a timeout for the message
-        const timeoutMs = 5000;
+        // Set up a timeout for the message - CHANGED: Increased from 5000 to 10000
+        const timeoutMs = 10000;
         let timeoutId;
 
-        const responsePromise = new Promise((resolve) => {
+        const responsePromise = new Promise((resolve, reject) => { // CHANGED: Added reject parameter
             // Set up timeout
             timeoutId = setTimeout(() => {
                 if (logToConsole) console.error(`Message timed out after ${timeoutMs}ms`);
-                resolve({ success: false, error: 'Message timeout' });
+                reject(new Error('Message timeout')); // CHANGED: Use reject instead of resolve
             }, timeoutMs);
 
             // Send the message
             browser.runtime.sendMessage({ action, data })
                 .then(response => {
                     clearTimeout(timeoutId);
+                    if (logToConsole) console.log('Raw response received:', response); // CHANGED: Added logging
                     resolve(response);
                 })
                 .catch(error => {
                     clearTimeout(timeoutId);
                     if (logToConsole) console.error('Error sending message:', error);
-                    resolve({ success: false, error: error.message });
+                    reject(error); // CHANGED: Use reject instead of resolve
                 });
         });
 
         const response = await responsePromise;
 
         // Log the response
-        if (logToConsole) console.log('Received response:', response);
+        if (logToConsole) console.log('Processed response:', response); // CHANGED: Enhanced logging
 
         // Handle undefined response with retry
-        if (!response && action === 'getStoredData' && retryCount < maxRetries) {
-            if (logToConsole) console.log(`Empty response for getStoredData, retrying (${retryCount + 1}/${maxRetries})...`);
-            // Wait a bit before retrying to give the service worker time to initialize
-            await new Promise(resolve => setTimeout(resolve, 500 * (retryCount + 1)));
+        if (response === undefined && action === 'getStoredData' && retryCount < maxRetries) { // CHANGED: Check for undefined
+            if (logToConsole) console.log(`Undefined response for getStoredData, retrying (${retryCount + 1}/${maxRetries})...`);
+            // CHANGED: Increased delay from 500ms to 1000ms
+            await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount + 1)));
             return sendMessage(action, data, retryCount + 1);
         }
 
         // Return the response or error object
-        return response || { success: false, error: 'Empty response' };
+        return response || { success: false, error: 'Undefined response' }; // CHANGED: Better error message
     } catch (error) {
         const errorMsg = `Error in sendMessage (${action}): ${error.message || error}`;
         if (logToConsole) {
@@ -1679,7 +1680,8 @@ async function sendMessage(action, data, retryCount = 0) {
         // Retry on general errors for getStoredData
         if (action === 'getStoredData' && retryCount < maxRetries) {
             if (logToConsole) console.log(`Error for getStoredData, retrying (${retryCount + 1}/${maxRetries})...`);
-            await new Promise(resolve => setTimeout(resolve, 500 * (retryCount + 1)));
+            // CHANGED: Increased delay from 500ms to 1000ms
+            await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount + 1)));
             return sendMessage(action, data, retryCount + 1);
         }
 

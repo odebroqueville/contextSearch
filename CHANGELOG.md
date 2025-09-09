@@ -1,5 +1,10 @@
-6.1.9
+6.2.0
 =========
+
+* Bug fix: keyboard shortcuts were broken
+
+6.1.9
+---------
 
 * Buf fix [#262](https://github.com/odebroqueville/contextSearch/issues/262)
 * Bug fix [#261](https://github.com/odebroqueville/contextSearch/issues/261)
