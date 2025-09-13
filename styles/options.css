@@ -1,3 +1,6 @@
+/* General styles for the options page */
+
+/* changes how the browser calculates the total size of elements */
 * {
     box-sizing: border-box;
 }
@@ -6,6 +9,18 @@ body {
     font-family: 'Raleway', Calibri, Helvetica, Arial, sans-serif;
     font-size: 10pt;
     line-height: 1.618em;
+    padding-top: 40px; /* reduced from 60px to minimize gap */
+}
+
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--bg-color);
+    padding: 17px 0;
+    box-sizing: border-box;
 }
 
 fieldset {
@@ -45,13 +60,13 @@ div.nav {
     float: right;
 }
 
-input[type="checkbox"] {
+input[type='checkbox'] {
     display: inline-block;
     width: 15px;
     margin-right: 5px;
 }
 
-input[type="number"] {
+input[type='number'] {
     display: inline-block;
     width: 60px;
     margin-bottom: 5px;
@@ -94,8 +109,8 @@ div#tabMode {
     border: none;
 }
 
-html[theme=light] #searchEngines div.search-engine:hover,
-html[theme=dark] #searchEngines div.search-engine:hover {
+html[theme='light'] #searchEngines div.search-engine:hover,
+html[theme='dark'] #searchEngines div.search-engine:hover {
     /* Show the dotted border when hovered */
     border: 3px dotted blue;
 
@@ -103,8 +118,8 @@ html[theme=dark] #searchEngines div.search-engine:hover {
     cursor: pointer;
 }
 
-html[theme=light] #searchEngines div.folder:hover,
-html[theme=dark] #searchEngines div.folder:hover {
+html[theme='light'] #searchEngines div.folder:hover,
+html[theme='dark'] #searchEngines div.folder:hover {
     /* Show the dotted border when hovered */
     border: 3px dotted rgb(115, 10, 129);
 
@@ -144,7 +159,7 @@ textarea {
     vertical-align: top;
 }
 
-div input[type="checkbox"] {
+div input[type='checkbox'] {
     margin-left: 5px;
 }
 
@@ -174,16 +189,16 @@ div img {
     width: 195px;
 }
 
-.left input[type="radio"]+label {
+.left input[type='radio'] + label {
     width: 120px;
 }
 
-input#gridMode+label,
-input#optionsMenuAtTop+label {
+input#gridMode + label,
+input#optionsMenuAtTop + label {
     width: 600px;
 }
 
-#container input[type="url"],
+#container input[type='url'],
 #addSearchEngineTab #url,
 #addChatGPTPromptTab #prompt {
     display: inline-block;
@@ -206,7 +221,7 @@ input#optionsMenuAtTop+label {
 }
 
 h2 {
-    margin: 20px 0px 10px 0px;
+    margin: 0;
     font-size: 14pt;
     font-weight: bold;
     text-align: center;
@@ -253,7 +268,8 @@ button#download {
     display: inline-block;
     margin-left: 5px;
     padding: 3px 10px 3px 10px;
-    background-color: #000;
+    line-height: 1.2em;
+    background-color: #333;
     border: 1px solid #ccc;
     border-radius: 5px;
     cursor: pointer;
@@ -300,7 +316,7 @@ select {
     margin-left: 10px;
 }
 
-#flexbox-container>div.left>div.preferences {
+#flexbox-container > div.left > div.preferences {
     display: -ms-flex;
     display: -webkit-flex;
     display: flex;
@@ -310,8 +326,8 @@ select {
     margin-right: 10px;
 }
 
-#flexbox-container>div.right,
-#flexbox-container>div.left {
+#flexbox-container > div.right,
+#flexbox-container > div.left {
     padding: 10px;
 }
 
@@ -344,7 +360,7 @@ hr.ruler {
         width: 70%;
     }
 
-    #flexbox-container>div.left {
+    #flexbox-container > div.left {
         margin-right: 10px;
     }
 }
@@ -394,7 +410,7 @@ Slider bubble styling
     margin: 0 auto 2rem;
 }
 
-.slidercontainer>label {
+.slidercontainer > label {
     grid-column: 1 / 2;
 }
 
@@ -417,7 +433,7 @@ Slider bubble styling
 .bubble::after {
     grid-column: 2 / span 1;
     margin-top: 22px;
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 50%;
@@ -441,7 +457,7 @@ Style the tabs
 
 .tabs {
     position: relative;
-    margin: 1rem 0;
+    margin: 0.5rem 0; /* reduced from 1rem to minimize gap */
     background: #0000cc;
     min-height: 30rem;
     height: 100%;
@@ -450,7 +466,7 @@ Style the tabs
 
 .tabs::before,
 .tabs::after {
-    content: "";
+    content: '';
     display: table;
 }
 
@@ -505,11 +521,11 @@ Style the tabs
 }
 
 /* Add padding-right only for Options tab */
-#tab-1:checked+label+.tab-content {
+#tab-1:checked + label + .tab-content {
     padding-right: 18px;
 }
 
-.tab-switch:checked+.tab-label {
+.tab-switch:checked + .tab-label {
     background: #fff;
     color: #2c3e50;
     border-bottom: 0;
@@ -519,7 +535,7 @@ Style the tabs
     top: -0.0625rem;
 }
 
-.tab-switch:checked+label+.tab-content {
+.tab-switch:checked + label + .tab-content {
     z-index: 2;
     opacity: 1;
     transition: all 0.35s;
@@ -529,17 +545,17 @@ Style the tabs
     margin-left: 3px;
 }
 
-html[theme=dark] .option label {
+html[theme='dark'] .option label {
     color: #444;
 }
 
-html[theme=dark] .tab-label {
+html[theme='dark'] .tab-label {
     background: #0077ff;
     border-right: 0.125rem solid #0000cc;
     color: #fff;
 }
 
-html[theme=dark] .tab-content {
+html[theme='dark'] .tab-content {
     background: lightskyblue;
     color: #0000cc;
 }
@@ -554,7 +570,7 @@ html[theme=dark] .tab-content {
 }
 
 /* Make Search engines tab fieldset span full width */
-#tab-2:checked+label+.tab-content fieldset {
+#tab-2:checked + label + .tab-content fieldset {
     width: calc(100% - 20px);
     max-width: none;
 }
@@ -574,7 +590,7 @@ html[theme=dark] .tab-content {
     background-color: #005588;
 }
 
-html[theme=dark] .tab-switch:checked+.tab-label {
+html[theme='dark'] .tab-switch:checked + .tab-label {
     background: lightskyblue;
     color: #0000cc;
     border-right: 0.125rem solid #0000cc;
@@ -617,7 +633,6 @@ html[theme=dark] .tab-switch:checked+.tab-label {
 }
 
 @keyframes dots {
-
     0%,
     20% {
         content: '.';

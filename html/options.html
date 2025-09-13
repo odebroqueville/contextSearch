@@ -11,356 +11,213 @@
 </head>
 
 <body>
-    <h2 data-i18n="pageTitle">Context Search Preferences</h2>
-    <!-- Add a button to toggle the dark theme -->
-    <div class="DocsPage">
-        <div class="DocsToolbar">
-            <div class="DocsToolbar--tools">
-                <div class="DocsToolbar--theme-toggle">
-                    <div class="Tooltip---root">
-                        <div class="ThemeToggle">
-                            <input type="checkbox" id="ThemeToggle" class="ThemeToggle--input" />
-                            <label for="ThemeToggle" class="ThemeToggle--toggle">
-                                <div class="ThemeToggle--toggle-handle"></div>
-                                <div class="ThemeToggle--toggle-handle-icon ThemeToggle--sun">
-                                    <svg viewBox="0 0 16 16" fill="currentcolor" role="img"
-                                        aria-labelledby="title-8812071124069258" xmlns="http://www.w3.org/2000/svg">
-                                        <title id="title-8812071124069258">Light theme icon (depiction of a sun)</title>
-                                        <path
-                                            d="M7.5 11.465a3.482 3.482.0 01-1.596-.662L4.11 12.596a.5.5.0 01-.707-.707l1.793-1.793A3.482 3.482.0 014.535 8.5H2a.5.5.0 010-1h2.535a3.482 3.482.0 01.662-1.596L3.404 4.11a.5.5.0 01.707-.707l1.793 1.793A3.482 3.482.0 017.5 4.535V2a.5.5.0 011 0v2.535a3.482 3.482.0 011.596.662l1.793-1.793a.5.5.0 01.707.707l-1.793 1.793c.343.458.577 1.003.662 1.596H14a.5.5.0 110 1h-2.535a3.482 3.482.0 01-.662 1.596l1.793 1.793a.5.5.0 01-.707.707l-1.793-1.793a3.482 3.482.0 01-1.596.662V14a.5.5.0 11-1 0v-2.535z">
-                                        </path>
-                                    </svg>
+    <div id="header">
+        <h2 data-i18n="pageTitle">Context Search Preferences</h2>
+        <!-- Theme toggle -->
+        <div class="ThemeToggle">
+            <input type="checkbox" id="ThemeToggle" class="ThemeToggle--input" />
+            <label for="ThemeToggle" class="ThemeToggle--toggle">
+                <div class="ThemeToggle--toggle-handle"></div>
+                <div class="ThemeToggle--toggle-handle-icon ThemeToggle--sun">
+                    <svg viewBox="0 0 16 16" fill="currentcolor" role="img" aria-labelledby="title-sun">
+                        <title id="title-sun">Light theme icon</title>
+                        <path d="M7.5 11.465a3.482 3.482.0 01-1.596-.662L4.11 12.596a.5.5.0 01-.707-.707l1.793-1.793A3.482 3.482.0 014.535 8.5H2a.5.5.0 010-1h2.535a3.482 3.482.0 01.662-1.596L3.404 4.11a.5.5.0 01.707-.707l1.793 1.793A3.482 3.482.0 017.5 4.535V2a.5.5.0 011 0v2.535a3.482 3.482.0 011.596.662l1.793-1.793a.5.5.0 01.707.707l-1.793 1.793c.343.458.577 1.003.662 1.596H14a.5.5.0 110 1h-2.535a3.482 3.482.0 01-.662 1.596l1.793 1.793a.5.5.0 01-.707.707l-1.793-1.793a3.482 3.482.0 01-1.596.662V14a.5.5.0 11-1 0v-2.535z"></path>
+                    </svg>
+                </div>
+                <div class="ThemeToggle--toggle-handle-icon ThemeToggle--moon">
+                    <svg viewBox="0 0 16 16" fill="currentcolor" role="img" aria-labelledby="title-moon">
+                        <title id="title-moon">Dark theme icon</title>
+                        <path d="M7.067 3.087a5 5 0 005.466 7.026A5 5 0 117.067 3.087z"></path>
+                    </svg>
+                </div>
+            </label>
+            <span class="Tooltip" id="ThemeToggle--tooltip">Set theme to dark (⇧+D)</span>
+        </div>
+    </div>
+
+    <form>
+        <div class="tabs">
+            <div class="tab">
+                <input type="radio" name="css-tabs" id="tab-1" class="tab-switch" checked>
+                <label for="tab-1" class="tab-label" data-i18n="titleOptions">Options</label>
+                <div class="tab-content">
+                    <div class="preferences">
+                        <fieldset>
+                            <legend><h3 data-i18n="header4">Search</h3></legend>
+                            <div>
+                                <input type="checkbox" id="exactMatch"><label for="exactMatch" data-i18n="exactMatch">Search for an exact string match</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="disableDoubleClick"><label for="disableDoubleClick" data-i18n="disableDoubleClick">Disable double click for adding search engines that use HTTP POST requests</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="disableAI"><label for="disableAI" data-i18n="disableAI">Disable AI search features</label>
+                            </div>
+                            <div class="p-sm">
+                                <label for="siteSearch" data-i18n="siteSearch">Search engine for searching current site:</label>
+                                <select id="siteSearch">
+                                    <option value="Google" data-url="https://www.google.com/search?q=">Google</option>
+                                    <option value="Bing" data-url="https://www.bing.com/search?q=">Bing</option>
+                                    <option value="DuckDuckGo" data-url="https://duckduckgo.com/?q=">DuckDuckGo</option>
+                                    <option value="Ecosia" data-url="https://www.ecosia.org/search?q=">Ecosia</option>
+                                    <option value="Lilo" data-url="https://search.lilo.org/?q=">Lilo</option>
+                                    <option value="Qwant" data-url="https://www.qwant.com/?q=">Qwant</option>
+                                    <option value="Startpage" data-url="https://www.startpage.com/do/search?query=">Startpage</option>
+                                    <option value="Swisscows" data-url="https://swisscows.com/web?query=">Swisscows</option>
+                                    <option value="Yahoo" data-url="https://search.yahoo.com/search?p=">Yahoo</option>
+                                    <option value="Yandex" data-url="https://yandex.com/search?text=">Yandex</option>
+                                </select>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend><h3 data-i18n="header11">Grid of icons</h3></legend>
+                            <div>
+                                <input type="checkbox" id="disableAltClick"><label for="disableAltClick" data-i18n="disableAltClick">Disable grid of icons (Alt + Click)</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="quickIconGrid" style="position: relative; z-index: 99;"><label for="quickIconGrid" style="position: relative; z-index: 99;" data-i18n="quickIconGrid">Immediately display the grid of icons after text has been selected</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="closeGridOnMouseOut"><label for="closeGridOnMouseOut" data-i18n="closeGridOnMouseOut">Close the grid of icons on mouse out</label>
+                            </div>
+                            <div>
+                                <label for="xOffset" data-i18n="xOffset">Horizontal offset of the grid of icons:</label>
+                                <input type="number" id="xOffset" min="0" max="200" value="12">
+                            </div>
+                            <div>
+                                <label for="yOffset" data-i18n="yOffset">Vertical offset of the grid of icons:</label>
+                                <input type="number" id="yOffset" min="0" max="200" value="12">
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend><h3 data-i18n="header1">Where should search results appear?</h3></legend>
+                            <div id="tabMode">
+                                <span class="option">
+                                    <input type="radio" id="openNewTab" name="results" value="openNewTab" checked>
+                                    <label for="openNewTab" data-i18n="newTab">In a new tab</label>
+                                </span>
+                                <span class="option">
+                                    <input type="radio" id="sameTab" name="results" value="sameTab">
+                                    <label for="sameTab" data-i18n="sameTab">In the same tab</label>
+                                </span>
+                                <br />
+                                <span class="option">
+                                    <input type="radio" id="openNewWindow" name="results" value="openNewWindow">
+                                    <label for="openNewWindow" data-i18n="newWindow">In a new window</label>
+                                </span>
+                                <span class="option">
+                                    <input type="radio" id="openSidebar" name="results" value="openSidebar">
+                                    <label for="openSidebar" data-i18n="sidebar">In the sidebar</label>
+                                </span>
+                            </div>
+                            <div id="active">
+                                <input type="checkbox" id="tabActive"><label for="tabActive" data-i18n="active">Make the new tab or window active</label>
+                            </div>
+                            <div id="position">
+                                <input type="checkbox" id="lastTab"><label for="lastTab" data-i18n="position">Display search results after the last tab</label>
+                            </div>
+                            <div id="privacy">
+                                <input type="checkbox" id="privateMode"><label for="privateMode" data-i18n="privacy">Make new window private</label>
+                            </div>
+                            <p><span data-i18n="restriction">If the sidebar isn't already open, then you may have to click on the 'Show sidebars' icon from the browser toolbar.</span></p>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend><h3 data-i18n="header10">Multisearch</h3></legend>
+                            <p data-i18n="multisearchIntro">Open multiple search results/tabs</p>
+                            <div id="multiMode">
+                                <div class="option">
+                                    <input type="radio" id="multiNewWindow" name="ms_results" value="multiNewWindow" checked>
+                                    <label for="multiNewWindow" data-i18n="multiNewWindow">In a new window</label>
                                 </div>
-                                <div class="ThemeToggle--toggle-handle-icon ThemeToggle--moon">
-                                    <svg viewBox="0 0 16 16" fill="currentcolor" role="img"
-                                        aria-labelledby="title-5971296394189265" xmlns="http://www.w3.org/2000/svg">
-                                        <title id="title-5971296394189265">Dark theme icon (depiction of a moon)</title>
-                                        <path d="M7.067 3.087a5 5 0 005.466 7.026A5 5 0 117.067 3.087z"></path>
-                                    </svg>
+                                <div class="option">
+                                    <input type="radio" id="multiAfterLastTab" name="ms_results" value="multiAfterLastTab">
+                                    <label for="multiAfterLastTab" data-i18n="multiAfterLastTab">After the last tab in the current window</label>
                                 </div>
-                            </label>
-                            <span class="Tooltip" id="ThemeToggle--tooltip" role="tooltip" position="bottom-end">Set
-                                theme to dark (⇧+D)</span>
-                        </div>
+                                <div class="option">
+                                    <input type="radio" id="multiActiveTab" name="ms_results" value="multiActiveTab">
+                                    <label for="multiActiveTab" data-i18n="multiActiveTab">Right after the active tab in the current window</label>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend><h3 data-i18n="header2">Icons</h3></legend>
+                            <div>
+                                <input type="checkbox" id="displayFavicons"><label for="displayFavicons" data-i18n="displayFavicons">Display icons in context menu list</label>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend><h3 data-i18n="header3">Position of options in context menu</h3></legend>
+                            <div>
+                                <label for="optionsMenuLocation" data-i18n="subheader31">Where would you like the options menu to appear in the context menu of Context Search?</label><br />
+                                <select id="optionsMenuLocation">
+                                    <option value="bottom" selected data-i18n="bottom">At the bottom</option>
+                                    <option value="top" data-i18n="top">At the top</option>
+                                    <option value="none" data-i18n="hide">Neither - hide the options menu</option>
+                                </select>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend><h3 data-i18n="header7">Reset</h3></legend>
+                            <div>
+                                <input type="checkbox" id="resetPreferences"><label for="resetPreferences" data-i18n="resetPreferences">Reset preferences to default settings</label>
+                                <br />
+                                <input type="checkbox" id="forceSearchEnginesReload"><label for="forceSearchEnginesReload" data-i18n="forceSearchEnginesReload">Force reload of default search engines list</label>
+                                <br />
+                                <input type="checkbox" id="forceFaviconsReload"><label for="forceFaviconsReload" data-i18n="forceFaviconsReload">Force favicons to be reloaded</label>
+                                <button type="button" class="file-upload-btn" id="reset" data-i18n="reset">Reset</button>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend><h3 data-i18n="header5">Import/export search engines</h3></legend>
+                            <div>
+                                <div>
+                                    <span class="cell"><label for="upload" id="upl" data-i18n="import">Import JSON from local disk</label></span>
+                                    <span class="cell">
+                                        <input type="file" id="upload" />
+                                        <label for="upload" class="file-upload-btn">Browse...</label>
+                                    </span>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="overwriteSearchEngines"><label for="overwriteSearchEngines" data-i18n="overwriteSearchEngines">Overwrite the existing search engines with the imported search engines</label>
+                                </div>
+                                <div>
+                                    <span class="cell"><label for="download" data-i18n="export">Export search engines to JSON</label></span>
+                                    <span class="cell"><button type="button" id="download" class="file-upload-btn" data-i18n="download">Export to local disk</button></span>
+                                </div>
+                            </div>
+                            <p><b><span data-i18n="reminder">Reminder</span></b>: <span data-i18n="enableDownloadsReminder">enable Downloads permissions to export your search engines.</span></p>
+                        </fieldset>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <form>
-        <div class="wrapper">
-            <div class="tabs">
-                <div class="tab">
-                    <input type="radio" name="css-tabs" id="tab-1" class="tab-switch" checked>
-                    <label for="tab-1" class="tab-label" data-i18n="titleOptions">Options</label>
-                    <div class="tab-content">
-                        <div class="preferences">
-                            <fieldset style="display:inline-block">
-                                <legend>
-                                    <h3 data-i18n="header4">Search</h3>
-                                </legend>
-                                <div>
-                                    <input type="checkbox" id="exactMatch"><label for="exactMatch"
-                                        data-i18n="exactMatch">Search
-                                        for an exact string match</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="disableDoubleClick"><label for="disableDoubleClick"
-                                        data-i18n="disableDoubleClick">Disable double click for adding search engines
-                                        that use
-                                        HTTP POST requests</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="disableAI"><label for="disableAI"
-                                        data-i18n="disableAI">Disable
-                                        AI search features</label>
-                                </div>
-                                <div class="p-sm">
-                                    <label for="siteSearch" data-i18n="siteSearch">Search engine for searching
-                                        current
-                                        site:</label>
-                                    <select id="siteSearch">
-                                        <option value="Google" data-url="https://www.google.com/search?q=">Google
-                                        </option>
-                                        <option value="Bing" data-url="https://www.bing.com/search?q=">Bing</option>
-                                        <option value="DuckDuckGo" data-url="https://duckduckgo.com/?q=">DuckDuckGo
-                                        </option>
-                                        <option value="Ecosia" data-url="https://www.ecosia.org/search?q=">Ecosia
-                                        </option>
-                                        <option value="Lilo" data-url="https://search.lilo.org/?q=">Lilo</option>
-                                        <option value="Qwant" data-url="https://www.qwant.com/?q=">Qwant</option>
-                                        <option value="Startpage" data-url="https://www.startpage.com/do/search?query=">
-                                            Startpage</option>
-                                        <option value="Swisscows" data-url="https://swisscows.com/web?query=">
-                                            Swisscows
-                                        </option>
-                                        <option value="Yahoo" data-url="https://search.yahoo.com/search?p=">Yahoo
-                                        </option>
-                                        <option value="Yandex" data-url="https://yandex.com/search?text=">Yandex
-                                        </option>
-                                    </select>
-                                </div>
-                            </fieldset>
 
-                            <fieldset style="display:inline-block">
-                                <legend>
-                                    <h3 data-i18n="header11">Grid of icons</h3>
-                                </legend>
-                                <div>
-                                    <input type="checkbox" id="disableAltClick"><label for="disableAltClick"
-                                        data-i18n="disableAltClick">Disable grid of icons (Alt + Click)</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="quickIconGrid"
-                                        style="position: relative; z-index: 99;"><label for="quickIconGrid"
-                                        style="position: relative; z-index: 99;" data-i18n="quickIconGrid">Immediately
-                                        display
-                                        the grid of icons after text has been selected</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="closeGridOnMouseOut"><label for="closeGridOnMouseOut"
-                                        data-i18n="closeGridOnMouseOut">Close the grid of icons on mouse out</label>
-                                </div>
-                                <div>
-                                    <label for="xOffset" data-i18n="xOffset">Horizontal offset of the grid of icons:
-                                    </label>
-                                    <input type="number" id="xOffset" min="0" max="200" value="12">
-                                </div>
-                                <div>
-                                    <label for="yOffset" data-i18n="yOffset">Vertical offset of the grid of icons:
-                                    </label>
-                                    <input type="number" id="yOffset" min="0" max="200" value="12">
-                                </div>
-                            </fieldset>
-
-                            <fieldset>
-                                <legend>
-                                    <h3 data-i18n="header1">Where should search results appear?</h3>
-                                </legend>
-                                <div id="tabMode">
-                                    <span class="option">
-                                        <input type="radio" id="openNewTab" name="results" value="openNewTab" checked>
-                                        <label for="openNewTab" data-i18n="newTab">In a new tab</label>
-                                    </span>
-
-                                    <span class="option">
-                                        <input type="radio" id="sameTab" name="results" value="sameTab">
-                                        <label for="sameTab" data-i18n="sameTab">In the same tab</label>
-                                    </span>
-
-                                    <br />
-                                    <span class="option">
-                                        <input type="radio" id="openNewWindow" name="results" value="openNewWindow">
-                                        <label for="openNewWindow" data-i18n="newWindow">In a new window</label>
-                                    </span>
-
-                                    <span class="option">
-                                        <input type="radio" id="openSidebar" name="results" value="openSidebar">
-                                        <label for="openSidebar" data-i18n="sidebar">In the sidebar</label>
-                                    </span>
-                                </div>
-
-                                <div id="active">
-                                    <input type="checkbox" id="tabActive"><label for="tabActive" data-i18n="active">Make
-                                        the
-                                        new
-                                        tab or window active</label>
-                                </div>
-
-                                <div id="position">
-                                    <input type="checkbox" id="lastTab"><label for="lastTab"
-                                        data-i18n="position">Display
-                                        search
-                                        results after the last tab</label>
-                                </div>
-
-                                <div id="privacy">
-                                    <input type="checkbox" id="privateMode"><label for="privateMode"
-                                        data-i18n="privacy">Make
-                                        new window private</label>
-                                </div>
-
-                                <p><span data-i18n="restriction">If the sidebar isn't already open, then you may
-                                        have to
-                                        click
-                                        on the 'Show sidebars' icon from the browser toolbar.</span></p>
-                            </fieldset>
-
-                            <fieldset>
-                                <legend>
-                                    <h3 data-i18n="header10">Multisearch</h3>
-                                </legend>
-                                <p data-i18n="multisearchIntro">Open multiple search results/tabs</p>
-                                <div id="multiMode">
-                                    <div class="option">
-                                        <input type="radio" id="multiNewWindow" name="ms_results" value="multiNewWindow"
-                                            checked>
-                                        <label for="multiNewWindow" data-i18n="multiNewWindow">In a new
-                                            window</label>
-                                    </div>
-                                    <div class="option">
-                                        <input type="radio" id="multiAfterLastTab" name="ms_results"
-                                            value="multiAfterLastTab">
-                                        <label for="multiAfterLastTab" data-i18n="multiAfterLastTab">After the last
-                                            tab
-                                            in
-                                            the
-                                            current window</label>
-                                    </div>
-                                    <div class="option">
-                                        <input type="radio" id="multiActiveTab" name="ms_results"
-                                            value="multiActiveTab">
-                                        <label for="multiActiveTab" data-i18n="multiActiveTab">Right after the
-                                            active
-                                            tab in
-                                            the
-                                            current window</label>
-                                    </div>
-                                </div>
-                            </fieldset>
-
-                            <fieldset>
-                                <legend>
-                                    <h3 data-i18n="header2">Icons</h3>
-                                </legend>
-                                <div>
-                                    <input type="checkbox" id="displayFavicons"><label for="displayFavicons"
-                                        data-i18n="displayFavicons">Display icons in context menu list</label>
-                                </div>
-                            </fieldset>
-
-                            <fieldset>
-                                <legend>
-                                    <h3 data-i18n="header3">Position of options in context menu</h3>
-                                </legend>
-                                <div>
-                                    <label for="optionsMenuLocation" data-i18n="subheader31">Where would you like
-                                        the
-                                        options
-                                        menu to appear in the context menu of Context Search?</label><br />
-                                    <select id="optionsMenuLocation">
-                                        <option value="bottom" selected data-i18n="bottom">At the bottom</option>
-                                        <option value="top" data-i18n="top">At the top</option>
-                                        <option value="none" data-i18n="hide">Neither - hide the options menu
-                                        </option>
-                                    </select>
-                                </div>
-                            </fieldset>
-
-                            <fieldset>
-                                <legend>
-                                    <h3 data-i18n="header7">Reset</h3>
-                                </legend>
-                                <div>
-                                    <input type="checkbox" id="resetPreferences"><label for="resetPreferences"
-                                        data-i18n="resetPreferences">Reset preferences to default settings</label>
-                                    <br />
-                                    <input type="checkbox" id="forceSearchEnginesReload"><label
-                                        for="forceSearchEnginesReload" data-i18n="forceSearchEnginesReload">Force
-                                        reload
-                                        of
-                                        default search engines list</label>
-                                    <br />
-                                    <input type="checkbox" id="forceFaviconsReload"><label for="forceFaviconsReload"
-                                        data-i18n="forceFaviconsReload">Force favicons to be reloaded</label>
-                                    <button type="button" class="file-upload-btn" id="reset"
-                                        data-i18n="reset">Reset</button>
-                                </div>
-                            </fieldset>
-                            <fieldset>
-                                <legend>
-                                    <h3 data-i18n="header5">Import/export search engines</h3>
-                                </legend>
-                                <div>
-                                    <div>
-                                        <span class="cell"><label for="upload" id="upl" data-i18n="import">Import JSON
-                                                from
-                                                local
-                                                disk</label></span>
-                                        <span class="cell">
-                                            <input type="file" id="upload" />
-                                            <label for="upload" class="file-upload-btn">Browse...</label>
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <input type="checkbox" id="overwriteSearchEngines"><label
-                                            for="overwriteSearchEngines" data-i18n="overwriteSearchEngines">Overwrite
-                                            the
-                                            existing search engines with the imported search engines</label>
-                                    </div>
-                                    <div>
-                                        <span class="cell"><label for="download" data-i18n="export">Export search
-                                                engines to
-                                                JSON</label>
-                                        </span>
-                                        <span class="cell"><button type="button" id="download" class="file-upload-btn"
-                                                data-i18n="download">Export to
-                                                local
-                                                disk</button></span>
-                                    </div>
-                                </div>
-                                <p><b><span data-i18n="reminder">Reminder</span></b>:
-                                    <span data-i18n="enableDownloadsReminder">enable Downloads permissions to export
-                                        your
-                                        search
-                                        engines.
-                                    </span>
-                                </p>
-                            </fieldset>
+            <div class="tab">
+                <input type="radio" name="css-tabs" id="tab-2" class="tab-switch">
+                <label for="tab-2" class="tab-label" data-i18n="titleSearchEngines">Search engines</label>
+                <div class="tab-content">
+                    <fieldset>
+                        <legend><h3 data-i18n="header6">Which search engines would you like to appear in the context menu or grid of icons?</h3></legend>
+                        <div>
+                            <button type="button" id="clearAll" data-i18n="clearAll">Clear All</button>
+                            <button type="button" id="selectAll" data-i18n="selectAll">Select All</button>
+                            <button type="button" id="sortAlphabetically" data-i18n="sortAlphabetically">Sort alphabetically</button>
+                            <button type="button" id="clearKeyboardShortcuts" data-i18n="clearKeyboardShortcuts">Clear All keyboard shortcuts</button>
+                            <br />
+                            <p><b><span data-i18n="warningText">Warning</span></b>: <span data-i18n="keyboardShortcutWarning">not all key combinations will work. Avoid using keyboard shortcuts that start with CMD on macOS or CTRL on Windows or Linux, as these are usually reserved for Firefox commands.</span></p>
+                            <p><b>Multi-search</b><span data-i18n="multisearch"> is a search with multiple search engines simultaneously.</span></p>
+                            <span class="ms"><span data-i18n="multisearchHowTo">Check the middle checkbox to include a search engine in a</span><b> multi-search</b>. <span data-i18n="multisearchLaunch">You can launch a</span><b> multi-search </b><span data-i18n="multisearchEnd">through the context menu OR through the omnibox by typing:</span> <code>cs ! </code><span data-i18n="multisearchEndOfSentence">followed by your search terms.</span></p>
                         </div>
-                    </div>
-                </div>
-
-                <div class="tab">
-                    <input type="radio" name="css-tabs" id="tab-2" class="tab-switch">
-                    <label for="tab-2" class="tab-label" data-i18n="titleSearchEngines">Search engines</label>
-                    <div class="tab-content">
-                        <fieldset>
-                            <legend>
-                                <h3 data-i18n="header6">Which search engines would you like to appear in the context
-                                    menu or
-                                    grid of icons?</h3>
-                            </legend>
-                            <div>
-                                <button type="button" id="clearAll" data-i18n="clearAll">Clear All</button>
-                                <button type="button" id="selectAll" data-i18n="selectAll">Select All</button>
-                                <button type="button" id="sortAlphabetically" data-i18n="sortAlphabetically">Sort
-                                    alphabetically</button>
-                                <button type="button" id="clearKeyboardShortcuts"
-                                    data-i18n="clearKeyboardShortcuts">Clear All
-                                    keyboard shortcuts</button>
-                                <br />
-                                <p><b><span data-i18n="warningText">Warning</span></b>: <span
-                                        data-i18n="keyboardShortcutWarning">not all key combinations will work.
-                                        Avoid using keyboard shortcuts that start with CMD on macOS or CTRL on Windows
-                                        or Linux, as
-                                        these
-                                        are
-                                        usually reserved for Firefox commands.</span></p>
-                                <p><b>Multi-search</b><span data-i18n="multisearch"> is a search with multiple
-                                        search
-                                        engines
-                                        simultaneously.</span></p>
-                                <span class="ms"><span data-i18n="multisearchHowTo">Check the middle checkbox to
-                                        include a
-                                        search
-                                        engine in a</span><b> multi-search</b>. <span data-i18n="multisearchLaunch">You
-                                        can
-                                        launch a</span><b> multi-search </b><span data-i18n="multisearchEnd">through
-                                        the
-                                        context
-                                        menu OR through the omnibox by typing:</span> <code>cs ! </code><span
-                                        data-i18n="multisearchEndOfSentence">followed by
-                                        your
-                                        search
-                                        terms.</span></p>
-                            </div>
-                            <br />
-                            <div id="container">
-                            </div>
-                            <br />
-                        </fieldset>
-                    </div>
+                        <br />
+                        <div id="container"></div>
+                        <br />
+                    </fieldset>
                 </div>
             </div>
         </div>
@@ -369,7 +226,4 @@
     <script src="/libs/Sortable.min.js"></script>
     <script type="module" src="/scripts/options.js"></script>
     <script type="module" src="/scripts/toggle_theme.js"></script>
-
 </body>
-
-</html>

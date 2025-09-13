@@ -9,7 +9,7 @@ import { STORAGE_KEYS, SORTABLE_BASE_OPTIONS } from './constants.js';
 /* global Sortable, DEBUG_VALUE */
 const sortableOptions = {
     ...SORTABLE_BASE_OPTIONS,
-    onEnd: saveSearchEnginesOnDragEnded
+    onEnd: saveSearchEnginesOnDragEnded,
 };
 
 // Storage container and div for addSearchEngine
@@ -70,7 +70,7 @@ const removeSearchEngineConfirm = browser.i18n.getMessage('removeSearchEngineCon
 const popupBlockedMessage = browser.i18n.getMessage('popupBlockedMessage');
 
 /// Global variables
-let os = null;
+let os;
 let meta = '';
 let searchEngines = {};
 let keysPressed = {};
@@ -251,7 +251,9 @@ async function restoreOptionsPage() {
         if (logToConsole) console.log('Options page has been restored.');
     } catch (err) {
         console.error('Error in restoreOptionsPage:', err);
-        showErrorState(`Error loading search engines: ${err.message}. If this is your first time opening the options page, please try refreshing. If the problem persists, try resetting the extension.`);
+        showErrorState(
+            `Error loading search engines: ${err.message}. If this is your first time opening the options page, please try refreshing. If the problem persists, try resetting the extension.`
+        );
         throw err; // Re-throw to ensure the error is caught by init()
     }
 }
@@ -324,7 +326,7 @@ function displaySearchEngines() {
     // Preserve scroll position before rebuilding
     const scrollY = window.scrollY;
     const scrollX = window.scrollX;
-    
+
     // Get or create the searchEngines div
     let div = document.getElementById('searchEngines');
 
@@ -345,7 +347,7 @@ function displaySearchEngines() {
 
     expand('root', null);
     i18n();
-    
+
     // Restore scroll position after rebuilding
     requestAnimationFrame(() => {
         window.scrollTo(scrollX, scrollY);
@@ -355,14 +357,14 @@ function displaySearchEngines() {
 async function saveSearchEnginesOnDragEnded(evt) {
     const draggedElement = evt.item;
     const oldParentEl = evt.from; // The DOM element of the old parent list
-    const newParentEl = evt.to;   // The DOM element of the new parent list
+    const newParentEl = evt.to; // The DOM element of the new parent list
 
     // Identify the old and new parent folder's ids using findClosestFolder
     let oldParentFolderId = findClosestFolder(oldParentEl)?.id;
     let newParentFolderId = findClosestFolder(newParentEl)?.id;
 
     if (!oldParentFolderId || !newParentFolderId) {
-        console.error("Could not determine old or new parent folder ID.", { oldParentEl, newParentEl });
+        console.error('Could not determine old or new parent folder ID.', { oldParentEl, newParentEl });
         return; // Stop if parent IDs are missing
     }
 
@@ -371,16 +373,20 @@ async function saveSearchEnginesOnDragEnded(evt) {
     if (newParentFolderId === 'searchEngines') newParentFolderId = 'root';
 
     if (logToConsole) {
-        console.log(`Processing move: item=${draggedElement.getAttribute('data-id')}, from DOM=${oldParentEl.id}, to DOM=${newParentEl.id}, from data=${oldParentFolderId}, to data=${newParentFolderId}`);
+        console.log(
+            `Processing move: item=${draggedElement.getAttribute('data-id')}, from DOM=${oldParentEl.id}, to DOM=${
+                newParentEl.id
+            }, from data=${oldParentFolderId}, to data=${newParentFolderId}`
+        );
     }
 
     // --- Rebuild Children Arrays from DOM ---
 
     // Helper function to get children IDs from a list element's direct item children
     const getChildrenIdsFromDOM = (listElement) => {
-        console.log("[getChildrenIdsFromDOM] Processing list element:", listElement?.id, listElement);
+        console.log('[getChildrenIdsFromDOM] Processing list element:', listElement?.id, listElement);
         if (!listElement) {
-            console.error("[getChildrenIdsFromDOM] Received null or undefined listElement!");
+            console.error('[getChildrenIdsFromDOM] Received null or undefined listElement!');
             return [];
         }
 
@@ -394,14 +400,14 @@ async function saveSearchEnginesOnDragEnded(evt) {
         // Adjust '.search-engine' or '.folder' if your actual classes differ
         const selector = ':scope > .search-engine, :scope > .folder, :scope > .folder-children > .search-engine, :scope > .folder-children > .folder';
 
-        console.log("[getChildrenIdsFromDOM] Using combined selector:", selector);
+        console.log('[getChildrenIdsFromDOM] Using combined selector:', selector);
 
         // Query the main listElement using the combined selector
         const childElements = listElement.querySelectorAll(selector);
 
-        console.log("[getChildrenIdsFromDOM] Found child elements NodeList:", childElements);
+        console.log('[getChildrenIdsFromDOM] Found child elements NodeList:', childElements);
         if (childElements.length === 0) {
-            console.warn("[getChildrenIdsFromDOM] No child elements found matching selector in:", listElement?.id);
+            console.warn('[getChildrenIdsFromDOM] No child elements found matching selector in:', listElement?.id);
         }
 
         // --- IMPORTANT: Ensure Correct Order ---
@@ -416,11 +422,11 @@ async function saveSearchEnginesOnDragEnded(evt) {
             if (id) {
                 childrenIds.push(id);
             } else {
-                console.warn("[getChildrenIdsFromDOM] Found child element without data-id:", el, "in list:", listElement?.id || 'Unknown List');
+                console.warn('[getChildrenIdsFromDOM] Found child element without data-id:', el, 'in list:', listElement?.id || 'Unknown List');
             }
         });
 
-        console.log("[getChildrenIdsFromDOM] Returning children IDs:", childrenIds);
+        console.log('[getChildrenIdsFromDOM] Returning children IDs:', childrenIds);
         return childrenIds;
     };
 
@@ -452,7 +458,6 @@ async function saveSearchEnginesOnDragEnded(evt) {
     }
     // --- End Rebuilding Children Arrays ---
 
-
     if (logToConsole) {
         console.log(`Data children for ${newParentFolderId} after DOM rebuild:`, JSON.stringify(searchEngines[newParentFolderId]?.children));
         if (oldParentFolderId !== newParentFolderId) {
@@ -464,7 +469,7 @@ async function saveSearchEnginesOnDragEnded(evt) {
     // This should now work correctly because the children arrays reflect the DOM order.
     updateIndices('root');
 
-    if (logToConsole) console.log("Final searchEngines structure before saving:", JSON.stringify(searchEngines));
+    if (logToConsole) console.log('Final searchEngines structure before saving:', JSON.stringify(searchEngines));
     await sendMessage('saveSearchEngines', searchEngines);
 }
 
@@ -479,7 +484,8 @@ async function expand(folderId, parentDiv) {
         sortableTargetDiv = folderDiv; // For root, Sortable is on the main div
         // Ensure Sortable is initialized on root (if not already)
         // This check might need refinement based on how displaySearchEngines works
-        if (!folderDiv.classList.contains('sortable-initialized')) { // Example check
+        if (!folderDiv.classList.contains('sortable-initialized')) {
+            // Example check
             new Sortable(sortableTargetDiv, sortableOptions);
             folderDiv.classList.add('sortable-initialized'); // Mark as initialized
         }
@@ -490,7 +496,7 @@ async function expand(folderId, parentDiv) {
         // Find the specific container for children within the created folder item
         sortableTargetDiv = folderDiv.querySelector('.folder-children'); // << Find the children container
         if (!sortableTargetDiv) {
-            console.error("Could not find .folder-children container in", folderDiv);
+            console.error('Could not find .folder-children container in', folderDiv);
             return; // Stop if structure is wrong
         }
         // Initialize SortableJS on the children container
@@ -538,7 +544,9 @@ function updateIndices(folderId) {
             }
         } else {
             // Log an error if a child ID exists in the array but not in the main object
-            console.error(`updateIndices: Child ID "${childId}" found in children of folder "${folderId}", but does not exist in searchEngines object. Data might be inconsistent.`);
+            console.error(
+                `updateIndices: Child ID "${childId}" found in children of folder "${folderId}", but does not exist in searchEngines object. Data might be inconsistent.`
+            );
             // Consider removing the invalid ID here as a recovery step, but fixing the source is better:
             // const invalidIndex = searchEngines[folderId].children.indexOf(childId);
             // if (invalidIndex > -1) {
@@ -582,7 +590,7 @@ async function openAddSearchEngineOrFolderPopup(e) {
     const newIndex = searchEngines[lineItemId].index + 1;
     const dataToSend = {
         parentId: parentId,
-        newIndex: newIndex
+        newIndex: newIndex,
     };
 
     // Open the popup window
@@ -631,7 +639,7 @@ function createLineItem(id) {
     let textareaFormData;
 
     // If line item is a separator
-    if (id.startsWith("separator-")) {
+    if (id.startsWith('separator-')) {
         const hr = document.createElement('hr');
         hr.id = id; // Set the element ID
         hr.dataset.id = id; // Add data-id for consistent reading by getChildrenIdsFromDOM
@@ -647,45 +655,45 @@ function createLineItem(id) {
     }
 
     // If line item is an AI prompt
-    if (id.startsWith("chatgpt-")) {
-        aiProvider = document.createElement("select");
+    if (id.startsWith('chatgpt-')) {
+        aiProvider = document.createElement('select');
         aiProvider.classList.add('row-1');
 
-        const option1 = document.createElement("option");
-        option1.value = "";
-        option1.text = "Choose AI Provider";
+        const option1 = document.createElement('option');
+        option1.value = '';
+        option1.text = 'Choose AI Provider';
 
-        const option2 = document.createElement("option");
-        option2.value = "chatgpt";
-        option2.text = "ChatGPT";
+        const option2 = document.createElement('option');
+        option2.value = 'chatgpt';
+        option2.text = 'ChatGPT';
 
-        const option3 = document.createElement("option");
-        option3.value = "google-ai-studio";
-        option3.text = "Gemini";
+        const option3 = document.createElement('option');
+        option3.value = 'google-ai-studio';
+        option3.text = 'Gemini';
 
-        const option9 = document.createElement("option");
-        option9.value = "grok";
-        option9.text = "Grok";
+        const option9 = document.createElement('option');
+        option9.value = 'grok';
+        option9.text = 'Grok';
 
-        const option4 = document.createElement("option");
-        option4.value = "perplexity";
-        option4.text = "Perplexity.ai";
+        const option4 = document.createElement('option');
+        option4.value = 'perplexity';
+        option4.text = 'Perplexity.ai';
 
-        const option5 = document.createElement("option");
-        option5.value = "poe";
-        option5.text = "Poe";
+        const option5 = document.createElement('option');
+        option5.value = 'poe';
+        option5.text = 'Poe';
 
-        const option6 = document.createElement("option");
-        option6.value = "claude";
-        option6.text = "Claude.ai";
+        const option6 = document.createElement('option');
+        option6.value = 'claude';
+        option6.text = 'Claude.ai';
 
-        const option7 = document.createElement("option");
-        option7.value = "you";
-        option7.text = "You.com";
+        const option7 = document.createElement('option');
+        option7.value = 'you';
+        option7.text = 'You.com';
 
-        const option8 = document.createElement("option");
-        option8.value = "andi";
-        option8.text = "Andi";
+        const option8 = document.createElement('option');
+        option8.value = 'andi';
+        option8.text = 'Andi';
 
         aiProvider.appendChild(option1);
         aiProvider.appendChild(option2);
@@ -698,7 +706,7 @@ function createLineItem(id) {
         aiProvider.appendChild(option8);
 
         // Get the selected option
-        if (searchEngine.aiProvider === "llama31") {
+        if (searchEngine.aiProvider === 'llama31') {
             selectedOption = aiProvider.querySelector(`option[value=poe]`);
         } else {
             selectedOption = aiProvider.querySelector(`option[value=${searchEngine.aiProvider}]`);
@@ -814,16 +822,16 @@ function createLineItem(id) {
     // Attach all the elements composing a search engine to the line item
     lineItem.appendChild(chkShowSearchEngine);
     lineItem.appendChild(favicon);
-    if (id.startsWith("chatgpt-")) {
+    if (id.startsWith('chatgpt-')) {
         lineItem.appendChild(aiProvider);
     }
     lineItem.appendChild(inputSearchEngineName);
     lineItem.appendChild(inputKeyword);
     lineItem.appendChild(inputKeyboardShortcut);
-    if (!(id.startsWith("link-") && searchEngine.url.startsWith('javascript:'))) {
+    if (!(id.startsWith('link-') && searchEngine.url.startsWith('javascript:'))) {
         lineItem.appendChild(chkMultiSearch);
     }
-    if (!id.startsWith("chatgpt-")) {
+    if (!id.startsWith('chatgpt-')) {
         lineItem.appendChild(inputQueryString);
     } else {
         lineItem.appendChild(textareaPrompt);
@@ -908,7 +916,8 @@ async function editFavicon(e) {
 
     // Add a section to instruct users how to change the favicon image
     const help = document.createElement('em');
-    help.textContent = "Drag & drop a new image over the existing favicon image. Then click on the 'Save new icon' button for your changes to take effect.";
+    help.textContent =
+        "Drag & drop a new image over the existing favicon image. Then click on the 'Save new icon' button for your changes to take effect.";
     help.style.display = 'inline-block';
     help.style.padding = '10px';
     help.style.lineHeight = '1.3em';
@@ -1117,7 +1126,7 @@ function sortSearchEnginesAlphabeticallyInFolder(folderId) {
     // Collect search engines and identify folders for recursive sorting
     for (let id of folderChildren) {
         if (logToConsole) console.log(id);
-        if (id.startsWith("separator-")) continue;
+        if (id.startsWith('separator-')) continue;
         se.push({ id: id, name: searchEngines[id].name });
 
         if (searchEngines[id].isFolder) {
@@ -1126,7 +1135,7 @@ function sortSearchEnginesAlphabeticallyInFolder(folderId) {
     }
 
     // Extract names for sorting
-    let names = se.map(entry => entry.name);
+    let names = se.map((entry) => entry.name);
 
     // Sort names alphabetically, handling numbers and strings separately
     names = sortAlphabetically(names);
@@ -1138,12 +1147,12 @@ function sortSearchEnginesAlphabeticallyInFolder(folderId) {
             if (entry.name === name) {
                 children.push(entry.id);
                 searchEngines[entry.id].index = counter++;
-                break;  // Ensure each entry is only matched once
+                break; // Ensure each entry is only matched once
             }
         }
     }
 
-    if (logToConsole) console.log(folderId + " children: ");
+    if (logToConsole) console.log(folderId + ' children: ');
     if (logToConsole) console.log(children);
 
     searchEngines[folderId].children = children;
@@ -1157,7 +1166,7 @@ async function sortSearchEnginesAlphabetically() {
 
 async function clearKeyboardShortcuts() {
     for (let id in searchEngines) {
-        searchEngines[id].keyboardShortcut = "";
+        searchEngines[id].keyboardShortcut = '';
     }
     displaySearchEngines();
     await saveSearchEngines();
@@ -1165,7 +1174,7 @@ async function clearKeyboardShortcuts() {
 
 async function reset() {
     const response = await sendMessage('reset', null);
-    if (response.action === "resetCompleted") {
+    if (response.action === 'resetCompleted') {
         // Reset reset settings to their default state and save changes to storage sync
         resetPreferences.checked = false;
         forceSearchEnginesReload.checked = false;
@@ -1180,17 +1189,17 @@ async function removeSearchEngine(e) {
     // Find closest parent div with a data-id attribute
     const lineItem = e.target.closest('div[data-id]'); // Use data-id selector
     if (!lineItem) {
-        console.error("Could not find parent item for removal:", e.target);
+        console.error('Could not find parent item for removal:', e.target);
         return;
     }
     const id = lineItem.dataset.id; // Use data-id
     if (!id) {
-        console.error("Found item has no data-id:", lineItem);
+        console.error('Found item has no data-id:', lineItem);
         return;
     }
     const pn = lineItem.parentNode;
     if (!pn) {
-        console.error("Found item has no parent node:", lineItem);
+        console.error('Found item has no parent node:', lineItem);
         return;
     }
 
@@ -1204,7 +1213,7 @@ async function removeSearchEngine(e) {
         if (folderElement && folderElement.dataset.id) {
             parentId = folderElement.dataset.id;
         } else {
-            console.error("Could not determine parent ID for item:", id, pn, folderElement);
+            console.error('Could not determine parent ID for item:', id, pn, folderElement);
             return; // Cannot proceed without parent ID
         }
     }
@@ -1236,7 +1245,7 @@ async function removeSearchEngine(e) {
 
     if (!searchEngines[id].isFolder) {
         let remove;
-        if (id.startsWith("separator-")) {
+        if (id.startsWith('separator-')) {
             remove = true;
         } else {
             remove = confirm(`${removeSearchEngineConfirm} ${searchEngines[id].name}?`);
@@ -1283,7 +1292,7 @@ async function removeSearchEngine(e) {
     }
 
     // Save the updated search engines
-    if (logToConsole) console.log("Updated searchEngines:", searchEngines);
+    if (logToConsole) console.log('Updated searchEngines:', searchEngines);
     await sendMessage('saveSearchEngines', searchEngines);
 }
 
@@ -1383,7 +1392,7 @@ function handleKeyboardShortcutKeyUp(e) {
     }
 
     // Define the desired order for modifier keys
-    const modifierOrder = { meta: 1, 'Control': 2, 'Alt': 3, 'Shift': 4 };
+    const modifierOrder = { meta: 1, Control: 2, Alt: 3, Shift: 4 };
     let currentModifiers = [];
 
     // Separate modifiers and the main key from keysPressed
@@ -1401,7 +1410,7 @@ function handleKeyboardShortcutKeyUp(e) {
 
     // Build the shortcut string
     let shortcutParts = [];
-    currentModifiers.forEach(mod => {
+    currentModifiers.forEach((mod) => {
         if (mod === 'Meta') {
             // Use 'Cmd' on Mac
             shortcutParts.push(meta);
@@ -1447,7 +1456,7 @@ async function multiTabChanged(e) {
     let id = lineItem.getAttribute('id');
     let multiTab = e.target.checked;
 
-    if (logToConsole) console.log(`Multisearch ${(multiTab ? 'enabled' : 'disabled')} for search engine ${searchEngines[id].name}`);
+    if (logToConsole) console.log(`Multisearch ${multiTab ? 'enabled' : 'disabled'} for search engine ${searchEngines[id].name}`);
 
     searchEngines[id]['multitab'] = multiTab;
 
@@ -1462,7 +1471,7 @@ async function saveChanges(e, property) {
     searchEngines[id][property] = newValue;
 
     if (property === 'aiProvider') {
-        await sendMessage('saveAIEngine', { 'id': id, 'aiProvider': newValue });
+        await sendMessage('saveAIEngine', { id: id, aiProvider: newValue });
     } else {
         await sendMessage('saveSearchEngines', searchEngines);
     }
@@ -1481,11 +1490,11 @@ function readData() {
         index: 0,
         name: 'Root',
         isFolder: true,
-        children: []
-    }
+        children: [],
+    };
 
     // Add search engine id or folder id to children of root folder
-    Array.from(lineItems).forEach(item => {
+    Array.from(lineItems).forEach((item) => {
         root.children.push(item.id);
     });
 
@@ -1493,19 +1502,19 @@ function readData() {
 
     let i = 0;
     // // Read all search engines and folders
-    Array.from(lineItems).forEach(item => {
+    Array.from(lineItems).forEach((item) => {
         readLineItem(item, i);
         i++;
     });
 
-    return searchEngines;
+    return searchEngines; // Return the constructed searchEngines object
 }
 
 function readFolder(lineItem, i) {
     const icon = lineItem.querySelector('img');
     const src = icon.src;
-    const splitSrc = src.split(",");
-    const imageFormat = splitSrc[0].split(":")[1].split(";")[0];
+    const splitSrc = src.split(',');
+    const imageFormat = splitSrc[0].split(':')[1].split(';')[0];
     const base64String = splitSrc[1];
     if (logToConsole) console.log(`Id: ${lineItem.id}`);
     if (logToConsole) console.log(`imageFormat: ${imageFormat}, base64String: ${base64String}`);
@@ -1517,15 +1526,16 @@ function readFolder(lineItem, i) {
         isFolder: true,
         children: [], // Array of search engine and/or subfolder ids
         imageFormat: imageFormat,
-        base64: base64String
-    }
+        base64: base64String,
+    };
 
     // Find the container holding the children (assuming it's the last div)
     const childrenContainer = lineItem.querySelector('div:last-child');
     if (childrenContainer) {
         // Add children of folder - only direct children with non-empty IDs
-        Array.from(childrenContainer.children).forEach(item => {
-            if (item.id) { // Ensure the item has an ID
+        Array.from(childrenContainer.children).forEach((item) => {
+            if (item.id) {
+                // Ensure the item has an ID
                 folder.children.push(item.id);
             }
         });
@@ -1534,7 +1544,7 @@ function readFolder(lineItem, i) {
 
         let j = 0;
         // Read all search engines and folders that are children of lineItem
-        Array.from(childrenContainer.children).forEach(item => {
+        Array.from(childrenContainer.children).forEach((item) => {
             // Only process items that are actual search engines/folders (have an ID)
             if (item.id) {
                 readLineItem(item, j);
@@ -1552,16 +1562,16 @@ function readLineItem(lineItem, i) {
     const input = lineItem.firstChild;
     const id = lineItem.id;
     // If the line item is a separator
-    if (input !== null && input.nodeName === 'HR' && id.startsWith("separator-")) {
+    if (input !== null && input.nodeName === 'HR' && id.startsWith('separator-')) {
         searchEngines[id] = {};
         searchEngines[id]['index'] = i;
     }
     // If the line item is an AI prompt
-    else if (input !== null && input.nodeName === 'INPUT' && input.getAttribute('type') === 'checkbox' && id.startsWith("chatgpt-")) {
+    else if (input !== null && input.nodeName === 'INPUT' && input.getAttribute('type') === 'checkbox' && id.startsWith('chatgpt-')) {
         const icon = lineItem.querySelector('img');
         const src = icon.src;
-        const splitSrc = src.split(",");
-        const imageFormat = splitSrc[0].split(":")[1].split(";")[0];
+        const splitSrc = src.split(',');
+        const imageFormat = splitSrc[0].split(':')[1].split(';')[0];
         const base64String = splitSrc[1];
         const aiProvider = lineItem.querySelector('select');
         const label = aiProvider.nextSibling;
@@ -1593,8 +1603,8 @@ function readLineItem(lineItem, i) {
     else if (input !== null && input.nodeName === 'INPUT' && input.getAttribute('type') === 'checkbox') {
         const icon = lineItem.querySelector('img');
         const src = icon.src;
-        const splitSrc = src.split(",");
-        const imageFormat = splitSrc[0].split(":")[1].split(";")[0];
+        const splitSrc = src.split(',');
+        const imageFormat = splitSrc[0].split(':')[1].split(';')[0];
         const base64String = splitSrc[1];
         const label = icon.nextSibling;
         const keyword = label.nextSibling;
@@ -1605,14 +1615,14 @@ function readLineItem(lineItem, i) {
         } else {
             multiTab = keyboardShortcut.nextSibling;
             url = multiTab.nextSibling;
-            formData = (!url.nextSibling.classList.contains('remove') ? url.nextSibling : null);
+            formData = !url.nextSibling.classList.contains('remove') ? url.nextSibling : null;
         }
         searchEngines[id] = {};
         searchEngines[id]['index'] = i;
         searchEngines[id]['name'] = label.value;
         searchEngines[id]['keyword'] = keyword.value;
         searchEngines[id]['keyboardShortcut'] = keyboardShortcut.value;
-        if (multiTab && typeof (multiTab.checked) === 'boolean') searchEngines[id]['multitab'] = multiTab.checked;
+        if (multiTab && typeof multiTab.checked === 'boolean') searchEngines[id]['multitab'] = multiTab.checked;
         searchEngines[id]['url'] = url.value;
         searchEngines[id]['show'] = input.checked;
         searchEngines[id]['imageFormat'] = imageFormat;
@@ -1636,7 +1646,7 @@ async function addNewSearchEngine(parentId, id, searchEngine) {
     // ... (Create search engine item and add to searchEngines) ...
     searchEngines[id] = { ...searchEngine };
 
-    if (!id.startsWith("separator-")) {
+    if (!id.startsWith('separator-')) {
         // Get favicon for the search engine
         const response = await sendMessage('getFavicon', { id, searchEngine });
         if (response && response.success) {
@@ -1745,11 +1755,7 @@ async function setOptions(options) {
         privateMode.checked = false;
     }
 
-    if (
-        options.optionsMenuLocation === 'top' ||
-        options.optionsMenuLocation === 'bottom' ||
-        options.optionsMenuLocation === 'none'
-    ) {
+    if (options.optionsMenuLocation === 'top' || options.optionsMenuLocation === 'bottom' || options.optionsMenuLocation === 'none') {
         optionsMenuLocation.value = options.optionsMenuLocation;
     } else {
         // Default value for optionsMenuLocation is bottom
@@ -1805,14 +1811,14 @@ async function setOptions(options) {
             break;
     }
 
-    searchEngineSiteSearch.value = options.siteSearch || "Google";
-}
+    searchEngineSiteSearch.value = options.siteSearch || 'Google'; // default to Google if not set
+} // End of setOptions
 
 async function saveToLocalDisk() {
     await saveSearchEngines();
     let fileToDownload = new Blob([JSON.stringify(searchEngines, null, 2)], {
         type: 'text/json',
-        name: 'searchEngines.json'
+        name: 'searchEngines.json',
     });
 
     await sendMessage('saveSearchEnginesToDisk', window.URL.createObjectURL(fileToDownload));
@@ -1837,14 +1843,13 @@ async function handleFileUpload() {
     } else {
         // Add the imported search engines to the existing ones avoiding duplicated IDs
         if (newSearchEngines.root?.children) {
-
             // 1. Identify duplicate IDs
             let duplicateIds = {};
             for (let id in newSearchEngines) {
                 if (!searchEngines[id] || id === 'root') continue;
                 const oldId = id;
                 while (!isIdUnique(id)) {
-                    id = id + "-" + Math.floor(Math.random() * 1000000000000);
+                    id = id + '-' + Math.floor(Math.random() * 1000000000000);
                 }
                 id = id.trim();
                 duplicateIds[oldId] = id;
@@ -1976,7 +1981,7 @@ async function updateOptionsMenuLocation() {
 async function updateSiteSearchSetting() {
     await sendOptionUpdate('siteSearch', {
         siteSearch: searchEngineSiteSearch.value,
-        siteSearchUrl: searchEngineSiteSearch.selectedOptions[0].dataset.url
+        siteSearchUrl: searchEngineSiteSearch.selectedOptions[0].dataset.url,
     });
 }
 
@@ -1984,7 +1989,7 @@ async function updateResetOptions() {
     const resetOptions = {
         forceSearchEnginesReload: forceSearchEnginesReload.checked,
         resetPreferences: resetPreferences.checked,
-        forceFaviconsReload: forceFaviconsReload.checked
+        forceFaviconsReload: forceFaviconsReload.checked,
     };
     const response = await sendOptionUpdate('resetOptions', { resetOptions });
     if (response.success) {
@@ -2050,7 +2055,7 @@ function translateContent(attribute, type) {
     if (logToConsole) console.log(`Translating ${i18nElements.length} elements`);
     if (logToConsole) console.log('Translating:', i18nElements);
 
-    i18nElements.forEach(i => {
+    i18nElements.forEach((i) => {
         const i18n_attrib = i.getAttribute(attribute); // Get key before try block
         try {
             const message = browser.i18n.getMessage(i18n_attrib); // Call getMessage
@@ -2077,8 +2082,9 @@ function translateContent(attribute, type) {
                 default:
                     break;
             }
-        } catch (ex) { // Catch errors during getMessage itself
-            if (logToConsole) console.error(`Error getting translation for key "${i18n_attrib}":`, ex, "Element:", i);
+        } catch (ex) {
+            // Catch errors during getMessage itself
+            if (logToConsole) console.error(`Error getting translation for key "${i18n_attrib}":`, ex, 'Element:', i);
         }
     });
 }
@@ -2159,15 +2165,43 @@ function isEmpty(value) {
 
 // Function to check if an elementis in focus
 function isInFocus(element) {
-    return (document.activeElement === element);
+    return document.activeElement === element;
 }
 
 // Function to check if a key is allowed
 function isKeyAllowed(key) {
     const disallowedKeys = [
-        'Tab', 'Enter', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
-        'Escape', ' ', 'Delete', 'Backspace', 'Home', 'End',
-        'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12', 'F13', 'F14', 'F15', 'F16', 'F17', 'F18', 'F19'
+        'Tab',
+        'Enter',
+        'ArrowUp',
+        'ArrowDown',
+        'ArrowLeft',
+        'ArrowRight',
+        'Escape',
+        ' ',
+        'Delete',
+        'Backspace',
+        'Home',
+        'End',
+        'F1',
+        'F2',
+        'F3',
+        'F4',
+        'F5',
+        'F6',
+        'F7',
+        'F8',
+        'F9',
+        'F10',
+        'F11',
+        'F12',
+        'F13',
+        'F14',
+        'F15',
+        'F16',
+        'F17',
+        'F18',
+        'F19',
     ];
 
     return !disallowedKeys.includes(key);
