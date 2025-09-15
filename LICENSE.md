@@ -1,4 +1,4 @@
-PolyForm Strict License 1.0.0
+### PolyForm Strict License 1.0.0
 
 Copyright (c) 2025 Olivier de Broqueville
 
