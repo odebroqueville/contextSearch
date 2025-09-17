@@ -1815,19 +1815,30 @@ async function setOptions(options) {
 } // End of setOptions
 
 async function saveToLocalDisk() {
+    // Refresh searchEngines from the DOM
     await saveSearchEngines();
-    let fileToDownload = new Blob([JSON.stringify(searchEngines, null, 2)], {
-        type: 'text/json',
-        name: 'searchEngines.json',
+
+    // Get current options from storage
+    const options = await getStoredData(STORAGE_KEYS.OPTIONS);
+
+    // Bundle both options and searchEngines
+    const payload = {
+        options: options || {},
+        searchEngines: searchEngines || {},
+    };
+
+    const fileToDownload = new Blob([JSON.stringify(payload, null, 2)], {
+        type: 'application/json',
     });
 
     await sendMessage('saveSearchEnginesToDisk', window.URL.createObjectURL(fileToDownload));
 }
 
 async function handleFileUpload() {
-    const options = await getStoredData(STORAGE_KEYS.OPTIONS);
+    const currentOptions = await getStoredData(STORAGE_KEYS.OPTIONS);
     const upload = document.getElementById('upload');
-    const jsonFile = upload.files[0];
+    const jsonFile = upload?.files?.[0];
+    if (!jsonFile) return;
 
     const fileContent = await new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -1836,58 +1847,79 @@ async function handleFileUpload() {
         reader.readAsText(jsonFile);
     });
 
-    let newSearchEngines = {};
-    newSearchEngines = JSON.parse(fileContent);
-    if (options.overwriteSearchEngines) {
-        searchEngines = newSearchEngines;
+    let parsed;
+    try {
+        parsed = JSON.parse(fileContent);
+    } catch (e) {
+        console.error('Invalid JSON file:', e);
+        return;
+    }
+
+    // Support new schema { options, searchEngines } and legacy schema (searchEngines only)
+    const importedOptions = parsed?.options && parsed?.searchEngines ? parsed.options || {} : null;
+    let incomingSearchEngines = parsed?.options && parsed?.searchEngines ? parsed.searchEngines || {} : parsed;
+
+    if (currentOptions?.overwriteSearchEngines) {
+        if (incomingSearchEngines && !isEmpty(incomingSearchEngines)) {
+            searchEngines = incomingSearchEngines;
+        }
     } else {
-        // Add the imported search engines to the existing ones avoiding duplicated IDs
-        if (newSearchEngines.root?.children) {
+        // Merge search engines avoiding duplicated IDs
+        if (incomingSearchEngines?.root?.children) {
             // 1. Identify duplicate IDs
             let duplicateIds = {};
-            for (let id in newSearchEngines) {
+            for (let id in incomingSearchEngines) {
                 if (!searchEngines[id] || id === 'root') continue;
                 const oldId = id;
                 while (!isIdUnique(id)) {
-                    id = id + '-' + Math.floor(Math.random() * 1000000000000);
+                    id = id + '-' + Date.now();
                 }
                 id = id.trim();
                 duplicateIds[oldId] = id;
             }
 
             // 2. Replace duplicate IDs in children arrays
-            for (let id in newSearchEngines) {
-                if (!newSearchEngines[id].children) continue;
-                for (let childId of newSearchEngines[id].children) {
+            for (let id in incomingSearchEngines) {
+                if (!incomingSearchEngines[id].children) continue;
+                for (let childId of incomingSearchEngines[id].children) {
                     if (duplicateIds[childId]) {
-                        newSearchEngines[id].children[newSearchEngines[id].children.indexOf(childId)] = duplicateIds[childId];
+                        incomingSearchEngines[id].children[incomingSearchEngines[id].children.indexOf(childId)] = duplicateIds[childId];
                     }
                 }
             }
 
             // 3. Replace duplicate IDs in the main object
-            for (let id in newSearchEngines) {
+            for (let id in incomingSearchEngines) {
                 if (duplicateIds[id]) {
-                    newSearchEngines[duplicateIds[id]] = newSearchEngines[id];
-                    delete newSearchEngines[id];
+                    incomingSearchEngines[duplicateIds[id]] = incomingSearchEngines[id];
+                    delete incomingSearchEngines[id];
                 }
             }
 
             // 4. Update children of the root folder of search engines
-            for (let childId of newSearchEngines.root.children) {
+            for (let childId of incomingSearchEngines.root.children) {
                 if (!searchEngines['root'].children.includes(childId)) {
                     searchEngines['root'].children.push(childId);
                 }
             }
 
-            // 5. Remove root folder from new search engines
-            delete newSearchEngines.root;
+            // 5. Remove root folder from incoming search engines
+            delete incomingSearchEngines.root;
 
             // 6. Merge the new search engines with the existing ones
-            searchEngines = { ...searchEngines, ...newSearchEngines };
+            searchEngines = { ...searchEngines, ...incomingSearchEngines };
         }
     }
+
+    // Save search engines
     await sendMessage('saveSearchEngines', searchEngines);
+
+    // Save and apply options if present
+    if (importedOptions && !isEmpty(importedOptions)) {
+        await browser.storage.local.set({ [STORAGE_KEYS.OPTIONS]: importedOptions });
+        await setOptions(importedOptions);
+    }
+
     displaySearchEngines();
 }
 
@@ -2091,7 +2123,7 @@ function translateContent(attribute, type) {
 
 // Shared handler for keydown events on shortcut input fields
 function handleKeyboardShortcutKeyDown(e) {
-    if (logToConsole) console.log('keydown:', e.key, e.code, e.metaKey, e.ctrlKey, 'target:', e.target.id);
+    if (logToConsole) console.log('keydown:', e.key, e.code, e.metaKey, e.ctrlKey, e.altKey, 'target:', e.target.id);
     // Ensure event target is an input and is focused
     if (e.target.nodeName !== 'INPUT' || !isInFocus(e.target)) return;
 
