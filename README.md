@@ -6,38 +6,36 @@ Firefox and Chrome cross-browser extension to search selected text in a web page
 
 [Chrome extension](https://chromewebstore.google.com/detail/context-search/kpgbcibefipipfnjiomkinfphlkballh)
 
-
 ## Features
 
-* Added dark theme for the Options page
-* Access search engines from the Context Menu
-* Access search engines from an Icons Grid
-* Compatible with search engines using either HTTP GET or HTTP POST requests
-* Reverse-image search using Google, Google Lens or TinEye
-* Site search
-* Carry out multiple searches at once using multisearch or folder multisearch
-* Manage your search engines from the extension's Options page
-* Many ways to easily add a new search engine
-* Support for search engines using OpenSearch description format
-* Simply add a search engine from mycroftproject.com
-* Use custom favicons for your search engines
-* Use custom prompts to question a selection of AI chatbots
-* Carry out searches from the Omnibox, i.e. url address bar
-* Assign keyboard shortcuts to your search engines
-* Export/Import your list of search engines as a safe backup
-
+-   Added dark theme for the Options page
+-   Access search engines from the Context Menu
+-   Access search engines from an Icons Grid
+-   Compatible with search engines using either HTTP GET or HTTP POST requests
+-   Reverse-image search using Google, Google Lens or TinEye
+-   Site search
+-   Carry out multiple searches at once using multisearch or folder multisearch
+-   Manage your search engines from the extension's Options page
+-   Many ways to easily add a new search engine
+-   Support for search engines using OpenSearch description format
+-   Simply add a search engine from mycroftproject.com
+-   Use custom favicons for your search engines
+-   Use custom prompts to question a selection of AI chatbots
+-   Carry out searches from the Omnibox, i.e. url address bar
+-   Assign keyboard shortcuts to your search engines
+-   Export/Import your list of search engines as a safe backup
 
 ## Optional Permissions in Firefox
 
 **Notifications**, **Downloads**, **History** and **Bookmarks** are optional permissions in Firefox. They are disabled by default. If you'd like to:
-- show notifications and/or 
-- save your list of search engines to your local disk, or 
-- search your history or bookmarks from the Omnibox, or
+
+-   show notifications and/or
+-   save your list of search engines to your local disk, or
+-   search your history or bookmarks from the Omnibox, or
 
 then open the extensions manager, select Context Search and, under the Permissions tab, enable the appropriate permissions.
 
 To open search results in a new private window, in the extensions manager, allow Context Search to <em>"Run in Private Windows"</em>.
-
 
 ## How does it work
 
@@ -49,7 +47,6 @@ To open search results in a new private window, in the extensions manager, allow
 </ol>
 
 The search results will appear as defined in the extension's preferences page.
-
 
 ## Managing search engines
 
@@ -73,69 +70,62 @@ The 'Reset' button will re-load the default list of search engines and their ass
 
 You can also import a JSON file containing your own list of search engines. It is strongly recommended to export your customized list of search engines as a backup in case anything goes wrong.
 
-
 ## What is an AI Search?
 
 There are 2 types of AI searches that can be performed:
 
-1) A **predefined AI Search** based on a prompt that you have saved in the Options page. You first select text on a web page which will be used as the context for your AI search. In your AI prompt template, %s will be replaced by the selected text. A predefined AI search is launched by clicking on the AI chatbot (which contains the AI prompt template that you want to use) from the context menu or from the grid of icons. For example, you could select a code block in a web page and use the AI chatbot ChatGPT with the AI prompt "Explain %s". This would open a new tab with the answer from ChatGPT explaining the code block selected.
+1. A **predefined AI Search** based on a prompt that you have saved in the Options page. You first select text on a web page which will be used as the context for your AI search. In your AI prompt template, %s will be replaced by the selected text. A predefined AI search is launched by clicking on the AI chatbot (which contains the AI prompt template that you want to use) from the context menu or from the grid of icons. For example, you could select a code block in a web page and use the AI chatbot ChatGPT with the AI prompt "Explain %s". This would open a new tab with the answer from ChatGPT explaining the code block selected.
 
-2) A **one-time AI Search** is not based on an existing AI prompt. A one-time AI search can be triggered in one of 2 ways: either by selecting "AI search..." from the context menu or by pressing the keyboard shortcut Alt+K. In both cases a new prompt window will open where you may first type the keyword corresponding to the AI chatbot that you'd like to use followed by a 'Space' character and then your AI prompt (which may contain %s if you'd like to use your text selection as the context for your AI search). Finally, press Enter.
+2. A **one-time AI Search** is not based on an existing AI prompt. A one-time AI search can be triggered in one of 2 ways: either by selecting "AI search..." from the context menu or by pressing the keyboard shortcut Alt+K. In both cases a new prompt window will open where you may first type the keyword corresponding to the AI chatbot that you'd like to use followed by a 'Space' character and then your AI prompt (which may contain %s if you'd like to use your text selection as the context for your AI search). Finally, press Enter.
 
 Typically, the predefined AI Search is based on an AI prompt template that you often plan to use, whereas the one-time AI Search, as its name suggests, is intended for a quick one-time use.
 
-
 ## How to add a search engine to your custom list of search engines
 
-* visit mycroftproject.com and click on the Context Search icon that appears before the textual link of a listed search engine
-* use the page action (i.e. Context Search icon in the url address bar) to add a search engine if the website supports open search
-* add a search engine manually via the Options page (you can test the query string before adding the search engine)
-* to add a search engine that uses a submit form via an HTTP POST request, double click in the website's search text box, then at least enter a search engine name in the dialog box that appears
+-   visit mycroftproject.com and click on the Context Search icon that appears before the textual link of a listed search engine
+-   use the page action (i.e. Context Search icon in the url address bar) to add a search engine if the website supports open search
+-   add a search engine manually via the Options page (you can test the query string before adding the search engine)
+-   to add a search engine that uses a submit form via an HTTP POST request, double click in the website's search text box, then at least enter a search engine name in the dialog box that appears
 
 [Here is a video](https://youtu.be/_kV7JCgGQLk) demonstrating the different ways that you can add a search engine to your custom list of search engines.
-
 
 ## How to add an AI prompt template to your custom list of search engines
 
 > [!TIP]
 > For trouble-free use, **it is recommended that you log in** prior to using an AI chatbot. This is required when using ChatGPT, Claude, Google AI Studio and Poe.
 
-On the Options page, first select the Search engines tab, then click on a green plus button where you'd like to add your new AI search. 
+On the Options page, first select the Search engines tab, then click on a green plus button where you'd like to add your new AI search.
 
-Then, select the tab to 'Add a new AI prompt'. Chose the AI chatbot you'd like to use, add a name for your AI prompt and enter your AI prompt template by inserting %s where you'd like your text selection to appear (e.g. 'Comprehensively explain the following for a college student: %s'). 
+Then, select the tab to 'Add a new AI prompt'. Chose the AI chatbot you'd like to use, add a name for your AI prompt and enter your AI prompt template by inserting %s where you'd like your text selection to appear (e.g. 'Comprehensively explain the following for a college student: %s').
 
 In most cases, after selecting text on a web page and clicking your prompt in the context menu, a new tab will open with the relevant AI chatbot. When possible, the AI prompt will be pasted in the search box and automatically submitted to the AI chatbot, except for Poe so that users can choose their preferred large language model. The search results should then appear.
 
 N.B.: If the prompt is missing from the text area, you can paste the contents of the clipboard to which your AI prompt will have been copied. For this to work, you have to enable the Clipboard permission in the extension's preferences. Alternatively, it is possible to use ChatGPT's AI chatbots on Poe.
 
-
 ## How to add a separator (horizontal line) in the context menu
 
 At the bottom of the Options page, simply click on the "Add separator" button. This will add a separator to the bottom of your search engines list. Then, use the arrow handle to the right of the horizontal line to move the separator to the position where you would like it to be. The separator should appear in the context menu.
-
 
 ## How to add a custom favicon for a search engine
 
 From the Options page, click on the favicon right before the search engine's name. A popup window will open displaying the current favicon and the associated base64 string. Drag & drop a new image onto the existing one, then click on the 'Save' button for your changes to take effect. The popup will automatically close after you click on the 'Save' button.
 
-
 ## How to perform a one-time AI search using the AI prompt window
 
 > [!TIP]
-> Prior to using this feature, **ensure that you have logged in** to the website(s) of the AI chatbot(s) that you'd like to use. This is required when using ChatGPT, Claude, Google AI Studio and Poe. 
+> Prior to using this feature, **ensure that you have logged in** to the website(s) of the AI chatbot(s) that you'd like to use. This is required when using ChatGPT, Claude, Google AI Studio and Poe.
 
 'ALT+K' opens an AI prompt window from which to carry out a one-time AI search. Start by typing the keyword corresponding to the AI chatbot that you'd like to use followed by a 'Space' character. The current list of valid keywords is:
 
-- chatgpt
-- claude
-- gemini (for Google AI Studio where different models are available)
-- grok
-- perplexity
-- poe (where you can choose amongst different LLMs)
-- andi
+-   chatgpt
+-   claude
+-   gemini (for Google AI Studio where different models are available)
+-   grok
+-   perplexity
+-   poe (where you can choose amongst different LLMs)
+-   andi
 
- If the AI chatbot is recognized, then it will automatically be styled as a tag. You can then continue typing your AI prompt completed by 'Enter'. The AI prompt window should then close and the search results be displayed in a new tab. Unless you are using Poe, then an additional step is required: select the LLM you'd like to use and submit the prompt.
-
+If the AI chatbot is recognized, then it will automatically be styled as a tag. You can then continue typing your AI prompt completed by 'Enter'. The AI prompt window should then close and the search results be displayed in a new tab. Unless you are using Poe, then an additional step is required: select the LLM you'd like to use and submit the prompt.
 
 ## How to perform a search in the omnibox
 
@@ -164,7 +154,6 @@ will display your 10 most recent bookmarks
 > [!NOTE]
 > Please note that permissions for History and/or Bookmarks need to be anabled for the latter features to work.
 
-
 ## The main structure of a JSON file containing the search engines
 
 ```javascript
@@ -177,7 +166,7 @@ will display your 10 most recent bookmarks
     "multitab": "takes the value true or false depending on whether this search engine should be included in a multi-search or not",
     "url": "search engine query string (without the search terms)",
     "show": "takes the value true if the search engine is to be shown in the context menu or false if not",
-    "base64": "a base 64 string representation of the search engine's favicon" 
+    "base64": "a base 64 string representation of the search engine's favicon"
   }
 }
 ```
@@ -215,29 +204,27 @@ Here is an example of a JSON file containing 3 search engines:
     "url": "https://search.yahoo.com/search?p=",
     "show": true,
     "base64": ""
-  }  
+  }
 }
 ```
 
 > [!NOTE]
 > It is not required to provide the base 64 string representation of any search engine's favicon. This string will automatically be loaded for you.
 
-
 ## Special thanks to the following contributors
 
 <ul>
 <li>Carl Scheller for implementing the drag & drop feature to move search engines in the Options page</li>
-<li>Geoffrey De Belie for the Dutch translation</li>
-<li>Krzysztof Galazka for the Polish translation</li>
+<li>Geoffrey De Belie for code contributions to the original project and for the Dutch translations</li>
+<li>Krzysztof Galazka for the Polish translations</li>
 <li>Sergio Tombesi for the Italian and Spanish translations</li>
-<li>Fushan Wen for the Chinese translation</li>
-<li>Sveinn í Felli for the Icelandic translation</li>
+<li>Fushan Wen for the Chinese translations</li>
+<li>Sveinn í Felli for the Icelandic translations</li>
 </ul>
 
 Other translations were completed using [DeepL](https://www.deepl.com/translator), Microsoft Translator and Google Translate in [Crowdin](https://crowdin.com).
 
-
 ## Code made by others used in this extension
 
-- Webextension-polyfill v0.12.0 minified with many contributors, which can be found on GitHub here: https://github.com/mozilla/webextension-polyfill
-- SortableJS v1.15.6 minified with many contributors, which can be found on GitHub here: https://github.com/SortableJS/Sortable/blob/1.15.6/Sortable.min.js
+-   Webextension-polyfill v0.12.0 minified with many contributors, which can be found on GitHub here: https://github.com/mozilla/webextension-polyfill
+-   SortableJS v1.15.6 minified with many contributors, which can be found on GitHub here: https://github.com/SortableJS/Sortable/blob/1.15.6/Sortable.min.js
