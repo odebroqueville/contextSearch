@@ -18,7 +18,7 @@ This enhancement adds bookmark icons to both the Bookmarks and History pages in 
 ### Technical Implementation
 
 #### Files Modified
-1. **scripts/bookmark-utils.js** (NEW): Shared utility functions for bookmark management
+1. **scripts/utilities.js** (NEW - renamed from bookmark-utils.js): Central shared utility module for bookmark management and generic helpers
 2. **scripts/bookmarks.js**: Enhanced to include bookmark icons for each bookmark item
 3. **scripts/history.js**: Enhanced to include bookmark icons for each history item  
 4. **styles/bookmarks.css**: Added styles for bookmark icons

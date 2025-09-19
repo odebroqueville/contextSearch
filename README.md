@@ -76,7 +76,7 @@ There are 2 types of AI searches that can be performed:
 
 1. A **predefined AI Search** based on a prompt that you have saved in the Options page. You first select text on a web page which will be used as the context for your AI search. In your AI prompt template, %s will be replaced by the selected text. A predefined AI search is launched by clicking on the AI chatbot (which contains the AI prompt template that you want to use) from the context menu or from the grid of icons. For example, you could select a code block in a web page and use the AI chatbot ChatGPT with the AI prompt "Explain %s". This would open a new tab with the answer from ChatGPT explaining the code block selected.
 
-2. A **one-time AI Search** is not based on an existing AI prompt. A one-time AI search can be triggered in one of 2 ways: either by selecting "AI search..." from the context menu or by pressing the keyboard shortcut Alt+K. In both cases a new prompt window will open where you may first type the keyword corresponding to the AI chatbot that you'd like to use followed by a 'Space' character and then your AI prompt (which may contain %s if you'd like to use your text selection as the context for your AI search). Finally, press Enter.
+2. A **one-time AI Search** is not based on an existing AI prompt. A one-time AI search can be triggered in one of 2 ways: either by selecting "AI search..." from the context menu or by pressing the keyboard shortcut Alt+K. In both cases a new command window will open where you may first type the keyword corresponding to the AI chatbot that you'd like to use followed by a 'Space' character and then your AI prompt (which may contain %s if you'd like to use your text selection as the context for your AI search). Finally, press Enter.
 
 Typically, the predefined AI Search is based on an AI prompt template that you often plan to use, whereas the one-time AI Search, as its name suggests, is intended for a quick one-time use.
 
@@ -110,12 +110,12 @@ At the bottom of the Options page, simply click on the "Add separator" button. T
 
 From the Options page, click on the favicon right before the search engine's name. A popup window will open displaying the current favicon and the associated base64 string. Drag & drop a new image onto the existing one, then click on the 'Save' button for your changes to take effect. The popup will automatically close after you click on the 'Save' button.
 
-## How to perform a one-time AI search using the AI prompt window
+## How to use the command window
 
 > [!TIP]
 > Prior to using this feature, **ensure that you have logged in** to the website(s) of the AI chatbot(s) that you'd like to use. This is required when using ChatGPT, Claude, Google AI Studio and Poe.
 
-'ALT+K' opens an AI prompt window from which to carry out a one-time AI search. Start by typing the keyword corresponding to the AI chatbot that you'd like to use followed by a 'Space' character. The current list of valid keywords is:
+'ALT+K' opens the command window from which you can carry out a one-time AI search or run omnibox-style commands. Start by typing the keyword corresponding to the AI chatbot that you'd like to use followed by a 'Space' character. The current list of valid AI keywords is:
 
 -   chatgpt
 -   claude
@@ -125,7 +125,25 @@ From the Options page, click on the favicon right before the search engine's nam
 -   poe (where you can choose amongst different LLMs)
 -   andi
 
-If the AI chatbot is recognized, then it will automatically be styled as a tag. You can then continue typing your AI prompt completed by 'Enter'. The AI prompt window should then close and the search results be displayed in a new tab. Unless you are using Poe, then an additional step is required: select the LLM you'd like to use and submit the prompt.
+If the AI chatbot is recognized, then it will automatically be styled as a tag. You can then continue typing your AI prompt completed by 'Enter'. The command window will close and the search results will be displayed in a new tab. Unless you are using Poe, then an additional step is required: select the LLM you'd like to use and submit the prompt.
+
+The command window also supports the same commands available in the omnibox, but without the need to start with 'cs ':
+
+-   Open Options: `.`
+-   Multi-search: `! <search terms>`
+-   History: `!h` or `history` [optional terms]
+-   Bookmarks: `!b` or `bookmarks` [terms] — use `recent` to show your 10 most recent bookmarks
+-   Standard search: `<keyword> <search terms>` (keyword as defined in Options)
+
+Examples:
+
+-   `chatgpt Explain %s`
+-   `w atom`
+-   `! cold fusion`
+-   `.`
+-   `!h`
+-   `!b Mozilla`
+-   `!b recent`
 
 ## How to perform a search in the omnibox
 
@@ -152,7 +170,18 @@ will display all bookmarks that include the term Mozilla
 will display your 10 most recent bookmarks
 
 > [!NOTE]
-> Please note that permissions for History and/or Bookmarks need to be anabled for the latter features to work.
+> Please note that permissions for History and/or Bookmarks need to be anabled for the bookmark and history features to work.
+
+You can run these same commands from the command window (opened with Alt+K) without the leading `cs `. For example: `w atom`, `! cold fusion`, `.`, `!h`, `!b recent`.
+
+## Bookmark & History Functionality
+
+### How it Works
+
+1. The bookmark status is determined by checking if the item's URL exists in the "Bookmarks" folder within the search engines list
+2. Each bookmark/history item gets a bookmark icon positioned in the top-right corner
+3. Clicking the icon toggles the bookmark status and updates the search engines list
+4. The icon appearance changes immediately to reflect the new status
 
 ## The main structure of a JSON file containing the search engines
 
@@ -224,7 +253,73 @@ Here is an example of a JSON file containing 3 search engines:
 
 Other translations were completed using [DeepL](https://www.deepl.com/translator), Microsoft Translator and Google Translate in [Crowdin](https://crowdin.com).
 
+I'm also grateful to all those who have contributed to making Context Search better by reporting issues on GitHub.
+
 ## Code made by others used in this extension
 
 -   Webextension-polyfill v0.12.0 minified with many contributors, which can be found on GitHub here: https://github.com/mozilla/webextension-polyfill
 -   SortableJS v1.15.6 minified with many contributors, which can be found on GitHub here: https://github.com/SortableJS/Sortable/blob/1.15.6/Sortable.min.js
+
+## Development Configuration
+
+### Build Process Overview
+
+The project provides separate build scripts for Firefox, Chrome, or both. Use the one matching your target:
+
+-   npm run build  
+    Uses: web-ext build  
+    Target: Firefox only  
+    Output: A signed/packaged .zip in the web-ext-artifacts/ folder (default web-ext behavior)
+
+-   npm run build:firefox  
+    Uses: node build.js firefox  
+    Target: Firefox (custom build pipeline)
+
+-   npm run build:chrome  
+    Uses: node build.js chrome  
+    Target: Chrome (applies Chrome-specific manifest adjustments)
+
+-   npm run build:all  
+    Uses: node build.js  
+    Target: Builds both Firefox and Chrome variants in one pass
+
+Notes:
+
+-   build.js is responsible for generating variant-specific manifests (e.g. browser_specific_settings vs Chrome keys) and producing distributable archives.
+-   If DEBUG is set (see below) the script may toggle code paths (e.g. logging) during generation.
+-   Clean old artifacts manually if needed (e.g. rm -rf web-ext-artifacts dist build output folders).
+
+Typical workflow:
+
+1. Install dependencies: npm install
+2. (Optional) Enable debug: echo "DEBUG=true" > .env
+3. Build both packages: npm run build:all
+4. Load the unpacked Chrome build via chrome://extensions (Developer Mode -> Load unpacked)
+5. For Firefox local testing, you can temporarily run: npx web-ext run (or load the unsigned build via about:debugging)
+
+Troubleshooting:
+
+-   If manifest differences don’t appear, inspect build.js.
+-   Delete cached artifacts then rebuild.
+-   Ensure Node version is current (LTS recommended).
+
+### Environment Variables
+
+This project supports environment-based configuration using a `.env` file. Currently supported variables:
+
+-   `DEBUG` - Controls debug logging throughout the application (true/false)
+
+To configure the debug mode:
+
+1. Edit the `.env` file in the project root:
+
+    ```
+    DEBUG=false
+    ```
+
+2. Run the build process to apply the configuration:
+    ```bash
+    npm run build:all
+    ```
+
+The build process will automatically read the `.env` file and replace debug values in the compiled extension files.
