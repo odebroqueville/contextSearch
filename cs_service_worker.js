@@ -302,13 +302,14 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const action = message.action;
     const data = message.data;
 
-    if (logToConsole) console.log(`Extension context valid: ${!browser.runtime.lastError}. Message received from ${sender.url}:`, message);
+    // Avoid using browser.runtime.lastError here; it’s not reliable in this context
+    if (logToConsole) console.log('Message received from', sender?.url, message);
 
-    // If the extension context is invalid, don't try to handle the message
-    if (browser.runtime.lastError) {
-        console.error('Extension context invalidated:', browser.runtime.lastError);
-        return;
-    }
+    // Remove this block:
+    // if (browser.runtime.lastError) {
+    //     console.error('Extension context invalidated:', browser.runtime.lastError);
+    //     return; // <-- This caused undefined responses
+    // }
 
     if (action !== 'openPaymentPage' && action !== 'openTrialPage' && !paid && !trialActive) {
         sendResponse({ success: false, error: 'Subscription required' });
@@ -2727,7 +2728,11 @@ async function processOmniboxInput(input) {
     selection = searchTerms.trim();
     await setStoredData(STORAGE_KEYS.SELECTION, selection);
 
-    let tabIndex, tabPosition, tabId, id, aiEngine = '';
+    let tabIndex,
+        tabPosition,
+        tabId,
+        id,
+        aiEngine = '';
 
     if (logToConsole) console.log(`Keyword is: ${keyword}`);
     if (logToConsole) console.log(`Search terms are: ${searchTerms}`);
@@ -2791,7 +2796,8 @@ async function processOmniboxInput(input) {
                     await setStoredData(STORAGE_KEYS.SEARCH_TERMS, searchTerms);
                     await browser.tabs.update(activeTab.id, { url: '/html/bookmarks.html' });
                 } else {
-                    if (notificationsEnabled) notify('Bookmarks permission not granted. Please enable Bookmarks permission in the extension settings.');
+                    if (notificationsEnabled)
+                        notify('Bookmarks permission not granted. Please enable Bookmarks permission in the extension settings.');
                 }
                 break;
             }
@@ -2952,7 +2958,7 @@ async function buildSuggestion(text) {
                     targetUrl = await getSearchEngineUrl(searchEngineUrl, searchTerms);
                     suggestion['content'] = targetUrl;
                 } else {
-                    // If search engine uses POST request
+                    // If search engine uses HTTP POST request
                     targetUrl = searchEngineUrl;
                     suggestion['content'] = { id: id, url: targetUrl };
                 }

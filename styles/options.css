@@ -135,7 +135,27 @@ html[theme='dark'] #searchEngines div.folder:hover {
 
 button.add,
 button.remove {
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
     text-align: center;
+}
+
+button.add {
+    margin: 0 0 0 10px;
+}
+
+button.remove {
+    margin: 0 0 0 5px;
+}
+
+button.add img,
+button.remove img {
+    margin: 0;
+    padding: 0;
+    width: 20px;
+    height: 20px;
 }
 
 /* Vertically center buttons when in a container with textarea */
@@ -246,6 +266,30 @@ button#download {
     width: 150px;
 }
 
+/* Unified button styling to match addSearchEngineOrFolder.css
+   Apply to all tab buttons except .add/.remove; include .file-upload-btn */
+.tab-content input[type='button'],
+.tab-content input[type='submit'],
+.tab-content button:not(.add):not(.remove),
+.file-upload-btn {
+    background: #0077ff;
+    color: #ffffff;
+    border: 1px solid #005ce6;
+    border-radius: 8px;
+    padding: 6px 10px;
+    margin-left: 5px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.tab-content input[type='button']:hover,
+.tab-content input[type='submit']:hover,
+.tab-content button:not(.add):not(.remove):hover,
+.file-upload-btn:hover {
+    background: #0000cc;
+    border-color: #004cc4;
+}
+
 #container div {
     margin-bottom: 5px;
 }
@@ -263,26 +307,12 @@ button#download {
     height: 0;
 }
 
-/* Style for the custom file upload button */
+/* Style for the custom file upload button (inherits unified colors above) */
 .file-upload-btn {
     display: inline-block;
-    margin-left: 5px;
-    padding: 3px 10px 3px 10px;
     line-height: 1.2em;
-    background-color: #333;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
     font-family: inherit;
     font-size: inherit;
-    color: #ddd;
-    transition: background-color 0.2s ease;
-}
-
-.file-upload-btn:hover {
-    background-color: #e9ecef;
-    border-color: #adb5bd;
-    color: #333;
 }
 
 h3 {
@@ -300,6 +330,10 @@ h4 {
 p {
     margin-top: 0px;
     margin-bottom: 10px;
+}
+
+p.warning {
+    margin-top: 10px;
 }
 
 .right button,
@@ -660,4 +694,33 @@ html[theme='dark'] .tab-switch:checked + .tab-label {
     border: 1px solid #f5c6cb;
     border-radius: 4px;
     margin: 10px 0;
+}
+
+/* Hide the paragraph immediately following the Download button by default */
+button#download + p {
+    display: none;
+}
+
+/* Hide the Reminder paragraph in the fieldset that contains the Download button by default */
+fieldset:has(#download) > p {
+    display: none;
+}
+
+/* If permission is granted, darken the Download button on hover */
+.tab-content button#download[data-permission='granted']:hover {
+    background: #0000cc; /* dark blue */
+    border-color: #083372; /* darker border */
+    color: #ffffff;
+}
+
+/* If permission is missing, keep base colors on hover (override generic hover) */
+.tab-content button#download[data-permission='missing']:hover {
+    background: #0077ff; /* same as base */
+    border-color: #005ce6; /* same as base */
+    color: #ffffff;
+}
+
+/* Show the Reminder paragraph only when hovering the Download button AND permission is missing */
+fieldset:has(#download[data-permission='missing']:hover) > p {
+    display: block;
 }

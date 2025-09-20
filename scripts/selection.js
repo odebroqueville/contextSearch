@@ -1,5 +1,4 @@
 /* eslint-disable no-case-declarations */
-/* eslint-disable no-control-regex */
 /* eslint-disable no-unused-vars */
 
 /* global DEBUG_VALUE */
@@ -65,6 +64,9 @@ document.addEventListener('mouseover', handleMouseOver);
 
 // Right-click event listener
 document.addEventListener('contextmenu', handleRightClickWithoutGrid);
+
+// Ensure double-click selection on Windows doesn't include trailing space (visible)
+document.addEventListener('dblclick', normalizeDoubleClickSelection);
 
 // Mouse up event listener
 document.addEventListener('click', (e) => {
@@ -164,6 +166,126 @@ browser.runtime.onMessage.addListener((message, _unused, sendResponse) => {
 });
 
 /// Main functions
+
+// Trim trailing space from the visible selection after a double-click on Windows
+async function normalizeDoubleClickSelection(e) {
+    try {
+        // Skip if another handler already took ownership of this input/textarea dblclick
+        if (e?.defaultPrevented) return;
+        const t = e?.target;
+        if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) {
+            // If this is bubbling on document (or any non-target currentTarget), skip.
+            if (e?.currentTarget && e.currentTarget !== t) return;
+        }
+
+        // Resolve OS if not ready yet
+        if (!os) {
+            try {
+                os = await getOS();
+            } catch (_) {
+                // Intentionally ignored
+            }
+        }
+        if (os !== 'Windows') return;
+
+        // Let the browser finalize native double-click selection first
+        await new Promise((r) => requestAnimationFrame(r));
+
+        const target = t;
+
+        // Inputs and textareas
+        if (target && ((target.tagName === 'INPUT' && (target.type === 'text' || !target.type)) || target.tagName === 'TEXTAREA')) {
+            const el = target;
+            if (typeof el.selectionStart === 'number' && typeof el.selectionEnd === 'number') {
+                const start = el.selectionStart;
+                const end = el.selectionEnd;
+                if (end > start) {
+                    const selected = el.value.substring(start, end);
+                    if (/[ \u00A0]$/.test(selected)) {
+                        el.selectionEnd = end - 1; // visually trims the trailing space
+                        if (logToConsole) console.log('Trimmed trailing space in input/textarea selection');
+                    }
+                }
+            }
+            return;
+        }
+
+        // Page/contenteditable selections
+        const sel = typeof window.getSelection === 'function' ? window.getSelection() : null;
+        if (!sel || sel.rangeCount === 0) return;
+
+        const range = sel.getRangeAt(sel.rangeCount - 1);
+        const text = range.toString();
+
+        if (!/[ \u00A0]$/.test(text)) return;
+
+        if (range.endContainer && range.endContainer.nodeType === Node.TEXT_NODE) {
+            const data = range.endContainer.data;
+            const off = range.endOffset;
+            if (off > 0 && /[ \u00A0]/.test(data.charAt(off - 1))) {
+                range.setEnd(range.endContainer, off - 1);
+                sel.removeAllRanges();
+                sel.addRange(range);
+                if (logToConsole) console.log('Trimmed trailing space in DOM selection (text node)');
+                return;
+            }
+        }
+
+        // Fallback: find previous text position and trim if it is whitespace
+        const info = getPreviousTextPosition(range.endContainer, range.endOffset);
+        if (info && /[ \u00A0]/.test(info.char)) {
+            const startNode = range.startContainer;
+            const startOffset = range.startOffset;
+
+            const newRange = document.createRange();
+            newRange.setStart(startNode, startOffset);
+            newRange.setEnd(info.node, info.offset);
+
+            sel.removeAllRanges();
+            sel.addRange(newRange);
+            if (logToConsole) console.log('Trimmed trailing space in DOM selection (fallback walker)');
+        }
+    } catch (err) {
+        if (logToConsole) console.error('normalizeDoubleClickSelection error:', err);
+    }
+}
+
+// Helper: find the character just before a boundary (node, offset)
+function getPreviousTextPosition(container, offset) {
+    let node = container;
+
+    if (node && node.nodeType === Node.TEXT_NODE) {
+        if (offset > 0) {
+            return { node, offset: offset - 1, char: node.data[offset - 1] };
+        }
+    } else if (node && node.nodeType === Node.ELEMENT_NODE && offset > 0) {
+        node = node.childNodes[offset - 1];
+    }
+
+    function lastDeepChild(n) {
+        let cur = n;
+        while (cur && cur.lastChild) cur = cur.lastChild;
+        return cur;
+    }
+
+    let cur = node;
+    if (cur && cur.nodeType !== Node.TEXT_NODE) cur = lastDeepChild(cur);
+
+    while (cur && cur.nodeType !== Node.TEXT_NODE) {
+        while (cur && !cur.previousSibling) {
+            cur = cur.parentNode;
+        }
+        if (cur) {
+            cur = cur.previousSibling;
+            cur = lastDeepChild(cur);
+        }
+    }
+
+    if (cur && cur.nodeType === Node.TEXT_NODE && cur.data.length > 0) {
+        return { node: cur, offset: cur.data.length - 1, char: cur.data[cur.data.length - 1] };
+    }
+    return null;
+}
 
 // Handle key down
 function handleKeyDown(event) {
@@ -851,7 +973,7 @@ async function init() {
     }
 
     // Display clickable icons (buttons) for mycroftproject.com
-    if (!hasContextSearchImage) showButtons();
+    if (!hasContextSearchImage()) showButtons();
 
     // For all input elements on the page that are descendants of a form element, except for input elements with the type "hidden" or without any type, add a double click event listener
     document.querySelectorAll('form input:not([type="hidden"])').forEach((inputTextField) => {
@@ -870,6 +992,9 @@ function hasContextSearchImage() {
 
 // Handle double click event on input elements for websites that use HTTP POST method
 async function handleInputDblclick(e) {
+    // First, normalize the visible selection for Windows on this input (so users see the trimmed word)
+    await normalizeDoubleClickSelection(e);
+
     // Get fresh options to ensure we have the latest settings
     const freshOptions = await getFreshStoredData('options');
     if (freshOptions) {
@@ -1148,18 +1273,18 @@ async function handleRightClickWithoutGrid(e) {
 async function handleAltClickWithGrid(e) {
     if (logToConsole) console.log('📥 handleAltClickWithGrid called with event:', e);
 
+    // Ignore non-primary clicks early (don’t set the processing flag yet)
+    if (e && e.button !== 0) {
+        if (logToConsole) console.log('🚫 handleAltClickWithGrid: Aborting - not left mouse button');
+        return;
+    }
+
     // Prevent multiple calls by checking if we're already processing
     if (window.contextSearchProcessing) {
         if (logToConsole) console.log('🔄 handleAltClickWithGrid already processing, skipping');
         return;
     }
     window.contextSearchProcessing = true;
-
-    // Check if the left mouse button is pressed, if not then abort
-    if (e && e.button !== 0) {
-        if (logToConsole) console.log('🚫 handleAltClickWithGrid: Aborting - not left mouse button');
-        return;
-    }
 
     try {
         // Get fresh options to ensure we have the latest settings
@@ -1353,7 +1478,9 @@ async function showButtons() {
 }
 
 async function handleSelectionEnd(e = null, selection = '') {
+    /* eslint-disable no-control-regex */
     const controlCharactersRegex = /[\x00-\x1f\x7f-\x9f]/g;
+    /* eslint-enable no-control-regex */
     let plaintext = selection;
     let skipStorage = false;
 
@@ -1530,7 +1657,12 @@ async function createIconsGrid(folderId) {
     nav.style.border = '3px solid #999';
     nav.style.padding = '5px';
     nav.style.borderRadius = '20px';
-    nav.style.zIndex = 9999;
+    // Make sure we are above any site overlay
+    nav.style.zIndex = String(2147483647);
+    // Isolate from page stacking contexts and ensure clicks work
+    nav.style.isolation = 'isolate';
+    nav.style.pointerEvents = 'auto';
+    nav.style.boxShadow = '0 6px 24px rgba(0,0,0,0.35)';
     nav.style.position = 'fixed';
     nav.style.setProperty('top', yPos.toString() + 'px');
     nav.style.setProperty('left', xPos.toString() + 'px');
@@ -1543,6 +1675,7 @@ async function createIconsGrid(folderId) {
         const messageDiv = document.createElement('div');
         messageDiv.textContent = 'No search engines available';
         messageDiv.style.padding = '10px';
+        messageDiv.style.width = '100%';
         messageDiv.style.textAlign = 'center';
         messageDiv.style.gridColumn = '1 / -1';
         nav.appendChild(messageDiv);
@@ -1703,78 +1836,62 @@ function removeBorder(e) {
     }
 }
 
-async function sendMessage(action, data, retryCount = 0) {
+async function sendMessage(action, data, attempt = 0) {
     const maxRetries = 3;
-    if (logToConsole) console.log(`Sending message: action=${action}, data=`, data);
+    const isGetStoredData = action === 'getStoredData';
+    const timeoutMs = 10000;
 
-    // Check if browser/chrome API is available
-    if (!browser.runtime?.sendMessage) {
-        const errorMsg = 'browser.runtime.sendMessage is not available';
-        if (logToConsole) console.error(errorMsg); // CHANGED: Added console.error
-        return { success: false, error: errorMsg };
+    if (logToConsole) console.log(`Sending message: action=${action}`, data);
+
+    // Bail out early if API is missing
+    if (!browser?.runtime?.sendMessage) {
+        const error = 'browser.runtime.sendMessage is not available';
+        if (logToConsole) console.error(error);
+        return { success: false, error };
     }
 
-    try {
-        // Set up a timeout for the message - CHANGED: Increased from 5000 to 10000
-        const timeoutMs = 10000;
-        let timeoutId;
-
-        const responsePromise = new Promise((resolve, reject) => {
-            // CHANGED: Added reject parameter
-            // Set up timeout
-            timeoutId = setTimeout(() => {
-                if (logToConsole) console.error(`Message timed out after ${timeoutMs}ms`);
-                reject(new Error('Message timeout')); // CHANGED: Use reject instead of resolve
-            }, timeoutMs);
-
-            // Send the message
-            browser.runtime
-                .sendMessage({ action, data })
-                .then((response) => {
-                    clearTimeout(timeoutId);
-                    if (logToConsole) console.log('Raw response received:', response); // CHANGED: Added logging
-                    resolve(response);
+    // Helper: promise with timeout
+    const withTimeout = (promise, ms) =>
+        new Promise((resolve, reject) => {
+            const timer = setTimeout(() => reject(new Error('Message timeout')), ms);
+            promise
+                .then((v) => {
+                    clearTimeout(timer);
+                    resolve(v);
                 })
-                .catch((error) => {
-                    clearTimeout(timeoutId);
-                    if (logToConsole) console.error('Error sending message:', error);
-                    reject(error); // CHANGED: Use reject instead of resolve
+                .catch((err) => {
+                    clearTimeout(timer);
+                    reject(err);
                 });
         });
 
-        const response = await responsePromise;
+    try {
+        const raw = await withTimeout(browser.runtime.sendMessage({ action, data }), timeoutMs);
 
-        // Log the response
-        if (logToConsole) console.log('Processed response:', response); // CHANGED: Enhanced logging
+        if (logToConsole) console.log('Processed response:', raw);
 
-        // Handle undefined response with retry
-        if (response === undefined && action === 'getStoredData' && retryCount < maxRetries) {
-            // CHANGED: Check for undefined
-            if (logToConsole) console.log(`Undefined response for getStoredData, retrying (${retryCount + 1}/${maxRetries})...`);
-            // CHANGED: Increased delay from 500ms to 1000ms
-            await new Promise((resolve) => setTimeout(resolve, 1000 * (retryCount + 1)));
-            return sendMessage(action, data, retryCount + 1);
+        // Treat undefined/null as retryable for getStoredData
+        if ((raw === undefined || raw === null) && isGetStoredData && attempt < maxRetries) {
+            if (logToConsole) console.log(`Undefined response, retrying getStoredData (${attempt + 1}/${maxRetries})`);
+            await new Promise((r) => setTimeout(r, 500 * (attempt + 1)));
+            return sendMessage(action, data, attempt + 1);
         }
 
-        // Return the response or error object
-        return response || { success: false, error: 'Undefined response' }; // CHANGED: Better error message
-    } catch (error) {
-        const errorMsg = `Error in sendMessage (${action}): ${error.message || error}`;
-        if (logToConsole) {
-            if (!(error && error.message && error.message.includes('Extension context invalidated'))) {
-                console.error(errorMsg, error);
-            }
+        // Normalize to an object result
+        return raw && typeof raw === 'object' ? raw : { success: false, error: 'Undefined response' };
+    } catch (err) {
+        const msg = err?.message || String(err);
+        if (logToConsole && !msg.includes('Extension context invalidated')) {
+            console.error(`Error in sendMessage (${action}): ${msg}`);
         }
 
-        // Retry on general errors for getStoredData
-        if (action === 'getStoredData' && retryCount < maxRetries) {
-            if (logToConsole) console.log(`Error for getStoredData, retrying (${retryCount + 1}/${maxRetries})...`);
-            // CHANGED: Increased delay from 500ms to 1000ms
-            await new Promise((resolve) => setTimeout(resolve, 1000 * (retryCount + 1)));
-            return sendMessage(action, data, retryCount + 1);
+        if (isGetStoredData && attempt < maxRetries) {
+            if (logToConsole) console.log(`Error, retrying getStoredData (${attempt + 1}/${maxRetries})...`);
+            await new Promise((r) => setTimeout(r, 500 * (attempt + 1)));
+            return sendMessage(action, data, attempt + 1);
         }
 
-        return { success: false, error: errorMsg };
+        return { success: false, error: msg };
     }
 }
 
@@ -1786,10 +1903,22 @@ async function getFreshStoredData(key) {
         if (response && response.success && response.data) {
             return response.data[key];
         }
+        // Fallback: read directly from local storage if the service worker didn’t respond
+        const local = await browser.storage.local.get(key);
+        if (local && Object.prototype.hasOwnProperty.call(local, key)) {
+            if (logToConsole) console.log(`Fallback storage.local hit for ${key}`);
+            return local[key];
+        }
         return null;
     } catch (error) {
         if (logToConsole) console.error(`Failed to get fresh ${key}:`, error);
-        return null;
+        try {
+            const local = await browser.storage.local.get(key);
+            return local && Object.prototype.hasOwnProperty.call(local, key) ? local[key] : null;
+        } catch (e2) {
+            if (logToConsole) console.error(`Fallback storage.local failed for ${key}:`, e2);
+            return null;
+        }
     }
 }
 

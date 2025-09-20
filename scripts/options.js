@@ -552,7 +552,7 @@ function findParentId(itemId) {
 
 async function openAddSearchEngineOrFolderPopup(e) {
     const popupWidth = 1000; // Set the width of the popup
-    const popupHeight = 620; // Set the height of the popup; was 400 before templateVars
+    const popupHeight = 625; // Set the height of the popup; was 400 before templateVars
     const left = Math.floor((window.screen.width - popupWidth) / 2); // Center horizontally
     const top = Math.floor((window.screen.height - popupHeight) / 2); // Center vertically
     const windowFeatures = `width=${popupWidth},height=${popupHeight},left=${left},top=${top - 10},resizable,
@@ -2036,11 +2036,12 @@ function sortAlphabetically(array) {
 async function checkForDownloadsPermission() {
     const downloads = { permissions: ['downloads'] };
     const hasDownloadsPermission = await browser.permissions.contains(downloads);
-    if (hasDownloadsPermission) {
-        btnDownload.disabled = false;
-    } else {
-        btnDownload.disabled = true;
-    }
+
+    // Keep existing enable/disable behavior
+    btnDownload.disabled = !hasDownloadsPermission;
+
+    // Expose state to CSS
+    btnDownload.setAttribute('data-permission', hasDownloadsPermission ? 'granted' : 'missing');
 }
 
 function i18n() {
