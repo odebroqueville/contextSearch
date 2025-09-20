@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
-    "version": "6.2.0",
+    "version": "6.2.1",
     "default_locale": "en",
     "homepage_url": "https://github.com/odebroqueville/contextSearch",
     "author": "Olivier de Broqueville",
@@ -35,9 +35,7 @@
         "history",
         "notifications"
     ],
-    "host_permissions": [
-        "<all_urls>"
-    ],
+    "host_permissions": ["<all_urls>"],
     "omnibox": {
         "keyword": "cs"
     },
@@ -58,36 +56,20 @@
     },
     "content_scripts": [
         {
-            "matches": [
-                "http://*/*",
-                "https://*/*"
-            ],
-            "js": [
-                "/libs/browser-polyfill.min.js",
-                "/scripts/selection.js"
-            ]
+            "matches": ["http://*/*", "https://*/*"],
+            "js": ["/libs/browser-polyfill.min.js", "/scripts/selection.js"]
         },
         {
-            "matches": [
-                "http://*/*#_sidebar",
-                "https://*/*#_sidebar"
-            ],
-            "css": [
-                "/styles/sidebar.css"
-            ],
+            "matches": ["http://*/*#_sidebar", "https://*/*#_sidebar"],
+            "css": ["/styles/sidebar.css"],
             "run_at": "document_start",
             "all_frames": true
         }
     ],
     "web_accessible_resources": [
         {
-            "resources": [
-                "/libs/browser-polyfill.min.js",
-                "/scripts/selection.js"
-            ],
-            "matches": [
-                "<all_urls>"
-            ]
+            "resources": ["/libs/browser-polyfill.min.js", "/scripts/selection.js"],
+            "matches": ["<all_urls>"]
         }
     ]
 }

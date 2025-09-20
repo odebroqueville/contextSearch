@@ -1,5 +1,13 @@
-6.2.0
+6.2.1
 =========
+
+* code cleanup: centralisation of shared functions in scripts/utilities.js
+* exports to a local disk now include both options and search engines
+* the AI prompt window has been replaced with the Command window which takes the same input as the omnibox, but without starting with 'cs '
+* rich variables {selection}, {selection_html}, {page_title}, {url}, {host}, {origin}, {lang}, {referrer} can now be used as template parameters for GET query strings, bookmarklets, AI prompt templates and POST form data
+
+6.2.0
+---------
 
 * Bug fix: keyboard shortcuts were broken
 

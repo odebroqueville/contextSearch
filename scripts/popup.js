@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (event.key === ' ') {
             const words = inputArea.value.trim().split(/\s+/);
             const firstWord = words[0].toLowerCase();
-
             if (aiEngines.includes(firstWord) && !tagStyled) {
                 styleAsTag(firstWord);
             }
@@ -28,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             unstyleTag();
         } else if (event.key === 'Enter') {
             event.preventDefault();
-            executeAISearch();
+            executeCommand();
         } else if (event.key === 'Escape') {
             window.close();
         }
@@ -58,28 +57,52 @@ document.addEventListener('DOMContentLoaded', async () => {
         tagStyled = false;
     }
 
-    async function executeAISearch() {
-        const aiEngine = getAIEngine();
-        const prompt = inputArea.value.trim();
-        const tabIndex = new URLSearchParams(window.location.search).get('tabIndex') || 0; // Get tabIndex from URL or default to 0
-        if (tagStyled && aiEngine && prompt) {
-            // Prepare the message data
-            const messagePayload = {
-                action: 'executeAISearch',
-                data: { aiEngine, prompt, tabIndex }
-            };
+    function isReservedKeyword(word) {
+        return ['.', '!', '!h', 'history', '!b', 'bookmarks'].includes(word);
+    }
 
+    async function executeCommand() {
+        const raw = inputArea.value.trim();
+        if (!raw) return;
+        const firstWord = raw.split(/\s+/)[0].toLowerCase();
+
+        // If user started with an AI engine tag styled previously
+        if (tagStyled && aiEngines.includes(getAIEngine())) {
+            const aiEngine = getAIEngine();
+            const prompt = raw;
+            const tabIndex = new URLSearchParams(window.location.search).get('tabIndex') || 0;
+            const messagePayload = { action: 'executeAISearch', data: { aiEngine, prompt, tabIndex } };
             try {
-                // 1. Send the message and wait for acknowledgment
                 await browser.runtime.sendMessage(messagePayload);
-
-                // 2. Close the window *after* the message has been acknowledged
                 window.close();
-
             } catch (error) {
                 if (logToConsole) console.error(`Error sending/handling executeAISearch message: ${error.message}`);
-                // Optionally, inform the user via an alert or keep the popup open
-                // alert(`Error: ${error.message}`); 
+            }
+            return;
+        }
+
+        // If first word is an AI engine but not styled (user hit enter too fast), still treat as AI
+        if (aiEngines.includes(firstWord) && raw.split(/\s+/).length > 1) {
+            const aiEngine = firstWord;
+            const prompt = raw.split(/\s+/).slice(1).join(' ');
+            const tabIndex = new URLSearchParams(window.location.search).get('tabIndex') || 0;
+            const messagePayload = { action: 'executeAISearch', data: { aiEngine, prompt, tabIndex } };
+            try {
+                await browser.runtime.sendMessage(messagePayload);
+                window.close();
+            } catch (error) {
+                if (logToConsole) console.error(`Error sending/handling executeAISearch message: ${error.message}`);
+            }
+            return;
+        }
+
+        // Otherwise treat as omnibox-style command (no need for leading 'cs ')
+        if (isReservedKeyword(firstWord) || raw.includes(' ')) {
+            try {
+                await browser.runtime.sendMessage({ action: 'executeCommandLine', data: { input: raw } });
+                window.close();
+            } catch (error) {
+                if (logToConsole) console.error(`Error sending executeCommandLine message: ${error.message}`);
             }
         }
     }

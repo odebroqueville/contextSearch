@@ -3,6 +3,7 @@ import '/libs/browser-polyfill.min.js';
 
 /// Import constants
 import { STORAGE_KEYS, SORTABLE_BASE_OPTIONS } from './constants.js';
+import { isKeyAllowed, isInFocus, isIdUnique, getOS, getMetaKey } from './utilities.js';
 
 /// Global constants
 
@@ -144,22 +145,12 @@ btnDownload.addEventListener('click', saveToLocalDisk);
 btnUpload.addEventListener('change', handleFileUpload);
 
 // Initialize meta key based on OS
-function initMetaKey() {
-    if (os === 'macOS') {
-        meta = 'Cmd';
-    } else if (os === 'Windows') {
-        meta = 'Win';
-    } else if (os === 'Linux') {
-        meta = 'Super';
-    } else {
-        meta = 'Meta';
-    }
-}
+// Removed local initMetaKey (using getMetaKey from utilities.js)
 
 async function init() {
     try {
         if (logToConsole) console.log('Starting options page initialization...');
-        initMetaKey();
+        meta = getMetaKey(os, 'display').replace('+', '');
         if (logToConsole) console.log('Meta key initialized');
 
         await restoreOptionsPage();
@@ -280,21 +271,7 @@ function handlePermissionsChanges(Permissions) {
 }
 
 // Detect the underlying OS
-async function getOS() {
-    const platform = await browser.runtime.getPlatformInfo();
-    const os = platform.os;
-    if (os === 'mac') {
-        return 'macOS';
-    } else if (os === 'ios') {
-        return 'iOS';
-    } else if (os === 'win') {
-        return 'Windows';
-    } else if (os === 'android') {
-        return 'Android';
-    } else if (os === 'linux') {
-        return 'Linux';
-    } else return null;
-}
+// Removed local getOS (now imported from utilities.js)
 
 // Send a message to the background script
 async function sendMessage(action, data = {}) {
@@ -575,10 +552,10 @@ function findParentId(itemId) {
 
 async function openAddSearchEngineOrFolderPopup(e) {
     const popupWidth = 1000; // Set the width of the popup
-    const popupHeight = 400; // Set the height of the popup
+    const popupHeight = 620; // Set the height of the popup; was 400 before templateVars
     const left = Math.floor((window.screen.width - popupWidth) / 2); // Center horizontally
     const top = Math.floor((window.screen.height - popupHeight) / 2); // Center vertically
-    const windowFeatures = `width=${popupWidth},height=${popupHeight},left=${left},top=${top},resizable,
+    const windowFeatures = `width=${popupWidth},height=${popupHeight},left=${left},top=${top - 10},resizable,
     scrollbars`;
     const lineItemId = e.target.closest('div[data-id]')?.dataset.id;
     // Add a check to ensure lineItemId is valid
@@ -1871,7 +1848,7 @@ async function handleFileUpload() {
             for (let id in incomingSearchEngines) {
                 if (!searchEngines[id] || id === 'root') continue;
                 const oldId = id;
-                while (!isIdUnique(id)) {
+                while (!isIdUnique(searchEngines, id)) {
                     id = id + '-' + Date.now();
                 }
                 id = id.trim();
@@ -2031,15 +2008,7 @@ async function updateResetOptions() {
     }
 }
 
-// Ensure the ID generated is unique
-function isIdUnique(testId) {
-    for (let id in searchEngines) {
-        if (id === testId) {
-            return false;
-        }
-    }
-    return true;
-}
+// Removed local isIdUnique (now imported from utilities.js)
 
 function compareNumbers(a, b) {
     return a - b;
@@ -2195,46 +2164,4 @@ function isEmpty(value) {
     else return !value;
 }
 
-// Function to check if an elementis in focus
-function isInFocus(element) {
-    return document.activeElement === element;
-}
-
-// Function to check if a key is allowed
-function isKeyAllowed(key) {
-    const disallowedKeys = [
-        'Tab',
-        'Enter',
-        'ArrowUp',
-        'ArrowDown',
-        'ArrowLeft',
-        'ArrowRight',
-        'Escape',
-        ' ',
-        'Delete',
-        'Backspace',
-        'Home',
-        'End',
-        'F1',
-        'F2',
-        'F3',
-        'F4',
-        'F5',
-        'F6',
-        'F7',
-        'F8',
-        'F9',
-        'F10',
-        'F11',
-        'F12',
-        'F13',
-        'F14',
-        'F15',
-        'F16',
-        'F17',
-        'F18',
-        'F19',
-    ];
-
-    return !disallowedKeys.includes(key);
-}
+// Removed local isInFocus and isKeyAllowed (now imported from utilities.js)

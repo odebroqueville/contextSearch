@@ -3,6 +3,7 @@ import '/libs/browser-polyfill.min.js';
 
 // Import constants to use STORAGE_KEYS
 import { STORAGE_KEYS } from './constants.js';
+import { isKeyAllowed, isInFocus, isIdUnique, getOS, getMetaKey } from './utilities.js';
 
 /// Global variables
 let logToConsole = false;
@@ -26,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Determine the operating system and define the meta key
     os = await getOS();
-    initMetaKey();
+    meta = getMetaKey(os, 'display');
 
     if (logToConsole) console.log(searchEngines);
     if (logToConsole) console.log(activeTab);
@@ -39,15 +40,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Event handlers for adding a keyboard shortcut
     inputKeyboardShortcut.addEventListener('keyup', (e) => {
         if (Object.keys(keysPressed).length > 0) {
-            inputKeyboardShortcut.value = getKeyboardShortcut(e, keysPressed, os,);
+            inputKeyboardShortcut.value = getKeyboardShortcut(e, keysPressed, os);
         }
         keysPressed = {};
     });
     inputKeyboardShortcut.addEventListener('keydown', (e) => {
         if (logToConsole) console.log(e);
         if (e.target.nodeName !== 'INPUT') return;
-        if ((os === 'macOS' && e.metaKey) || ((os === 'Windows' || os === 'Linux') && e.ctrlKey) || (!isInFocus(e.target)) || (e.key === 'Escape')) {
-            if (logToConsole) console.log("Keys pressed: " + keysPressed);
+        if ((os === 'macOS' && e.metaKey) || ((os === 'Windows' || os === 'Linux') && e.ctrlKey) || !isInFocus(e.target) || e.key === 'Escape') {
+            if (logToConsole) console.log('Keys pressed: ' + keysPressed);
             keysPressed = {};
             return;
         }
@@ -82,27 +83,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     populateFolderSelect(folderSelect, searchEngines);
 });
 
-// Detect the underlying OS
-async function getOS() {
-    try {
-        // Send message to background script to get OS
-        const api = typeof browser !== 'undefined' ? browser : chrome;
-        const { os } = await api.runtime.sendMessage({ action: "getOS" });
-        if (os && os !== "Unknown") return os;
-
-        // Fallback to user agent if background script detection fails
-        const ua = navigator.userAgent.toLowerCase();
-        if (ua.includes('mac os x')) return 'macOS';
-        if (ua.includes('windows')) return 'Windows';
-        if (ua.includes('android')) return 'Android';
-        if (ua.includes('linux')) return 'Linux';
-        if (ua.includes('iphone') || ua.includes('ipad') || ua.includes('ipod')) return 'iOS';
-        return null;
-    } catch (error) {
-        console.error('Error detecting OS:', error);
-        return null;
-    }
-}
+// Removed local getOS (now provided by utilities.js)
 
 function populateFolderSelect(selectElement, searchEngines) {
     for (const id in searchEngines) {
@@ -128,8 +109,8 @@ async function addBookmark(folderSelect, searchEngines) {
     // Generate a unique id for the bookmark
     let id = 'link-' + title.trim().replaceAll(' ', '-').toLowerCase();
     id = id.substring(0, 25); // Limit id length to 25 characters
-    while (!isIdUnique(id, searchEngines)) {
-        id = 'link-' + title.trim().replaceAll(' ', '-').toLowerCase() + '-' + Math.floor(Math.random() * 1000000000000);
+    while (!isIdUnique(searchEngines, id)) {
+        id = 'link-' + title.trim().replaceAll(' ', '-').toLowerCase() + '-' + Date.now();
     }
 
     // Add the bookmark id to the children array of the selected folder
@@ -150,34 +131,10 @@ async function addBookmark(folderSelect, searchEngines) {
     await sendMessage('saveSearchEngines', searchEngines);
 }
 
-// Function to check if a key is allowed
-function isKeyAllowed(event) {
-    const disallowedKeys = [
-        'Tab', 'Enter', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
-        'Escape', ' ', 'Delete', 'Backspace', 'Home', 'End',
-        'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12',
-    ];
-
-    return !disallowedKeys.includes(event.key);
-}
-
-// Function to check if an elementis in focus
-function isInFocus(element) {
-    return (document.activeElement === element);
-}
-
-// Ensure the ID generated is unique
-function isIdUnique(testId, searchEngines) {
-    for (let id in searchEngines) {
-        if (id === testId) {
-            return false;
-        }
-    }
-    return true;
-}
+// Removed duplicate helper functions (isKeyAllowed, isInFocus, isIdUnique) now imported from utilities.js
 
 function isSupportedProtocol(urlString) {
-    const supportedProtocols = ["https:", "http:", "ftp:", "file:", "javascript:"];
+    const supportedProtocols = ['https:', 'http:', 'ftp:', 'file:', 'javascript:'];
     const url = document.createElement('a');
     url.href = urlString;
     return supportedProtocols.indexOf(url.protocol) !== -1;
@@ -188,8 +145,8 @@ function getKeyboardShortcut(e, keysPressed, os) {
     if (logToConsole) console.log(e);
     if (e.target.nodeName !== 'INPUT' || !isKeyAllowed(e)) return;
     // If the ESC key is pressed or the CMD key is pressed on macOS or CTRL key is pressed on Windows or Linux, then do nothing
-    if ((os === 'macOS' && e.metaKey) || ((os === 'Windows' || os === 'Linux') && e.ctrlKey) || (!isInFocus(e.target)) || (e.key === 'Escape')) {
-        if (logToConsole) console.log("Keys pressed: " + Object.keys(keysPressed));
+    if ((os === 'macOS' && e.metaKey) || ((os === 'Windows' || os === 'Linux') && e.ctrlKey) || !isInFocus(e.target) || e.key === 'Escape') {
+        if (logToConsole) console.log('Keys pressed: ' + Object.keys(keysPressed));
         keysPressed = {};
         return;
     }
@@ -260,21 +217,9 @@ async function getStoredData(key) {
 
 // Send a message to the background script
 async function sendMessage(action, data) {
-    await browser.runtime.sendMessage({ action: action, data: JSON.parse(JSON.stringify(data)) })
-        .catch(e => {
-            if (logToConsole) console.error(e);
-        });
+    await browser.runtime.sendMessage({ action: action, data: JSON.parse(JSON.stringify(data)) }).catch((e) => {
+        if (logToConsole) console.error(e);
+    });
 }
 
-// Initialize meta key based on OS
-function initMetaKey() {
-    if (os === 'macOS') {
-        meta = 'cmd+';
-    } else if (os === 'Windows') {
-        meta = 'win+';
-    } else if (os === 'Linux') {
-        meta = 'super+';
-    } else {
-        meta = 'meta+';
-    }
-}
+// Removed local initMetaKey (using getMetaKey from utilities.js)

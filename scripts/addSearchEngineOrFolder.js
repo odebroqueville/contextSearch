@@ -3,6 +3,7 @@ import '/libs/browser-polyfill.min.js';
 
 /// Import constants
 import { STORAGE_KEYS, notifyAIMinimalRequirements, notifySearchEngineUrlRequired } from './constants.js';
+import { isKeyAllowed, isInFocus, isIdUnique, getOS, getMetaKey } from './utilities.js';
 
 // Get the query string part of the URL (e.g., "?uniqueId=abc&parentId=xyz&newIndex=2")
 const queryString = window.location.search;
@@ -104,48 +105,9 @@ folderKbsc.addEventListener('keydown', handleKeyboardShortcutKeyDown);
 
 /// Helper functions
 
-// Detect the underlying OS
-async function getOS() {
-    const platform = await browser.runtime.getPlatformInfo();
-    const os = platform.os;
-    if (os === 'mac') {
-        return 'macOS';
-    } else if (os === 'ios') {
-        return 'iOS';
-    } else if (os === 'win') {
-        return 'Windows';
-    } else if (os === 'android') {
-        return 'Android';
-    } else if (os === 'linux') {
-        return 'Linux';
-    } else return null;
-}
+// Removed local getOS (now imported from utilities.js)
 
-// Function to check if a key is allowed
-function isKeyAllowed(key) {
-    const disallowedKeys = [
-        'Tab', 'Enter', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
-        'Escape', ' ', 'Delete', 'Backspace', 'Home', 'End',
-        'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12', 'F13', 'F14', 'F15', 'F16', 'F17', 'F18', 'F19'
-    ];
-
-    return !disallowedKeys.includes(key);
-}
-
-// Function to check if an elementis in focus
-function isInFocus(element) {
-    return (document.activeElement === element);
-}
-
-// Ensure the ID generated is unique
-function isIdUnique(testId) {
-    for (let id in searchEngines) {
-        if (id === testId) {
-            return false;
-        }
-    }
-    return true;
-}
+// Removed duplicate helper functions (isKeyAllowed, isInFocus, isIdUnique) now imported from utilities.js
 
 function isValidUrl(url) {
     try {
@@ -196,7 +158,7 @@ function i18n() {
 function translateContent(attribute, type) {
     let i18nElements = document.querySelectorAll('[' + attribute + ']');
 
-    i18nElements.forEach(i => {
+    i18nElements.forEach((i) => {
         try {
             const i18n_attrib = i.getAttribute(attribute);
             const message = browser.i18n.getMessage(i18n_attrib);
@@ -221,30 +183,18 @@ function translateContent(attribute, type) {
 
 /// Main functions
 
-// Initialize meta key based on OS
-function initMetaKey() {
-    if (os === 'macOS') {
-        meta = 'Cmd';
-    } else if (os === 'Windows') {
-        meta = 'Win';
-    } else if (os === 'Linux') {
-        meta = 'Super';
-    } else {
-        meta = 'Meta';
-    }
-}
-
+// Removed local initMetaKey (using getMetaKey from utilities.js)
 
 async function init() {
     try {
-        initMetaKey();
+        meta = getMetaKey(os, 'display').replace('+', '').slice(0, -0); // Display form (e.g., Cmd) without trailing plus
 
         // Initialize the UI with stored data
         searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES);
 
         // Now you can use these variables (uniqueId, parentId, newIndex) in your script
-        if (logToConsole) console.log("Received parentId:", parentId);
-        if (logToConsole) console.log("Received newIndex:", newIndex);
+        if (logToConsole) console.log('Received parentId:', parentId);
+        if (logToConsole) console.log('Received newIndex:', newIndex);
 
         i18n();
     } catch (error) {
@@ -326,7 +276,7 @@ function handleKeyboardShortcutKeyUp(e) {
     }
 
     // Define the desired order for modifier keys
-    const modifierOrder = { 'Meta': 1, 'Control': 2, 'Alt': 3, 'Shift': 4 };
+    const modifierOrder = { Meta: 1, Control: 2, Alt: 3, Shift: 4 };
     let currentModifiers = [];
     let mainKey = null;
 
@@ -346,7 +296,7 @@ function handleKeyboardShortcutKeyUp(e) {
 
     // Build the shortcut string
     let shortcutParts = [];
-    currentModifiers.forEach(mod => {
+    currentModifiers.forEach((mod) => {
         if (mod === 'Meta') {
             // Use 'Cmd' on Mac
             shortcutParts.push(meta);
@@ -417,7 +367,7 @@ async function addSeparator(e) {
     let sepId = `separator-${Date.now()}`;
 
     // Ensure new id is unique
-    while (!isIdUnique(sepId)) {
+    while (!isIdUnique(searchEngines, sepId)) {
         sepId = `separator-${Date.now()}`;
     }
 
@@ -439,7 +389,7 @@ async function addFolder(e) {
     let id = name.trim().replaceAll(' ', '-').toLowerCase();
 
     // Ensure new ID is unique
-    while (!isIdUnique(id)) {
+    while (!isIdUnique(searchEngines, id)) {
         id = name.trim().replaceAll(' ', '-').toLowerCase() + '-' + Date.now();
     }
 
@@ -464,11 +414,11 @@ async function addFolder(e) {
 // Handles adding a new AI prompt
 async function addChatGPTPrompt(e) {
     e.preventDefault();
-    let id = "chatgpt-" + Date.now();
+    let id = 'chatgpt-' + Date.now();
 
     // Ensure new ID is unique
-    while (!isIdUnique(id)) {
-        id = "chatgpt-" + Date.now();
+    while (!isIdUnique(searchEngines, id)) {
+        id = 'chatgpt-' + Date.now();
     }
 
     // Minimal requirements to add a prompt
@@ -486,7 +436,7 @@ async function addChatGPTPrompt(e) {
         multitab: promptMultitab.checked,
         prompt: promptText.value,
         show: promptShow.checked,
-        isFolder: false
+        isFolder: false,
     };
 
     // Send data back to the main window using the unique ID
@@ -504,7 +454,7 @@ async function addSearchEngine(e) {
     const baseId = id;
 
     // Ensure new ID is unique
-    while (!isIdUnique(id)) {
+    while (!isIdUnique(searchEngines, id)) {
         id = baseId + '-' + Date.now();
     }
 
@@ -540,7 +490,7 @@ async function addSearchEngine(e) {
         multitab: multitab.checked,
         url: strUrl,
         show: show.checked,
-        isFolder: false
+        isFolder: false,
     };
 
     // Send data back to the main window using the unique ID
@@ -550,13 +500,13 @@ async function addSearchEngine(e) {
 
 async function testSearchEngine() {
     await sendMessage('testSearchEngine', {
-        url: document.getElementById('url').value
+        url: document.getElementById('url').value,
     });
 }
 
 async function testChatGPTPrompt() {
     const provider = document.getElementById('ai-provider').value;
     await sendMessage('testPrompt', {
-        provider: provider
+        provider: provider,
     });
 }

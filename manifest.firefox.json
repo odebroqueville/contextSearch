@@ -3,7 +3,7 @@
     "default_locale": "en",
     "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
-    "version": "6.2.0",
+    "version": "6.2.1",
     "homepage_url": "https://github.com/odebroqueville/contextSearch",
     "author": "Olivier de Broqueville",
     "browser_specific_settings": {
@@ -29,31 +29,12 @@
         "open_at_install": false
     },
     "background": {
-        "scripts": [
-            "cs_service_worker.js"
-        ],
+        "scripts": ["cs_service_worker.js"],
         "type": "module"
     },
-    "permissions": [
-        "alarms",
-        "contextMenus",
-        "declarativeNetRequestWithHostAccess",
-        "menus",
-        "scripting",
-        "storage",
-        "search",
-        "tabs"
-    ],
-    "optional_permissions": [
-        "bookmarks",
-        "clipboardWrite",
-        "downloads",
-        "history",
-        "notifications"
-    ],
-    "host_permissions": [
-        "<all_urls>"
-    ],
+    "permissions": ["alarms", "contextMenus", "declarativeNetRequestWithHostAccess", "menus", "scripting", "storage", "search", "tabs"],
+    "optional_permissions": ["bookmarks", "clipboardWrite", "downloads", "history", "notifications"],
+    "host_permissions": ["<all_urls>"],
     "omnibox": {
         "keyword": "cs"
     },
@@ -74,34 +55,20 @@
     },
     "content_scripts": [
         {
-            "matches": [
-                "http://*/*",
-                "https://*/*"
-            ],
-            "js": [
-                "/scripts/selection.js"
-            ]
+            "matches": ["http://*/*", "https://*/*"],
+            "js": ["/scripts/selection.js"]
         },
         {
-            "matches": [
-                "http://*/*#_sidebar",
-                "https://*/*#_sidebar"
-            ],
-            "css": [
-                "/styles/sidebar.css"
-            ],
+            "matches": ["http://*/*#_sidebar", "https://*/*#_sidebar"],
+            "css": ["/styles/sidebar.css"],
             "run_at": "document_start",
             "all_frames": true
         }
     ],
     "web_accessible_resources": [
         {
-            "resources": [
-                "/scripts/selection.js"
-            ],
-            "matches": [
-                "<all_urls>"
-            ]
+            "resources": ["/scripts/selection.js"],
+            "matches": ["<all_urls>"]
         }
     ]
 }

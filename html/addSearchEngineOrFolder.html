@@ -1,108 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Add Search Engine or Folder</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" />
+        <link rel="stylesheet" href="/styles/addSearchEngineOrFolder.css" />
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Search Engine or Folder</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway&display=swap">
-    <link rel="stylesheet" href="/styles/addSearchEngineOrFolder.css">
-</head>
+    <body>
+        <div class="wrapper">
+            <div class="tabs">
+                <div class="tab">
+                    <input type="radio" name="css-tabs" id="searchEngineTab" checked class="tab-switch" />
+                    <label for="searchEngineTab" class="tab-label" data-i18n="subheader61">Add a new search engine</label>
+                    <div id="addSearchEngineTab" class="tab-content">
+                        <div>
+                            <h3 class="subheader" data-i18n="subheader61">Add a new search engine</h3>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="show" data-i18n-title="showSearchEngine" checked />
+                            <input type="text" id="name" data-i18n-placeholder="searchEngineName" />
+                            <input type="text" id="keyword" class="keyword" data-i18n-placeholder="placeHolderKeyword" />
+                            <input type="text" id="kb-shortcut" data-i18n-placeholder="keyboardShortcut" />
+                            <input type="checkbox" id="multitab" data-i18n-title="multipleSearchEngines" />
+                            <input type="url" id="url" data-i18n-placeholder="searchEngineURL" />
+                        </div>
+                        <div class="buttonrow">
+                            <button type="button" id="test" data-i18n="testSearchEngine">Test Search Engine</button>
+                            <button type="button" id="addSearchEngine" data-i18n="addSearchEngine">Add Search Engine</button>
+                            <button type="button" id="clearAddSearchEngine" data-i18n="clear">Clear</button>
+                        </div>
+                        <div class="templateVars">
+                            <h3 data-i18n="headerTemplateVars">Template variables</h3>
+                            <details>
+                                <summary data-i18n="templateVarsSummary">Rich variables help</summary>
+                                <p data-i18n="templateVarsIntro">Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets.</p>
+                                <div class="p-sm">
+                                    <p>
+                                        <b data-i18n="placeholders">Placeholders:</b>
+                                        <code>{selection}</code>
+                                        ,
+                                        <code>{selection_html}</code>
+                                        ,
+                                        <code>{page_title}</code>
+                                        ,
+                                        <code>{url}</code>
+                                        ,
+                                        <code>{host}</code>
+                                        ,
+                                        <code>{origin}</code>
+                                        ,
+                                        <code>{lang}</code>
+                                        ,
+                                        <code>{referrer}</code>
+                                    </p>
 
-<body>
-    <div class="wrapper">
-        <div class="tabs">
-            <div class="tab">
-                <input type="radio" name="css-tabs" id="searchEngineTab" checked class="tab-switch">
-                <label for="searchEngineTab" class="tab-label" data-i18n="subheader61">Add a new search engine</label>
-                <div id="addSearchEngineTab" class="tab-content">
-                    <div>
-                        <h3 class="subheader" data-i18n="subheader61">Add a new search engine</h3>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="show" data-i18n-title="showSearchEngine" checked />
-                        <input type="text" id="name" data-i18n-placeholder="searchEngineName" />
-                        <input type="text" id="keyword" class="keyword" data-i18n-placeholder="placeHolderKeyword" />
-                        <input type="text" id="kb-shortcut" data-i18n-placeholder="keyboardShortcut" />
-                        <input type="checkbox" id="multitab" data-i18n-title="multipleSearchEngines" />
-                        <input type="url" id="url" data-i18n-placeholder="searchEngineURL" />
-                    </div>
-                    <div class="buttonrow">
-                        <button type="button" id="test" data-i18n="testSearchEngine">Test
-                            Search Engine</button>
-                        <button type="button" id="addSearchEngine" data-i18n="addSearchEngine">Add Search
-                            Engine</button>
-                        <button type="button" id="clearAddSearchEngine" data-i18n="clear">Clear</button>
-                    </div>
-                </div>
-            </div>
-            <div class="tab">
-                <input type="radio" name="css-tabs" id="promptTab" class="tab-switch">
-                <label for="promptTab" class="tab-label" data-i18n="subheader63">Add a new AI prompt</label>
-                <div id="addChatGPTPromptTab" class="tab-content">
-                    <div>
-                        <h3 class="subheader" data-i18n="subheader63">Add a new AI prompt</h3>
-                    </div>
-                    <div class="va">
-                        <input type="checkbox" id="promptShow" data-i18n-title="promptShow" checked />
-                        <select id="ai-provider">
-                            <option value="">Choose AI Provider</option>
-                            <option value="chatgpt">ChatGPT</option>
-                            <option value="google-ai-studio">Gemini</option>
-                            <option value="grok">Grok</option>
-                            <option value="perplexity">Perplexity.ai</option>
-                            <option value="poe">Poe</option>
-                            <option value="claude">Claude.ai</option>
-                            <option value="andi">Andi</option>
-                        </select>
-                        <input type="text" id="promptName" data-i18n-placeholder="promptName" />
-                        <input type="text" id="promptKeyword" class="keyword"
-                            data-i18n-placeholder="placeHolderKeyword" />
-                        <input type="text" id="prompt-kb-shortcut" data-i18n-placeholder="keyboardShortcut" />
-                        <input type="checkbox" id="promptMultitab" data-i18n-title="multipleSearchEngines" />
-                        <textarea id="prompt" rows="4" cols="50" data-i18n-placeholder="prompt"></textarea>
-                    </div>
-                    <div class="buttonrow">
-                        <button type="button" id="testChatGPTPrompt" data-i18n="testChatGPT">Test AI Prompt</button>
-                        <button type="button" id="addChatGPTPrompt" data-i18n="addChatGPTPrompt">Add AI Prompt</button>
-                        <button type="button" id="clearAddChatGPTPrompt" data-i18n="clear">Clear</button>
+                                    <p><b data-i18n="encodingRules">Encoding by context:</b></p>
+                                    <ul>
+                                        <li>
+                                            <code>GET</code>
+                                            <span data-i18n="encodingGet">URLs: variables are URL-encoded</span>
+                                        </li>
+                                        <li>
+                                            <code>POST</code>
+                                            <span data-i18n="encodingPost">form data: inserted as-is (not URL-encoded)</span>
+                                        </li>
+                                        <li><span data-i18n="encodingAi">AI prompts: inserted as-is (not URL-encoded)</span></li>
+                                        <li><span data-i18n="encodingBookmarklets">Bookmarklets: inserted as-is (not URL-encoded)</span></li>
+                                    </ul>
+
+                                    <p>
+                                        <b data-i18n="legacyAliasesLabel">Legacy aliases:</b>
+                                        <code>%s</code>
+                                        ,
+                                        <code>{searchTerms}</code>
+                                        <span data-i18n="legacyAliases">are supported and resolve to</span>
+                                        <code>{selection}</code>
+                                        .
+                                    </p>
+
+                                    <p>
+                                        <b data-i18n="notes">Notes:</b>
+                                        <span data-i18n="templateVarsNotes">
+                                            {referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you
+                                            display it.
+                                        </span>
+                                    </p>
+                                </div>
+                            </details>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="tab">
-                <input type="radio" name="css-tabs" id="separatorTab" class="tab-switch">
-                <label for="separatorTab" class="tab-label" data-i18n="subheader64">Add a separator</label>
-                <div id="addSeparatorTab" class="tab-content">
-                    <div>
-                        <h3 class="subheader" data-i18n="subheader64">Add a separator</h3>
-                    </div>
-                    <div class="buttonrow">
-                        <button type="button" id="addSeparator" data-i18n="addSeparator">Add Separator</button>
+                <div class="tab">
+                    <input type="radio" name="css-tabs" id="promptTab" class="tab-switch" />
+                    <label for="promptTab" class="tab-label" data-i18n="subheader63">Add a new AI prompt</label>
+                    <div id="addChatGPTPromptTab" class="tab-content">
+                        <div>
+                            <h3 class="subheader" data-i18n="subheader63">Add a new AI prompt</h3>
+                        </div>
+                        <div class="va">
+                            <input type="checkbox" id="promptShow" data-i18n-title="promptShow" checked />
+                            <select id="ai-provider">
+                                <option value="">Choose AI Provider</option>
+                                <option value="chatgpt">ChatGPT</option>
+                                <option value="google-ai-studio">Gemini</option>
+                                <option value="grok">Grok</option>
+                                <option value="perplexity">Perplexity.ai</option>
+                                <option value="poe">Poe</option>
+                                <option value="claude">Claude.ai</option>
+                                <option value="andi">Andi</option>
+                            </select>
+                            <input type="text" id="promptName" data-i18n-placeholder="promptName" />
+                            <input type="text" id="promptKeyword" class="keyword" data-i18n-placeholder="placeHolderKeyword" />
+                            <input type="text" id="prompt-kb-shortcut" data-i18n-placeholder="keyboardShortcut" />
+                            <input type="checkbox" id="promptMultitab" data-i18n-title="multipleSearchEngines" />
+                            <textarea id="prompt" rows="4" cols="50" data-i18n-placeholder="prompt"></textarea>
+                        </div>
+                        <div class="buttonrow">
+                            <button type="button" id="testChatGPTPrompt" data-i18n="testChatGPT">Test AI Prompt</button>
+                            <button type="button" id="addChatGPTPrompt" data-i18n="addChatGPTPrompt">Add AI Prompt</button>
+                            <button type="button" id="clearAddChatGPTPrompt" data-i18n="clear">Clear</button>
+                        </div>
+                        <div class="templateVars">
+                            <h3 data-i18n="headerTemplateVars">Template variables</h3>
+                            <details>
+                                <summary data-i18n="templateVarsSummary">Rich variables help</summary>
+                                <p data-i18n="templateVarsIntro">Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets.</p>
+                                <div class="p-sm">
+                                    <p>
+                                        <b data-i18n="placeholders">Placeholders:</b>
+                                        <code>{selection}</code>
+                                        ,
+                                        <code>{selection_html}</code>
+                                        ,
+                                        <code>{page_title}</code>
+                                        ,
+                                        <code>{url}</code>
+                                        ,
+                                        <code>{host}</code>
+                                        ,
+                                        <code>{origin}</code>
+                                        ,
+                                        <code>{lang}</code>
+                                        ,
+                                        <code>{referrer}</code>
+                                    </p>
+
+                                    <p><b data-i18n="encodingRules">Encoding by context:</b></p>
+                                    <ul>
+                                        <li>
+                                            <code>GET</code>
+                                            <span data-i18n="encodingGet">URLs: variables are URL-encoded</span>
+                                        </li>
+                                        <li>
+                                            <code>POST</code>
+                                            <span data-i18n="encodingPost">form data: inserted as-is (not URL-encoded)</span>
+                                        </li>
+                                        <li><span data-i18n="encodingAi">AI prompts: inserted as-is (not URL-encoded)</span></li>
+                                        <li><span data-i18n="encodingBookmarklets">Bookmarklets: inserted as-is (not URL-encoded)</span></li>
+                                    </ul>
+
+                                    <p>
+                                        <b data-i18n="legacyAliasesLabel">Legacy aliases:</b>
+                                        <code>%s</code>
+                                        ,
+                                        <code>{searchTerms}</code>
+                                        <span data-i18n="legacyAliases">are supported and resolve to</span>
+                                        <code>{selection}</code>
+                                        .
+                                    </p>
+
+                                    <p>
+                                        <b data-i18n="notes">Notes:</b>
+                                        <span data-i18n="templateVarsNotes">
+                                            {referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you
+                                            display it.
+                                        </span>
+                                    </p>
+                                </div>
+                            </details>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="tab">
-                <input type="radio" name="css-tabs" id="folderTab" class="tab-switch">
-                <label for="folderTab" class="tab-label" data-i18n="subheader62">Add a new folder</label>
-                <div id="addFolderTab" class="tab-content">
-                    <div>
-                        <h3 class="subheader" data-i18n="subheader62">Add a new folder</h3>
+                <div class="tab">
+                    <input type="radio" name="css-tabs" id="separatorTab" class="tab-switch" />
+                    <label for="separatorTab" class="tab-label" data-i18n="subheader64">Add a separator</label>
+                    <div id="addSeparatorTab" class="tab-content">
+                        <div>
+                            <h3 class="subheader" data-i18n="subheader64">Add a separator</h3>
+                        </div>
+                        <div class="buttonrow">
+                            <button type="button" id="addSeparator" data-i18n="addSeparator">Add Separator</button>
+                        </div>
                     </div>
-                    <div>
-                        <input type="text" id="folderName" data-i18n-placeholder="folderName" />
-                        <input type="text" id="folderKeyword" class="keyword"
-                            data-i18n-placeholder="placeHolderKeyword" />
-                        <input type="text" id="folder-kb-shortcut" data-i18n-placeholder="keyboardShortcut" />
-                    </div>
-                    <div class="buttonrow">
-                        <button type="button" id="addFolder" data-i18n="addFolder">Add Folder</button>
-                        <button type="button" id="clearAddFolder" data-i18n="clear">Clear</button>
+                </div>
+                <div class="tab">
+                    <input type="radio" name="css-tabs" id="folderTab" class="tab-switch" />
+                    <label for="folderTab" class="tab-label" data-i18n="subheader62">Add a new folder</label>
+                    <div id="addFolderTab" class="tab-content">
+                        <div>
+                            <h3 class="subheader" data-i18n="subheader62">Add a new folder</h3>
+                        </div>
+                        <div>
+                            <input type="text" id="folderName" data-i18n-placeholder="folderName" />
+                            <input type="text" id="folderKeyword" class="keyword" data-i18n-placeholder="placeHolderKeyword" />
+                            <input type="text" id="folder-kb-shortcut" data-i18n-placeholder="keyboardShortcut" />
+                        </div>
+                        <div class="buttonrow">
+                            <button type="button" id="addFolder" data-i18n="addFolder">Add Folder</button>
+                            <button type="button" id="clearAddFolder" data-i18n="clear">Clear</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script type="module" src="/scripts/addSearchEngineOrFolder.js"></script>
-</body>
-
+        <script type="module" src="/scripts/addSearchEngineOrFolder.js"></script>
+    </body>
 </html>

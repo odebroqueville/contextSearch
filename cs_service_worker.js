@@ -468,6 +468,16 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             sendResponse({ received: true });
             // Return false (or omit return) as response is sent synchronously
             return false;
+        case 'executeCommandLine':
+            if (logToConsole) console.log('Received executeCommandLine message:', message.data);
+            if (message.data && typeof message.data.input === 'string') {
+                // Fire and forget; no need to await
+                processOmniboxInput(message.data.input.trim());
+                sendResponse({ received: true });
+                return false;
+            }
+            sendResponse({ received: false, error: 'No input supplied' });
+            return false;
         case 'notify':
             if (notificationsEnabled) notify(data);
             break;
@@ -650,6 +660,9 @@ async function getPaymentStatus() {
     const trialActive = user.trialStartedAt !== null && now - user.trialStartedAt < sevenDays;
     return { paid, trialActive, trialStarted };
 }
+
+// Expose for debugging to avoid unused warnings in some packaging modes
+globalThis.getPaymentStatus = getPaymentStatus;
 
 async function resetData(data) {
     if (logToConsole) console.log('Resetting data...', data);
@@ -1114,8 +1127,15 @@ async function handleContentScriptLoaded(data) {
             } else if (formDataString.includes('%s')) {
                 formDataString = formDataString.replace('%s', selection);
             }
+            // Apply rich template expansion to action URL and form data
+            const ctx = await getActiveTabTemplateContext({ selectionOverride: selection });
+            const expandedActionUrl = expandTemplateString(searchEngine.url, ctx, { urlEncode: false });
+            formDataString = expandTemplateString(formDataString, ctx, { urlEncode: false });
             const jsonFormData = JSON.parse(formDataString);
-            finalFormData = jsonToFormData(jsonFormData);
+            const expandedJson = expandObjectStrings(jsonFormData, ctx, { urlEncode: false });
+            finalFormData = jsonToFormData(expandedJson);
+            // Set global targetUrl for submitForm
+            targetUrl = expandedActionUrl;
 
             if (logToConsole) {
                 console.log(`id: ${id}`);
@@ -2355,7 +2375,9 @@ async function processNonUrlArray(nonUrlArray, tabPosition, windowId) {
             // If the search engine uses HTTP POST request
             const id = nonUrlArray[i].id;
             const url = nonUrlArray[i].url;
-            targetUrl = url.replace('{searchTerms}', encodeUrl(selection));
+            // Expand rich variables for POST action URL
+            const ctx = await getActiveTabTemplateContext();
+            targetUrl = expandTemplateString(url, ctx, { urlEncode: false });
             await displaySearchResults(id, tabIndex, multisearch, windowId);
         }
     }
@@ -2363,15 +2385,22 @@ async function processNonUrlArray(nonUrlArray, tabPosition, windowId) {
 
 // Handle search terms if there are any
 async function getSearchEngineUrl(searchEngineUrl, sel) {
-    const selection = sel.trim();
+    const selection = (sel || '').trim();
     let quote = '';
     if (options.exactMatch) quote = '%22';
-    if (searchEngineUrl.includes('{searchTerms}')) {
-        return searchEngineUrl.replace(/{searchTerms}/g, encodeUrl(selection));
-    } else if (searchEngineUrl.includes('%s')) {
-        return searchEngineUrl.replace(/%s/g, encodeUrl(selection));
+    let url = searchEngineUrl;
+    // Legacy placeholders remain supported
+    if (url.includes('{searchTerms}')) {
+        url = url.replace(/{searchTerms}/g, encodeUrl(selection));
+    } else if (url.includes('%s')) {
+        url = url.replace(/%s/g, encodeUrl(selection));
+    } else if (selection) {
+        url = url + quote + encodeUrl(selection) + quote;
     }
-    return searchEngineUrl + quote + encodeUrl(selection) + quote;
+    // Rich placeholders
+    const ctx = await getActiveTabTemplateContext({ selectionOverride: selection });
+    url = expandTemplateString(url, ctx, { urlEncode: true });
+    return url;
 }
 
 async function setTargetUrl(id, aiEngine = '', hasCurrentSelection = true) {
@@ -2472,7 +2501,7 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEn
     //const postDomain = getDomain(targetUrl);
     let url = targetUrl;
     if (id.startsWith('chatgpt-')) {
-        promptText = getPromptText(id, prompt);
+        promptText = await getPromptText(id, prompt);
         if (id !== 'chatgpt-direct') {
             if (searchEngine.aiProvider === 'chatgpt') {
                 writeClipboardText(promptText);
@@ -2489,12 +2518,21 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEn
     if (multisearch && id.startsWith('link-') && url.startsWith('javascript:')) return;
 
     if (id.startsWith('link-') && url.startsWith('javascript:')) {
+        // Strip protocol prefix
         url = url.replace('javascript:', '');
+        // Legacy replacements
         if (url.includes('%s')) {
             url = url.replace('%s', selection);
         }
         if (url.includes('{searchTerms}')) {
             url = url.replace(/{searchTerms}/g, selection);
+        }
+        // Rich variable expansion (no URL encoding; raw strings for code)
+        try {
+            const ctx = await getActiveTabTemplateContext();
+            url = expandTemplateString(url, ctx, { urlEncode: false });
+        } catch (e) {
+            if (logToConsole) console.warn('Failed to expand rich variables in bookmarklet:', e);
         }
         if (logToConsole) console.log(`Code: ${url}`);
 
@@ -2565,7 +2603,7 @@ async function displaySearchResults(id, tabPosition, multisearch, windowId, aiEn
     }
 }
 
-function getPromptText(id, prompt) {
+async function getPromptText(id, prompt) {
     const searchEngine = searchEngines[id];
 
     if (id === 'chatgpt-') {
@@ -2581,9 +2619,11 @@ function getPromptText(id, prompt) {
     } else if (promptText.includes('%s')) {
         promptText = promptText.replace(/%s/g, selection);
     }
-
-    if (logToConsole) console.log(promptText);
-    return promptText;
+    // Enrich with rich variables (no URL encoding)
+    const ctx = await getActiveTabTemplateContext();
+    const expanded = expandTemplateString(promptText, ctx, { urlEncode: false });
+    if (logToConsole) console.log(expanded);
+    return expanded;
 }
 
 function jsonToFormData(jsonData) {
@@ -2657,12 +2697,12 @@ browser.omnibox.onInputChanged.addListener(async (input, suggest) => {
 });
 
 // Open the page based on how the user clicks on a suggestion
-browser.omnibox.onInputEntered.addListener(async (input) => {
-    markActivity(); // Track service worker activity
+// Reusable processor for omnibox-style input (also used by popup command window)
+async function processOmniboxInput(input) {
+    markActivity();
+    if (logToConsole) console.log(`Processing command input: ${input}`);
 
-    if (logToConsole) console.log(`Input entered: ${input}`);
-
-    // Ensure extension is initialized before processing any omnibox command
+    // Ensure extension is initialized before processing any command
     if (!isInitialized) {
         if (logToConsole) console.log('Extension not initialized, initializing...');
         await init();
@@ -2677,7 +2717,7 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
     const activeTab = tabs[0];
     let searchTerms = input.replace(keyword, '').trim();
 
-    // Check if the search terms contain '%s' or '{searchTerms}'
+    // Replace template placeholders in search terms with last selection
     if (searchTerms.includes('{searchTerms}')) {
         searchTerms = searchTerms.replace(/{searchTerms}/g, selection);
     } else if (searchTerms.includes('%s')) {
@@ -2687,165 +2727,116 @@ browser.omnibox.onInputEntered.addListener(async (input) => {
     selection = searchTerms.trim();
     await setStoredData(STORAGE_KEYS.SELECTION, selection);
 
-    // tabPosition is used to determine where to open the search results for a multisearch
-    let tabIndex,
-        tabPosition,
-        tabId,
-        id,
-        aiEngine = '';
+    let tabIndex, tabPosition, tabId, id, aiEngine = '';
 
     if (logToConsole) console.log(`Keyword is: ${keyword}`);
     if (logToConsole) console.log(`Search terms are: ${searchTerms}`);
     if (logToConsole) console.log('Suggestion is: ');
     if (logToConsole) console.log(suggestion);
 
-    // Get the id of the search engine based on the keyword
+    // Resolve search engine id by keyword
     for (const se in searchEngines) {
         if (searchEngines[se].keyword === keyword) {
             id = se;
             break;
         }
     }
-
-    // If id isn't found and the search engine corresponds to an AI engine
+    // Direct AI engine usage
     if (!id && aiEngines.includes(keyword)) {
         id = 'chatgpt-direct';
         aiEngine = keyword;
     }
 
-    // Get active tab's index and id, then determine where to open the search results (tabPosition)
+    // Determine tab position
     tabIndex = activeTab.index;
     tabId = activeTab.id;
     tabPosition = tabIndex + 1;
-    if (options.lastTab || options.multiMode === 'multiAfterLastTab') {
-        tabPosition = windowInfo.tabs.length;
-    }
+    if (options.lastTab || options.multiMode === 'multiAfterLastTab') tabPosition = windowInfo.tabs.length;
 
-    if (logToConsole) console.log(tabPosition);
-    if (logToConsole) console.log(input.indexOf('://'));
-
-    // Only display search results when there is a valid link inside of the url variable
     if (input.indexOf('://') > -1) {
-        if (logToConsole) console.log('Processing search...');
+        if (logToConsole) console.log('Processing direct URL search...');
         await displaySearchResults(id, tabPosition, multisearch, windowInfo.id);
-    } else {
-        try {
-            switch (keyword) {
-                case '.':
-                    // Ensure search engines are loaded before opening options page
-                    if (isEmpty(searchEngines)) {
-                        if (logToConsole) console.log('Search engines not loaded, initializing...');
-                        await initialiseSearchEngines();
-                        if (logToConsole) console.log('Search engines loaded successfully');
-                    }
-                    await browser.runtime.openOptionsPage();
-                    break;
-                case '!':
-                    await processMultisearch([], 'root', tabPosition);
-                    break;
-                case 'bookmarks':
-                case '!b': {
-                    if (logToConsole) console.log('Processing bookmarks case with searchTerms:', searchTerms);
-                    // Check if bookmarks permission is granted
-                    const hasBookmarksPermission = await browser.permissions.contains({
-                        permissions: ['bookmarks'],
-                    });
-                    if (logToConsole) console.log('Bookmarks permission:', hasBookmarksPermission);
-                    if (hasBookmarksPermission) {
-                        if (searchTerms === 'recent') {
-                            if (logToConsole) console.log('Getting recent bookmarks');
-                            bookmarkItems = await browser.bookmarks.getRecent(10);
-                        } else if (searchTerms && searchTerms.trim() !== '') {
-                            // Search for specific bookmarks if search terms provided
-                            if (logToConsole) console.log('Searching bookmarks for:', searchTerms);
-                            const searchResults = await browser.bookmarks.search({
-                                query: searchTerms,
-                            });
-                            // Filter out folders (items without URLs)
-                            bookmarkItems = searchResults.filter((item) => item.url && item.url.trim() !== '');
-                        } else {
-                            // Show all bookmarks if no search terms provided
-                            if (logToConsole) console.log('Getting all bookmarks');
-                            const allBookmarks = await browser.bookmarks.search({});
-                            // Filter out folders (items without URLs)
-                            bookmarkItems = allBookmarks.filter((item) => item.url && item.url.trim() !== '');
-                        }
-                        if (logToConsole) console.log('Found bookmarks:', bookmarkItems.length);
-                        await setStoredData(STORAGE_KEYS.BOOKMARKS, bookmarkItems);
-                        await setStoredData(STORAGE_KEYS.SEARCH_TERMS, searchTerms);
-                        // Update current tab instead of creating new one for omnibox searches
-                        await browser.tabs.update(activeTab.id, {
-                            url: '/html/bookmarks.html',
-                        });
-                    } else {
-                        if (logToConsole)
-                            console.log('Bookmarks permission not granted. Please enable Bookmarks permission in the extension settings.');
-                        if (notificationsEnabled)
-                            notify('Bookmarks permission not granted. Please enable Bookmarks permission in the extension settings.');
-                    }
-                    break;
-                }
-                case 'history':
-                case '!h': {
-                    // Check if history permission is granted
-                    const hasHistoryPermission = await browser.permissions.contains({
-                        permissions: ['history'],
-                    });
-                    if (hasHistoryPermission) {
-                        // Use more comprehensive search parameters
-                        const searchOptions = {
-                            text: searchTerms,
-                            maxResults: 10000,
-                            startTime: 0, // Search from the beginning of time
-                        };
-
-                        if (logToConsole) console.log('Searching history with options:', searchOptions);
-                        historyItems = await browser.history.search(searchOptions);
-                        if (logToConsole) console.log(`Found ${historyItems.length} history items`);
-
-                        await setStoredData(STORAGE_KEYS.HISTORY, historyItems);
-                        await setStoredData(STORAGE_KEYS.SEARCH_TERMS, searchTerms);
-                        // Update current tab instead of creating new one for omnibox searches
-                        await browser.tabs.update(activeTab.id, {
-                            url: '/html/history.html',
-                        });
-                    } else {
-                        if (logToConsole) console.log('History permission not granted. Please enable History permission in the extension settings.');
-                        if (notificationsEnabled)
-                            notify('History permission not granted. Please enable History permission in the extension settings.');
-                    }
-                    break;
-                }
-                default:
-                    if (suggestion.length > 1) {
-                        let arraySearchEngineUrls = [];
-                        for (const s of suggestion) {
-                            arraySearchEngineUrls.push(s.content);
-                        }
-                        await processMultisearch(arraySearchEngineUrls, 'root', tabPosition);
-                    } else if (
-                        suggestion.length === 1 &&
-                        ((searchEngines[id] && !searchEngines[id].isFolder) || aiEngines.includes(suggestion[0].content))
-                    ) {
-                        if (typeof suggestion[0].content === 'string') {
-                            // If AI prompt or search engine uses HTTP GET or POST request
-                            await displaySearchResults(id, tabPosition, multisearch, windowInfo.id, aiEngine, searchTerms);
-                        }
-                    } else if (suggestion.length === 1 && searchEngines[id].isFolder) {
-                        // If search engine is a folder
-                        const multiTabArray = await processFolder(id, searchTerms);
-                        await processMultisearch(multiTabArray, 'root', tabPosition);
-                    } else {
-                        browser.search.search({ query: searchTerms, tabId: tabId });
-                        if (notificationsEnabled) notify(notifyUsage);
-                    }
-                    break;
-            }
-        } catch (error) {
-            if (logToConsole) console.error(error);
-            if (logToConsole) console.log('Failed to process ' + input);
-        }
+        return;
     }
+
+    try {
+        switch (keyword) {
+            case '.':
+                if (isEmpty(searchEngines)) {
+                    if (logToConsole) console.log('Search engines not loaded, initializing...');
+                    await initialiseSearchEngines();
+                    if (logToConsole) console.log('Search engines loaded successfully');
+                }
+                await browser.runtime.openOptionsPage();
+                break;
+            case '!':
+                await processMultisearch([], 'root', tabPosition);
+                break;
+            case 'bookmarks':
+            case '!b': {
+                if (logToConsole) console.log('Processing bookmarks case with searchTerms:', searchTerms);
+                const hasBookmarksPermission = await browser.permissions.contains({ permissions: ['bookmarks'] });
+                if (logToConsole) console.log('Bookmarks permission:', hasBookmarksPermission);
+                if (hasBookmarksPermission) {
+                    if (searchTerms === 'recent') {
+                        bookmarkItems = await browser.bookmarks.getRecent(10);
+                    } else if (searchTerms && searchTerms.trim() !== '') {
+                        const searchResults = await browser.bookmarks.search({ query: searchTerms });
+                        bookmarkItems = searchResults.filter((item) => item.url && item.url.trim() !== '');
+                    } else {
+                        const allBookmarks = await browser.bookmarks.search({});
+                        bookmarkItems = allBookmarks.filter((item) => item.url && item.url.trim() !== '');
+                    }
+                    await setStoredData(STORAGE_KEYS.BOOKMARKS, bookmarkItems);
+                    await setStoredData(STORAGE_KEYS.SEARCH_TERMS, searchTerms);
+                    await browser.tabs.update(activeTab.id, { url: '/html/bookmarks.html' });
+                } else {
+                    if (notificationsEnabled) notify('Bookmarks permission not granted. Please enable Bookmarks permission in the extension settings.');
+                }
+                break;
+            }
+            case 'history':
+            case '!h': {
+                const hasHistoryPermission = await browser.permissions.contains({ permissions: ['history'] });
+                if (hasHistoryPermission) {
+                    const searchOptions = { text: searchTerms, maxResults: 10000, startTime: 0 };
+                    historyItems = await browser.history.search(searchOptions);
+                    await setStoredData(STORAGE_KEYS.HISTORY, historyItems);
+                    await setStoredData(STORAGE_KEYS.SEARCH_TERMS, searchTerms);
+                    await browser.tabs.update(activeTab.id, { url: '/html/history.html' });
+                } else {
+                    if (notificationsEnabled) notify('History permission not granted. Please enable History permission in the extension settings.');
+                }
+                break;
+            }
+            default:
+                if (suggestion.length > 1) {
+                    const arraySearchEngineUrls = suggestion.map((s) => s.content);
+                    await processMultisearch(arraySearchEngineUrls, 'root', tabPosition);
+                } else if (
+                    suggestion.length === 1 &&
+                    ((searchEngines[id] && !searchEngines[id].isFolder) || aiEngines.includes(suggestion[0].content))
+                ) {
+                    if (typeof suggestion[0].content === 'string') {
+                        await displaySearchResults(id, tabPosition, multisearch, windowInfo.id, aiEngine, searchTerms);
+                    }
+                } else if (suggestion.length === 1 && searchEngines[id] && searchEngines[id].isFolder) {
+                    const multiTabArray = await processFolder(id, searchTerms);
+                    await processMultisearch(multiTabArray, 'root', tabPosition);
+                } else {
+                    browser.search.search({ query: searchTerms, tabId: tabId });
+                    if (notificationsEnabled) notify(notifyUsage);
+                }
+                break;
+        }
+    } catch (error) {
+        if (logToConsole) console.error(error);
+        if (logToConsole) console.log('Failed to process ' + input);
+    }
+}
+
+browser.omnibox.onInputEntered.addListener(async (input) => {
+    await processOmniboxInput(input);
 });
 
 async function processFolder(id, searchTerms) {
@@ -2863,7 +2854,6 @@ async function processFolder(id, searchTerms) {
 
 async function processSearchEngine(id, searchTerms) {
     let result;
-    let quote = '';
     if (id.startsWith('chatgpt-')) {
         // If the search engine is an AI search engine
         result = id;
@@ -2871,18 +2861,12 @@ async function processSearchEngine(id, searchTerms) {
         const searchEngineUrl = searchEngines[id].url;
         // If search engine is a link
         if (id.startsWith('link-') && !searchEngineUrl.startsWith('javascript:')) {
-            if (options.exactMatch) quote = '%22';
             const domain = getDomain(searchEngineUrl).replace(/https?:\/\//, '');
+            const quote = options.exactMatch ? '%22' : '';
             result = options.siteSearchUrl + encodeUrl(`site:https://${domain} ${quote}${selection}${quote}`);
         } else if (!searchEngines[id].formData) {
             // If search engine uses GET request
-            if (searchEngineUrl.includes('{searchTerms}')) {
-                targetUrl = searchEngineUrl.replace(/{searchTerms}/g, encodeUrl(searchTerms));
-            } else if (searchEngineUrl.includes('%s')) {
-                targetUrl = searchEngineUrl.replace(/%s/g, encodeUrl(searchTerms));
-            } else {
-                targetUrl = searchEngineUrl + quote + encodeUrl(searchTerms) + quote;
-            }
+            targetUrl = await getSearchEngineUrl(searchEngineUrl, searchTerms);
             result = targetUrl;
         } else {
             // If search engine uses POST request
@@ -2898,10 +2882,7 @@ async function buildSuggestion(text) {
     const keyword = text.split(' ')[0];
     const searchTerms = text.replace(keyword, '').trim();
     let result = [];
-    let quote = '';
     let showNotification = true;
-
-    if (options.exactMatch) quote = '%22';
 
     // Only make suggestions available and check for existence of a search engine when there is a space
     if (text.indexOf(' ') === -1) {
@@ -2968,13 +2949,7 @@ async function buildSuggestion(text) {
                 suggestion['description'] = 'Search ' + searchEngines[id].name + ' for ' + searchTerms;
                 if (!searchEngines[id].formData) {
                     // If search engine uses GET request
-                    if (searchEngineUrl.includes('{searchTerms}')) {
-                        targetUrl = searchEngineUrl.replace(/{searchTerms}/g, encodeUrl(searchTerms));
-                    } else if (searchEngineUrl.includes('%s')) {
-                        targetUrl = searchEngineUrl.replace(/%s/g, encodeUrl(searchTerms));
-                    } else {
-                        targetUrl = searchEngineUrl + quote + encodeUrl(searchTerms) + quote;
-                    }
+                    targetUrl = await getSearchEngineUrl(searchEngineUrl, searchTerms);
                     suggestion['content'] = targetUrl;
                 } else {
                     // If search engine uses POST request
@@ -3050,6 +3025,107 @@ async function sendMessageToTab(tab, message) {
         // Still return a consistent failure indicator
         return { success: false, error: errorMessage };
     }
+}
+
+// ---------------- Template expansion utilities -----------------
+let lastKnownContext = null;
+
+async function getActiveTabTemplateContext({ selectionOverride } = {}) {
+    try {
+        const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+        const activeTab = tabs && tabs[0];
+        let ctx = null;
+        if (activeTab) {
+            try {
+                const response = await sendMessageToTab(activeTab, { action: 'getTemplateContext' });
+                if (response && response.success && response.data) {
+                    ctx = response.data;
+                }
+            } catch (e) {
+                // content script might not be available on this page
+            }
+        }
+        // Fallback from tab info
+        if (!ctx) {
+            const url = activeTab?.url || '';
+            let host = '';
+            let origin = '';
+            try {
+                const u = new URL(url);
+                host = u.host;
+                origin = u.origin;
+            } catch (e) {
+                // invalid URL, ignore
+            }
+            ctx = {
+                selection: selection || '',
+                selection_html: '',
+                page_title: activeTab?.title || '',
+                url,
+                host,
+                origin,
+                lang: '',
+                referrer: '',
+            };
+        }
+        if (typeof selectionOverride === 'string' && selectionOverride.length > 0) {
+            ctx.selection = selectionOverride;
+        }
+        lastKnownContext = ctx;
+        return ctx;
+    } catch (e) {
+        return (
+            lastKnownContext || {
+                selection: selection || '',
+                selection_html: '',
+                page_title: '',
+                url: '',
+                host: '',
+                origin: '',
+                lang: '',
+                referrer: '',
+            }
+        );
+    }
+}
+
+function expandTemplateStringSync(template, ctx, { urlEncode = false } = {}) {
+    if (!template || typeof template !== 'string') return template;
+    const map = {
+        selection: ctx.selection || '',
+        selection_html: ctx.selection_html || '',
+        page_title: ctx.page_title || '',
+        url: ctx.url || '',
+        host: ctx.host || '',
+        origin: ctx.origin || '',
+        lang: ctx.lang || '',
+        referrer: ctx.referrer || '',
+    };
+    /* eslint-disable-next-line no-unused-vars */
+    return template.replace(/\{(selection_html|selection|page_title|url|host|origin|lang|referrer)\}/g, (match, key) => {
+        const val = map[key] ?? '';
+        return urlEncode ? encodeUrl(String(val)) : String(val);
+    });
+}
+
+function expandObjectStrings(obj, ctx, { urlEncode = false } = {}) {
+    if (!obj || typeof obj !== 'object') return obj;
+    const result = Array.isArray(obj) ? [] : {};
+    for (const k in obj) {
+        const v = obj[k];
+        if (typeof v === 'string') {
+            result[k] = expandTemplateStringSync(v, ctx, { urlEncode });
+        } else if (v && typeof v === 'object') {
+            result[k] = expandObjectStrings(v, ctx, { urlEncode });
+        } else {
+            result[k] = v;
+        }
+    }
+    return result;
+}
+
+function expandTemplateString(template, ctx, { urlEncode = false } = {}) {
+    return expandTemplateStringSync(template, ctx, { urlEncode });
 }
 
 /// Notifications

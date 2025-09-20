@@ -240,6 +240,110 @@ Here is an example of a JSON file containing 3 search engines:
 > [!NOTE]
 > It is not required to provide the base 64 string representation of any search engine's favicon. This string will automatically be loaded for you.
 
+## Template Variables (Rich Templating)
+
+You can use powerful template variables to inject page context into:
+
+-   HTTP GET search URLs
+-   HTTP POST form data (JSON model)
+-   AI prompt templates
+-   Bookmarklets (javascript: URLs)
+
+These variables are expanded right before executing a search or running a bookmarklet, using data from the active tab.
+
+### Available variables
+
+-   {selection} — The current selected text on the page
+-   {selection_html} — The selected HTML (sanitized and length-capped)
+-   {page_title} — The current document title
+-   {url} — The full page URL
+-   {host} — Hostname (e.g., example.com:port if present)
+-   {origin} — Origin (scheme + host + port), e.g., https://example.com
+-   {lang} — Document language (document.documentElement.lang, if any)
+-   {referrer} — document.referrer (may be empty depending on Referrer-Policy)
+
+> [!TIP]
+> {selection_html} is best used in AI prompts or POST bodies. For GET query strings, it will be URL-encoded which may produce long URLs.
+
+### Encoding rules (important)
+
+-   GET search URLs: variables are URL-encoded.
+-   AI prompts: variables are not encoded (raw text/HTML is preserved).
+-   POST form data: variables are not encoded (values are inserted as-is into your JSON model before submission).
+-   Bookmarklets: variables are not encoded (raw strings are injected into your JavaScript code).
+
+Legacy placeholders remain supported for backward compatibility:
+
+-   %s or {searchTerms} — replaced by the selected text.
+
+### Where you can use them
+
+1. GET search URL
+
+Example URL:
+
+```
+https://www.google.com/search?q={selection}&u={url}&t={page_title}
+```
+
+Result: {selection}, {url} and {page_title} are expanded and URL-encoded.
+
+2. POST form data (JSON)
+
+In Options → Search engines, for a POST engine provide the action URL and a JSON body. Variables can appear in both.
+
+Example action URL:
+
+```
+https://example.com/search
+```
+
+Example form JSON:
+
+```json
+{
+    "q": "{selection}",
+    "from": "contextSearch",
+    "pageUrl": "{url}",
+    "meta": { "title": "{page_title}", "host": "{host}" }
+}
+```
+
+Result: Values are expanded without URL-encoding, then submitted as FormData.
+
+3. AI prompts
+
+Example prompt:
+
+```
+Summarize the following selection from {host} ({url}):\n\n{selection}
+```
+
+Result: Variables expand as raw strings (suitable for LLM inputs).
+
+4. Bookmarklets (javascript: URLs)
+
+Example:
+
+```
+javascript:(()=>{ alert('You selected on '+ '{host}'+':\n\n' + '{selection}'); })()
+```
+
+Result: Variables are expanded first, then the bookmarklet runs with the substituted values.
+
+### Notes and caveats
+
+-   Some pages may restrict access to referrer or selection HTML due to policy/sandboxing.
+-   For sites that block content scripts, the extension falls back to tab URL/title when possible.
+-   Very long selections may be trimmed in {selection_html} to keep operations stable.
+
+### Examples at a glance
+
+-   GET: `https://duckduckgo.com/?q=site:{host}+{selection}`
+-   POST JSON: `{ "q": "{selection}", "src": "{origin}" }`
+-   Prompt: `Translate to French keeping formatting: {selection_html}`
+-   Bookmarklet: `javascript:console.log('Title:', '{page_title}', 'URL:', '{url}')`
+
 ## Special thanks to the following contributors
 
 <ul>

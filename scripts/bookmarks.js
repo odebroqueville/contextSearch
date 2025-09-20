@@ -1,38 +1,10 @@
 /// Import browser polyfill for compatibility with Chrome and other browsers
 import '/libs/browser-polyfill.min.js';
 
-// Import bookmark utilities
-import { getSearchEngines, isItemBookmarked, createBookmarkIcon } from './bookmark-utils.js';
+// Import utilities (renamed from bookmark-utils.js)
+import { getSearchEngines, isItemBookmarked, createBookmarkIcon, decodeHtmlEntities } from './utilities.js';
 
 document.addEventListener('DOMContentLoaded', getBookmarkItems);
-
-// Function to safely decode HTML entities
-function decodeHtmlEntities(text) {
-    const entities = {
-        '&amp;': '&',
-        '&lt;': '<',
-        '&gt;': '>',
-        '&quot;': '"',
-        '&#x27;': "'",
-        '&#x2F;': '/',
-        '&#39;': "'",
-        '&nbsp;': ' ',
-        '&copy;': '©',
-        '&reg;': '®',
-        '&trade;': '™',
-        '&hellip;': '…',
-        '&mdash;': '—',
-        '&ndash;': '–',
-        '&lsquo;': '\u2018',
-        '&rsquo;': '\u2019',
-        '&ldquo;': '\u201C',
-        '&rdquo;': '\u201D'
-    };
-    
-    return text.replace(/&[#\w]+;/g, (entity) => {
-        return entities[entity] || entity;
-    });
-}
 
 // Function to fetch page description from URL
 async function fetchPageDescription(url) {
