@@ -44,14 +44,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function getAIEngine() {
-        const outputHTML = outputArea.innerHTML.trim();
-        return outputHTML.replace(/<span class="button">/g, '').replace(/<\/span>/g, '');
+        // Extract the first tag-like span we inserted
+        const btn = outputArea.querySelector('span.button');
+        return btn ? btn.textContent.trim() : '';
     }
 
     function unstyleTag() {
         const aiEngine = getAIEngine();
         if (aiEngines.includes(aiEngine)) {
-            outputArea.innerHTML = '';
+            // Clear without innerHTML
+            outputArea.textContent = '';
         }
         inputArea.value = aiEngine + inputArea.value.trim();
         tagStyled = false;

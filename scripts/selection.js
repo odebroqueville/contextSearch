@@ -495,7 +495,16 @@ function getSelectionHtmlSafe(maxLen = 8000) {
     // Remove potentially dangerous elements
     container.querySelectorAll('script, style, noscript, iframe, object, embed').forEach((el) => el.remove());
 
-    let html = container.innerHTML || '';
+    // Serialize using a temporary wrapper to avoid reading arbitrary page content directly
+    let html = '';
+    // Build a new container and clone nodes to string via outerHTML/textContent
+    Array.from(container.childNodes).forEach((node) => {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+            html += node.outerHTML;
+        } else if (node.nodeType === Node.TEXT_NODE) {
+            html += node.textContent;
+        }
+    });
     // Trim excessive whitespace
     html = html.replace(/\s+$/g, ' ').trim();
     if (html.length > maxLen) {
@@ -699,7 +708,7 @@ async function ask(url, promptText) {
                             document.querySelector('button:has(svg)') ||
                             Array.from(document.querySelectorAll('button')).find(
                                 (btn) =>
-                                    btn.textContent === 'Send' || btn.innerHTML.includes('svg') || btn.closest('[data-testid="chat-input-actions"]')
+                                    btn.textContent === 'Send' || !!btn.querySelector('svg') || btn.closest('[data-testid="chat-input-actions"]')
                             );
 
                         if (alternativeSubmit) {

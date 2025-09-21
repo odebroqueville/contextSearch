@@ -98,8 +98,11 @@ function processJsFile(src, dest, browser) {
     let content = fs.readFileSync(src, 'utf8');
 
     if (browser === 'firefox' && src.includes('/scripts/')) {
-        // Remove specific lines for Firefox
-        content = content.replace(/\/\/\/ Import browser polyfill for compatibility with Chrome and other browsers\nimport '\/libs\/browser-polyfill\.min\.js';\n?/g, '');
+        // Remove browser polyfill import for Firefox, regardless of surrounding comment or whitespace
+        // 1) Backward-compat: strip the original comment+import block if present
+        content = content.replace(/\/\/\/\s*Import browser polyfill[^\n]*\n\s*import\s+['"]\/libs\/browser-polyfill\.min\.js['"];\s*\n?/g, '');
+        // 2) Fallback: ensure any bare import of the polyfill is also removed
+        content = content.replace(/(^|\n)\s*import\s+['"]\/libs\/browser-polyfill\.min\.js['"];\s*(?=\n|$)/g, '$1');
     }
 
     // Replace DEBUG_VALUE with environment variable value

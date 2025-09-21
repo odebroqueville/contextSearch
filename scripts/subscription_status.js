@@ -10,8 +10,8 @@ const extpay = ExtPay('context-search');
 const statusDiv = document.getElementById('status');
 
 async function renderStatus() {
-    // Clear previous content
-    statusDiv.innerHTML = '';
+    // Clear previous content without innerHTML
+    statusDiv.textContent = '';
 
     const user = await extpay.getUser();
     if (logToConsole) console.log('User status:', user); // Log user object

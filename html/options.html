@@ -219,10 +219,789 @@
                     </fieldset>
                 </div>
             </div>
+
+            <div class="tab">
+                <input type="radio" name="css-tabs" id="tab-3" class="tab-switch">
+                <label for="tab-3" class="tab-label" data-i18n="titlePromptsLibrary">Prompts library</label>
+                <div class="tab-content">
+                    <div id="app">
+                    <!-- SVG ICONS -->
+                    <svg width="0" height="0" style="position: absolute">
+                        <defs>
+                        <symbol
+                            id="icon-lock"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </symbol>
+                        </defs>
+                    </svg>
+
+                    <div id="sidebar">
+                        <div class="sidebar-header">
+                        <input type="search" id="search" placeholder="Search prompts..." />
+                        </div>
+                        <div id="sidebar-content">
+                        <div class="sidebar-heading prompts-heading">
+                            <span>Prompts</span>
+                            <button type="button"
+                            class="sidebar-action-btn"
+                            id="new-prompt-btn"
+                            title="New Prompt"
+                            >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            </button>
+                        </div>
+                        <ul id="primary-nav-list" class="sidebar-nav-list"></ul>
+
+                        <div class="sidebar-heading">
+                            <span>Folders</span>
+                            <button type="button"
+                            class="sidebar-action-btn"
+                            id="new-folder-toggle-btn"
+                            title="New Folder"
+                            >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            </button>
+                        </div>
+                        <div id="new-folder-container" class="inline-form-container">
+                            <div class="inline-form-content">
+                            <input
+                                type="text"
+                                id="new-folder-name"
+                                class="inline-form-input"
+                                placeholder="New folder name..."
+                            />
+                            <button type="button"
+                                id="add-folder-btn"
+                                class="io-button"
+                                style="margin-top: 10px; width: 100%"
+                            >
+                                Add Folder
+                            </button>
+                            </div>
+                        </div>
+                        <ul id="folder-list" class="sidebar-nav-list"></ul>
+
+                        <div
+                            class="sidebar-heading"
+                            style="margin-top: 25px; margin-bottom: 20px"
+                        >
+                            <span id="manage-tags-btn" style="cursor: pointer">Tags</span>
+                            <button type="button"
+                            class="sidebar-action-btn"
+                            id="new-tag-toggle-btn"
+                            title="New Tag"
+                            >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            </button>
+                        </div>
+                        <div id="new-tag-container" class="inline-form-container">
+                            <div class="inline-form-content">
+                            <input
+                                type="text"
+                                id="new-tag-name"
+                                class="inline-form-input"
+                                placeholder="New tag name..."
+                            />
+                            <button type="button"
+                                id="add-tag-btn"
+                                class="io-button"
+                                style="margin-top: 10px; width: 100%"
+                            >
+                                Add Tag
+                            </button>
+                            </div>
+                        </div>
+                        <div id="tags-list" style="padding-bottom: 20px"></div>
+                        </div>
+                        <div class="sidebar-footer">
+                        <button type="button"
+                            id="settings-btn"
+                            class="io-button"
+                            style="width: 100%; justify-content: center; gap: 8px"
+                        >
+                            <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            >
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path
+                                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82-.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06-.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+                            ></path>
+                            </svg>
+                            Settings
+                        </button>
+                        <input
+                            type="file"
+                            id="import-file-input"
+                            accept=".json"
+                            style="display: none"
+                        />
+                        </div>
+                    </div>
+                    <div id="main-content">
+                        <button type="button" id="sidebar-toggle">☰</button>
+                        <button type="button" id="mobile-search-btn">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        </button>
+                        <button type="button" id="mobile-new-prompt-fab"></button>
+                        <div id="prompt-list-container">
+                        <div id="mobile-search-bar">
+                            <input
+                            type="search"
+                            id="mobile-search-input"
+                            class="inline-form-input"
+                            placeholder="Search prompts..."
+                            />
+                            <button type="button" id="close-search-btn">×</button>
+                        </div>
+                        <div class="prompt-list-controls">
+                            <div class="controls-left">
+                            <button type="button" id="select-mode-btn">
+                                <span class="select-text">Select</span
+                                ><span class="cancel-text">Cancel</span>
+                            </button>
+                            <button type="button" id="select-all-btn">Select All</button>
+                            </div>
+                            <div class="controls-right">
+                            <div id="bulk-action-bar">
+                                <button type="button" id="bulk-move-btn">
+                                <span class="button-text">Move</span
+                                ><span class="button-emoji">📁</span>
+                                </button>
+                                <button type="button" id="bulk-export-btn">
+                                <span class="button-text">Export</span
+                                ><span class="button-emoji">📤</span>
+                                </button>
+                                <button type="button" id="bulk-delete-btn">
+                                <span class="button-text">Delete</span
+                                ><span class="button-emoji">🗑️</span>
+                                </button>
+                            </div>
+                            <select id="sort-by">
+                                <option value="dateCreated_desc">Newest</option>
+                                <option value="title_asc">Title (A-Z)</option>
+                            </select>
+                            </div>
+                        </div>
+                        <ul id="prompt-list">
+                            <div id="new-prompt-placeholder">
+                            <p>No prompts here yet. Let's create one!</p>
+                            <button type="button" id="new-prompt-placeholder-btn">Create New Prompt</button>
+                            </div>
+                        </ul>
+                        <button type="button" id="back-to-top-btn" title="Back to Top">
+                            <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            >
+                            <line x1="12" y1="19" x2="12" y2="5"></line>
+                            <polyline points="5 12 12 5 19 12"></polyline>
+                            </svg>
+                        </button>
+                        </div>
+                        <div id="resizer"></div>
+                        <div id="prompt-details-container">
+                        <div id="no-prompt-selected">
+                            <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="50"
+                            height="50"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            >
+                            <path
+                                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                            ></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            </svg>
+                            <p style="margin-top: 20px">
+                            Select a prompt to view, or create a new one.
+                            </p>
+                        </div>
+                        <div id="prompt-details">
+                            <div class="form-group">
+                            <div class="prompt-title-header">
+                                <label for="prompt-title">Title</label>
+                                <div class="lock-switch-container">
+                                <label for="prompt-lock-switch">Lock</label>
+                                <label class="lock-switch">
+                                    <input type="checkbox" id="prompt-lock-switch" />
+                                    <span class="lock-slider"></span>
+                                </label>
+                                </div>
+                            </div>
+                            <input type="text" id="prompt-title" placeholder="Prompt Title" />
+                            </div>
+                            <div class="form-group">
+                            <label for="prompt-folder-value">Folder</label>
+                            <div id="prompt-folder-container" class="custom-select-container">
+                                <div
+                                id="prompt-folder-value"
+                                class="custom-select-value"
+                                tabindex="0"
+                                ></div>
+                                <div
+                                id="prompt-folder-options"
+                                class="custom-select-options"
+                                ></div>
+                                <input type="hidden" id="prompt-folder" />
+                            </div>
+                            </div>
+                            <div class="form-group grows">
+                            <label for="prompt-body">Prompt</label>
+                            <textarea
+                                id="prompt-body"
+                                placeholder="The content of your prompt..."
+                            ></textarea>
+                            <div id="char-counter">0 characters</div>
+                            <button type="button"
+                                id="copy-prompt-btn"
+                                class="editor-action-btn"
+                                title="Copy prompt body"
+                            >
+                                <svg
+                                class="copy-icon-svg"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                >
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path
+                                    d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                                ></path>
+                                </svg>
+                                <svg
+                                class="check-icon-svg"
+                                style="display: none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                >
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </button>
+                            <button type="button"
+                                id="expand-prompt-btn"
+                                class="editor-action-btn"
+                                title="Fullscreen Editor"
+                            >
+                                <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                >
+                                <path
+                                    d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"
+                                />
+                                </svg>
+                            </button>
+                            </div>
+                            <div class="form-group">
+                            <label for="prompt-notes">Notes</label>
+                            <textarea
+                                id="prompt-notes"
+                                rows="2"
+                                placeholder="Add extra details or context..."
+                            ></textarea>
+                            <button type="button"
+                                id="expand-notes-btn"
+                                class="editor-action-btn"
+                                title="Fullscreen Editor"
+                            >
+                                <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                >
+                                <path
+                                    d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"
+                                />
+                                </svg>
+                            </button>
+                            </div>
+                            <div class="form-group">
+                            <label for="tags-input">Tags</label>
+                            <div class="tags-container" id="tags-container">
+                                <input type="text" id="tags-input" placeholder="Add tags..." />
+                            </div>
+                            <div id="tag-suggestions"></div>
+                            </div>
+                            <div class="action-buttons">
+                            <button type="button" id="save-prompt" class="action-btn">Save</button>
+                            <button type="button" id="delete-prompt" class="action-btn">Delete</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+                    <!-- MODALS -->
+                    <div id="fullscreen-prompt-modal" class="modal-overlay">
+                        <div class="modal-content">
+                        <div id="fullscreen-header">
+                            <h3 id="fullscreen-prompt-title"></h3>
+                        </div>
+                        <textarea id="fullscreen-prompt-textarea"></textarea>
+                        <div class="modal-actions">
+                            <button type="button" id="close-fullscreen-btn" class="io-button">Close</button>
+                            <button
+                            type="button" id="save-and-close-fullscreen-btn"
+                            class="action-btn"
+                            style="background-color: var(--primary-accent); color: white"
+                            >
+                            Save & Close
+                            </button>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div id="move-modal" class="modal-overlay">
+                        <div class="modal-content">
+                        <h3 class="modal-title-js">Move Prompts</h3>
+                        <p>
+                            Select a destination folder for the
+                            <span id="move-count"></span> selected prompts.
+                        </p>
+                        <select id="move-folder-select" class="inline-form-input"></select>
+                        <div
+                            id="move-password-container"
+                            class="form-group"
+                            style="display: none; margin-top: 15px"
+                        >
+                            <label for="move-password-input">Folder Password</label>
+                            <input
+                            type="password"
+                            id="move-password-input"
+                            class="inline-form-input"
+                            placeholder="Enter password for locked folder"
+                            />
+                        </div>
+                        <div class="modal-actions">
+                            <button type="button" id="cancel-move-btn" class="io-button modal-cancel-js">
+                            Cancel
+                            </button>
+                            <button
+                            type="button" id="confirm-move-btn"
+                            class="action-btn modal-confirm-js"
+                            style="background-color: var(--primary-accent); color: white"
+                            >
+                            Move
+                            </button>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div id="delete-folder-modal" class="modal-overlay">
+                        <div class="modal-content">
+                        <h3 class="modal-title-js">Delete Folder</h3>
+                        <p class="modal-message-js">
+                            What would you like to do with the prompts inside this folder?
+                        </p>
+                        <div
+                            class="modal-actions"
+                            style="flex-direction: column; gap: 15px; align-items: stretch"
+                        >
+                            <button type="button" id="confirm-delete-folder-move-prompts" class="action-btn">
+                            Delete Folder & Move Prompts
+                            </button>
+                            <button type="button" id="confirm-delete-folder-and-prompts" class="action-btn">
+                            Delete Folder & All Prompts
+                            </button>
+                            <button type="button"
+                            id="cancel-delete-folder-btn"
+                            class="io-button modal-cancel-js"
+                            >
+                            Cancel
+                            </button>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div id="reset-data-modal" class="modal-overlay">
+                        <div class="modal-content">
+                        <h3 class="modal-title-js">Reset</h3>
+                        <p class="modal-message-js">
+                            Are you sure you want to reset all data? This will permanently
+                            delete all prompts, folders, and tags. This action cannot be undone.
+                        </p>
+                        <div class="modal-actions">
+                            <button type="button" id="cancel-reset-btn" class="io-button modal-cancel-js">
+                            Cancel
+                            </button>
+                            <button type="button" id="confirm-reset-btn" class="action-btn modal-confirm-js">
+                            Yes, Reset Everything
+                            </button>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div id="settings-modal" class="modal-overlay">
+                        <div class="modal-content">
+                        <h3 style="margin-bottom: 20px">Settings</h3>
+                        <div
+                            class="modal-actions"
+                            style="flex-direction: column; gap: 10px; align-items: stretch"
+                        >
+                            <div style="display: flex; gap: 10px">
+                            <button
+                                type="button"
+                                id="import-btn-modal"
+                                class="io-button"
+                                style="justify-content: center; flex: 1"
+                            >
+                                <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                >
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                                </svg>
+                                Import
+                            </button>
+                            <button
+                                type="button"
+                                id="export-btn-modal"
+                                class="io-button"
+                                style="justify-content: center; flex: 1"
+                            >
+                                <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                >
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                Export
+                            </button>
+                            </div>
+                            <button
+                            type="button"
+                            id="reset-data-btn-modal"
+                            class="io-button"
+                            style="
+                                border-color: var(--red-hover);
+                                color: var(--text-secondary);
+                            "
+                            >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <polyline points="23 4 23 10 17 10"></polyline>
+                                <polyline points="1 20 1 14 7 14"></polyline>
+                                <path
+                                d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"
+                                ></path>
+                            </svg>
+                            Reset
+                            </button>
+                        </div>
+                        <div
+                            class="modal-actions"
+                            style="margin-top: 10px; justify-content: center"
+                        >
+                            <a
+                            href="https://github.com/sevenreasons/promptcat"
+                            target="_blank"
+                            class="io-button"
+                            style="justify-content: center"
+                            >
+                            <svg
+                                class="io-button-icon"
+                                viewBox="0 0 98 96"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"
+                                fill="#fff"
+                                />
+                            </svg>
+                            <span>promptcat</span>
+                            </a>
+                        </div>
+                        <div class="modal-actions" style="margin-top: 10px">
+                            <button
+                            type="button"
+                            id="close-settings-modal-btn"
+                            class="io-button modal-cancel-js"
+                            style="width: 100%"
+                            >
+                            Close
+                            </button>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div id="folder-settings-modal" class="modal-overlay">
+                        <div class="modal-content">
+                        <h3 id="folder-settings-title"></h3>
+                        <div class="form-group">
+                            <label for="rename-folder-input">Rename Folder</label>
+                            <input
+                            type="text"
+                            id="rename-folder-input"
+                            class="inline-form-input"
+                            />
+                        </div>
+                        <div class="modal-actions" style="justify-content: space-between">
+                            <button type="button" id="save-rename-btn" class="action-btn">Save</button>
+                            <button type="button" id="toggle-lock-folder-btn" class="action-btn">Lock</button>
+                            <button type="button" id="export-folder-btn" class="action-btn">Export</button>
+                        </div>
+                        <div
+                            style="border-top: 1px solid var(--border-color); margin: 20px 0"
+                        ></div>
+                        <div>
+                            <label
+                            style="
+                                font-weight: 600;
+                                font-size: 0.9em;
+                                color: var(--text-secondary);
+                                margin-bottom: 8px;
+                                display: block;
+                            "
+                            >Danger Zone</label
+                            >
+                            <button
+                            type="button"
+                            id="delete-folder-from-settings-btn"
+                            class="action-btn"
+                            style="background-color: var(--red-accent); width: 100%"
+                            >
+                            Delete Folder
+                            </button>
+                        </div>
+                        <div class="modal-actions" style="margin-top: 20px">
+                            <button
+                            type="button"
+                            id="cancel-folder-settings-btn"
+                            class="io-button"
+                            style="width: 100%"
+                            >
+                            Close
+                            </button>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div id="manage-tags-modal" class="modal-overlay">
+                        <div class="modal-content" style="max-width: 500px">
+                        <h3>Manage Tags</h3>
+                        <div
+                            id="manage-tags-list"
+                            style="max-height: 40vh; overflow-y: auto; margin: 20px 0"
+                        >
+                            <!-- Tag items will be injected here -->
+                        </div>
+                        <div class="modal-actions">
+                            <button
+                            type="button"
+                            id="close-manage-tags-btn"
+                            class="io-button"
+                            style="width: 100%"
+                            >
+                            Close
+                            </button>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div id="exit-confirmation-modal" class="modal-overlay">
+                        <div class="modal-content">
+                        <h3 class="modal-title-js">Leave Page?</h3>
+                        <p class="modal-message-js">
+                            Are you sure you want to leave this page? Any unsaved changes may be
+                            lost.
+                        </p>
+                        <div class="modal-actions">
+                            <button type="button" class="io-button modal-cancel-js">Stay</button>
+                            <button
+                            type="button"
+                            class="action-btn modal-confirm-btn modal-confirm-js danger"
+                            >
+                            Leave
+                            </button>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div id="generic-modal" class="modal-overlay">
+                        <div class="modal-content">
+                        <h3 id="generic-modal-title" class="modal-title-js"></h3>
+                        <p id="generic-modal-message" class="modal-message-js"></p>
+                        <input
+                            type="text"
+                            id="generic-modal-input"
+                            class="inline-form-input modal-input-js"
+                            style="margin-bottom: 20px; display: none"
+                        />
+                        <div
+                            id="generic-modal-error"
+                            style="
+                            color: var(--red-accent);
+                            display: none;
+                            margin-top: -15px;
+                            margin-bottom: 15px;
+                            font-size: 0.9em;
+                            "
+                        ></div>
+                        <div
+                            id="generic-modal-remember-container"
+                            style="display: none; margin-bottom: 20px"
+                        >
+                            <label
+                            for="generic-modal-remember-cb"
+                            class="custom-checkbox-label"
+                            >
+                            <input type="checkbox" id="generic-modal-remember-cb" />
+                            <span class="custom-checkbox-span"></span>
+                            <span>Don't ask again for this session</span>
+                            </label>
+                        </div>
+                        <div class="modal-actions">
+                            <button
+                            type="button"
+                            id="generic-modal-cancel-btn"
+                            class="io-button modal-cancel-js"
+                            >
+                            Cancel
+                            </button>
+                            <button
+                            type="button"
+                            id="generic-modal-confirm-btn"
+                            class="action-btn modal-confirm-btn modal-confirm-js"
+                            >
+                            OK
+                            </button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
 
     <script src="/libs/Sortable.min.js"></script>
     <script type="module" src="/scripts/options.js"></script>
+    <script type="module" src="/scripts/promptcat.js"></script>
     <script type="module" src="/scripts/toggle_theme.js"></script>
 </body>

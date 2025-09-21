@@ -1,13 +1,15 @@
+/* eslint-env browser, es2021 */
+/* global Sortable, DEBUG_VALUE */
+
 /// Import browser polyfill for compatibility with Chrome and other browsers
 import '/libs/browser-polyfill.min.js';
 
-/// Import constants
+/// Import constants and utilities
 import { STORAGE_KEYS, SORTABLE_BASE_OPTIONS } from './constants.js';
 import { isKeyAllowed, isInFocus, isIdUnique, getOS, getMetaKey } from './utilities.js';
 
 /// Global constants
 
-/* global Sortable, DEBUG_VALUE */
 const sortableOptions = {
     ...SORTABLE_BASE_OPTIONS,
     onEnd: saveSearchEnginesOnDragEnded,
@@ -1221,13 +1223,13 @@ async function removeSearchEngine(e) {
     }
 
     if (!searchEngines[id].isFolder) {
-        let remove;
+        let shouldRemove;
         if (id.startsWith('separator-')) {
-            remove = true;
+            shouldRemove = true;
         } else {
-            remove = confirm(`${removeSearchEngineConfirm} ${searchEngines[id].name}?`);
+            shouldRemove = confirm(`${removeSearchEngineConfirm} ${searchEngines[id].name}?`);
         }
-        if (remove) {
+        if (shouldRemove) {
             // Remove the id from the parent's children *before* deleting the engine
             if (searchEngines[parentId].children) {
                 const index = searchEngines[parentId].children.indexOf(id);
@@ -1247,8 +1249,8 @@ async function removeSearchEngine(e) {
         }
     } else {
         // If the line item is a folder, display a warning message
-        const remove = confirm(`${removeFolderConfirmPrefix} ${searchEngines[id].name} ${removeFolderConfirmSuffix}?`);
-        if (remove) {
+        const shouldRemove = confirm(`${removeFolderConfirmPrefix} ${searchEngines[id].name} ${removeFolderConfirmSuffix}?`);
+        if (shouldRemove) {
             // Remove the id from the parent's children *before* deleting the folder data
             if (searchEngines[parentId].children) {
                 const index = searchEngines[parentId].children.indexOf(id);

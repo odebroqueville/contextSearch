@@ -43,6 +43,20 @@ div {
     color: var(--text-color);
 }
 
+/* Do not force text color inside the Prompts library app; let it manage its own theme */
+#app,
+#app form,
+#app fieldset,
+#app legend,
+#app h2,
+#app h3,
+#app label,
+#app p,
+#app span,
+#app div {
+    color: inherit; /* Use PromptCat's own color (set on #app) */
+}
+
 input[type='checkbox'],
 input[type='radio'],
 select,
