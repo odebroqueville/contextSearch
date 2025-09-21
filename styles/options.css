@@ -698,12 +698,12 @@ html[theme='dark'] .tab-switch:checked + .tab-label {
 
 /* Hide the paragraph immediately following the Download button by default */
 button#download + p {
-    display: none;
+    visibility: hidden;
 }
 
 /* Hide the Reminder paragraph in the fieldset that contains the Download button by default */
 fieldset:has(#download) > p {
-    display: none;
+    visibility: hidden;
 }
 
 /* If permission is granted, darken the Download button on hover */
@@ -722,5 +722,5 @@ fieldset:has(#download) > p {
 
 /* Show the Reminder paragraph only when hovering the Download button AND permission is missing */
 fieldset:has(#download[data-permission='missing']:hover) > p {
-    display: block;
+    visibility: visible;
 }

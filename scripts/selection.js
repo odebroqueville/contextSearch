@@ -796,9 +796,8 @@ async function init() {
 
     try {
         // Try to get stored data with retries built into sendMessage
-        const response = await sendMessage('getStoredData', { key: null });
-        if (response && response.success && response.data) {
-            const storedData = response.data;
+        const storedData = await getFreshStoredData();
+        if (storedData && storedData.options && storedData.searchEngines) {
             options = storedData.options || {};
             searchEngines = storedData.searchEngines || {};
             textSelection = storedData.selection || '';
@@ -1325,9 +1324,8 @@ async function handleAltClickWithGrid(e) {
             // If no selection after trying to get one, use any stored selection
             if (!textSelection) {
                 try {
-                    const response = await sendMessage('getStoredData', { key: 'selection' });
-                    if (response && response.success && response.data && response.data.selection) {
-                        textSelection = response.data.selection;
+                    textSelection = (await getFreshStoredData('selection')) || '';
+                    if (textSelection) {
                         if (logToConsole) console.log('Retrieved stored selection:', textSelection);
                     }
                 } catch (error) {
@@ -1897,28 +1895,15 @@ async function sendMessage(action, data, attempt = 0) {
 
 // Helper function to get fresh data from storage
 async function getFreshStoredData(key) {
-    // key can be 'options' or 'searchEngines'
     try {
-        const response = await sendMessage('getStoredData', { key });
-        if (response && response.success && response.data) {
-            return response.data[key];
-        }
-        // Fallback: read directly from local storage if the service worker didn’t respond
         const local = await browser.storage.local.get(key);
         if (local && Object.prototype.hasOwnProperty.call(local, key)) {
-            if (logToConsole) console.log(`Fallback storage.local hit for ${key}`);
             return local[key];
         }
         return null;
     } catch (error) {
-        if (logToConsole) console.error(`Failed to get fresh ${key}:`, error);
-        try {
-            const local = await browser.storage.local.get(key);
-            return local && Object.prototype.hasOwnProperty.call(local, key) ? local[key] : null;
-        } catch (e2) {
-            if (logToConsole) console.error(`Fallback storage.local failed for ${key}:`, e2);
-            return null;
-        }
+        if (logToConsole) console.error(`Failed to get fresh data for ${key}:`, error);
+        return null;
     }
 }
 
