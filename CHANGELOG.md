@@ -1,6 +1,7 @@
 6.2.1
 =========
 
+* bug fix [#265](https://github.com/odebroqueville/contextSearch/issues/265)
 * code cleanup: centralisation of shared functions in scripts/utilities.js
 * exports to a local disk now include both options and search engines
 * the AI prompt window has been replaced with the Command window which takes the same input as the omnibox, but without starting with 'cs '
