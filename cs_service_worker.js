@@ -2152,7 +2152,7 @@ async function processSearch(info, tab) {
         if (logToConsole) console.log('Processing search with menu item:', info.menuItemId);
 
         const currentWindow = await browser.windows.getCurrent({ populate: true });
-        let multisearch = false;
+        const multisearch = info.menuItemId.endsWith('-multisearch') || info.menuItemId === 'cs-multitab';
         let id = info.menuItemId.startsWith('cs-') ? info.menuItemId.replace('cs-', '') : info.menuItemId;
 
         if (info.selectionText) {
@@ -2171,7 +2171,6 @@ async function processSearch(info, tab) {
         // If the selected search engine is a folder, process it as a multisearch
         if (id.endsWith('-multisearch')) {
             id = id.replace('-multisearch', '');
-            multisearch = true;
             await processMultisearch([], id, tabIndex);
             return;
         }
@@ -2227,7 +2226,6 @@ async function processMultisearch(arraySearchEngineUrls, folderId, tabPosition) 
     let postArray = [];
     let aiArray = [];
     let urlArray = [];
-    let folderMultisearch = false;
 
     // Helper function to log array contents
     const logArrayContents = (label, array) => {
@@ -2241,7 +2239,7 @@ async function processMultisearch(arraySearchEngineUrls, folderId, tabPosition) 
             if (childId.startsWith('separator-')) continue;
             if (searchEngines[childId].isFolder) {
                 await getSearchEnginesFromFolder(childId);
-            } else if (searchEngines[childId].multitab || folderMultisearch) {
+            } else if (searchEngines[childId].multitab) {
                 if (searchEngines[childId].aiProvider) {
                     // This array will contain id items
                     aiArray.push(childId);
@@ -2257,10 +2255,6 @@ async function processMultisearch(arraySearchEngineUrls, folderId, tabPosition) 
             }
         }
     };
-
-    if (folderId !== 'root') {
-        folderMultisearch = true;
-    }
 
     if (arraySearchEngineUrls.length > 0) {
         multisearchArray = arraySearchEngineUrls;
@@ -2295,6 +2289,7 @@ async function processMultisearch(arraySearchEngineUrls, folderId, tabPosition) 
     multisearchArray = joinArrays(urlArray, nonUrlArray);
     logArrayContents('multisearchArray', multisearchArray);
 
+    // If no search engines are selected, notify the user and exit
     if (notificationsEnabled && isEmpty(multisearchArray)) {
         notify(notifyMissingSearchEngine);
         return;
@@ -2303,15 +2298,29 @@ async function processMultisearch(arraySearchEngineUrls, folderId, tabPosition) 
 
     // Open search results in a new window
     if (options.multiMode === 'multiNewWindow') {
+        // Open the window with the first URL (if any), then add the remaining URLs as tabs
+        const firstUrl = urlArray.length > 0 ? urlArray[0] : undefined;
         const windowCreateData = {
             focused: options.tabActive,
             incognito: options.privateMode,
-            url: urlArray,
+            ...(firstUrl ? { url: firstUrl } : {}),
         };
 
         windowInfo = await browser.windows.create(windowCreateData);
-        // Set the tab position in the new window to the last tab
-        tabPosition = windowInfo.tabs.length;
+
+        const remainingUrls = urlArray.slice(1);
+        if (remainingUrls.length > 0) {
+            // Start adding after the first tab in the new window
+            await openTabsForUrls(remainingUrls, 1, windowInfo.id);
+        }
+
+        // Set the tab position in the new window to the last tab (after all GET URLs)
+        try {
+            const tabsInNewWindow = await browser.tabs.query({ windowId: windowInfo.id });
+            tabPosition = tabsInNewWindow.length;
+        } catch (e) {
+            tabPosition = Math.max(1, urlArray.length);
+        }
     } else if (options.multiMode !== 'multiNewWindow') {
         // Open search results in the current window
         const tabs = await queryAllTabs();
@@ -2332,7 +2341,7 @@ async function processMultisearch(arraySearchEngineUrls, folderId, tabPosition) 
         }
     }
 
-    // Process the remaaining non-URL array of search engines (using HTTP POST requests or AI prompts)
+    // Process the remaining non-URL array of search engines (using HTTP POST requests or AI prompts)
     if (nonUrlArray.length > 0) {
         if (logToConsole) console.log(`Opening HTTP POST requests & AI search results in window ${windowInfo.id} at tab position ${tabPosition}`);
         await processNonUrlArray(nonUrlArray, tabPosition, windowInfo.id);
@@ -2343,7 +2352,7 @@ function joinArrays(...arrays) {
     return [...new Set(arrays.flat())];
 }
 
-async function openTabsForUrls(urls, tabPosition) {
+async function openTabsForUrls(urls, tabPosition, windowId) {
     for (let i = 0; i < urls.length; i++) {
         const url = urls[i];
         const newTabIndex = tabPosition + i;
@@ -2353,6 +2362,7 @@ async function openTabsForUrls(urls, tabPosition) {
                 url: url,
                 active: false,
                 index: newTabIndex,
+                ...(windowId ? { windowId } : {}),
             });
         } catch (error) {
             console.error(`Error opening tab for URL ${url}:`, error);

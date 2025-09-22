@@ -122,65 +122,6 @@
                             <button type="button" id="addChatGPTPrompt" data-i18n="addChatGPTPrompt">Add AI Prompt</button>
                             <button type="button" id="clearAddChatGPTPrompt" data-i18n="clear">Clear</button>
                         </div>
-                        <div class="templateVars">
-                            <h3 data-i18n="headerTemplateVars">Template variables</h3>
-                            <details>
-                                <summary data-i18n="templateVarsSummary">Rich variables help</summary>
-                                <p data-i18n="templateVarsIntro">Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets.</p>
-                                <div class="p-sm">
-                                    <p>
-                                        <b data-i18n="placeholders">Placeholders:</b>
-                                        <code>{selection}</code>
-                                        ,
-                                        <code>{selection_html}</code>
-                                        ,
-                                        <code>{page_title}</code>
-                                        ,
-                                        <code>{url}</code>
-                                        ,
-                                        <code>{host}</code>
-                                        ,
-                                        <code>{origin}</code>
-                                        ,
-                                        <code>{lang}</code>
-                                        ,
-                                        <code>{referrer}</code>
-                                    </p>
-
-                                    <p><b data-i18n="encodingRules">Encoding by context:</b></p>
-                                    <ul>
-                                        <li>
-                                            <code>GET</code>
-                                            <span data-i18n="encodingGet">URLs: variables are URL-encoded</span>
-                                        </li>
-                                        <li>
-                                            <code>POST</code>
-                                            <span data-i18n="encodingPost">form data: inserted as-is (not URL-encoded)</span>
-                                        </li>
-                                        <li><span data-i18n="encodingAi">AI prompts: inserted as-is (not URL-encoded)</span></li>
-                                        <li><span data-i18n="encodingBookmarklets">Bookmarklets: inserted as-is (not URL-encoded)</span></li>
-                                    </ul>
-
-                                    <p>
-                                        <b data-i18n="legacyAliasesLabel">Legacy aliases:</b>
-                                        <code>%s</code>
-                                        ,
-                                        <code>{searchTerms}</code>
-                                        <span data-i18n="legacyAliases">are supported and resolve to</span>
-                                        <code>{selection}</code>
-                                        .
-                                    </p>
-
-                                    <p>
-                                        <b data-i18n="notes">Notes:</b>
-                                        <span data-i18n="templateVarsNotes">
-                                            {referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you
-                                            display it.
-                                        </span>
-                                    </p>
-                                </div>
-                            </details>
-                        </div>
                     </div>
                 </div>
                 <div class="tab">

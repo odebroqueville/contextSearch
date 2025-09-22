@@ -491,7 +491,7 @@ Style the tabs
 
 .tabs {
     position: relative;
-    margin: 0.5rem 0; /* reduced from 1rem to minimize gap */
+    margin: 1rem 0;
     background: #0000cc;
     min-height: 30rem;
     height: 100%;
