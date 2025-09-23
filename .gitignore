@@ -7,6 +7,6 @@ build/
 crowdin.yml
 libs/
 node_modules/
-TRADEMARK POLICY.md
+TRADEMARK_POLICY.md
 web-ext-artifacts/
 web-ext-config.js

@@ -3,12 +3,32 @@ body {
     color: #ccc;
     background-color: #333;
     font-family: 'Raleway', Helvetica, Arial, sans-serif;
+    overflow-y: auto; /* allow vertical expansion */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 p {
     color: #ccc;
     margin: 5px 10px 0 10px;
     font-size: 8pt;
+}
+
+.chatbot {
+    background-color: rgb(133, 0, 160);
+    border: 1px solid rgb(133, 47, 150);
+    color: #ddd;
+    padding: 5px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin-right: 5px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1;
+    vertical-align: baseline;
 }
 
 /* Styling the button */
@@ -37,7 +57,7 @@ p {
     display: flex;
     align-items: baseline;
     width: 100%;
-    height: 35px;
+    height: 180px;
     /* Fill the remaining height */
 }
 
@@ -46,10 +66,12 @@ p {
     font-size: 14px;
     padding: 5px;
     box-sizing: border-box;
-    border: none;
+    border: 1px solid #555;
+    border-radius: 5px;
     resize: none;
     outline: none;
     overflow: hidden;
+    height: 100%;
     line-height: 1.5;
     color: #ccc;
     background-color: #333;
@@ -61,4 +83,86 @@ p {
     margin-right: 5px;
     color: #ccc;
     background-color: #333;
+}
+
+/* Tags and Prompts containers are hidden until an AI engine is detected */
+#tags,
+#prompts {
+    display: none;
+}
+
+/* Tag pills */
+#tags {
+    margin: 6px 8px 0 8px;
+    display: flex; /* ensure pills flow and catcher can fill space */
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+    width: calc(100% - 16px); /* span full width accounting for margins */
+    min-height: 28px; /* ensure there's a clickable area even with a single row */
+}
+
+/* Flex item that grows to occupy remaining space, making it easy to click to the right */
+.tags-click-catcher {
+    flex: 1 1 auto; /* fill remaining space on the last line */
+    min-width: 0;
+    height: 28px; /* approx pill row height so the right area is clickable */
+}
+
+.tag-pill {
+    background-color: #1f4bd8; /* slightly lighter than .button */
+    color: #eee;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 12px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.tag-pill:hover {
+    background-color: #3159dc;
+}
+
+.tag-pill.active {
+    background-color: #ddd;
+    color: #111;
+}
+
+/* Prompt title buttons list */
+#prompts {
+    margin: 6px 8px 8px 8px;
+}
+
+.prompt-button-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.prompt-title-btn {
+    background-color: #2f2f2f;
+    color: #ddd;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 6px 10px;
+    border-radius: 8px;
+    text-align: left;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.prompt-title-btn:hover {
+    background-color: #3a3a3a;
+}
+
+/* Footer info sits at the bottom */
+#footer-info {
+    margin-top: auto; /* push to bottom */
+    padding: 4px 8px 8px 8px;
+}
+
+#footer-info p {
+    margin: 5px 0 5px 0;
+    font-size: 10px;
+    color: #bdbdbd;
 }

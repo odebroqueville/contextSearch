@@ -349,55 +349,6 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
                     sendResponse({ success: false, error: error.message });
                 });
             return true;
-        case 'getStoredData': {
-            const key = data && data.key;
-            if (logToConsole) console.log('getStoredData message received:', { key, data });
-
-            let responseData;
-            if (key === 'searchEngines') {
-                // Return synchronously from module variable
-                responseData = { searchEngines };
-            } else if (key === 'options') {
-                // Return synchronously from module variable
-                responseData = { options };
-            } else if (key === 'selection') {
-                // Return synchronously from module variable
-                responseData = { selection };
-            } else {
-                // For other keys or all data, use async storage retrieval
-                getStoredData(key)
-                    .then((result) => {
-                        if (logToConsole) console.log('getStoredData result:', { key, result });
-                        const responseDataAsync = key ? { [key]: result } : result || {};
-                        if (!key) {
-                            if (!responseDataAsync.options) responseDataAsync.options = { ...DEFAULT_OPTIONS };
-                            if (!responseDataAsync.searchEngines) responseDataAsync.searchEngines = {};
-                            if (!responseDataAsync.selection) responseDataAsync.selection = '';
-                        }
-                        const response = { success: true, data: responseDataAsync };
-                        if (logToConsole) console.log('Sending getStoredData response:', response);
-                        sendResponse(response);
-                    })
-                    .catch((error) => {
-                        console.error('Error getting stored data:', error);
-                        const fallbackData = {
-                            options: { ...DEFAULT_OPTIONS },
-                            searchEngines: {},
-                            selection: '',
-                        };
-                        const response = { success: true, data: key ? { [key]: fallbackData[key] } : fallbackData };
-                        if (logToConsole) console.log('Sending fallback getStoredData response:', response);
-                        sendResponse(response);
-                    });
-                return true; // Keep channel open for async response
-            }
-
-            // Synchronous response for common keys
-            const response = { success: true, data: responseData };
-            if (logToConsole) console.log('Sending getStoredData response:', response);
-            sendResponse(response);
-            return false; // Synchronous response, no need to keep channel open
-        }
         case 'storeSelection':
             if (logToConsole) console.log('storeSelection message received with data:', data);
             // New handler for storing selection data reliably from the service worker
@@ -2306,7 +2257,9 @@ async function processMultisearch(arraySearchEngineUrls, folderId, tabPosition) 
             ...(firstUrl ? { url: firstUrl } : {}),
         };
 
-        windowInfo = await browser.windows.create(windowCreateData);
+        if (firstUrl) {
+            windowInfo = await browser.windows.create(windowCreateData);
+        }
 
         const remainingUrls = urlArray.slice(1);
         if (remainingUrls.length > 0) {
@@ -3182,7 +3135,7 @@ function isEmpty(value) {
 
 async function openAISearchPopup(tabIndex) {
     const width = 700;
-    const height = 125;
+    const height = 500;
     // Get browser info directly
     const browserInfo = await browser.windows.getCurrent();
     const browserWidth = browserInfo.width;
@@ -3193,7 +3146,7 @@ async function openAISearchPopup(tabIndex) {
     // Calculate the position to center the window in the browser with a vertical offset of 200px
     // Use the obtained browser dimensions and position
     const left = browserLeft + Math.floor((browserWidth - width) / 2);
-    const top = browserTop + Math.floor((browserHeight - height) / 2) - 200;
+    const top = browserTop + Math.floor((browserHeight - height) / 2);
 
     await browser.windows.create({
         url: browser.runtime.getURL(`/html/popup.html?tabIndex=${tabIndex}`), // Pass the tab index to the popup

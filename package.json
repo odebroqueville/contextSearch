@@ -1,7 +1,7 @@
 {
     "name": "contextsearch",
     "title": "Context Search",
-    "version": "6.2.1",
+    "version": "6.2.2",
     "description": "Firefox add-on to search selected text in a web page using your favorite search engines.",
     "browserslist": [
         "Firefox >= 128"

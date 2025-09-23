@@ -1,5 +1,11 @@
-6.2.1
+6.2.2
 =========
+
+* bug fix [#265](https://github.com/odebroqueville/contextSearch/issues/265): attempt to fix multisearch bug
+* introduced prompts library
+
+6.2.1
+---------
 
 * bug fix [#265](https://github.com/odebroqueville/contextSearch/issues/265)
 * code cleanup: centralisation of shared functions in scripts/utilities.js

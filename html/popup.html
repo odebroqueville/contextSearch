@@ -13,11 +13,15 @@
             <div id="outputArea"></div>
             <textarea id="inputArea" placeholder="chatgpt Explain %s | w atom | ! cold fusion | . | !h | !b recent"></textarea>
         </div>
-        <p>AI engines: chatgpt, claude, gemini, grok, perplexity, poe, andi.</p>
-        <p class="commands">
-            Commands: '.' options, '!' multisearch, '!h' or 'history', '!b' or 'bookmarks' [term|recent], or &lt;keyword&gt; &lt;terms&gt; (no 'cs'
-            needed).
-        </p>
+        <div id="tags"></div>
+        <div id="prompts"></div>
+        <div id="footer-info">
+            <p>AI engines: chatgpt, claude, gemini, grok, perplexity, poe, andi.</p>
+            <p class="commands">
+                Commands: '.' options, '!' multisearch, '!h' or 'history', '!b' or 'bookmarks' [term|recent], or &lt;keyword&gt; &lt;terms&gt; (no
+                'cs' needed).
+            </p>
+        </div>
         <script type="module" src="/scripts/popup.js"></script>
     </body>
 </html>

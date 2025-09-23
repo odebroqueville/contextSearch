@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "__MSG_extensionName__",
     "description": "Searches the selected text using a search engine or AI prompt from your custom list of search engines and AI prompts.",
-    "version": "6.2.1",
+    "version": "6.2.2",
     "default_locale": "en",
     "homepage_url": "https://github.com/odebroqueville/contextSearch",
     "author": "Olivier de Broqueville",
