@@ -61,6 +61,87 @@ let logToConsole = false; // Flag to control console logging
 let keysPressed = {}; // Object to track pressed keys
 let searchEngines = {};
 
+// Prompt library (PromptCat) elements
+const pcTagsContainer = document.getElementById('promptcat-tags');
+const pcPromptsContainer = document.getElementById('promptcat-prompts');
+const pcSearchInput = document.getElementById('promptcat-search');
+const pcSection = document.getElementById('promptcat-section');
+
+// Minimal catalog state
+const promptCatalog = {
+    loaded: false,
+    prompts: [],
+    tags: [],
+    activeTag: null,
+    query: '',
+};
+
+// Minimal IndexedDB access to read PromptCat data
+const PromptCatDB = (() => {
+    let db = null;
+    function open() {
+        return new Promise((resolve) => {
+            const req = indexedDB.open('PromptCatDB');
+            req.onerror = () => resolve(null);
+            req.onsuccess = (e) => {
+                db = e.target.result;
+                resolve(db);
+            };
+        });
+    }
+    function getAll(storeName) {
+        return new Promise((resolve) => {
+            if (!db || !db.objectStoreNames.contains(storeName)) return resolve([]);
+            const tx = db.transaction(storeName, 'readonly');
+            const store = tx.objectStore(storeName);
+            const req = store.getAll();
+            req.onsuccess = (e) => resolve(e.target.result || []);
+            req.onerror = () => resolve([]);
+        });
+    }
+    return { open, getAll };
+})();
+
+// Minimal decrypt support for locked prompts
+const CryptoServiceMini = {
+    encoder: new TextEncoder(),
+    decoder: new TextDecoder(),
+    _b64ToBuf(b64) {
+        try {
+            const bin = atob(b64);
+            const len = bin.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) bytes[i] = bin.charCodeAt(i);
+            return bytes.buffer;
+        } catch (_) {
+            return null;
+        }
+    },
+    async _derive(password, salt) {
+        const keyMaterial = await crypto.subtle.importKey('raw', this.encoder.encode(password), { name: 'PBKDF2' }, false, ['deriveKey']);
+        return crypto.subtle.deriveKey(
+            { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
+            keyMaterial,
+            { name: 'AES-GCM', length: 256 },
+            false,
+            ['decrypt']
+        );
+    },
+    async decrypt(enc, password) {
+        if (typeof enc !== 'object' || !enc?.ct || !password) return null;
+        try {
+            const salt = this._b64ToBuf(enc.salt);
+            const iv = this._b64ToBuf(enc.iv);
+            if (!salt || !iv) return null;
+            const key = await this._derive(password, salt);
+            const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, this._b64ToBuf(enc.ct));
+            return this.decoder.decode(pt);
+        } catch (_) {
+            return null;
+        }
+    },
+};
+
 /// Event listeners
 
 // Initialize everything when DOM is loaded
@@ -69,6 +150,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.log('DOM content loaded.');
         os = await getOS();
         await init();
+        // Configure prompt catalog visibility/behavior based on AI provider selection
+        setupPromptCatalogBehavior();
     } catch (err) {
         console.error('Error during initialization:', err);
     }
@@ -201,6 +284,175 @@ async function init() {
         console.error('Error during initialization:', error);
     }
 }
+
+    function setupPromptCatalogBehavior() {
+        // Always start hidden
+        if (pcSection) pcSection.classList.remove('visible');
+
+        const ensureLoadedAndRender = async () => {
+            // Restore last state from sessionStorage if present
+            try {
+                const savedTag = sessionStorage.getItem('pc.activeTag');
+                const savedQuery = sessionStorage.getItem('pc.query');
+                promptCatalog.activeTag = savedTag ? savedTag : null;
+                promptCatalog.query = savedQuery ? savedQuery : '';
+                if (pcSearchInput) pcSearchInput.value = promptCatalog.query;
+            } catch (_) {
+                // sessionStorage might be unavailable; fail silently
+            }
+            if (!promptCatalog.loaded) await loadPromptCatalog();
+            renderPromptCatalog();
+        };
+
+        const handleProviderChange = async () => {
+            if (!aiProvider) return;
+            const hasProvider = !!aiProvider.value;
+            if (hasProvider) {
+                await ensureLoadedAndRender();
+                if (pcSection) pcSection.classList.add('visible');
+                // Attach search listener once
+                if (pcSearchInput && !pcSearchInput.dataset.bound) {
+                    pcSearchInput.addEventListener('input', () => {
+                        promptCatalog.query = pcSearchInput.value.trim().toLowerCase();
+                        // Save to session
+                        try {
+                            sessionStorage.setItem('pc.query', promptCatalog.query);
+                        } catch (e) {
+                            // sessionStorage may be blocked; ignore
+                        }
+                        renderPromptCatList();
+                    });
+                    pcSearchInput.dataset.bound = '1';
+                }
+            } else {
+                if (pcSection) pcSection.classList.remove('visible');
+            }
+        };
+
+        // React to provider changes
+        if (aiProvider) aiProvider.addEventListener('change', handleProviderChange);
+        // Initialize once based on current value
+        handleProviderChange();
+    }
+
+    async function loadPromptCatalog() {
+        const db = await PromptCatDB.open();
+        if (!db) {
+            promptCatalog.loaded = true;
+            return;
+        }
+        const [prompts, tags] = await Promise.all([PromptCatDB.getAll('prompts'), PromptCatDB.getAll('globalTags')]);
+        promptCatalog.prompts = Array.isArray(prompts) ? prompts : [];
+        promptCatalog.tags = Array.isArray(tags) ? tags.map((t) => t.id ?? t).filter(Boolean) : [];
+        promptCatalog.loaded = true;
+    }
+
+    function clearContainer(el) {
+        if (!el) return;
+        while (el.firstChild) el.removeChild(el.firstChild);
+    }
+
+    function renderPromptCatalog() {
+        renderPromptCatTags();
+        renderPromptCatList();
+    }
+
+    function renderPromptCatTags() {
+        if (!pcTagsContainer) return;
+        clearContainer(pcTagsContainer);
+        // Build a unique tag set
+        const all = new Set(promptCatalog.tags);
+        promptCatalog.prompts.forEach((p) => (p.tags || []).forEach((t) => all.add(t)));
+        const sorted = Array.from(all).sort((a, b) => String(a).localeCompare(String(b)));
+        sorted.forEach((tag) => {
+            const pill = document.createElement('button');
+            pill.type = 'button';
+            pill.className = 'tag-pill';
+            pill.textContent = tag;
+            pill.dataset.tag = tag;
+            if (promptCatalog.activeTag === tag) pill.classList.add('active');
+            pill.addEventListener('click', () => {
+                // Toggle selection like in popup
+                promptCatalog.activeTag = promptCatalog.activeTag === tag ? null : tag;
+                // Save to session
+                try {
+                    sessionStorage.setItem('pc.activeTag', promptCatalog.activeTag ?? '');
+                } catch (e) {
+                    // sessionStorage may be blocked; ignore
+                }
+                renderPromptCatTags();
+                renderPromptCatList();
+            });
+            pcTagsContainer.appendChild(pill);
+        });
+        const catcher = document.createElement('div');
+        catcher.className = 'tags-click-catcher';
+        catcher.addEventListener('click', () => {
+            if (promptCatalog.activeTag !== null) {
+                promptCatalog.activeTag = null;
+                try {
+                    sessionStorage.setItem('pc.activeTag', '');
+                } catch (e) {
+                    // sessionStorage may be blocked; ignore
+                }
+                renderPromptCatTags();
+                renderPromptCatList();
+            }
+        });
+        pcTagsContainer.appendChild(catcher);
+    }
+
+    function isEncryptedBody(body) {
+        return body && typeof body === 'object' && Object.prototype.hasOwnProperty.call(body, 'ct');
+    }
+
+    function renderPromptCatList() {
+        if (!pcPromptsContainer) return;
+        clearContainer(pcPromptsContainer);
+        const list = document.createElement('div');
+        list.className = 'prompt-button-list';
+        let filtered = promptCatalog.activeTag
+            ? promptCatalog.prompts.filter((p) => (p.tags || []).includes(promptCatalog.activeTag))
+            : promptCatalog.prompts.slice();
+        if (promptCatalog.query) {
+            const q = promptCatalog.query;
+            filtered = filtered.filter((p) => String(p.title || '').toLowerCase().includes(q));
+        }
+        filtered
+            .slice()
+            .sort((a, b) => String(a.title || '').localeCompare(String(b.title || '')))
+            .forEach((p) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'prompt-title-btn';
+                btn.textContent = p.title || 'Untitled Prompt';
+                btn.addEventListener('click', async () => {
+                    let bodyText = '';
+                    if (isEncryptedBody(p.body)) {
+                        const pwd = window.prompt(browser.i18n ? browser.i18n.getMessage('promptLockedEnterPassword') : 'This prompt is locked. Enter password to insert it:');
+                        if (!pwd) return;
+                        const decrypted = await CryptoServiceMini.decrypt(p.body, pwd);
+                        if (!decrypted) {
+                            window.alert('Incorrect password.');
+                            return;
+                        }
+                        bodyText = decrypted;
+                    } else {
+                        bodyText = typeof p.body === 'string' ? p.body : '';
+                    }
+                    // Insert into the prompt textarea
+                    promptText.value = bodyText;
+                    promptText.focus();
+                    promptText.selectionStart = promptText.selectionEnd = promptText.value.length;
+                    // If name is empty, suggest using the prompt title
+                    if (!promptName.value && p.title) {
+                        promptName.value = p.title;
+                    }
+                });
+                list.appendChild(btn);
+            });
+        pcPromptsContainer.appendChild(list);
+    }
 
 // Clears the form inputs for adding a new search engine
 function clearAddSearchEngine() {

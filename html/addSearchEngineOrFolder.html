@@ -102,7 +102,7 @@
                         <div class="va">
                             <input type="checkbox" id="promptShow" data-i18n-title="promptShow" checked />
                             <select id="ai-provider">
-                                <option value="">Choose AI Provider</option>
+                                <option value="" data-i18n="chooseAIChatbot">Choose AI chatbot</option>
                                 <option value="chatgpt">ChatGPT</option>
                                 <option value="google-ai-studio">Gemini</option>
                                 <option value="grok">Grok</option>
@@ -121,6 +121,20 @@
                             <button type="button" id="testChatGPTPrompt" data-i18n="testChatGPT">Test AI Prompt</button>
                             <button type="button" id="addChatGPTPrompt" data-i18n="addChatGPTPrompt">Add AI Prompt</button>
                             <button type="button" id="clearAddChatGPTPrompt" data-i18n="clear">Clear</button>
+                        </div>
+                        <!-- Prompt library (from PromptCat) -->
+                        <div id="promptcat-section" class="promptcat-section">
+                            <div class="promptcat-header" data-i18n="promptLibraryLabel">Prompt library</div>
+                            <input
+                                type="text"
+                                id="promptcat-search"
+                                class="promptcat-search"
+                                data-i18n-placeholder="promptLibrarySearchPlaceholder"
+                                placeholder="Search prompts..."
+                                aria-label="Search prompts"
+                            />
+                            <div id="promptcat-tags" class="promptcat-tags" aria-label="Prompt tags"></div>
+                            <div id="promptcat-prompts" class="promptcat-prompts" aria-label="Prompts list"></div>
                         </div>
                     </div>
                 </div>

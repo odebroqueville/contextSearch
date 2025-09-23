@@ -1,5 +1,10 @@
-6.2.2
+6.2.3
 =========
+
+* prompts library now available from both the Command window and the "Add a new AI prompt" tab
+
+6.2.2
+---------
 
 * bug fix [#265](https://github.com/odebroqueville/contextSearch/issues/265): attempt to fix multisearch bug
 * introduced prompts library

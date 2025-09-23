@@ -1800,10 +1800,44 @@ async function saveToLocalDisk() {
     // Get current options from storage
     const options = await getStoredData(STORAGE_KEYS.OPTIONS);
 
-    // Bundle both options and searchEngines
+    // Read PromptCat prompts library from IndexedDB (if present)
+    async function readPromptCatLibrary() {
+        return new Promise((resolve) => {
+            const req = indexedDB.open('PromptCatDB');
+            req.onerror = () => resolve({});
+            req.onsuccess = (e) => {
+                const db = e.target.result;
+                const out = { prompts: [], folders: [], globalTags: [], settings: [] };
+                const stores = ['prompts', 'folders', 'globalTags', 'settings'];
+                let remaining = stores.length;
+                const finish = () => {
+                    if (--remaining === 0) resolve(out);
+                };
+                stores.forEach((name) => {
+                    if (!db.objectStoreNames.contains(name)) {
+                        finish();
+                        return;
+                    }
+                    const tx = db.transaction(name, 'readonly');
+                    const store = tx.objectStore(name);
+                    const getAll = store.getAll();
+                    getAll.onsuccess = (ev) => {
+                        out[name] = ev.target.result || [];
+                        finish();
+                    };
+                    getAll.onerror = finish;
+                });
+            };
+        });
+    }
+
+    const promptsLibrary = await readPromptCatLibrary();
+
+    // Bundle options, searchEngines, and prompts library
     const payload = {
         options: options || {},
         searchEngines: searchEngines || {},
+        promptsLibrary: promptsLibrary || {},
     };
 
     const fileToDownload = new Blob([JSON.stringify(payload, null, 2)], {
@@ -1834,9 +1868,113 @@ async function handleFileUpload() {
         return;
     }
 
-    // Support new schema { options, searchEngines } and legacy schema (searchEngines only)
+    // Support new schema { options, searchEngines, promptsLibrary } and legacy schema (searchEngines only)
     const importedOptions = parsed?.options && parsed?.searchEngines ? parsed.options || {} : null;
     let incomingSearchEngines = parsed?.options && parsed?.searchEngines ? parsed.searchEngines || {} : parsed;
+
+    // If a promptsLibrary is present (or a top-level PromptCat export is provided), import into PromptCatDB
+    const promptsLibrary = parsed?.promptsLibrary
+        ? parsed.promptsLibrary
+        : parsed?.prompts || parsed?.folders || parsed?.globalTags
+        ? { prompts: parsed.prompts || [], folders: parsed.folders || [], globalTags: parsed.globalTags || [] }
+        : null;
+
+    async function importPromptCatLibrary(library) {
+        if (!library) return;
+        // Minimal DB helpers for PromptCatDB
+        function openDB() {
+            return new Promise((resolve) => {
+                const req = indexedDB.open('PromptCatDB');
+                req.onerror = () => resolve(null);
+                req.onsuccess = (e) => resolve(e.target.result);
+            });
+        }
+        function getAll(db, storeName) {
+            return new Promise((resolve) => {
+                if (!db || !db.objectStoreNames.contains(storeName)) return resolve([]);
+                const tx = db.transaction(storeName, 'readonly');
+                const store = tx.objectStore(storeName);
+                const r = store.getAll();
+                r.onsuccess = (ev) => resolve(ev.target.result || []);
+                r.onerror = () => resolve([]);
+            });
+        }
+        function clearStore(db, storeName) {
+            return new Promise((resolve) => {
+                if (!db || !db.objectStoreNames.contains(storeName)) return resolve();
+                const tx = db.transaction(storeName, 'readwrite');
+                const store = tx.objectStore(storeName);
+                const r = store.clear();
+                r.onsuccess = () => resolve();
+                r.onerror = () => resolve();
+            });
+        }
+        function bulkPut(db, storeName, items) {
+            return new Promise((resolve) => {
+                if (!db || !db.objectStoreNames.contains(storeName) || !Array.isArray(items) || items.length === 0) return resolve();
+                const tx = db.transaction(storeName, 'readwrite');
+                const store = tx.objectStore(storeName);
+                for (const item of items) store.put(item);
+                tx.oncomplete = () => resolve();
+                tx.onerror = () => resolve();
+            });
+        }
+
+        try {
+            const db = await openDB();
+            if (!db) return;
+
+            const hasPrompts = Array.isArray(library.prompts);
+            const hasFolders = Array.isArray(library.folders);
+            const hasGlobalTags = Array.isArray(library.globalTags);
+
+            // Mirror promptcat.js partial detection
+            const isPartial = (hasPrompts && !hasFolders) || (!hasPrompts && hasFolders) || (hasPrompts && hasFolders && !hasGlobalTags);
+
+            let proceed = true;
+            if (!isPartial) {
+                proceed = window.confirm(
+                    'This will overwrite all current Prompt Library data. This action cannot be undone.'
+                );
+            } else {
+                proceed = window.confirm(
+                    'This will add data from the selected file to the Prompt Library. Existing data will be kept.'
+                );
+            }
+            if (!proceed) return;
+
+            // If full import, clear stores first
+            if (!isPartial) {
+                await clearStore(db, 'prompts');
+                await clearStore(db, 'folders');
+                await clearStore(db, 'globalTags');
+            }
+
+            // Merge behavior: only insert items whose ids/tags don't already exist
+            if (hasFolders) {
+                const existingFolders = await getAll(db, 'folders');
+                const existingFolderIds = new Set(existingFolders.map((f) => f.id));
+                const newFolders = library.folders.filter((f) => !existingFolderIds.has(f.id));
+                await bulkPut(db, 'folders', newFolders);
+            }
+            if (hasPrompts) {
+                const existingPrompts = await getAll(db, 'prompts');
+                const existingPromptIds = new Set(existingPrompts.map((p) => p.id));
+                const newPrompts = library.prompts.filter((p) => !existingPromptIds.has(p.id));
+                await bulkPut(db, 'prompts', newPrompts);
+            }
+            if (hasGlobalTags) {
+                const existingTags = await getAll(db, 'globalTags');
+                const existingTagIds = new Set(existingTags.map((t) => t.id));
+                const newTags = library.globalTags
+                    .filter((t) => !existingTagIds.has(typeof t === 'string' ? t : t?.id))
+                    .map((t) => (typeof t === 'string' ? { id: t } : t));
+                await bulkPut(db, 'globalTags', newTags);
+            }
+        } catch (e) {
+            console.error('Failed to import PromptCat library:', e);
+        }
+    }
 
     if (currentOptions?.overwriteSearchEngines) {
         if (incomingSearchEngines && !isEmpty(incomingSearchEngines)) {
@@ -1889,6 +2027,9 @@ async function handleFileUpload() {
             searchEngines = { ...searchEngines, ...incomingSearchEngines };
         }
     }
+
+    // Import prompts library (if present)
+    await importPromptCatLibrary(promptsLibrary);
 
     // Save search engines
     await sendMessage('saveSearchEngines', searchEngines);

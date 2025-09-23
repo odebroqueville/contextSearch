@@ -319,3 +319,81 @@ textarea#prompt {
     margin-left: 23px;
     margin-top: 15px;
 }
+
+/* ===== Prompt library (PromptCat) ===== */
+.promptcat-section {
+    display: none; /* hidden until AI provider selected */
+    margin: 14px 23px 6px 23px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 10px 12px 12px 12px;
+}
+.promptcat-section.visible {
+    display: block;
+}
+.promptcat-header {
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #0f172a;
+}
+.promptcat-search {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+.promptcat-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+.promptcat-tags .tag-pill {
+    appearance: none;
+    border: 1px solid #93c5fd;
+    background: #e0f2fe;
+    color: #0c4a6e;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.promptcat-tags .tag-pill:hover {
+    background: #bae6fd;
+    border-color: #60a5fa;
+}
+.promptcat-tags .tag-pill.active {
+    background: #3b82f6;
+    color: #ffffff;
+    border-color: #2563eb;
+}
+.promptcat-tags .tags-click-catcher {
+    flex: 1 1 auto;
+}
+.promptcat-prompts {
+    max-height: 180px;
+    overflow: auto;
+    border: 1px dashed #cbd5e1;
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 6px;
+}
+.promptcat-prompts .prompt-button-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 6px;
+}
+.promptcat-prompts .prompt-title-btn {
+    text-align: left;
+    background: #f8fafc;
+    color: #0f172a;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+}
+.promptcat-prompts .prompt-title-btn:hover {
+    background: #eef2ff;
+    border-color: #a5b4fc;
+}

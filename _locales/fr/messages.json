@@ -411,6 +411,18 @@
         "message": "Moteurs de recherche",
         "description": "Title of search engines tab in the Options page"
     },
+    "promptLibraryLabel": {
+        "message": "Bibliothèque d'invites"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "Rechercher des invites..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "Cette invite est verrouillée. Saisissez le mot de passe pour l'insérer :"
+    },
+    "chooseAIChatbot": {
+        "message": "Choisir un chatbot IA"
+    },
     "__WET_LOCALE__": {
         "message": "fr"
     }
