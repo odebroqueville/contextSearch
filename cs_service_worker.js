@@ -2253,7 +2253,7 @@ async function processMultisearch(arraySearchEngineUrls, folderId, tabPosition) 
         const firstUrl = urlArray.length > 0 ? urlArray[0] : undefined;
         const windowCreateData = {
             focused: options.tabActive,
-            incognito: options.privateMode,
+            incognito: options.multiPrivateMode,
             ...(firstUrl ? { url: firstUrl } : {}),
         };
 

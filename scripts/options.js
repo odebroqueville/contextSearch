@@ -49,6 +49,9 @@ const multiActiveTab = document.getElementById('multiActiveTab');
 const multiAfterLastTab = document.getElementById('multiAfterLastTab');
 const multiMode = document.getElementById('multiMode');
 const overwriteSearchEngines = document.getElementById('overwriteSearchEngines');
+// Multisearch private mode container (visible only when multiNewWindow is selected)
+const multisearchPrivacy = document.getElementById('multisearchPrivacy');
+const multiPrivateMode = document.getElementById('multiPrivateMode');
 
 // All search engine buttons
 const btnClearAll = document.getElementById('clearAll');
@@ -133,6 +136,7 @@ resetPreferences.addEventListener('click', updateResetOptions);
 forceSearchEnginesReload.addEventListener('click', updateResetOptions);
 forceFaviconsReload.addEventListener('click', updateResetOptions);
 multiMode.addEventListener('click', updateMultiMode);
+if (multiPrivateMode) multiPrivateMode.addEventListener('click', updateMultiPrivacy);
 overwriteSearchEngines.addEventListener('click', updateOverwriteSearchEngines);
 
 /// All button click handlers
@@ -1790,6 +1794,16 @@ async function setOptions(options) {
             break;
     }
 
+    // Show/hide the multisearch privacy option based on selected multiMode
+    if (multisearchPrivacy) {
+        multisearchPrivacy.style.display = options.multiMode === 'multiNewWindow' ? 'block' : 'none';
+    }
+
+    // Initialize multiPrivateMode checkbox from options
+    if (multiPrivateMode) {
+        multiPrivateMode.checked = !!options.multiPrivateMode;
+    }
+
     searchEngineSiteSearch.value = options.siteSearch || 'Google'; // default to Google if not set
 } // End of setOptions
 
@@ -2095,8 +2109,21 @@ async function updateOverwriteSearchEngines() {
 
 async function updateMultiMode() {
     let data = {};
-    data['multiMode'] = document.querySelector('input[name="ms_results"]:checked').value;
+    const selected = document.querySelector('input[name="ms_results"]:checked').value;
+    data['multiMode'] = selected;
+
+    // Toggle visibility of the multisearch privacy container
+    if (multisearchPrivacy) {
+        multisearchPrivacy.style.display = selected === 'multiNewWindow' ? 'block' : 'none';
+    }
+
     await sendOptionUpdate('multiMode', data);
+}
+
+// Persist multisearch private mode
+async function updateMultiPrivacy() {
+    if (!multiPrivateMode) return;
+    await sendOptionUpdate('multiPrivacy', { multiPrivateMode: multiPrivateMode.checked });
 }
 
 // Check if the favicons should be displayed in the context menu

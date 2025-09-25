@@ -201,6 +201,7 @@ export const DEFAULT_OPTIONS = {
     siteSearch: 'Google',
     siteSearchUrl: 'https://www.google.com/search?q=',
     multiMode: 'multiNewWindow',
+    multiPrivateMode: false,
     privateMode: false,
     overwriteSearchEngines: false
 };
@@ -241,6 +242,10 @@ export const UPDATE_CONFIG = {
     },
     multiMode: {
         fields: ['multiMode'],
+        requiresMenuRebuild: false
+    },
+    multiPrivacy: {
+        fields: ['multiPrivateMode'],
         requiresMenuRebuild: false
     },
     optionsMenuLocation: {
