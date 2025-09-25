@@ -412,55 +412,55 @@
         "description": "Title of search engines tab in the Options page"
     },
     "headerTemplateVars": {
-        "message": "Template variables"
+        "message": "Переменные шаблона"
     },
     "templateVarsSummary": {
-        "message": "Rich variables help"
+        "message": "Помощь по переменным Rich"
     },
     "templateVarsIntro": {
-        "message": "Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets."
+        "message": "Используйте эти заполнители в URL-адресах GET, данных форм POST, подсказках AI и закладках."
     },
     "placeholders": {
-        "message": "Placeholders:"
+        "message": "Заполнители:"
     },
     "encodingRules": {
-        "message": "Encoding by context:"
+        "message": "Кодирование по контексту:"
     },
     "encodingGet": {
-        "message": "URLs: variables are URL-encoded"
+        "message": "URL-адреса: переменные кодируются в формате URL"
     },
     "encodingPost": {
-        "message": "form data: inserted as-is (not URL-encoded)"
+        "message": "данные формы: вставляются без изменений (без URL-кодирования)"
     },
     "encodingAi": {
-        "message": "AI prompts: inserted as-is (not URL-encoded)"
+        "message": "Подсказки ИИ: вставлены без изменений (без URL-кодирования)"
     },
     "encodingBookmarklets": {
-        "message": "Bookmarklets: inserted as-is (not URL-encoded)"
+        "message": "Закладки: вставляются без изменений (без URL-кодирования)"
     },
     "legacyAliasesLabel": {
-        "message": "Legacy aliases:"
+        "message": "Устаревшие псевдонимы:"
     },
     "legacyAliases": {
-        "message": "are supported and resolve to"
+        "message": "поддерживаются и решают"
     },
     "notes": {
-        "message": "Notes:"
+        "message": "Примечания:"
     },
     "templateVarsNotes": {
-        "message": "{referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you display it."
+        "message": "{referrer} может быть пустым в зависимости от Referrer-Policy; {selection_html} может быть длинным; очистите его, если вы его отображаете."
     },
     "promptLibraryLabel": {
-        "message": "Prompt library"
+        "message": "Библиотека подсказок"
     },
     "promptLibrarySearchPlaceholder": {
-        "message": "Search prompts..."
+        "message": "Подсказки для поиска..."
     },
     "promptLockedEnterPassword": {
-        "message": "This prompt is locked. Enter password to insert it:"
+        "message": "Этот запрос заблокирован. Введите пароль, чтобы вставить его:"
     },
     "chooseAIChatbot": {
-        "message": "Choose AI chatbot"
+        "message": "Выберите чат-бота с искусственным интеллектом"
     },
     "__WET_LOCALE__": {
         "message": "ru"
