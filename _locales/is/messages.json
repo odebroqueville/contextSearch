@@ -412,55 +412,55 @@
         "description": "Title of search engines tab in the Options page"
     },
     "headerTemplateVars": {
-        "message": "Template variables"
+        "message": "Sniðmát breytur"
     },
     "templateVarsSummary": {
-        "message": "Rich variables help"
+        "message": "Ríkar breytur hjálpa"
     },
     "templateVarsIntro": {
-        "message": "Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets."
+        "message": "Notaðu þessa staðgengla í GET vefslóðum, POST eyðublaðsgögnum, gervigreindarkvaðningum og bókamerkjum."
     },
     "placeholders": {
-        "message": "Placeholders:"
+        "message": "Staðgenglar:"
     },
     "encodingRules": {
-        "message": "Encoding by context:"
+        "message": "Kóðun eftir samhengi:"
     },
     "encodingGet": {
-        "message": "URLs: variables are URL-encoded"
+        "message": "Vefslóðir: breytur eru vefslóðarkóðaðar"
     },
     "encodingPost": {
-        "message": "form data: inserted as-is (not URL-encoded)"
+        "message": "formgögn: sett inn eins og þau eru (ekki vefslóðarkóðuð)"
     },
     "encodingAi": {
-        "message": "AI prompts: inserted as-is (not URL-encoded)"
+        "message": "AI hvetja: sett inn eins og það er (ekki vefslóðarkóðað)"
     },
     "encodingBookmarklets": {
-        "message": "Bookmarklets: inserted as-is (not URL-encoded)"
+        "message": "Bókamerki: sett inn eins og þau eru (ekki vefslóðarkóðað)"
     },
     "legacyAliasesLabel": {
-        "message": "Legacy aliases:"
+        "message": "Eldri viðurnefni:"
     },
     "legacyAliases": {
-        "message": "are supported and resolve to"
+        "message": "eru studd og ákveða að"
     },
     "notes": {
-        "message": "Notes:"
+        "message": "Athugasemdir:"
     },
     "templateVarsNotes": {
-        "message": "{referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you display it."
+        "message": "{referrer} gæti verið tómt eftir tilvísunarstefnu; {selection_html} getur verið langur; sótthreinsa ef þú sýnir það."
     },
     "promptLibraryLabel": {
-        "message": "Prompt library"
+        "message": "Hvetja bókasafn"
     },
     "promptLibrarySearchPlaceholder": {
-        "message": "Search prompts..."
+        "message": "Leita að leiðbeiningum..."
     },
     "promptLockedEnterPassword": {
-        "message": "This prompt is locked. Enter password to insert it:"
+        "message": "Þessi kvaðning er læst. Sláðu inn lykilorð til að setja það inn:"
     },
     "chooseAIChatbot": {
-        "message": "Choose AI chatbot"
+        "message": "Veldu gervigreind spjallbot"
     },
     "__WET_LOCALE__": {
         "message": "is"
