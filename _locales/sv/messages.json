@@ -411,6 +411,57 @@
         "message": "Sökmotorer",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "Mallvariabler"
+    },
+    "templateVarsSummary": {
+        "message": "Rika variabler hjälper"
+    },
+    "templateVarsIntro": {
+        "message": "Använd dessa platshållare i GET-URL:er, POST-formulärdata, AI-prompter och bokmärken."
+    },
+    "placeholders": {
+        "message": "Platshållare:"
+    },
+    "encodingRules": {
+        "message": "Kodning efter sammanhang:"
+    },
+    "encodingGet": {
+        "message": "URL:er: variabler är URL-kodade"
+    },
+    "encodingPost": {
+        "message": "formulärdata: infogas som den är (inte URL-kodad)"
+    },
+    "encodingAi": {
+        "message": "AI-prompter: infogade som de är (inte URL-kodade)"
+    },
+    "encodingBookmarklets": {
+        "message": "Bokmärken: infogas som de är (inte URL-kodade)"
+    },
+    "legacyAliasesLabel": {
+        "message": "Äldre alias:"
+    },
+    "legacyAliases": {
+        "message": "får stöd och beslutar att"
+    },
+    "notes": {
+        "message": "Anmärkningar:"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} kan vara tom beroende på Referrer-Policy; {selection_html} kan vara lång; sanera om du visar den."
+    },
+    "promptLibraryLabel": {
+        "message": "Promptbibliotek"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "Sökförslag..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "Denna prompt är låst. Ange lösenord för att infoga den:"
+    },
+    "chooseAIChatbot": {
+        "message": "Välj AI-chatbot"
+    },
     "__WET_LOCALE__": {
         "message": "sv"
     }

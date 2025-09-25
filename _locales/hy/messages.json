@@ -411,6 +411,57 @@
         "message": "Որոնման համակարգեր",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "Կաղապարի փոփոխականներ"
+    },
+    "templateVarsSummary": {
+        "message": "Հարուստ փոփոխականները օգնում են"
+    },
+    "templateVarsIntro": {
+        "message": "Օգտագործեք այս տեղապահները GET URL-ներում, POST ձեւի տվյալներում, AI հուշումներում եւ էջանիշերում:"
+    },
+    "placeholders": {
+        "message": "Տեղակայիչներ."
+    },
+    "encodingRules": {
+        "message": "Կոդավորում ըստ համատեքստի."
+    },
+    "encodingGet": {
+        "message": "URLs: փոփոխականները կոդավորված են URL-ով"
+    },
+    "encodingPost": {
+        "message": "Տեղադրված է այնպես, ինչպես կա (ոչ URL-կոդավորված)"
+    },
+    "encodingAi": {
+        "message": "AI հուշումներ. տեղադրված է այնպես, ինչպես կա (ոչ URL-կոդավորված)"
+    },
+    "encodingBookmarklets": {
+        "message": "Էջանիշեր. տեղադրված է այնպես, ինչպես կա (ոչ URL-կոդավորված)"
+    },
+    "legacyAliasesLabel": {
+        "message": "Ժառանգական անուններ."
+    },
+    "legacyAliases": {
+        "message": "աջակցվում են եւ վճռում են"
+    },
+    "notes": {
+        "message": "Նշումներ."
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} կարող է դատարկ լինել՝ կախված Referrer-Policy-ից; {selection_html} կարող է երկար լինել; Ախտահանեք, եթե ցուցադրեք այն:"
+    },
+    "promptLibraryLabel": {
+        "message": "Շտապ գրադարան"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "Որոնման հուշումներ..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "Այս հուշումը կողպված է: Մուտքագրեք գաղտնաբառը՝ այն տեղադրելու համար."
+    },
+    "chooseAIChatbot": {
+        "message": "Ընտրեք AI չաթբոտ"
+    },
     "__WET_LOCALE__": {
         "message": "hy"
     }

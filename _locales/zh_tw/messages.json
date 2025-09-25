@@ -411,6 +411,57 @@
         "message": "搜尋引擎",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "範本變數"
+    },
+    "templateVarsSummary": {
+        "message": "豐富的變數有助於"
+    },
+    "templateVarsIntro": {
+        "message": "在 GET 網址、POST 表單資料、AI 提示詞及書籤小工具中使用這些占位符。"
+    },
+    "placeholders": {
+        "message": "占位符："
+    },
+    "encodingRules": {
+        "message": "依上下文編碼："
+    },
+    "encodingGet": {
+        "message": "URL：變數採用URL編碼"
+    },
+    "encodingPost": {
+        "message": "表單資料：直接插入（未進行URL編碼）"
+    },
+    "encodingAi": {
+        "message": "AI提示詞：直接插入（未進行URL編碼）"
+    },
+    "encodingBookmarklets": {
+        "message": "書籤小工具：直接插入（未經URL編碼）"
+    },
+    "legacyAliasesLabel": {
+        "message": "遺留別名："
+    },
+    "legacyAliases": {
+        "message": "獲得支持並決意"
+    },
+    "notes": {
+        "message": "註記："
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} 可能根據 Referrer-Policy 而為空； {selection_html} 可能較長；若需顯示此參數，請進行清理處理。"
+    },
+    "promptLibraryLabel": {
+        "message": "提示詞庫"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "搜尋提示..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "此提示已鎖定。請輸入密碼以插入內容："
+    },
+    "chooseAIChatbot": {
+        "message": "選擇人工智慧聊天機器人"
+    },
     "__WET_LOCALE__": {
         "message": "zh_tw"
     }

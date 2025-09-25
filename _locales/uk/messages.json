@@ -411,6 +411,57 @@
         "message": "Пошукових",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "Змінні шаблону"
+    },
+    "templateVarsSummary": {
+        "message": "Допомога з багатими змінними"
+    },
+    "templateVarsIntro": {
+        "message": "Використовуйте ці заповнювачі в GET-URL, даних POST-форм, підказках AI та закладках."
+    },
+    "placeholders": {
+        "message": "Заповнювачі:"
+    },
+    "encodingRules": {
+        "message": "Кодування за контекстом:"
+    },
+    "encodingGet": {
+        "message": "URL-адреси: змінні кодуються за допомогою URL-кодування"
+    },
+    "encodingPost": {
+        "message": "дані форми: вставлені без змін (без URL-кодування)"
+    },
+    "encodingAi": {
+        "message": "Підказки AI: вставлені без змін (без URL-кодування)"
+    },
+    "encodingBookmarklets": {
+        "message": "Закладки: вставляються без змін (без URL-кодування)"
+    },
+    "legacyAliasesLabel": {
+        "message": "Старі псевдоніми:"
+    },
+    "legacyAliases": {
+        "message": "підтримуються і вирішують"
+    },
+    "notes": {
+        "message": "Примітки:"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} може бути порожнім залежно від Referrer-Policy; {selection_html} може бути довгим; очистіть його, якщо ви його відображаєте."
+    },
+    "promptLibraryLabel": {
+        "message": "Бібліотека підказок"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "Підказки для пошуку..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "Ця підказка заблокована. Введіть пароль, щоб вставити її:"
+    },
+    "chooseAIChatbot": {
+        "message": "Виберіть чат-бот з штучним інтелектом"
+    },
     "__WET_LOCALE__": {
         "message": "uk"
     }

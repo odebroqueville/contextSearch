@@ -411,6 +411,57 @@
         "message": "Hakukoneet",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "Mallimuuttujat"
+    },
+    "templateVarsSummary": {
+        "message": "Rikkaat muuttujat auttavat"
+    },
+    "templateVarsIntro": {
+        "message": "Käytä näitä paikkamerkkejä GET-URL-osoitteissa, POST-lomaketiedoissa, AI-kehotteissa ja kirjanmerkeissä."
+    },
+    "placeholders": {
+        "message": "Paikkamerkit:"
+    },
+    "encodingRules": {
+        "message": "Koodaus kontekstin mukaan:"
+    },
+    "encodingGet": {
+        "message": "URL-osoitteet: muuttujat on URL-koodattu"
+    },
+    "encodingPost": {
+        "message": "lomaketiedot: lisätty sellaisenaan (ei URL-koodattu)"
+    },
+    "encodingAi": {
+        "message": "AI-kehotteet: lisätty sellaisenaan (ei URL-koodattu)"
+    },
+    "encodingBookmarklets": {
+        "message": "Kirjanmerkit: lisätään sellaisenaan (ei URL-koodattuina)"
+    },
+    "legacyAliasesLabel": {
+        "message": "Vanhat aliakset:"
+    },
+    "legacyAliases": {
+        "message": "tuetaan ja päätetään"
+    },
+    "notes": {
+        "message": "Huomautukset:"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} voi olla tyhjä Referrer-Policy-asetuksesta riippuen; {selection_html} voi olla pitkä; puhdista se, jos näytät sen."
+    },
+    "promptLibraryLabel": {
+        "message": "Prompt-kirjasto"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "Hakukomennot..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "Tämä kehote on lukittu. Anna salasana lisätäksesi sen:"
+    },
+    "chooseAIChatbot": {
+        "message": "Valitse tekoälypohjainen chatbot"
+    },
     "__WET_LOCALE__": {
         "message": "fi"
     }

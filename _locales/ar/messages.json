@@ -411,6 +411,57 @@
         "message": "محركات البحث",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "متغيرات القالب"
+    },
+    "templateVarsSummary": {
+        "message": "المتغيرات الغنية تساعد"
+    },
+    "templateVarsIntro": {
+        "message": "استخدم هذه العناصر النائبة في عناوين URL GET وبيانات نماذج POST ومطالبات AI وعلامات المرجعية."
+    },
+    "placeholders": {
+        "message": "العناصر النائبة:"
+    },
+    "encodingRules": {
+        "message": "الترميز حسب السياق:"
+    },
+    "encodingGet": {
+        "message": "عناوين URL: المتغيرات مشفرة برموز URL"
+    },
+    "encodingPost": {
+        "message": "بيانات النموذج: يتم إدراجها كما هي (غير مشفرة برمز URL)"
+    },
+    "encodingAi": {
+        "message": "مطالبات الذكاء الاصطناعي: يتم إدراجها كما هي (غير مشفرة برابط URL)"
+    },
+    "encodingBookmarklets": {
+        "message": "العلامات المرجعية: يتم إدراجها كما هي (غير مشفرة في عنوان URL)"
+    },
+    "legacyAliasesLabel": {
+        "message": "الأسماء المستعارة القديمة:"
+    },
+    "legacyAliases": {
+        "message": "يتم دعمهم ويقررون"
+    },
+    "notes": {
+        "message": "ملاحظات:"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} قد تكون فارغة اعتمادًا على Referrer-Policy؛ {selection_html} قد تكون طويلة؛ قم بتنظيفها إذا كنت تعرضها."
+    },
+    "promptLibraryLabel": {
+        "message": "مكتبة المطالبات"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "مطالبات البحث..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "هذا الموجه مقفل. أدخل كلمة المرور لإدخاله:"
+    },
+    "chooseAIChatbot": {
+        "message": "اختر روبوت الدردشة الذكي"
+    },
     "__WET_LOCALE__": {
         "message": "ar"
     }

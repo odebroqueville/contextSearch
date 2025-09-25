@@ -411,6 +411,57 @@
         "message": "Søkemotorer",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "Mal variabler"
+    },
+    "templateVarsSummary": {
+        "message": "Hjelp med rike variabler"
+    },
+    "templateVarsIntro": {
+        "message": "Bruk disse plassholderne i GET-URL-adresser, POST-skjemadata, AI-ledetekster og bokmerker."
+    },
+    "placeholders": {
+        "message": "Plassholdere:"
+    },
+    "encodingRules": {
+        "message": "Koding etter kontekst:"
+    },
+    "encodingGet": {
+        "message": "URL-er: Variabler er URL-kodede"
+    },
+    "encodingPost": {
+        "message": "skjemadata: satt inn som de er (ikke URL-kodet)"
+    },
+    "encodingAi": {
+        "message": "AI-meldinger: satt inn som de er (ikke URL-kodet)"
+    },
+    "encodingBookmarklets": {
+        "message": "Bokmerker: satt inn som de er (ikke URL-kodet)"
+    },
+    "legacyAliasesLabel": {
+        "message": "Eldre aliaser:"
+    },
+    "legacyAliases": {
+        "message": "støttes og løser for å"
+    },
+    "notes": {
+        "message": "Notater:"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} kan være tom avhengig av henvisningspolicy; {selection_html} kan være lange; Rens hvis du viser det."
+    },
+    "promptLibraryLabel": {
+        "message": "Spør bibliotek"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "Søk meldinger..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "Denne meldingen er låst. Skriv inn passord for å sette det inn:"
+    },
+    "chooseAIChatbot": {
+        "message": "Velg AI-chatrobot"
+    },
     "__WET_LOCALE__": {
         "message": "no"
     }

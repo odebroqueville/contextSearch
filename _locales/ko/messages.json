@@ -411,6 +411,57 @@
         "message": "검색 엔진",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "템플릿 변수"
+    },
+    "templateVarsSummary": {
+        "message": "풍부한 변수들이 도움이 됩니다"
+    },
+    "templateVarsIntro": {
+        "message": "이 자리 표시자를 GET URL, POST 양식 데이터, AI 프롬프트 및 북마크릿에 사용하십시오."
+    },
+    "placeholders": {
+        "message": "자리 표시자:"
+    },
+    "encodingRules": {
+        "message": "문맥에 따른 인코딩:"
+    },
+    "encodingGet": {
+        "message": "URL: 변수들은 URL 인코딩됩니다"
+    },
+    "encodingPost": {
+        "message": "폼 데이터: 원본 그대로 삽입됨 (URL 인코딩되지 않음)"
+    },
+    "encodingAi": {
+        "message": "AI 프롬프트: 원본 그대로 삽입 (URL 인코딩되지 않음)"
+    },
+    "encodingBookmarklets": {
+        "message": "북마크릿: URL 인코딩 없이 그대로 삽입됨"
+    },
+    "legacyAliasesLabel": {
+        "message": "레거시 별칭:"
+    },
+    "legacyAliases": {
+        "message": "지원받으며 해결하기로 결심한다"
+    },
+    "notes": {
+        "message": "참고 사항:"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} Referrer-Policy에 따라 비어 있을 수 있습니다; {selection_html} 길 수 있습니다; 표시할 경우 정제하십시오."
+    },
+    "promptLibraryLabel": {
+        "message": "프롬프트 라이브러리"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "검색 프롬프트..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "이 프롬프트는 잠겨 있습니다. 삽입하려면 비밀번호를 입력하세요:"
+    },
+    "chooseAIChatbot": {
+        "message": "AI 챗봇 선택"
+    },
     "__WET_LOCALE__": {
         "message": "ko"
     }

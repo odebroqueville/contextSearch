@@ -411,6 +411,57 @@
         "message": "موتورهای جستجو",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "متغیرهای الگو"
+    },
+    "templateVarsSummary": {
+        "message": "متغیرهای غنی کمک می کنند"
+    },
+    "templateVarsIntro": {
+        "message": "از این متغیرها در URL های GET، داده های فرم POST، prompt های هوش مصنوعی و نشانک ها استفاده کنید."
+    },
+    "placeholders": {
+        "message": "متغیرها:"
+    },
+    "encodingRules": {
+        "message": "رمزگذاری بر اساس زمینه:"
+    },
+    "encodingGet": {
+        "message": "URL ها: متغیرها با URL کدگذاری شده اند"
+    },
+    "encodingPost": {
+        "message": "داده های فرم: درج شده همانطور که هست (بدون کدگذاری URL)"
+    },
+    "encodingAi": {
+        "message": "دستورات هوش مصنوعی: همانطور که هست درج شده است (بدون کدگذاری URL)"
+    },
+    "encodingBookmarklets": {
+        "message": "نشانک ها: همانطور که هست درج شده است (بدون کدگذاری URL)"
+    },
+    "legacyAliasesLabel": {
+        "message": "نام مستعار قدیمی:"
+    },
+    "legacyAliases": {
+        "message": "پشتیبانی می شوند و تصمیم می گیرند"
+    },
+    "notes": {
+        "message": "یادداشت:"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} ممکن است بسته به خط مشی ارجاع دهنده خالی باشد. {selection_html} می تواند طولانی باشد. اگر آن را نمایش می دهید ضدعفونی کنید."
+    },
+    "promptLibraryLabel": {
+        "message": "کتابخانه سریع"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "درخواست های جستجو..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "این اعلان قفل شده است. رمز عبور را برای درج آن وارد کنید:"
+    },
+    "chooseAIChatbot": {
+        "message": "چت بات هوش مصنوعی را انتخاب کنید"
+    },
     "__WET_LOCALE__": {
         "message": "fa"
     }

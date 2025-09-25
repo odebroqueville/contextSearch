@@ -411,6 +411,57 @@
         "message": "Zoekmachines",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "Sjabloonvariabelen"
+    },
+    "templateVarsSummary": {
+        "message": "Rijke variabelen helpen"
+    },
+    "templateVarsIntro": {
+        "message": "Gebruik deze tijdelijke aanduidingen in GET-URL's, POST-formuliergegevens, AI-prompts en bookmarklets."
+    },
+    "placeholders": {
+        "message": "Plaatshouders:"
+    },
+    "encodingRules": {
+        "message": "Codering op basis van context:"
+    },
+    "encodingGet": {
+        "message": "URL's: variabelen zijn URL-gecodeerd"
+    },
+    "encodingPost": {
+        "message": "formuliergegevens: ingevoegd zoals ze zijn (niet URL-gecodeerd)"
+    },
+    "encodingAi": {
+        "message": "AI-prompts: ingevoegd zoals ze zijn (niet URL-gecodeerd)"
+    },
+    "encodingBookmarklets": {
+        "message": "Bookmarklets: ingevoegd zoals ze zijn (niet URL-gecodeerd)"
+    },
+    "legacyAliasesLabel": {
+        "message": "Oude aliassen:"
+    },
+    "legacyAliases": {
+        "message": "worden ondersteund en besluiten om"
+    },
+    "notes": {
+        "message": "Opmerkingen:"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} kan leeg zijn, afhankelijk van Referrer-Policy; {selection_html} kan lang zijn; zuiver het als u het weergeeft."
+    },
+    "promptLibraryLabel": {
+        "message": "Promptbibliotheek"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "Zoekopdrachten..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "Deze prompt is vergrendeld. Voer het wachtwoord in om het in te voegen:"
+    },
+    "chooseAIChatbot": {
+        "message": "Kies AI-chatbot"
+    },
     "__WET_LOCALE__": {
         "message": "nl"
     }

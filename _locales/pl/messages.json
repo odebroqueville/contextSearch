@@ -411,6 +411,57 @@
         "message": "Wyszukiwarek",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "Zmienne szablonu"
+    },
+    "templateVarsSummary": {
+        "message": "Pomoc dotyczące zmiennych bogatych"
+    },
+    "templateVarsIntro": {
+        "message": "Użyj tych symboli zastępczych w adresach URL GET, danych formularzy POST, poleceniach AI i skryptach zakładek."
+    },
+    "placeholders": {
+        "message": "Symbole zastępcze:"
+    },
+    "encodingRules": {
+        "message": "Kodowanie według kontekstu:"
+    },
+    "encodingGet": {
+        "message": "Adresy URL: zmienne są kodowane w formacie URL."
+    },
+    "encodingPost": {
+        "message": "dane formularza: wstawiane bez zmian (bez kodowania URL)"
+    },
+    "encodingAi": {
+        "message": "Podpowiedzi AI: wstawione bez zmian (bez kodowania URL)"
+    },
+    "encodingBookmarklets": {
+        "message": "Zakładki: wstawiane bez zmian (bez kodowania URL)"
+    },
+    "legacyAliasesLabel": {
+        "message": "Starsze aliasy:"
+    },
+    "legacyAliases": {
+        "message": "są wspierani i postanawiają"
+    },
+    "notes": {
+        "message": "Uwagi:"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} może być pusty w zależności od Referrer-Policy; {selection_html} może być długi; należy go oczyścić przed wyświetleniem."
+    },
+    "promptLibraryLabel": {
+        "message": "Biblioteka podpowiedzi"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "Wskazówki dotyczące wyszukiwania..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "To pole jest zablokowane. Wprowadź hasło, aby je wstawić:"
+    },
+    "chooseAIChatbot": {
+        "message": "Wybierz chatbota AI"
+    },
     "__WET_LOCALE__": {
         "message": "pl"
     }

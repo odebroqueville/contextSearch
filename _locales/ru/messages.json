@@ -411,6 +411,57 @@
         "message": "Поисковые системы",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "Переменные шаблона"
+    },
+    "templateVarsSummary": {
+        "message": "Помощь по переменным Rich"
+    },
+    "templateVarsIntro": {
+        "message": "Используйте эти заполнители в URL-адресах GET, данных форм POST, подсказках AI и закладках."
+    },
+    "placeholders": {
+        "message": "Заполнители:"
+    },
+    "encodingRules": {
+        "message": "Кодирование по контексту:"
+    },
+    "encodingGet": {
+        "message": "URL-адреса: переменные кодируются в формате URL"
+    },
+    "encodingPost": {
+        "message": "данные формы: вставляются без изменений (без URL-кодирования)"
+    },
+    "encodingAi": {
+        "message": "Подсказки ИИ: вставлены без изменений (без URL-кодирования)"
+    },
+    "encodingBookmarklets": {
+        "message": "Закладки: вставляются без изменений (без URL-кодирования)"
+    },
+    "legacyAliasesLabel": {
+        "message": "Устаревшие псевдонимы:"
+    },
+    "legacyAliases": {
+        "message": "поддерживаются и решают"
+    },
+    "notes": {
+        "message": "Примечания:"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} может быть пустым в зависимости от Referrer-Policy; {selection_html} может быть длинным; очистите его, если вы его отображаете."
+    },
+    "promptLibraryLabel": {
+        "message": "Библиотека подсказок"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "Подсказки для поиска..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "Этот запрос заблокирован. Введите пароль, чтобы вставить его:"
+    },
+    "chooseAIChatbot": {
+        "message": "Выберите чат-бота с искусственным интеллектом"
+    },
     "__WET_LOCALE__": {
         "message": "ru"
     }

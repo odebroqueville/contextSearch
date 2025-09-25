@@ -411,6 +411,57 @@
         "message": "検索エンジン",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "テンプレート変数"
+    },
+    "templateVarsSummary": {
+        "message": "リッチ変数が役立つ"
+    },
+    "templateVarsIntro": {
+        "message": "これらのプレースホルダーを、GET URL、POSTフォームデータ、AIプロンプト、およびブックマークレットで使用してください。"
+    },
+    "placeholders": {
+        "message": "プレースホルダー:"
+    },
+    "encodingRules": {
+        "message": "文脈による符号化:"
+    },
+    "encodingGet": {
+        "message": "URL: 変数はURLエンコードされます"
+    },
+    "encodingPost": {
+        "message": "フォームデータ：そのまま挿入（URLエンコードなし）"
+    },
+    "encodingAi": {
+        "message": "AIプロンプト：そのまま挿入（URLエンコードなし）"
+    },
+    "encodingBookmarklets": {
+        "message": "ブックマークレット：そのまま挿入（URLエンコードなし）"
+    },
+    "legacyAliasesLabel": {
+        "message": "レガシーエイリアス:"
+    },
+    "legacyAliases": {
+        "message": "支援され、決意する"
+    },
+    "notes": {
+        "message": "注記："
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} Referrer-Policy によって空になる場合があります； {selection_html} は長くなる可能性があります；表示する場合はサニタイズしてください。"
+    },
+    "promptLibraryLabel": {
+        "message": "プロンプトライブラリ"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "検索プロンプト..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "このプロンプトはロックされています。挿入するにはパスワードを入力してください："
+    },
+    "chooseAIChatbot": {
+        "message": "AIチャットボットを選択"
+    },
     "__WET_LOCALE__": {
         "message": "ja"
     }

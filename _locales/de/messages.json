@@ -411,6 +411,57 @@
         "message": "Suchmaschinen",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "Vorlagenvariablen"
+    },
+    "templateVarsSummary": {
+        "message": "Reichhaltige Variablen helfen"
+    },
+    "templateVarsIntro": {
+        "message": "Verwenden Sie diese Platzhalter in GET-URLs, POST-Formulardaten, KI-Eingabeaufforderungen und Bookmarklets."
+    },
+    "placeholders": {
+        "message": "Platzhalter:"
+    },
+    "encodingRules": {
+        "message": "Kodierung nach Kontext:"
+    },
+    "encodingGet": {
+        "message": "URLs: Variablen sind URL-kodiert"
+    },
+    "encodingPost": {
+        "message": "Formulardaten: unverändert eingefügt (nicht URL-kodiert)"
+    },
+    "encodingAi": {
+        "message": "KI-Eingabeaufforderungen: unverändert eingefügt (nicht URL-kodiert)"
+    },
+    "encodingBookmarklets": {
+        "message": "Bookmarklets: unverändert eingefügt (nicht URL-kodiert)"
+    },
+    "legacyAliasesLabel": {
+        "message": "Legacy-Aliase:"
+    },
+    "legacyAliases": {
+        "message": "werden unterstützt und beschließen,"
+    },
+    "notes": {
+        "message": "Anmerkungen:"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} kann je nach Referrer-Policy leer sein; {selection_html} kann lang sein; bereinigen Sie es, wenn Sie es anzeigen."
+    },
+    "promptLibraryLabel": {
+        "message": "Prompt-Bibliothek"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "Suchaufforderungen..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "Diese Eingabeaufforderung ist gesperrt. Geben Sie das Passwort ein, um sie einzufügen:"
+    },
+    "chooseAIChatbot": {
+        "message": "Wählen Sie einen KI-Chatbot"
+    },
     "__WET_LOCALE__": {
         "message": "de"
     }

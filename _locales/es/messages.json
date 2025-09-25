@@ -411,6 +411,57 @@
         "message": "Buscadores",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "Variables de plantilla"
+    },
+    "templateVarsSummary": {
+        "message": "Las variables ricas ayudan"
+    },
+    "templateVarsIntro": {
+        "message": "Utiliza estos marcadores de posición en URL GET, datos de formularios POST, indicaciones de IA y marcadores."
+    },
+    "placeholders": {
+        "message": "Marcadores de posición:"
+    },
+    "encodingRules": {
+        "message": "Codificación por contexto:"
+    },
+    "encodingGet": {
+        "message": "URL: las variables están codificadas en URL."
+    },
+    "encodingPost": {
+        "message": "Datos del formulario: insertados tal cual (sin codificación URL)"
+    },
+    "encodingAi": {
+        "message": "Sugerencias de IA: insertadas tal cual (sin codificación URL)"
+    },
+    "encodingBookmarklets": {
+        "message": "Marcadores: insertados tal cual (sin codificar en URL)"
+    },
+    "legacyAliasesLabel": {
+        "message": "Alias heredados:"
+    },
+    "legacyAliases": {
+        "message": "se apoyan y resuelven"
+    },
+    "notes": {
+        "message": "Notas:"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} Puede estar vacío dependiendo de la política de referencia (Referrer-Policy); {selection_html} puede ser largo; límpielo si lo muestra."
+    },
+    "promptLibraryLabel": {
+        "message": "Biblioteca de comandos"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "Sugerencias de búsqueda..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "Este mensaje está bloqueado. Introduzca la contraseña para insertarlo:"
+    },
+    "chooseAIChatbot": {
+        "message": "Elige un chatbot con IA"
+    },
     "__WET_LOCALE__": {
         "message": "es"
     }

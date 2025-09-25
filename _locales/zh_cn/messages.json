@@ -411,6 +411,57 @@
         "message": "搜索引擎",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "模板变量"
+    },
+    "templateVarsSummary": {
+        "message": "丰富的变量有助于"
+    },
+    "templateVarsIntro": {
+        "message": "在GET网址、POST表单数据、AI提示词和书签小工具中使用这些占位符。"
+    },
+    "placeholders": {
+        "message": "占位符："
+    },
+    "encodingRules": {
+        "message": "基于上下文的编码："
+    },
+    "encodingGet": {
+        "message": "URL：变量采用URL编码"
+    },
+    "encodingPost": {
+        "message": "表单数据：按原样插入（不进行URL编码）"
+    },
+    "encodingAi": {
+        "message": "AI提示词：按原样插入（未进行URL编码）"
+    },
+    "encodingBookmarklets": {
+        "message": "书签小工具：直接插入（不进行URL编码）"
+    },
+    "legacyAliasesLabel": {
+        "message": "遗留别名："
+    },
+    "legacyAliases": {
+        "message": "得到支持并决心"
+    },
+    "notes": {
+        "message": "注释："
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} 可能根据Referrer-Policy设置为空； {selection_html} 可能较长；若需显示请进行安全处理。"
+    },
+    "promptLibraryLabel": {
+        "message": "提示库"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "搜索提示..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "此提示已锁定。请输入密码以插入内容："
+    },
+    "chooseAIChatbot": {
+        "message": "选择人工智能聊天机器人"
+    },
     "__WET_LOCALE__": {
         "message": "zh_cn"
     }

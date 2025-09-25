@@ -411,6 +411,57 @@
         "message": "Μηχανές αναζήτησης",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "Μεταβλητές προτύπου"
+    },
+    "templateVarsSummary": {
+        "message": "Βοήθεια για πλούσιες μεταβλητές"
+    },
+    "templateVarsIntro": {
+        "message": "Χρησιμοποιήστε αυτά τα σύμβολα κράτησης θέσης σε URL GET, δεδομένα φόρμας POST, προτροπές AI και σελιδοδείκτες."
+    },
+    "placeholders": {
+        "message": "Κενές θέσεις:"
+    },
+    "encodingRules": {
+        "message": "Κωδικοποίηση ανά πλαίσιο:"
+    },
+    "encodingGet": {
+        "message": "URL: οι μεταβλητές είναι κωδικοποιημένες με URL"
+    },
+    "encodingPost": {
+        "message": "δεδομένα φόρμας: εισάγονται ως έχουν (χωρίς κωδικοποίηση URL)"
+    },
+    "encodingAi": {
+        "message": "Προτροπές AI: εισάγονται ως έχουν (χωρίς κωδικοποίηση URL)"
+    },
+    "encodingBookmarklets": {
+        "message": "Bookmarklets: εισάγονται ως έχουν (χωρίς κωδικοποίηση URL)"
+    },
+    "legacyAliasesLabel": {
+        "message": "Παλαιά ψευδώνυμα:"
+    },
+    "legacyAliases": {
+        "message": "υποστηρίζονται και αποφασίζουν να"
+    },
+    "notes": {
+        "message": "Σημειώσεις:"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} μπορεί να είναι κενό ανάλογα με την πολιτική παραπομπής (Referrer-Policy). {selection_html} μπορεί να είναι μακρύ. Καθαρίστε το αν το εμφανίσετε."
+    },
+    "promptLibraryLabel": {
+        "message": "Βιβλιοθήκη προτροπών"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "Προτροπές αναζήτησης..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "Αυτή η προτροπή είναι κλειδωμένη. Εισάγετε τον κωδικό πρόσβασης για να την εισαγάγετε:"
+    },
+    "chooseAIChatbot": {
+        "message": "Επιλέξτε AI chatbot"
+    },
     "__WET_LOCALE__": {
         "message": "el"
     }

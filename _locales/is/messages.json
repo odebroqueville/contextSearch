@@ -411,6 +411,57 @@
         "message": "Leitarvélum",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "Sniðmát breytur"
+    },
+    "templateVarsSummary": {
+        "message": "Ríkar breytur hjálpa"
+    },
+    "templateVarsIntro": {
+        "message": "Notaðu þessa staðgengla í GET vefslóðum, POST eyðublaðsgögnum, gervigreindarkvaðningum og bókamerkjum."
+    },
+    "placeholders": {
+        "message": "Staðgenglar:"
+    },
+    "encodingRules": {
+        "message": "Kóðun eftir samhengi:"
+    },
+    "encodingGet": {
+        "message": "Vefslóðir: breytur eru vefslóðarkóðaðar"
+    },
+    "encodingPost": {
+        "message": "formgögn: sett inn eins og þau eru (ekki vefslóðarkóðuð)"
+    },
+    "encodingAi": {
+        "message": "AI hvetja: sett inn eins og það er (ekki vefslóðarkóðað)"
+    },
+    "encodingBookmarklets": {
+        "message": "Bókamerki: sett inn eins og þau eru (ekki vefslóðarkóðað)"
+    },
+    "legacyAliasesLabel": {
+        "message": "Eldri viðurnefni:"
+    },
+    "legacyAliases": {
+        "message": "eru studd og ákveða að"
+    },
+    "notes": {
+        "message": "Athugasemdir:"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} gæti verið tómt eftir tilvísunarstefnu; {selection_html} getur verið langur; sótthreinsa ef þú sýnir það."
+    },
+    "promptLibraryLabel": {
+        "message": "Hvetja bókasafn"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "Leita að leiðbeiningum..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "Þessi kvaðning er læst. Sláðu inn lykilorð til að setja það inn:"
+    },
+    "chooseAIChatbot": {
+        "message": "Veldu gervigreind spjallbot"
+    },
     "__WET_LOCALE__": {
         "message": "is"
     }

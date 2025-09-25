@@ -411,6 +411,57 @@
         "message": "Motori di ricerca",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "Variabili del modello"
+    },
+    "templateVarsSummary": {
+        "message": "Le variabili ricche aiutano"
+    },
+    "templateVarsIntro": {
+        "message": "Utilizza questi segnaposto negli URL GET, nei dati dei moduli POST, nei prompt AI e nei bookmarklet."
+    },
+    "placeholders": {
+        "message": "Segnaposto:"
+    },
+    "encodingRules": {
+        "message": "Codifica in base al contesto:"
+    },
+    "encodingGet": {
+        "message": "URL: le variabili sono codificate in URL"
+    },
+    "encodingPost": {
+        "message": "dati del modulo: inseriti così come sono (non codificati in URL)"
+    },
+    "encodingAi": {
+        "message": "Prompt AI: inseriti così come sono (non codificati in URL)"
+    },
+    "encodingBookmarklets": {
+        "message": "Bookmarklet: inseriti così come sono (non codificati come URL)"
+    },
+    "legacyAliasesLabel": {
+        "message": "Alias legacy:"
+    },
+    "legacyAliases": {
+        "message": "sono sostenuti e decidono di"
+    },
+    "notes": {
+        "message": "Note:"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} potrebbe essere vuoto a seconda della Referrer-Policy; {selection_html} potrebbe essere lungo; puliscilo se lo visualizzi."
+    },
+    "promptLibraryLabel": {
+        "message": "Libreria dei prompt"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "Suggerimenti di ricerca..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "Questo prompt è bloccato. Inserisci la password per inserirlo:"
+    },
+    "chooseAIChatbot": {
+        "message": "Scegli il chatbot AI"
+    },
     "__WET_LOCALE__": {
         "message": "it"
     }

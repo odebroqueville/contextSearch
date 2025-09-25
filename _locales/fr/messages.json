@@ -411,6 +411,45 @@
         "message": "Moteurs de recherche",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "Variables de modèle"
+    },
+    "templateVarsSummary": {
+        "message": "Les variables riches aident"
+    },
+    "templateVarsIntro": {
+        "message": "Utilisez ces espaces réservés dans les URL GET, les données de formulaire POST, les invites IA et les signets."
+    },
+    "placeholders": {
+        "message": "Espaces réservés :"
+    },
+    "encodingRules": {
+        "message": "Encodage par contexte :"
+    },
+    "encodingGet": {
+        "message": "URL : les variables sont encodées en URL"
+    },
+    "encodingPost": {
+        "message": "données du formulaire : insérées telles quelles (sans encodage URL)"
+    },
+    "encodingAi": {
+        "message": "Invites IA : insérées telles quelles (sans encodage URL)"
+    },
+    "encodingBookmarklets": {
+        "message": "Bookmarklets : insérés tels quels (sans encodage URL)"
+    },
+    "legacyAliasesLabel": {
+        "message": "Anciens alias :"
+    },
+    "legacyAliases": {
+        "message": "sont pris en charge et se résolvent à"
+    },
+    "notes": {
+        "message": "Remarques :"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} peut être vide selon la politique de référence ; {selection_html} peut être long ; nettoyez-le si vous l'affichez."
+    },
     "promptLibraryLabel": {
         "message": "Bibliothèque d'invites"
     },

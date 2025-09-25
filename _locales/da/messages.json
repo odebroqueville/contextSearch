@@ -411,6 +411,57 @@
         "message": "Søgemaskiner",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "Skabelonvariabler"
+    },
+    "templateVarsSummary": {
+        "message": "Rige variabler hjælper"
+    },
+    "templateVarsIntro": {
+        "message": "Brug disse pladsholdere i GET-URL'er, POST-formulardata, AI-prompter og bogmærker."
+    },
+    "placeholders": {
+        "message": "Pladsholdere:"
+    },
+    "encodingRules": {
+        "message": "Kodning efter kontekst:"
+    },
+    "encodingGet": {
+        "message": "URL'er: variabler er URL-kodede"
+    },
+    "encodingPost": {
+        "message": "formdata: indsat som den er (ikke URL-kodet)"
+    },
+    "encodingAi": {
+        "message": "AI-prompter: indsat som de er (ikke URL-kodet)"
+    },
+    "encodingBookmarklets": {
+        "message": "Bookmarklets: indsat som de er (ikke URL-kodet)"
+    },
+    "legacyAliasesLabel": {
+        "message": "Ældre aliaser:"
+    },
+    "legacyAliases": {
+        "message": "støttes og beslutter at"
+    },
+    "notes": {
+        "message": "Bemærkninger:"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} kan være tom afhængigt af Referrer-Policy; {selection_html} kan være lang; rens den, hvis du viser den."
+    },
+    "promptLibraryLabel": {
+        "message": "Prompt-bibliotek"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "Søgeforslag..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "Denne prompt er låst. Indtast adgangskode for at indsætte den:"
+    },
+    "chooseAIChatbot": {
+        "message": "Vælg AI-chatbot"
+    },
     "__WET_LOCALE__": {
         "message": "da"
     }

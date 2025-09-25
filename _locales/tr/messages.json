@@ -411,6 +411,57 @@
         "message": "Arama motorları",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "Şablon değişkenleri"
+    },
+    "templateVarsSummary": {
+        "message": "Zengin değişkenler yardımcı olur"
+    },
+    "templateVarsIntro": {
+        "message": "Bu yer tutucuları GET URL'lerinde, POST form verilerinde, AI komutlarında ve yer imlerinde kullanın."
+    },
+    "placeholders": {
+        "message": "Yer tutucular:"
+    },
+    "encodingRules": {
+        "message": "Bağlama göre kodlama:"
+    },
+    "encodingGet": {
+        "message": "URL'ler: değişkenler URL kodlu"
+    },
+    "encodingPost": {
+        "message": "form verileri: olduğu gibi eklenir (URL kodlaması yapılmaz)"
+    },
+    "encodingAi": {
+        "message": "AI komutları: olduğu gibi eklenir (URL kodlaması yapılmaz)"
+    },
+    "encodingBookmarklets": {
+        "message": "Yer imleri: olduğu gibi eklenir (URL kodlaması yapılmaz)"
+    },
+    "legacyAliasesLabel": {
+        "message": "Eski takma adlar:"
+    },
+    "legacyAliases": {
+        "message": "desteklenir ve kararlılıkla"
+    },
+    "notes": {
+        "message": "Notlar:"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} Referrer-Policy'ye bağlı olarak boş olabilir; {selection_html} uzun olabilir; görüntülemek istiyorsanız temizleyin."
+    },
+    "promptLibraryLabel": {
+        "message": "Hızlı kütüphane"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "Arama komutları..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "Bu komut satırı kilitlidir. Eklemek için şifreyi girin:"
+    },
+    "chooseAIChatbot": {
+        "message": "AI sohbet robotunu seçin"
+    },
     "__WET_LOCALE__": {
         "message": "tr"
     }

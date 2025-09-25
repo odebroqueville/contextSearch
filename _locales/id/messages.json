@@ -411,6 +411,57 @@
         "message": "Pencari",
         "description": "Title of search engines tab in the Options page"
     },
+    "headerTemplateVars": {
+        "message": "Variabel templat"
+    },
+    "templateVarsSummary": {
+        "message": "Variabel kaya membantu"
+    },
+    "templateVarsIntro": {
+        "message": "Gunakan placeholder ini dalam URL GET, data formulir POST, prompt AI, dan bookmarklet."
+    },
+    "placeholders": {
+        "message": "Tempat penanda:"
+    },
+    "encodingRules": {
+        "message": "Pengkodean berdasarkan konteks:"
+    },
+    "encodingGet": {
+        "message": "URL: variabel dienkode URL"
+    },
+    "encodingPost": {
+        "message": "Data formulir: disisipkan apa adanya (tidak dienkode URL)"
+    },
+    "encodingAi": {
+        "message": "Prompt AI: disisipkan apa adanya (tidak dienkode URL)"
+    },
+    "encodingBookmarklets": {
+        "message": "Bookmarklets: disisipkan apa adanya (tidak dienkode URL)"
+    },
+    "legacyAliasesLabel": {
+        "message": "Alias warisan:"
+    },
+    "legacyAliases": {
+        "message": "didukung dan berkomitmen untuk"
+    },
+    "notes": {
+        "message": "Catatan:"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} Mungkin kosong tergantung pada Referrer-Policy; {selection_html} dapat panjang; bersihkan jika Anda menampilkannya."
+    },
+    "promptLibraryLabel": {
+        "message": "Perpustakaan prompt"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "Pesan pencarian..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "Prompt ini terkunci. Masukkan kata sandi untuk memasukkannya:"
+    },
+    "chooseAIChatbot": {
+        "message": "Pilih chatbot AI"
+    },
     "__WET_LOCALE__": {
         "message": "id"
     }
