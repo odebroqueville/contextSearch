@@ -309,7 +309,7 @@
         "message": "Segera tampilkan kisi ikon setelah teks dipilih"
     },
     "closeGridOnMouseOut": {
-        "message": "Tutup kisi ikon saat kursor mouse keluar dari area"
+        "message": "Tutup kisi ikon saat mouse keluar"
     },
     "xOffset": {
         "message": "Offset horizontal dari kisi ikon: "
