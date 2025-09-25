@@ -412,55 +412,55 @@
         "description": "Title of search engines tab in the Options page"
     },
     "headerTemplateVars": {
-        "message": "Template variables"
+        "message": "Variabel templat"
     },
     "templateVarsSummary": {
-        "message": "Rich variables help"
+        "message": "Variabel kaya membantu"
     },
     "templateVarsIntro": {
-        "message": "Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets."
+        "message": "Gunakan placeholder ini dalam URL GET, data formulir POST, prompt AI, dan bookmarklet."
     },
     "placeholders": {
-        "message": "Placeholders:"
+        "message": "Tempat penanda:"
     },
     "encodingRules": {
-        "message": "Encoding by context:"
+        "message": "Pengkodean berdasarkan konteks:"
     },
     "encodingGet": {
-        "message": "URLs: variables are URL-encoded"
+        "message": "URL: variabel dienkode URL"
     },
     "encodingPost": {
-        "message": "form data: inserted as-is (not URL-encoded)"
+        "message": "Data formulir: disisipkan apa adanya (tidak dienkode URL)"
     },
     "encodingAi": {
-        "message": "AI prompts: inserted as-is (not URL-encoded)"
+        "message": "Prompt AI: disisipkan apa adanya (tidak dienkode URL)"
     },
     "encodingBookmarklets": {
-        "message": "Bookmarklets: inserted as-is (not URL-encoded)"
+        "message": "Bookmarklets: disisipkan apa adanya (tidak dienkode URL)"
     },
     "legacyAliasesLabel": {
-        "message": "Legacy aliases:"
+        "message": "Alias warisan:"
     },
     "legacyAliases": {
-        "message": "are supported and resolve to"
+        "message": "didukung dan berkomitmen untuk"
     },
     "notes": {
-        "message": "Notes:"
+        "message": "Catatan:"
     },
     "templateVarsNotes": {
-        "message": "{referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you display it."
+        "message": "{referrer} Mungkin kosong tergantung pada Referrer-Policy; {selection_html} dapat panjang; bersihkan jika Anda menampilkannya."
     },
     "promptLibraryLabel": {
-        "message": "Prompt library"
+        "message": "Perpustakaan prompt"
     },
     "promptLibrarySearchPlaceholder": {
-        "message": "Search prompts..."
+        "message": "Pesan pencarian..."
     },
     "promptLockedEnterPassword": {
-        "message": "This prompt is locked. Enter password to insert it:"
+        "message": "Prompt ini terkunci. Masukkan kata sandi untuk memasukkannya:"
     },
     "chooseAIChatbot": {
-        "message": "Choose AI chatbot"
+        "message": "Pilih chatbot AI"
     },
     "__WET_LOCALE__": {
         "message": "id"
