@@ -412,43 +412,43 @@
         "description": "Title of search engines tab in the Options page"
     },
     "headerTemplateVars": {
-        "message": "Template variables"
+        "message": "Variables de modèle"
     },
     "templateVarsSummary": {
-        "message": "Rich variables help"
+        "message": "Les variables riches aident"
     },
     "templateVarsIntro": {
-        "message": "Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets."
+        "message": "Utilisez ces espaces réservés dans les URL GET, les données de formulaire POST, les invites IA et les signets."
     },
     "placeholders": {
-        "message": "Placeholders:"
+        "message": "Espaces réservés :"
     },
     "encodingRules": {
-        "message": "Encoding by context:"
+        "message": "Encodage par contexte :"
     },
     "encodingGet": {
-        "message": "URLs: variables are URL-encoded"
+        "message": "URL : les variables sont encodées en URL"
     },
     "encodingPost": {
-        "message": "form data: inserted as-is (not URL-encoded)"
+        "message": "données du formulaire : insérées telles quelles (sans encodage URL)"
     },
     "encodingAi": {
-        "message": "AI prompts: inserted as-is (not URL-encoded)"
+        "message": "Invites IA : insérées telles quelles (sans encodage URL)"
     },
     "encodingBookmarklets": {
-        "message": "Bookmarklets: inserted as-is (not URL-encoded)"
+        "message": "Bookmarklets : insérés tels quels (sans encodage URL)"
     },
     "legacyAliasesLabel": {
-        "message": "Legacy aliases:"
+        "message": "Anciens alias :"
     },
     "legacyAliases": {
-        "message": "are supported and resolve to"
+        "message": "sont pris en charge et se résolvent à"
     },
     "notes": {
-        "message": "Notes:"
+        "message": "Remarques :"
     },
     "templateVarsNotes": {
-        "message": "{referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you display it."
+        "message": "{referrer} peut être vide selon la politique de référence ; {selection_html} peut être long ; nettoyez-le si vous l'affichez."
     },
     "promptLibraryLabel": {
         "message": "Bibliothèque d'invites"
