@@ -309,7 +309,7 @@
         "message": "Natychmiastowe wyświetlanie siatki ikon po wybraniu tekstu"
     },
     "closeGridOnMouseOut": {
-        "message": "Zamknij siatkę ikon po opuszczeniu obszaru przez kursor myszy"
+        "message": "Zamknij siatkę ikon po wyjęciu myszy"
     },
     "xOffset": {
         "message": "Przesunięcie siatki ikon w poziomie: "
