@@ -309,7 +309,7 @@
         "message": "选择文本后立即显示图标网格"
     },
     "closeGridOnMouseOut": {
-        "message": "关闭鼠标输出时的图标网格"
+        "message": "鼠标移出时关闭图标网格"
     },
     "xOffset": {
         "message": "图标网格的水平偏移： "
@@ -410,6 +410,57 @@
     "titleSearchEngines": {
         "message": "搜索引擎",
         "description": "Title of search engines tab in the Options page"
+    },
+    "headerTemplateVars": {
+        "message": "Template variables"
+    },
+    "templateVarsSummary": {
+        "message": "Rich variables help"
+    },
+    "templateVarsIntro": {
+        "message": "Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets."
+    },
+    "placeholders": {
+        "message": "Placeholders:"
+    },
+    "encodingRules": {
+        "message": "Encoding by context:"
+    },
+    "encodingGet": {
+        "message": "URLs: variables are URL-encoded"
+    },
+    "encodingPost": {
+        "message": "form data: inserted as-is (not URL-encoded)"
+    },
+    "encodingAi": {
+        "message": "AI prompts: inserted as-is (not URL-encoded)"
+    },
+    "encodingBookmarklets": {
+        "message": "Bookmarklets: inserted as-is (not URL-encoded)"
+    },
+    "legacyAliasesLabel": {
+        "message": "Legacy aliases:"
+    },
+    "legacyAliases": {
+        "message": "are supported and resolve to"
+    },
+    "notes": {
+        "message": "Notes:"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you display it."
+    },
+    "promptLibraryLabel": {
+        "message": "Prompt library"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "Search prompts..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "This prompt is locked. Enter password to insert it:"
+    },
+    "chooseAIChatbot": {
+        "message": "Choose AI chatbot"
     },
     "__WET_LOCALE__": {
         "message": "zh_cn"
