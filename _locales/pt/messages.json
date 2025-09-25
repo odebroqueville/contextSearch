@@ -309,7 +309,7 @@
         "message": "Exibir imediatamente a grade de ícones após o texto ter sido selecionado"
     },
     "closeGridOnMouseOut": {
-        "message": "Feche a grade de ícones ao retirar o cursor da área"
+        "message": "Feche a grade de ícones ao passar o mouse"
     },
     "xOffset": {
         "message": "Deslocamento horizontal da grade de ícones: "
