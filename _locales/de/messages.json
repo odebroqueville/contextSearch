@@ -99,7 +99,7 @@
         "message": "Einstellungen speichern"
     },
     "header6": {
-        "message": "Welche Suchmaschinen möchten Sie im Kontextmenü oder in der Symboltabelle sehen?"
+        "message": "Welche Suchmaschinen möchten Sie im Kontextmenü oder im Icon-Raster sehen?"
     },
     "clearAll": {
         "message": "Alle löschen"
@@ -123,7 +123,7 @@
         "message": "Eine neue Suchmaschine hinzufügen"
     },
     "showSearchEngine": {
-        "message": "Suchmaschine im Kontextmenü oder in der Symbolleiste anzeigen"
+        "message": "Suchmaschine im Kontextmenü oder im Icon-Raster anzeigen"
     },
     "searchEngineName": {
         "message": "Name der Suchmaschine"
@@ -309,7 +309,7 @@
         "message": "Zeigen Sie sofort das Raster der Symbole an, nachdem Text ausgewählt wurde"
     },
     "closeGridOnMouseOut": {
-        "message": "Schließen Sie das Raster der Symbole, wenn Sie die Maus herausnehmen"
+        "message": "Schließen Sie das Raster der Symbole, wenn der Mauszeiger den Bereich verlässt"
     },
     "xOffset": {
         "message": "Horizontaler Versatz des Rasters der Symbole: "
@@ -333,7 +333,7 @@
         "message": "AI-Eingabeaufforderung hinzufügen"
     },
     "promptShow": {
-        "message": "AI-Eingabeaufforderung im Kontextmenü oder in der Symbolleiste anzeigen"
+        "message": "AI-Eingabeaufforderung im Kontextmenü oder im Icon-Raster anzeigen"
     },
     "promptName": {
         "message": "Name der KI-Eingabeaufforderung"
@@ -410,6 +410,57 @@
     "titleSearchEngines": {
         "message": "Suchmaschinen",
         "description": "Title of search engines tab in the Options page"
+    },
+    "headerTemplateVars": {
+        "message": "Template variables"
+    },
+    "templateVarsSummary": {
+        "message": "Rich variables help"
+    },
+    "templateVarsIntro": {
+        "message": "Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets."
+    },
+    "placeholders": {
+        "message": "Placeholders:"
+    },
+    "encodingRules": {
+        "message": "Encoding by context:"
+    },
+    "encodingGet": {
+        "message": "URLs: variables are URL-encoded"
+    },
+    "encodingPost": {
+        "message": "form data: inserted as-is (not URL-encoded)"
+    },
+    "encodingAi": {
+        "message": "AI prompts: inserted as-is (not URL-encoded)"
+    },
+    "encodingBookmarklets": {
+        "message": "Bookmarklets: inserted as-is (not URL-encoded)"
+    },
+    "legacyAliasesLabel": {
+        "message": "Legacy aliases:"
+    },
+    "legacyAliases": {
+        "message": "are supported and resolve to"
+    },
+    "notes": {
+        "message": "Notes:"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you display it."
+    },
+    "promptLibraryLabel": {
+        "message": "Prompt library"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "Search prompts..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "This prompt is locked. Enter password to insert it:"
+    },
+    "chooseAIChatbot": {
+        "message": "Choose AI chatbot"
     },
     "__WET_LOCALE__": {
         "message": "de"
