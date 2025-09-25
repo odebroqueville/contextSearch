@@ -412,55 +412,55 @@
         "description": "Title of search engines tab in the Options page"
     },
     "headerTemplateVars": {
-        "message": "Template variables"
+        "message": "Variables de plantilla"
     },
     "templateVarsSummary": {
-        "message": "Rich variables help"
+        "message": "Las variables ricas ayudan"
     },
     "templateVarsIntro": {
-        "message": "Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets."
+        "message": "Utiliza estos marcadores de posición en URL GET, datos de formularios POST, indicaciones de IA y marcadores."
     },
     "placeholders": {
-        "message": "Placeholders:"
+        "message": "Marcadores de posición:"
     },
     "encodingRules": {
-        "message": "Encoding by context:"
+        "message": "Codificación por contexto:"
     },
     "encodingGet": {
-        "message": "URLs: variables are URL-encoded"
+        "message": "URL: las variables están codificadas en URL."
     },
     "encodingPost": {
-        "message": "form data: inserted as-is (not URL-encoded)"
+        "message": "Datos del formulario: insertados tal cual (sin codificación URL)"
     },
     "encodingAi": {
-        "message": "AI prompts: inserted as-is (not URL-encoded)"
+        "message": "Sugerencias de IA: insertadas tal cual (sin codificación URL)"
     },
     "encodingBookmarklets": {
-        "message": "Bookmarklets: inserted as-is (not URL-encoded)"
+        "message": "Marcadores: insertados tal cual (sin codificar en URL)"
     },
     "legacyAliasesLabel": {
-        "message": "Legacy aliases:"
+        "message": "Alias heredados:"
     },
     "legacyAliases": {
-        "message": "are supported and resolve to"
+        "message": "se apoyan y resuelven"
     },
     "notes": {
-        "message": "Notes:"
+        "message": "Notas:"
     },
     "templateVarsNotes": {
-        "message": "{referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you display it."
+        "message": "{referrer} Puede estar vacío dependiendo de la política de referencia (Referrer-Policy); {selection_html} puede ser largo; límpielo si lo muestra."
     },
     "promptLibraryLabel": {
-        "message": "Prompt library"
+        "message": "Biblioteca de comandos"
     },
     "promptLibrarySearchPlaceholder": {
-        "message": "Search prompts..."
+        "message": "Sugerencias de búsqueda..."
     },
     "promptLockedEnterPassword": {
-        "message": "This prompt is locked. Enter password to insert it:"
+        "message": "Este mensaje está bloqueado. Introduzca la contraseña para insertarlo:"
     },
     "chooseAIChatbot": {
-        "message": "Choose AI chatbot"
+        "message": "Elige un chatbot con IA"
     },
     "__WET_LOCALE__": {
         "message": "es"
