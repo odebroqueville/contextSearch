@@ -412,55 +412,55 @@
         "description": "Title of search engines tab in the Options page"
     },
     "headerTemplateVars": {
-        "message": "Template variables"
+        "message": "テンプレート変数"
     },
     "templateVarsSummary": {
-        "message": "Rich variables help"
+        "message": "リッチ変数が役立つ"
     },
     "templateVarsIntro": {
-        "message": "Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets."
+        "message": "これらのプレースホルダーを、GET URL、POSTフォームデータ、AIプロンプト、およびブックマークレットで使用してください。"
     },
     "placeholders": {
-        "message": "Placeholders:"
+        "message": "プレースホルダー:"
     },
     "encodingRules": {
-        "message": "Encoding by context:"
+        "message": "文脈による符号化:"
     },
     "encodingGet": {
-        "message": "URLs: variables are URL-encoded"
+        "message": "URL: 変数はURLエンコードされます"
     },
     "encodingPost": {
-        "message": "form data: inserted as-is (not URL-encoded)"
+        "message": "フォームデータ：そのまま挿入（URLエンコードなし）"
     },
     "encodingAi": {
-        "message": "AI prompts: inserted as-is (not URL-encoded)"
+        "message": "AIプロンプト：そのまま挿入（URLエンコードなし）"
     },
     "encodingBookmarklets": {
-        "message": "Bookmarklets: inserted as-is (not URL-encoded)"
+        "message": "ブックマークレット：そのまま挿入（URLエンコードなし）"
     },
     "legacyAliasesLabel": {
-        "message": "Legacy aliases:"
+        "message": "レガシーエイリアス:"
     },
     "legacyAliases": {
-        "message": "are supported and resolve to"
+        "message": "支援され、決意する"
     },
     "notes": {
-        "message": "Notes:"
+        "message": "注記："
     },
     "templateVarsNotes": {
-        "message": "{referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you display it."
+        "message": "{referrer} Referrer-Policy によって空になる場合があります； {selection_html} は長くなる可能性があります；表示する場合はサニタイズしてください。"
     },
     "promptLibraryLabel": {
-        "message": "Prompt library"
+        "message": "プロンプトライブラリ"
     },
     "promptLibrarySearchPlaceholder": {
-        "message": "Search prompts..."
+        "message": "検索プロンプト..."
     },
     "promptLockedEnterPassword": {
-        "message": "This prompt is locked. Enter password to insert it:"
+        "message": "このプロンプトはロックされています。挿入するにはパスワードを入力してください："
     },
     "chooseAIChatbot": {
-        "message": "Choose AI chatbot"
+        "message": "AIチャットボットを選択"
     },
     "__WET_LOCALE__": {
         "message": "ja"
