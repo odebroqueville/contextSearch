@@ -412,55 +412,55 @@
         "description": "Title of search engines tab in the Options page"
     },
     "headerTemplateVars": {
-        "message": "Template variables"
+        "message": "متغيرات القالب"
     },
     "templateVarsSummary": {
-        "message": "Rich variables help"
+        "message": "المتغيرات الغنية تساعد"
     },
     "templateVarsIntro": {
-        "message": "Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets."
+        "message": "استخدم هذه العناصر النائبة في عناوين URL GET وبيانات نماذج POST ومطالبات AI وعلامات المرجعية."
     },
     "placeholders": {
-        "message": "Placeholders:"
+        "message": "العناصر النائبة:"
     },
     "encodingRules": {
-        "message": "Encoding by context:"
+        "message": "الترميز حسب السياق:"
     },
     "encodingGet": {
-        "message": "URLs: variables are URL-encoded"
+        "message": "عناوين URL: المتغيرات مشفرة برموز URL"
     },
     "encodingPost": {
-        "message": "form data: inserted as-is (not URL-encoded)"
+        "message": "بيانات النموذج: يتم إدراجها كما هي (غير مشفرة برمز URL)"
     },
     "encodingAi": {
-        "message": "AI prompts: inserted as-is (not URL-encoded)"
+        "message": "مطالبات الذكاء الاصطناعي: يتم إدراجها كما هي (غير مشفرة برابط URL)"
     },
     "encodingBookmarklets": {
-        "message": "Bookmarklets: inserted as-is (not URL-encoded)"
+        "message": "العلامات المرجعية: يتم إدراجها كما هي (غير مشفرة في عنوان URL)"
     },
     "legacyAliasesLabel": {
-        "message": "Legacy aliases:"
+        "message": "الأسماء المستعارة القديمة:"
     },
     "legacyAliases": {
-        "message": "are supported and resolve to"
+        "message": "يتم دعمهم ويقررون"
     },
     "notes": {
-        "message": "Notes:"
+        "message": "ملاحظات:"
     },
     "templateVarsNotes": {
-        "message": "{referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you display it."
+        "message": "{referrer} قد تكون فارغة اعتمادًا على Referrer-Policy؛ {selection_html} قد تكون طويلة؛ قم بتنظيفها إذا كنت تعرضها."
     },
     "promptLibraryLabel": {
-        "message": "Prompt library"
+        "message": "مكتبة المطالبات"
     },
     "promptLibrarySearchPlaceholder": {
-        "message": "Search prompts..."
+        "message": "مطالبات البحث..."
     },
     "promptLockedEnterPassword": {
-        "message": "This prompt is locked. Enter password to insert it:"
+        "message": "هذا الموجه مقفل. أدخل كلمة المرور لإدخاله:"
     },
     "chooseAIChatbot": {
-        "message": "Choose AI chatbot"
+        "message": "اختر روبوت الدردشة الذكي"
     },
     "__WET_LOCALE__": {
         "message": "ar"
