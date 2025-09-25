@@ -412,55 +412,55 @@
         "description": "Title of search engines tab in the Options page"
     },
     "headerTemplateVars": {
-        "message": "Template variables"
+        "message": "Zmienne szablonu"
     },
     "templateVarsSummary": {
-        "message": "Rich variables help"
+        "message": "Pomoc dotyczące zmiennych bogatych"
     },
     "templateVarsIntro": {
-        "message": "Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets."
+        "message": "Użyj tych symboli zastępczych w adresach URL GET, danych formularzy POST, poleceniach AI i skryptach zakładek."
     },
     "placeholders": {
-        "message": "Placeholders:"
+        "message": "Symbole zastępcze:"
     },
     "encodingRules": {
-        "message": "Encoding by context:"
+        "message": "Kodowanie według kontekstu:"
     },
     "encodingGet": {
-        "message": "URLs: variables are URL-encoded"
+        "message": "Adresy URL: zmienne są kodowane w formacie URL."
     },
     "encodingPost": {
-        "message": "form data: inserted as-is (not URL-encoded)"
+        "message": "dane formularza: wstawiane bez zmian (bez kodowania URL)"
     },
     "encodingAi": {
-        "message": "AI prompts: inserted as-is (not URL-encoded)"
+        "message": "Podpowiedzi AI: wstawione bez zmian (bez kodowania URL)"
     },
     "encodingBookmarklets": {
-        "message": "Bookmarklets: inserted as-is (not URL-encoded)"
+        "message": "Zakładki: wstawiane bez zmian (bez kodowania URL)"
     },
     "legacyAliasesLabel": {
-        "message": "Legacy aliases:"
+        "message": "Starsze aliasy:"
     },
     "legacyAliases": {
-        "message": "are supported and resolve to"
+        "message": "są wspierani i postanawiają"
     },
     "notes": {
-        "message": "Notes:"
+        "message": "Uwagi:"
     },
     "templateVarsNotes": {
-        "message": "{referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you display it."
+        "message": "{referrer} może być pusty w zależności od Referrer-Policy; {selection_html} może być długi; należy go oczyścić przed wyświetleniem."
     },
     "promptLibraryLabel": {
-        "message": "Prompt library"
+        "message": "Biblioteka podpowiedzi"
     },
     "promptLibrarySearchPlaceholder": {
-        "message": "Search prompts..."
+        "message": "Wskazówki dotyczące wyszukiwania..."
     },
     "promptLockedEnterPassword": {
-        "message": "This prompt is locked. Enter password to insert it:"
+        "message": "To pole jest zablokowane. Wprowadź hasło, aby je wstawić:"
     },
     "chooseAIChatbot": {
-        "message": "Choose AI chatbot"
+        "message": "Wybierz chatbota AI"
     },
     "__WET_LOCALE__": {
         "message": "pl"
