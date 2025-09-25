@@ -412,55 +412,55 @@
         "description": "Title of search engines tab in the Options page"
     },
     "headerTemplateVars": {
-        "message": "Template variables"
+        "message": "Şablon değişkenleri"
     },
     "templateVarsSummary": {
-        "message": "Rich variables help"
+        "message": "Zengin değişkenler yardımcı olur"
     },
     "templateVarsIntro": {
-        "message": "Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets."
+        "message": "Bu yer tutucuları GET URL'lerinde, POST form verilerinde, AI komutlarında ve yer imlerinde kullanın."
     },
     "placeholders": {
-        "message": "Placeholders:"
+        "message": "Yer tutucular:"
     },
     "encodingRules": {
-        "message": "Encoding by context:"
+        "message": "Bağlama göre kodlama:"
     },
     "encodingGet": {
-        "message": "URLs: variables are URL-encoded"
+        "message": "URL'ler: değişkenler URL kodlu"
     },
     "encodingPost": {
-        "message": "form data: inserted as-is (not URL-encoded)"
+        "message": "form verileri: olduğu gibi eklenir (URL kodlaması yapılmaz)"
     },
     "encodingAi": {
-        "message": "AI prompts: inserted as-is (not URL-encoded)"
+        "message": "AI komutları: olduğu gibi eklenir (URL kodlaması yapılmaz)"
     },
     "encodingBookmarklets": {
-        "message": "Bookmarklets: inserted as-is (not URL-encoded)"
+        "message": "Yer imleri: olduğu gibi eklenir (URL kodlaması yapılmaz)"
     },
     "legacyAliasesLabel": {
-        "message": "Legacy aliases:"
+        "message": "Eski takma adlar:"
     },
     "legacyAliases": {
-        "message": "are supported and resolve to"
+        "message": "desteklenir ve kararlılıkla"
     },
     "notes": {
-        "message": "Notes:"
+        "message": "Notlar:"
     },
     "templateVarsNotes": {
-        "message": "{referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you display it."
+        "message": "{referrer} Referrer-Policy'ye bağlı olarak boş olabilir; {selection_html} uzun olabilir; görüntülemek istiyorsanız temizleyin."
     },
     "promptLibraryLabel": {
-        "message": "Prompt library"
+        "message": "Hızlı kütüphane"
     },
     "promptLibrarySearchPlaceholder": {
-        "message": "Search prompts..."
+        "message": "Arama komutları..."
     },
     "promptLockedEnterPassword": {
-        "message": "This prompt is locked. Enter password to insert it:"
+        "message": "Bu komut satırı kilitlidir. Eklemek için şifreyi girin:"
     },
     "chooseAIChatbot": {
-        "message": "Choose AI chatbot"
+        "message": "AI sohbet robotunu seçin"
     },
     "__WET_LOCALE__": {
         "message": "tr"
