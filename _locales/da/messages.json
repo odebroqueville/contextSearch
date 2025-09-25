@@ -412,55 +412,55 @@
         "description": "Title of search engines tab in the Options page"
     },
     "headerTemplateVars": {
-        "message": "Template variables"
+        "message": "Skabelonvariabler"
     },
     "templateVarsSummary": {
-        "message": "Rich variables help"
+        "message": "Rige variabler hjælper"
     },
     "templateVarsIntro": {
-        "message": "Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets."
+        "message": "Brug disse pladsholdere i GET-URL'er, POST-formulardata, AI-prompter og bogmærker."
     },
     "placeholders": {
-        "message": "Placeholders:"
+        "message": "Pladsholdere:"
     },
     "encodingRules": {
-        "message": "Encoding by context:"
+        "message": "Kodning efter kontekst:"
     },
     "encodingGet": {
-        "message": "URLs: variables are URL-encoded"
+        "message": "URL'er: variabler er URL-kodede"
     },
     "encodingPost": {
-        "message": "form data: inserted as-is (not URL-encoded)"
+        "message": "formdata: indsat som den er (ikke URL-kodet)"
     },
     "encodingAi": {
-        "message": "AI prompts: inserted as-is (not URL-encoded)"
+        "message": "AI-prompter: indsat som de er (ikke URL-kodet)"
     },
     "encodingBookmarklets": {
-        "message": "Bookmarklets: inserted as-is (not URL-encoded)"
+        "message": "Bookmarklets: indsat som de er (ikke URL-kodet)"
     },
     "legacyAliasesLabel": {
-        "message": "Legacy aliases:"
+        "message": "Ældre aliaser:"
     },
     "legacyAliases": {
-        "message": "are supported and resolve to"
+        "message": "støttes og beslutter at"
     },
     "notes": {
-        "message": "Notes:"
+        "message": "Bemærkninger:"
     },
     "templateVarsNotes": {
-        "message": "{referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you display it."
+        "message": "{referrer} kan være tom afhængigt af Referrer-Policy; {selection_html} kan være lang; rens den, hvis du viser den."
     },
     "promptLibraryLabel": {
-        "message": "Prompt library"
+        "message": "Prompt-bibliotek"
     },
     "promptLibrarySearchPlaceholder": {
-        "message": "Search prompts..."
+        "message": "Søgeforslag..."
     },
     "promptLockedEnterPassword": {
-        "message": "This prompt is locked. Enter password to insert it:"
+        "message": "Denne prompt er låst. Indtast adgangskode for at indsætte den:"
     },
     "chooseAIChatbot": {
-        "message": "Choose AI chatbot"
+        "message": "Vælg AI-chatbot"
     },
     "__WET_LOCALE__": {
         "message": "da"
