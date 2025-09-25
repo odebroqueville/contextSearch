@@ -309,7 +309,7 @@
         "message": "Visa omedelbart rutnätet med ikoner efter att text har markerats"
     },
     "closeGridOnMouseOut": {
-        "message": "Stäng rutnätet med ikoner på musen ut"
+        "message": "Stäng rutnätet med ikoner när muspekaren lämnar området"
     },
     "xOffset": {
         "message": "Horisontell förskjutning av rutnätet med ikoner: "
@@ -410,6 +410,57 @@
     "titleSearchEngines": {
         "message": "Sökmotorer",
         "description": "Title of search engines tab in the Options page"
+    },
+    "headerTemplateVars": {
+        "message": "Template variables"
+    },
+    "templateVarsSummary": {
+        "message": "Rich variables help"
+    },
+    "templateVarsIntro": {
+        "message": "Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets."
+    },
+    "placeholders": {
+        "message": "Placeholders:"
+    },
+    "encodingRules": {
+        "message": "Encoding by context:"
+    },
+    "encodingGet": {
+        "message": "URLs: variables are URL-encoded"
+    },
+    "encodingPost": {
+        "message": "form data: inserted as-is (not URL-encoded)"
+    },
+    "encodingAi": {
+        "message": "AI prompts: inserted as-is (not URL-encoded)"
+    },
+    "encodingBookmarklets": {
+        "message": "Bookmarklets: inserted as-is (not URL-encoded)"
+    },
+    "legacyAliasesLabel": {
+        "message": "Legacy aliases:"
+    },
+    "legacyAliases": {
+        "message": "are supported and resolve to"
+    },
+    "notes": {
+        "message": "Notes:"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you display it."
+    },
+    "promptLibraryLabel": {
+        "message": "Prompt library"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "Search prompts..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "This prompt is locked. Enter password to insert it:"
+    },
+    "chooseAIChatbot": {
+        "message": "Choose AI chatbot"
     },
     "__WET_LOCALE__": {
         "message": "sv"
