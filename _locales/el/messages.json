@@ -309,7 +309,7 @@
         "message": "Άμεση εμφάνιση του πλέγματος εικονιδίων μετά την επιλογή κειμένου"
     },
     "closeGridOnMouseOut": {
-        "message": "Κλείστε το πλέγμα των εικονιδίων στο ποντίκι έξω"
+        "message": "Κλείστε το πλέγμα των εικονιδίων όταν ο δείκτης του ποντικιού βγει από την περιοχή"
     },
     "xOffset": {
         "message": "Οριζόντια μετατόπιση του πλέγματος εικονιδίων: "
@@ -375,7 +375,7 @@
         "message": "Δεν ήταν δυνατή η ανάκτηση της διεύθυνσης URL για την αφαίρεση σελιδοδείκτη"
     },
     "notifyAIMinimalRequirements": {
-        "message": "Επιλέξτε τουλάχιστον έναν πάροχο υπηρεσιών τεχνητής νοημοσύνης και εισαγάγετε ένα όνομα προτροπής τεχνητής νοημοσύνης και μια προτροπή τεχνη"
+        "message": "Επιλέξτε τουλάχιστον έναν πάροχο υπηρεσιών τεχνητής νοημοσύνης και εισαγάγετε ένα όνομα προτροπής τεχνητής νοημοσύνης και μια προτροπή τεχνητής νοημοσύνης"
     },
     "bookmarkPage": {
         "message": "Σελιδοδείκτης Αυτή η σελίδα"
@@ -410,6 +410,57 @@
     "titleSearchEngines": {
         "message": "Μηχανές αναζήτησης",
         "description": "Title of search engines tab in the Options page"
+    },
+    "headerTemplateVars": {
+        "message": "Template variables"
+    },
+    "templateVarsSummary": {
+        "message": "Rich variables help"
+    },
+    "templateVarsIntro": {
+        "message": "Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets."
+    },
+    "placeholders": {
+        "message": "Placeholders:"
+    },
+    "encodingRules": {
+        "message": "Encoding by context:"
+    },
+    "encodingGet": {
+        "message": "URLs: variables are URL-encoded"
+    },
+    "encodingPost": {
+        "message": "form data: inserted as-is (not URL-encoded)"
+    },
+    "encodingAi": {
+        "message": "AI prompts: inserted as-is (not URL-encoded)"
+    },
+    "encodingBookmarklets": {
+        "message": "Bookmarklets: inserted as-is (not URL-encoded)"
+    },
+    "legacyAliasesLabel": {
+        "message": "Legacy aliases:"
+    },
+    "legacyAliases": {
+        "message": "are supported and resolve to"
+    },
+    "notes": {
+        "message": "Notes:"
+    },
+    "templateVarsNotes": {
+        "message": "{referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you display it."
+    },
+    "promptLibraryLabel": {
+        "message": "Prompt library"
+    },
+    "promptLibrarySearchPlaceholder": {
+        "message": "Search prompts..."
+    },
+    "promptLockedEnterPassword": {
+        "message": "This prompt is locked. Enter password to insert it:"
+    },
+    "chooseAIChatbot": {
+        "message": "Choose AI chatbot"
     },
     "__WET_LOCALE__": {
         "message": "el"
