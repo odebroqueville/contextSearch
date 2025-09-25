@@ -412,55 +412,55 @@
         "description": "Title of search engines tab in the Options page"
     },
     "headerTemplateVars": {
-        "message": "Template variables"
+        "message": "模板变量"
     },
     "templateVarsSummary": {
-        "message": "Rich variables help"
+        "message": "丰富的变量有助于"
     },
     "templateVarsIntro": {
-        "message": "Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets."
+        "message": "在GET网址、POST表单数据、AI提示词和书签小工具中使用这些占位符。"
     },
     "placeholders": {
-        "message": "Placeholders:"
+        "message": "占位符："
     },
     "encodingRules": {
-        "message": "Encoding by context:"
+        "message": "基于上下文的编码："
     },
     "encodingGet": {
-        "message": "URLs: variables are URL-encoded"
+        "message": "URL：变量采用URL编码"
     },
     "encodingPost": {
-        "message": "form data: inserted as-is (not URL-encoded)"
+        "message": "表单数据：按原样插入（不进行URL编码）"
     },
     "encodingAi": {
-        "message": "AI prompts: inserted as-is (not URL-encoded)"
+        "message": "AI提示词：按原样插入（未进行URL编码）"
     },
     "encodingBookmarklets": {
-        "message": "Bookmarklets: inserted as-is (not URL-encoded)"
+        "message": "书签小工具：直接插入（不进行URL编码）"
     },
     "legacyAliasesLabel": {
-        "message": "Legacy aliases:"
+        "message": "遗留别名："
     },
     "legacyAliases": {
-        "message": "are supported and resolve to"
+        "message": "得到支持并决心"
     },
     "notes": {
-        "message": "Notes:"
+        "message": "注释："
     },
     "templateVarsNotes": {
-        "message": "{referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you display it."
+        "message": "{referrer} 可能根据Referrer-Policy设置为空； {selection_html} 可能较长；若需显示请进行安全处理。"
     },
     "promptLibraryLabel": {
-        "message": "Prompt library"
+        "message": "提示库"
     },
     "promptLibrarySearchPlaceholder": {
-        "message": "Search prompts..."
+        "message": "搜索提示..."
     },
     "promptLockedEnterPassword": {
-        "message": "This prompt is locked. Enter password to insert it:"
+        "message": "此提示已锁定。请输入密码以插入内容："
     },
     "chooseAIChatbot": {
-        "message": "Choose AI chatbot"
+        "message": "选择人工智能聊天机器人"
     },
     "__WET_LOCALE__": {
         "message": "zh_cn"
