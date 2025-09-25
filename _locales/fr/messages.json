@@ -309,7 +309,7 @@
         "message": "Affichage immédiat de la grille d’icônes après la sélection du texte"
     },
     "closeGridOnMouseOut": {
-        "message": "Fermer la grille d’icônes quand le curseur quitte la zone"
+        "message": "Fermer la grille d’icônes au passage de la souris"
     },
     "xOffset": {
         "message": "Décalage horizontal de la grille d’icônes : "
@@ -410,18 +410,6 @@
     "titleSearchEngines": {
         "message": "Moteurs de recherche",
         "description": "Title of search engines tab in the Options page"
-    },
-    "promptLibraryLabel": {
-        "message": "Bibliothèque d'invites"
-    },
-    "promptLibrarySearchPlaceholder": {
-        "message": "Rechercher des invites..."
-    },
-    "promptLockedEnterPassword": {
-        "message": "Cette invite est verrouillée. Saisissez le mot de passe pour l'insérer :"
-    },
-    "chooseAIChatbot": {
-        "message": "Choisir un chatbot IA"
     },
     "__WET_LOCALE__": {
         "message": "fr"
