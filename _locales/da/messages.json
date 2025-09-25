@@ -309,7 +309,7 @@
         "message": "Vis straks gitteret med ikoner, når teksten er markeret"
     },
     "closeGridOnMouseOut": {
-        "message": "Luk gitteret med ikoner, når musen flyttes væk"
+        "message": "Luk gitteret med ikoner ved mus ud"
     },
     "xOffset": {
         "message": "Vandret forskydning af gitteret af ikoner: "
