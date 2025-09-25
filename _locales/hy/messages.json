@@ -412,55 +412,55 @@
         "description": "Title of search engines tab in the Options page"
     },
     "headerTemplateVars": {
-        "message": "Template variables"
+        "message": "Կաղապարի փոփոխականներ"
     },
     "templateVarsSummary": {
-        "message": "Rich variables help"
+        "message": "Հարուստ փոփոխականները օգնում են"
     },
     "templateVarsIntro": {
-        "message": "Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets."
+        "message": "Օգտագործեք այս տեղապահները GET URL-ներում, POST ձեւի տվյալներում, AI հուշումներում եւ էջանիշերում:"
     },
     "placeholders": {
-        "message": "Placeholders:"
+        "message": "Տեղակայիչներ."
     },
     "encodingRules": {
-        "message": "Encoding by context:"
+        "message": "Կոդավորում ըստ համատեքստի."
     },
     "encodingGet": {
-        "message": "URLs: variables are URL-encoded"
+        "message": "URLs: փոփոխականները կոդավորված են URL-ով"
     },
     "encodingPost": {
-        "message": "form data: inserted as-is (not URL-encoded)"
+        "message": "Տեղադրված է այնպես, ինչպես կա (ոչ URL-կոդավորված)"
     },
     "encodingAi": {
-        "message": "AI prompts: inserted as-is (not URL-encoded)"
+        "message": "AI հուշումներ. տեղադրված է այնպես, ինչպես կա (ոչ URL-կոդավորված)"
     },
     "encodingBookmarklets": {
-        "message": "Bookmarklets: inserted as-is (not URL-encoded)"
+        "message": "Էջանիշեր. տեղադրված է այնպես, ինչպես կա (ոչ URL-կոդավորված)"
     },
     "legacyAliasesLabel": {
-        "message": "Legacy aliases:"
+        "message": "Ժառանգական անուններ."
     },
     "legacyAliases": {
-        "message": "are supported and resolve to"
+        "message": "աջակցվում են եւ վճռում են"
     },
     "notes": {
-        "message": "Notes:"
+        "message": "Նշումներ."
     },
     "templateVarsNotes": {
-        "message": "{referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you display it."
+        "message": "{referrer} կարող է դատարկ լինել՝ կախված Referrer-Policy-ից; {selection_html} կարող է երկար լինել; Ախտահանեք, եթե ցուցադրեք այն:"
     },
     "promptLibraryLabel": {
-        "message": "Prompt library"
+        "message": "Շտապ գրադարան"
     },
     "promptLibrarySearchPlaceholder": {
-        "message": "Search prompts..."
+        "message": "Որոնման հուշումներ..."
     },
     "promptLockedEnterPassword": {
-        "message": "This prompt is locked. Enter password to insert it:"
+        "message": "Այս հուշումը կողպված է: Մուտքագրեք գաղտնաբառը՝ այն տեղադրելու համար."
     },
     "chooseAIChatbot": {
-        "message": "Choose AI chatbot"
+        "message": "Ընտրեք AI չաթբոտ"
     },
     "__WET_LOCALE__": {
         "message": "hy"
