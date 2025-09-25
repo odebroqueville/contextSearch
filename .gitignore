@@ -4,7 +4,6 @@
 *.zip
 Bookmark_Functionality.md
 build/
-crowdin.yml
 libs/
 node_modules/
 TRADEMARK_POLICY.md
