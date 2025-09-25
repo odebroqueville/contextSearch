@@ -91,6 +91,25 @@ p {
     display: none;
 }
 
+/* Search input for PromptCat in popup */
+#promptcat-search {
+    display: none; /* hidden until AI engine is detected */
+    margin: 6px 8px 0 8px;
+    width: calc(100% - 16px);
+    box-sizing: border-box;
+    padding: 6px 10px;
+    font-size: 12px;
+    color: #ddd;
+    background-color: #2b2b2b;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    outline: none;
+}
+/* Placeholder color */
+#promptcat-search::placeholder {
+    color: #aaa;
+}
+
 /* Tag pills */
 #tags {
     margin: 6px 8px 0 8px;

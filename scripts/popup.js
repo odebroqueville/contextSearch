@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const outputArea = document.getElementById('outputArea');
     const tagsContainer = document.getElementById('tags');
     const promptsContainer = document.getElementById('prompts');
+    const searchInput = document.getElementById('promptcat-search');
     let tagStyled = false;
 
     // Catalog state (from PromptCatDB)
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         prompts: [], // [{ id, title, body, tags, folderId, isLocked }]
         tags: [], // [string]
         activeTag: null, // null => all
+        query: '',
     };
 
     // Minimal IndexedDB access to read PromptCat data without loading promptcat.js UI
@@ -160,9 +162,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         clearContainer(promptsContainer);
         const list = document.createElement('div');
         list.className = 'prompt-button-list';
-        const filtered = catalogState.activeTag
+        let filtered = catalogState.activeTag
             ? catalogState.prompts.filter((p) => (p.tags || []).includes(catalogState.activeTag))
             : catalogState.prompts;
+        const q = (catalogState.query || '').trim().toLowerCase();
+        if (q) filtered = filtered.filter((p) => String(p.title || '').toLowerCase().includes(q));
         // Simple sort by title for consistency
         filtered
             .slice()
@@ -215,6 +219,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     function showCatalogUI(visible) {
         tagsContainer.style.display = visible ? 'flex' : 'none';
         promptsContainer.style.display = visible ? 'block' : 'none';
+        if (searchInput) searchInput.style.display = visible ? 'block' : 'none';
         if (visible) {
             void loadPromptCatalogOnce();
         }
@@ -254,6 +259,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         const show = hasEngine && new RegExp(`^\\s*${first}\\s`).test(raw);
         showCatalogUI(show);
     });
+
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            catalogState.query = searchInput.value || '';
+            renderPromptButtons();
+        });
+    }
 
     // Clicking on the tags container (but not a specific tag) clears selection
     tagsContainer.addEventListener('click', (e) => {

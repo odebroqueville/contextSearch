@@ -323,7 +323,7 @@ textarea#prompt {
 /* ===== Prompt library (PromptCat) ===== */
 .promptcat-section {
     display: none; /* hidden until AI provider selected */
-    margin: 14px 23px 6px 23px;
+    margin: 14px 50px 6px 23px;
     background: rgba(255, 255, 255, 0.6);
     border: 1px solid #cbd5e1;
     border-radius: 10px;
