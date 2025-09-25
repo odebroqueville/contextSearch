@@ -99,7 +99,7 @@
         "message": "Einstellungen speichern"
     },
     "header6": {
-        "message": "Welche Suchmaschinen möchten Sie im Kontextmenü oder im Icon-Raster sehen?"
+        "message": "Welche Suchmaschinen möchten Sie im Kontextmenü oder in der Symboltabelle sehen?"
     },
     "clearAll": {
         "message": "Alle löschen"
@@ -123,7 +123,7 @@
         "message": "Eine neue Suchmaschine hinzufügen"
     },
     "showSearchEngine": {
-        "message": "Suchmaschine im Kontextmenü oder im Icon-Raster anzeigen"
+        "message": "Suchmaschine im Kontextmenü oder in der Symbolleiste anzeigen"
     },
     "searchEngineName": {
         "message": "Name der Suchmaschine"
@@ -309,7 +309,7 @@
         "message": "Zeigen Sie sofort das Raster der Symbole an, nachdem Text ausgewählt wurde"
     },
     "closeGridOnMouseOut": {
-        "message": "Schließen Sie das Raster der Symbole, wenn der Mauszeiger den Bereich verlässt"
+        "message": "Schließen Sie das Raster der Symbole, wenn Sie die Maus herausnehmen"
     },
     "xOffset": {
         "message": "Horizontaler Versatz des Rasters der Symbole: "
@@ -333,7 +333,7 @@
         "message": "AI-Eingabeaufforderung hinzufügen"
     },
     "promptShow": {
-        "message": "AI-Eingabeaufforderung im Kontextmenü oder im Icon-Raster anzeigen"
+        "message": "AI-Eingabeaufforderung im Kontextmenü oder in der Symbolleiste anzeigen"
     },
     "promptName": {
         "message": "Name der KI-Eingabeaufforderung"
