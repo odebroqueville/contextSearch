@@ -412,55 +412,55 @@
         "description": "Title of search engines tab in the Options page"
     },
     "headerTemplateVars": {
-        "message": "Template variables"
+        "message": "متغیرهای الگو"
     },
     "templateVarsSummary": {
-        "message": "Rich variables help"
+        "message": "متغیرهای غنی کمک می کنند"
     },
     "templateVarsIntro": {
-        "message": "Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets."
+        "message": "از این متغیرها در URL های GET، داده های فرم POST، prompt های هوش مصنوعی و نشانک ها استفاده کنید."
     },
     "placeholders": {
-        "message": "Placeholders:"
+        "message": "متغیرها:"
     },
     "encodingRules": {
-        "message": "Encoding by context:"
+        "message": "رمزگذاری بر اساس زمینه:"
     },
     "encodingGet": {
-        "message": "URLs: variables are URL-encoded"
+        "message": "URL ها: متغیرها با URL کدگذاری شده اند"
     },
     "encodingPost": {
-        "message": "form data: inserted as-is (not URL-encoded)"
+        "message": "داده های فرم: درج شده همانطور که هست (بدون کدگذاری URL)"
     },
     "encodingAi": {
-        "message": "AI prompts: inserted as-is (not URL-encoded)"
+        "message": "دستورات هوش مصنوعی: همانطور که هست درج شده است (بدون کدگذاری URL)"
     },
     "encodingBookmarklets": {
-        "message": "Bookmarklets: inserted as-is (not URL-encoded)"
+        "message": "نشانک ها: همانطور که هست درج شده است (بدون کدگذاری URL)"
     },
     "legacyAliasesLabel": {
-        "message": "Legacy aliases:"
+        "message": "نام مستعار قدیمی:"
     },
     "legacyAliases": {
-        "message": "are supported and resolve to"
+        "message": "پشتیبانی می شوند و تصمیم می گیرند"
     },
     "notes": {
-        "message": "Notes:"
+        "message": "یادداشت:"
     },
     "templateVarsNotes": {
-        "message": "{referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you display it."
+        "message": "{referrer} ممکن است بسته به خط مشی ارجاع دهنده خالی باشد. {selection_html} می تواند طولانی باشد. اگر آن را نمایش می دهید ضدعفونی کنید."
     },
     "promptLibraryLabel": {
-        "message": "Prompt library"
+        "message": "کتابخانه سریع"
     },
     "promptLibrarySearchPlaceholder": {
-        "message": "Search prompts..."
+        "message": "درخواست های جستجو..."
     },
     "promptLockedEnterPassword": {
-        "message": "This prompt is locked. Enter password to insert it:"
+        "message": "این اعلان قفل شده است. رمز عبور را برای درج آن وارد کنید:"
     },
     "chooseAIChatbot": {
-        "message": "Choose AI chatbot"
+        "message": "چت بات هوش مصنوعی را انتخاب کنید"
     },
     "__WET_LOCALE__": {
         "message": "fa"
