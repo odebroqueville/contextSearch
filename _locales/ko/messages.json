@@ -309,7 +309,7 @@
         "message": "텍스트를 선택한 후 아이콘 격자 즉시 표시"
     },
     "closeGridOnMouseOut": {
-        "message": "마우스가 영역을 벗어날 때 아이콘 그리드 닫기"
+        "message": "마우스를 빼면 아이콘 그리드 닫기"
     },
     "xOffset": {
         "message": "아이콘 격자의 수평 오프셋: "
