@@ -412,55 +412,55 @@
         "description": "Title of search engines tab in the Options page"
     },
     "headerTemplateVars": {
-        "message": "Template variables"
+        "message": "Sjabloonvariabelen"
     },
     "templateVarsSummary": {
-        "message": "Rich variables help"
+        "message": "Rijke variabelen helpen"
     },
     "templateVarsIntro": {
-        "message": "Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets."
+        "message": "Gebruik deze tijdelijke aanduidingen in GET-URL's, POST-formuliergegevens, AI-prompts en bookmarklets."
     },
     "placeholders": {
-        "message": "Placeholders:"
+        "message": "Plaatshouders:"
     },
     "encodingRules": {
-        "message": "Encoding by context:"
+        "message": "Codering op basis van context:"
     },
     "encodingGet": {
-        "message": "URLs: variables are URL-encoded"
+        "message": "URL's: variabelen zijn URL-gecodeerd"
     },
     "encodingPost": {
-        "message": "form data: inserted as-is (not URL-encoded)"
+        "message": "formuliergegevens: ingevoegd zoals ze zijn (niet URL-gecodeerd)"
     },
     "encodingAi": {
-        "message": "AI prompts: inserted as-is (not URL-encoded)"
+        "message": "AI-prompts: ingevoegd zoals ze zijn (niet URL-gecodeerd)"
     },
     "encodingBookmarklets": {
-        "message": "Bookmarklets: inserted as-is (not URL-encoded)"
+        "message": "Bookmarklets: ingevoegd zoals ze zijn (niet URL-gecodeerd)"
     },
     "legacyAliasesLabel": {
-        "message": "Legacy aliases:"
+        "message": "Oude aliassen:"
     },
     "legacyAliases": {
-        "message": "are supported and resolve to"
+        "message": "worden ondersteund en besluiten om"
     },
     "notes": {
-        "message": "Notes:"
+        "message": "Opmerkingen:"
     },
     "templateVarsNotes": {
-        "message": "{referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you display it."
+        "message": "{referrer} kan leeg zijn, afhankelijk van Referrer-Policy; {selection_html} kan lang zijn; zuiver het als u het weergeeft."
     },
     "promptLibraryLabel": {
-        "message": "Prompt library"
+        "message": "Promptbibliotheek"
     },
     "promptLibrarySearchPlaceholder": {
-        "message": "Search prompts..."
+        "message": "Zoekopdrachten..."
     },
     "promptLockedEnterPassword": {
-        "message": "This prompt is locked. Enter password to insert it:"
+        "message": "Deze prompt is vergrendeld. Voer het wachtwoord in om het in te voegen:"
     },
     "chooseAIChatbot": {
-        "message": "Choose AI chatbot"
+        "message": "Kies AI-chatbot"
     },
     "__WET_LOCALE__": {
         "message": "nl"
