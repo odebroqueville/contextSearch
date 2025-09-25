@@ -412,55 +412,55 @@
         "description": "Title of search engines tab in the Options page"
     },
     "headerTemplateVars": {
-        "message": "Template variables"
+        "message": "Mal variabler"
     },
     "templateVarsSummary": {
-        "message": "Rich variables help"
+        "message": "Hjelp med rike variabler"
     },
     "templateVarsIntro": {
-        "message": "Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets."
+        "message": "Bruk disse plassholderne i GET-URL-adresser, POST-skjemadata, AI-ledetekster og bokmerker."
     },
     "placeholders": {
-        "message": "Placeholders:"
+        "message": "Plassholdere:"
     },
     "encodingRules": {
-        "message": "Encoding by context:"
+        "message": "Koding etter kontekst:"
     },
     "encodingGet": {
-        "message": "URLs: variables are URL-encoded"
+        "message": "URL-er: Variabler er URL-kodede"
     },
     "encodingPost": {
-        "message": "form data: inserted as-is (not URL-encoded)"
+        "message": "skjemadata: satt inn som de er (ikke URL-kodet)"
     },
     "encodingAi": {
-        "message": "AI prompts: inserted as-is (not URL-encoded)"
+        "message": "AI-meldinger: satt inn som de er (ikke URL-kodet)"
     },
     "encodingBookmarklets": {
-        "message": "Bookmarklets: inserted as-is (not URL-encoded)"
+        "message": "Bokmerker: satt inn som de er (ikke URL-kodet)"
     },
     "legacyAliasesLabel": {
-        "message": "Legacy aliases:"
+        "message": "Eldre aliaser:"
     },
     "legacyAliases": {
-        "message": "are supported and resolve to"
+        "message": "støttes og løser for å"
     },
     "notes": {
-        "message": "Notes:"
+        "message": "Notater:"
     },
     "templateVarsNotes": {
-        "message": "{referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you display it."
+        "message": "{referrer} kan være tom avhengig av henvisningspolicy; {selection_html} kan være lange; Rens hvis du viser det."
     },
     "promptLibraryLabel": {
-        "message": "Prompt library"
+        "message": "Spør bibliotek"
     },
     "promptLibrarySearchPlaceholder": {
-        "message": "Search prompts..."
+        "message": "Søk meldinger..."
     },
     "promptLockedEnterPassword": {
-        "message": "This prompt is locked. Enter password to insert it:"
+        "message": "Denne meldingen er låst. Skriv inn passord for å sette det inn:"
     },
     "chooseAIChatbot": {
-        "message": "Choose AI chatbot"
+        "message": "Velg AI-chatrobot"
     },
     "__WET_LOCALE__": {
         "message": "no"
