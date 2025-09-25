@@ -412,55 +412,55 @@
         "description": "Title of search engines tab in the Options page"
     },
     "headerTemplateVars": {
-        "message": "Template variables"
+        "message": "Μεταβλητές προτύπου"
     },
     "templateVarsSummary": {
-        "message": "Rich variables help"
+        "message": "Βοήθεια για πλούσιες μεταβλητές"
     },
     "templateVarsIntro": {
-        "message": "Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets."
+        "message": "Χρησιμοποιήστε αυτά τα σύμβολα κράτησης θέσης σε URL GET, δεδομένα φόρμας POST, προτροπές AI και σελιδοδείκτες."
     },
     "placeholders": {
-        "message": "Placeholders:"
+        "message": "Κενές θέσεις:"
     },
     "encodingRules": {
-        "message": "Encoding by context:"
+        "message": "Κωδικοποίηση ανά πλαίσιο:"
     },
     "encodingGet": {
-        "message": "URLs: variables are URL-encoded"
+        "message": "URL: οι μεταβλητές είναι κωδικοποιημένες με URL"
     },
     "encodingPost": {
-        "message": "form data: inserted as-is (not URL-encoded)"
+        "message": "δεδομένα φόρμας: εισάγονται ως έχουν (χωρίς κωδικοποίηση URL)"
     },
     "encodingAi": {
-        "message": "AI prompts: inserted as-is (not URL-encoded)"
+        "message": "Προτροπές AI: εισάγονται ως έχουν (χωρίς κωδικοποίηση URL)"
     },
     "encodingBookmarklets": {
-        "message": "Bookmarklets: inserted as-is (not URL-encoded)"
+        "message": "Bookmarklets: εισάγονται ως έχουν (χωρίς κωδικοποίηση URL)"
     },
     "legacyAliasesLabel": {
-        "message": "Legacy aliases:"
+        "message": "Παλαιά ψευδώνυμα:"
     },
     "legacyAliases": {
-        "message": "are supported and resolve to"
+        "message": "υποστηρίζονται και αποφασίζουν να"
     },
     "notes": {
-        "message": "Notes:"
+        "message": "Σημειώσεις:"
     },
     "templateVarsNotes": {
-        "message": "{referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you display it."
+        "message": "{referrer} μπορεί να είναι κενό ανάλογα με την πολιτική παραπομπής (Referrer-Policy). {selection_html} μπορεί να είναι μακρύ. Καθαρίστε το αν το εμφανίσετε."
     },
     "promptLibraryLabel": {
-        "message": "Prompt library"
+        "message": "Βιβλιοθήκη προτροπών"
     },
     "promptLibrarySearchPlaceholder": {
-        "message": "Search prompts..."
+        "message": "Προτροπές αναζήτησης..."
     },
     "promptLockedEnterPassword": {
-        "message": "This prompt is locked. Enter password to insert it:"
+        "message": "Αυτή η προτροπή είναι κλειδωμένη. Εισάγετε τον κωδικό πρόσβασης για να την εισαγάγετε:"
     },
     "chooseAIChatbot": {
-        "message": "Choose AI chatbot"
+        "message": "Επιλέξτε AI chatbot"
     },
     "__WET_LOCALE__": {
         "message": "el"
