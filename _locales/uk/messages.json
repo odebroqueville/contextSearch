@@ -412,55 +412,55 @@
         "description": "Title of search engines tab in the Options page"
     },
     "headerTemplateVars": {
-        "message": "Template variables"
+        "message": "Змінні шаблону"
     },
     "templateVarsSummary": {
-        "message": "Rich variables help"
+        "message": "Допомога з багатими змінними"
     },
     "templateVarsIntro": {
-        "message": "Use these placeholders in GET URLs, POST form data, AI prompts, and bookmarklets."
+        "message": "Використовуйте ці заповнювачі в GET-URL, даних POST-форм, підказках AI та закладках."
     },
     "placeholders": {
-        "message": "Placeholders:"
+        "message": "Заповнювачі:"
     },
     "encodingRules": {
-        "message": "Encoding by context:"
+        "message": "Кодування за контекстом:"
     },
     "encodingGet": {
-        "message": "URLs: variables are URL-encoded"
+        "message": "URL-адреси: змінні кодуються за допомогою URL-кодування"
     },
     "encodingPost": {
-        "message": "form data: inserted as-is (not URL-encoded)"
+        "message": "дані форми: вставлені без змін (без URL-кодування)"
     },
     "encodingAi": {
-        "message": "AI prompts: inserted as-is (not URL-encoded)"
+        "message": "Підказки AI: вставлені без змін (без URL-кодування)"
     },
     "encodingBookmarklets": {
-        "message": "Bookmarklets: inserted as-is (not URL-encoded)"
+        "message": "Закладки: вставляються без змін (без URL-кодування)"
     },
     "legacyAliasesLabel": {
-        "message": "Legacy aliases:"
+        "message": "Старі псевдоніми:"
     },
     "legacyAliases": {
-        "message": "are supported and resolve to"
+        "message": "підтримуються і вирішують"
     },
     "notes": {
-        "message": "Notes:"
+        "message": "Примітки:"
     },
     "templateVarsNotes": {
-        "message": "{referrer} may be empty depending on Referrer-Policy; {selection_html} can be long; sanitize if you display it."
+        "message": "{referrer} може бути порожнім залежно від Referrer-Policy; {selection_html} може бути довгим; очистіть його, якщо ви його відображаєте."
     },
     "promptLibraryLabel": {
-        "message": "Prompt library"
+        "message": "Бібліотека підказок"
     },
     "promptLibrarySearchPlaceholder": {
-        "message": "Search prompts..."
+        "message": "Підказки для пошуку..."
     },
     "promptLockedEnterPassword": {
-        "message": "This prompt is locked. Enter password to insert it:"
+        "message": "Ця підказка заблокована. Введіть пароль, щоб вставити її:"
     },
     "chooseAIChatbot": {
-        "message": "Choose AI chatbot"
+        "message": "Виберіть чат-бот з штучним інтелектом"
     },
     "__WET_LOCALE__": {
         "message": "uk"
