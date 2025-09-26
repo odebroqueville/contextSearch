@@ -32,7 +32,7 @@
         "scripts": ["cs_service_worker.js"],
         "type": "module"
     },
-    "permissions": ["alarms", "contextMenus", "declarativeNetRequestWithHostAccess", "menus", "scripting", "storage", "search", "tabs"],
+    "permissions": ["alarms", "contextMenus", "declarativeNetRequestWithHostAccess", "menus", "scripting", "storage", "search", "tabs", "tabGroups"],
     "optional_permissions": ["bookmarks", "clipboardWrite", "downloads", "history", "notifications"],
     "host_permissions": ["<all_urls>"],
     "omnibox": {

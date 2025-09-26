@@ -50,6 +50,7 @@ div#multiMode {
     max-width: 320px;
     background-color: lightgray;
     color: darkslategray;
+    margin-bottom: 10px;
 }
 
 .icon {
@@ -95,10 +96,6 @@ input[type='number'] {
 
 div#searchEngines {
     margin-left: 0;
-}
-
-div#tabMode {
-    margin-bottom: 10px;
 }
 
 #searchEngines div {

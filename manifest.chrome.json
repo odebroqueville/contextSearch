@@ -29,6 +29,7 @@
         "sidePanel",
         "storage",
         "tabs",
+        "tabGroups",
         "bookmarks",
         "clipboardWrite",
         "downloads",

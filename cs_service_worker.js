@@ -2172,11 +2172,14 @@ async function processSearch(info, tab) {
 
 async function processMultisearch(arraySearchEngineUrls, folderId, tabPosition) {
     let windowInfo = await browser.windows.getCurrent();
+    let folderName = '';
     let multisearchArray = [];
     let nonUrlArray = [];
     let postArray = [];
     let aiArray = [];
     let urlArray = [];
+    if (folderId !== 'root') folderName = (searchEngines[folderId] && searchEngines[folderId].name) || 'Multi-search';
+    let groupStartIndex = null; // Used when grouping in the current window
 
     // Helper function to log array contents
     const logArrayContents = (label, array) => {
@@ -2256,9 +2259,11 @@ async function processMultisearch(arraySearchEngineUrls, folderId, tabPosition) 
             incognito: options.multiPrivateMode,
             ...(firstUrl ? { url: firstUrl } : {}),
         };
-
         if (firstUrl) {
             windowInfo = await browser.windows.create(windowCreateData);
+        } else {
+            // Create an empty window, we'll add tabs into it
+            windowInfo = await browser.windows.create({ focused: options.tabActive, incognito: options.multiPrivateMode });
         }
 
         const remainingUrls = urlArray.slice(1);
@@ -2280,6 +2285,8 @@ async function processMultisearch(arraySearchEngineUrls, folderId, tabPosition) 
         const activeTabs = await browser.tabs.query({ active: true, currentWindow: true });
         const activeTab = activeTabs[0];
         if (logToConsole) console.log(tabs);
+        // Capture the starting index where new tabs will be inserted, to group them later
+        groupStartIndex = options.multiMode === 'multiAfterLastTab' ? tabs.length : activeTab.index + 1;
         if (options.multiMode === 'multiAfterLastTab') {
             // After the last tab
             tabPosition = tabs.length;
@@ -2298,6 +2305,23 @@ async function processMultisearch(arraySearchEngineUrls, folderId, tabPosition) 
     if (nonUrlArray.length > 0) {
         if (logToConsole) console.log(`Opening HTTP POST requests & AI search results in window ${windowInfo.id} at tab position ${tabPosition}`);
         await processNonUrlArray(nonUrlArray, tabPosition, windowInfo.id);
+    }
+
+    // Group tabs into a named tab group where supported
+    try {
+        if (options.multiMode === 'multiNewWindow') {
+            // Group all tabs in the newly created window
+            await groupAllTabsInWindow(windowInfo.id, folderName);
+        } else {
+            const activeTabs = await browser.tabs.query({ active: true, currentWindow: true });
+            const currentWindowId = activeTabs[0]?.windowId || (await browser.windows.getCurrent())?.id;
+            const totalToGroup = urlArray.length + nonUrlArray.length;
+            if (totalToGroup > 0 && groupStartIndex !== null && currentWindowId) {
+                await groupTabsByIndices(currentWindowId, groupStartIndex, totalToGroup, folderName);
+            }
+        }
+    } catch (e) {
+        if (logToConsole) console.warn('Tab grouping failed or is not supported:', e);
     }
 }
 
@@ -2321,6 +2345,88 @@ async function openTabsForUrls(urls, tabPosition, windowId) {
             console.error(`Error opening tab for URL ${url}:`, error);
         }
     }
+}
+
+// ---- Tab Grouping Helpers ----
+async function groupAllTabsInWindow(windowId, title) {
+    // Check API support
+    if (typeof browser?.tabs?.group !== 'function') return;
+    const tabs = await browser.tabs.query({ windowId });
+    const tabIds = tabs.map((t) => t.id).filter((id) => typeof id === 'number');
+    if (tabIds.length === 0) return;
+    const groupId = await browser.tabs.group({ tabIds, createProperties: { windowId } });
+    await setGroupTitle(groupId, title);
+}
+
+async function groupTabsByIndices(windowId, startIndex, count, title) {
+    if (typeof browser?.tabs?.group !== 'function') return;
+    const end = startIndex + count;
+    const tabs = await browser.tabs.query({ windowId });
+    const tabIds = tabs
+        .filter((t) => typeof t.index === 'number' && t.index >= startIndex && t.index < end)
+        .map((t) => t.id)
+        .filter((id) => typeof id === 'number');
+    if (tabIds.length === 0) return;
+    const groupId = await browser.tabs.group({ tabIds, createProperties: { windowId } });
+    await setGroupTitle(groupId, title);
+}
+
+async function setGroupTitle(groupId, title) {
+    const safeTitle = String(title || '').trim() || 'Multi-search';
+    const color = chooseGroupColor(safeTitle);
+
+    // Helper to verify if title is set (where supported)
+    const isTitleApplied = async () => {
+        try {
+            if (typeof (browser?.tabGroups?.get) === 'function') {
+                const group = await browser.tabGroups.get(groupId);
+                return (group?.title || '').trim().length > 0;
+            }
+        } catch (_) {
+            // Ignore
+        }
+        return false;
+    };
+
+    if (logToConsole) console.log(typeof (browser?.tabGroups?.update) === 'function');
+
+    // Try browser.tabGroups.update first (WebExtensions/polyfill path), with color to make it visible
+    if (typeof (browser?.tabGroups?.update) === 'function') {
+        for (let attempt = 0; attempt < 3; attempt++) {
+            try {
+                if (logToConsole) console.log(`Setting tab group title to "${safeTitle}" with color "${color}" (attempt ${attempt + 1})`);
+                await browser.tabGroups.update(groupId, { title: safeTitle, color });
+                if (await isTitleApplied()) return;
+            } catch (e) {
+                if (logToConsole) console.warn('browser.tabGroups.update failed:', e);
+            }
+            // Short delay before retrying
+            await new Promise((r) => setTimeout(r, 200));
+        }
+    }
+
+    // Fallback to chrome.tabGroups.update (callback-style)
+    if (globalThis.chrome?.tabGroups?.update && typeof globalThis.chrome.tabGroups.update === 'function') {
+        await new Promise((resolve) => {
+            try {
+                globalThis.chrome.tabGroups.update(groupId, { title: safeTitle, color }, () => resolve());
+            } catch (_) {
+                resolve();
+            }
+        });
+    }
+}
+
+function chooseGroupColor(name) {
+    const colors = ['grey', 'blue', 'red', 'yellow', 'green', 'pink', 'purple', 'cyan', 'orange'];
+    // Simple hash to pick a stable color based on name
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+        hash = (hash << 5) - hash + name.charCodeAt(i);
+        hash |= 0;
+    }
+    const idx = Math.abs(hash) % colors.length;
+    return colors[idx];
 }
 
 async function processNonUrlArray(nonUrlArray, tabPosition, windowId) {
