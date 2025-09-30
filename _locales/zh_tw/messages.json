@@ -463,7 +463,7 @@
         "message": "選擇人工智慧聊天機器人"
     },
     "addToPromptLibrary": {
-        "message": "Add to prompt library"
+        "message": "新增至提示詞庫"
     },
     "__WET_LOCALE__": {
         "message": "zh_tw"
