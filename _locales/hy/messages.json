@@ -462,6 +462,9 @@
     "chooseAIChatbot": {
         "message": "Ընտրեք AI չաթբոտ"
     },
+    "addToPromptLibrary": {
+        "message": "Ավելացնել հուշման գրադարանին"
+    },
     "__WET_LOCALE__": {
         "message": "hy"
     }

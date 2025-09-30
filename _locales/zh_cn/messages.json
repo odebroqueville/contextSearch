@@ -462,6 +462,9 @@
     "chooseAIChatbot": {
         "message": "选择人工智能聊天机器人"
     },
+    "addToPromptLibrary": {
+        "message": "添加到提示库"
+    },
     "__WET_LOCALE__": {
         "message": "zh_cn"
     }

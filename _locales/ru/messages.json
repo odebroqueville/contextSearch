@@ -462,6 +462,9 @@
     "chooseAIChatbot": {
         "message": "Выберите чат-бота с искусственным интеллектом"
     },
+    "addToPromptLibrary": {
+        "message": "Добавить в библиотеку подсказок"
+    },
     "__WET_LOCALE__": {
         "message": "ru"
     }

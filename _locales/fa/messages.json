@@ -462,6 +462,9 @@
     "chooseAIChatbot": {
         "message": "چت بات هوش مصنوعی را انتخاب کنید"
     },
+    "addToPromptLibrary": {
+        "message": "افزودن به کتابخانه اعلان"
+    },
     "__WET_LOCALE__": {
         "message": "fa"
     }

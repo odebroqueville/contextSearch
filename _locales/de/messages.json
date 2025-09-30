@@ -462,6 +462,9 @@
     "chooseAIChatbot": {
         "message": "Wählen Sie einen KI-Chatbot"
     },
+    "addToPromptLibrary": {
+        "message": "Zur Eingabeaufforderungsbibliothek hinzufügen"
+    },
     "__WET_LOCALE__": {
         "message": "de"
     }

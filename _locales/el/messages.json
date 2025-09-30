@@ -462,6 +462,9 @@
     "chooseAIChatbot": {
         "message": "Επιλέξτε AI chatbot"
     },
+    "addToPromptLibrary": {
+        "message": "Προσθήκη στη βιβλιοθήκη προτροπών"
+    },
     "__WET_LOCALE__": {
         "message": "el"
     }

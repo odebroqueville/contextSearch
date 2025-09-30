@@ -462,6 +462,9 @@
     "chooseAIChatbot": {
         "message": "AI sohbet robotunu seçin"
     },
+    "addToPromptLibrary": {
+        "message": "Komut istemine ekle"
+    },
     "__WET_LOCALE__": {
         "message": "tr"
     }

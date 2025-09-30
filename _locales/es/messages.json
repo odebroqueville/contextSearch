@@ -462,6 +462,9 @@
     "chooseAIChatbot": {
         "message": "Elige un chatbot con IA"
     },
+    "addToPromptLibrary": {
+        "message": "Añadir a la biblioteca de mensajes"
+    },
     "__WET_LOCALE__": {
         "message": "es"
     }
