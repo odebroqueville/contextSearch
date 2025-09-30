@@ -1,0 +1,50 @@
+{
+  "prompts": [
+    {
+      "id": 1758448534410,
+      "dateCreated": 1758448534410,
+      "isFavorite": false,
+      "isLocked": false,
+      "body": "Explain {selection} for a high school student",
+      "notes": "A very short but powerful prompt to explain selected text",
+      "title": "Explain to a high school student",
+      "folderId": null,
+      "tags": [
+        "comprehension"
+      ],
+      "dateModified": 1758615868067,
+      "_matchContextText": ""
+    },
+    {
+      "id": 1758450402970,
+      "dateCreated": 1758450402970,
+      "isFavorite": false,
+      "isLocked": false,
+      "body": "Hi ChatGPT, I would like you to assist me in creating a few #type_of_meal recipe options with the ingredients I have available. Please provide me with 3-5 total options. The initial options should not include the recipes themselves - only the recipe title, total cook time, and difficulty level. They should also be numbered You will then ask what option number I would like to begin with, and your next step is to then provide me with all the ingredients with measurements, the step-by-step process to cook the meal, and any helpful tips to make the meal more flavorful OR improve my ability for success. The ingredients I have available are: #ingredients",
+      "notes": "Specify the following items before submitting the prompt:\n#type_of_meal (breakfast, lunch, dinner) \n#ingredients (fruits, vegetables, etc.)",
+      "title": "Meal suggestion given ingredients",
+      "folderId": null,
+      "tags": [
+        "food"
+      ],
+      "dateModified": 1758907022317,
+      "_matchContextText": ""
+    },
+    {
+      "id": 1758615585575,
+      "dateCreated": 1758615585575,
+      "isFavorite": false,
+      "isLocked": false,
+      "body": "Hi ChatGPT, I would like you to assist me in creating a comprehensive course plan to learn a new subject. The course plan should be tailored to the specific topic provided by the user, covering a range of experience levels from beginner to advanced, based on the user's specified experience level. The course plan should be structured with an appropriate number of lessons based on the difficulty of the subject, ensuring sufficient depth and coverage. Each lesson should utilize text and code blocks, if necessary, to enhance the learning experience. Please generate a course plan that includes the following elements: Course Title and Brief Description: Provide an engaging title for the course and a concise description that outlines the subject matter and the goals of the course. Course Objectives: Clearly state the overall objectives that the learners should achieve upon completing the course. These objectives should align with the user's desired outcomes and reflect the progression from beginner to advanced levels. Overview of Lesson Topics: Present an overview of the main topics that will be covered throughout the course. Ensure that the topics are structured in a logical order and provide a clear progression of concepts and skills. Please provide a full course plan based on #your_topic with an experience level of: #your_experience_level. Ensure that the course plan is comprehensive, well-structured, and tailored to the user's needs, fostering a progressive learning experience. After generating the full response, please ask the user, \"Where would you like to begin?\" The user will instruct you which lesson they'd like to learn first, and you are to provide them with the content for that lesson - as if you, ChatGPT, are a private tutor of a student, the user.",
+      "notes": "Specify #your_topic and #your_experience_level before submitting the above prompt",
+      "title": "Create course plan",
+      "folderId": null,
+      "tags": [
+        "learn"
+      ],
+      "dateModified": 1758615585575
+    }
+  ],
+  "folders": [],
+  "globalTags": []
+}

@@ -15,13 +15,15 @@ Firefox and Chrome cross-browser extension to search selected text in a web page
 -   Reverse-image search using Google, Google Lens or TinEye
 -   Site search
 -   Carry out multiple searches at once using multisearch or folder multisearch
+-   Multi-search results will appear in grouped tabs
 -   Manage your search engines from the extension's Options page
 -   Many ways to easily add a new search engine
 -   Support for search engines using OpenSearch description format
--   Simply add a search engine from mycroftproject.com
+-   Simply add a search engine from mycroftproject.com by clicking on the Context Search icon
+-   Simply add an AI prompt from OpenAI Academy or from snackprompt.com to your prompts library by clicking on the Context Search icon
 -   Use custom favicons for your search engines
 -   Use custom prompts to question a selection of AI chatbots
--   Carry out searches from the Omnibox, i.e. url address bar
+-   Carry out searches from the Omnibox, i.e. url address bar, or the Command window (Alt+K)
 -   Assign keyboard shortcuts to your search engines
 -   Export/Import your list of search engines as a safe backup
 
@@ -357,12 +359,13 @@ Result: Variables are expanded first, then the bookmarklet runs with the substit
 
 Other translations were completed using [DeepL](https://www.deepl.com/translator), Microsoft Translator and Google Translate in [Crowdin](https://crowdin.com).
 
-I'm also grateful to all those who have contributed to making Context Search better by reporting issues on GitHub.
+I'm also grateful to the developers of the software mentioned below and to all those who have contributed to making Context Search better by reporting issues on GitHub.
 
 ## Code made by others used in this extension
 
 -   Webextension-polyfill v0.12.0 minified with many contributors, which can be found on GitHub here: https://github.com/mozilla/webextension-polyfill
 -   SortableJS v1.15.6 minified with many contributors, which can be found on GitHub here: https://github.com/SortableJS/Sortable/blob/1.15.6/Sortable.min.js
+-   Promptcat by sevenreasons which can also be found on GitHub here: https://github.com/sevenreasons/promptcat
 
 ## Development Configuration
 

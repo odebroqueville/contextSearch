@@ -1,5 +1,10 @@
-6.2.3
+6.2.4
 =========
+
+* click on the Context Search icon to add a prompt from OpenAI Academy or snackprompt.com to your prompts library
+
+6.2.3
+---------
 
 * prompts library now available from both the Command window and the "Add a new AI prompt" tab
 

@@ -707,8 +707,7 @@ async function ask(url, promptText) {
                             document.querySelector('[role="button"][aria-label="Send message"]') ||
                             document.querySelector('button:has(svg)') ||
                             Array.from(document.querySelectorAll('button')).find(
-                                (btn) =>
-                                    btn.textContent === 'Send' || !!btn.querySelector('svg') || btn.closest('[data-testid="chat-input-actions"]')
+                                (btn) => btn.textContent === 'Send' || !!btn.querySelector('svg') || btn.closest('[data-testid="chat-input-actions"]')
                             );
 
                         if (alternativeSubmit) {
@@ -1452,36 +1451,322 @@ async function handleMouseOver(e) {
     }
 }
 
-// Display clickable buttons/icons on mycroftproject.com
+// Display clickable buttons/icons on specific supported sites
 async function showButtons() {
-    if (domain !== 'mycroftproject.com') return;
-    const installLinks = document.querySelectorAll('a[href^="/install.html"]');
-    const links = Array.from(installLinks);
-    if (logToConsole) console.log(links);
+    // Case 1: mycroftproject.com - existing behavior
+    if (domain === 'mycroftproject.com') {
+        const installLinks = document.querySelectorAll('a[href^="/install.html"]');
+        const links = Array.from(installLinks);
+        if (logToConsole) console.log(links);
 
-    links.forEach((link) => {
-        let img = new Image();
-        img.src = browser.runtime.getURL('/icons/context-search.svg');
-        img.className = 'icon';
-        img.height = '16px';
-        img.style.marginRight = '5px';
-        img.style.cursor = 'pointer';
-        img.title = browser.i18n.getMessage('AddSearchEngine');
+        links.forEach((link) => {
+            // Avoid duplicates
+            if (
+                link.previousElementSibling &&
+                link.previousElementSibling.tagName === 'IMG' &&
+                link.previousElementSibling.src.includes('context-search.svg')
+            )
+                return;
 
-        img.onclick = async function () {
-            const href = link.getAttribute('href');
-            const pid = getPidAndName(href).pid;
-            const name = getPidAndName(href).name;
-            const url = mycroftUrl + pid + '/' + name + '.xml';
-            const result = await getNewSearchEngine(url);
-            // Send msg to background script to get the new search engine added
-            if (result !== null) {
-                await sendMessage('addNewSearchEngine', result);
+            const img = new Image();
+            try {
+                img.src = browser.runtime.getURL('/icons/context-search.svg');
+            } catch (e) {
+                if (logToConsole) console.warn('Failed to resolve context-search.svg URL', e);
             }
+            img.className = 'cs-icon';
+            // Force predictable sizing regardless of page CSS
+            img.style.setProperty('width', '24px', 'important');
+            img.style.setProperty('height', '24px', 'important');
+            img.style.setProperty('max-width', '32px', 'important');
+            img.style.setProperty('max-height', '32px', 'important');
+            img.style.display = 'inline-block';
+            img.style.verticalAlign = 'middle';
+            img.style.marginRight = '5px';
+            // Ensure icon remains clickable above overlays
+            img.style.position = 'relative';
+            img.style.zIndex = String(2147483647);
+            img.style.pointerEvents = 'auto';
+            img.style.cursor = 'pointer';
+            img.title = browser.i18n.getMessage('AddSearchEngine');
+
+            img.onclick = async function () {
+                const href = link.getAttribute('href');
+                const pid = getPidAndName(href).pid;
+                const name = getPidAndName(href).name;
+                const url = mycroftUrl + pid + '/' + name + '.xml';
+                const result = await getNewSearchEngine(url);
+                // Send msg to background script to get the new search engine added
+                if (result !== null) {
+                    await sendMessage('addNewSearchEngine', result);
+                }
+            };
+
+            link.parentNode.insertBefore(img, link);
+        });
+        return;
+    }
+
+    // Case 2: academy.openai.com - insert icon ONLY inside table cells (td) to save to PromptCat
+    if (domain === 'academy.openai.com') {
+        if (logToConsole) console.log('Injecting PromptCat icons on OpenAI Academy...');
+
+        // Cleanup: remove any previously injected icons that are not inside a table cell
+        const strayIcons = document.querySelectorAll('img.cs-icon[data-cs-prompt-icon="1"]');
+        strayIcons.forEach((img) => {
+            const inTd = !!img.closest('td');
+            if (!inTd) img.remove();
+        });
+
+        const addIconBeforeTitle = (titleEl, getPromptText) => {
+            if (!titleEl) return;
+            // Ensure we only inject within table cells
+            const tdAncestor = titleEl.closest('td');
+            if (!tdAncestor) return;
+            // Avoid duplicates within the same td
+            if (tdAncestor.querySelector('img.cs-icon[data-cs-prompt-icon="1"]')) return;
+            // Prevent duplicates
+            if (titleEl.querySelector('img.cs-icon[data-cs-prompt-icon="1"]')) return;
+            if (
+                titleEl.previousElementSibling &&
+                titleEl.previousElementSibling.tagName === 'IMG' &&
+                titleEl.previousElementSibling.dataset &&
+                titleEl.previousElementSibling.dataset.csPromptIcon === '1'
+            )
+                return;
+
+            const img = new Image();
+            try {
+                img.src = browser.runtime.getURL('/icons/context-search.svg');
+            } catch (e) {
+                if (logToConsole) console.warn('Failed to resolve context-search.svg URL', e);
+            }
+            img.className = 'cs-icon';
+            // Force predictable sizing regardless of page CSS
+            img.style.setProperty('width', '24px', 'important');
+            img.style.setProperty('height', '24px', 'important');
+            img.style.setProperty('max-width', '32px', 'important');
+            img.style.setProperty('max-height', '32px', 'important');
+            img.style.display = 'inline-block';
+            img.style.verticalAlign = 'middle';
+            img.style.marginRight = '6px';
+            // Ensure icon remains clickable above overlays
+            img.style.position = 'relative';
+            img.style.zIndex = String(2147483647);
+            img.style.pointerEvents = 'auto';
+            img.style.cursor = 'pointer';
+            img.title = browser.i18n.getMessage('addToPromptLibrary') || 'Add to prompt library';
+            img.dataset.csPromptIcon = '1';
+
+            img.addEventListener('click', async (ev) => {
+                ev.preventDefault();
+                ev.stopPropagation();
+                try {
+                    const title = (titleEl.textContent || '').trim();
+                    const body = (typeof getPromptText === 'function' ? getPromptText() : '').trim();
+                    if (!title || !body) {
+                        if (logToConsole) console.warn('Could not extract title/body for prompt saving', { title, body });
+                        return;
+                    }
+                    await sendMessage('savePromptToLibrary', {
+                        title,
+                        body,
+                        tags: ['OpenAI Academy'],
+                        sourceUrl: location.href,
+                    });
+                } catch (err) {
+                    if (logToConsole) console.error('Failed to save prompt to PromptCat:', err);
+                }
+            });
+
+            // Insert right before the title element (restore previous placement behavior)
+            titleEl.parentNode && titleEl.parentNode.insertBefore(img, titleEl);
         };
 
-        link.parentNode.insertBefore(img, link);
-    });
+        // Strategy A: Table-based packs (two columns: Title | Prompt)
+        const rows = Array.from(document.querySelectorAll('table tr')).filter((tr) => tr.querySelectorAll('td,th').length >= 2);
+        rows.forEach((tr) => {
+            const cells = tr.querySelectorAll('th,td');
+            const tdCells = tr.querySelectorAll('td');
+            if (tdCells.length < 2) return;
+            // Skip header rows
+            if (Array.from(cells).some((c) => c.tagName === 'TH')) return;
+            const titleCell = tdCells[0];
+            // Prefer the second td for the prompt if it exists, otherwise fall back to the last td
+            let promptCell = tdCells.length >= 2 ? tdCells[1] : tdCells[tdCells.length - 1];
+            // If the chosen cell appears to be a URL-only cell (e.g., contains a prominent link), try the next td
+            if (promptCell && promptCell.querySelector('a[href]') && tdCells.length > 2) {
+                const idx = Array.prototype.indexOf.call(tdCells, promptCell);
+                const next = tdCells[idx + 1];
+                if (next) promptCell = next;
+            }
+            // Find a likely title element within the first cell
+            const titleEl = titleCell.querySelector('h1,h2,h3,h4,strong,span,div,p') || titleCell.firstElementChild || titleCell;
+            const getPromptText = () => (promptCell ? promptCell.innerText || promptCell.textContent || '' : '');
+            addIconBeforeTitle(titleEl, getPromptText);
+        });
+
+        // Observe dynamic updates (content can be lazy-loaded)
+        // Attach a single observer for dynamic content
+        if (!window.__cs_oa_observer) {
+            window.__cs_oa_observer = new MutationObserver((mutations) => {
+                try {
+                    // Ignore our own icon insertions
+                    if (
+                        mutations &&
+                        mutations.length > 0 &&
+                        mutations.every((m) =>
+                            Array.from(m.addedNodes || []).every(
+                                (n) => !(n && n.nodeType === 1 && n.tagName === 'IMG' && n.dataset && n.dataset.csPromptIcon === '1')
+                            )
+                        ) === false
+                    ) {
+                        return;
+                    }
+                    // Debounce heavy scans
+                    if (window.__cs_oa_scheduled) return;
+                    window.__cs_oa_scheduled = true;
+                    setTimeout(() => {
+                        try {
+                            const again = document.querySelectorAll('table tr');
+                            if (again.length > 0) {
+                                showButtons();
+                            }
+                        } finally {
+                            window.__cs_oa_scheduled = false;
+                        }
+                    }, 200);
+                } catch (e) {
+                    if (logToConsole) console.warn('Mutation observer re-injection failed:', e);
+                }
+            });
+            window.__cs_oa_observer.observe(document.body, { childList: true, subtree: true });
+        }
+    }
+
+    // Case 3: snackprompt.com - show prompt appears after clicking a "Show prompt" button
+    if (domain === 'snackprompt.com') {
+        if (logToConsole) console.log('Injecting PromptCat icons on Snackprompt...');
+
+        const isVisible = (el) => !!(el && el.offsetParent !== null);
+        const textContent = (el) => (el ? (el.innerText || el.textContent || '').trim() : '');
+
+        const createIcon = (titleEl, getPromptText) => {
+            // Avoid duplicate icons before the same title paragraph
+            const prev = titleEl.previousElementSibling;
+            if (prev && prev.tagName === 'IMG' && prev.dataset && prev.dataset.csPromptIcon === '1') return null;
+
+            const img = new Image();
+            try {
+                img.src = browser.runtime.getURL('/icons/context-search.svg');
+            } catch (e) {
+                if (logToConsole) console.warn('Failed to resolve context-search.svg URL', e);
+            }
+            img.className = 'cs-icon';
+            img.style.setProperty('width', '24px', 'important');
+            img.style.setProperty('height', '24px', 'important');
+            img.style.setProperty('max-width', '32px', 'important');
+            img.style.setProperty('max-height', '32px', 'important');
+            img.style.display = 'inline-block';
+            img.style.verticalAlign = 'middle';
+            img.style.marginRight = '6px';
+            img.style.position = 'relative';
+            img.style.zIndex = String(2147483647);
+            img.style.pointerEvents = 'auto';
+            img.style.cursor = 'pointer';
+            img.title = browser.i18n.getMessage('addToPromptLibrary') || 'Add to prompt library';
+            img.dataset.csPromptIcon = '1';
+
+            img.addEventListener('click', async (ev) => {
+                ev.preventDefault();
+                ev.stopPropagation();
+                try {
+                    const title = (document.querySelector('h1')?.innerText || '').trim();
+                    const body = (typeof getPromptText === 'function' ? getPromptText() : '').trim();
+                    if (!title || !body) {
+                        if (logToConsole) console.warn('Snackprompt: Missing title or body', { title, body });
+                        return;
+                    }
+                    const resp = await sendMessage('savePromptToLibrary', {
+                        title,
+                        body,
+                        tags: ['Snackprompt'],
+                        sourceUrl: location.href,
+                    });
+                    if (logToConsole) console.log('Snackprompt save response:', resp);
+                } catch (err) {
+                    if (logToConsole) console.error('Snackprompt: Failed to save prompt', err);
+                }
+            });
+
+            return img;
+        };
+
+        const injectSnackpromptIcon = () => {
+            // Find the first substantial paragraph likely to be the prompt
+            const paragraphs = Array.from(document.querySelectorAll('p')).filter((p) => isVisible(p) && textContent(p).length > 20);
+            if (!paragraphs.length) return;
+
+            const firstP = paragraphs.find((p) => !p.dataset.csSnackPromptProcessed) || paragraphs[0];
+            if (!firstP) return;
+
+            // Use the parent container to aggregate paragraphs as the prompt body
+            const container = firstP.parentElement || document.body;
+            const ps = Array.from(container.querySelectorAll(':scope > p'));
+            const body = ps
+                .map((p) => textContent(p))
+                .filter(Boolean)
+                .join('\n\n');
+            if (!body) return;
+
+            const icon = createIcon(firstP, () => body);
+            if (!icon) return;
+
+            // Insert the icon right before the first prompt paragraph
+            firstP.parentNode && firstP.parentNode.insertBefore(icon, firstP);
+            firstP.dataset.csSnackPromptProcessed = '1';
+        };
+
+        // Attach click listeners to "Show prompt" controls
+        const attachButtonListeners = () => {
+            const candidates = document.querySelectorAll('button, a, div[role="button"], span[role="button"]');
+            candidates.forEach((btn) => {
+                if (btn.dataset.csSnackBtn === '1') return;
+                const label = textContent(btn).toLowerCase();
+                if (label.includes('show prompt')) {
+                    btn.addEventListener('click', () => setTimeout(injectSnackpromptIcon, 250), { passive: true });
+                    btn.dataset.csSnackBtn = '1';
+                }
+            });
+        };
+
+        // Initial attempt
+        attachButtonListeners();
+        injectSnackpromptIcon();
+
+        // Observe DOM changes to catch late-loaded buttons/prompts
+        if (!window.__cs_snackprompt_observer) {
+            window.__cs_snackprompt_observer = new MutationObserver((mutations) => {
+                // Ignore our own icon insertions
+                const causedByUs = mutations.some((m) =>
+                    Array.from(m.addedNodes || []).some((n) => n.nodeType === 1 && n.tagName === 'IMG' && n.dataset?.csPromptIcon === '1')
+                );
+                if (causedByUs) return;
+
+                if (window.__cs_snackprompt_scheduled) return;
+                window.__cs_snackprompt_scheduled = true;
+                setTimeout(() => {
+                    try {
+                        attachButtonListeners();
+                        injectSnackpromptIcon();
+                    } finally {
+                        window.__cs_snackprompt_scheduled = false;
+                    }
+                }, 250);
+            });
+            window.__cs_snackprompt_observer.observe(document.body, { childList: true, subtree: true });
+        }
+    }
 }
 
 async function handleSelectionEnd(e = null, selection = '') {

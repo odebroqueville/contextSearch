@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "__MSG_extensionName__",
     "description": "Searches the selected text using a search engine or AI prompt from your custom list of search engines and AI prompts.",
-    "version": "6.2.3",
+    "version": "6.2.4",
     "default_locale": "en",
     "homepage_url": "https://github.com/odebroqueville/contextSearch",
     "author": "Olivier de Broqueville",
@@ -69,7 +69,7 @@
     ],
     "web_accessible_resources": [
         {
-            "resources": ["/libs/browser-polyfill.min.js", "/scripts/selection.js"],
+            "resources": ["/libs/browser-polyfill.min.js", "/scripts/selection.js", "/icons/context-search.svg"],
             "matches": ["<all_urls>"]
         }
     ]

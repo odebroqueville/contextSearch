@@ -3,7 +3,7 @@
     "default_locale": "en",
     "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
-    "version": "6.2.3",
+    "version": "6.2.4",
     "homepage_url": "https://github.com/odebroqueville/contextSearch",
     "author": "Olivier de Broqueville",
     "browser_specific_settings": {
@@ -67,7 +67,7 @@
     ],
     "web_accessible_resources": [
         {
-            "resources": ["/scripts/selection.js"],
+            "resources": ["/scripts/selection.js", "/icons/context-search.svg"],
             "matches": ["<all_urls>"]
         }
     ]

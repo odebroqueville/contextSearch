@@ -244,9 +244,13 @@ browser.alarms.onAlarm.addListener((alarm) => {
 browser.runtime.onInstalled.addListener(async (details) => {
     if (details.reason === 'update') {
         if (logToConsole) console.log('Extension updated.');
-
+        await initPerSubscriptionStatus();
+    } else if (details.reason === 'install') {
+        if (logToConsole) console.log('Extension installed.');
         await initPerSubscriptionStatus();
     }
+    // After install/update, ensure default PromptCat prompts exist if library is empty
+    await ensureDefaultPromptCatPrompts();
 });
 
 // Reload tabs to reload content scripts when extension is started
@@ -254,6 +258,8 @@ browser.runtime.onStartup.addListener(async () => {
     if (logToConsole) console.log('Extension started.');
 
     await initPerSubscriptionStatus();
+    // On startup, ensure default PromptCat prompts exist if library is empty
+    await ensureDefaultPromptCatPrompts();
 });
 
 // Listen for changes to the notifications permission
@@ -318,6 +324,19 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     // Handle other actions
     switch (action) {
+        case 'savePromptToLibrary': {
+            // Persist a prompt into the PromptCatDB (extension origin IndexedDB)
+            const payload = data || {};
+            savePromptToPromptCat(payload)
+                .then((id) => {
+                    sendResponse({ success: true, id });
+                })
+                .catch((error) => {
+                    console.error('Error saving prompt to PromptCatDB:', error);
+                    sendResponse({ success: false, error: error?.message || String(error) });
+                });
+            return true;
+        }
         case 'openAiSearchPopup': {
             try {
                 browser.windows.getCurrent({ populate: true }).then((currentWindow) => {
@@ -1184,11 +1203,13 @@ async function init() {
             // We don't remove them here because buildContextMenu will handle that
         }
 
-        await initializeHeaderRules();
-        await checkNotificationsPermission();
-        await initializeStoredData();
-        await initialiseSearchEngines();
-        await updateAddonStateForActiveTab();
+    await initializeHeaderRules();
+    await checkNotificationsPermission();
+    await initializeStoredData();
+    await initialiseSearchEngines();
+    // Ensure PromptCat has defaults on first start/install
+    await ensureDefaultPromptCatPrompts();
+    await updateAddonStateForActiveTab();
 
         isInitialized = true;
         if (logToConsole) console.log('Service worker initialization complete.');
@@ -1196,6 +1217,106 @@ async function init() {
         console.error('Error during initialization:', error);
         isInitialized = false; // Ensure we can retry initialization
         throw error; // Re-throw to allow caller to handle
+    }
+}
+
+// Ensure default PromptCat prompts exist when the prompts library is empty
+async function ensureDefaultPromptCatPrompts() {
+    try {
+        const DB_NAME = 'PromptCatDB';
+        const DB_VERSION = 2; // must match scripts/promptcat.js
+
+        const openDB = () =>
+            new Promise((resolve, reject) => {
+                const req = indexedDB.open(DB_NAME, DB_VERSION);
+                req.onupgradeneeded = (e) => {
+                    const db = e.target.result;
+                    if (!db.objectStoreNames.contains('prompts')) db.createObjectStore('prompts', { keyPath: 'id' });
+                    if (!db.objectStoreNames.contains('folders')) db.createObjectStore('folders', { keyPath: 'id' });
+                    if (!db.objectStoreNames.contains('globalTags')) db.createObjectStore('globalTags', { keyPath: 'id' });
+                    if (!db.objectStoreNames.contains('settings')) db.createObjectStore('settings', { keyPath: 'key' });
+                };
+                req.onsuccess = (e) => resolve(e.target.result);
+                req.onerror = () => reject(new Error('Failed to open PromptCatDB'));
+            });
+
+        const db = await openDB();
+
+        // Count prompts
+        const count = await new Promise((resolve) => {
+            const tx = db.transaction('prompts', 'readonly');
+            const store = tx.objectStore('prompts');
+            const req = store.count();
+            req.onsuccess = () => resolve(req.result || 0);
+            req.onerror = () => resolve(0);
+        });
+
+        if (count > 0) {
+            if (logToConsole) console.log(`[PromptCat] Library already has ${count} prompt(s); skipping defaults.`);
+            return false;
+        }
+
+        // Fetch defaults from packaged JSON
+        const url = browser.runtime.getURL('defaultPromptcatPrompts.json');
+        const resp = await fetch(url);
+        if (!resp.ok) {
+            if (logToConsole) console.warn(`[PromptCat] Failed to fetch default prompts: HTTP ${resp.status}`);
+            return false;
+        }
+        const defaults = await resp.json();
+        const prompts = Array.isArray(defaults?.prompts) ? defaults.prompts : [];
+        const folders = Array.isArray(defaults?.folders) ? defaults.folders : [];
+        const globalTags = Array.isArray(defaults?.globalTags) ? defaults.globalTags : [];
+
+        if (prompts.length === 0 && folders.length === 0 && globalTags.length === 0) {
+            if (logToConsole) console.log('[PromptCat] Defaults JSON is empty; nothing to import.');
+            return false;
+        }
+
+        // Insert defaults in a single transaction
+        await new Promise((resolve, reject) => {
+            const tx = db.transaction(['prompts', 'folders', 'globalTags'], 'readwrite');
+            const promptStore = tx.objectStore('prompts');
+            const folderStore = tx.objectStore('folders');
+            const tagStore = tx.objectStore('globalTags');
+
+            // Normalize and insert prompts
+            for (const p of prompts) {
+                const now = Date.now();
+                const normalized = {
+                    id: typeof p.id === 'number' ? p.id : now,
+                    title: p.title || 'Untitled Prompt',
+                    body: p.body || '',
+                    notes: p.notes || '',
+                    tags: Array.isArray(p.tags) ? p.tags : [],
+                    folderId: p.folderId ?? null,
+                    isFavorite: !!p.isFavorite,
+                    isLocked: !!p.isLocked,
+                    dateCreated: typeof p.dateCreated === 'number' ? p.dateCreated : now,
+                    dateModified: typeof p.dateModified === 'number' ? p.dateModified : now,
+                };
+                promptStore.put(normalized);
+            }
+
+            // Insert folders if any
+            for (const f of folders) {
+                if (f && typeof f.id !== 'undefined') folderStore.put(f);
+            }
+
+            // Insert tags as { id: tag }
+            for (const t of globalTags) {
+                if (t) tagStore.put({ id: t });
+            }
+
+            tx.oncomplete = () => resolve();
+            tx.onerror = () => reject(new Error('Failed importing default PromptCat data'));
+        });
+
+        if (logToConsole) console.log(`[PromptCat] Imported ${prompts.length} default prompt(s).`);
+        return true;
+    } catch (err) {
+        console.error('[PromptCat] Error ensuring default prompts:', err);
+        return false;
     }
 }
 
@@ -1804,6 +1925,74 @@ function hasClickListener() {
 globalThis.debugListenerStatus = debugListenerStatus;
 globalThis.hasClickListener = hasClickListener;
 globalThis.clearAllOpenSearchCache = clearAllOpenSearchCache;
+
+// === PromptCatDB minimal writer: save prompts from content pages ===
+async function savePromptToPromptCat({ title, body, notes = '', tags = [], folderName = null, isFavorite = false, sourceUrl = '' }) {
+    // Open (or create) the PromptCatDB database and stores if missing
+    const DB_NAME = 'PromptCatDB';
+    const DB_VERSION = 2; // must match promptcat.js
+    const openDB = () =>
+        new Promise((resolve, reject) => {
+            const req = indexedDB.open(DB_NAME, DB_VERSION);
+            req.onupgradeneeded = (e) => {
+                const db = e.target.result;
+                if (!db.objectStoreNames.contains('prompts')) db.createObjectStore('prompts', { keyPath: 'id' });
+                if (!db.objectStoreNames.contains('folders')) db.createObjectStore('folders', { keyPath: 'id' });
+                if (!db.objectStoreNames.contains('globalTags')) db.createObjectStore('globalTags', { keyPath: 'id' });
+                if (!db.objectStoreNames.contains('settings')) db.createObjectStore('settings', { keyPath: 'key' });
+            };
+            req.onsuccess = (e) => resolve(e.target.result);
+            req.onerror = () => reject(new Error('Failed to open PromptCatDB'));
+        });
+
+    const db = await openDB();
+
+    // Optionally create/find a folder by name
+    let folderId = null;
+    if (folderName) {
+        const tx = db.transaction('folders', 'readwrite');
+        const store = tx.objectStore('folders');
+        const getAllReq = store.getAll();
+        const existing = await new Promise((resolve) => {
+            getAllReq.onsuccess = (e) => resolve(e.target.result || []);
+            getAllReq.onerror = () => resolve([]);
+        });
+        const found = existing.find((f) => f.name === folderName);
+        if (found) folderId = found.id;
+        else {
+            const newFolder = { id: Date.now(), name: folderName, isLocked: false };
+            store.put(newFolder);
+            folderId = newFolder.id;
+            await new Promise((res) => (tx.oncomplete = () => res()));
+        }
+    }
+
+    // Build prompt object
+    const now = Date.now();
+    const id = now; // simple unique id
+    const prompt = {
+        id,
+        title: title || 'Untitled Prompt',
+        body: body || '',
+        notes: notes || sourceUrl || '',
+        tags: Array.isArray(tags) ? tags.filter(Boolean) : [],
+        folderId: folderId,
+        isFavorite: !!isFavorite,
+        isLocked: false,
+        dateCreated: now,
+        dateModified: now,
+    };
+
+    // Persist prompt
+    await new Promise((resolve, reject) => {
+        const tx = db.transaction('prompts', 'readwrite');
+        tx.objectStore('prompts').put(prompt);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(new Error('Failed to save prompt'));
+    });
+
+    return id;
+}
 
 /// Functions used to build the context menu
 async function createMenuItem(id, title, contexts, parentId, faviconUrl) {
