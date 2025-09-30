@@ -463,7 +463,7 @@
         "message": "AI 챗봇 선택"
     },
     "addToPromptLibrary": {
-        "message": "Add to prompt library"
+        "message": "프롬프트 라이브러리에 추가"
     },
     "__WET_LOCALE__": {
         "message": "ko"
