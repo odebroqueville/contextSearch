@@ -1,6 +1,7 @@
 6.2.4
 =========
 
+* multi-search results now open in grouped tabs
 * click on the Context Search icon to add a prompt from OpenAI Academy or snackprompt.com to your prompts library
 
 6.2.3
