@@ -463,7 +463,7 @@
         "message": "Valitse tekoälypohjainen chatbot"
     },
     "addToPromptLibrary": {
-        "message": "Add to prompt library"
+        "message": "Lisää kehotuskirjastoon"
     },
     "__WET_LOCALE__": {
         "message": "fi"
