@@ -462,6 +462,9 @@
     "chooseAIChatbot": {
         "message": "Kies AI-chatbot"
     },
+    "addToPromptLibrary": {
+        "message": "Add to prompt library"
+    },
     "__WET_LOCALE__": {
         "message": "nl"
     }
