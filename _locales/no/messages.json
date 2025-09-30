@@ -463,7 +463,7 @@
         "message": "Velg AI-chatrobot"
     },
     "addToPromptLibrary": {
-        "message": "Add to prompt library"
+        "message": "Legg til i ledetekstbiblioteket"
     },
     "__WET_LOCALE__": {
         "message": "no"
