@@ -462,6 +462,9 @@
     "chooseAIChatbot": {
         "message": "Valitse tekoälypohjainen chatbot"
     },
+    "addToPromptLibrary": {
+        "message": "Add to prompt library"
+    },
     "__WET_LOCALE__": {
         "message": "fi"
     }
