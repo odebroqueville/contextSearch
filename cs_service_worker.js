@@ -2296,7 +2296,25 @@ async function processSearch(info, tab) {
         let id = info.menuItemId.startsWith('cs-') ? info.menuItemId.replace('cs-', '') : info.menuItemId;
 
         if (info.selectionText) {
-            await setStoredData(STORAGE_KEYS.SELECTION, info.selectionText);
+            // Ask the content script to visually trim the selection (so the page selection matches the text we store)
+            try {
+                const [activeTab] = await browser.tabs.query({ active: true, currentWindow: true });
+                if (activeTab && activeTab.id !== undefined) {
+                    const resp = await browser.tabs.sendMessage(activeTab.id, { action: 'trimVisibleSelection' });
+                    const maybeTrimmed = resp && resp.trimmed;
+                    if (typeof maybeTrimmed === 'string' && maybeTrimmed.length > 0) {
+                        await setStoredData(STORAGE_KEYS.SELECTION, maybeTrimmed);
+                    } else {
+                        // Fallback: trim trailing whitespace and non-breaking spaces before storing selection
+                        const cleaned = typeof info.selectionText === 'string' ? info.selectionText.replace(/[\s\u00A0]+$/u, '') : info.selectionText;
+                        await setStoredData(STORAGE_KEYS.SELECTION, cleaned);
+                    }
+                }
+            } catch (e) {
+                // If messaging fails, fallback to local trim
+                const cleaned = typeof info.selectionText === 'string' ? info.selectionText.replace(/[\s\u00A0]+$/u, '') : info.selectionText;
+                await setStoredData(STORAGE_KEYS.SELECTION, cleaned);
+            }
         }
 
         // By default, open the search results right after the active tab

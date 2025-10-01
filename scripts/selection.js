@@ -65,9 +65,6 @@ document.addEventListener('mouseover', handleMouseOver);
 // Right-click event listener
 document.addEventListener('contextmenu', handleRightClickWithoutGrid);
 
-// Ensure double-click selection on Windows doesn't include trailing space (visible)
-document.addEventListener('dblclick', normalizeDoubleClickSelection);
-
 // Mouse up event listener
 document.addEventListener('click', (e) => {
     if (logToConsole)
@@ -118,6 +115,27 @@ browser.runtime.onMessage.addListener((message, _unused, sendResponse) => {
     const handleMessage = async () => {
         try {
             switch (action) {
+                case 'trimVisibleSelection':
+                    // Support background request to trim the visible selection and return the cleaned string
+                    try {
+                        const trimmed = await trimVisibleSelectionTrailingSpace();
+                        if (typeof trimmed === 'string') {
+                            // Also update our local cache
+                            textSelection = trimmed;
+                            try {
+                                await sendMessage('storeSelection', textSelection);
+                            } catch (e) {
+                                if (logToConsole) console.warn('Failed to persist trimmed selection:', e);
+                            }
+                            sendResponse({ success: true, trimmed });
+                        } else {
+                            sendResponse({ success: true, trimmed: null });
+                        }
+                    } catch (e) {
+                        if (logToConsole) console.warn('trimVisibleSelectionTrailingSpace via message failed:', e);
+                        sendResponse({ success: false, error: String(e) });
+                    }
+                    return true; // keep the channel open for async response
                 case 'getOpenSearchSupportStatus':
                     const response = getOpenSearchSupportStatus();
                     if (logToConsole) console.log('OpenSearch support status:', response);
@@ -166,89 +184,6 @@ browser.runtime.onMessage.addListener((message, _unused, sendResponse) => {
 });
 
 /// Main functions
-
-// Trim trailing space from the visible selection after a double-click on Windows
-async function normalizeDoubleClickSelection(e) {
-    try {
-        // Skip if another handler already took ownership of this input/textarea dblclick
-        if (e?.defaultPrevented) return;
-        const t = e?.target;
-        if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) {
-            // If this is bubbling on document (or any non-target currentTarget), skip.
-            if (e?.currentTarget && e.currentTarget !== t) return;
-        }
-
-        // Resolve OS if not ready yet
-        if (!os) {
-            try {
-                os = await getOS();
-            } catch (_) {
-                // Intentionally ignored
-            }
-        }
-        if (os !== 'Windows') return;
-
-        // Let the browser finalize native double-click selection first
-        await new Promise((r) => requestAnimationFrame(r));
-
-        const target = t;
-
-        // Inputs and textareas
-        if (target && ((target.tagName === 'INPUT' && (target.type === 'text' || !target.type)) || target.tagName === 'TEXTAREA')) {
-            const el = target;
-            if (typeof el.selectionStart === 'number' && typeof el.selectionEnd === 'number') {
-                const start = el.selectionStart;
-                const end = el.selectionEnd;
-                if (end > start) {
-                    const selected = el.value.substring(start, end);
-                    if (/[ \u00A0]$/.test(selected)) {
-                        el.selectionEnd = end - 1; // visually trims the trailing space
-                        if (logToConsole) console.log('Trimmed trailing space in input/textarea selection');
-                    }
-                }
-            }
-            return;
-        }
-
-        // Page/contenteditable selections
-        const sel = typeof window.getSelection === 'function' ? window.getSelection() : null;
-        if (!sel || sel.rangeCount === 0) return;
-
-        const range = sel.getRangeAt(sel.rangeCount - 1);
-        const text = range.toString();
-
-        if (!/[ \u00A0]$/.test(text)) return;
-
-        if (range.endContainer && range.endContainer.nodeType === Node.TEXT_NODE) {
-            const data = range.endContainer.data;
-            const off = range.endOffset;
-            if (off > 0 && /[ \u00A0]/.test(data.charAt(off - 1))) {
-                range.setEnd(range.endContainer, off - 1);
-                sel.removeAllRanges();
-                sel.addRange(range);
-                if (logToConsole) console.log('Trimmed trailing space in DOM selection (text node)');
-                return;
-            }
-        }
-
-        // Fallback: find previous text position and trim if it is whitespace
-        const info = getPreviousTextPosition(range.endContainer, range.endOffset);
-        if (info && /[ \u00A0]/.test(info.char)) {
-            const startNode = range.startContainer;
-            const startOffset = range.startOffset;
-
-            const newRange = document.createRange();
-            newRange.setStart(startNode, startOffset);
-            newRange.setEnd(info.node, info.offset);
-
-            sel.removeAllRanges();
-            sel.addRange(newRange);
-            if (logToConsole) console.log('Trimmed trailing space in DOM selection (fallback walker)');
-        }
-    } catch (err) {
-        if (logToConsole) console.error('normalizeDoubleClickSelection error:', err);
-    }
-}
 
 // Helper: find the character just before a boundary (node, offset)
 function getPreviousTextPosition(container, offset) {
@@ -999,9 +934,6 @@ function hasContextSearchImage() {
 
 // Handle double click event on input elements for websites that use HTTP POST method
 async function handleInputDblclick(e) {
-    // First, normalize the visible selection for Windows on this input (so users see the trimmed word)
-    await normalizeDoubleClickSelection(e);
-
     // Get fresh options to ensure we have the latest settings
     const freshOptions = await getFreshStoredData('options');
     if (freshOptions) {
@@ -2032,7 +1964,32 @@ async function onGridClick(e, folderId) {
     if (logToConsole) console.log('Icons Grid got clicked:' + e.type);
     const id = e.target.id;
     if (logToConsole) console.log('Search engine clicked:' + id);
-    if (logToConsole) console.log('Current textSelection value:', textSelection);
+    if (logToConsole) console.log('Current textSelection value (pre-trim):', textSelection);
+
+    // Visually trim trailing whitespace from the current selection (inputs/textareas and DOM selection)
+    const visuallyTrimmed = await trimVisibleSelectionTrailingSpace();
+    if (typeof visuallyTrimmed === 'string') {
+        textSelection = visuallyTrimmed;
+        try {
+            await sendMessage('storeSelection', textSelection);
+            if (logToConsole) console.log('Visually trimmed selection stored:', textSelection);
+        } catch (err) {
+            if (logToConsole) console.warn('Failed to store visually trimmed selection:', err);
+        }
+    } else {
+        // As a fallback, trim the cached string
+        if (typeof textSelection === 'string') {
+            const trimmed = textSelection.replace(/[\s\u00A0]+$/u, '');
+            if (trimmed !== textSelection) {
+                textSelection = trimmed;
+                try {
+                    await sendMessage('storeSelection', textSelection);
+                } catch (e) {
+                    if (logToConsole) console.warn('Failed to store fallback trimmed selection:', e);
+                }
+            }
+        }
+    }
     closeGrid();
 
     // Get fresh searchEngines data
@@ -2053,6 +2010,77 @@ async function onGridClick(e, folderId) {
         await sendMessage('doSearch', { id: id, hasCurrentSelection: !!textSelection });
     } else {
         await createIconsGrid(id);
+    }
+}
+
+// Trim trailing whitespace from the actual, visible selection range on the page (and return the trimmed text)
+async function trimVisibleSelectionTrailingSpace() {
+    try {
+        // First handle focused inputs/textareas with active selection
+        const active = document.activeElement;
+        if (active && ((active.tagName === 'INPUT' && (active.type === 'text' || !active.type)) || active.tagName === 'TEXTAREA')) {
+            const el = active;
+            if (typeof el.selectionStart === 'number' && typeof el.selectionEnd === 'number') {
+                let { selectionStart: start, selectionEnd: end } = el;
+                if (end > start) {
+                    const val = el.value;
+                    while (end > start && /[\s\u00A0]/.test(val.charAt(end - 1))) {
+                        end -= 1;
+                    }
+                    if (end !== el.selectionEnd) {
+                        el.selectionEnd = end; // This visually updates the selection
+                    }
+                    return val.substring(start, end);
+                }
+            }
+        }
+
+        // Next, handle standard DOM selections
+        const sel = typeof window.getSelection === 'function' ? window.getSelection() : null;
+        if (!sel || sel.rangeCount === 0 || sel.isCollapsed) return null;
+
+        const range = sel.getRangeAt(sel.rangeCount - 1);
+        let changed = false;
+        // Loop to remove any number of trailing whitespace characters
+        // Guard against infinite loops by limiting the number of iterations
+        for (let i = 0; i < 1024; i++) {
+            const txt = range.toString();
+            if (!/[\s\u00A0]$/.test(txt)) break;
+
+            if (range.endContainer && range.endContainer.nodeType === Node.TEXT_NODE) {
+                const data = range.endContainer.data;
+                const off = range.endOffset;
+                if (off > 0 && /[\s\u00A0]/.test(data.charAt(off - 1))) {
+                    range.setEnd(range.endContainer, off - 1);
+                    changed = true;
+                    continue;
+                }
+            }
+
+            const info = getPreviousTextPosition(range.endContainer, range.endOffset);
+            if (info && /[\s\u00A0]/.test(info.char)) {
+                const startNode = range.startContainer;
+                const startOffset = range.startOffset;
+                const newRange = document.createRange();
+                newRange.setStart(startNode, startOffset);
+                newRange.setEnd(info.node, info.offset);
+                sel.removeAllRanges();
+                sel.addRange(newRange);
+                changed = true;
+                continue;
+            }
+            break;
+        }
+
+        if (changed) {
+            const trimmed = sel.toString();
+            if (logToConsole) console.log('DOM selection visually trimmed:', trimmed);
+            return trimmed;
+        }
+        return sel.toString();
+    } catch (err) {
+        if (logToConsole) console.warn('trimVisibleSelectionTrailingSpace failed:', err);
+        return null;
     }
 }
 

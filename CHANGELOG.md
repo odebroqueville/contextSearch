@@ -1,5 +1,10 @@
-6.2.4
+6.2.5
 =========
+
+* bug fix [#265](https://github.com/odebroqueville/contextSearch/issues/265): replace removal of extra space on double click by removal of extra space on search from the context menu or grid of icons
+
+6.2.4
+---------
 
 * multi-search results now open in grouped tabs
 * click on the Context Search icon to add a prompt from OpenAI Academy or snackprompt.com to your prompts library
