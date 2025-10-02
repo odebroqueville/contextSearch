@@ -1095,7 +1095,7 @@ async function handleKeyUp(e) {
     // --- Check for command shortcuts first ---
 
     // Define the command shortcuts from the manifest
-    const commandShortcuts = ['Alt+I', 'Alt+K'];
+    const commandShortcuts = ['Alt+I', 'Alt+K', 'Control+Alt+C'];
 
     // If this is a command shortcut, let the browser handle it
     if (commandShortcuts.some((cmd) => cmd.toLowerCase() === input.toLowerCase())) {
@@ -1107,6 +1107,12 @@ async function handleKeyUp(e) {
             e.preventDefault(); // Prevent default browser action
             e.stopPropagation(); // Stop propagation to prevent other handlers from running
             await handleAltClickWithGrid(null);
+        }
+        if (input.toLowerCase() === 'control+alt+c') {
+            // Open custom list-style Context Search menu
+            e.preventDefault();
+            e.stopPropagation();
+            await openCustomContextMenu();
         }
         if (input.toLowerCase() === 'alt+k') {
             // If the command is Alt+K in Firefox or in Chrome, open AI Search popup
@@ -1136,6 +1142,361 @@ async function handleKeyUp(e) {
     }
 
     await searchForKeyboardShortcut(input);
+}
+
+// =========================
+// Custom list-style context menu (Control+Alt+C)
+// Mirrors the extension's context menu and includes an icon before each title
+// =========================
+
+async function openCustomContextMenu() {
+    // Ensure only one menu instance exists
+    closeCustomContextMenu();
+
+    // Refresh options and searchEngines
+    const freshOptions = await getFreshStoredData('options');
+    if (freshOptions) options = freshOptions;
+    const freshSearchEngines = await getFreshStoredData('searchEngines');
+    if (freshSearchEngines) searchEngines = freshSearchEngines;
+
+    // Make sure selection is up-to-date and trimmed visually
+    const trimmed = await trimVisibleSelectionTrailingSpace();
+    if (typeof trimmed === 'string') {
+        textSelection = trimmed;
+        try {
+            await sendMessage('storeSelection', textSelection);
+        } catch (err) {
+            if (logToConsole) console.warn('Failed to store trimmed selection:', err);
+        }
+    }
+
+    // Compute position near selection end or reasonable fallback
+    const { x, y } = getSelectionEndPosition();
+    const offX = Number.isFinite(Number(options?.offsetX)) ? Number(options.offsetX) : 10;
+    const offY = Number.isFinite(Number(options?.offsetY)) ? Number(options.offsetY) : 10;
+    xPos = Math.max(12, (x || window.innerWidth / 2) + offX);
+    yPos = Math.max(12, (y || window.innerHeight / 3) + offY);
+
+    // Create container
+    const menu = document.createElement('div');
+    menu.id = 'cs-custom-context-menu';
+    // Visuals to resemble a native menu
+    Object.assign(menu.style, {
+        position: 'fixed',
+        top: `${yPos}px`,
+        left: `${xPos}px`,
+        background: '#fff',
+        color: '#111',
+        border: '1px solid rgba(0,0,0,0.15)',
+        borderRadius: '8px',
+        boxShadow: '0 10px 24px rgba(0,0,0,0.25)',
+        minWidth: '240px',
+        maxWidth: '360px',
+        maxHeight: `${Math.floor(window.innerHeight * 0.6)}px`,
+        overflowY: 'auto',
+        zIndex: String(2147483647),
+        fontFamily: 'system-ui, -apple-system, Segoe UI, Roboto, sans-serif',
+        fontSize: '13px',
+        padding: '6px 4px',
+        isolation: 'isolate',
+        pointerEvents: 'auto',
+    });
+
+    // Content container for dynamic re-rendering (drill-in UX)
+    const content = document.createElement('div');
+    menu.appendChild(content);
+    document.body.appendChild(menu);
+
+    // Utilities for rendering
+    let lastWasDivider = false;
+    const appendDivider = () => {
+        if (lastWasDivider) return; // collapse consecutive dividers
+        const hr = document.createElement('div');
+        Object.assign(hr.style, {
+            margin: '6px 4px',
+            borderTop: '1px solid rgba(0,0,0,0.1)',
+        });
+        content.appendChild(hr);
+        lastWasDivider = true;
+    };
+
+    const makeIcon = (src, size = 16) => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = '';
+        Object.assign(img.style, {
+            width: `${size}px`,
+            height: `${size}px`,
+            marginRight: '8px',
+            verticalAlign: 'middle',
+            flex: '0 0 auto',
+        });
+        return img;
+    };
+
+    const appendRow = (label, iconSrc, onClick, optionsRow = {}) => {
+        const row = document.createElement('div');
+        Object.assign(row.style, {
+            display: 'flex',
+            alignItems: 'center',
+            padding: '6px 10px',
+            borderRadius: '6px',
+            cursor: optionsRow.disabled ? 'default' : 'pointer',
+            color: optionsRow.disabled ? '#888' : '#111',
+        });
+        row.onmouseenter = () => (row.style.background = 'rgba(0,0,0,0.06)');
+        row.onmouseleave = () => (row.style.background = 'transparent');
+        if (!optionsRow.disabled && typeof onClick === 'function') {
+            row.onclick = (ev) => {
+                ev.preventDefault();
+                ev.stopPropagation();
+                onClick();
+            };
+        }
+        // Optional icon (skip when optionsRow.noIcon is true)
+        let icon;
+        if (!optionsRow?.noIcon) {
+            icon = makeIcon(iconSrc || `data:image/png;base64,${base64ContextSearchIcon}`);
+            row.appendChild(icon);
+        }
+        const text = document.createElement('div');
+        text.textContent = label;
+        text.style.flex = '1 1 auto';
+        row.appendChild(text);
+        content.appendChild(row);
+        lastWasDivider = false;
+        return row;
+    };
+
+    // State for drill-in navigation
+    const menuState = {
+        stack: ['root'], // path of folder ids, last is current
+        toolsExpanded: false,
+    };
+
+    const getCurrentFolderId = () => menuState.stack[menuState.stack.length - 1];
+
+    const renderToolsSection = () => {
+        // Append tool rows (no leading/trailing dividers here)
+        // Exact match toggle
+        const exactCheck = options?.exactMatch ? '✓ ' : '';
+        appendRow(
+            `${exactCheck}${browser.i18n.getMessage('exactMatch') || 'Exact match'}`,
+            null,
+            async () => {
+                const fresh = await browser.storage.local.get('options');
+                const cur = fresh?.options || options || {};
+                const newVal = !cur.exactMatch;
+                await browser.runtime.sendMessage({
+                    action: 'updateOptions',
+                    data: {
+                        updateType: 'searchOptions',
+                        data: { exactMatch: newVal, disableDoubleClick: !!cur.disableDoubleClick, disableAI: !!cur.disableAI },
+                    },
+                });
+                // Update local state and re-render to reflect tick immediately
+                options = { ...cur, exactMatch: newVal };
+                renderFolder(getCurrentFolderId());
+            },
+            { noIcon: true }
+        );
+
+        // Multiple search engines (root multisearch)
+        appendRow(
+            `${browser.i18n.getMessage('titleMultipleSearchEngines') || 'Multiple search engines'}`,
+            null,
+            async () => {
+                closeCustomContextMenu();
+                await browser.runtime.sendMessage({ action: 'doSearch', data: { id: 'multisearch' } });
+            },
+            { noIcon: true }
+        );
+
+        // AI Search (if enabled)
+        if (!options?.disableAI) {
+            appendRow(
+                `${browser.i18n.getMessage('titleAISearch') || 'AI Search'}...`,
+                null,
+                async () => {
+                    closeCustomContextMenu();
+                    await openAiSearchPopup();
+                },
+                { noIcon: true }
+            );
+        }
+
+        // Site Search
+        const siteLbl = `${browser.i18n.getMessage('titleSiteSearch') || 'Site search'} ${options?.siteSearch || ''}`.trim();
+        appendRow(
+            siteLbl,
+            null,
+            async () => {
+                closeCustomContextMenu();
+                await browser.runtime.sendMessage({ action: 'doSearch', data: { id: 'site-search', hasCurrentSelection: !!textSelection } });
+            },
+            { noIcon: true }
+        );
+
+        // Options page
+        appendRow(
+            `${browser.i18n.getMessage('titleOptions') || 'Options'}...`,
+            null,
+            async () => {
+                closeCustomContextMenu();
+                try {
+                    await browser.runtime.sendMessage({ action: 'openOptionsPage' });
+                } catch (_) {
+                    try {
+                        await browser.runtime.openOptionsPage();
+                    } catch (e2) {
+                        window.open(browser.runtime.getURL('/html/options.html'), '_blank');
+                    }
+                }
+            },
+            { noIcon: true }
+        );
+    };
+
+    const renderFolder = (folderId) => {
+        // Clear and render current view
+        content.innerHTML = '';
+        lastWasDivider = false;
+
+        const folder = searchEngines[folderId];
+        const isRoot = folderId === 'root';
+
+        // Back row for non-root
+        if (!isRoot) {
+            const iconSrc = `data:image/png;base64,${base64BackIcon}`;
+            appendRow(`${browser.i18n.getMessage('back') || 'Back'}`, iconSrc, () => {
+                if (menuState.stack.length > 1) {
+                    menuState.stack.pop();
+                    renderFolder(getCurrentFolderId());
+                }
+            });
+            appendDivider();
+        }
+
+        // Folder-level multisearch (no trailing divider after)
+        if (!isRoot && !['bookmark-page', 'add-search-engine'].includes(folderId)) {
+            const fImgFormat = folder?.imageFormat || 'image/png';
+            const fB64 = folder?.base64 || base64ContextSearchIcon;
+            const fIconSrc = `data:${fImgFormat};base64,${fB64}`;
+            appendRow('Multisearch', fIconSrc, async () => {
+                closeCustomContextMenu();
+                await browser.runtime.sendMessage({ action: 'doSearch', data: { id: folderId } });
+            });
+        }
+
+        const children = Array.isArray(folder?.children) ? folder.children : [];
+        let started = false;
+        for (const childId of children) {
+            const child = searchEngines[childId];
+            if (!child) continue;
+            if (childId.startsWith('separator-')) {
+                if (!started) continue; // skip leading divider
+                appendDivider();
+                continue;
+            }
+
+            // On first non-separator child after potential multisearch, ensure spacing only if needed
+            if (!isRoot && !started) {
+                // If there was a multisearch above, separate from list with subtle spacing but no explicit divider
+                // We'll just proceed to rows; lastWasDivider reset by rows.
+            }
+            started = true;
+
+            const cImgFmt = child.imageFormat || 'image/png';
+            const cB64 = child.base64 || base64ContextSearchIcon;
+            const cIcon = `data:${cImgFmt};base64,${cB64}`;
+
+            if (child.isFolder) {
+                appendRow(child.name, cIcon, () => {
+                    menuState.stack.push(childId);
+                    renderFolder(childId);
+                });
+            } else if (child.show) {
+                appendRow(child.name, cIcon, async () => {
+                    closeCustomContextMenu();
+                    await browser.runtime.sendMessage({ action: 'doSearch', data: { id: childId, hasCurrentSelection: !!textSelection } });
+                });
+            }
+        }
+
+        // Root-level: tools are hidden by default; provide a collapsible toggle
+        if (isRoot) {
+            // If there are any visible root items, add separation before tools toggle
+            if (content.children.length > 0) {
+                appendDivider();
+            }
+            const toggleLabel = menuState.toolsExpanded
+                ? browser.i18n.getMessage('hideTools') || 'Hide tools'
+                : browser.i18n.getMessage('showTools') || 'Show tools';
+            const toggleRow = appendRow(
+                toggleLabel,
+                null,
+                () => {
+                    menuState.toolsExpanded = !menuState.toolsExpanded;
+                    renderFolder('root');
+                },
+                { noIcon: true }
+            );
+            // Visually hint expansion with a chevron
+            const chevron = document.createElement('div');
+            chevron.textContent = menuState.toolsExpanded ? '▾' : '▸';
+            Object.assign(chevron.style, { marginLeft: '8px', opacity: '0.7' });
+            toggleRow.appendChild(chevron);
+
+            if (menuState.toolsExpanded) {
+                appendDivider();
+                renderToolsSection();
+            }
+        }
+    };
+
+    // Initial render: root only
+    renderFolder('root');
+
+    // Ensure within viewport horizontally/vertically
+    const rect = menu.getBoundingClientRect();
+    if (rect.right > window.innerWidth - 8) menu.style.left = `${Math.max(8, window.innerWidth - rect.width - 8)}px`;
+    if (rect.bottom > window.innerHeight - 8) menu.style.top = `${Math.max(8, window.innerHeight - rect.height - 8)}px`;
+
+    // Global listeners to close
+    const closeOnOutside = (ev) => {
+        const el = document.getElementById('cs-custom-context-menu');
+        if (!el) return;
+        if (!el.contains(ev.target)) {
+            closeCustomContextMenu();
+        }
+    };
+    const closeOnEsc = (ev) => {
+        if (ev.key === 'Escape') closeCustomContextMenu();
+    };
+    const closeOnScroll = () => closeCustomContextMenu();
+    window.addEventListener('mousedown', closeOnOutside, { capture: true });
+    window.addEventListener('keydown', closeOnEsc, { capture: true });
+    window.addEventListener('scroll', closeOnScroll, { passive: true });
+    // Save to menu for cleanup
+    menu._csCleanup = () => {
+        window.removeEventListener('mousedown', closeOnOutside, { capture: true });
+        window.removeEventListener('keydown', closeOnEsc, { capture: true });
+        window.removeEventListener('scroll', closeOnScroll, { passive: true });
+    };
+}
+
+function closeCustomContextMenu() {
+    const existing = document.getElementById('cs-custom-context-menu');
+    if (existing) {
+        if (typeof existing._csCleanup === 'function') {
+            try {
+                existing._csCleanup();
+            } catch (err) {
+                if (logToConsole) console.warn('Cleanup error:', err);
+            }
+        }
+        existing.remove();
+    }
 }
 
 async function searchForKeyboardShortcut(input) {

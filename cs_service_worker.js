@@ -317,7 +317,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     //     return; // <-- This caused undefined responses
     // }
 
-    if (action !== 'openPaymentPage' && action !== 'openTrialPage' && !paid && !trialActive) {
+    if (action !== 'openPaymentPage' && action !== 'openTrialPage' && action !== 'openOptionsPage' && !paid && !trialActive) {
         sendResponse({ success: false, error: 'Subscription required' });
         return;
     }
@@ -431,6 +431,25 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
                     sendResponse({ success: false, error: error.message });
                 });
             return true;
+        case 'openOptionsPage': {
+            // Open extension options (always allowed)
+            try {
+                browser.runtime.openOptionsPage().catch((err) => {
+                    if (logToConsole) console.warn('openOptionsPage failed, falling back:', err);
+                    browser.tabs.create({ url: browser.runtime.getURL('/html/options.html') });
+                });
+                sendResponse({ success: true });
+            } catch (e) {
+                if (logToConsole) console.error('Failed to open options page:', e);
+                try {
+                    browser.tabs.create({ url: browser.runtime.getURL('/html/options.html') });
+                    sendResponse({ success: true });
+                } catch (e2) {
+                    sendResponse({ success: false, error: e2.message || String(e2) });
+                }
+            }
+            return false;
+        }
         case 'executeAISearch':
             if (logToConsole) console.log('Received executeAISearch message:', message.data);
             // Execute the handler (don't await it here if it's long-running)
@@ -949,7 +968,13 @@ async function handleDoSearch(data) {
 
     if (id === 'multisearch' || (searchEngines[id] && searchEngines[id].isFolder)) {
         // If multisearch or the search engine is a folder
-        await processMultisearch(multiTabArray, 'root', tabPosition);
+        let multiId;
+        if (id === 'multisearch') {
+            multiId = 'root';
+        } else {
+            multiId = id;
+        }
+        await processMultisearch(multiTabArray, multiId, tabPosition);
     } else {
         // If single search and search engine is a link, HTTP GET or POST request or AI prompt
         const multisearch = false;
@@ -3127,7 +3152,7 @@ async function processFolder(id, searchTerms) {
         if (searchEngines[childId].isFolder) {
             // If search engine is a folder
             multiTabArray.push(...(await processFolder(childId, searchTerms)));
-        } else {
+        } else if (searchEngines[childId].multitab) {
             multiTabArray.push(await processSearchEngine(childId, searchTerms));
         }
     }
