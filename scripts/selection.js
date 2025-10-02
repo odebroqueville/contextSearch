@@ -59,24 +59,13 @@ if (logToConsole) console.log(`Document ready state: ${document.readyState}`);
     await init();
 })();
 
-// Mouseover event listener
-document.addEventListener('mouseover', handleMouseOver);
+// Mouseover event listener removed (image URL capture now handled on right-click)
 
 // Right-click event listener
 document.addEventListener('contextmenu', handleRightClickWithoutGrid);
 
-// Mouse up event listener
-document.addEventListener('click', (e) => {
-    if (logToConsole)
-        console.log('🖱️ Click event detected:', {
-            target: e.target,
-            button: e.button,
-            altKey: e.altKey,
-            keysPressed: JSON.stringify(keysPressed),
-            hasSelection: window.getSelection().toString().length > 0,
-        });
-    handleAltClickWithGrid(e);
-});
+// Click event listener
+document.addEventListener('click', handleAltClickWithGrid);
 
 // Key down event listener
 document.addEventListener('keydown', (e) => {
@@ -1200,7 +1189,46 @@ async function handleRightClickWithoutGrid(e) {
     const elementClicked = e.target;
     const tag = elementClicked.tagName;
 
+    // Ignore right-clicks inside the Context Search grid
+    const grid = document.getElementById('context-search-icon-grid');
+    if (grid && grid.contains(elementClicked)) return;
+
+    // Capture image URL on right-click for reverse image search flows
+    try {
+        let imgEl = elementClicked.closest && elementClicked.closest('img');
+        let imgUrl = '';
+
+        // Handle overlay cases such as Google Lens annotation layer
+        const isIrisOverlay = elementClicked.classList && elementClicked.classList.contains('iris-annotation-layer');
+        if (!imgEl && isIrisOverlay && e && Number.isFinite(e.clientX) && Number.isFinite(e.clientY)) {
+            const elAtPoint = document.elementFromPoint(e.clientX, e.clientY);
+            imgEl = (elAtPoint && elAtPoint.closest && elAtPoint.closest('img')) || null;
+        }
+
+        if (imgEl) {
+            imgUrl = (imgEl.currentSrc || imgEl.src || imgEl.getAttribute('src') || '').trim();
+        } else if (isIrisOverlay) {
+            // Fallback: try background-image on overlay
+            try {
+                const bg = getComputedStyle(elementClicked).backgroundImage;
+                const match = bg && bg.match(/url\((['"]?)(.*?)\1\)/i);
+                if (match && match[2]) imgUrl = match[2].trim();
+            } catch (_) {
+                // ignore background-image parsing errors
+            }
+        }
+
+        if (imgUrl) {
+            const absUrl = absoluteUrl(imgUrl);
+            await sendMessage('storeTargetUrl', absUrl);
+            if (logToConsole) console.log(`Stored image url (contextmenu): ${absUrl}`);
+        }
+    } catch (err) {
+        if (logToConsole) console.warn('Failed to store image URL on right-click:', err);
+    }
+
     // If right click is on image then remove selection
+    // Prevents selection-context items from showing alongside image items when there’s residual text selection
     if (tag === 'IMG') {
         if (window.getSelection) {
             window.getSelection().removeAllRanges();
@@ -1357,31 +1385,7 @@ function getSelectionEndPosition() {
     };
 }
 
-async function handleMouseOver(e) {
-    const elementOver = e.target;
-    const tag = elementOver.tagName;
-
-    // Traverse up the DOM tree to check if a parent has the ID 'context-search-icon-grid'
-    let target = elementOver;
-    let level = 0;
-    while (target && level < 3) {
-        if (target.id === 'context-search-icon-grid') {
-            return; // Exit the function if a parent has the ID
-        }
-        target = target.parentElement;
-        level++;
-    }
-
-    // If right click is on image or a div with class 'iris-annotation-layer' then send the target url
-    if (tag === 'IMG' || (tag === 'DIV' && [...elementOver.classList].includes('iris-annotation-layer'))) {
-        if (logToConsole) console.log(e);
-        if (elementOver.parentId === 'context-search-icon-grid') return;
-        // Get the image url
-        const imgUrl = absoluteUrl(elementOver.getAttribute('src'));
-        await sendMessage('storeTargetUrl', imgUrl);
-        if (logToConsole) console.log(`Image url: ${imgUrl}`);
-    }
-}
+// handleMouseOver was removed; image URL storage moved to handleRightClickWithoutGrid
 
 // Display clickable buttons/icons on specific supported sites
 async function showButtons() {

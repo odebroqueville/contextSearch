@@ -1203,13 +1203,13 @@ async function init() {
             // We don't remove them here because buildContextMenu will handle that
         }
 
-    await initializeHeaderRules();
-    await checkNotificationsPermission();
-    await initializeStoredData();
-    await initialiseSearchEngines();
-    // Ensure PromptCat has defaults on first start/install
-    await ensureDefaultPromptCatPrompts();
-    await updateAddonStateForActiveTab();
+        await initializeHeaderRules();
+        await checkNotificationsPermission();
+        await initializeStoredData();
+        await initialiseSearchEngines();
+        // Ensure PromptCat has defaults on first start/install
+        await ensureDefaultPromptCatPrompts();
+        await updateAddonStateForActiveTab();
 
         isInitialized = true;
         if (logToConsole) console.log('Service worker initialization complete.');
@@ -2585,7 +2585,7 @@ async function setGroupTitle(groupId, title) {
     // Helper to verify if title is set (where supported)
     const isTitleApplied = async () => {
         try {
-            if (typeof (browser?.tabGroups?.get) === 'function') {
+            if (typeof browser?.tabGroups?.get === 'function') {
                 const group = await browser.tabGroups.get(groupId);
                 return (group?.title || '').trim().length > 0;
             }
@@ -2595,10 +2595,10 @@ async function setGroupTitle(groupId, title) {
         return false;
     };
 
-    if (logToConsole) console.log(typeof (browser?.tabGroups?.update) === 'function');
+    if (logToConsole) console.log(typeof browser?.tabGroups?.update === 'function');
 
     // Try browser.tabGroups.update first (WebExtensions/polyfill path), with color to make it visible
-    if (typeof (browser?.tabGroups?.update) === 'function') {
+    if (typeof browser?.tabGroups?.update === 'function') {
         for (let attempt = 0; attempt < 3; attempt++) {
             try {
                 if (logToConsole) console.log(`Setting tab group title to "${safeTitle}" with color "${color}" (attempt ${attempt + 1})`);
