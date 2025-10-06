@@ -2254,3 +2254,192 @@ input:disabled + .lock-slider {
         padding: 0 5px;
     }
 }
+
+/* Quick Preview Styles */
+
+/* Quick preview container - ensure it's a block container */
+#quick-preview-container {
+    display: block;
+    width: 100%;
+}
+
+/* Two-column layout wrapper - centered */
+.qp-columns-wrapper {
+    display: grid;
+    grid-template-columns: 60% 30%;
+    gap: 3%;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 93%; /* 60% + 30% + 3% gap = 93% */
+    max-width: 1400px;
+}
+
+.qp-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.qp-column h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 15px 0;
+    padding: 10px;
+    background-color: var(--bg-secondary, #f5f5f5);
+    border-radius: 6px;
+    color: var(--text-primary, #333);
+}
+
+.qp-left-column h3 {
+    background-color: var(--bg-secondary, #e8f4f8);
+    color: var(--primary-accent, #007bff);
+}
+
+.qp-right-column h3 {
+    background-color: var(--success-bg, #e8f5e9);
+    color: var(--success-color, #2e7d32);
+}
+
+.qp-list {
+    min-height: 200px;
+    background-color: var(--bg-secondary, #fafafa);
+    border: 2px dashed var(--border-color, #ddd);
+    border-radius: 8px;
+    padding: 10px;
+    flex: 1;
+}
+
+/* Multi-column grid for left list (available engines) - 3 columns */
+#qp-available-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px 8px;
+    grid-auto-flow: row;
+}
+
+.quick-preview-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    margin-bottom: 8px;
+    background-color: var(--bg-color, #fff);
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 6px;
+    cursor: move;
+    transition: all 0.2s ease;
+}
+
+#qp-available-list .quick-preview-item {
+    margin-bottom: 4px;
+}
+
+.quick-preview-item:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary-accent, #007bff);
+}
+
+.quick-preview-item:last-child {
+    margin-bottom: 0;
+}
+
+.quick-preview-item .qp-icon {
+    width: 24px;
+    height: 24px;
+    margin: 0 12px 0 0;
+    cursor: pointer;
+    flex-shrink: 0;
+    object-fit: contain;
+    border-radius: 4px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.quick-preview-item .qp-icon:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+}
+
+.quick-preview-item .qp-name {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary, #333);
+    cursor: move;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+.quick-preview-item .qp-css-btn {
+    padding: 6px 16px;
+    background-color: var(--primary-accent, #007bff);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+    margin-left: 10px;
+}
+
+.quick-preview-item .qp-css-btn:hover {
+    background-color: var(--primary-accent-hover, #0056b3);
+}
+
+.quick-preview-item .qp-css-btn:active {
+    transform: scale(0.98);
+}
+
+/* Sortable ghost styles */
+.quick-preview-item.sortable-ghost {
+    opacity: 0.4;
+    background-color: var(--primary-accent, #007bff);
+    border-color: var(--primary-accent, #007bff);
+}
+
+.quick-preview-item.sortable-drag {
+    opacity: 0.8;
+    transform: rotate(2deg);
+}
+
+.quick-preview-item.sortable-chosen {
+    cursor: grabbing;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .qp-column h3 {
+        background-color: var(--bg-secondary, #2a2a2a);
+        color: var(--text-primary, #ddd);
+    }
+
+    .qp-left-column h3 {
+        background-color: var(--bg-secondary, #1a3a4a);
+        color: var(--primary-accent, #4da6ff);
+    }
+
+    .qp-right-column h3 {
+        background-color: var(--success-bg, #1a3a1a);
+        color: var(--success-color, #66bb6a);
+    }
+
+    .qp-list {
+        background-color: var(--bg-secondary, #1e1e1e);
+        border-color: var(--border-color, #444);
+    }
+
+    .quick-preview-item {
+        background-color: var(--bg-color, #2a2a2a);
+        border-color: var(--border-color, #444);
+    }
+
+    .quick-preview-item .qp-name {
+        color: var(--text-primary, #ddd);
+    }
+
+    .quick-preview-item:hover {
+        border-color: var(--primary-accent, #4da6ff);
+        box-shadow: 0 2px 8px rgba(77, 166, 255, 0.3);
+    }
+}

@@ -62,6 +62,12 @@
             "js": ["/scripts/selection.js"]
         },
         {
+            "matches": ["http://*/*", "https://*/*"],
+            "js": ["/scripts/quick-preview.js"],
+            "css": ["/styles/quick-preview-bubble.css"],
+            "run_at": "document_end"
+        },
+        {
             "matches": ["http://*/*#_sidebar", "https://*/*#_sidebar"],
             "css": ["/styles/sidebar.css"],
             "run_at": "document_start",

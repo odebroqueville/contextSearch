@@ -1,0 +1,110 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    padding: 20px;
+    background-color: #fff;
+    color: #333;
+}
+
+h2 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+p {
+    margin-bottom: 15px;
+    color: #666;
+    font-size: 14px;
+}
+
+textarea {
+    width: 100%;
+    height: 300px;
+    padding: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    color: #333;
+    resize: vertical;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #999;
+}
+
+.button-container {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+button {
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+button.save {
+    background-color: #4caf50;
+    color: white;
+}
+
+button.save:hover {
+    background-color: #45a049;
+}
+
+button.cancel {
+    background-color: #ddd;
+    color: #333;
+}
+
+button.cancel:hover {
+    background-color: #ccc;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #222;
+        color: #ddd;
+    }
+    
+    h2 {
+        color: #ddd;
+    }
+    
+    p {
+        color: #aaa;
+    }
+    
+    textarea {
+        border-color: #444;
+        background-color: #333;
+        color: #ddd;
+    }
+    
+    textarea:focus {
+        border-color: #666;
+    }
+    
+    button.cancel {
+        background-color: #444;
+        color: #ddd;
+    }
+    
+    button.cancel:hover {
+        background-color: #555;
+    }
+}

@@ -465,6 +465,15 @@
     "addToPromptLibrary": {
         "message": "Add to prompt library"
     },
+    "titleQuickPreview": {
+        "message": "Quick preview"
+    },
+    "headerQuickPreview": {
+        "message": "Quick Preview Settings"
+    },
+    "quickPreviewDescription": {
+        "message": "Configure which search engines appear in the quick preview bubble. Only HTTP GET-based search engines are supported."
+    },
     "__WET_LOCALE__": {
         "message": "en"
     }

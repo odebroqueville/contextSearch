@@ -324,6 +324,59 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     // Handle other actions
     switch (action) {
+        case 'fetchQuickPreview': {
+            // Fetch content for Quick Preview (bypasses CORS)
+            const { url } = message;
+            if (url) {
+                // Add proper headers to get mobile-optimized content
+                // Using iPhone user agent for cleaner, more compact layout in narrow content area (430px)
+                const headers = {
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
+                    Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                };
+
+                fetch(url, {
+                    credentials: 'omit',
+                    redirect: 'follow',
+                    headers: headers,
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                        }
+                        return response.text();
+                    })
+                    .then((html) => {
+                        sendResponse({ success: true, html });
+                    })
+                    .catch((error) => {
+                        console.error('Error fetching Quick Preview content:', error);
+                        sendResponse({ success: false, error: error.message });
+                    });
+                return true;
+            }
+            sendResponse({ success: false, error: 'No URL provided' });
+            break;
+        }
+        case 'openSearch': {
+            // Quick Preview: open search URL in new tab
+            const { url } = message;
+            if (url) {
+                browser.tabs
+                    .create({ url, active: true })
+                    .then(() => {
+                        sendResponse({ success: true });
+                    })
+                    .catch((error) => {
+                        console.error('Error opening Quick Preview search:', error);
+                        sendResponse({ success: false, error: error.message });
+                    });
+                return true;
+            }
+            sendResponse({ success: false, error: 'No URL provided' });
+            break;
+        }
         case 'savePromptToLibrary': {
             // Persist a prompt into the PromptCatDB (extension origin IndexedDB)
             const payload = data || {};

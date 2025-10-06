@@ -88,6 +88,18 @@ window.addEventListener('message', async (event) => {
     if (event.origin !== window.location.origin) return; // Security check
 
     const receivedData = event.data;
+
+    // Handle Quick Preview CSS save
+    if (receivedData.type === 'quickPreviewCSS') {
+        const { id, css } = receivedData;
+        if (quickPreviewData.engines && quickPreviewData.engines[id]) {
+            quickPreviewData.engines[id].customCSS = css;
+            await saveQuickPreviewData();
+        }
+        return;
+    }
+
+    // Handle search engine add from popup
     if (receivedData.parentId && receivedData.id && receivedData.searchEngine) {
         const { parentId, id, searchEngine } = receivedData;
 
@@ -164,6 +176,10 @@ async function init() {
 
         await checkForDownloadsPermission();
         if (logToConsole) console.log('Downloads permission checked');
+
+        // Initialize Quick Preview
+        await initQuickPreview();
+        if (logToConsole) console.log('Quick Preview initialized');
 
         // Initialize translations
         i18n();
@@ -266,6 +282,8 @@ async function handleMessage(message) {
         // Reload search engines from storage and refresh display
         searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES);
         displaySearchEngines();
+        // Refresh Quick Preview list
+        displayQuickPreviewEngines();
     }
 }
 
@@ -1947,13 +1965,9 @@ async function handleFileUpload() {
 
             let proceed = true;
             if (!isPartial) {
-                proceed = window.confirm(
-                    'This will overwrite all current Prompt Library data. This action cannot be undone.'
-                );
+                proceed = window.confirm('This will overwrite all current Prompt Library data. This action cannot be undone.');
             } else {
-                proceed = window.confirm(
-                    'This will add data from the selected file to the Prompt Library. Existing data will be kept.'
-                );
+                proceed = window.confirm('This will add data from the selected file to the Prompt Library. Existing data will be kept.');
             }
             if (!proceed) return;
 
@@ -2336,3 +2350,287 @@ function isEmpty(value) {
 }
 
 // Removed local isInFocus and isKeyAllowed (now imported from utilities.js)
+
+/// Quick Preview functionality
+
+let quickPreviewData = {};
+
+// Initialize Quick Preview tab
+async function initQuickPreview() {
+    // Load quick preview data from storage
+    quickPreviewData = (await getStoredData(STORAGE_KEYS.QUICK_PREVIEW)) || {};
+
+    // Ensure we have the required structure
+    if (!quickPreviewData.engines) {
+        quickPreviewData = { engines: {} };
+    }
+
+    displayQuickPreviewEngines();
+}
+
+// Filter and display only HTTP GET search engines
+function displayQuickPreviewEngines() {
+    const container = document.getElementById('quick-preview-container');
+    if (!container) return;
+
+    // Clear container
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
+    }
+
+    // Collect all HTTP GET search engines
+    const allEngines = [];
+
+    for (const id in searchEngines) {
+        const engine = searchEngines[id];
+
+        // Skip root, folders, separators, bookmarks, bookmarklets, AI prompts
+        if (id === 'root') continue;
+        if (engine.isFolder) continue;
+        if (id.startsWith('separator-')) continue;
+        if (id.startsWith('link-')) continue;
+        if (id.startsWith('chatgpt-')) continue;
+
+        // Skip engines with formData (POST requests)
+        if (engine.formData) continue;
+
+        // Must have a URL
+        if (!engine.url) continue;
+
+        // Skip javascript: URLs
+        if (engine.url.startsWith('javascript:')) continue;
+
+        allEngines.push({ id, engine });
+    }
+
+    // Initialize data for engines if not present
+    allEngines.forEach(({ id }) => {
+        if (!quickPreviewData.engines[id]) {
+            quickPreviewData.engines[id] = {
+                id,
+                enabled: false,
+                index: null,
+                icon: '',
+                customCSS: '',
+            };
+        }
+    });
+
+    // Separate into enabled (right column) and available (left column)
+    const enabledEngines = [];
+    const availableEngines = [];
+
+    allEngines.forEach(({ id, engine }) => {
+        const data = quickPreviewData.engines[id];
+        if (data.enabled) {
+            enabledEngines.push({ id, engine, index: data.index ?? 999 });
+        } else {
+            availableEngines.push({ id, engine });
+        }
+    });
+
+    // Sort enabled engines by index
+    enabledEngines.sort((a, b) => a.index - b.index);
+
+    // Sort available engines alphabetically
+    availableEngines.sort((a, b) => a.engine.name.localeCompare(b.engine.name));
+
+    // Create two-column layout
+    const columnsWrapper = document.createElement('div');
+    columnsWrapper.classList.add('qp-columns-wrapper');
+
+    // Left column (Available engines)
+    const leftColumn = document.createElement('div');
+    leftColumn.classList.add('qp-column', 'qp-left-column');
+
+    const leftHeader = document.createElement('h3');
+    leftHeader.textContent = 'Available Search Engines';
+    leftColumn.appendChild(leftHeader);
+
+    const leftList = document.createElement('div');
+    leftList.id = 'qp-available-list';
+    leftList.classList.add('qp-list');
+
+    availableEngines.forEach(({ id, engine }) => {
+        const itemDiv = createQuickPreviewItem(id, engine, false);
+        leftList.appendChild(itemDiv);
+    });
+
+    leftColumn.appendChild(leftList);
+
+    // Right column (Selected engines for Quick Preview)
+    const rightColumn = document.createElement('div');
+    rightColumn.classList.add('qp-column', 'qp-right-column');
+
+    const rightHeader = document.createElement('h3');
+    rightHeader.textContent = 'Quick Preview Engines';
+    rightColumn.appendChild(rightHeader);
+
+    const rightList = document.createElement('div');
+    rightList.id = 'qp-selected-list';
+    rightList.classList.add('qp-list');
+
+    enabledEngines.forEach(({ id, engine }, index) => {
+        // Update index
+        quickPreviewData.engines[id].index = index;
+        const itemDiv = createQuickPreviewItem(id, engine, true);
+        rightList.appendChild(itemDiv);
+    });
+
+    rightColumn.appendChild(rightList);
+
+    // Add columns to wrapper
+    columnsWrapper.appendChild(leftColumn);
+    columnsWrapper.appendChild(rightColumn);
+
+    container.appendChild(columnsWrapper);
+
+    // Initialize Sortable for both lists
+    const sortableOptions = {
+        ...SORTABLE_BASE_OPTIONS,
+        group: 'quick-preview',
+        animation: 150,
+        onEnd: handleQuickPreviewDragEnd,
+    };
+
+    new Sortable(leftList, sortableOptions);
+    new Sortable(rightList, sortableOptions);
+}
+
+// Create a single quick preview item
+function createQuickPreviewItem(id, engine, isSelected) {
+    const itemDiv = document.createElement('div');
+    itemDiv.classList.add('quick-preview-item');
+    itemDiv.setAttribute('data-id', id);
+
+    const data = quickPreviewData.engines[id];
+
+    // Icon
+    const icon = document.createElement('img');
+    icon.classList.add('qp-icon');
+    icon.src = data.icon || `data:${engine.imageFormat || 'image/png'};base64,${engine.base64}`;
+    icon.alt = engine.name;
+    icon.title = 'Click to edit icon';
+    icon.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openIconEditor(id, engine.name);
+    });
+
+    // Label with search engine name
+    const label = document.createElement('span');
+    label.textContent = engine.name;
+    label.classList.add('qp-name');
+
+    itemDiv.appendChild(icon);
+    itemDiv.appendChild(label);
+
+    // Only show CSS button for selected engines (right column)
+    if (isSelected) {
+        const cssButton = document.createElement('button');
+        cssButton.type = 'button';
+        cssButton.textContent = 'CSS';
+        cssButton.classList.add('qp-css-btn');
+        cssButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openCSSPopup(id, engine.name);
+        });
+        itemDiv.appendChild(cssButton);
+    }
+
+    return itemDiv;
+}
+
+// Handle drag and drop between columns
+async function handleQuickPreviewDragEnd(evt) {
+    const itemId = evt.item.getAttribute('data-id');
+    const toList = evt.to;
+    const fromList = evt.from;
+
+    // Determine if moved to selected list (right column)
+    const movedToSelected = toList.id === 'qp-selected-list';
+    const movedToAvailable = toList.id === 'qp-available-list';
+
+    if (movedToSelected) {
+        // Mark as enabled and update index
+        quickPreviewData.engines[itemId].enabled = true;
+
+        // Update indices for all items in selected list
+        const selectedItems = toList.querySelectorAll('.quick-preview-item');
+        selectedItems.forEach((item, index) => {
+            const id = item.getAttribute('data-id');
+            if (quickPreviewData.engines[id]) {
+                quickPreviewData.engines[id].index = index;
+            }
+        });
+    } else if (movedToAvailable) {
+        // Mark as disabled and clear index
+        quickPreviewData.engines[itemId].enabled = false;
+        quickPreviewData.engines[itemId].index = null;
+    }
+
+    // If moved from selected to available, or within selected list
+    if (fromList.id === 'qp-selected-list') {
+        // Update indices for remaining/reordered items in selected list
+        const selectedItems = fromList.querySelectorAll('.quick-preview-item');
+        selectedItems.forEach((item, index) => {
+            const id = item.getAttribute('data-id');
+            if (quickPreviewData.engines[id]) {
+                quickPreviewData.engines[id].index = index;
+            }
+        });
+    }
+
+    await saveQuickPreviewData();
+
+    // Re-render to sort left column alphabetically and update CSS button visibility
+    displayQuickPreviewEngines();
+}
+
+// Save quick preview data to storage
+async function saveQuickPreviewData() {
+    try {
+        await browser.storage.local.set({ [STORAGE_KEYS.QUICK_PREVIEW]: quickPreviewData });
+        if (logToConsole) console.log('Quick Preview data saved:', quickPreviewData);
+    } catch (error) {
+        console.error('Error saving Quick Preview data:', error);
+    }
+}
+
+// Open icon editor popup
+function openIconEditor(id, engineName) {
+    const currentIcon = quickPreviewData.engines[id]?.icon || '';
+
+    const newIcon = prompt(
+        `Edit icon URL for "${engineName}"\n\nEnter a URL to an image (preferably SVG).\nLeave empty to use the default search engine icon.`,
+        currentIcon
+    );
+
+    // null means user cancelled, empty string means use default
+    if (newIcon !== null) {
+        quickPreviewData.engines[id].icon = newIcon;
+        saveQuickPreviewData();
+        // Refresh display to show new icon
+        displayQuickPreviewEngines();
+    }
+}
+
+// Open CSS editor popup
+function openCSSPopup(id, engineName) {
+    const popupWidth = 600;
+    const popupHeight = 500;
+    const left = Math.floor((window.screen.width - popupWidth) / 2);
+    const top = Math.floor((window.screen.height - popupHeight) / 2);
+    const windowFeatures = `width=${popupWidth},height=${popupHeight},left=${left},top=${top},resizable,scrollbars`;
+
+    const currentCSS = quickPreviewData.engines[id]?.customCSS || '';
+
+    // Build URL with parameters
+    const url = `../html/css-editor.html?id=${encodeURIComponent(id)}&name=${encodeURIComponent(engineName)}&css=${encodeURIComponent(currentCSS)}`;
+
+    const popup = window.open(url, '_blank', windowFeatures);
+
+    if (!popup) {
+        alert('Popup blocked. Please allow popups for this extension.');
+        return;
+    }
+}

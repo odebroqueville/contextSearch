@@ -14,6 +14,7 @@ export const DEFAULT_SEARCH_ENGINES = 'defaultSearchEngines.json';
 export const STORAGE_KEYS = {
     OPTIONS: 'options',
     SEARCH_ENGINES: 'searchEngines',
+    QUICK_PREVIEW: 'quickPreview',
     NOTIFICATIONS_ENABLED: 'notificationsEnabled',
     BOOKMARKS: 'bookmarkItems',
     HISTORY: 'historyItems',

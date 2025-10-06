@@ -1,0 +1,277 @@
+/* Quick Preview Bubble Styles - Similar to Lumetrium Definer */
+
+.qp-bubble {
+    position: absolute;
+    z-index: 999999;
+    width: 400px;
+    height: 400px;
+    background: #444444;
+    border: 1px solid #888888;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 4px 6px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.qp-bubble-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+    animation: qp-bubble-enter 0.2s ease-out;
+}
+
+.qp-bubble-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.qp-tab-titles {
+    width: 50px;
+    height: 100%;
+    flex: 0 0 50px;
+    background: #888888;
+    border-right: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 8px;
+    overflow-y: auto;
+}
+
+.qp-tab-item {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 3px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    outline: none;
+}
+
+.qp-tab-item:hover,
+.qp-tab-item:focus-visible {
+    background: rgba(59, 130, 246, 0.12);
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.15);
+    transform: translateY(-2px);
+}
+
+.qp-tab-item-active {
+    background: rgba(59, 130, 246, 0.2);
+    box-shadow: inset 0 0 0 2px rgba(59, 130, 246, 0.65);
+}
+
+.qp-tab-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+.qp-tab-content {
+    width: 350px;
+    height: 100%;
+    flex: 1 0 350px;
+    color: #cccccc;
+    background: #444444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qp-content-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 32px;
+    gap: 12px;
+}
+
+.qp-message-icon {
+    font-size: 48px;
+    line-height: 1;
+    margin-bottom: 8px;
+}
+
+.qp-message-text {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.qp-message-subtext {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.qp-preview-frame {
+    width: 100%;
+    height: 100%;
+    border: none;
+    color: #cccccc;
+    background: #444444;
+}
+
+/* Loading state */
+.qp-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    gap: 16px;
+}
+
+.qp-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e5e7eb;
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: qp-spin 0.8s linear infinite;
+}
+
+@keyframes qp-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.qp-loading p {
+    margin: 0;
+    font-size: 14px;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+/* Error state */
+.qp-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    gap: 12px;
+    text-align: center;
+}
+
+.qp-error-message {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #dc2626;
+}
+
+.qp-error-details {
+    margin: 0;
+    font-size: 13px;
+    color: #6b7280;
+    max-width: 300px;
+}
+
+.qp-open-tab {
+    margin-top: 8px;
+    padding: 10px 20px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.qp-open-tab:hover {
+    background: #2563eb;
+}
+
+.qp-open-tab:active {
+    background: #1d4ed8;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .qp-bubble {
+        background: #1f2937;
+        border-color: #374151;
+        box-shadow: 0 16px 30px rgba(0, 0, 0, 0.45), 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .qp-tab-titles {
+        background: #111827;
+        border-right-color: #374151;
+    }
+
+    .qp-tab-content,
+    .qp-preview-frame {
+        background: #111827;
+    }
+
+    .qp-message-text {
+        color: #f9fafb;
+    }
+
+    .qp-message-subtext {
+        color: #9ca3af;
+    }
+
+    .qp-tab-item-active {
+        background: rgba(96, 165, 250, 0.25);
+        box-shadow: inset 0 0 0 2px rgba(96, 165, 250, 0.7);
+    }
+
+    .qp-loading p {
+        color: #9ca3af;
+    }
+
+    .qp-spinner {
+        border-color: #374151;
+        border-top-color: #60a5fa;
+    }
+
+    .qp-error-message {
+        color: #ef4444;
+    }
+
+    .qp-error-details {
+        color: #9ca3af;
+    }
+
+    .qp-open-tab {
+        background: #2563eb;
+    }
+
+    .qp-open-tab:hover {
+        background: #3b82f6;
+    }
+
+    .qp-open-tab:active {
+        background: #60a5fa;
+    }
+}
+
+/* Animation for bubble entrance */
+@keyframes qp-bubble-enter {
+    from {
+        opacity: 0;
+        transform: translateY(-12px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
