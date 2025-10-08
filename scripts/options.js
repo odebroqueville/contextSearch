@@ -153,6 +153,31 @@ btnUpload.addEventListener('change', handleFileUpload);
 // Initialize meta key based on OS
 // Removed local initMetaKey (using getMetaKey from utilities.js)
 
+// Hide the Icons fieldset on Chrome-based browsers
+async function hideIconsFieldsetOnChrome() {
+    try {
+        // Check if getBrowserInfo exists (Firefox-only API)
+        if (typeof browser !== 'undefined' && browser.runtime && browser.runtime.getBrowserInfo) {
+            // This is Firefox, keep the fieldset visible
+            return;
+        }
+        
+        // This is Chrome or another browser, hide the Icons fieldset
+        const iconsFieldset = document.querySelector('fieldset legend h3[data-i18n="header2"]')?.parentElement?.parentElement;
+        if (iconsFieldset) {
+            iconsFieldset.style.display = 'none';
+            if (logToConsole) console.log('Icons fieldset hidden (not Firefox)');
+        }
+    } catch (error) {
+        // If getBrowserInfo throws an error, assume it's not Firefox
+        const iconsFieldset = document.querySelector('fieldset legend h3[data-i18n="header2"]')?.parentElement?.parentElement;
+        if (iconsFieldset) {
+            iconsFieldset.style.display = 'none';
+            if (logToConsole) console.log('Icons fieldset hidden (error checking browser)');
+        }
+    }
+}
+
 async function init() {
     try {
         if (logToConsole) console.log('Starting options page initialization...');
@@ -164,6 +189,9 @@ async function init() {
 
         await checkForDownloadsPermission();
         if (logToConsole) console.log('Downloads permission checked');
+
+        // Hide favicon fieldset on Chrome-based browsers (favicons not supported in context menus)
+        await hideIconsFieldsetOnChrome();
 
         // Initialize translations
         i18n();

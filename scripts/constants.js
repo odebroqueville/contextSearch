@@ -254,7 +254,7 @@ export const UPDATE_CONFIG = {
     },
     siteSearch: {
         fields: ['siteSearch', 'siteSearchUrl'],
-        requiresMenuRebuild: true
+        requiresMenuRebuild: false
     },
     resetOptions: {
         fields: ['forceSearchEnginesReload', 'resetPreferences', 'forceFaviconsReload'],

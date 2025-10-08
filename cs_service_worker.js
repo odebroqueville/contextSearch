@@ -40,7 +40,6 @@ import {
     UPDATE_CONFIG,
     titleMultipleSearchEngines,
     titleAISearch,
-    titleSiteSearch,
     titleExactMatch,
     titleOptions,
     omniboxDescription,
@@ -58,6 +57,20 @@ import {
     addSearchEngine,
     subscriptionStatus,
 } from '/scripts/constants.js';
+
+// Site search engines configuration
+const SITE_SEARCH_ENGINES = [
+    { name: 'Google', url: 'https://www.google.com/search?q=' },
+    { name: 'Bing', url: 'https://www.bing.com/search?q=' },
+    { name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q=' },
+    { name: 'Ecosia', url: 'https://www.ecosia.org/search?q=' },
+    { name: 'Lilo', url: 'https://search.lilo.org/?q=' },
+    { name: 'Qwant', url: 'https://www.qwant.com/?q=' },
+    { name: 'Startpage', url: 'https://www.startpage.com/do/search?query=' },
+    { name: 'Swisscows', url: 'https://swisscows.com/web?query=' },
+    { name: 'Yahoo', url: 'https://search.yahoo.com/search?p=' },
+    { name: 'Yandex', url: 'https://yandex.com/search?text=' }
+];
 
 // Utility function: debounce
 function debounce(func, delay) {
@@ -2119,11 +2132,22 @@ async function buildContextOptionsMenu() {
         });
     }
 
+    // Create site search parent menu with submenu
     await contextMenus.create({
         id: 'cs-site-search',
-        title: `${titleSiteSearch} ${options.siteSearch}`,
+        title: 'Site search with...',
         contexts: ['selection'],
     });
+
+    // Create submenu items for each site search engine
+    for (const engine of SITE_SEARCH_ENGINES) {
+        await contextMenus.create({
+            id: `cs-site-search-${engine.name.toLowerCase()}`,
+            title: engine.name,
+            contexts: ['selection'],
+            parentId: 'cs-site-search',
+        });
+    }
 
     await contextMenus.create({
         id: 'cs-options',
@@ -2388,6 +2412,13 @@ async function processSearch(info, tab) {
             if (!options.disableAI) {
                 await openAISearchPopup(tabIndex);
             }
+            return;
+        }
+        
+        // Handle site search with specific engine
+        if (id.startsWith('site-search-')) {
+            const hasCurrentSelection = Boolean(info.selectionText);
+            await displaySearchResults(id, tabIndex, multisearch, currentWindow.id, '', '', hasCurrentSelection);
             return;
         }
 
@@ -2722,11 +2753,22 @@ async function setTargetUrl(id, aiEngine = '', hasCurrentSelection = true) {
     if (id === 'bing-image-search') {
         return bingUrl;
     }
-    if (id === 'site-search') {
+    if (id.startsWith('site-search-')) {
+        // Extract engine name from id (e.g., 'site-search-google' -> 'google')
+        const engineName = id.replace('site-search-', '');
+        const engine = SITE_SEARCH_ENGINES.find(e => e.name.toLowerCase() === engineName);
+        
+        if (engine) {
+            let quote = '';
+            if (options.exactMatch) quote = '%22';
+            const domain = getDomain(activeTab.url).replace(/https?:\/\//, '');
+            return engine.url + encodeUrl(`site:https://${domain} ${quote}${selection}${quote}`);
+        }
+        // Fallback to Google if engine not found
         let quote = '';
         if (options.exactMatch) quote = '%22';
         const domain = getDomain(activeTab.url).replace(/https?:\/\//, '');
-        return options.siteSearchUrl + encodeUrl(`site:https://${domain} ${quote}${selection}${quote}`);
+        return 'https://www.google.com/search?q=' + encodeUrl(`site:https://${domain} ${quote}${selection}${quote}`);
     }
     if (id.startsWith('link-') && !searchEngines[id].url.startsWith('javascript:')) {
         // If there's no current selection, navigate directly to the bookmark URL

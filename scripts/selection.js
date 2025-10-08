@@ -1325,17 +1325,36 @@ async function openCustomContextMenu() {
             );
         }
 
-        // Site Search
-        const siteLbl = `${browser.i18n.getMessage('titleSiteSearch') || 'Site search'} ${options?.siteSearch || ''}`.trim();
-        appendRow(
-            siteLbl,
-            null,
-            async () => {
-                closeCustomContextMenu();
-                await browser.runtime.sendMessage({ action: 'doSearch', data: { id: 'site-search', hasCurrentSelection: !!textSelection } });
-            },
-            { noIcon: true }
-        );
+        // Site Search with available engines
+        const siteSearchEngines = [
+            { name: 'Google' },
+            { name: 'Bing' },
+            { name: 'DuckDuckGo' },
+            { name: 'Ecosia' },
+            { name: 'Lilo' },
+            { name: 'Qwant' },
+            { name: 'Startpage' },
+            { name: 'Swisscows' },
+            { name: 'Yahoo' },
+            { name: 'Yandex' }
+        ];
+        
+        // Add each site search engine
+        for (const engine of siteSearchEngines) {
+            const siteLbl = `${browser.i18n.getMessage('titleSiteSearch') || 'Site search'} (${engine.name})`;
+            appendRow(
+                siteLbl,
+                null,
+                async () => {
+                    closeCustomContextMenu();
+                    await browser.runtime.sendMessage({ 
+                        action: 'doSearch', 
+                        data: { id: `site-search-${engine.name.toLowerCase()}`, hasCurrentSelection: !!textSelection } 
+                    });
+                },
+                { noIcon: true }
+            );
+        }
 
         // Options page
         appendRow(
