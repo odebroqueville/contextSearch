@@ -22,6 +22,8 @@ const container = document.getElementById('container');
 const exactMatch = document.getElementById('exactMatch');
 const disableDoubleClick = document.getElementById('disableDoubleClick');
 const disableAI = document.getElementById('disableAI');
+const disableQuickPreview = document.getElementById('disableQuickPreview');
+const filterQuickPreviewByLanguage = document.getElementById('filterQuickPreviewByLanguage');
 const openNewTab = document.getElementById('openNewTab');
 const sameTab = document.getElementById('sameTab');
 const openNewWindow = document.getElementById('openNewWindow');
@@ -132,6 +134,8 @@ browser.permissions.onRemoved.addListener(handlePermissionsChanges);
 exactMatch.addEventListener('click', updateSearchOptions);
 disableDoubleClick.addEventListener('click', updateSearchOptions);
 disableAI.addEventListener('click', updateSearchOptions);
+if (disableQuickPreview) disableQuickPreview.addEventListener('click', updateSearchOptions);
+if (filterQuickPreviewByLanguage) filterQuickPreviewByLanguage.addEventListener('click', updateSearchOptions);
 displayFavicons.addEventListener('click', updateDisplayFavicons);
 quickIconGrid.addEventListener('click', updateQuickIconGrid);
 closeGridOnMouseOut.addEventListener('click', updateCloseGridOnMouseOut);
@@ -271,20 +275,30 @@ async function restoreOptionsPage() {
     }
 }
 
-// Handle incoming messages
-async function handleMessage(message) {
-    if (message.action === 'resetCompleted') {
-        if (logToConsole) console.log(message);
-        await restoreOptionsPage();
+// Handle incoming messages (fire-and-forget; do NOT return a Promise)
+function handleMessage(message) {
+    try {
+        if (message.action === 'resetCompleted') {
+            if (logToConsole) console.log(message);
+            // Fire-and-forget to avoid returning a Promise which can hijack other responses
+            restoreOptionsPage();
+        } else if (message.action === 'searchEnginesUpdated') {
+            if (logToConsole) console.log('Search engines updated, refreshing display');
+            // Reload search engines from storage and refresh display (without returning a Promise)
+            getStoredData(STORAGE_KEYS.SEARCH_ENGINES).then((se) => {
+                searchEngines = se;
+                displaySearchEngines();
+                // Refresh Quick Preview list
+                if (typeof displayQuickPreviewEngines === 'function') {
+                    displayQuickPreviewEngines();
+                }
+            });
+        }
+    } catch (e) {
+        console.warn('options.js handleMessage error:', e);
     }
-    if (message.action === 'searchEnginesUpdated') {
-        if (logToConsole) console.log('Search engines updated, refreshing display');
-        // Reload search engines from storage and refresh display
-        searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES);
-        displaySearchEngines();
-        // Refresh Quick Preview list
-        displayQuickPreviewEngines();
-    }
+    // Explicitly indicate we are not sending an async response
+    return false;
 }
 
 // Handle Permissions changes for Downloads
@@ -1688,6 +1702,18 @@ async function setOptions(options) {
         disableAI.checked = false;
     }
 
+    // Disable Quick Preview option
+    if (typeof options.disableQuickPreview === 'boolean') {
+        disableQuickPreview.checked = options.disableQuickPreview;
+    } else {
+        disableQuickPreview.checked = false;
+    }
+
+    // Quick Preview language filter option
+    if (filterQuickPreviewByLanguage) {
+        filterQuickPreviewByLanguage.checked = !!options.filterQuickPreviewByLanguage;
+    }
+
     const sidebarRestrictionParagraph = document.querySelector('p [data-i18n="restriction"]').parentElement;
 
     switch (options.tabMode) {
@@ -1865,11 +1891,15 @@ async function saveToLocalDisk() {
 
     const promptsLibrary = await readPromptCatLibrary();
 
-    // Bundle options, searchEngines, and prompts library
+    // Get Quick Preview data from storage
+    const quickPreview = await getStoredData(STORAGE_KEYS.QUICK_PREVIEW);
+
+    // Bundle options, searchEngines, prompts library, and Quick Preview data
     const payload = {
         options: options || {},
         searchEngines: searchEngines || {},
         promptsLibrary: promptsLibrary || {},
+        quickPreview: quickPreview || {},
     };
 
     const fileToDownload = new Blob([JSON.stringify(payload, null, 2)], {
@@ -2059,6 +2089,18 @@ async function handleFileUpload() {
     // Import prompts library (if present)
     await importPromptCatLibrary(promptsLibrary);
 
+    // Import Quick Preview data (if present)
+    if (parsed?.quickPreview && !isEmpty(parsed.quickPreview)) {
+        try {
+            await browser.storage.local.set({ [STORAGE_KEYS.QUICK_PREVIEW]: parsed.quickPreview });
+            // Update the local quickPreviewData variable
+            quickPreviewData = parsed.quickPreview;
+            if (logToConsole) console.log('Quick Preview data imported:', parsed.quickPreview);
+        } catch (error) {
+            console.error('Error importing Quick Preview data:', error);
+        }
+    }
+
     // Save search engines
     await sendMessage('saveSearchEngines', searchEngines);
 
@@ -2080,7 +2122,15 @@ async function updateSearchOptions() {
     const em = exactMatch.checked;
     const dd = disableDoubleClick.checked;
     const da = disableAI.checked;
-    await sendOptionUpdate('searchOptions', { exactMatch: em, disableDoubleClick: dd, disableAI: da });
+    const dqp = !!(disableQuickPreview && disableQuickPreview.checked);
+    const fl = !!(filterQuickPreviewByLanguage && filterQuickPreviewByLanguage.checked);
+    await sendOptionUpdate('searchOptions', {
+        exactMatch: em,
+        disableDoubleClick: dd,
+        disableAI: da,
+        disableQuickPreview: dqp,
+        filterQuickPreviewByLanguage: fl,
+    });
 }
 
 async function updateTabMode() {
@@ -2365,6 +2415,9 @@ async function initQuickPreview() {
         quickPreviewData = { engines: {} };
     }
 
+    // Before first display, probe engines for iframe-blocking headers once
+    await preflightDetectBlockedEnginesOnce();
+
     displayQuickPreviewEngines();
 }
 
@@ -2412,7 +2465,17 @@ function displayQuickPreviewEngines() {
                 index: null,
                 icon: '',
                 customCSS: '',
+                // New metadata for Quick Preview engines
+                blocked: false, // whether this engine is known to be blocked in iframe
+                lang: '', // ISO 639-1 desired language for this engine (optional)
             };
+        }
+        // Backfill newly added fields for existing entries
+        if (typeof quickPreviewData.engines[id].blocked !== 'boolean') {
+            quickPreviewData.engines[id].blocked = false;
+        }
+        if (typeof quickPreviewData.engines[id].lang !== 'string') {
+            quickPreviewData.engines[id].lang = '';
         }
     });
 
@@ -2497,11 +2560,94 @@ function displayQuickPreviewEngines() {
     new Sortable(rightList, sortableOptions);
 }
 
+// Build a test URL for an engine using a benign query
+function buildTestUrl(engine) {
+    try {
+        const base = engine?.url || '';
+        const probeText = encodeURIComponent('test');
+        if (base.includes('{searchTerms}')) return base.replace(/{searchTerms}/g, probeText);
+        if (base.includes('{selection}')) return base.replace(/{selection}/g, probeText);
+        if (base.includes('%s')) return base.replace(/%s/g, probeText);
+        return base + probeText;
+    } catch (e) {
+        return null;
+    }
+}
+
+// One-time scan: detect engines likely blocked by X-Frame-Options or CSP frame-ancestors
+async function preflightDetectBlockedEnginesOnce() {
+    try {
+        // Ensure structure
+        if (!quickPreviewData || !quickPreviewData.engines) quickPreviewData = { engines: {} };
+
+        // Gather all GET-based engines eligible for Quick Preview (same filter as display)
+        const probes = [];
+        for (const id in searchEngines) {
+            const engine = searchEngines[id];
+            if (!engine) continue;
+            if (id === 'root') continue;
+            if (engine.isFolder) continue;
+            if (id.startsWith('separator-')) continue;
+            if (id.startsWith('link-')) continue; // bookmarklets
+            if (id.startsWith('chatgpt-')) continue;
+            if (engine.formData) continue; // POST
+            if (!engine.url || engine.url.startsWith('javascript:')) continue;
+
+            // Ensure quickPreviewData entry
+            if (!quickPreviewData.engines[id]) {
+                quickPreviewData.engines[id] = { id, enabled: false, index: null, icon: '', customCSS: '', blocked: false, lang: '' };
+            } else {
+                if (typeof quickPreviewData.engines[id].blocked !== 'boolean') quickPreviewData.engines[id].blocked = false;
+                if (typeof quickPreviewData.engines[id].lang !== 'string') quickPreviewData.engines[id].lang = '';
+            }
+
+            // Skip engines we already know are blocked/unblocked to avoid repeated cost
+            // Still allow probing if blocked is false but we want initial confirmation; for performance, only probe when index is null (first-time setup)
+            const data = quickPreviewData.engines[id];
+            if (data && data._preflightDone) continue;
+
+            const testUrl = buildTestUrl(engine);
+            if (!testUrl) continue;
+
+            probes.push({ id, url: testUrl });
+        }
+
+        // Limit concurrency to avoid spamming; simple batching of up to 4 at a time
+        const batchSize = 4;
+        for (let i = 0; i < probes.length; i += batchSize) {
+            const batch = probes.slice(i, i + batchSize);
+            await Promise.all(
+                batch.map(async ({ id, url }) => {
+                    try {
+                        const resp = await browser.runtime.sendMessage({ action: 'fetchQuickPreview', url });
+                        // Detect blocked by header hints from service worker
+                        const blocked = !!(resp && (resp.xFrameOptions || resp.cspFrameAncestors));
+                        if (quickPreviewData.engines[id]) {
+                            quickPreviewData.engines[id].blocked = blocked;
+                            quickPreviewData.engines[id]._preflightDone = true; // internal flag, not relied upon elsewhere
+                        }
+                    } catch (e) {
+                        // On error, leave as-is (do not assume blocked)
+                    }
+                })
+            );
+        }
+
+        // Persist any updates once at end
+        await browser.storage.local.set({ [STORAGE_KEYS.QUICK_PREVIEW]: quickPreviewData });
+    } catch (e) {
+        // If any error occurs, fail softly and proceed with UI
+        console.warn('Quick Preview preflight detection failed:', e);
+    }
+}
+
 // Create a single quick preview item
 function createQuickPreviewItem(id, engine, isSelected) {
     const itemDiv = document.createElement('div');
     itemDiv.classList.add('quick-preview-item');
     itemDiv.setAttribute('data-id', id);
+    // Positioning context for badges/icons
+    itemDiv.style.position = 'relative';
 
     const data = quickPreviewData.engines[id];
 
@@ -2522,6 +2668,30 @@ function createQuickPreviewItem(id, engine, isSelected) {
     label.classList.add('qp-name');
 
     itemDiv.appendChild(icon);
+
+    // If this engine is marked blocked, show a warning triangle badge
+    try {
+        const qpInfo = quickPreviewData?.engines?.[id];
+        if (qpInfo && qpInfo.blocked === true) {
+            const warn = document.createElement('span');
+            warn.classList.add('qp-option-badge-warning');
+            warn.title = 'This engine content is blocked in Quick Preview';
+            // Inline SVG for a red warning triangle with exclamation mark
+            warn.innerHTML = `
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                  <path fill="#ef4444" d="M12 2c.7 0 1.35.37 1.71.98l8.08 13.6c.71 1.19-.16 2.7-1.54 2.7H3.75c-1.38 0-2.25-1.51-1.54-2.7l8.08-13.6C10.65 2.37 11.3 2 12 2z"/>
+                  <rect x="11" y="8" width="2" height="6" fill="#ffffff"/>
+                  <circle cx="12" cy="17" r="1.2" fill="#ffffff"/>
+                </svg>`;
+            // Place near top-right of the item
+            warn.style.position = 'absolute';
+            warn.style.top = '2px';
+            warn.style.right = '2px';
+            itemDiv.appendChild(warn);
+        }
+    } catch (_) {
+        // no-op
+    }
     itemDiv.appendChild(label);
 
     // Only show CSS button for selected engines (right column)
@@ -2535,6 +2705,25 @@ function createQuickPreviewItem(id, engine, isSelected) {
             openCSSPopup(id, engine.name);
         });
         itemDiv.appendChild(cssButton);
+
+        // Add small language input next to CSS button
+        const langInput = document.createElement('input');
+        langInput.type = 'text';
+        langInput.placeholder = 'lang'; // ISO 639-1 code
+        langInput.inputMode = 'latin';
+        langInput.maxLength = 5; // allow e.g., zh-CN if needed
+        langInput.size = 5;
+        langInput.title = 'Preferred language (ISO 639-1), e.g., en, fr, es';
+        langInput.classList.add('qp-lang-input');
+        langInput.value = (quickPreviewData.engines[id]?.lang || '').trim();
+        langInput.addEventListener('click', (e) => e.stopPropagation());
+        langInput.addEventListener('change', async (e) => {
+            const val = (e.target.value || '').trim();
+            // Store lowercased value; accept 2-letter or locale like zh-CN
+            quickPreviewData.engines[id].lang = val.toLowerCase();
+            await saveQuickPreviewData();
+        });
+        itemDiv.appendChild(langInput);
     }
 
     return itemDiv;

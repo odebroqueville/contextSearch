@@ -42,6 +42,7 @@ let domain = '';
 let pn = '';
 let keysPressed = {};
 let textSelection = '';
+let detectedSelectionLang = '';
 let navEntered = false;
 let xPos;
 let yPos;
@@ -2125,6 +2126,208 @@ async function handleSelectionEnd(e = null, selection = '') {
         // Fallback to direct storage if messaging fails
         console.warn('Error sending data to service worker', error);
     }
+
+    // Detect language (prefer page-declared signals first) only when Quick Preview is enabled; do not alter textSelection
+    try {
+        // Fetch latest options to ensure we respect the most recent setting
+        const freshOptions = await getFreshStoredData('options');
+        if (freshOptions) options = freshOptions;
+        if (!options?.disableQuickPreview) {
+            const lang = await detectLanguagePreferPageSignals(textSelection);
+            if (lang && typeof lang === 'string') {
+                detectedSelectionLang = lang;
+                try {
+                    await sendMessage('storeSelectionLang', lang);
+                    if (logToConsole) console.log('Detected selection language stored:', lang);
+                } catch (e2) {
+                    if (logToConsole) console.warn('Failed to store detected language:', e2);
+                }
+            }
+        } else if (logToConsole) {
+            console.log('Skipping language detection because Quick Preview is disabled.');
+        }
+    } catch (err) {
+        if (logToConsole) console.warn('Language detection check failed:', err);
+    }
+}
+
+// Cache for response header probe per page
+let __cs_cachedCLang = { url: '', lang: '' };
+
+// Try to read <meta http-equiv="Content-Language" content="...">
+function getMetaContentLanguagePrimary() {
+    try {
+        // Look for http-equiv Content-Language
+        const meta = document.querySelector('meta[http-equiv="Content-Language" i]');
+        const content = meta?.getAttribute('content') || '';
+        if (!content) return '';
+        // Some pages provide a list like "en-US, en"; take first token
+        const first = content.split(',')[0]?.trim().toLowerCase();
+        if (!first) return '';
+        // Normalize to primary subtag
+        return first.split('-')[0];
+    } catch (_e) {
+        return '';
+    }
+}
+
+// Ask the service worker to fetch the page's Content-Language response header (best-effort)
+async function getResponseHeaderContentLanguagePrimary() {
+    try {
+        const href = location.href;
+        if (__cs_cachedCLang.url === href && __cs_cachedCLang.lang) return __cs_cachedCLang.lang;
+
+        const resp = await sendMessage('getContentLanguageForUrl', { url: href });
+        const header = resp && resp.success && typeof resp.contentLanguage === 'string' ? resp.contentLanguage : '';
+        if (!header) {
+            __cs_cachedCLang = { url: href, lang: '' };
+            return '';
+        }
+        // Similar normalization: take first token, then primary subtag
+        const first = header.split(',')[0]?.trim().toLowerCase();
+        const primary = first ? first.split('-')[0] : '';
+        __cs_cachedCLang = { url: href, lang: primary || '' };
+        return __cs_cachedCLang.lang;
+    } catch (_e) {
+        return '';
+    }
+}
+
+// Async detection that prefers document lang, then meta/content-language, then response header, then heuristics
+async function detectLanguagePreferPageSignals(selectionText) {
+    // 1) <html lang>
+    const htmlLang = getDocumentHtmlLangPrimary();
+    if (htmlLang) return htmlLang;
+
+    // 2) <meta http-equiv="Content-Language">
+    const metaLang = getMetaContentLanguagePrimary();
+    if (metaLang) return metaLang;
+
+    // 3) Server response header Content-Language (best-effort, via SW)
+    const headerLang = await getResponseHeaderContentLanguagePrimary();
+    if (headerLang) return headerLang;
+
+    // 4) Heuristics and fallback
+    return detectLanguageFromContext(selectionText);
+}
+
+// Get the primary subtag from the document's <html lang> if present and valid
+function getDocumentHtmlLangPrimary() {
+    try {
+        const raw = (document.documentElement && document.documentElement.lang) || '';
+        if (!raw) return '';
+        const cleaned = String(raw).trim().toLowerCase();
+        // Ignore ambiguous or placeholder values
+        if (!cleaned || cleaned === 'und' || cleaned === 'zxx' || cleaned === 'x-default') return '';
+        return cleaned.split('-')[0];
+    } catch (_e) {
+        return '';
+    }
+}
+
+// Language detection: prefer the page's <html lang>, then heuristics, then fallback
+function detectLanguageFromContext(selectionText) {
+    // 1) Prefer the active document's declared language
+    const htmlLang = getDocumentHtmlLangPrimary();
+    if (htmlLang) return htmlLang;
+
+    // 2) Heuristic detection leveraging selection and surrounding context
+    const txt = (selectionText || '').trim();
+    // If empty, try to pull a small context from the page
+    const expanded = txt || getExpandedContextAroundSelection();
+    const sample = (expanded || '').slice(0, 1200); // cap for performance
+    if (!sample) return fallbackPageLang();
+
+    // Script-based detection
+    if (/^[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF\u10E60-\u10E7F\u1EC70-\u1ECBF\u1ED00-\u1ED4F]+/.test(sample))
+        return 'ar'; // Arabic
+    if (/[\u0400-\u04FF]/.test(sample)) return 'ru'; // Cyrillic block
+    if (/[\u4E00-\u9FFF]/.test(sample)) return 'zh'; // CJK Unified Ideographs (Chinese)
+    if (/[\u3040-\u309F\u30A0-\u30FF]/.test(sample)) return 'ja'; // Hiragana/Katakana
+    if (/[\u0E00-\u0E7F]/.test(sample)) return 'th'; // Thai
+    if (/[\uAC00-\uD7AF]/.test(sample)) return 'ko'; // Hangul
+    if (/[\u0590-\u05FF]/.test(sample)) return 'he'; // Hebrew
+
+    // Latin languages heuristics based on diacritics and stopwords
+    const lower = sample.toLowerCase();
+    const count = (re) => (lower.match(re) || []).length;
+
+    // Quick stopword heuristics
+    const scores = {
+        en: count(/\b(the|and|of|to|in|is|that|for|on|with|as)\b/g),
+        es: count(/\b(el|la|los|las|de|y|que|en|con|para)\b/g) + count(/[ñáéíóúü]/g),
+        fr: count(/\b(le|la|les|de|des|et|que|en|pour|dans)\b/g) + count(/[éèêàçùâîôëïü]/g),
+        de: count(/\b(der|die|das|und|zu|den|von|mit|auf|für)\b/g) + count(/[äöüß]/g),
+        it: count(/\b(il|lo|la|gli|le|di|e|che|in|per)\b/g) + count(/[àèéìòù]/g),
+        pt: count(/\b(o|a|os|as|de|e|que|em|para|com)\b/g) + count(/[ãõáâàéêíóôúç]/g),
+        nl: count(/\b(de|het|een|en|van|op|te|voor|met)\b/g),
+        sv: count(/\b(och|att|som|en|det|på|är|av|för|med)\b/g) + count(/[åäö]/g),
+        da: count(/\b(og|at|som|en|det|på|er|af|for|med)\b/g) + count(/[æøå]/g),
+        fi: count(/\b(ja|että|on|se|ei|kun|niin|mutta)\b/g) + count(/[äö]/g),
+        pl: count(/\b(i|że|to|w|na|z|nie|do|jest)\b/g) + count(/[ąćęłńóśźż]/g),
+        tr: count(/\b(ve|bir|bu|da|de|için|ile|olarak|gibi)\b/g) + count(/[çğıöşü]/g),
+        ro: count(/\b(și|de|la|în|care|cu|pe|pentru)\b/g) + count(/[ăâîșț]/g),
+    };
+
+    // Pick the language with the highest score if it is significant
+    let best = 'en';
+    let bestScore = -1;
+    for (const [lang, sc] of Object.entries(scores)) {
+        if (sc > bestScore) {
+            best = lang;
+            bestScore = sc;
+        }
+    }
+    if (bestScore > 0) return best;
+
+    // 3) Fallback to page language or browser language
+    return fallbackPageLang();
+}
+
+// Expand selection to nearby text nodes/paragraphs to improve detection
+function getExpandedContextAroundSelection(maxChars = 1600) {
+    try {
+        const sel = window.getSelection && window.getSelection();
+        if (!sel || sel.rangeCount === 0) return '';
+        const range = sel.getRangeAt(sel.rangeCount - 1);
+        // Collect text content from parent paragraph/container siblings
+        const anchor =
+            range.commonAncestorContainer.nodeType === Node.ELEMENT_NODE
+                ? range.commonAncestorContainer
+                : range.commonAncestorContainer.parentElement;
+        if (!anchor) return sel.toString();
+        let container = anchor.closest('p, article, section, div') || anchor;
+        let texts = [];
+        const pushText = (el) => {
+            const t = (el.innerText || el.textContent || '').trim();
+            if (t) texts.push(t);
+        };
+        // Current container
+        pushText(container);
+        // Previous siblings
+        let prev = container.previousElementSibling;
+        for (let i = 0; prev && i < 2; i++) {
+            if (prev.matches && prev.matches('p,div,section,article,li')) pushText(prev);
+            prev = prev.previousElementSibling;
+        }
+        // Next siblings
+        let next = container.nextElementSibling;
+        for (let i = 0; next && i < 2; i++) {
+            if (next.matches && next.matches('p,div,section,article,li')) pushText(next);
+            next = next.nextElementSibling;
+        }
+        const combined = texts.join('\n').slice(0, maxChars);
+        return combined || sel.toString();
+    } catch (e) {
+        return '';
+    }
+}
+
+function fallbackPageLang() {
+    const pageLang = (document.documentElement && document.documentElement.lang) || '';
+    if (pageLang) return pageLang.split('-')[0].toLowerCase();
+    const navLang = (navigator.language || '').split('-')[0].toLowerCase();
+    return navLang || 'en';
 }
 
 function getPidAndName(string) {

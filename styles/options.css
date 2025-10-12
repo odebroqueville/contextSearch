@@ -279,6 +279,19 @@ button#download {
     cursor: pointer;
 }
 
+/* Quick Preview (Options) list item warning badge */
+.quick-preview-item {
+    position: relative; /* for badge positioning */
+}
+.qp-option-badge-warning {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .tab-content input[type='button']:hover,
 .tab-content input[type='submit']:hover,
 .tab-content button:not(.add):not(.remove):hover,

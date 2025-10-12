@@ -2,8 +2,6 @@
 import '/libs/browser-polyfill.min.js';
 import ExtPay from '/libs/ExtPay.js';
 
-/* global DEBUG_VALUE */
-
 /// Import constants
 import {
     bingUrl,
@@ -73,7 +71,8 @@ function debounce(func, delay) {
 /// Global variables
 
 // Debug
-const logToConsole = DEBUG_VALUE;
+// const logToConsole = DEBUG_VALUE;  // ORIGINAL - DEBUG_VALUE is undefined without build
+const logToConsole = true; // TEMPORARY FIX - Enable logging for debugging
 
 // ExtPay
 const extpay = ExtPay('context-search');
@@ -98,6 +97,8 @@ let searchEngines = {};
 
 // Module-level variables for temporary state during service worker lifetime
 let selection = '';
+// eslint-disable-next-line no-unused-vars
+let selectionLang = '';
 let targetUrl = '';
 let imageUrl = '';
 let lastAddressBarKeyword = '';
@@ -310,6 +311,8 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     // Avoid using browser.runtime.lastError here; it’s not reliable in this context
     if (logToConsole) console.log('Message received from', sender?.url, message);
+    // ALWAYS log fetchQuickPreview for debugging
+    if (action === 'fetchQuickPreview') console.log('[SW] fetchQuickPreview received:', message.url);
 
     // Remove this block:
     // if (browser.runtime.lastError) {
@@ -319,45 +322,94 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     if (action !== 'openPaymentPage' && action !== 'openTrialPage' && action !== 'openOptionsPage' && !paid && !trialActive) {
         sendResponse({ success: false, error: 'Subscription required' });
-        return;
+        return false; // Return false for synchronous response
     }
 
     // Handle other actions
     switch (action) {
         case 'fetchQuickPreview': {
             // Fetch content for Quick Preview (bypasses CORS)
+            if (logToConsole) console.log('[Service Worker] fetchQuickPreview action received:', message);
             const { url } = message;
             if (url) {
-                // Add proper headers to get mobile-optimized content
-                // Using iPhone user agent for cleaner, more compact layout in narrow content area (430px)
-                const headers = {
-                    'Accept-Language': 'en-US,en;q=0.9',
-                    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
-                    Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-                };
+                try {
+                    if (logToConsole) console.log('[Service Worker] Fetching URL:', url);
 
-                fetch(url, {
-                    credentials: 'omit',
-                    redirect: 'follow',
-                    headers: headers,
-                })
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                        }
-                        return response.text();
+                    // Basic validation to avoid synchronous fetch() throws (which would skip sendResponse)
+                    try {
+                        // eslint-disable-next-line no-new
+                        new URL(url);
+                    } catch (e) {
+                        console.error('[Service Worker] Invalid URL received:', url, e);
+                        sendResponse({ success: false, error: 'Invalid URL' });
+                        return false; // Synchronous response
+                    }
+
+                    // Add proper headers to get mobile-optimized content
+                    // Using Android mobile user agent for mobile layout (fits 350px bubble) and better compatibility
+                    const headers = {
+                        'Accept-Language': 'en-US,en;q=0.9',
+                        'User-Agent':
+                            'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
+                        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+                    };
+
+                    fetch(url, {
+                        credentials: 'omit',
+                        redirect: 'follow',
+                        headers: headers,
                     })
-                    .then((html) => {
-                        sendResponse({ success: true, html });
-                    })
-                    .catch((error) => {
-                        console.error('Error fetching Quick Preview content:', error);
-                        sendResponse({ success: false, error: error.message });
-                    });
-                return true;
+                        .then((response) => {
+                            if (logToConsole) console.log('[Service Worker] Fetch response status:', response.status);
+
+                            // Check for X-Frame-Options header that would block iframe
+                            const xFrameOptions = response.headers.get('X-Frame-Options');
+                            const csp = response.headers.get('Content-Security-Policy');
+
+                            // Capture header info to return to caller for probing
+                            const headerInfo = {
+                                xFrameOptions: xFrameOptions || null,
+                                cspFrameAncestors: !!(csp && csp.includes('frame-ancestors')),
+                            };
+
+                            if (xFrameOptions) {
+                                console.warn('[Service Worker] X-Frame-Options detected:', xFrameOptions);
+                                console.warn('[Service Worker] This site may not display properly in iframe');
+                            }
+
+                            if (csp && csp.includes('frame-ancestors')) {
+                                console.warn('[Service Worker] CSP frame-ancestors detected:', csp);
+                            }
+
+                            if (!response.ok) {
+                                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                            }
+                            return response.text().then((html) => ({ html, headerInfo }));
+                        })
+                        .then((payload) => {
+                            const { html, headerInfo } = payload || {};
+                            if (logToConsole) console.log('[Service Worker] Sending success response, HTML length:', html?.length);
+                            sendResponse({ success: true, html, ...headerInfo });
+                        })
+                        .catch((error) => {
+                            console.error('[Service Worker] Error fetching Quick Preview content (async):', error);
+                            sendResponse({ success: false, error: error.message });
+                        });
+                    return true; // Keep message channel open for async response
+                } catch (outerError) {
+                    // Catch synchronous errors (e.g., fetch throwing before returning a promise)
+                    console.error('[Service Worker] Synchronous error in fetchQuickPreview handler:', outerError);
+                    try {
+                        sendResponse({ success: false, error: outerError.message });
+                    } catch (ignore) {
+                        // ignore secondary failures
+                    }
+                    return false; // Synchronous response
+                }
             }
+            console.error('[Service Worker] No URL provided in fetchQuickPreview message');
             sendResponse({ success: false, error: 'No URL provided' });
-            break;
+            return false; // Synchronous response
         }
         case 'openSearch': {
             // Quick Preview: open search URL in new tab
@@ -372,10 +424,10 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
                         console.error('Error opening Quick Preview search:', error);
                         sendResponse({ success: false, error: error.message });
                     });
-                return true;
+                return true; // Keep message channel open for async response
             }
             sendResponse({ success: false, error: 'No URL provided' });
-            break;
+            return false; // Synchronous response
         }
         case 'savePromptToLibrary': {
             // Persist a prompt into the PromptCatDB (extension origin IndexedDB)
@@ -438,6 +490,23 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             } else {
                 if (logToConsole) console.log('storeSelection called with empty/null data');
                 sendResponse({ success: false, error: 'No data provided' });
+            }
+            break;
+        case 'storeSelectionLang':
+            if (logToConsole) console.log('storeSelectionLang message received with data:', data);
+            if (typeof data === 'string') {
+                setStoredData(STORAGE_KEYS.SELECTION_LANG, data)
+                    .then(() => {
+                        if (logToConsole) console.log('Successfully stored selection language:', data);
+                        sendResponse({ success: true });
+                    })
+                    .catch((error) => {
+                        console.error('Error storing selection language:', error);
+                        sendResponse({ success: false, error: error.message });
+                    });
+                return true;
+            } else {
+                sendResponse({ success: false, error: 'Invalid language value' });
             }
             break;
         case 'storeTargetUrl':
@@ -663,6 +732,61 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             extpay.openPaymentPage();
             // No sendResponse needed here as the popup closes itself
             break;
+        case 'getContentLanguageForUrl': {
+            // Best-effort probe to read the Content-Language response header of a URL
+            try {
+                const url = (data && data.url) || (sender?.tab && sender.tab.url) || '';
+                if (!url) {
+                    sendResponse({ success: false, error: 'No URL provided' });
+                    return false;
+                }
+
+                // Validate URL format early
+                try {
+                    // eslint-disable-next-line no-new
+                    new URL(url);
+                } catch (e) {
+                    sendResponse({ success: false, error: 'Invalid URL' });
+                    return false;
+                }
+
+                const headers = {
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'User-Agent':
+                        'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
+                };
+
+                // Try HEAD first to minimize payload; some servers may not support HEAD, so fallback to GET with small Accept
+                const doFetch = async (method) => {
+                    return fetch(url, {
+                        method,
+                        credentials: 'omit',
+                        redirect: 'follow',
+                        headers: method === 'HEAD' ? headers : { ...headers, Accept: 'text/html;q=0.5,*/*;q=0.1' },
+                    });
+                };
+
+                (async () => {
+                    try {
+                        let response = await doFetch('HEAD');
+                        if (!response.ok || !response.headers) {
+                            // Retry with GET
+                            response = await doFetch('GET');
+                        }
+                        const cl = response.headers ? response.headers.get('Content-Language') : null;
+                        sendResponse({ success: true, contentLanguage: cl || '' });
+                    } catch (err) {
+                        console.error('[Service Worker] getContentLanguageForUrl error:', err);
+                        sendResponse({ success: false, error: err?.message || String(err) });
+                    }
+                })();
+                return true; // async response
+            } catch (err) {
+                console.error('[Service Worker] getContentLanguageForUrl synchronous error:', err);
+                sendResponse({ success: false, error: err?.message || String(err) });
+                return false;
+            }
+        }
         default:
             if (logToConsole) console.log('Unexpected action:', action);
             sendResponse({ success: false });
@@ -854,6 +978,9 @@ async function initializeStoredData() {
         // Initialize selection
         selection = (await getStoredData(STORAGE_KEYS.SELECTION)) || '';
 
+        // Initialize selection language
+        selectionLang = (await getStoredData(STORAGE_KEYS.SELECTION_LANG)) || '';
+
         // Initialize target URL
         targetUrl = (await getStoredData(STORAGE_KEYS.TARGET_URL)) || '';
 
@@ -891,6 +1018,11 @@ async function handleStorageChange(changes, areaName) {
         // Check if selection was changed
         if (changes.selection) {
             selection = changes.selection.newValue;
+        }
+
+        // Check if selection language was changed
+        if (changes.selectionLang) {
+            selectionLang = changes.selectionLang.newValue;
         }
 
         // Check if target URL was changed

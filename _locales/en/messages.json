@@ -252,7 +252,7 @@
         "message": "Also, reverse image search results cannot be displayed in the sidebar."
     },
     "siteSearch": {
-        "message": "Search engine for searching current site:"
+        "message": "Search engine for bookmarks site search:"
     },
     "header9": {
         "message": "Advanced features"
@@ -473,6 +473,12 @@
     },
     "quickPreviewDescription": {
         "message": "Configure which search engines appear in the quick preview bubble. Only HTTP GET-based search engines are supported."
+    },
+    "disableQuickPreview": {
+        "message": "Disable quick preview of search results"
+    },
+    "filterQuickPreviewByLanguage": {
+        "message": "Filter Quick Preview by selection language"
     },
     "__WET_LOCALE__": {
         "message": "en"

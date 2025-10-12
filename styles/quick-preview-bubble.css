@@ -79,15 +79,16 @@
     pointer-events: none;
 }
 
+/* (removed) Blocked badge styling is not used in the bubble */
+
 .qp-tab-content {
     width: 350px;
     height: 100%;
     flex: 1 0 350px;
     color: #cccccc;
     background: #444444;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: relative; /* Changed from flex to relative for iframe positioning */
+    overflow: hidden; /* Ensure content doesn't overflow */
 }
 
 .qp-content-message {
@@ -98,6 +99,11 @@
     text-align: center;
     padding: 32px;
     gap: 12px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .qp-message-icon {
@@ -133,6 +139,11 @@
     justify-content: center;
     padding: 40px;
     gap: 16px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .qp-spinner {
@@ -166,6 +177,68 @@
     padding: 40px;
     gap: 12px;
     text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Blocked content fallback (X-Frame-Options) */
+.qp-blocked-fallback {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    gap: 16px;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.qp-blocked-icon {
+    font-size: 48px;
+    line-height: 1;
+    margin-bottom: 8px;
+}
+
+.qp-blocked-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #f59e0b;
+}
+
+.qp-blocked-message {
+    margin: 0;
+    font-size: 13px;
+    color: #6b7280;
+    max-width: 280px;
+}
+
+.qp-open-tab-button {
+    margin-top: 8px;
+    padding: 10px 24px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.qp-open-tab-button:hover {
+    background: #2563eb;
+}
+
+.qp-open-tab-button:active {
+    background: #1d4ed8;
 }
 
 .qp-error-message {
