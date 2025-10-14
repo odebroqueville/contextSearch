@@ -212,24 +212,38 @@
 
         // Only inject when the frame belongs to Quick Preview, detected via frame/window name 'csqp:<engineId>'
         let engineId = '';
-        let wname = window.name || '';
-        if (/^csqp:?/.test(wname)) {
-            const m = wname.match(/^csqp:?([a-z0-9_-]+)$/i);
-            if (m) engineId = m[1];
-        }
-        if (!engineId) {
+        const resolveFromUrl = () => {
             try {
                 const u = new URL(location.href);
-                engineId = u.searchParams.get('csqpid') || '';
-                if (!engineId) {
+                let eid = u.searchParams.get('csqpid');
+                if (!eid) {
                     const hp = new URLSearchParams(u.hash.replace(/^#/, ''));
-                    engineId = hp.get('csqpid') || '';
+                    eid = hp.get('csqpid');
                 }
+                return eid || '';
             } catch (_) {
-                /* ignore */
+                return '';
+            }
+        };
+
+        // 1. Prefer explicit URL parameter / hash (most up-to-date on redirect)
+        engineId = resolveFromUrl();
+
+        // 2. Fallback to encoded window.name if needed
+        if (!engineId) {
+            const wname = window.name || '';
+            if (/^csqp:?/.test(wname)) {
+                const raw = wname.replace(/^csqp:?/, '');
+                try {
+                    engineId = decodeURIComponent(raw);
+                } catch (_) {
+                    engineId = raw; // best effort
+                }
             }
         }
+        // 3. Then attribute
         if (!engineId) engineId = document.documentElement.getAttribute('data-csqp-engine') || '';
+        // 4. Then localStorage (least reliable / may be stale)
         if (!engineId) {
             try {
                 engineId = localStorage.getItem('csqpEngineId') || '';
@@ -237,6 +251,9 @@
                 /* ignore */
             }
         }
+
+        // Capture initial hostname (reserved for future diagnostics if needed)
+        // const initialHostname = location.hostname || '';
         if (engineId) {
             try {
                 document.documentElement.setAttribute('data-csqp-engine', engineId);
@@ -249,7 +266,14 @@
                 /* ignore */
             }
             try {
-                if (window.name !== `csqp:${engineId}`) window.name = `csqp:${engineId}`;
+                const encoded = (() => {
+                    try {
+                        return encodeURIComponent(engineId);
+                    } catch (_) {
+                        return engineId;
+                    }
+                })();
+                if (window.name !== `csqp:${encoded}`) window.name = `csqp:${encoded}`;
             } catch (_) {
                 /* ignore */
             }
@@ -257,15 +281,18 @@
             return; // Not a quick preview frame we recognize
         }
 
-        // Read per-engine CSS once
+        // Read per-engine CSS once (initial attempt)
         let engineSpecificCSS = '';
-        try {
-            const res = await browser.storage.local.get('quickPreview');
-            const qp = res && res.quickPreview ? res.quickPreview : {};
-            engineSpecificCSS = (qp.engines && qp.engines[engineId] && qp.engines[engineId].customCSS) || '';
-        } catch (_) {
-            // ignore
-        }
+        const fetchEngineCSS = async (idOverride) => {
+            try {
+                const res = await browser.storage.local.get('quickPreview');
+                const qp = res && res.quickPreview ? res.quickPreview : {};
+                return (qp.engines && qp.engines[idOverride] && qp.engines[idOverride].customCSS) || '';
+            } catch (_) {
+                return '';
+            }
+        };
+        engineSpecificCSS = await fetchEngineCSS(engineId);
 
         // Always add a small generic fit stylesheet to improve narrow frame layout
         const genericFitCSS = `
@@ -307,7 +334,7 @@ html.has-right-rail-module .results--main, body.has-right-rail-module .results--
         }
 
         if (!engineSpecificCSS || typeof engineSpecificCSS !== 'string') engineSpecificCSS = '';
-        if (logToConsole) qpLog('[QP][CSS] Engine CSS retrieved', { engineId, length: engineSpecificCSS.length });
+        if (logToConsole) qpLog('[QP][CSS] Engine CSS retrieved (initial)', { engineId, length: engineSpecificCSS.length });
 
         const cssSegments = [genericFitCSS, hostSpecificCSS.trim(), engineSpecificCSS.trim()].filter(Boolean);
 
@@ -337,7 +364,52 @@ html.has-right-rail-module .results--main, body.has-right-rail-module .results--
                 if (logToConsole) qpError('[QP][CSS] Fallback adoptedStyleSheet failed', e2);
             }
         }
-        if (!appended && logToConsole) qpWarn('[QP][CSS] Engine-specific CSS may not be applied');
+        if (!appended && logToConsole) qpWarn('[QP][CSS] Engine-specific CSS may not be applied (initial append failed)');
+
+        // Late reconciliation: if engineId derived from url differs from stored one or CSS was empty, retry a few times
+        const urlEngineId = resolveFromUrl();
+        const mismatch = urlEngineId && urlEngineId !== engineId;
+        const needsRetry = mismatch || !engineSpecificCSS;
+        if (needsRetry) {
+            if (logToConsole) qpLog('[QP][CSS] Scheduling late CSS retries', { mismatch, initialEngineId: engineId, urlEngineId });
+            let attempts = 0;
+            const maxAttempts = 6; // ~ up to ~2s spread
+            const schedule = [150, 300, 600, 1000, 1600];
+            const lateInject = async () => {
+                attempts++;
+                let effectiveId = engineId;
+                if (mismatch) {
+                    effectiveId = urlEngineId; // trust explicit param later
+                    try {
+                        document.documentElement.setAttribute('data-csqp-engine', effectiveId);
+                    } catch (_) {
+                        /* ignore */
+                    }
+                }
+                const cssNow = await fetchEngineCSS(effectiveId);
+                if (cssNow && cssNow.trim().length) {
+                    // Append a late style so it wins cascade
+                    try {
+                        const lateStyle = document.createElement('style');
+                        lateStyle.setAttribute('data-cs-qp-style', 'late');
+                        lateStyle.setAttribute('data-csqp-engine', effectiveId);
+                        lateStyle.textContent = cssNow;
+                        (document.head || document.documentElement).appendChild(lateStyle);
+                        if (logToConsole) qpLog('[QP][CSS] Late engine CSS injected', { effectiveId, length: cssNow.length, attempts });
+                    } catch (e) {
+                        if (logToConsole) qpWarn('[QP][CSS] Failed late injection', e);
+                    }
+                    return;
+                }
+                if (attempts < maxAttempts) {
+                    const delay = schedule[attempts - 1] || 2000;
+                    setTimeout(lateInject, delay);
+                } else if (logToConsole) {
+                    qpWarn('[QP][CSS] Late retries exhausted – no custom CSS applied', { finalId: effectiveId });
+                }
+            };
+            setTimeout(lateInject, 0);
+        }
 
         // Ensure a viewport that caps width to the bubble (~330px) instead of device width
         try {

@@ -649,7 +649,12 @@ function frameEngineUrl(url, engineId) {
     const iframe = document.createElement('iframe');
     iframe.className = 'qp-preview-frame';
     // Marker persists across redirects; used by CSS applier to scope injection and engine-specific CSS
-    iframe.name = `csqp:${engineId}`;
+    // Encode engineId to avoid regex character exclusions (apostrophes, etc.) and allow robust decoding in CSS applier
+    try {
+        iframe.name = `csqp:${encodeURIComponent(engineId)}`;
+    } catch (_) {
+        iframe.name = `csqp:${engineId}`; // fallback
+    }
     iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
     iframe.setAttribute('allow', 'clipboard-read; clipboard-write;');
     // No sandbox to allow full site rendering; DNR will strip frame-blocking headers

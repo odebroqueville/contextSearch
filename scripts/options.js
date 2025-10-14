@@ -97,8 +97,6 @@ window.addEventListener('message', async (event) => {
         if (quickPreviewData.engines && quickPreviewData.engines[id]) {
             quickPreviewData.engines[id].customCSS = css;
             await saveQuickPreviewData();
-            // Update per-host CSS map immediately so frames pick up new styles
-            await updateQuickPreviewCssMapForEngine(id);
         }
         return;
     }
@@ -201,6 +199,17 @@ async function init() {
 
         await checkForDownloadsPermission();
         if (logToConsole) console.log('Downloads permission checked');
+
+        // One-time cleanup: remove legacy qpCssMap key from storage
+        try {
+            const res = await browser.storage.local.get('qpCssMap');
+            if (res && Object.prototype.hasOwnProperty.call(res, 'qpCssMap')) {
+                await browser.storage.local.remove('qpCssMap');
+                if (logToConsole) console.log('Removed legacy qpCssMap from storage');
+            }
+        } catch (e) {
+            console.warn('Failed to cleanup legacy qpCssMap:', e);
+        }
 
         // Initialize Quick Preview
         await initQuickPreview();
@@ -2593,8 +2602,6 @@ function displayQuickPreviewEngines() {
     availableEngines.forEach(({ id, engine }) => {
         const itemDiv = createQuickPreviewItem(id, engine, false);
         leftList.appendChild(itemDiv);
-        // Keep per-host CSS map in sync for available engines
-        updateQuickPreviewCssMapForEngine(id);
     });
 
     leftColumn.appendChild(leftList);
@@ -2616,8 +2623,6 @@ function displayQuickPreviewEngines() {
         quickPreviewData.engines[id].index = index;
         const itemDiv = createQuickPreviewItem(id, engine, true);
         rightList.appendChild(itemDiv);
-        // Keep per-host CSS map in sync for selected engines
-        updateQuickPreviewCssMapForEngine(id);
     });
 
     rightColumn.appendChild(rightList);
@@ -2929,41 +2934,4 @@ function openCSSPopup(id, engineName) {
     }
 }
 
-// Persist a per-host CSS map for content script injection
-async function updateQuickPreviewCssMapForEngine(id) {
-    try {
-        const engine = searchEngines[id];
-        if (!engine || !engine.url) return;
-        const raw = String(engine.url || '');
-        // Remove common placeholders and template tokens before parsing
-        let sanitized = raw.replace(/%s/g, '');
-        sanitized = sanitized.replace(/\{[^}]*\}/g, '');
-        // Ensure a valid scheme for parsing
-        if (!/^https?:\/\//i.test(sanitized)) {
-            sanitized = 'https://' + sanitized;
-        }
-        let host = '';
-        try {
-            const u = new URL(sanitized);
-            host = u.hostname || '';
-        } catch (e) {
-            // Fallback: naive host extraction
-            const m = sanitized.match(/^https?:\/\/([^/]+)/i);
-            host = (m && m[1]) || '';
-        }
-        if (!host) return;
-        // Normalize host (strip leading www.)
-        host = host.replace(/^www\./i, '');
-        const css = (quickPreviewData.engines?.[id]?.customCSS || '').trim();
-        const res = await browser.storage.local.get('qpCssMap');
-        const map = (res && res.qpCssMap) || {};
-        if (css) {
-            map[host] = css;
-        } else {
-            delete map[host];
-        }
-        await browser.storage.local.set({ qpCssMap: map });
-    } catch (e) {
-        console.warn('Failed to update qpCssMap for engine', id, e);
-    }
-}
+// Removed legacy qpCssMap machinery (host->CSS cache) as unused
