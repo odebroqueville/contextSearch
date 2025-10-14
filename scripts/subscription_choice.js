@@ -2,8 +2,8 @@
 import '/libs/browser-polyfill.min.js';
 import ExtPay from '/libs/ExtPay.js';
 
-/* global DEBUG_VALUE */
-const logToConsole = DEBUG_VALUE;
+/* global logToConsole */
+// logToConsole provided by shared logging.js injected via manifest.
 const extpay = ExtPay('context-search');
 
 document.getElementById('trialBtn').addEventListener('click', () => {

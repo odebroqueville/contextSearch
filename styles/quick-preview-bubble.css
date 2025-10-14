@@ -58,6 +58,7 @@
     cursor: pointer;
     transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
     outline: none;
+    position: relative;
 }
 
 .qp-tab-item:hover,
@@ -79,7 +80,22 @@
     pointer-events: none;
 }
 
-/* (removed) Blocked badge styling is not used in the bubble */
+/* Blocked badge */
+.qp-tab-badge-blocked {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #ef4444; /* red */
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 14px;
+    text-align: center;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+}
 
 .qp-tab-content {
     width: 350px;
@@ -88,7 +104,7 @@
     color: #cccccc;
     background: #444444;
     position: relative; /* Changed from flex to relative for iframe positioning */
-    overflow: hidden; /* Ensure content doesn't overflow */
+    overflow: hidden; /* Keep default hidden; we'll manage frame overflow */
 }
 
 .qp-content-message {
@@ -129,6 +145,15 @@
     border: none;
     color: #cccccc;
     background: #444444;
+    overflow-x: hidden; /* Force hide horizontal overflow */
+    overflow-y: auto; /* Allow vertical scroll */
+    max-width: 350px; /* Hard constraint to prevent any overflow beyond container */
+}
+
+/* Generic smaller viewport hint for narrow frames to encourage compact layouts */
+.qp-preview-frame {
+    /* Helps some sites choose tighter spacing */
+    font-size: 0.875rem; /* 14px base for descendants if inherited */
 }
 
 /* Loading state */

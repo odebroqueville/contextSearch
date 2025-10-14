@@ -1,6 +1,10 @@
 // Quick Preview Bubble - Similar to Lumetrium Definer
 // Shows a floating bubble with search engine icons when text is selected
 
+/* global qpLog, qpWarn, qpError */
+
+// logToConsole + qpLog/qpWarn/qpError provided by shared logging.js
+
 // Storage keys (inlined to avoid module import issues)
 const STORAGE_KEYS = {
     QUICK_PREVIEW: 'quickPreview',
@@ -17,8 +21,7 @@ let contentContainer = null;
 let currentSelectedText = '';
 let activeEngineId = null;
 const tabItems = new Map();
-let currentAbortController = null;
-let isFetching = false; // Prevent simultaneous fetches
+// No longer used: background fetch logic removed
 // Options cache (to read disableQuickPreview)
 let optionsCache = { disableQuickPreview: false };
 let selectionLangCache = '';
@@ -73,7 +76,7 @@ function normalizeEngineBaseUrl(url) {
 // Debounced rebuild triggered by QUICK_PREVIEW storage changes to avoid storm during live CSS edits in options page
 const debouncedRebuildQuickPreviewTabs = debounce((previousActiveEngineId) => {
     if (!bubble || !bubble.classList.contains('qp-bubble-visible')) return;
-    console.log('[Quick Preview] (Debounced) Rebuilding tabs after storage changes');
+    qpLog('[Quick Preview] (Debounced) Rebuilding tabs after storage changes');
     const enabledEngines = getEnabledEngines();
     tabItems.clear();
     tabTitlesContainer.innerHTML = '';
@@ -92,7 +95,7 @@ const debouncedRebuildQuickPreviewTabs = debounce((previousActiveEngineId) => {
 
 // Initialize Quick Preview
 async function initQuickPreview() {
-    console.log('[Quick Preview] Initializing...');
+    qpLog('[Quick Preview] Initializing...');
     try {
         const result = await browser.storage.local.get([
             STORAGE_KEYS.QUICK_PREVIEW,
@@ -106,7 +109,7 @@ async function initQuickPreview() {
         optionsCache = result[STORAGE_KEYS.OPTIONS] || { disableQuickPreview: false };
         selectionLangCache = (result[STORAGE_KEYS.SELECTION_LANG] || '').toLowerCase();
 
-        console.log('[Quick Preview] Loaded data:', {
+        qpLog('[Quick Preview] Loaded data:', {
             enabledEngines: Object.keys(quickPreviewData.engines || {}).filter((id) => quickPreviewData.engines[id]?.enabled),
             totalSearchEngines: Object.keys(allSearchEngines || {}).length,
             quickPreviewData: quickPreviewData,
@@ -115,7 +118,7 @@ async function initQuickPreview() {
 
         // Verify we have valid data
         if (!quickPreviewData || !allSearchEngines) {
-            console.error('[Quick Preview] Failed to load required data from storage');
+            qpError('[Quick Preview] Failed to load required data from storage');
             return;
         }
 
@@ -126,9 +129,9 @@ async function initQuickPreview() {
         document.addEventListener('mouseup', handleTextSelection);
         document.addEventListener('keyup', handleTextSelection);
 
-        console.log('[Quick Preview] Event listeners registered');
+        qpLog('[Quick Preview] Event listeners registered');
     } catch (error) {
-        console.error('[Quick Preview] Error initializing:', error);
+        qpError('[Quick Preview] Error initializing:', error);
     }
 }
 
@@ -177,14 +180,14 @@ function handleTextSelection(event) {
     }
     // Ignore events that happen inside the bubble
     if (event && bubble && bubble.contains(event.target)) {
-        console.log('[Quick Preview] Event inside bubble, ignoring');
+        qpLog('[Quick Preview] Event inside bubble, ignoring');
         return;
     }
 
     const selection = window.getSelection();
     const selectedText = selection.toString().trim();
 
-    console.log('[Quick Preview] Text selection:', { length: selectedText.length, text: selectedText.substring(0, 50) });
+    qpLog('[Quick Preview] Text selection:', { length: selectedText.length, text: selectedText.substring(0, 50) });
 
     if (selectedText.length === 0) {
         hideBubble();
@@ -201,7 +204,7 @@ function handleTextSelection(event) {
 
 // Show the Quick Preview bubble
 function showBubble(selectedText, rect) {
-    console.log('[Quick Preview] showBubble called');
+    qpLog('[Quick Preview] showBubble called');
 
     // Respect user preference to disable Quick Preview
     if (optionsCache && optionsCache.disableQuickPreview) {
@@ -209,20 +212,39 @@ function showBubble(selectedText, rect) {
         return;
     }
 
-    // Get enabled engines sorted by index
+    // Sync selectionLangCache with current page <html lang> if needed (prefer explicit page signal)
+    try {
+        const htmlLangRaw = (document.documentElement && document.documentElement.lang) || '';
+        const htmlPrimary = htmlLangRaw.trim().toLowerCase().split('-')[0];
+        if (htmlPrimary) {
+            if (!selectionLangCache || selectionLangCache !== htmlPrimary) {
+                qpLog('[Quick Preview] Overriding selection language with page html lang', { prev: selectionLangCache, htmlPrimary });
+                selectionLangCache = htmlPrimary;
+                try {
+                    browser.runtime.sendMessage({ action: 'storeSelectionLang', data: htmlPrimary });
+                } catch (_) {
+                    /* ignore */
+                }
+            }
+        }
+    } catch (_) {
+        /* ignore */
+    }
+
+    // Get enabled engines sorted by index (after potential override)
     const enabledEngines = getEnabledEngines();
 
-    console.log('[Quick Preview] Enabled engines:', enabledEngines.length);
+    qpLog('[Quick Preview] Enabled engines:', enabledEngines.length);
 
     if (enabledEngines.length === 0) {
-        console.log('[Quick Preview] No enabled engines, hiding bubble');
+        qpLog('[Quick Preview] No enabled engines, hiding bubble');
         hideBubble();
         return;
     }
 
     // Create or update bubble
     if (!bubble) {
-        console.log('[Quick Preview] Creating bubble');
+        qpLog('[Quick Preview] Creating bubble');
         createBubble();
     }
 
@@ -245,7 +267,7 @@ function showBubble(selectedText, rect) {
         // Automatically load the first tab's content
         if (enabledEngines.length > 0) {
             const firstEngineId = enabledEngines[0].id;
-            console.log('[Quick Preview] Auto-loading first tab:', firstEngineId);
+            qpLog('[Quick Preview] Auto-loading first tab:', firstEngineId);
             // Use setTimeout to ensure the bubble is fully rendered first
             setTimeout(() => {
                 setActiveEngine(firstEngineId, selectedText, false);
@@ -258,7 +280,7 @@ function showBubble(selectedText, rect) {
 
     // Show the bubble
     bubble.classList.add('qp-bubble-visible');
-    console.log('[Quick Preview] Bubble should now be visible');
+    qpLog('[Quick Preview] Bubble should now be visible');
 }
 
 // Create the bubble element
@@ -318,10 +340,10 @@ function createTabItem({ id, engine, customCSS }) {
 
     item.appendChild(icon);
 
-    // Note: No blocked badge in the Quick Preview bubble per design
+    // No badge UI in the bubble; blocked state is surfaced in Options page
 
     item.addEventListener('click', (e) => {
-        console.log('[Quick Preview] Tab clicked:', { id, engineName: engine.name, selectedText: currentSelectedText });
+        qpLog('[Quick Preview] Tab clicked:', { id, engineName: engine.name, selectedText: currentSelectedText });
         e.preventDefault();
         e.stopPropagation();
         setActiveEngine(id, currentSelectedText, true);
@@ -343,13 +365,13 @@ function getEnabledEngines() {
 
     // Validate that quickPreviewData exists
     if (!quickPreviewData || !quickPreviewData.engines) {
-        console.error('[Quick Preview] quickPreviewData.engines is not available');
+        qpError('[Quick Preview] quickPreviewData.engines is not available');
         return enabled;
     }
 
     // Validate that allSearchEngines exists
     if (!allSearchEngines) {
-        console.error('[Quick Preview] allSearchEngines is not available');
+        qpError('[Quick Preview] allSearchEngines is not available');
         return enabled;
     }
 
@@ -360,7 +382,7 @@ function getEnabledEngines() {
 
         const engine = allSearchEngines[id];
         if (!engine) {
-            console.warn('[Quick Preview] Engine not found in allSearchEngines:', id);
+            qpWarn('[Quick Preview] Engine not found in allSearchEngines:', id);
             continue;
         }
 
@@ -406,7 +428,8 @@ function shouldIncludeByLanguage(engineLang, selectionLang) {
     const sel = (selectionLang || '').trim().toLowerCase();
     if (!sel) return true; // no selection language => include all
     const eng = (engineLang || '').trim().toLowerCase();
-    if (!eng) return false; // selection language exists but engine has none => exclude
+    // If engine has no language specified, always include it
+    if (!eng) return true;
 
     // Primary subtags (before '-') for coarse matching
     const selPrimary = sel.split('-')[0];
@@ -447,17 +470,17 @@ function positionBubble(rect) {
 
 // Set the active engine and load results
 function setActiveEngine(engineId, selectedText, focusTab) {
-    console.log('[Quick Preview] setActiveEngine called:', { engineId, selectedText, focusTab, hasTabItems: tabItems.has(engineId) });
+    qpLog('[Quick Preview] setActiveEngine called:', { engineId, selectedText, focusTab, hasTabItems: tabItems.has(engineId) });
 
     if (!tabItems.has(engineId)) {
-        console.error('[Quick Preview] Engine not found in tabItems:', engineId);
+        qpError('[Quick Preview] Engine not found in tabItems:', engineId);
         return;
     }
 
     const { element, engine } = tabItems.get(engineId);
 
     if (!engine || !engine.url) {
-        console.error('[Quick Preview] Invalid engine data:', { engineId, engine });
+        qpError('[Quick Preview] Invalid engine data:', { engineId, engine });
         return;
     }
 
@@ -479,14 +502,14 @@ function setActiveEngine(engineId, selectedText, focusTab) {
     const normalizedBaseUrl = normalizeEngineBaseUrl(baseUrl);
     if (!isLikelyValidEngineBaseUrl(normalizedBaseUrl)) {
         if (lastGoodEngineUrls.has(engineId)) {
-            console.warn('[Quick Preview] Invalid/unstable engine base URL detected. Falling back to last good value.', {
+            qpWarn('[Quick Preview] Invalid/unstable engine base URL detected. Falling back to last good value.', {
                 current: baseUrl,
                 normalized: normalizedBaseUrl,
                 fallback: lastGoodEngineUrls.get(engineId),
             });
             baseUrl = lastGoodEngineUrls.get(engineId);
         } else {
-            console.error('[Quick Preview] Engine base URL invalid and no fallback available:', baseUrl);
+            qpError('[Quick Preview] Engine base URL invalid and no fallback available:', baseUrl);
         }
     } else {
         baseUrl = normalizedBaseUrl;
@@ -496,9 +519,9 @@ function setActiveEngine(engineId, selectedText, focusTab) {
     let searchUrl = baseUrl;
     const encodedText = encodeURIComponent(selectedText);
 
-    console.log('[Quick Preview] DEBUG - Original engine.url:', engine.url);
-    console.log('[Quick Preview] DEBUG - Selected text:', selectedText);
-    console.log('[Quick Preview] DEBUG - Encoded text:', encodedText);
+    qpLog('[Quick Preview] DEBUG - Original engine.url:', engine.url);
+    qpLog('[Quick Preview] DEBUG - Selected text:', selectedText);
+    qpLog('[Quick Preview] DEBUG - Encoded text:', encodedText);
 
     // Handle different URL placeholder formats
     if (searchUrl.includes('{searchTerms}')) {
@@ -512,6 +535,55 @@ function setActiveEngine(engineId, selectedText, focusTab) {
         searchUrl = searchUrl + encodedText;
     }
 
+    // Add language/region hints for Google; add SafeSearch for Bing
+    if (engineId.startsWith('google')) {
+        try {
+            const urlObj = new URL(searchUrl);
+            // 'hl' = UI language, 'lr' = language restrict (optional), 'gl' = region
+            // Use engine lang if set, else selectionLang, else leave default
+            const desiredLang = (quickPreviewData?.engines?.[engineId]?.lang || selectionLangCache || '').trim().toLowerCase();
+            // Map simple lang to region when possible (e.g., en -> US, fr -> FR) – conservative defaults
+            const regionByLang = { en: 'US', fr: 'FR', es: 'ES', de: 'DE', it: 'IT', pt: 'PT', nl: 'NL', ja: 'JP', ko: 'KR', zh: 'CN', ru: 'RU' };
+            if (desiredLang) {
+                const primary = desiredLang.split('-')[0];
+                urlObj.searchParams.set('hl', desiredLang);
+                // Only set lr:lang_XX for simple language cases
+                if (primary && primary.length === 2) urlObj.searchParams.set('lr', `lang_${primary}`);
+                // Region hint
+                const region = regionByLang[primary] || desiredLang.split('-')[1] || '';
+                if (region) {
+                    const r = region.toUpperCase();
+                    urlObj.searchParams.set('gl', r);
+                    // Also add country restrict to favor pages from this region when supported
+                    urlObj.searchParams.set('cr', `country${r}`);
+                }
+            }
+            searchUrl = urlObj.toString();
+        } catch (_) {
+            // ignore
+        }
+    }
+
+    // Add region/language hints for DuckDuckGo
+    if (searchUrl.includes('duckduckgo.com')) {
+        try {
+            const urlObj = new URL(searchUrl);
+            const desiredLang = (quickPreviewData?.engines?.[engineId]?.lang || selectionLangCache || '').trim().toLowerCase();
+            if (desiredLang) {
+                urlObj.searchParams.set('kl', desiredLang);
+            } else {
+                urlObj.searchParams.set('kl', 'en-us');
+            }
+            // Set safe search to off to allow all results
+            urlObj.searchParams.set('kp', '-2');
+            // Force web search results
+            urlObj.searchParams.set('ia', 'web');
+            searchUrl = urlObj.toString();
+        } catch (_) {
+            // ignore
+        }
+    }
+
     // Add SafeSearch parameter for Bing if not already present
     if (engineId === 'bing' && !searchUrl.includes('adlt=')) {
         const urlObj = new URL(searchUrl);
@@ -521,190 +593,191 @@ function setActiveEngine(engineId, selectedText, focusTab) {
 
     // Note: Removed Google-specific URL parameter adjustments (gbv/igu)
 
-    console.log('[Quick Preview] Loading search for engine ID:', engineId);
-    console.log('[Quick Preview] Engine name:', engine.name);
-    console.log('[Quick Preview] Final search URL:', searchUrl);
+    qpLog('[Quick Preview] Loading search for engine ID:', engineId);
+    qpLog('[Quick Preview] Engine name:', engine.name);
+    qpLog('[Quick Preview] Final search URL:', searchUrl);
 
-    // Fetch and display the content
-    fetchAndDisplayContent(searchUrl, engineId);
+    // Directly frame the URL in an iframe; DNR strips blocking headers
+    frameEngineUrl(searchUrl, engineId);
 
     if (focusTab) {
         element.focus({ preventScroll: true });
     }
 }
 
-// Fetch content and display it
-async function fetchAndDisplayContent(url, engineId) {
-    console.log('[Quick Preview] fetchAndDisplayContent called:', { url, engineId, isFetching });
-
-    // Prevent simultaneous fetches
-    if (isFetching) {
-        console.warn('[Quick Preview] Already fetching, ignoring duplicate request');
-        return;
-    }
+// Directly frame the engine URL into an iframe
+function frameEngineUrl(url, engineId) {
+    qpLog('[Quick Preview] frameEngineUrl called:', { url, engineId });
 
     // Validate inputs
     if (!url) {
-        console.error('[Quick Preview] No URL provided to fetchAndDisplayContent');
         showErrorInContent('No URL provided', url);
         return;
     }
-
-    if (!engineId) {
-        console.error('[Quick Preview] No engineId provided to fetchAndDisplayContent');
-        showErrorInContent('No engine ID provided', url);
-        return;
-    }
-
-    // Detect obvious domain corruption (accidental comma instead of dot) before sending message
     try {
-        // This will throw if URL is invalid
         // eslint-disable-next-line no-new
         new URL(url);
-        const domainPart = url.split('//')[1].split('/')[0];
-        if (domainPart.includes(',')) {
-            console.warn('[Quick Preview] Detected comma in domain – likely invalid URL:', domainPart);
-        }
     } catch (e) {
-        console.error('[Quick Preview] Invalid URL detected before fetch:', url, e);
+        qpError('[Quick Preview] Invalid URL detected:', url, e);
         showErrorInContent('Invalid URL', url);
         return;
     }
 
-    // Set fetching flag
-    isFetching = true;
-
-    // Cancel any pending fetch
-    if (currentAbortController) {
-        currentAbortController.abort();
-    }
-
-    currentAbortController = new AbortController();
-
-    // Show loading state
-    contentContainer.textContent = ''; // Clear existing content
+    // Loading UI
+    contentContainer.textContent = '';
     const loadingDiv = document.createElement('div');
     loadingDiv.className = 'qp-loading';
-
     const spinner = document.createElement('div');
     spinner.className = 'qp-spinner';
-    loadingDiv.appendChild(spinner);
-
     const loadingText = document.createElement('p');
     loadingText.textContent = 'Loading...';
+    loadingDiv.appendChild(spinner);
     loadingDiv.appendChild(loadingText);
-
     contentContainer.appendChild(loadingDiv);
 
+    // Ask SW to apply a per-tab mobile UA for subframes (better 300px-fit layouts)
     try {
-        console.log('[Quick Preview] Fetching content from:', url);
-        console.log('[Quick Preview] Sending message to background script...');
+        // Thread an Accept-Language aligned with the engine/selection language for region-specific behavior
+        const desiredLang = (quickPreviewData?.engines?.[engineId]?.lang || selectionLangCache || '').trim();
+        const acceptLanguage = desiredLang ? `${desiredLang},en;q=0.8` : 'en-US,en;q=0.9';
+        browser.runtime.sendMessage({ action: 'enableQuickPreviewMobileUA', acceptLanguage });
+    } catch (e) {
+        // Non-fatal: UA tweak failed or unsupported
+    }
 
-        // Auto-correct common punctuation mistakes in domains or query (commas, stray spaces)
-        const corrected = url
-            .replace(/([a-z0-9])[,]+(com|org|net|io|edu|gov)\b/gi, '$1.$2') // example: wikipedia,org -> wikipedia.org
-            .replace(/\/windex,\s*php/gi, '/w/index.php') // specific observed corruption
-            .replace(/,php/g, '.php')
-            .replace(/\s+/g, (m) => (m.includes('\n') ? ' ' : ' '));
-        if (corrected !== url) {
-            console.warn('[Quick Preview] URL auto-corrected', { before: url, after: corrected });
-            url = corrected; // eslint-disable-line no-param-reassign
+    // Build iframe
+    const iframe = document.createElement('iframe');
+    iframe.className = 'qp-preview-frame';
+    // Marker persists across redirects; used by CSS applier to scope injection and engine-specific CSS
+    iframe.name = `csqp:${engineId}`;
+    iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+    iframe.setAttribute('allow', 'clipboard-read; clipboard-write;');
+    // No sandbox to allow full site rendering; DNR will strip frame-blocking headers
+
+    let attempts = 0;
+    const MAX_ATTEMPTS = 2; // initial try + one retry
+    // Watchdog timer must be declared before closures use it
+    let watchdog = null;
+
+    const handleBlocked = () => {
+        qpWarn('[Quick Preview] Iframe seems blocked or empty. Showing fallback.');
+        showBlockedContentFallback(engineId, url);
+        try {
+            // Only persist blocked=true after retry has failed to reduce false positives
+            if (attempts >= MAX_ATTEMPTS - 1 && quickPreviewData?.engines?.[engineId]) {
+                quickPreviewData.engines[engineId].blocked = true;
+                browser.storage.local.set({ [STORAGE_KEYS.QUICK_PREVIEW]: quickPreviewData });
+                // Badge is only shown on Options page; no UI change here
+            }
+        } catch (e) {
+            // ignore storage failure
+        }
+    };
+
+    let loadHandled = false;
+    const clearWatchdog = () => {
+        if (watchdog) {
+            clearTimeout(watchdog);
+            watchdog = null;
+        }
+    };
+
+    iframe.onload = () => {
+        loadHandled = true;
+        clearWatchdog();
+        qpLog('[Quick Preview] Iframe loaded for', url);
+        // Remove only the loading overlay; keep iframe in place to avoid reloads
+        try {
+            if (loadingDiv && loadingDiv.parentNode === contentContainer) {
+                contentContainer.removeChild(loadingDiv);
+            }
+        } catch (e) {
+            // Non-fatal: loading overlay may already be gone
         }
 
-        // Helper: send message with small retry for transient failures (SW wake-up, race conditions)
-        const sendWithRetry = async (theUrl, maxAttempts = 3) => {
-            const requestId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-            const startedAt = performance.now();
-
-            // Check if runtime is still valid
-            if (!browser.runtime || !browser.runtime.sendMessage) {
-                throw new Error('Browser runtime is not available. The extension may have been reloaded.');
-            }
-
-            let attempt = 0;
-            let lastError;
-            while (attempt < maxAttempts) {
-                try {
-                    let response = await browser.runtime.sendMessage({ action: 'fetchQuickPreview', url: theUrl, requestId });
-                    // Normalize undefined to null for simpler checks
-                    if (typeof response === 'undefined') response = null;
-
-                    // Treat null/undefined as transient (e.g., competing listeners or SW wake-up)
-                    if (response == null) {
-                        console.warn('[Quick Preview] Undefined/null response (possible worker wake-up). Retrying...', { requestId, attempt });
-                        attempt++;
-                        await new Promise((r) => setTimeout(r, 100 * attempt));
-                        continue;
+        // Best-effort detection of blank/blocked content
+        setTimeout(() => {
+            try {
+                const doc = iframe.contentDocument || iframe.contentWindow?.document;
+                const bodyLen = (doc?.body?.innerText || '').trim().length;
+                if (!doc || bodyLen < 10) {
+                    // If appears empty after load, attempt one retry before declaring blocked
+                    if (attempts < MAX_ATTEMPTS - 1) {
+                        attempts += 1;
+                        tryReload();
+                    } else {
+                        handleBlocked();
                     }
-
-                    // If response is not an object, consider it transient and retry
-                    if (typeof response !== 'object') {
-                        console.warn('[Quick Preview] Non-object response from background. Retrying...', { attempt, type: typeof response });
-                        attempt++;
-                        await new Promise((r) => setTimeout(r, 120 * attempt));
-                        continue;
+                } else {
+                    // Clear previous blocked flag
+                    if (quickPreviewData?.engines?.[engineId]?.blocked) {
+                        quickPreviewData.engines[engineId].blocked = false;
+                        browser.storage.local.set({ [STORAGE_KEYS.QUICK_PREVIEW]: quickPreviewData });
+                        // Badge removal handled by Options page render
                     }
-
-                    // At this point we have an object; check success flag safely
-                    if (response.success !== true) {
-                        // Transient errors to retry
-                        const errText = String(response.error || '');
-                        const transient =
-                            errText.includes('Failed to fetch') ||
-                            errText.includes('NetworkError') ||
-                            errText.includes('The message port closed') ||
-                            errText.includes('Extension context invalidated');
-                        if (transient && attempt + 1 < maxAttempts) {
-                            console.warn('[Quick Preview] Transient fetch error, retrying...', { attempt, errText });
-                            attempt++;
-                            await new Promise((r) => setTimeout(r, 120 * attempt));
-                            continue;
-                        }
-                        // Non-transient or max attempts used
-                        return response;
-                    }
-                    const rtt = (performance.now() - startedAt).toFixed(1);
-                    console.log('[Quick Preview] Round-trip ms:', rtt, 'requestId:', requestId);
-                    return response;
-                } catch (e) {
-                    lastError = e;
-                    console.warn('[Quick Preview] sendMessage failed, retrying...', { attempt, error: String(e) });
-                    attempt++;
-                    await new Promise((r) => setTimeout(r, 150 * attempt));
+                }
+            } catch (e) {
+                // Cross-origin access throws when framed successfully; assume success
+                qpLog('[Quick Preview] Cross-origin iframe loaded; assuming success.');
+                if (quickPreviewData?.engines?.[engineId]?.blocked) {
+                    quickPreviewData.engines[engineId].blocked = false;
+                    browser.storage.local.set({ [STORAGE_KEYS.QUICK_PREVIEW]: quickPreviewData });
+                    // Badge removal handled by Options page render
                 }
             }
-            // Exhausted retries
-            throw lastError || new Error('Failed to fetch content');
-        };
+        }, 500);
+    };
 
-        const resp = await sendWithRetry(url, 3);
-        // Guard against unexpected shapes; only treat explicit { success: true } as success
-        const isOk = !!(resp && typeof resp === 'object' && resp.success === true);
-        if (!isOk) {
-            const errMsg = resp && typeof resp === 'object' && typeof resp.error === 'string' ? resp.error : 'Failed to fetch content';
-            throw new Error(errMsg);
+    iframe.onerror = () => {
+        loadHandled = true;
+        clearWatchdog();
+        if (attempts < MAX_ATTEMPTS - 1) {
+            attempts += 1;
+            tryReload();
+        } else {
+            handleBlocked();
         }
+    };
 
-        const html = resp.html;
-        console.log('[Quick Preview] Content fetched successfully, length:', html.length);
+    // Append iframe to DOM before setting src so some browsers can initiate load
+    // Keep the loading overlay visible until onload/timeout
+    contentContainer.appendChild(iframe);
 
-        // Create a sandboxed iframe to parse and display the content
-        const sandboxedContent = createSandboxedContent(html, url, engineId);
-        contentContainer.textContent = ''; // Clear existing content
-        contentContainer.appendChild(sandboxedContent);
-    } catch (error) {
-        if (currentAbortController.signal.aborted) {
-            console.log('[Quick Preview] Fetch aborted');
-            return;
+    const tryReload = () => {
+        // Reset handlers state and watchdog for a retry
+        loadHandled = false;
+        clearWatchdog();
+        try {
+            const u = new URL(url);
+            u.searchParams.set('csqp', '1');
+            u.searchParams.set('csqpid', engineId);
+            // Cache-buster per attempt
+            u.searchParams.set('_csr', String(Date.now() % 100000));
+            // Append fragment marker (survives some param strips)
+            const hash = u.hash.replace(/^#/, '');
+            const hashParams = new URLSearchParams(hash);
+            if (!hashParams.get('csqpid')) hashParams.set('csqpid', engineId);
+            const newHash = hashParams.toString();
+            u.hash = newHash ? '#' + newHash : '';
+            iframe.src = u.toString();
+        } catch (_) {
+            iframe.src = url;
         }
+        // Start a new watchdog for the retry
+        watchdog = setTimeout(() => {
+            if (loadHandled) return;
+            qpWarn('[Quick Preview] Iframe load watchdog triggered; attempt', attempts + 1, 'of', MAX_ATTEMPTS);
+            if (attempts < MAX_ATTEMPTS - 1) {
+                attempts += 1;
+                tryReload();
+            } else {
+                handleBlocked();
+            }
+        }, 4000);
+    };
 
-        console.error('[Quick Preview] Error fetching content:', error);
-        showErrorInContent(error.message, url);
-    } finally {
-        // Reset the fetching flag
-        isFetching = false;
-        console.log('[Quick Preview] Fetch complete, isFetching flag reset to false');
-    }
+    // Initial load
+    tryReload();
 }
 
 // Helper function to show error in content container
@@ -739,181 +812,7 @@ function showErrorInContent(errorMessage, url) {
 }
 
 // Create sandboxed iframe to display content with custom CSS
-function createSandboxedContent(html, baseUrl, engineId) {
-    const iframe = document.createElement('iframe');
-    iframe.className = 'qp-preview-frame';
-    // Remove allow-scripts to prevent CSP violations and security issues
-    iframe.setAttribute('sandbox', 'allow-same-origin allow-popups allow-forms');
-    iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
-
-    // Clean the HTML to remove problematic scripts and external resources
-    const cleanedHtml = cleanHtmlContent(html);
-
-    // Apply custom CSS if available
-    const quickPreviewEngine = quickPreviewData.engines[engineId];
-    const customCSS = quickPreviewEngine?.customCSS || '';
-
-    // Get base domain for relative URLs
-    const baseUrlObj = new URL(baseUrl);
-    const baseDomain = `${baseUrlObj.protocol}//${baseUrlObj.host}`;
-
-    // Build the complete HTML document as a string
-    const fullHtml = `<!DOCTYPE html>
-<html>
-<head>
-    <base href="${escapeHtml(baseDomain)}/">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=350, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <style>
-        /* Reset and base styles */
-        * { box-sizing: border-box; }
-        
-        html {
-            max-width: 350px;
-            overflow-x: hidden;
-        }
-        
-        body { 
-            margin: 0; 
-            padding: 16px; 
-            max-width: 350px;
-            overflow-x: hidden;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            line-height: 1.6;
-            color: #1f2937;
-        }
-        
-        /* Prevent any element from overflowing */
-        * {
-            max-width: 100%;
-        }
-        
-        /* Make images responsive */
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-        
-        /* Clean up table styles */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1em 0;
-        }
-        
-        /* Link styles */
-        a {
-            color: #2563eb;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Custom CSS from engine configuration */
-        ${customCSS}
-    </style>
-</head>
-<body>
-    ${cleanedHtml}
-</body>
-</html>`;
-
-    // Use srcdoc for same-origin context
-    iframe.setAttribute('srcdoc', fullHtml);
-
-    // Add load handler for logging and detection of blocked content
-    iframe.onload = () => {
-        console.log('[Quick Preview] Content loaded into iframe via srcdoc');
-
-        const tryDetect = () => {
-            try {
-                const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
-                if (!iframeDoc) return false;
-
-                // Note: Removed Google-host specific cleanup logic
-
-                const body = iframeDoc.body;
-                const bodyText = body?.textContent?.trim() || '';
-
-                // Check for blocking indicators
-                const isBlocked =
-                    bodyText.includes("can't open this page") ||
-                    bodyText.includes("Can't Open This Page") ||
-                    bodyText.includes('denied by') ||
-                    bodyText.includes('X-Frame-Options') ||
-                    bodyText.includes('having trouble accessing') ||
-                    bodyText.includes("If you're having trouble") ||
-                    bodyText.includes('will not allow') ||
-                    bodyText.length < 50;
-
-                if (isBlocked) {
-                    console.warn('[Quick Preview] Content appears to be blocked. Body text:', bodyText.substring(0, 200));
-                    // Show fallback UI
-                    showBlockedContentFallback(engineId, baseUrl);
-                    // Persist blocked flag for this engine to improve UX next time
-                    try {
-                        if (quickPreviewData && quickPreviewData.engines && quickPreviewData.engines[engineId]) {
-                            if (quickPreviewData.engines[engineId].blocked !== true) {
-                                quickPreviewData.engines[engineId].blocked = true;
-                                browser.storage.local.set({ [STORAGE_KEYS.QUICK_PREVIEW]: quickPreviewData });
-                            }
-                        }
-                    } catch (e) {
-                        // ignore storage issues
-                    }
-                } else {
-                    console.log('[Quick Preview] Content appears to be OK. Body length:', bodyText.length);
-                    // If it renders fine, clear previous blocked flag
-                    try {
-                        if (quickPreviewData && quickPreviewData.engines && quickPreviewData.engines[engineId]) {
-                            if (quickPreviewData.engines[engineId].blocked === true) {
-                                quickPreviewData.engines[engineId].blocked = false;
-                                browser.storage.local.set({ [STORAGE_KEYS.QUICK_PREVIEW]: quickPreviewData });
-                            }
-                        }
-                    } catch (e) {
-                        // ignore storage issues
-                    }
-                }
-                return true;
-            } catch (e) {
-                console.warn('[Quick Preview] Cannot access iframe content (possibly blocked):', e);
-                showBlockedContentFallback(engineId, baseUrl);
-                try {
-                    if (quickPreviewData && quickPreviewData.engines && quickPreviewData.engines[engineId]) {
-                        if (quickPreviewData.engines[engineId].blocked !== true) {
-                            quickPreviewData.engines[engineId].blocked = true;
-                            browser.storage.local.set({ [STORAGE_KEYS.QUICK_PREVIEW]: quickPreviewData });
-                        }
-                    }
-                } catch (_) {
-                    // no-op: ignore storage failure when marking blocked
-                }
-                return true;
-            }
-        };
-
-        // Check if iframe content loaded successfully after a short delay
-        setTimeout(() => {
-            const done = tryDetect();
-            if (!done) {
-                // Try one more time shortly after (in case layout/styles apply late)
-                setTimeout(() => {
-                    tryDetect();
-                }, 250);
-            }
-        }, 500); // Wait 500ms for content to render
-    };
-
-    // Add error handler for iframe loading issues
-    iframe.onerror = (error) => {
-        console.error('[Quick Preview] Iframe loading error:', error);
-        showBlockedContentFallback(engineId, baseUrl);
-    };
-
-    return iframe;
-}
+// Removed createSandboxedContent and HTML cleaning: not needed when framing directly
 
 // Show fallback UI when content is blocked by X-Frame-Options
 // eslint-disable-next-line no-unused-vars
@@ -954,130 +853,21 @@ function showBlockedContentFallback(engineId, url) {
 }
 
 // Clean HTML content by removing scripts and problematic elements
-function cleanHtmlContent(html) {
-    // Create a temporary DOM parser
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-
-    // Unwrap <noscript> content so fallback HTML can render inside our sandboxed iframe
-    const noscripts = doc.querySelectorAll('noscript');
-    noscripts.forEach((noscript) => {
-        try {
-            const container = doc.createElement('div');
-            // Use textContent to get the raw markup and reparse it as HTML
-            container.innerHTML = noscript.textContent || '';
-            // Replace <noscript> with its parsed children
-            while (container.firstChild) {
-                noscript.parentNode.insertBefore(container.firstChild, noscript);
-            }
-            noscript.remove();
-        } catch (e) {
-            // If anything goes wrong, keep the noscript element (it will render in the iframe where scripts are disabled)
-        }
-    });
-
-    // Remove all script tags (after unwrapping noscript so we also strip scripts inside it)
-    const scripts = doc.querySelectorAll('script');
-    scripts.forEach((script) => script.remove());
-
-    // List of domains to filter out (adult content, malicious sites, etc.)
-    const blockedDomains = ['pornhub.com', 'xvideos.com', 'xnxx.com', 'redtube.com', 'youporn.com', 'porn', 'xxx', 'adult'];
-
-    // Remove links to blocked domains
-    const allLinks = doc.querySelectorAll('a[href]');
-    allLinks.forEach((link) => {
-        const href = link.getAttribute('href');
-        if (href) {
-            const lowerHref = href.toLowerCase();
-            for (const domain of blockedDomains) {
-                if (lowerHref.includes(domain)) {
-                    link.remove();
-                    break;
-                }
-            }
-        }
-    });
-
-    // Remove inline event handlers
-    const allElements = doc.querySelectorAll('*');
-    allElements.forEach((element) => {
-        // Remove onclick, onload, etc.
-        const attributes = element.attributes;
-        for (let i = attributes.length - 1; i >= 0; i--) {
-            const attr = attributes[i];
-            if (attr.name.startsWith('on')) {
-                element.removeAttribute(attr.name);
-            }
-        }
-
-        // Remove display:none from inline styles (helps show Google error messages)
-        if (element.style && element.style.display === 'none') {
-            element.style.display = '';
-        }
-    });
-
-    // Remove meta refresh redirects (commonly used to bounce if not allowed)
-    const metaRefresh = Array.from(doc.querySelectorAll('meta[http-equiv]')).filter(
-        (m) => (m.getAttribute('http-equiv') || '').toLowerCase() === 'refresh'
-    );
-    metaRefresh.forEach((m) => m.remove());
-
-    // Remove problematic iframes and embeds
-    const iframes = doc.querySelectorAll('iframe, embed, object');
-    iframes.forEach((el) => el.remove());
-
-    // Relax aggressive CSS that hides all content
-    const styles = doc.querySelectorAll('style');
-    styles.forEach((styleEl) => {
-        try {
-            const css = styleEl.textContent || '';
-            // Remove display:none for broad element groups
-            const relaxed = css.replace(/(^|[{};\s])(?<selector>[a-zA-Z0-9_\-. ,\s]+)\s*\{[^}]*display\s*:\s*none\s*;?[^}]*\}/g, (...args) => {
-                // Extract named group if available; otherwise use second capture group
-                const maybeGroups = args[args.length - 1];
-                let selector = '';
-                if (maybeGroups && typeof maybeGroups === 'object' && 'selector' in maybeGroups) {
-                    selector = maybeGroups.selector;
-                } else {
-                    selector = args[2];
-                }
-                const s = String(selector).toLowerCase();
-                // If it targets very broad sets, drop the whole rule
-                if (/(^|\s)(html|body|div|span|p|table|tr|td|ul|ol|li|section|article|main)(\s|,|$)/.test(s)) {
-                    return '';
-                }
-                return args[0];
-            });
-            if (relaxed !== css) {
-                styleEl.textContent = relaxed;
-            }
-        } catch (e) {
-            // Ignore CSS parse issues
-        }
-    });
-
-    // Serialize the cleaned body content safely
-    const serializer = new XMLSerializer();
-    let cleanedHtml = '';
-    Array.from(doc.body.childNodes).forEach((node) => {
-        cleanedHtml += serializer.serializeToString(node);
-    });
-
-    return cleanedHtml;
-}
+// Removed cleanHtmlContent helper: no longer transforming HTML
 
 // Escape HTML to prevent XSS
-function escapeHtml(text) {
-    const textNode = document.createTextNode(text);
-    const div = document.createElement('div');
-    div.appendChild(textNode);
-    return div.textContent;
-}
+// escapeHtml no longer needed
 
 // Hide the bubble
 function hideBubble() {
     if (bubble) {
         bubble.classList.remove('qp-bubble-visible');
+    }
+    // Best-effort: disable the temporary mobile UA rule for this tab
+    try {
+        browser.runtime.sendMessage({ action: 'disableQuickPreviewMobileUA' });
+    } catch (e) {
+        // ignore
     }
 }
 

@@ -137,6 +137,38 @@ export const HEADER_RULES = [
             resourceTypes: ['main_frame', 'sub_frame'],
         },
     },
+    {
+        // Remove X-Frame-Options and CSP for ALL subframes over https
+        id: 1001,
+        priority: 10,
+        action: {
+            type: 'modifyHeaders',
+            responseHeaders: [
+                { header: 'X-Frame-Options', operation: 'remove' },
+                { header: 'Content-Security-Policy', operation: 'remove' },
+            ],
+        },
+        condition: {
+            urlFilter: 'https://',
+            resourceTypes: ['sub_frame'],
+        },
+    },
+    {
+        // Remove X-Frame-Options and CSP for ALL subframes over http
+        id: 1002,
+        priority: 10,
+        action: {
+            type: 'modifyHeaders',
+            responseHeaders: [
+                { header: 'X-Frame-Options', operation: 'remove' },
+                { header: 'Content-Security-Policy', operation: 'remove' },
+            ],
+        },
+        condition: {
+            urlFilter: 'http://',
+            resourceTypes: ['sub_frame'],
+        },
+    },
 ];
 
 // Constants for translations

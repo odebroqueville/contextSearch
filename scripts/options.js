@@ -97,6 +97,8 @@ window.addEventListener('message', async (event) => {
         if (quickPreviewData.engines && quickPreviewData.engines[id]) {
             quickPreviewData.engines[id].customCSS = css;
             await saveQuickPreviewData();
+            // Update per-host CSS map immediately so frames pick up new styles
+            await updateQuickPreviewCssMapForEngine(id);
         }
         return;
     }
@@ -129,6 +131,25 @@ document.addEventListener('DOMContentLoaded', async () => {
 browser.runtime.onMessage.addListener(handleMessage);
 browser.permissions.onAdded.addListener(handlePermissionsChanges);
 browser.permissions.onRemoved.addListener(handlePermissionsChanges);
+
+// Refresh Quick Preview list when its data changes (e.g., blocked flags updated by bubble)
+browser.storage.onChanged.addListener((changes, area) => {
+    if (area !== 'local') return;
+    try {
+        if (changes[STORAGE_KEYS.QUICK_PREVIEW]) {
+            // Update local cache and refresh the Options UI Quick Preview lists
+            const newVal = changes[STORAGE_KEYS.QUICK_PREVIEW].newValue;
+            if (newVal) {
+                quickPreviewData = newVal;
+                if (typeof displayQuickPreviewEngines === 'function') {
+                    displayQuickPreviewEngines();
+                }
+            }
+        }
+    } catch (e) {
+        console.warn('options.js storage.onChanged handler error:', e);
+    }
+});
 
 // Options changes event handlers
 exactMatch.addEventListener('click', updateSearchOptions);
@@ -184,6 +205,53 @@ async function init() {
         // Initialize Quick Preview
         await initQuickPreview();
         if (logToConsole) console.log('Quick Preview initialized');
+
+        // Wire Re-check engines button if present
+        const recheckBtn = document.getElementById('qp-recheck-btn');
+        const recheckStatus = document.getElementById('qp-recheck-status');
+        if (recheckBtn) {
+            recheckBtn.addEventListener('click', async () => {
+                try {
+                    // Visual feedback
+                    if (recheckStatus) {
+                        recheckStatus.textContent = 'Re-checking...';
+                        recheckStatus.style.opacity = '1';
+                    }
+                    recheckBtn.disabled = true;
+                    recheckBtn.textContent = 'Re-checking...';
+
+                    // Run preflight detection with progress updates
+                    const updateProgress = ({ completed, total, name }) => {
+                        const shownName = name ? `${name} ` : '';
+                        const txt = `Re-checking… ${shownName}(${completed}/${total})`;
+                        if (recheckStatus) recheckStatus.textContent = txt;
+
+                        // Re-render list incrementally so badges update as they come in
+                        displayQuickPreviewEngines();
+                    };
+
+                    const result = await preflightDetectBlockedEnginesOnce({ force: true, onProgress: updateProgress });
+                    // Final render to ensure all states are reflected
+                    displayQuickPreviewEngines();
+                    if (recheckStatus) recheckStatus.textContent = `Done (${result?.probed || 0})`;
+                    recheckBtn.textContent = 'Re-check engines';
+                    recheckBtn.disabled = false;
+                    setTimeout(() => {
+                        if (recheckStatus) {
+                            recheckStatus.style.opacity = '0.65';
+                            recheckStatus.textContent = '';
+                        }
+                    }, 1500);
+                } catch (e) {
+                    if (recheckStatus) recheckStatus.textContent = 'Failed';
+                    recheckBtn.textContent = 'Re-check engines';
+                    recheckBtn.disabled = false;
+                    setTimeout(() => {
+                        if (recheckStatus) recheckStatus.textContent = '';
+                    }, 2000);
+                }
+            });
+        }
 
         // Initialize translations
         i18n();
@@ -289,9 +357,17 @@ function handleMessage(message) {
                 searchEngines = se;
                 displaySearchEngines();
                 // Refresh Quick Preview list
-                if (typeof displayQuickPreviewEngines === 'function') {
-                    displayQuickPreviewEngines();
-                }
+                (async () => {
+                    // When engines change, run a quick preflight pass to update blocked flags for any new engines
+                    try {
+                        await preflightDetectBlockedEnginesOnce();
+                    } catch (_) {
+                        // non-fatal
+                    }
+                    if (typeof displayQuickPreviewEngines === 'function') {
+                        displayQuickPreviewEngines();
+                    }
+                })();
             });
         }
     } catch (e) {
@@ -2517,6 +2593,8 @@ function displayQuickPreviewEngines() {
     availableEngines.forEach(({ id, engine }) => {
         const itemDiv = createQuickPreviewItem(id, engine, false);
         leftList.appendChild(itemDiv);
+        // Keep per-host CSS map in sync for available engines
+        updateQuickPreviewCssMapForEngine(id);
     });
 
     leftColumn.appendChild(leftList);
@@ -2538,6 +2616,8 @@ function displayQuickPreviewEngines() {
         quickPreviewData.engines[id].index = index;
         const itemDiv = createQuickPreviewItem(id, engine, true);
         rightList.appendChild(itemDiv);
+        // Keep per-host CSS map in sync for selected engines
+        updateQuickPreviewCssMapForEngine(id);
     });
 
     rightColumn.appendChild(rightList);
@@ -2574,8 +2654,12 @@ function buildTestUrl(engine) {
     }
 }
 
-// One-time scan: detect engines likely blocked by X-Frame-Options or CSP frame-ancestors
-async function preflightDetectBlockedEnginesOnce() {
+// Detect engines likely blocked by X-Frame-Options or CSP frame-ancestors
+// Options:
+// - force: re-run detection for all eligible engines (ignore any previous _preflightDone)
+// - onProgress: callback({ completed, total, id, blocked }) invoked after each probe resolves
+async function preflightDetectBlockedEnginesOnce(options = {}) {
+    const { force = false, onProgress = null } = options || {};
     try {
         // Ensure structure
         if (!quickPreviewData || !quickPreviewData.engines) quickPreviewData = { engines: {} };
@@ -2604,40 +2688,61 @@ async function preflightDetectBlockedEnginesOnce() {
             // Skip engines we already know are blocked/unblocked to avoid repeated cost
             // Still allow probing if blocked is false but we want initial confirmation; for performance, only probe when index is null (first-time setup)
             const data = quickPreviewData.engines[id];
-            if (data && data._preflightDone) continue;
+            if (!force && data && data._preflightDone) continue;
 
             const testUrl = buildTestUrl(engine);
             if (!testUrl) continue;
 
-            probes.push({ id, url: testUrl });
+            probes.push({ id, url: testUrl, name: engine.name || id });
         }
 
         // Limit concurrency to avoid spamming; simple batching of up to 4 at a time
         const batchSize = 4;
+        const total = probes.length;
+        let completed = 0;
         for (let i = 0; i < probes.length; i += batchSize) {
             const batch = probes.slice(i, i + batchSize);
             await Promise.all(
-                batch.map(async ({ id, url }) => {
+                batch.map(async ({ id, url, name }) => {
+                    let blocked = quickPreviewData?.engines?.[id]?.blocked || false;
                     try {
                         const resp = await browser.runtime.sendMessage({ action: 'fetchQuickPreview', url });
                         // Detect blocked by header hints from service worker
-                        const blocked = !!(resp && (resp.xFrameOptions || resp.cspFrameAncestors));
+                        blocked = !!(resp && (resp.xFrameOptions || resp.cspFrameAncestors));
+                    } catch (e) {
+                        // On error, leave as-is (do not assume blocked)
+                    } finally {
                         if (quickPreviewData.engines[id]) {
                             quickPreviewData.engines[id].blocked = blocked;
                             quickPreviewData.engines[id]._preflightDone = true; // internal flag, not relied upon elsewhere
                         }
-                    } catch (e) {
-                        // On error, leave as-is (do not assume blocked)
+                        completed += 1;
+                        if (typeof onProgress === 'function') {
+                            try {
+                                onProgress({ completed, total, id, name, blocked });
+                            } catch (err) {
+                                // ignore progress callback errors
+                            }
+                        }
                     }
+                    return { id, blocked };
                 })
             );
+            // Persist after each batch so UI badges can update progressively
+            try {
+                await browser.storage.local.set({ [STORAGE_KEYS.QUICK_PREVIEW]: quickPreviewData });
+            } catch (_) {
+                // non-fatal
+            }
         }
 
         // Persist any updates once at end
         await browser.storage.local.set({ [STORAGE_KEYS.QUICK_PREVIEW]: quickPreviewData });
+        return { total, probed: total }; // probed equals total probes executed
     } catch (e) {
         // If any error occurs, fail softly and proceed with UI
         console.warn('Quick Preview preflight detection failed:', e);
+        return { total: 0, probed: 0 };
     }
 }
 
@@ -2821,5 +2926,44 @@ function openCSSPopup(id, engineName) {
     if (!popup) {
         alert('Popup blocked. Please allow popups for this extension.');
         return;
+    }
+}
+
+// Persist a per-host CSS map for content script injection
+async function updateQuickPreviewCssMapForEngine(id) {
+    try {
+        const engine = searchEngines[id];
+        if (!engine || !engine.url) return;
+        const raw = String(engine.url || '');
+        // Remove common placeholders and template tokens before parsing
+        let sanitized = raw.replace(/%s/g, '');
+        sanitized = sanitized.replace(/\{[^}]*\}/g, '');
+        // Ensure a valid scheme for parsing
+        if (!/^https?:\/\//i.test(sanitized)) {
+            sanitized = 'https://' + sanitized;
+        }
+        let host = '';
+        try {
+            const u = new URL(sanitized);
+            host = u.hostname || '';
+        } catch (e) {
+            // Fallback: naive host extraction
+            const m = sanitized.match(/^https?:\/\/([^/]+)/i);
+            host = (m && m[1]) || '';
+        }
+        if (!host) return;
+        // Normalize host (strip leading www.)
+        host = host.replace(/^www\./i, '');
+        const css = (quickPreviewData.engines?.[id]?.customCSS || '').trim();
+        const res = await browser.storage.local.get('qpCssMap');
+        const map = (res && res.qpCssMap) || {};
+        if (css) {
+            map[host] = css;
+        } else {
+            delete map[host];
+        }
+        await browser.storage.local.set({ qpCssMap: map });
+    } catch (e) {
+        console.warn('Failed to update qpCssMap for engine', id, e);
     }
 }

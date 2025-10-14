@@ -480,6 +480,9 @@
     "filterQuickPreviewByLanguage": {
         "message": "Filter Quick Preview by selection language"
     },
+    "filterQuickPreviewByLanguageNote": {
+        "message": "When enabled, only engines whose language matches the detected selection language are shown. If no engines match, all are shown as a fallback."
+    },
     "__WET_LOCALE__": {
         "message": "en"
     }

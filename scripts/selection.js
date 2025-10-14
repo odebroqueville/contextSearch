@@ -1,10 +1,12 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-unused-vars */
 
-/* global DEBUG_VALUE */
+/* global logToConsole */
+// logToConsole getter is provided by shared logging.js (injected before this script via manifest).
+// Removed local const declaration to avoid "Identifier 'logToConsole' has already been declared" errors when multiple content scripts load.
 
 // TEST: Simple console log to verify content script is running
-console.log('🔍 Context Search content script starting...');
+if (logToConsole) console.log('🔍 Context Search content script starting...');
 
 // Global Constants
 const mycroftUrl = 'https://mycroftproject.com/installos.php/';
@@ -34,7 +36,6 @@ const ICON32 = '32px'; // icon width is 32px
 const notifySearchEngineNotFound = browser.i18n.getMessage('notifySearchEngineNotFound');
 
 // Global variables
-let logToConsole = DEBUG_VALUE; // Debug (from environment)
 let os = null;
 let meta = ''; // meta key: cmd for macOS, win for Windows, super for Linux
 let tabUrl = '';

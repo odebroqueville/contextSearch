@@ -411,6 +411,72 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             sendResponse({ success: false, error: 'No URL provided' });
             return false; // Synchronous response
         }
+        case 'enableQuickPreviewMobileUA': {
+            try {
+                const tabId = sender?.tab?.id;
+                if (typeof tabId !== 'number') {
+                    sendResponse({ success: false, error: 'No tabId' });
+                    return false;
+                }
+                const ruleId = 9000 + tabId; // unique per tab
+                const MOBILE_UA =
+                    'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36';
+                // Allow caller to specify Accept-Language; default to en-US if not provided
+                const acceptLanguage = (message && message.acceptLanguage) || 'en-US,en;q=0.9';
+
+                browser.declarativeNetRequest
+                    .updateSessionRules({
+                        removeRuleIds: [ruleId],
+                        addRules: [
+                            {
+                                id: ruleId,
+                                priority: 10,
+                                action: {
+                                    type: 'modifyHeaders',
+                                    requestHeaders: [
+                                        { header: 'User-Agent', operation: 'set', value: MOBILE_UA },
+                                        { header: 'Accept-Language', operation: 'set', value: acceptLanguage },
+                                    ],
+                                },
+                                condition: {
+                                    resourceTypes: ['sub_frame'],
+                                    tabIds: [tabId],
+                                },
+                            },
+                        ],
+                    })
+                    .then(() => sendResponse({ success: true }))
+                    .catch((err) => {
+                        console.error('enableQuickPreviewMobileUA failed:', err);
+                        sendResponse({ success: false, error: err?.message || String(err) });
+                    });
+                return true; // async
+            } catch (e) {
+                sendResponse({ success: false, error: e?.message || String(e) });
+                return false;
+            }
+        }
+        case 'disableQuickPreviewMobileUA': {
+            try {
+                const tabId = sender?.tab?.id;
+                if (typeof tabId !== 'number') {
+                    sendResponse({ success: false, error: 'No tabId' });
+                    return false;
+                }
+                const ruleId = 9000 + tabId;
+                browser.declarativeNetRequest
+                    .updateSessionRules({ removeRuleIds: [ruleId], addRules: [] })
+                    .then(() => sendResponse({ success: true }))
+                    .catch((err) => {
+                        console.error('disableQuickPreviewMobileUA failed:', err);
+                        sendResponse({ success: false, error: err?.message || String(err) });
+                    });
+                return true;
+            } catch (e) {
+                sendResponse({ success: false, error: e?.message || String(e) });
+                return false;
+            }
+        }
         case 'openSearch': {
             // Quick Preview: open search URL in new tab
             const { url } = message;
