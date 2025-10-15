@@ -2,10 +2,14 @@
 .DS_Store
 .eslintrc.json
 *.zip
-Bookmark_Functionality.md
 build/
 libs/
 node_modules/
-TRADEMARK_POLICY.md
+cs_service_worker.js.bak
+Bookmark_Functionality.md
+QUICK_PREVIEW_DEBUG.md
+QUICK_PREVIEW_FIX.md
+RELOAD_EXTENSION_NOW.md
+X_FRAME_OPTIONS_ISSUE.md
 web-ext-artifacts/
 web-ext-config.js
