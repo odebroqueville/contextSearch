@@ -252,7 +252,7 @@
         "message": "En outre, les résultats de la recherche d'images inversées ne peuvent pas être affichés dans la barre latérale."
     },
     "siteSearch": {
-        "message": "Moteur de recherche pour la recherche sur le site actuel :"
+        "message": "Search engine for bookmarks site search:"
     },
     "header9": {
         "message": "Fonctionnalités avancées"
@@ -464,6 +464,30 @@
     },
     "addToPromptLibrary": {
         "message": "Ajouter à la bibliothèque d'invites"
+    },
+    "titleQuickPreview": {
+        "message": "Quick preview"
+    },
+    "headerQuickPreview": {
+        "message": "Quick Preview Settings"
+    },
+    "quickPreviewDescription": {
+        "message": "Configure which search engines appear in the quick preview bubble. Only HTTP GET-based search engines are supported."
+    },
+    "disableQuickPreview": {
+        "message": "Disable quick preview of search results"
+    },
+    "filterQuickPreviewByLanguage": {
+        "message": "Filter Quick Preview by selection language"
+    },
+    "filterQuickPreviewByLanguageNote": {
+        "message": "When enabled, only engines whose language matches the detected selection language are shown. If no engines match, all are shown as a fallback."
+    },
+    "recheckDescription": {
+        "message": "Re-check engines will verify if each and every search engine is still available and responsive. A red warning icon will appear next to any engines that may not render correctly in the Quick preview bubble. This may take a while."
+    },
+    "recheckEngines": {
+        "message": "Re-check engines"
     },
     "__WET_LOCALE__": {
         "message": "fr"
