@@ -1,0 +1,20 @@
+# Ignore vendor and build artifacts
+node_modules/
+build/
+web-ext-artifacts/
+
+# Third-party libraries (if present)
+libs/
+
+# Minified bundles
+**/*.min.js
+
+# Backup files
+cs_service_worker.js.bak
+
+# Generated locale bundles
+_locales/
+
+# Generated config/cache directories (safety)
+.tmp/
+.cache/

@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-src *;" />
+    <title>Quick Preview Probe Host</title>
+  </head>
+  <body>
+    <!-- Simple and basic HTML: a title, a status line, and a visible probe iframe container -->
+    <h3 style="margin: 8px 12px; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;">Quick Preview Probe Host</h3>
+    <div id="status" style="margin: 6px 12px; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; font-size: 12px; color: #555;">Idle</div>
+    <div id="container" style="margin: 8px 12px; width: 360px; height: 520px; border: 1px solid #ddd; overflow: hidden;"></div>
+    <script type="module" src="../scripts/qp-probe-host.js"></script>
+  </body>
+  </html>

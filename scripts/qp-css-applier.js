@@ -34,8 +34,12 @@
             let wn = window.name || '';
             let engineIdEarly = '';
             if (/^csqp:?/.test(wn)) {
-                const m = wn.match(/^csqp:?([a-z0-9_-]+)$/i);
-                if (m) engineIdEarly = m[1];
+                const raw = wn.replace(/^csqp:?/, '');
+                try {
+                    engineIdEarly = decodeURIComponent(raw);
+                } catch (_) {
+                    engineIdEarly = raw;
+                }
             }
             if (!engineIdEarly) {
                 try {
@@ -69,13 +73,23 @@
                     /* ignore */
                 }
                 try {
-                    if (window.name !== `csqp:${engineIdEarly}`) window.name = `csqp:${engineIdEarly}`;
+                    const enc = (() => {
+                        try {
+                            return encodeURIComponent(engineIdEarly);
+                        } catch (_) {
+                            return engineIdEarly;
+                        }
+                    })();
+                    if (window.name !== `csqp:${enc}`) window.name = `csqp:${enc}`;
                 } catch (_) {
                     /* ignore */
                 }
             }
             if (logToConsole) qpLog('QP CSS applier running, frame name:', wn, 'detectedEngine:', engineIdEarly);
-            if (hostIsDDG && engineIdEarly === 'ddg') {
+            // Apply early DDG coercion for any Quick Preview frame targeting DDG
+            // Use the presence of the csqp: marker in window.name to identify QP frames reliably
+            const isQPFrame = typeof window.name === 'string' && /^csqp:/.test(window.name);
+            if (hostIsDDG && isQPFrame) {
                 const html = document.documentElement;
                 const originalName = wn || `csqp:${engineIdEarly}`;
                 // Track stability: number of consecutive intervals with no desktop-class removals
@@ -109,7 +123,7 @@
                         const beforeB = body.className;
                         const btokens = new Set((beforeB || '').split(/\s+/).filter(Boolean));
                         let removedB = false;
-                        ['is-not-mobile-device', 'is-not-mobile', 'has-right-rail-module'].forEach((c) => {
+                        ['is-not-mobile-device', 'is-not-mobile', 'has-right-rail-module', 'has-right-rail'].forEach((c) => {
                             if (btokens.delete(c)) removedB = true;
                         });
                         btokens.add('is-mobile');
@@ -135,8 +149,20 @@
                     try {
                         const earlyStyle = document.createElement('style');
                         earlyStyle.id = 'csqp-ddg-early';
-                        // Minimal early coercion only (full neutralization occurs later via hostSpecificCSS)
-                        earlyStyle.textContent = `html,body{min-width:0!important;max-width:100%!important;overflow-x:hidden!important;}#right-rail,[class*='right-rail']{display:none!important;}`;
+                        // Beefed-up early coercion to prevent desktop layout snap before our later CSS lands
+                        earlyStyle.textContent = `
+html,body{min-width:0!important;max-width:100%!important;width:auto!important;overflow-x:hidden!important;}
+#right-rail,[id*='right-rail'],[class*='right-rail'],.results--sidebar,[class*='sidebar']{display:none!important;max-width:0!important;width:0!important;}
+/* Common DDG wrappers */
+body,.site-wrapper,.react-layout,.body-wrapper,.serp__body,.results,.results--main,.zcm-wrap,.zcm,.zcm__container,.header-wrap,.footer,.nav-menu--slideout,.nav-menu__slideout,main,#__next{min-width:0!important;max-width:100%!important;width:auto!important;overflow-x:hidden!important;margin-left:0!important;margin-right:0!important;}
+/* Additional guards against inline constraints */
+[style*='min-width']{min-width:0!important;}
+[style*='max-width']{max-width:100%!important;}
+/* Prefer wrapping to avoid overflow */
+.serp__body a,.serp__body p,.serp__body span,.results a,.results p,.results span{word-break:break-word!important;overflow-wrap:anywhere!important;}
+/* Nuke wide flags early */
+html.is-not-mobile-device,body.is-not-mobile-device,html.has-right-rail-module body,body.has-right-rail-module body{min-width:0!important;}
+`;
                         (document.head || document.documentElement).appendChild(earlyStyle);
                     } catch (_) {
                         /* ignore */
@@ -210,7 +236,32 @@
             // ignore
         }
 
-        // Only inject when the frame belongs to Quick Preview, detected via frame/window name 'csqp:<engineId>'
+        // Decide if this is a Quick Preview frame (robustly), even before resolving engineId
+        const isLikelyQPFrame = (() => {
+            try {
+                // Strong signal: window.name marked by quick-preview iframe
+                if (typeof window.name === 'string' && /^csqp:/.test(window.name)) return true;
+            } catch (_) { /* ignore */ }
+            try {
+                // URL hint added by quick-preview retries
+                const u = new URL(location.href);
+                if (u.searchParams.get('csqp') === '1') return true;
+            } catch (_) { /* ignore */ }
+            try {
+                // Attribute propagated by applier if seen earlier
+                if (document.documentElement.getAttribute('data-csqp-engine')) return true;
+            } catch (_) { /* ignore */ }
+            try {
+                // LocalStorage hint in case name/params were stripped by redirects
+                if (localStorage.getItem('csqpEngineId')) return true;
+            } catch (_) { /* ignore */ }
+            return false;
+        })();
+
+        // Only proceed when this frame belongs to Quick Preview
+        if (!isLikelyQPFrame) return;
+
+        // Resolve engineId if available (optional)
         let engineId = '';
         const resolveFromUrl = () => {
             try {
@@ -226,10 +277,7 @@
             }
         };
 
-        // 1. Prefer explicit URL parameter / hash (most up-to-date on redirect)
-        engineId = resolveFromUrl();
-
-        // 2. Fallback to encoded window.name if needed
+        // 1. Prefer encoded window.name (stable across redirects)
         if (!engineId) {
             const wname = window.name || '';
             if (/^csqp:?/.test(wname)) {
@@ -241,6 +289,9 @@
                 }
             }
         }
+
+        // 2. Fallback to explicit URL parameter / hash (may be dropped by some engines)
+        if (!engineId) engineId = resolveFromUrl();
         // 3. Then attribute
         if (!engineId) engineId = document.documentElement.getAttribute('data-csqp-engine') || '';
         // 4. Then localStorage (least reliable / may be stale)
@@ -283,9 +334,17 @@
 
         // Read per-engine CSS once (initial attempt)
         let engineSpecificCSS = '';
+        // Use webextension polyfill (browser.*) provided in manifest; no chrome.* fallback needed
+        const storageGet = async (key) => {
+            try {
+                return await browser.storage.local.get(key);
+            } catch (_) {
+                return {};
+            }
+        };
         const fetchEngineCSS = async (idOverride) => {
             try {
-                const res = await browser.storage.local.get('quickPreview');
+                const res = await storageGet('quickPreview');
                 const qp = res && res.quickPreview ? res.quickPreview : {};
                 return (qp.engines && qp.engines[idOverride] && qp.engines[idOverride].customCSS) || '';
             } catch (_) {
@@ -309,62 +368,116 @@ pre, code { white-space: pre-wrap !important; word-break: break-word !important;
         try {
             if (/\.duckduckgo\.com$/i.test(location.hostname || '')) {
                 hostSpecificCSS += `
-/* Safety: prevent desktop rail overflow & enforce narrow responsive layout */
-html, body { min-width: 0 !important; }
-#right-rail, body.has-right-rail-module #right-rail { display:none !important; max-width:0 !important; width:0 !important; }
-.results--main, body.has-right-rail-module .results--main { width:auto !important; max-width:100% !important; }
-/* Neutralize any min-width forcing large layout */
-body, .site-wrapper, .react-layout, .body-wrapper, .serp__body, .results, .results--main, .zcm-wrap, .zcm, .zcm__container, .header-wrap, .footer, .nav-menu--slideout, .nav-menu__slideout { min-width:0 !important; max-width:100% !important; }
-/* Prevent horizontal scroll on containers */
-.site-wrapper, .react-layout, .results, .results--main, .zcm__container { overflow-x:hidden !important; }
-/* Ensure cards/lists wrap properly */
-.react-layout [class*='grid'], .react-layout [class*='module'], .result, .tile, .result__body { max-width:100% !important; width:auto !important; }
-/* Remove potential desktop-only flags if they linger in attrs (defensive) */
-[class*='right-rail'] { display:none !important; }
-/* Neutralize lingering desktop signaling classes without having to remove them */
-html.is-not-mobile-device, body.is-not-mobile-device { min-width:0 !important; }
-html.has-right-rail-module #right-rail, body.has-right-rail-module #right-rail { display:none !important; }
-html.has-right-rail-module .results--main, body.has-right-rail-module .results--main { max-width:100% !important; }
-/* Guard against any wide inline styles */
-.results--main[style*='width'], .react-layout[style*='width'] { width:auto !important; max-width:100% !important; }
+/* DDG: enforce narrow responsive layout and kill horizontal overflow */
+html, body { min-width: 0 !important; max-width: 100% !important; width: auto !important; overflow-x: hidden !important; }
+#right-rail, [id*='right-rail'], [class*='right-rail'], .results--sidebar, [class*='sidebar'] { display: none !important; max-width: 0 !important; width: 0 !important; }
+/* Primary wrappers should never exceed frame width */
+body, .site-wrapper, .react-layout, .body-wrapper, .serp__body, main, .results, .results--main, .zcm-wrap, .zcm, .zcm__container, .header-wrap, .nav-menu--slideout, .nav-menu__slideout, .footer, #__next {
+    min-width: 0 !important; max-width: 100% !important; width: auto !important; overflow-x: hidden !important; margin-left: 0 !important; margin-right: 0 !important;
+}
+/* Prevent grid/cards from forcing width */
+.react-layout [class*='grid'], .react-layout [class*='module'], .result, .tile, .result__body, .results--main > *, .results > *, [class*='tile__'], [class*='module__'] {
+    max-width: 100% !important; width: auto !important; overflow-x: hidden !important;
+}
+/* Clamp any lingering child widths inside main body to viewport */
+.serp__body *, .results *, .results--main *, #__next * { max-width: 100% !important; }
+/* Force long text to wrap to avoid overflow */
+.serp__body a, .serp__body p, .serp__body span, .results a, .results p, .results span, #__next a, #__next p, #__next span { word-break: break-word !important; overflow-wrap: anywhere !important; }
+/* Kill lingering desktop flags without relying on class removal */
+html.is-not-mobile-device, body.is-not-mobile-device { min-width: 0 !important; }
+html.has-right-rail-module #right-rail, body.has-right-rail-module #right-rail { display: none !important; }
+html.has-right-rail-module .results--main, body.has-right-rail-module .results--main { max-width: 100% !important; }
+/* Guard against inline width/min-width on key containers */
+.results--main[style*='width'], .react-layout[style*='width'], .site-wrapper[style*='width'], .serp__body[style*='width'], #__next[style*='width'] { width: auto !important; max-width: 100% !important; }
+[style*='min-width'] { min-width: 0 !important; }
+[style*='max-width'] { max-width: 100% !important; }
+/* Make sure table-like blocks and code wrap inside narrow frame */
+pre, code, .module__item, .module, .tile__body { white-space: normal !important; word-break: break-word !important; }
 `;
             }
         } catch (_) {
             /* ignore */
         }
 
-        if (!engineSpecificCSS || typeof engineSpecificCSS !== 'string') engineSpecificCSS = '';
+    if (!engineSpecificCSS || typeof engineSpecificCSS !== 'string') engineSpecificCSS = '';
         if (logToConsole) qpLog('[QP][CSS] Engine CSS retrieved (initial)', { engineId, length: engineSpecificCSS.length });
 
-        const cssSegments = [genericFitCSS, hostSpecificCSS.trim(), engineSpecificCSS.trim()].filter(Boolean);
+        // Compose base style (generic + host) and a separate engine style to guarantee cascade priority
+        const baseCss = [genericFitCSS, hostSpecificCSS.trim()].filter(Boolean).join('\n');
+        const engineCss = (engineSpecificCSS || '').trim();
 
-        let appended = false;
+        let baseAppended = false;
         try {
-            const style = document.createElement('style');
-            style.setAttribute('data-cs-qp-style', '1');
-            style.setAttribute('data-csqp-engine', engineId);
-            style.textContent = cssSegments.join('\n');
-            const target = document.head || document.documentElement;
-            target.appendChild(style);
-            appended = true;
+            const baseStyle = document.createElement('style');
+            baseStyle.setAttribute('data-cs-qp-style', 'base');
+            baseStyle.setAttribute('data-csqp-engine', engineId);
+            baseStyle.textContent = baseCss;
+            (document.head || document.documentElement).appendChild(baseStyle);
+            baseAppended = true;
         } catch (e) {
-            if (logToConsole) qpWarn('[QP][CSS] Primary style append failed, attempting fallback', e);
+            if (logToConsole) qpWarn('[QP][CSS] Base style append failed', e);
         }
-        if (!appended) {
+        if (!baseAppended) {
             try {
                 if ('adoptedStyleSheets' in document) {
                     const sheet = new CSSStyleSheet();
-                    sheet.replaceSync(cssSegments.join('\n'));
-                    // Adopt (create new array to avoid mutating live list unexpectedly)
+                    sheet.replaceSync(baseCss);
                     document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
-                    appended = true;
-                    if (logToConsole) qpLog('[QP][CSS] Fallback adoptedStyleSheet applied');
+                    baseAppended = true;
+                    if (logToConsole) qpLog('[QP][CSS] Base adoptedStyleSheet applied');
                 }
             } catch (e2) {
-                if (logToConsole) qpError('[QP][CSS] Fallback adoptedStyleSheet failed', e2);
+                if (logToConsole) qpError('[QP][CSS] Base adoptedStyleSheet failed', e2);
             }
         }
-        if (!appended && logToConsole) qpWarn('[QP][CSS] Engine-specific CSS may not be applied (initial append failed)');
+
+        const appendEngineStyle = (cssText, tagId = 'cs-qp-engine-style') => {
+            try {
+                // Remove any previous engine style to avoid duplicates
+                const prev = document.getElementById(tagId);
+                if (prev && prev.parentNode) prev.parentNode.removeChild(prev);
+            } catch (_) {
+                /* ignore */
+            }
+            try {
+                const engStyle = document.createElement('style');
+                engStyle.id = tagId;
+                engStyle.setAttribute('data-cs-qp-style', 'engine');
+                engStyle.setAttribute('data-csqp-engine', engineId);
+                engStyle.textContent = cssText;
+                (document.head || document.documentElement).appendChild(engStyle);
+                if (logToConsole) qpLog('[QP][CSS] Engine CSS injected', { engineId, length: cssText.length });
+                return true;
+            } catch (e) {
+                if (logToConsole) qpWarn('[QP][CSS] Engine style append failed', e);
+                return false;
+            }
+        };
+
+        if (engineCss) {
+            appendEngineStyle(engineCss);
+        }
+
+        // Live updates: if options page saves new customCSS, apply it without reload
+        try {
+            if (browser && browser.storage && browser.storage.onChanged) {
+                const onChange = (changes, area) => {
+                    if (area !== 'local' || !changes || !changes.quickPreview) return;
+                    try {
+                        const qp = changes.quickPreview.newValue || {};
+                        const cssNew = qp && qp.engines && qp.engines[engineId] && qp.engines[engineId].customCSS;
+                        if (typeof cssNew === 'string') {
+                            appendEngineStyle(cssNew, 'cs-qp-engine-style');
+                        }
+                    } catch (_) {
+                        /* ignore */
+                    }
+                };
+                browser.storage.onChanged.addListener(onChange);
+            }
+        } catch (_) {
+            /* ignore */
+        }
 
         // Late reconciliation: if engineId derived from url differs from stored one or CSS was empty, retry a few times
         const urlEngineId = resolveFromUrl();
@@ -388,17 +501,9 @@ html.has-right-rail-module .results--main, body.has-right-rail-module .results--
                 }
                 const cssNow = await fetchEngineCSS(effectiveId);
                 if (cssNow && cssNow.trim().length) {
-                    // Append a late style so it wins cascade
-                    try {
-                        const lateStyle = document.createElement('style');
-                        lateStyle.setAttribute('data-cs-qp-style', 'late');
-                        lateStyle.setAttribute('data-csqp-engine', effectiveId);
-                        lateStyle.textContent = cssNow;
-                        (document.head || document.documentElement).appendChild(lateStyle);
-                        if (logToConsole) qpLog('[QP][CSS] Late engine CSS injected', { effectiveId, length: cssNow.length, attempts });
-                    } catch (e) {
-                        if (logToConsole) qpWarn('[QP][CSS] Failed late injection', e);
-                    }
+                    // Append/replace late engine style so it wins cascade
+                    appendEngineStyle(cssNow, 'cs-qp-engine-style');
+                    if (logToConsole) qpLog('[QP][CSS] Late engine CSS injected', { effectiveId, length: cssNow.length, attempts });
                     return;
                 }
                 if (attempts < maxAttempts) {

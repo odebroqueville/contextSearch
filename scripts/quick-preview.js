@@ -660,7 +660,7 @@ function frameEngineUrl(url, engineId) {
     // No sandbox to allow full site rendering; DNR will strip frame-blocking headers
 
     let attempts = 0;
-    const MAX_ATTEMPTS = 2; // initial try + one retry
+    const MAX_ATTEMPTS = 3; // initial try + two retries (some sites are slow/SPA)
     // Watchdog timer must be declared before closures use it
     let watchdog = null;
 
@@ -758,12 +758,7 @@ function frameEngineUrl(url, engineId) {
             u.searchParams.set('csqpid', engineId);
             // Cache-buster per attempt
             u.searchParams.set('_csr', String(Date.now() % 100000));
-            // Append fragment marker (survives some param strips)
-            const hash = u.hash.replace(/^#/, '');
-            const hashParams = new URLSearchParams(hash);
-            if (!hashParams.get('csqpid')) hashParams.set('csqpid', engineId);
-            const newHash = hashParams.toString();
-            u.hash = newHash ? '#' + newHash : '';
+            // Do NOT modify hash: some engines (e.g., DeepL) encode query in hash path segments
             iframe.src = u.toString();
         } catch (_) {
             iframe.src = url;
@@ -778,7 +773,7 @@ function frameEngineUrl(url, engineId) {
             } else {
                 handleBlocked();
             }
-        }, 4000);
+        }, 6000);
     };
 
     // Initial load

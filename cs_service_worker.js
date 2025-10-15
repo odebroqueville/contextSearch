@@ -172,6 +172,9 @@ function clearAllOpenSearchCache() {
 // Track when service worker was last active
 let lastActivityTime = Date.now();
 
+// Track Quick Preview probe host tab to detect hijacks
+let probeTabInfo = null; // { tabId: number, hostUrl: string, recovering: boolean }
+
 // Service worker wake-up detection
 function onServiceWorkerWakeUp() {
     const now = Date.now();
@@ -286,6 +289,35 @@ browser.tabs.onUpdated.addListener((tabId, changeInfo) => {
     if (changeInfo.url) {
         clearOpenSearchCache(tabId);
     }
+    // Detect hijack of the probe host tab: navigated away from hostUrl
+    try {
+        if (
+            probeTabInfo &&
+            probeTabInfo.tabId === tabId &&
+            typeof changeInfo.url === 'string' &&
+            probeTabInfo.hostUrl &&
+            !changeInfo.url.startsWith(probeTabInfo.hostUrl)
+        ) {
+            if (!probeTabInfo.recovering) {
+                probeTabInfo.recovering = true;
+                // Notify options pages to handle current engine as hijacking/blocked
+                browser.runtime.sendMessage({ action: 'probeTabHijacked', tabId, newUrl: changeInfo.url }).catch(() => {});
+                // Recover by reloading the host page into the same tab
+                browser.tabs
+                    .update(tabId, { url: probeTabInfo.hostUrl, active: false })
+                    .catch(() => {})
+                    .finally(() => {
+                        // small debounce; allow onUpdated to settle
+                        setTimeout(() => {
+                            if (probeTabInfo) probeTabInfo.recovering = false;
+                        }, 300);
+                    });
+            }
+        }
+    } catch (e) {
+        // ignore
+        void e; // keep block non-empty for ESLint
+    }
     if (paid || trialActive) debouncedUpdateAddonStateForActiveTab();
 });
 
@@ -323,6 +355,12 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (action !== 'openPaymentPage' && action !== 'openTrialPage' && action !== 'openOptionsPage' && !paid && !trialActive) {
         sendResponse({ success: false, error: 'Subscription required' });
         return false; // Return false for synchronous response
+    }
+
+    // Ignore Quick Preview probe host messages (handled by the probe host page)
+    if (message && typeof message.action === 'string' && message.action.startsWith('qpProbe:')) {
+        // Do not respond; let the intended page handle it
+        return false;
     }
 
     // Handle other actions
@@ -402,7 +440,8 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
                     try {
                         sendResponse({ success: false, error: outerError.message });
                     } catch (ignore) {
-                        // ignore secondary failures
+                        // Deliberately ignore secondary failures
+                        void ignore; // keep block non-empty for ESLint
                     }
                     return false; // Synchronous response
                 }
@@ -494,6 +533,100 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             }
             sendResponse({ success: false, error: 'No URL provided' });
             return false; // Synchronous response
+        }
+        case 'openBackgroundProbeTab': {
+            try {
+                const { url, timeoutMs } = message || {};
+                if (!url) {
+                    sendResponse({ success: false, error: 'No URL provided' });
+                    return false;
+                }
+                browser.tabs
+                    .create({ url, active: false })
+                    .then((tab) => {
+                        // Record this tab as the active probe host if it loads our probe host page
+                        try {
+                            const isProbeHost = typeof url === 'string' && url.includes('/html/qp-probe-host.html');
+                            if (isProbeHost && tab && typeof tab.id === 'number') {
+                                probeTabInfo = { tabId: tab.id, hostUrl: url, recovering: false };
+                            }
+                        } catch (ignore) {
+                            // Deliberately ignore
+                            void ignore; // keep block non-empty for ESLint
+                        }
+                        // Optionally auto-close after timeout; if timeoutMs <= 0, keep open until explicitly closed
+                        const ms = typeof timeoutMs === 'number' ? timeoutMs : 0;
+                        if (ms > 0) {
+                            setTimeout(() => {
+                                try {
+                                    if (tab && tab.id) browser.tabs.remove(tab.id).catch(() => {});
+                                } catch (ignore) {
+                                    // Deliberately ignore
+                                    void ignore; // keep block non-empty for ESLint
+                                }
+                            }, ms);
+                        }
+                        sendResponse({ success: true, tabId: tab?.id || null });
+                    })
+                    .catch((error) => {
+                        console.error('Error opening background probe tab:', error);
+                        sendResponse({ success: false, error: error?.message || String(error) });
+                    });
+                return true;
+            } catch (e) {
+                sendResponse({ success: false, error: e?.message || String(e) });
+                return false;
+            }
+        }
+        case 'closeTabs': {
+            try {
+                const { tabIds } = message || {};
+                if (!Array.isArray(tabIds) || tabIds.length === 0) {
+                    sendResponse({ success: false, error: 'No tab IDs provided' });
+                    return false;
+                }
+                Promise.all(tabIds.map((id) => (typeof id === 'number' ? browser.tabs.remove(id).catch(() => {}) : Promise.resolve())))
+                    .then(() => {
+                        // If we closed the probe host tab, clear its tracking info
+                        try {
+                            if (probeTabInfo && tabIds.includes(probeTabInfo.tabId)) {
+                                probeTabInfo = null;
+                            }
+                        } catch (ignore) {
+                            // Deliberately ignore
+                            void ignore; // keep block non-empty for ESLint
+                        }
+                        sendResponse({ success: true });
+                    })
+                    .catch((err) => {
+                        console.error('Error closing tabs:', err);
+                        sendResponse({ success: false, error: err?.message || String(err) });
+                    });
+                return true;
+            } catch (e) {
+                sendResponse({ success: false, error: e?.message || String(e) });
+                return false;
+            }
+        }
+        case 'navigateTab': {
+            try {
+                const { tabId, url } = message || {};
+                if (typeof tabId !== 'number' || !url) {
+                    sendResponse({ success: false, error: 'tabId or url missing' });
+                    return false;
+                }
+                browser.tabs
+                    .update(tabId, { url, active: false })
+                    .then((tab) => sendResponse({ success: true, tabId: tab?.id || tabId }))
+                    .catch((err) => {
+                        console.error('Error navigating tab:', err);
+                        sendResponse({ success: false, error: err?.message || String(err) });
+                    });
+                return true;
+            } catch (e) {
+                sendResponse({ success: false, error: e?.message || String(e) });
+                return false;
+            }
         }
         case 'savePromptToLibrary': {
             // Persist a prompt into the PromptCatDB (extension origin IndexedDB)
@@ -2865,8 +2998,9 @@ async function setGroupTitle(groupId, title) {
                 const group = await browser.tabGroups.get(groupId);
                 return (group?.title || '').trim().length > 0;
             }
-        } catch (_) {
+        } catch (e) {
             // Ignore
+            void e; // keep block non-empty for ESLint
         }
         return false;
     };
@@ -2893,7 +3027,8 @@ async function setGroupTitle(groupId, title) {
         await new Promise((resolve) => {
             try {
                 globalThis.chrome.tabGroups.update(groupId, { title: safeTitle, color }, () => resolve());
-            } catch (_) {
+            } catch (e) {
+                void e; // keep block non-empty for ESLint
                 resolve();
             }
         });

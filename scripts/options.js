@@ -127,6 +127,31 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Message, Storage, and Permissions event handlers
 browser.runtime.onMessage.addListener(handleMessage);
+// Handle hijack notifications from the service worker during Quick Preview preflight
+let qpProbeState = { bgTabId: null, current: null, hijack: null };
+function createHijackWaiter() {
+    let resolver = null;
+    const promise = new Promise((resolve) => {
+        resolver = resolve;
+    });
+    return { promise, trigger: () => resolver && resolver(true) };
+}
+browser.runtime.onMessage.addListener((message) => {
+    try {
+        if (!message || !message.action) return false;
+        if (message.action === 'probeTabHijacked') {
+            // Only react if it's our background probe tab
+            if (qpProbeState && qpProbeState.bgTabId && message.tabId === qpProbeState.bgTabId) {
+                // Trigger the hijack waiter so the ongoing probe resolves immediately
+                if (!qpProbeState.hijack) qpProbeState.hijack = createHijackWaiter();
+                qpProbeState.hijack.trigger();
+            }
+        }
+    } catch (_) {
+        // ignore
+    }
+    return false; // do not keep channel open
+});
 browser.permissions.onAdded.addListener(handlePermissionsChanges);
 browser.permissions.onRemoved.addListener(handlePermissionsChanges);
 
@@ -2659,18 +2684,42 @@ function buildTestUrl(engine) {
     }
 }
 
-// Detect engines likely blocked by X-Frame-Options or CSP frame-ancestors
+// Detect engines likely blocked by frame policies by actually loading them in hidden iframes.
+// This mirrors the Quick Preview runtime behavior (DNR strips frame-blocking headers),
+// avoiding false positives from header-only checks.
 // Options:
 // - force: re-run detection for all eligible engines (ignore any previous _preflightDone)
-// - onProgress: callback({ completed, total, id, blocked }) invoked after each probe resolves
+// - onProgress: callback({ completed, total, id, name, blocked }) invoked after each probe resolves
 async function preflightDetectBlockedEnginesOnce(options = {}) {
     const { force = false, onProgress = null } = options || {};
     try {
         // Ensure structure
         if (!quickPreviewData || !quickPreviewData.engines) quickPreviewData = { engines: {} };
 
+        // Probe a single URL by asking the background probe host tab to load it in its sandboxed iframe
+        const probeEngineByIframe = async (url, engineId, bgTabId) => {
+            try {
+                // Use runtime.sendMessage with target tab id for broader compatibility
+                const res = await browser.runtime.sendMessage({ action: 'qpProbe:probeUrl', url, engineId, tabId: bgTabId });
+                if (res && res.success === true) return !!res.blocked;
+                // If the probe host reports busy or fails, treat as not blocked to avoid false positives
+                return false;
+            } catch (e) {
+                // If messaging fails (e.g., host not ready), try a one-time small delay and retry once
+                await new Promise((r) => setTimeout(r, 300));
+                try {
+                    const res2 = await browser.runtime.sendMessage({ action: 'qpProbe:probeUrl', url, engineId, tabId: bgTabId });
+                    if (res2 && res2.success === true) return !!res2.blocked;
+                } catch (_) {
+                    // fall through
+                }
+                return false;
+            }
+        };
+
         // Gather all GET-based engines eligible for Quick Preview (same filter as display)
         const probes = [];
+        const isNoIframeHost = (host) => /(^|\.)wikiwand\.com$/i.test(host || '');
         for (const id in searchEngines) {
             const engine = searchEngines[id];
             if (!engine) continue;
@@ -2690,42 +2739,84 @@ async function preflightDetectBlockedEnginesOnce(options = {}) {
                 if (typeof quickPreviewData.engines[id].lang !== 'string') quickPreviewData.engines[id].lang = '';
             }
 
-            // Skip engines we already know are blocked/unblocked to avoid repeated cost
-            // Still allow probing if blocked is false but we want initial confirmation; for performance, only probe when index is null (first-time setup)
+            // Skip if already probed and not forced
             const data = quickPreviewData.engines[id];
             if (!force && data && data._preflightDone) continue;
 
             const testUrl = buildTestUrl(engine);
             if (!testUrl) continue;
-
-            probes.push({ id, url: testUrl, name: engine.name || id });
+            let host = '';
+            try {
+                host = new URL(testUrl).hostname;
+            } catch (_) {
+                host = '';
+            }
+            probes.push({ id, url: testUrl, name: engine.name || id, noIframe: isNoIframeHost(host) });
         }
 
-        // Limit concurrency to avoid spamming; simple batching of up to 4 at a time
-        const batchSize = 4;
+        // Limit concurrency to avoid spamming and freezing; probing via background host is sequential
+        const batchSize = 1;
         const total = probes.length;
         let completed = 0;
+        // Open a single background tab to absorb any hostile top-level navigations
+        let bgTabId = null;
+        if (probes.length > 0) {
+            try {
+                // Open the reusable background tab on the probe host page
+                const hostUrl = browser.runtime.getURL('/html/qp-probe-host.html');
+                const res = await browser.runtime.sendMessage({ action: 'openBackgroundProbeTab', url: hostUrl, timeoutMs: 0 });
+                if (res && res.success && typeof res.tabId === 'number') bgTabId = res.tabId;
+                // Give the probe host a short moment to fully load
+                await new Promise((r) => setTimeout(r, 250));
+                // Record bg tab id for hijack handler
+                qpProbeState.bgTabId = bgTabId;
+                qpProbeState.hijack = createHijackWaiter();
+            } catch (_) {
+                // non-fatal
+            }
+        }
+
+        // Probe engines via hidden sandboxed iframe (more reliable than header checks that DNR may neutralize)
         for (let i = 0; i < probes.length; i += batchSize) {
             const batch = probes.slice(i, i + batchSize);
             await Promise.all(
                 batch.map(async ({ id, url, name }) => {
-                    let blocked = quickPreviewData?.engines?.[id]?.blocked || false;
+                    let blocked = false;
                     try {
-                        const resp = await browser.runtime.sendMessage({ action: 'fetchQuickPreview', url });
-                        // Detect blocked by header hints from service worker
-                        blocked = !!(resp && (resp.xFrameOptions || resp.cspFrameAncestors));
-                    } catch (e) {
-                        // On error, leave as-is (do not assume blocked)
+                        // Always probe via the background tab's sandboxed iframe
+                        // For known no-iframe hosts we still probe; if they block, the probe host will report it
+                        if (bgTabId !== null) {
+                            // Guard each probe with a per-engine timeout and hijack signal to prevent freezing
+                            qpProbeState.current = { id, url, name };
+                            const perProbe = probeEngineByIframe(url, id, bgTabId);
+                            const timeout = new Promise((resolve) => setTimeout(() => resolve(false), 15000));
+                            const hijack = qpProbeState.hijack ? qpProbeState.hijack.promise : Promise.resolve(false);
+                            const result = await Promise.race([perProbe, timeout, hijack]);
+                            if (result === true && qpProbeState.hijack) {
+                                // Hijack detected: mark current engine as blocked
+                                blocked = true;
+                                // Reset hijack waiter for the next engine
+                                qpProbeState.hijack = createHijackWaiter();
+                            } else {
+                                blocked = !!result;
+                            }
+                        } else {
+                            // If no background host available, fail safe (not blocked) to avoid false positives
+                            blocked = false;
+                        }
+                    } catch (_) {
+                        // On unexpected error, do not mark blocked definitively
+                        blocked = false;
                     } finally {
                         if (quickPreviewData.engines[id]) {
                             quickPreviewData.engines[id].blocked = blocked;
-                            quickPreviewData.engines[id]._preflightDone = true; // internal flag, not relied upon elsewhere
+                            quickPreviewData.engines[id]._preflightDone = true;
                         }
                         completed += 1;
                         if (typeof onProgress === 'function') {
                             try {
                                 onProgress({ completed, total, id, name, blocked });
-                            } catch (err) {
+                            } catch (_) {
                                 // ignore progress callback errors
                             }
                         }
@@ -2741,9 +2832,21 @@ async function preflightDetectBlockedEnginesOnce(options = {}) {
             }
         }
 
+        // Close the reusable background probe tab
+        if (bgTabId !== null) {
+            try {
+                await browser.runtime.sendMessage({ action: 'closeTabs', tabIds: [bgTabId] });
+                qpProbeState.bgTabId = null;
+                qpProbeState.current = null;
+                qpProbeState.hijack = null;
+            } catch (_) {
+                // non-fatal
+            }
+        }
+
         // Persist any updates once at end
         await browser.storage.local.set({ [STORAGE_KEYS.QUICK_PREVIEW]: quickPreviewData });
-        return { total, probed: total }; // probed equals total probes executed
+        return { total, probed: total };
     } catch (e) {
         // If any error occurs, fail softly and proceed with UI
         console.warn('Quick Preview preflight detection failed:', e);
