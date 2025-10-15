@@ -54,7 +54,7 @@
                                 <input type="checkbox" id="disableAI"><label for="disableAI" data-i18n="disableAI">Disable AI search features</label>
                             </div>
                             <div class="p-sm">
-                                <label for="siteSearch" data-i18n="siteSearch">Search engine for bookmarked site search:</label>
+                                <label for="siteSearch" data-i18n="siteSearch">Search engine for bookmarks site search:</label>
                                 <select id="siteSearch">
                                     <option value="Google" data-url="https://www.google.com/search?q=">Google</option>
                                     <option value="Bing" data-url="https://www.bing.com/search?q=">Bing</option>
@@ -67,6 +67,20 @@
                                     <option value="Yahoo" data-url="https://search.yahoo.com/search?p=">Yahoo</option>
                                     <option value="Yandex" data-url="https://yandex.com/search?text=">Yandex</option>
                                 </select>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend><h3 data-i18n="titleQuickPreview">Quick Preview</h3></legend>
+                            <div>
+                                <input type="checkbox" id="disableQuickPreview"><label for="disableQuickPreview" data-i18n="disableQuickPreview">Disable quick preview of search results</label>
+                            </div>
+                            <!-- Quick Preview language filter toggle -->
+                            <div>
+                                <input type="checkbox" id="filterQuickPreviewByLanguage"><label for="filterQuickPreviewByLanguage" data-i18n="filterQuickPreviewByLanguage">Filter Quick Preview by selection language</label>
+                            </div>
+                            <div>
+                                <span data-i18n="filterQuickPreviewByLanguageNote">When enabled, only engines whose language matches the detected selection language are shown. If no engines match, all are shown as a fallback.</span>
                             </div>
                         </fieldset>
 
@@ -998,6 +1012,21 @@
                         </div>
                     </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="tab">
+                <input type="radio" name="css-tabs" id="tab-4" class="tab-switch">
+                <label for="tab-4" class="tab-label" data-i18n="titleQuickPreview">Quick preview</label>
+                <div class="tab-content">
+                    <h3 data-i18n="headerQuickPreview">Quick Preview Settings</h3>
+                    <p data-i18n="quickPreviewDescription">Configure which search engines appear in the quick preview bubble. Only HTTP GET-based search engines are supported.</p>
+                    <p data-i18n="recheckDescription">Re-check engines will verify if each and every search engine is still available and responsive. A red warning icon will appear next to any engines that may not render correctly in the Quick preview bubble. This may take a while.</p>
+                    <div id="qp-recheck">
+                        <button type="button" id="qp-recheck-btn" data-i18n="recheckEngines">Re-check engines</button>
+                        <span id="qp-recheck-status"></span>
+                    </div>
+                    <div id="quick-preview-container"></div>
                 </div>
             </div>
         </div>

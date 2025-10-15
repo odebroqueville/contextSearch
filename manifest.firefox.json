@@ -59,7 +59,20 @@
     "content_scripts": [
         {
             "matches": ["http://*/*", "https://*/*"],
-            "js": ["/scripts/selection.js"]
+            "js": ["/scripts/logging.js", "/scripts/selection.js"]
+        },
+        {
+            "matches": ["http://*/*", "https://*/*"],
+            "js": ["/scripts/logging.js", "/scripts/quick-preview.js"],
+            "css": ["/styles/quick-preview-bubble.css"],
+            "run_at": "document_end"
+        },
+        {
+            "matches": ["http://*/*", "https://*/*"],
+            "all_frames": true,
+            "match_about_blank": true,
+            "js": ["/scripts/logging.js", "/scripts/qp-css-applier.js"],
+            "run_at": "document_start"
         },
         {
             "matches": ["http://*/*#_sidebar", "https://*/*#_sidebar"],

@@ -22,6 +22,8 @@ const container = document.getElementById('container');
 const exactMatch = document.getElementById('exactMatch');
 const disableDoubleClick = document.getElementById('disableDoubleClick');
 const disableAI = document.getElementById('disableAI');
+const disableQuickPreview = document.getElementById('disableQuickPreview');
+const filterQuickPreviewByLanguage = document.getElementById('filterQuickPreviewByLanguage');
 const openNewTab = document.getElementById('openNewTab');
 const sameTab = document.getElementById('sameTab');
 const openNewWindow = document.getElementById('openNewWindow');
@@ -88,6 +90,18 @@ window.addEventListener('message', async (event) => {
     if (event.origin !== window.location.origin) return; // Security check
 
     const receivedData = event.data;
+
+    // Handle Quick Preview CSS save
+    if (receivedData.type === 'quickPreviewCSS') {
+        const { id, css } = receivedData;
+        if (quickPreviewData.engines && quickPreviewData.engines[id]) {
+            quickPreviewData.engines[id].customCSS = css;
+            await saveQuickPreviewData();
+        }
+        return;
+    }
+
+    // Handle search engine add from popup
     if (receivedData.parentId && receivedData.id && receivedData.searchEngine) {
         const { parentId, id, searchEngine } = receivedData;
 
@@ -113,13 +127,59 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Message, Storage, and Permissions event handlers
 browser.runtime.onMessage.addListener(handleMessage);
+// Handle hijack notifications from the service worker during Quick Preview preflight
+let qpProbeState = { bgTabId: null, current: null, hijack: null };
+function createHijackWaiter() {
+    let resolver = null;
+    const promise = new Promise((resolve) => {
+        resolver = resolve;
+    });
+    return { promise, trigger: () => resolver && resolver(true) };
+}
+browser.runtime.onMessage.addListener((message) => {
+    try {
+        if (!message || !message.action) return false;
+        if (message.action === 'probeTabHijacked') {
+            // Only react if it's our background probe tab
+            if (qpProbeState && qpProbeState.bgTabId && message.tabId === qpProbeState.bgTabId) {
+                // Trigger the hijack waiter so the ongoing probe resolves immediately
+                if (!qpProbeState.hijack) qpProbeState.hijack = createHijackWaiter();
+                qpProbeState.hijack.trigger();
+            }
+        }
+    } catch (_) {
+        // ignore
+    }
+    return false; // do not keep channel open
+});
 browser.permissions.onAdded.addListener(handlePermissionsChanges);
 browser.permissions.onRemoved.addListener(handlePermissionsChanges);
+
+// Refresh Quick Preview list when its data changes (e.g., blocked flags updated by bubble)
+browser.storage.onChanged.addListener((changes, area) => {
+    if (area !== 'local') return;
+    try {
+        if (changes[STORAGE_KEYS.QUICK_PREVIEW]) {
+            // Update local cache and refresh the Options UI Quick Preview lists
+            const newVal = changes[STORAGE_KEYS.QUICK_PREVIEW].newValue;
+            if (newVal) {
+                quickPreviewData = newVal;
+                if (typeof displayQuickPreviewEngines === 'function') {
+                    displayQuickPreviewEngines();
+                }
+            }
+        }
+    } catch (e) {
+        console.warn('options.js storage.onChanged handler error:', e);
+    }
+});
 
 // Options changes event handlers
 exactMatch.addEventListener('click', updateSearchOptions);
 disableDoubleClick.addEventListener('click', updateSearchOptions);
 disableAI.addEventListener('click', updateSearchOptions);
+if (disableQuickPreview) disableQuickPreview.addEventListener('click', updateSearchOptions);
+if (filterQuickPreviewByLanguage) filterQuickPreviewByLanguage.addEventListener('click', updateSearchOptions);
 displayFavicons.addEventListener('click', updateDisplayFavicons);
 quickIconGrid.addEventListener('click', updateQuickIconGrid);
 closeGridOnMouseOut.addEventListener('click', updateCloseGridOnMouseOut);
@@ -161,7 +221,7 @@ async function hideIconsFieldsetOnChrome() {
             // This is Firefox, keep the fieldset visible
             return;
         }
-        
+
         // This is Chrome or another browser, hide the Icons fieldset
         const iconsFieldset = document.querySelector('fieldset legend h3[data-i18n="header2"]')?.parentElement?.parentElement;
         if (iconsFieldset) {
@@ -192,6 +252,68 @@ async function init() {
 
         // Hide favicon fieldset on Chrome-based browsers (favicons not supported in context menus)
         await hideIconsFieldsetOnChrome();
+
+        // One-time cleanup: remove legacy qpCssMap key from storage
+        try {
+            const res = await browser.storage.local.get('qpCssMap');
+            if (res && Object.prototype.hasOwnProperty.call(res, 'qpCssMap')) {
+                await browser.storage.local.remove('qpCssMap');
+                if (logToConsole) console.log('Removed legacy qpCssMap from storage');
+            }
+        } catch (e) {
+            console.warn('Failed to cleanup legacy qpCssMap:', e);
+        }
+
+        // Initialize Quick Preview
+        await initQuickPreview();
+        if (logToConsole) console.log('Quick Preview initialized');
+
+        // Wire Re-check engines button if present
+        const recheckBtn = document.getElementById('qp-recheck-btn');
+        const recheckStatus = document.getElementById('qp-recheck-status');
+        if (recheckBtn) {
+            recheckBtn.addEventListener('click', async () => {
+                try {
+                    // Visual feedback
+                    if (recheckStatus) {
+                        recheckStatus.textContent = 'Re-checking...';
+                        recheckStatus.style.opacity = '1';
+                    }
+                    recheckBtn.disabled = true;
+                    recheckBtn.textContent = 'Re-checking...';
+
+                    // Run preflight detection with progress updates
+                    const updateProgress = ({ completed, total, name }) => {
+                        const shownName = name ? `${name} ` : '';
+                        const txt = `Re-checking… ${shownName}(${completed}/${total})`;
+                        if (recheckStatus) recheckStatus.textContent = txt;
+
+                        // Re-render list incrementally so badges update as they come in
+                        displayQuickPreviewEngines();
+                    };
+
+                    const result = await preflightDetectBlockedEnginesOnce({ force: true, onProgress: updateProgress });
+                    // Final render to ensure all states are reflected
+                    displayQuickPreviewEngines();
+                    if (recheckStatus) recheckStatus.textContent = `Done (${result?.probed || 0})`;
+                    recheckBtn.textContent = 'Re-check engines';
+                    recheckBtn.disabled = false;
+                    setTimeout(() => {
+                        if (recheckStatus) {
+                            recheckStatus.style.opacity = '0.65';
+                            recheckStatus.textContent = '';
+                        }
+                    }, 1500);
+                } catch (e) {
+                    if (recheckStatus) recheckStatus.textContent = 'Failed';
+                    recheckBtn.textContent = 'Re-check engines';
+                    recheckBtn.disabled = false;
+                    setTimeout(() => {
+                        if (recheckStatus) recheckStatus.textContent = '';
+                    }, 2000);
+                }
+            });
+        }
 
         // Initialize translations
         i18n();
@@ -283,18 +405,38 @@ async function restoreOptionsPage() {
     }
 }
 
-// Handle incoming messages
-async function handleMessage(message) {
-    if (message.action === 'resetCompleted') {
-        if (logToConsole) console.log(message);
-        await restoreOptionsPage();
+// Handle incoming messages (fire-and-forget; do NOT return a Promise)
+function handleMessage(message) {
+    try {
+        if (message.action === 'resetCompleted') {
+            if (logToConsole) console.log(message);
+            // Fire-and-forget to avoid returning a Promise which can hijack other responses
+            restoreOptionsPage();
+        } else if (message.action === 'searchEnginesUpdated') {
+            if (logToConsole) console.log('Search engines updated, refreshing display');
+            // Reload search engines from storage and refresh display (without returning a Promise)
+            getStoredData(STORAGE_KEYS.SEARCH_ENGINES).then((se) => {
+                searchEngines = se;
+                displaySearchEngines();
+                // Refresh Quick Preview list
+                (async () => {
+                    // When engines change, run a quick preflight pass to update blocked flags for any new engines
+                    try {
+                        await preflightDetectBlockedEnginesOnce();
+                    } catch (_) {
+                        // non-fatal
+                    }
+                    if (typeof displayQuickPreviewEngines === 'function') {
+                        displayQuickPreviewEngines();
+                    }
+                })();
+            });
+        }
+    } catch (e) {
+        console.warn('options.js handleMessage error:', e);
     }
-    if (message.action === 'searchEnginesUpdated') {
-        if (logToConsole) console.log('Search engines updated, refreshing display');
-        // Reload search engines from storage and refresh display
-        searchEngines = await getStoredData(STORAGE_KEYS.SEARCH_ENGINES);
-        displaySearchEngines();
-    }
+    // Explicitly indicate we are not sending an async response
+    return false;
 }
 
 // Handle Permissions changes for Downloads
@@ -1698,6 +1840,18 @@ async function setOptions(options) {
         disableAI.checked = false;
     }
 
+    // Disable Quick Preview option
+    if (typeof options.disableQuickPreview === 'boolean') {
+        disableQuickPreview.checked = options.disableQuickPreview;
+    } else {
+        disableQuickPreview.checked = false;
+    }
+
+    // Quick Preview language filter option
+    if (filterQuickPreviewByLanguage) {
+        filterQuickPreviewByLanguage.checked = !!options.filterQuickPreviewByLanguage;
+    }
+
     const sidebarRestrictionParagraph = document.querySelector('p [data-i18n="restriction"]').parentElement;
 
     switch (options.tabMode) {
@@ -1875,11 +2029,15 @@ async function saveToLocalDisk() {
 
     const promptsLibrary = await readPromptCatLibrary();
 
-    // Bundle options, searchEngines, and prompts library
+    // Get Quick Preview data from storage
+    const quickPreview = await getStoredData(STORAGE_KEYS.QUICK_PREVIEW);
+
+    // Bundle options, searchEngines, prompts library, and Quick Preview data
     const payload = {
         options: options || {},
         searchEngines: searchEngines || {},
         promptsLibrary: promptsLibrary || {},
+        quickPreview: quickPreview || {},
     };
 
     const fileToDownload = new Blob([JSON.stringify(payload, null, 2)], {
@@ -1975,13 +2133,9 @@ async function handleFileUpload() {
 
             let proceed = true;
             if (!isPartial) {
-                proceed = window.confirm(
-                    'This will overwrite all current Prompt Library data. This action cannot be undone.'
-                );
+                proceed = window.confirm('This will overwrite all current Prompt Library data. This action cannot be undone.');
             } else {
-                proceed = window.confirm(
-                    'This will add data from the selected file to the Prompt Library. Existing data will be kept.'
-                );
+                proceed = window.confirm('This will add data from the selected file to the Prompt Library. Existing data will be kept.');
             }
             if (!proceed) return;
 
@@ -2073,6 +2227,18 @@ async function handleFileUpload() {
     // Import prompts library (if present)
     await importPromptCatLibrary(promptsLibrary);
 
+    // Import Quick Preview data (if present)
+    if (parsed?.quickPreview && !isEmpty(parsed.quickPreview)) {
+        try {
+            await browser.storage.local.set({ [STORAGE_KEYS.QUICK_PREVIEW]: parsed.quickPreview });
+            // Update the local quickPreviewData variable
+            quickPreviewData = parsed.quickPreview;
+            if (logToConsole) console.log('Quick Preview data imported:', parsed.quickPreview);
+        } catch (error) {
+            console.error('Error importing Quick Preview data:', error);
+        }
+    }
+
     // Save search engines
     await sendMessage('saveSearchEngines', searchEngines);
 
@@ -2094,7 +2260,15 @@ async function updateSearchOptions() {
     const em = exactMatch.checked;
     const dd = disableDoubleClick.checked;
     const da = disableAI.checked;
-    await sendOptionUpdate('searchOptions', { exactMatch: em, disableDoubleClick: dd, disableAI: da });
+    const dqp = !!(disableQuickPreview && disableQuickPreview.checked);
+    const fl = !!(filterQuickPreviewByLanguage && filterQuickPreviewByLanguage.checked);
+    await sendOptionUpdate('searchOptions', {
+        exactMatch: em,
+        disableDoubleClick: dd,
+        disableAI: da,
+        disableQuickPreview: dqp,
+        filterQuickPreviewByLanguage: fl,
+    });
 }
 
 async function updateTabMode() {
@@ -2364,3 +2538,531 @@ function isEmpty(value) {
 }
 
 // Removed local isInFocus and isKeyAllowed (now imported from utilities.js)
+
+/// Quick Preview functionality
+
+let quickPreviewData = {};
+
+// Initialize Quick Preview tab
+async function initQuickPreview() {
+    // Load quick preview data from storage
+    quickPreviewData = (await getStoredData(STORAGE_KEYS.QUICK_PREVIEW)) || {};
+
+    // Ensure we have the required structure
+    if (!quickPreviewData.engines) {
+        quickPreviewData = { engines: {} };
+    }
+
+    // Before first display, probe engines for iframe-blocking headers once
+    await preflightDetectBlockedEnginesOnce();
+
+    displayQuickPreviewEngines();
+}
+
+// Filter and display only HTTP GET search engines
+function displayQuickPreviewEngines() {
+    const container = document.getElementById('quick-preview-container');
+    if (!container) return;
+
+    // Clear container
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
+    }
+
+    // Collect all HTTP GET search engines
+    const allEngines = [];
+
+    for (const id in searchEngines) {
+        const engine = searchEngines[id];
+
+        // Skip root, folders, separators, bookmarks, bookmarklets, AI prompts
+        if (id === 'root') continue;
+        if (engine.isFolder) continue;
+        if (id.startsWith('separator-')) continue;
+        if (id.startsWith('link-')) continue;
+        if (id.startsWith('chatgpt-')) continue;
+
+        // Skip engines with formData (POST requests)
+        if (engine.formData) continue;
+
+        // Must have a URL
+        if (!engine.url) continue;
+
+        // Skip javascript: URLs
+        if (engine.url.startsWith('javascript:')) continue;
+
+        allEngines.push({ id, engine });
+    }
+
+    // Initialize data for engines if not present
+    allEngines.forEach(({ id }) => {
+        if (!quickPreviewData.engines[id]) {
+            quickPreviewData.engines[id] = {
+                id,
+                enabled: false,
+                index: null,
+                icon: '',
+                customCSS: '',
+                // New metadata for Quick Preview engines
+                blocked: false, // whether this engine is known to be blocked in iframe
+                lang: '', // ISO 639-1 desired language for this engine (optional)
+            };
+        }
+        // Backfill newly added fields for existing entries
+        if (typeof quickPreviewData.engines[id].blocked !== 'boolean') {
+            quickPreviewData.engines[id].blocked = false;
+        }
+        if (typeof quickPreviewData.engines[id].lang !== 'string') {
+            quickPreviewData.engines[id].lang = '';
+        }
+    });
+
+    // Separate into enabled (right column) and available (left column)
+    const enabledEngines = [];
+    const availableEngines = [];
+
+    allEngines.forEach(({ id, engine }) => {
+        const data = quickPreviewData.engines[id];
+        if (data.enabled) {
+            enabledEngines.push({ id, engine, index: data.index ?? 999 });
+        } else {
+            availableEngines.push({ id, engine });
+        }
+    });
+
+    // Sort enabled engines by index
+    enabledEngines.sort((a, b) => a.index - b.index);
+
+    // Sort available engines alphabetically
+    availableEngines.sort((a, b) => a.engine.name.localeCompare(b.engine.name));
+
+    // Create two-column layout
+    const columnsWrapper = document.createElement('div');
+    columnsWrapper.classList.add('qp-columns-wrapper');
+
+    // Left column (Available engines)
+    const leftColumn = document.createElement('div');
+    leftColumn.classList.add('qp-column', 'qp-left-column');
+
+    const leftHeader = document.createElement('h3');
+    leftHeader.textContent = 'Available Search Engines';
+    leftColumn.appendChild(leftHeader);
+
+    const leftList = document.createElement('div');
+    leftList.id = 'qp-available-list';
+    leftList.classList.add('qp-list');
+
+    availableEngines.forEach(({ id, engine }) => {
+        const itemDiv = createQuickPreviewItem(id, engine, false);
+        leftList.appendChild(itemDiv);
+    });
+
+    leftColumn.appendChild(leftList);
+
+    // Right column (Selected engines for Quick Preview)
+    const rightColumn = document.createElement('div');
+    rightColumn.classList.add('qp-column', 'qp-right-column');
+
+    const rightHeader = document.createElement('h3');
+    rightHeader.textContent = 'Quick Preview Engines';
+    rightColumn.appendChild(rightHeader);
+
+    const rightList = document.createElement('div');
+    rightList.id = 'qp-selected-list';
+    rightList.classList.add('qp-list');
+
+    enabledEngines.forEach(({ id, engine }, index) => {
+        // Update index
+        quickPreviewData.engines[id].index = index;
+        const itemDiv = createQuickPreviewItem(id, engine, true);
+        rightList.appendChild(itemDiv);
+    });
+
+    rightColumn.appendChild(rightList);
+
+    // Add columns to wrapper
+    columnsWrapper.appendChild(leftColumn);
+    columnsWrapper.appendChild(rightColumn);
+
+    container.appendChild(columnsWrapper);
+
+    // Initialize Sortable for both lists
+    const sortableOptions = {
+        ...SORTABLE_BASE_OPTIONS,
+        group: 'quick-preview',
+        animation: 150,
+        onEnd: handleQuickPreviewDragEnd,
+    };
+
+    new Sortable(leftList, sortableOptions);
+    new Sortable(rightList, sortableOptions);
+}
+
+// Build a test URL for an engine using a benign query
+function buildTestUrl(engine) {
+    try {
+        const base = engine?.url || '';
+        const probeText = encodeURIComponent('test');
+        if (base.includes('{searchTerms}')) return base.replace(/{searchTerms}/g, probeText);
+        if (base.includes('{selection}')) return base.replace(/{selection}/g, probeText);
+        if (base.includes('%s')) return base.replace(/%s/g, probeText);
+        return base + probeText;
+    } catch (e) {
+        return null;
+    }
+}
+
+// Detect engines likely blocked by frame policies by actually loading them in hidden iframes.
+// This mirrors the Quick Preview runtime behavior (DNR strips frame-blocking headers),
+// avoiding false positives from header-only checks.
+// Options:
+// - force: re-run detection for all eligible engines (ignore any previous _preflightDone)
+// - onProgress: callback({ completed, total, id, name, blocked }) invoked after each probe resolves
+async function preflightDetectBlockedEnginesOnce(options = {}) {
+    const { force = false, onProgress = null } = options || {};
+    try {
+        // Ensure structure
+        if (!quickPreviewData || !quickPreviewData.engines) quickPreviewData = { engines: {} };
+
+        // Probe a single URL by asking the background probe host tab to load it in its sandboxed iframe
+        const probeEngineByIframe = async (url, engineId, bgTabId) => {
+            try {
+                // Use runtime.sendMessage with target tab id for broader compatibility
+                const res = await browser.runtime.sendMessage({ action: 'qpProbe:probeUrl', url, engineId, tabId: bgTabId });
+                if (res && res.success === true) return !!res.blocked;
+                // If the probe host reports busy or fails, treat as not blocked to avoid false positives
+                return false;
+            } catch (e) {
+                // If messaging fails (e.g., host not ready), try a one-time small delay and retry once
+                await new Promise((r) => setTimeout(r, 300));
+                try {
+                    const res2 = await browser.runtime.sendMessage({ action: 'qpProbe:probeUrl', url, engineId, tabId: bgTabId });
+                    if (res2 && res2.success === true) return !!res2.blocked;
+                } catch (_) {
+                    // fall through
+                }
+                return false;
+            }
+        };
+
+        // Gather all GET-based engines eligible for Quick Preview (same filter as display)
+        const probes = [];
+        const isNoIframeHost = (host) => /(^|\.)wikiwand\.com$/i.test(host || '');
+        for (const id in searchEngines) {
+            const engine = searchEngines[id];
+            if (!engine) continue;
+            if (id === 'root') continue;
+            if (engine.isFolder) continue;
+            if (id.startsWith('separator-')) continue;
+            if (id.startsWith('link-')) continue; // bookmarklets
+            if (id.startsWith('chatgpt-')) continue;
+            if (engine.formData) continue; // POST
+            if (!engine.url || engine.url.startsWith('javascript:')) continue;
+
+            // Ensure quickPreviewData entry
+            if (!quickPreviewData.engines[id]) {
+                quickPreviewData.engines[id] = { id, enabled: false, index: null, icon: '', customCSS: '', blocked: false, lang: '' };
+            } else {
+                if (typeof quickPreviewData.engines[id].blocked !== 'boolean') quickPreviewData.engines[id].blocked = false;
+                if (typeof quickPreviewData.engines[id].lang !== 'string') quickPreviewData.engines[id].lang = '';
+            }
+
+            // Skip if already probed and not forced
+            const data = quickPreviewData.engines[id];
+            if (!force && data && data._preflightDone) continue;
+
+            const testUrl = buildTestUrl(engine);
+            if (!testUrl) continue;
+            let host = '';
+            try {
+                host = new URL(testUrl).hostname;
+            } catch (_) {
+                host = '';
+            }
+            probes.push({ id, url: testUrl, name: engine.name || id, noIframe: isNoIframeHost(host) });
+        }
+
+        // Limit concurrency to avoid spamming and freezing; probing via background host is sequential
+        const batchSize = 1;
+        const total = probes.length;
+        let completed = 0;
+        // Open a single background tab to absorb any hostile top-level navigations
+        let bgTabId = null;
+        if (probes.length > 0) {
+            try {
+                // Open the reusable background tab on the probe host page
+                const hostUrl = browser.runtime.getURL('/html/qp-probe-host.html');
+                const res = await browser.runtime.sendMessage({ action: 'openBackgroundProbeTab', url: hostUrl, timeoutMs: 0 });
+                if (res && res.success && typeof res.tabId === 'number') bgTabId = res.tabId;
+                // Give the probe host a short moment to fully load
+                await new Promise((r) => setTimeout(r, 250));
+                // Record bg tab id for hijack handler
+                qpProbeState.bgTabId = bgTabId;
+                qpProbeState.hijack = createHijackWaiter();
+            } catch (_) {
+                // non-fatal
+            }
+        }
+
+        // Probe engines via hidden sandboxed iframe (more reliable than header checks that DNR may neutralize)
+        for (let i = 0; i < probes.length; i += batchSize) {
+            const batch = probes.slice(i, i + batchSize);
+            await Promise.all(
+                batch.map(async ({ id, url, name }) => {
+                    let blocked = false;
+                    try {
+                        // Always probe via the background tab's sandboxed iframe
+                        // For known no-iframe hosts we still probe; if they block, the probe host will report it
+                        if (bgTabId !== null) {
+                            // Guard each probe with a per-engine timeout and hijack signal to prevent freezing
+                            qpProbeState.current = { id, url, name };
+                            const perProbe = probeEngineByIframe(url, id, bgTabId);
+                            const timeout = new Promise((resolve) => setTimeout(() => resolve(false), 15000));
+                            const hijack = qpProbeState.hijack ? qpProbeState.hijack.promise : Promise.resolve(false);
+                            const result = await Promise.race([perProbe, timeout, hijack]);
+                            if (result === true && qpProbeState.hijack) {
+                                // Hijack detected: mark current engine as blocked
+                                blocked = true;
+                                // Reset hijack waiter for the next engine
+                                qpProbeState.hijack = createHijackWaiter();
+                            } else {
+                                blocked = !!result;
+                            }
+                        } else {
+                            // If no background host available, fail safe (not blocked) to avoid false positives
+                            blocked = false;
+                        }
+                    } catch (_) {
+                        // On unexpected error, do not mark blocked definitively
+                        blocked = false;
+                    } finally {
+                        if (quickPreviewData.engines[id]) {
+                            quickPreviewData.engines[id].blocked = blocked;
+                            quickPreviewData.engines[id]._preflightDone = true;
+                        }
+                        completed += 1;
+                        if (typeof onProgress === 'function') {
+                            try {
+                                onProgress({ completed, total, id, name, blocked });
+                            } catch (_) {
+                                // ignore progress callback errors
+                            }
+                        }
+                    }
+                    return { id, blocked };
+                })
+            );
+            // Persist after each batch so UI badges can update progressively
+            try {
+                await browser.storage.local.set({ [STORAGE_KEYS.QUICK_PREVIEW]: quickPreviewData });
+            } catch (_) {
+                // non-fatal
+            }
+        }
+
+        // Close the reusable background probe tab
+        if (bgTabId !== null) {
+            try {
+                await browser.runtime.sendMessage({ action: 'closeTabs', tabIds: [bgTabId] });
+                qpProbeState.bgTabId = null;
+                qpProbeState.current = null;
+                qpProbeState.hijack = null;
+            } catch (_) {
+                // non-fatal
+            }
+        }
+
+        // Persist any updates once at end
+        await browser.storage.local.set({ [STORAGE_KEYS.QUICK_PREVIEW]: quickPreviewData });
+        return { total, probed: total };
+    } catch (e) {
+        // If any error occurs, fail softly and proceed with UI
+        console.warn('Quick Preview preflight detection failed:', e);
+        return { total: 0, probed: 0 };
+    }
+}
+
+// Create a single quick preview item
+function createQuickPreviewItem(id, engine, isSelected) {
+    const itemDiv = document.createElement('div');
+    itemDiv.classList.add('quick-preview-item');
+    itemDiv.setAttribute('data-id', id);
+    // Positioning context for badges/icons
+    itemDiv.style.position = 'relative';
+
+    const data = quickPreviewData.engines[id];
+
+    // Icon
+    const icon = document.createElement('img');
+    icon.classList.add('qp-icon');
+    icon.src = data.icon || `data:${engine.imageFormat || 'image/png'};base64,${engine.base64}`;
+    icon.alt = engine.name;
+    icon.title = 'Click to edit icon';
+    icon.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openIconEditor(id, engine.name);
+    });
+
+    // Label with search engine name
+    const label = document.createElement('span');
+    label.textContent = engine.name;
+    label.classList.add('qp-name');
+
+    itemDiv.appendChild(icon);
+
+    // If this engine is marked blocked, show a warning triangle badge
+    try {
+        const qpInfo = quickPreviewData?.engines?.[id];
+        if (qpInfo && qpInfo.blocked === true) {
+            const warn = document.createElement('span');
+            warn.classList.add('qp-option-badge-warning');
+            warn.title = 'This engine content is blocked in Quick Preview';
+            // Inline SVG for a red warning triangle with exclamation mark
+            warn.innerHTML = `
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                  <path fill="#ef4444" d="M12 2c.7 0 1.35.37 1.71.98l8.08 13.6c.71 1.19-.16 2.7-1.54 2.7H3.75c-1.38 0-2.25-1.51-1.54-2.7l8.08-13.6C10.65 2.37 11.3 2 12 2z"/>
+                  <rect x="11" y="8" width="2" height="6" fill="#ffffff"/>
+                  <circle cx="12" cy="17" r="1.2" fill="#ffffff"/>
+                </svg>`;
+            // Place near top-right of the item
+            warn.style.position = 'absolute';
+            warn.style.top = '2px';
+            warn.style.right = '2px';
+            itemDiv.appendChild(warn);
+        }
+    } catch (_) {
+        // no-op
+    }
+    itemDiv.appendChild(label);
+
+    // Only show CSS button for selected engines (right column)
+    if (isSelected) {
+        const cssButton = document.createElement('button');
+        cssButton.type = 'button';
+        cssButton.textContent = 'CSS';
+        cssButton.classList.add('qp-css-btn');
+        cssButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openCSSPopup(id, engine.name);
+        });
+        itemDiv.appendChild(cssButton);
+
+        // Add small language input next to CSS button
+        const langInput = document.createElement('input');
+        langInput.type = 'text';
+        langInput.placeholder = 'lang'; // ISO 639-1 code
+        langInput.inputMode = 'latin';
+        langInput.maxLength = 5; // allow e.g., zh-CN if needed
+        langInput.size = 5;
+        langInput.title = 'Preferred language (ISO 639-1), e.g., en, fr, es';
+        langInput.classList.add('qp-lang-input');
+        langInput.value = (quickPreviewData.engines[id]?.lang || '').trim();
+        langInput.addEventListener('click', (e) => e.stopPropagation());
+        langInput.addEventListener('change', async (e) => {
+            const val = (e.target.value || '').trim();
+            // Store lowercased value; accept 2-letter or locale like zh-CN
+            quickPreviewData.engines[id].lang = val.toLowerCase();
+            await saveQuickPreviewData();
+        });
+        itemDiv.appendChild(langInput);
+    }
+
+    return itemDiv;
+}
+
+// Handle drag and drop between columns
+async function handleQuickPreviewDragEnd(evt) {
+    const itemId = evt.item.getAttribute('data-id');
+    const toList = evt.to;
+    const fromList = evt.from;
+
+    // Determine if moved to selected list (right column)
+    const movedToSelected = toList.id === 'qp-selected-list';
+    const movedToAvailable = toList.id === 'qp-available-list';
+
+    if (movedToSelected) {
+        // Mark as enabled and update index
+        quickPreviewData.engines[itemId].enabled = true;
+
+        // Update indices for all items in selected list
+        const selectedItems = toList.querySelectorAll('.quick-preview-item');
+        selectedItems.forEach((item, index) => {
+            const id = item.getAttribute('data-id');
+            if (quickPreviewData.engines[id]) {
+                quickPreviewData.engines[id].index = index;
+            }
+        });
+    } else if (movedToAvailable) {
+        // Mark as disabled and clear index
+        quickPreviewData.engines[itemId].enabled = false;
+        quickPreviewData.engines[itemId].index = null;
+    }
+
+    // If moved from selected to available, or within selected list
+    if (fromList.id === 'qp-selected-list') {
+        // Update indices for remaining/reordered items in selected list
+        const selectedItems = fromList.querySelectorAll('.quick-preview-item');
+        selectedItems.forEach((item, index) => {
+            const id = item.getAttribute('data-id');
+            if (quickPreviewData.engines[id]) {
+                quickPreviewData.engines[id].index = index;
+            }
+        });
+    }
+
+    await saveQuickPreviewData();
+
+    // Re-render to sort left column alphabetically and update CSS button visibility
+    displayQuickPreviewEngines();
+}
+
+// Save quick preview data to storage
+async function saveQuickPreviewData() {
+    try {
+        await browser.storage.local.set({ [STORAGE_KEYS.QUICK_PREVIEW]: quickPreviewData });
+        if (logToConsole) console.log('Quick Preview data saved:', quickPreviewData);
+    } catch (error) {
+        console.error('Error saving Quick Preview data:', error);
+    }
+}
+
+// Open icon editor popup
+function openIconEditor(id, engineName) {
+    const currentIcon = quickPreviewData.engines[id]?.icon || '';
+
+    const newIcon = prompt(
+        `Edit icon URL for "${engineName}"\n\nEnter a URL to an image (preferably SVG).\nLeave empty to use the default search engine icon.`,
+        currentIcon
+    );
+
+    // null means user cancelled, empty string means use default
+    if (newIcon !== null) {
+        quickPreviewData.engines[id].icon = newIcon;
+        saveQuickPreviewData();
+        // Refresh display to show new icon
+        displayQuickPreviewEngines();
+    }
+}
+
+// Open CSS editor popup
+function openCSSPopup(id, engineName) {
+    const popupWidth = 600;
+    const popupHeight = 500;
+    const left = Math.floor((window.screen.width - popupWidth) / 2);
+    const top = Math.floor((window.screen.height - popupHeight) / 2);
+    const windowFeatures = `width=${popupWidth},height=${popupHeight},left=${left},top=${top},resizable,scrollbars`;
+
+    const currentCSS = quickPreviewData.engines[id]?.customCSS || '';
+
+    // Build URL with parameters
+    const url = `../html/css-editor.html?id=${encodeURIComponent(id)}&name=${encodeURIComponent(engineName)}&css=${encodeURIComponent(currentCSS)}`;
+
+    const popup = window.open(url, '_blank', windowFeatures);
+
+    if (!popup) {
+        alert('Popup blocked. Please allow popups for this extension.');
+        return;
+    }
+}
+
+// Removed legacy qpCssMap machinery (host->CSS cache) as unused

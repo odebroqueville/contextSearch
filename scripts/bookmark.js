@@ -5,8 +5,9 @@ import '/libs/browser-polyfill.min.js';
 import { STORAGE_KEYS } from './constants.js';
 import { isKeyAllowed, isInFocus, isIdUnique, getOS, getMetaKey } from './utilities.js';
 
+/* global logToConsole */
+// logToConsole provided by shared logging.js injected via manifest.
 /// Global variables
-let logToConsole = false;
 let meta = 'win+';
 let os = 'Windows';
 
