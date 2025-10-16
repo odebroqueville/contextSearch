@@ -252,7 +252,7 @@
         "message": "また、逆引き検索結果をサイドバーに表示することはできない。"
     },
     "siteSearch": {
-        "message": "Search engine for bookmarks site search:"
+        "message": "現在のサイトを検索するためのサーチエンジン："
     },
     "header9": {
         "message": "高度な機能"
@@ -339,9 +339,9 @@
         "message": "AIプロンプト名"
     },
     "prompt": {
-        "message": "AIプロンプト"
+        "message": "AI プロンプト"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "既存の検索エンジンをインポートした検索エンジンで上書きする。"
     },
     "removeFolderConfirmPrefix": {
