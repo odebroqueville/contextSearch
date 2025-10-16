@@ -252,7 +252,7 @@
         "message": "此外，側邊欄也無法顯示反向圖片搜尋結果。"
     },
     "siteSearch": {
-        "message": "Search engine for bookmarks site search:"
+        "message": "搜尋目前網站的搜尋引擎："
     },
     "header9": {
         "message": "進階功能"
@@ -341,7 +341,7 @@
     "prompt": {
         "message": "AI 提示"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "使用匯入的搜尋引擎覆寫現有的搜尋引擎"
     },
     "removeFolderConfirmPrefix": {
