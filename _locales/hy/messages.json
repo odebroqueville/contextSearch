@@ -252,7 +252,7 @@
         "message": "Բացի այդ, հակադարձ պատկերների որոնման արդյունքները չեն կարող ցուցադրվել կողագոտում:"
     },
     "siteSearch": {
-        "message": "Search engine for bookmarks site search:"
+        "message": "Որոնման համակարգ՝ ընթացիկ կայքի որոնման համար."
     },
     "header9": {
         "message": "Ընդլայնված առանձնահատկություններ"
@@ -339,9 +339,9 @@
         "message": "AI հուշման անուն"
     },
     "prompt": {
-        "message": "AI հուշում"
+        "message": "AI հարցում"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Ներմուծված որոնողական համակարգերով վերգրեք գոյություն ունեցող որոնողական համակարգերը"
     },
     "removeFolderConfirmPrefix": {
