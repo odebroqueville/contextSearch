@@ -2297,6 +2297,13 @@ async function updateSearchOptions() {
     const da = disableAI.checked;
     const dqp = !!(disableQuickPreview && disableQuickPreview.checked);
     const fl = !!(filterQuickPreviewByLanguage && filterQuickPreviewByLanguage.checked);
+    
+    // If Quick Preview is being enabled (unchecked disableQuickPreview), disable immediate grid
+    if (disableQuickPreview && !disableQuickPreview.checked && quickIconGrid.checked) {
+        quickIconGrid.checked = false;
+        await sendOptionUpdate('quickIconGrid', { quickIconGrid: false });
+    }
+    
     await sendOptionUpdate('searchOptions', {
         exactMatch: em,
         disableDoubleClick: dd,
@@ -2370,6 +2377,18 @@ async function updateDisplayFavicons() {
 }
 
 async function updateQuickIconGrid() {
+    // If immediate grid is being enabled, disable Quick Preview
+    if (quickIconGrid.checked && disableQuickPreview && !disableQuickPreview.checked) {
+        disableQuickPreview.checked = true;
+        await sendOptionUpdate('searchOptions', {
+            exactMatch: exactMatch.checked,
+            disableDoubleClick: disableDoubleClick.checked,
+            disableAI: disableAI.checked,
+            disableQuickPreview: true,
+            filterQuickPreviewByLanguage: !!(filterQuickPreviewByLanguage && filterQuickPreviewByLanguage.checked),
+        });
+    }
+    
     await sendOptionUpdate('quickIconGrid', { quickIconGrid: quickIconGrid.checked });
 }
 

@@ -2441,7 +2441,7 @@ input:disabled + .lock-slider {
 
     .qp-left-column h3 {
         background-color: var(--bg-secondary, #1a3a4a);
-        color: var(--red-accent, #4da6ff);
+        color: var(--primary-accent, #4da6ff);
     }
 
     .qp-right-column h3 {
