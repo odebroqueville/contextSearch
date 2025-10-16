@@ -252,7 +252,7 @@
         "message": "أيضًا، لا يمكن عرض نتائج البحث العكسي عن الصور في الشريط الجانبي."
     },
     "siteSearch": {
-        "message": "Search engine for bookmarks site search:"
+        "message": "محرك بحث للبحث في الموقع الحالي:"
     },
     "header9": {
         "message": "الميزات المتقدمة"
@@ -339,9 +339,9 @@
         "message": "اسم موجه الذكاء الاصطناعي"
     },
     "prompt": {
-        "message": "موجه الذكاء الاصطناعي"
+        "message": "مطالبة AI"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "الكتابة فوق محركات البحث الحالية بمحركات البحث المستوردة"
     },
     "removeFolderConfirmPrefix": {
