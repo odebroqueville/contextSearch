@@ -252,7 +252,7 @@
         "message": "Inoltre, i risultati della ricerca inversa di immagini non possono essere visualizzati nella barra laterale."
     },
     "siteSearch": {
-        "message": "Search engine for bookmarks site search:"
+        "message": "Motore di ricerca per la ricerca del sito attuale:"
     },
     "header9": {
         "message": "Caratteristiche avanzate"
@@ -339,9 +339,9 @@
         "message": "Nome prompt AI"
     },
     "prompt": {
-        "message": "Prompt AI"
+        "message": "Richiesta AI"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Sovrascrivere i motori di ricerca esistenti con quelli importati."
     },
     "removeFolderConfirmPrefix": {
