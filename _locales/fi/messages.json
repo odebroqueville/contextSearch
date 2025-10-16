@@ -252,7 +252,7 @@
         "message": "Myöskään käänteisen kuvahaun tuloksia ei voi näyttää sivupalkissa."
     },
     "siteSearch": {
-        "message": "Search engine for bookmarks site search:"
+        "message": "Hakukone nykyisen sivuston hakua varten:"
     },
     "header9": {
         "message": "Lisäominaisuudet"
@@ -341,7 +341,7 @@
     "prompt": {
         "message": "AI-kehote"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Korvaa olemassa olevat hakukoneet tuoduilla hakukoneilla."
     },
     "removeFolderConfirmPrefix": {
