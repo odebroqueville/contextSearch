@@ -252,7 +252,7 @@
         "message": "En outre, les résultats de la recherche d'images inversées ne peuvent pas être affichés dans la barre latérale."
     },
     "siteSearch": {
-        "message": "Search engine for bookmarks site search:"
+        "message": "Moteur de recherche pour la recherche sur le site actuel :"
     },
     "header9": {
         "message": "Fonctionnalités avancées"
@@ -341,7 +341,7 @@
     "prompt": {
         "message": "Invite IA"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Remplacer les moteurs de recherche existants par les moteurs de recherche importés"
     },
     "removeFolderConfirmPrefix": {
