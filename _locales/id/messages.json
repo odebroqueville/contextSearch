@@ -252,7 +252,7 @@
         "message": "Selain itu, hasil pencarian gambar terbalik tidak dapat ditampilkan di bilah sisi."
     },
     "siteSearch": {
-        "message": "Search engine for bookmarks site search:"
+        "message": "Mesin pencari untuk mencari situs saat ini:"
     },
     "header9": {
         "message": "Fitur lanjutan"
@@ -341,7 +341,7 @@
     "prompt": {
         "message": "Prompt AI"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Menimpa mesin pencari yang ada dengan mesin pencari yang diimpor"
     },
     "removeFolderConfirmPrefix": {
