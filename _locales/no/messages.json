@@ -252,7 +252,7 @@
         "message": "Omvendte bildesøkeresultater kan heller ikke vises i sidefeltet."
     },
     "siteSearch": {
-        "message": "Search engine for bookmarks site search:"
+        "message": "Søkemotor for å søke på gjeldende nettsted:"
     },
     "header9": {
         "message": "Avanserte funksjoner"
@@ -339,9 +339,9 @@
         "message": "Navn på AI-ledetekst"
     },
     "prompt": {
-        "message": "AI-forespørsel"
+        "message": "AI-spørsmål"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Overskriv de eksisterende søkemotorene med de importerte søkemotorene"
     },
     "removeFolderConfirmPrefix": {
