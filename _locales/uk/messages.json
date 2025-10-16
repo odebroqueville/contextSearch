@@ -252,7 +252,7 @@
         "message": "Крім того, результати зворотного пошуку зображень не відображаються на бічній панелі."
     },
     "siteSearch": {
-        "message": "Search engine for bookmarks site search:"
+        "message": "Пошукова система для пошуку поточного сайту:"
     },
     "header9": {
         "message": "Розширені можливості"
@@ -339,9 +339,9 @@
         "message": "Назва підказки AI"
     },
     "prompt": {
-        "message": "Підказка AI"
+        "message": "Підказка ШІ"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Замінити існуючі пошукові системи імпортованими пошуковими системами"
     },
     "removeFolderConfirmPrefix": {
