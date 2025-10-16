@@ -252,7 +252,7 @@
         "message": "Resultater af omvendt billedsøgning kan heller ikke vises i sidepanelet."
     },
     "siteSearch": {
-        "message": "Search engine for bookmarks site search:"
+        "message": "Søgemaskine til søgning på det aktuelle websted:"
     },
     "header9": {
         "message": "Avancerede funktioner"
@@ -341,7 +341,7 @@
     "prompt": {
         "message": "AI-prompt"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Overskriv de eksisterende søgemaskiner med de importerede søgemaskiner"
     },
     "removeFolderConfirmPrefix": {
