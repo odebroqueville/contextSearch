@@ -252,7 +252,7 @@
         "message": "또한 역방향 이미지 검색 결과는 사이드바에 표시할 수 없습니다."
     },
     "siteSearch": {
-        "message": "Search engine for bookmarks site search:"
+        "message": "현재 사이트 검색을 위한 검색 엔진입니다:"
     },
     "header9": {
         "message": "고급 기능"
@@ -341,7 +341,7 @@
     "prompt": {
         "message": "AI 프롬프트"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "기존 검색 엔진을 가져온 검색 엔진으로 덮어쓰기"
     },
     "removeFolderConfirmPrefix": {
