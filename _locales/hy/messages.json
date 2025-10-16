@@ -339,9 +339,9 @@
         "message": "AI հուշման անուն"
     },
     "prompt": {
-        "message": "AI հուշում"
+        "message": "AI հարցում"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Ներմուծված որոնողական համակարգերով վերգրեք գոյություն ունեցող որոնողական համակարգերը"
     },
     "removeFolderConfirmPrefix": {

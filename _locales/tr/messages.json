@@ -341,7 +341,7 @@
     "prompt": {
         "message": "AI komut istemi"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Mevcut arama motorlarının üzerine içe aktarılan arama motorlarını yazın"
     },
     "removeFolderConfirmPrefix": {

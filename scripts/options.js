@@ -50,7 +50,7 @@ const multiNewWindow = document.getElementById('multiNewWindow');
 const multiActiveTab = document.getElementById('multiActiveTab');
 const multiAfterLastTab = document.getElementById('multiAfterLastTab');
 const multiMode = document.getElementById('multiMode');
-const overwriteSearchEngines = document.getElementById('overwriteSearchEngines');
+const overwriteData = document.getElementById('overwriteData');
 // Multisearch private mode container (visible only when multiNewWindow is selected)
 const multisearchPrivacy = document.getElementById('multisearchPrivacy');
 const multiPrivateMode = document.getElementById('multiPrivateMode');
@@ -197,7 +197,7 @@ forceSearchEnginesReload.addEventListener('click', updateResetOptions);
 forceFaviconsReload.addEventListener('click', updateResetOptions);
 multiMode.addEventListener('click', updateMultiMode);
 if (multiPrivateMode) multiPrivateMode.addEventListener('click', updateMultiPrivacy);
-overwriteSearchEngines.addEventListener('click', updateOverwriteSearchEngines);
+overwriteData.addEventListener('click', updateOverwriteData);
 
 /// All button click handlers
 btnClearAll.addEventListener('click', clearAll);
@@ -252,17 +252,6 @@ async function init() {
 
         // Hide favicon fieldset on Chrome-based browsers (favicons not supported in context menus)
         await hideIconsFieldsetOnChrome();
-
-        // One-time cleanup: remove legacy qpCssMap key from storage
-        try {
-            const res = await browser.storage.local.get('qpCssMap');
-            if (res && Object.prototype.hasOwnProperty.call(res, 'qpCssMap')) {
-                await browser.storage.local.remove('qpCssMap');
-                if (logToConsole) console.log('Removed legacy qpCssMap from storage');
-            }
-        } catch (e) {
-            console.warn('Failed to cleanup legacy qpCssMap:', e);
-        }
 
         // Initialize Quick Preview
         await initQuickPreview();
@@ -1906,11 +1895,11 @@ async function setOptions(options) {
         lastTab.checked = false;
     }
 
-    if (options.overwriteSearchEngines === true) {
-        overwriteSearchEngines.checked = true;
+    if (options.overwriteData === true) {
+        overwriteData.checked = true;
     } else {
-        // Default value for overwriteSearchEngines is false
-        overwriteSearchEngines.checked = false;
+        // Default value for overwriteData is false
+        overwriteData.checked = false;
     }
 
     if (options.privateMode === true) {
@@ -2079,7 +2068,7 @@ async function handleFileUpload() {
         ? { prompts: parsed.prompts || [], folders: parsed.folders || [], globalTags: parsed.globalTags || [] }
         : null;
 
-    async function importPromptCatLibrary(library) {
+    async function importPromptCatLibrary(library, shouldOverwrite) {
         if (!library) return;
         // Minimal DB helpers for PromptCatDB
         function openDB() {
@@ -2132,47 +2121,66 @@ async function handleFileUpload() {
             const isPartial = (hasPrompts && !hasFolders) || (!hasPrompts && hasFolders) || (hasPrompts && hasFolders && !hasGlobalTags);
 
             let proceed = true;
-            if (!isPartial) {
-                proceed = window.confirm('This will overwrite all current Prompt Library data. This action cannot be undone.');
+            
+            // If overwrite mode is enabled, always clear and replace
+            if (shouldOverwrite) {
+                if (!isPartial) {
+                    proceed = window.confirm('This will overwrite all current Prompt Library data. This action cannot be undone.');
+                } else {
+                    proceed = window.confirm('This will overwrite the selected Prompt Library data. This action cannot be undone.');
+                }
+                if (!proceed) return;
+
+                // Clear stores before importing
+                if (hasPrompts) await clearStore(db, 'prompts');
+                if (hasFolders) await clearStore(db, 'folders');
+                if (hasGlobalTags) await clearStore(db, 'globalTags');
+
+                // Import all data without filtering
+                if (hasFolders) await bulkPut(db, 'folders', library.folders);
+                if (hasPrompts) await bulkPut(db, 'prompts', library.prompts);
+                if (hasGlobalTags) {
+                    const normalizedTags = library.globalTags.map((t) => (typeof t === 'string' ? { id: t } : t));
+                    await bulkPut(db, 'globalTags', normalizedTags);
+                }
             } else {
-                proceed = window.confirm('This will add data from the selected file to the Prompt Library. Existing data will be kept.');
-            }
-            if (!proceed) return;
+                // Merge mode: only add non-duplicate items
+                if (!isPartial) {
+                    proceed = window.confirm('This will add data from the selected file to the Prompt Library. Existing data will be kept.');
+                } else {
+                    proceed = window.confirm('This will add data from the selected file to the Prompt Library. Existing data will be kept.');
+                }
+                if (!proceed) return;
 
-            // If full import, clear stores first
-            if (!isPartial) {
-                await clearStore(db, 'prompts');
-                await clearStore(db, 'folders');
-                await clearStore(db, 'globalTags');
-            }
-
-            // Merge behavior: only insert items whose ids/tags don't already exist
-            if (hasFolders) {
-                const existingFolders = await getAll(db, 'folders');
-                const existingFolderIds = new Set(existingFolders.map((f) => f.id));
-                const newFolders = library.folders.filter((f) => !existingFolderIds.has(f.id));
-                await bulkPut(db, 'folders', newFolders);
-            }
-            if (hasPrompts) {
-                const existingPrompts = await getAll(db, 'prompts');
-                const existingPromptIds = new Set(existingPrompts.map((p) => p.id));
-                const newPrompts = library.prompts.filter((p) => !existingPromptIds.has(p.id));
-                await bulkPut(db, 'prompts', newPrompts);
-            }
-            if (hasGlobalTags) {
-                const existingTags = await getAll(db, 'globalTags');
-                const existingTagIds = new Set(existingTags.map((t) => t.id));
-                const newTags = library.globalTags
-                    .filter((t) => !existingTagIds.has(typeof t === 'string' ? t : t?.id))
-                    .map((t) => (typeof t === 'string' ? { id: t } : t));
-                await bulkPut(db, 'globalTags', newTags);
+                // Merge behavior: only insert items whose ids/tags don't already exist
+                if (hasFolders) {
+                    const existingFolders = await getAll(db, 'folders');
+                    const existingFolderIds = new Set(existingFolders.map((f) => f.id));
+                    const newFolders = library.folders.filter((f) => !existingFolderIds.has(f.id));
+                    await bulkPut(db, 'folders', newFolders);
+                }
+                if (hasPrompts) {
+                    const existingPrompts = await getAll(db, 'prompts');
+                    const existingPromptIds = new Set(existingPrompts.map((p) => p.id));
+                    const newPrompts = library.prompts.filter((p) => !existingPromptIds.has(p.id));
+                    await bulkPut(db, 'prompts', newPrompts);
+                }
+                if (hasGlobalTags) {
+                    const existingTags = await getAll(db, 'globalTags');
+                    const existingTagIds = new Set(existingTags.map((t) => t.id));
+                    const newTags = library.globalTags
+                        .filter((t) => !existingTagIds.has(typeof t === 'string' ? t : t?.id))
+                        .map((t) => (typeof t === 'string' ? { id: t } : t));
+                    await bulkPut(db, 'globalTags', newTags);
+                }
             }
         } catch (e) {
             console.error('Failed to import PromptCat library:', e);
         }
     }
 
-    if (currentOptions?.overwriteSearchEngines) {
+    if (currentOptions?.overwriteData) {
+        // Overwrite mode: replace all data if present
         if (incomingSearchEngines && !isEmpty(incomingSearchEngines)) {
             searchEngines = incomingSearchEngines;
         }
@@ -2224,16 +2232,33 @@ async function handleFileUpload() {
         }
     }
 
-    // Import prompts library (if present)
-    await importPromptCatLibrary(promptsLibrary);
+    // Import prompts library (if present) - pass the overwrite flag
+    await importPromptCatLibrary(promptsLibrary, currentOptions?.overwriteData);
 
     // Import Quick Preview data (if present)
     if (parsed?.quickPreview && !isEmpty(parsed.quickPreview)) {
         try {
-            await browser.storage.local.set({ [STORAGE_KEYS.QUICK_PREVIEW]: parsed.quickPreview });
-            // Update the local quickPreviewData variable
-            quickPreviewData = parsed.quickPreview;
-            if (logToConsole) console.log('Quick Preview data imported:', parsed.quickPreview);
+            if (currentOptions?.overwriteData) {
+                // Overwrite mode: replace all Quick Preview data
+                await browser.storage.local.set({ [STORAGE_KEYS.QUICK_PREVIEW]: parsed.quickPreview });
+                quickPreviewData = parsed.quickPreview;
+                if (logToConsole) console.log('Quick Preview data replaced:', parsed.quickPreview);
+            } else {
+                // Merge mode: only add non-duplicate Quick Preview data
+                const existingQuickPreview = await getStoredData(STORAGE_KEYS.QUICK_PREVIEW) || {};
+                const mergedQuickPreview = { ...existingQuickPreview };
+                
+                // Merge each property from imported data, avoiding duplicates
+                for (const key in parsed.quickPreview) {
+                    if (!mergedQuickPreview[key]) {
+                        mergedQuickPreview[key] = parsed.quickPreview[key];
+                    }
+                }
+                
+                await browser.storage.local.set({ [STORAGE_KEYS.QUICK_PREVIEW]: mergedQuickPreview });
+                quickPreviewData = mergedQuickPreview;
+                if (logToConsole) console.log('Quick Preview data merged:', mergedQuickPreview);
+            }
         } catch (error) {
             console.error('Error importing Quick Preview data:', error);
         }
@@ -2244,8 +2269,18 @@ async function handleFileUpload() {
 
     // Save and apply options if present
     if (importedOptions && !isEmpty(importedOptions)) {
-        await browser.storage.local.set({ [STORAGE_KEYS.OPTIONS]: importedOptions });
-        await setOptions(importedOptions);
+        if (currentOptions?.overwriteData) {
+            // Overwrite mode: replace all options
+            await browser.storage.local.set({ [STORAGE_KEYS.OPTIONS]: importedOptions });
+            await setOptions(importedOptions);
+            if (logToConsole) console.log('Options replaced:', importedOptions);
+        } else {
+            // Merge mode: only update options that are different
+            const mergedOptions = { ...currentOptions, ...importedOptions };
+            await browser.storage.local.set({ [STORAGE_KEYS.OPTIONS]: mergedOptions });
+            await setOptions(mergedOptions);
+            if (logToConsole) console.log('Options merged:', mergedOptions);
+        }
     }
 
     displaySearchEngines();
@@ -2304,9 +2339,9 @@ async function updateTabMode() {
     await sendOptionUpdate('tabMode', data);
 }
 
-async function updateOverwriteSearchEngines() {
-    const ose = overwriteSearchEngines.checked;
-    await sendOptionUpdate('overwriteSearchEngines', { overwriteSearchEngines: ose });
+async function updateOverwriteData() {
+    const ose = overwriteData.checked;
+    await sendOptionUpdate('overwriteData', { overwriteData: ose });
 }
 
 async function updateMultiMode() {
@@ -3064,5 +3099,3 @@ function openCSSPopup(id, engineName) {
         return;
     }
 }
-
-// Removed legacy qpCssMap machinery (host->CSS cache) as unused

@@ -341,7 +341,7 @@
     "prompt": {
         "message": "AI-prompt"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Skriv över de befintliga sökmotorerna med de importerade sökmotorerna"
     },
     "removeFolderConfirmPrefix": {

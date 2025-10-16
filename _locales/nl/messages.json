@@ -341,7 +341,7 @@
     "prompt": {
         "message": "AI-prompt"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "De bestaande zoekmachines overschrijven met de geïmporteerde zoekmachines"
     },
     "removeFolderConfirmPrefix": {

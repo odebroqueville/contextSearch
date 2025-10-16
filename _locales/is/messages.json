@@ -338,10 +338,10 @@
     "promptName": {
         "message": "AI hvetja nafn"
     },
-    "prompt": {
-        "message": "AI hvetja"
+        "prompt": {
+        "message": "AI kvaðning"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Skrifaðu yfir núverandi leitarvélar með innfluttu leitarvélunum"
     },
     "removeFolderConfirmPrefix": {

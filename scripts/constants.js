@@ -228,7 +228,7 @@ export const DEFAULT_OPTIONS = {
     multiMode: 'multiNewWindow',
     multiPrivateMode: false,
     privateMode: false,
-    overwriteSearchEngines: false,
+    overwriteData: false,
 };
 
 // Configuration for option updates
@@ -261,8 +261,8 @@ export const UPDATE_CONFIG = {
         fields: ['tabMode', 'tabActive', 'lastTab', 'privateMode'],
         requiresMenuRebuild: false,
     },
-    overwriteSearchEngines: {
-        fields: ['overwriteSearchEngines'],
+    overwriteData: {
+        fields: ['overwriteData'],
         requiresMenuRebuild: false,
     },
     multiMode: {

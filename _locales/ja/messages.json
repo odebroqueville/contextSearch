@@ -339,9 +339,9 @@
         "message": "AIプロンプト名"
     },
     "prompt": {
-        "message": "AIプロンプト"
+        "message": "AI プロンプト"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "既存の検索エンジンをインポートした検索エンジンで上書きする。"
     },
     "removeFolderConfirmPrefix": {

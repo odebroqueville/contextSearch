@@ -339,9 +339,9 @@
         "message": "Navn på AI-ledetekst"
     },
     "prompt": {
-        "message": "AI-forespørsel"
+        "message": "AI-spørsmål"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Overskriv de eksisterende søkemotorene med de importerte søkemotorene"
     },
     "removeFolderConfirmPrefix": {

@@ -341,7 +341,7 @@
     "prompt": {
         "message": "Prompt AI"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Menimpa mesin pencari yang ada dengan mesin pencari yang diimpor"
     },
     "removeFolderConfirmPrefix": {

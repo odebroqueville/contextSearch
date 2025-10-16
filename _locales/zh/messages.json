@@ -341,10 +341,10 @@
     "promptName": {
         "message": "Prompt name"
     },
-    "prompt": {
-        "message": "Prompt"
+        "prompt": {
+        "message": "AI提示"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Overwrite the existing search engines with the imported search engines"
     },
     "removeFolderConfirmPrefix": {

@@ -339,9 +339,9 @@
         "message": "نام اعلان هوش مصنوعی"
     },
     "prompt": {
-        "message": "اعلان هوش مصنوعی"
+        "message": "پیام هوش مصنوعی"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "بازنویسی موتورهای جستجوی موجود با موتورهای جستجوی وارد شده"
     },
     "removeFolderConfirmPrefix": {

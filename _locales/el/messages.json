@@ -341,7 +341,7 @@
     "prompt": {
         "message": "Προτροπή AI"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Αντικατάσταση των υφιστάμενων μηχανών αναζήτησης με τις εισαγόμενες μηχανές αναζήτησης"
     },
     "removeFolderConfirmPrefix": {

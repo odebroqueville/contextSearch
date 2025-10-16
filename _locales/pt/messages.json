@@ -341,7 +341,7 @@
     "prompt": {
         "message": "Solicitação de IA"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Substituir os motores de busca existentes pelos motores de busca importados"
     },
     "removeFolderConfirmPrefix": {

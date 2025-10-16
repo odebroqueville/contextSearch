@@ -341,7 +341,7 @@
     "prompt": {
         "message": "人工智能提示"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "用导入的搜索引擎覆盖现有搜索引擎"
     },
     "removeFolderConfirmPrefix": {

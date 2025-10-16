@@ -338,10 +338,10 @@
     "promptName": {
         "message": "Nazwa podpowiedzi AI"
     },
-    "prompt": {
-        "message": "Podpowiedź AI"
+        "prompt": {
+        "message": "Monit AI"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Zastąp istniejące wyszukiwarki zaimportowanymi wyszukiwarkami."
     },
     "removeFolderConfirmPrefix": {

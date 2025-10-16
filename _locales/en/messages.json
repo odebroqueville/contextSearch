@@ -341,8 +341,8 @@
     "prompt": {
         "message": "AI prompt"
     },
-    "overwriteSearchEngines": {
-        "message": "Overwrite the existing search engines with the imported search engines"
+    "overwriteData": {
+        "message": "Overwrite the existing data (options, search engines, prompts and quick preview data) with the imported data"
     },
     "removeFolderConfirmPrefix": {
         "message": "Are you sure that you want to remove the folder"

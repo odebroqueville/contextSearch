@@ -341,7 +341,7 @@
     "prompt": {
         "message": "AI 提示"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "使用匯入的搜尋引擎覆寫現有的搜尋引擎"
     },
     "removeFolderConfirmPrefix": {

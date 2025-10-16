@@ -341,7 +341,7 @@
     "prompt": {
         "message": "подсказка ИИ"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Перезапишите существующие поисковые системы импортированными поисковыми системами"
     },
     "removeFolderConfirmPrefix": {

@@ -338,10 +338,10 @@
     "promptName": {
         "message": "Nome prompt AI"
     },
-    "prompt": {
-        "message": "Prompt AI"
+        "prompt": {
+        "message": "Richiesta AI"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Sovrascrivere i motori di ricerca esistenti con quelli importati."
     },
     "removeFolderConfirmPrefix": {

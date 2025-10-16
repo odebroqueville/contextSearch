@@ -339,9 +339,9 @@
         "message": "Назва підказки AI"
     },
     "prompt": {
-        "message": "Підказка AI"
+        "message": "Підказка ШІ"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Замінити існуючі пошукові системи імпортованими пошуковими системами"
     },
     "removeFolderConfirmPrefix": {

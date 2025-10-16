@@ -341,7 +341,7 @@
     "prompt": {
         "message": "AI 프롬프트"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "기존 검색 엔진을 가져온 검색 엔진으로 덮어쓰기"
     },
     "removeFolderConfirmPrefix": {

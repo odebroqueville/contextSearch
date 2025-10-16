@@ -341,7 +341,7 @@
     "prompt": {
         "message": "AI-kehote"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Korvaa olemassa olevat hakukoneet tuoduilla hakukoneilla."
     },
     "removeFolderConfirmPrefix": {
