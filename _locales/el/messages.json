@@ -252,7 +252,7 @@
         "message": "Επίσης, τα αποτελέσματα της αντίστροφης αναζήτησης εικόνας δεν μπορούν να εμφανιστούν στην πλευρική γραμμή."
     },
     "siteSearch": {
-        "message": "Search engine for bookmarks site search:"
+        "message": "Μηχανή αναζήτησης για την αναζήτηση στον τρέχοντα ιστότοπο:"
     },
     "header9": {
         "message": "Προηγμένα χαρακτηριστικά"
@@ -341,7 +341,7 @@
     "prompt": {
         "message": "Προτροπή AI"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Αντικατάσταση των υφιστάμενων μηχανών αναζήτησης με τις εισαγόμενες μηχανές αναζήτησης"
     },
     "removeFolderConfirmPrefix": {
