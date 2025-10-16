@@ -489,6 +489,9 @@
     "recheckEngines": {
         "message": "Re-check engines"
     },
+    "disableQuickPreviewByNote": {
+        "message": "Checking this option automatically disables the quick preview of search results."
+    },
     "__WET_LOCALE__": {
         "message": "es"
     }
