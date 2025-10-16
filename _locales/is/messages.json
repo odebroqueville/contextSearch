@@ -252,7 +252,7 @@
         "message": "Að auki er ekki hægt að birta endurkvæmar leitarniðurstöður mynda í hliðarslánni."
     },
     "siteSearch": {
-        "message": "Search engine for bookmarks site search:"
+        "message": "Leitarvél til að leita á virku vefsvæði:"
     },
     "header9": {
         "message": "Ítarlegir eiginleikar"
@@ -339,9 +339,9 @@
         "message": "AI hvetja nafn"
     },
     "prompt": {
-        "message": "AI hvetja"
+        "message": "AI kvaðning"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Skrifaðu yfir núverandi leitarvélar með innfluttu leitarvélunum"
     },
     "removeFolderConfirmPrefix": {
