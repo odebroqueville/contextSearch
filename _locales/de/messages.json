@@ -252,7 +252,7 @@
         "message": "Außerdem können die Ergebnisse der umgekehrten Bildsuche nicht in der Seitenleiste angezeigt werden."
     },
     "siteSearch": {
-        "message": "Search engine for bookmarks site search:"
+        "message": "Suchmaschine für die Suche auf der aktuellen Website:"
     },
     "header9": {
         "message": "Erweiterte Funktionen"
@@ -341,7 +341,7 @@
     "prompt": {
         "message": "KI-Eingabeaufforderung"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Überschreiben Sie die vorhandenen Suchmaschinen mit den importierten Suchmaschinen"
     },
     "removeFolderConfirmPrefix": {
