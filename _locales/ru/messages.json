@@ -252,7 +252,7 @@
         "message": "Кроме того, результаты обратного поиска изображений не могут отображаться в боковой панели."
     },
     "siteSearch": {
-        "message": "Search engine for bookmarks site search:"
+        "message": "Поисковая система для поиска текущего сайта:"
     },
     "header9": {
         "message": "Дополнительные возможности"
@@ -341,7 +341,7 @@
     "prompt": {
         "message": "подсказка ИИ"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Перезапишите существующие поисковые системы импортированными поисковыми системами"
     },
     "removeFolderConfirmPrefix": {
