@@ -252,7 +252,7 @@
         "message": "Det går inte heller att visa resultat från omvänd bildsökning i sidofältet."
     },
     "siteSearch": {
-        "message": "Search engine for bookmarks site search:"
+        "message": "Sökmotor för sökning på aktuell webbplats:"
     },
     "header9": {
         "message": "Avancerade funktioner"
@@ -341,7 +341,7 @@
     "prompt": {
         "message": "AI-prompt"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Skriv över de befintliga sökmotorerna med de importerade sökmotorerna"
     },
     "removeFolderConfirmPrefix": {
