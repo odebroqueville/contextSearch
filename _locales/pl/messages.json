@@ -252,7 +252,7 @@
         "message": "Na pasku bocznym nie mogą być również wyświetlane wyniki wyszukiwania obrazów."
     },
     "siteSearch": {
-        "message": "Search engine for bookmarks site search:"
+        "message": "Wyszukiwarka do przeszukiwania bieżącej strony:"
     },
     "header9": {
         "message": "Zaawansowane funkcje"
@@ -339,9 +339,9 @@
         "message": "Nazwa podpowiedzi AI"
     },
     "prompt": {
-        "message": "Podpowiedź AI"
+        "message": "Monit AI"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Zastąp istniejące wyszukiwarki zaimportowanymi wyszukiwarkami."
     },
     "removeFolderConfirmPrefix": {
