@@ -252,7 +252,7 @@
         "message": "Ayrıca, tersine görsel arama sonuçları kenar çubuğunda görüntülenemez."
     },
     "siteSearch": {
-        "message": "Search engine for bookmarks site search:"
+        "message": "Mevcut sitede arama yapmak için arama motoru:"
     },
     "header9": {
         "message": "Gelişmiş özellikler"
@@ -341,7 +341,7 @@
     "prompt": {
         "message": "AI komut istemi"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "Mevcut arama motorlarının üzerine içe aktarılan arama motorlarını yazın"
     },
     "removeFolderConfirmPrefix": {
