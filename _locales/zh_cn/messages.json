@@ -252,7 +252,7 @@
         "message": "此外，侧边栏不能显示反向图像搜索结果。"
     },
     "siteSearch": {
-        "message": "Search engine for bookmarks site search:"
+        "message": "用于搜索当前网站的搜索引擎："
     },
     "header9": {
         "message": "高级功能"
@@ -341,7 +341,7 @@
     "prompt": {
         "message": "人工智能提示"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "用导入的搜索引擎覆盖现有搜索引擎"
     },
     "removeFolderConfirmPrefix": {
