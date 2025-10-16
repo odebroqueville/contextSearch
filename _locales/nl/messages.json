@@ -252,7 +252,7 @@
         "message": "De zoekresultaten van omgekeerde afbeeldingen kunnen ook niet worden weergegeven in de zijbalk."
     },
     "siteSearch": {
-        "message": "Search engine for bookmarks site search:"
+        "message": "Zoekmachine voor het doorzoeken van de huidige site:"
     },
     "header9": {
         "message": "Geavanceerde functies"
@@ -341,7 +341,7 @@
     "prompt": {
         "message": "AI-prompt"
     },
-    "overwriteSearchEngines": {
+    "overwriteData": {
         "message": "De bestaande zoekmachines overschrijven met de geïmporteerde zoekmachines"
     },
     "removeFolderConfirmPrefix": {
