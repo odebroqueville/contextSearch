@@ -584,7 +584,7 @@
         "message": "دوست دارید با دستورات داخل این پوشه چه کنید؟"
     },
     "deleteFolderMovePrompts": {
-        "message": "Delete Folder & Move Prompts"
+        "message": "حذف پوشه و انتقال اعلان‌ها"
     },
     "deleteFolderAndPrompts": {
         "message": "حذف پوشه و همه دستورات"
