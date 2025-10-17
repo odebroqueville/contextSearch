@@ -665,7 +665,7 @@
         "message": "Motorları yeniden kontrol edin"
     },
     "editIconPrompt": {
-        "message": "\"1\" için simge URL'sini düzenle\n\nBir resmin URL'sini girin (tercihen SVG).\nVarsayılan arama motoru simgesini kullanmak için boş bırakın.",
+        "message": "\"$1\" için simge URL'sini düzenle\n\nBir resmin URL'sini girin (tercihen SVG).\nVarsayılan arama motoru simgesini kullanmak için boş bırakın.",
         "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
     },
     "disableQuickPreviewByNote": {
