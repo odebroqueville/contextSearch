@@ -375,7 +375,7 @@
         "message": "Yer imi kaldırma için URL alınamadı"
     },
     "notifyCustomCssSaved": {
-        "message": "\"1 dolar\" için kaydedilen özel CSS.",
+        "message": "\"$1\" için kaydedilen özel CSS.",
         "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
     },
     "notifyAIMinimalRequirements": {
