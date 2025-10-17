@@ -97,6 +97,14 @@ window.addEventListener('message', async (event) => {
         if (quickPreviewData.engines && quickPreviewData.engines[id]) {
             quickPreviewData.engines[id].customCSS = css;
             await saveQuickPreviewData();
+            // Prefer a browser notification over a toast when CSS is saved
+            try {
+                const engineName = (searchEngines && searchEngines[id] && searchEngines[id].name) || id;
+                const msg = browser.i18n.getMessage('notifyCustomCssSaved', engineName);
+                await sendMessage('notify', msg || `Custom CSS saved for "${engineName}"`);
+            } catch (_) {
+                // Swallow errors silently; notification is a best-effort UX enhancement
+            }
         }
         return;
     }
@@ -2121,7 +2129,7 @@ async function handleFileUpload() {
             const isPartial = (hasPrompts && !hasFolders) || (!hasPrompts && hasFolders) || (hasPrompts && hasFolders && !hasGlobalTags);
 
             let proceed = true;
-            
+
             // If overwrite mode is enabled, always clear and replace
             if (shouldOverwrite) {
                 if (!isPartial) {
@@ -2245,16 +2253,16 @@ async function handleFileUpload() {
                 if (logToConsole) console.log('Quick Preview data replaced:', parsed.quickPreview);
             } else {
                 // Merge mode: only add non-duplicate Quick Preview data
-                const existingQuickPreview = await getStoredData(STORAGE_KEYS.QUICK_PREVIEW) || {};
+                const existingQuickPreview = (await getStoredData(STORAGE_KEYS.QUICK_PREVIEW)) || {};
                 const mergedQuickPreview = { ...existingQuickPreview };
-                
+
                 // Merge each property from imported data, avoiding duplicates
                 for (const key in parsed.quickPreview) {
                     if (!mergedQuickPreview[key]) {
                         mergedQuickPreview[key] = parsed.quickPreview[key];
                     }
                 }
-                
+
                 await browser.storage.local.set({ [STORAGE_KEYS.QUICK_PREVIEW]: mergedQuickPreview });
                 quickPreviewData = mergedQuickPreview;
                 if (logToConsole) console.log('Quick Preview data merged:', mergedQuickPreview);
@@ -2297,13 +2305,13 @@ async function updateSearchOptions() {
     const da = disableAI.checked;
     const dqp = !!(disableQuickPreview && disableQuickPreview.checked);
     const fl = !!(filterQuickPreviewByLanguage && filterQuickPreviewByLanguage.checked);
-    
+
     // If Quick Preview is being enabled (unchecked disableQuickPreview), disable immediate grid
     if (disableQuickPreview && !disableQuickPreview.checked && quickIconGrid.checked) {
         quickIconGrid.checked = false;
         await sendOptionUpdate('quickIconGrid', { quickIconGrid: false });
     }
-    
+
     await sendOptionUpdate('searchOptions', {
         exactMatch: em,
         disableDoubleClick: dd,
@@ -2388,7 +2396,7 @@ async function updateQuickIconGrid() {
             filterQuickPreviewByLanguage: !!(filterQuickPreviewByLanguage && filterQuickPreviewByLanguage.checked),
         });
     }
-    
+
     await sendOptionUpdate('quickIconGrid', { quickIconGrid: quickIconGrid.checked });
 }
 
@@ -2605,6 +2613,31 @@ async function initQuickPreview() {
     // Ensure we have the required structure
     if (!quickPreviewData.engines) {
         quickPreviewData = { engines: {} };
+    }
+
+    // Normalize any previously saved external icon URLs to data URLs so they render under CSP
+    try {
+        let changed = false;
+        const entries = Object.entries(quickPreviewData.engines || {});
+        for (const [id, data] of entries) {
+            const icon = (data && typeof data.icon === 'string') ? data.icon.trim() : '';
+            if (icon && !/^data:/i.test(icon)) {
+                try {
+                    const normalized = await normalizeIconInput(icon);
+                    if (normalized && normalized !== icon) {
+                        quickPreviewData.engines[id].icon = normalized;
+                        changed = true;
+                    }
+                } catch (err) {
+                    // Keep the original value on failure; it may not render due to CSP
+                    if (logToConsole) console.warn('Icon normalization failed for engine', id, err);
+                }
+            }
+        }
+        if (changed) await saveQuickPreviewData();
+    } catch (e) {
+        // Non-fatal
+        if (logToConsole) console.warn('Quick Preview icon normalization skipped due to error:', e);
     }
 
     // Before first display, probe engines for iframe-blocking headers once
@@ -2949,7 +2982,12 @@ function createQuickPreviewItem(id, engine, isSelected) {
     // Icon
     const icon = document.createElement('img');
     icon.classList.add('qp-icon');
-    icon.src = data.icon || `data:${engine.imageFormat || 'image/png'};base64,${engine.base64}`;
+    const fallbackSrc = `data:${engine.imageFormat || 'image/png'};base64,${engine.base64}`;
+    icon.src = data.icon || fallbackSrc;
+    icon.onerror = () => {
+        // fallback to packaged/default base64 icon if custom icon fails
+        if (icon.src !== fallbackSrc) icon.src = fallbackSrc;
+    };
     icon.alt = engine.name;
     icon.title = 'Click to edit icon';
     icon.addEventListener('click', (e) => {
@@ -3081,20 +3119,93 @@ async function saveQuickPreviewData() {
 }
 
 // Open icon editor popup
-function openIconEditor(id, engineName) {
+// Fetch an image URL (including extension resources) and return a data URL (data:image/*;base64,....)
+async function fetchImageAsDataUrl(url) {
+    try {
+        // Resolve extension-relative paths (e.g., /icons/foo.png)
+        let resolved = url;
+        if (/^\/.+/.test(url) && typeof browser !== 'undefined' && browser.runtime?.getURL) {
+            resolved = browser.runtime.getURL(url.replace(/^\/+/, '/'));
+        }
+        // If still an absolute http(s) URL, ask the background to fetch (avoids CSP)
+        if (/^https?:\/\//i.test(resolved)) {
+            const resp = await browser.runtime.sendMessage({ action: 'fetchImageAsDataUrl', url: resolved });
+            if (resp && resp.success && resp.dataUrl) return resp.dataUrl;
+            throw new Error(resp?.error || 'Failed to fetch image');
+        }
+        // Otherwise fetch directly (extension file or data URL)
+        const res = await fetch(resolved, { credentials: 'omit', cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        let contentType = res.headers.get('content-type') || '';
+        if (!contentType) {
+            const lower = (resolved || '').toLowerCase();
+            if (lower.endsWith('.png')) contentType = 'image/png';
+            else if (lower.endsWith('.jpg') || lower.endsWith('.jpeg')) contentType = 'image/jpeg';
+            else if (lower.endsWith('.gif')) contentType = 'image/gif';
+            else if (lower.endsWith('.webp')) contentType = 'image/webp';
+            else if (lower.endsWith('.svg')) contentType = 'image/svg+xml';
+        }
+        if (!/^image\//.test(contentType) && contentType !== 'image/svg+xml') {
+            throw new Error(`Not an image (content-type: ${contentType || 'unknown'})`);
+        }
+        const blob = await res.blob();
+        if (blob.size > 1024 * 1024) throw new Error('Image too large (max 1MB)');
+        const ab = await blob.arrayBuffer();
+        const b64 = btoa(String.fromCharCode(...new Uint8Array(ab)));
+        const type = contentType || 'image/png';
+        return `data:${type};base64,${b64}`;
+    } catch (err) {
+        console.error('Failed to fetch/convert icon URL:', url, err);
+        throw err;
+    }
+}
+
+// Normalize user input for Quick Preview icon to a data URL when possible
+async function normalizeIconInput(input) {
+    const val = (input || '').trim();
+    if (val === '') return '';
+    if (/^data:/i.test(val)) return val; // already a data URL
+
+    // Accept http(s) and extension-relative paths; convert to data URL
+    if (/^https?:\/\//i.test(val) || /^\//.test(val)) {
+        return await fetchImageAsDataUrl(val);
+    }
+
+    // As a conservative fallback, try resolving via runtime.getURL then fetch
+    if (typeof browser !== 'undefined' && browser.runtime?.getURL) {
+        try {
+            const resolved = browser.runtime.getURL(val);
+            return await fetchImageAsDataUrl(resolved);
+        } catch (_) {
+            // fall through to return the raw input (may fail to render due to CSP)
+        }
+    }
+    return val;
+}
+
+async function openIconEditor(id, engineName) {
     const currentIcon = quickPreviewData.engines[id]?.icon || '';
 
-    const newIcon = prompt(
-        `Edit icon URL for "${engineName}"\n\nEnter a URL to an image (preferably SVG).\nLeave empty to use the default search engine icon.`,
-        currentIcon
-    );
+    // Localized prompt message with fallback
+    const promptMessage =
+        (typeof browser !== 'undefined' && browser.i18n && typeof browser.i18n.getMessage === 'function'
+            ? browser.i18n.getMessage('editIconPrompt', engineName)
+            : '') ||
+        `Edit icon URL for "${engineName}"\n\nEnter a URL to an image (preferably SVG).\nLeave empty to use the default search engine icon.`;
+
+    const newIcon = prompt(promptMessage, currentIcon);
 
     // null means user cancelled, empty string means use default
     if (newIcon !== null) {
-        quickPreviewData.engines[id].icon = newIcon;
-        saveQuickPreviewData();
-        // Refresh display to show new icon
-        displayQuickPreviewEngines();
+        try {
+            const normalized = await normalizeIconInput(newIcon);
+            quickPreviewData.engines[id].icon = normalized;
+            await saveQuickPreviewData();
+            // Refresh display to show new icon
+            displayQuickPreviewEngines();
+        } catch (e) {
+            alert('Failed to load the image from the provided URL. Please provide a valid image URL or a data: URL.');
+        }
     }
 }
 

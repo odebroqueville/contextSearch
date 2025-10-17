@@ -401,6 +401,27 @@ html,body{min-width:0!important;max-width:100%!important;width:auto!important;ov
 #right-rail,[id*='right-rail'],[class*='right-rail'],.results--sidebar,[class*='sidebar']{display:none!important;max-width:0!important;width:0!important;}
 /* Common DDG wrappers */
 body,.site-wrapper,.react-layout,.body-wrapper,.serp__body,.results,.results--main,.zcm-wrap,.zcm,.zcm__container,.header-wrap,.footer,.nav-menu--slideout,.nav-menu__slideout,main,#__next{min-width:0!important;max-width:100%!important;width:auto!important;overflow-x:hidden!important;margin-left:0!important;margin-right:0!important;}
+/* Remove unexpected vertical scrollbar in DDG header */
+#header_wrapper,
+.header-wrap,
+.header-wrap--fixed,
+.header-wrap__inner,
+[id*='header'][id*='wrap'],
+[class*='header-wrap']{
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
+    max-height: none !important;
+    height: auto !important;
+    -webkit-overflow-scrolling: auto !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+#header_wrapper::-webkit-scrollbar,
+.header-wrap::-webkit-scrollbar,
+.header-wrap--fixed::-webkit-scrollbar,
+.header-wrap__inner::-webkit-scrollbar,
+[id*='header'][id*='wrap']::-webkit-scrollbar,
+[class*='header-wrap']::-webkit-scrollbar{width:0!important;height:0!important;display:none!important;}
 /* Additional guards against inline constraints */
 [style*='min-width']{min-width:0!important;}
 [style*='max-width']{max-width:100%!important;}
@@ -676,6 +697,27 @@ html, body { min-width: 0 !important; max-width: 100% !important; width: auto !i
 body, .site-wrapper, .react-layout, .body-wrapper, .serp__body, main, .results, .results--main, .zcm-wrap, .zcm, .zcm__container, .header-wrap, .nav-menu--slideout, .nav-menu__slideout, .footer, #__next {
     min-width: 0 !important; max-width: 100% !important; width: auto !important; overflow-x: hidden !important; margin-left: 0 !important; margin-right: 0 !important;
 }
+/* Remove unexpected vertical scrollbar in DDG header */
+#header_wrapper,
+.header-wrap,
+.header-wrap--fixed,
+.header-wrap__inner,
+[id*='header'][id*='wrap'],
+[class*='header-wrap'] {
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
+    max-height: none !important;
+    height: auto !important;
+    -webkit-overflow-scrolling: auto !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+#header_wrapper::-webkit-scrollbar,
+.header-wrap::-webkit-scrollbar,
+.header-wrap--fixed::-webkit-scrollbar,
+.header-wrap__inner::-webkit-scrollbar,
+[id*='header'][id*='wrap']::-webkit-scrollbar,
+[class*='header-wrap']::-webkit-scrollbar { width: 0 !important; height: 0 !important; display: none !important; }
 /* Prevent grid/cards from forcing width */
 .react-layout [class*='grid'], .react-layout [class*='module'], .result, .tile, .result__body, .results--main > *, .results > *, [class*='tile__'], [class*='module__'] {
     max-width: 100% !important; width: auto !important; overflow-x: hidden !important;

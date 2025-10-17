@@ -32,7 +32,7 @@ import {
 } from '/scripts/favicons.js';
 import {
     STORAGE_KEYS,
-    DEFAULT_SEARCH_ENGINES,
+    DEFAULT_DATA,
     DEFAULT_OPTIONS,
     HEADER_RULES,
     UPDATE_CONFIG,
@@ -67,7 +67,7 @@ const SITE_SEARCH_ENGINES = [
     { name: 'Startpage', url: 'https://www.startpage.com/do/search?query=' },
     { name: 'Swisscows', url: 'https://swisscows.com/web?query=' },
     { name: 'Yahoo', url: 'https://search.yahoo.com/search?p=' },
-    { name: 'Yandex', url: 'https://yandex.com/search?text=' }
+    { name: 'Yandex', url: 'https://yandex.com/search?text=' },
 ];
 
 // Utility function: debounce
@@ -544,8 +544,57 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
                     });
                 return true; // Keep message channel open for async response
             }
+            // No URL provided
             sendResponse({ success: false, error: 'No URL provided' });
             return false; // Synchronous response
+        }
+        case 'fetchImageAsDataUrl': {
+            // Fetch an image at a given URL and return a data URL string
+            try {
+                const { url } = message || {};
+                if (!url || typeof url !== 'string') {
+                    sendResponse({ success: false, error: 'No URL provided' });
+                    return false;
+                }
+                (async () => {
+                    try {
+                        const response = await fetch(url, { credentials: 'omit', cache: 'no-store' });
+                        if (!response.ok) {
+                            sendResponse({ success: false, error: `HTTP ${response.status}` });
+                            return;
+                        }
+                        let contentType = response.headers.get('content-type') || '';
+                        if (!contentType) {
+                            const lower = url.toLowerCase();
+                            if (lower.endsWith('.png')) contentType = 'image/png';
+                            else if (lower.endsWith('.jpg') || lower.endsWith('.jpeg')) contentType = 'image/jpeg';
+                            else if (lower.endsWith('.gif')) contentType = 'image/gif';
+                            else if (lower.endsWith('.webp')) contentType = 'image/webp';
+                            else if (lower.endsWith('.svg')) contentType = 'image/svg+xml';
+                        }
+                        if (!/^image\//.test(contentType) && contentType !== 'image/svg+xml') {
+                            sendResponse({ success: false, error: `Not an image (content-type: ${contentType || 'unknown'})` });
+                            return;
+                        }
+                        const blob = await response.blob();
+                        if (blob.size > 1024 * 1024) {
+                            sendResponse({ success: false, error: 'Image too large (max 1MB)' });
+                            return;
+                        }
+                        const ab = await blob.arrayBuffer();
+                        const b64 = btoa(String.fromCharCode(...new Uint8Array(ab)));
+                        const type = contentType || 'image/png';
+                        const dataUrl = `data:${type};base64,${b64}`;
+                        sendResponse({ success: true, dataUrl, contentType: type, size: blob.size });
+                    } catch (err) {
+                        sendResponse({ success: false, error: err?.message || String(err) });
+                    }
+                })();
+                return true; // async
+            } catch (e) {
+                sendResponse({ success: false, error: e?.message || String(e) });
+                return false;
+            }
         }
         case 'openBackgroundProbeTab': {
             try {
@@ -1631,6 +1680,8 @@ async function init() {
         await initialiseSearchEngines();
         // Ensure PromptCat has defaults on first start/install
         await ensureDefaultPromptCatPrompts();
+        // Ensure Quick Preview has defaults on first start/install
+        await ensureDefaultQuickPreviewPrompts();
         await updateAddonStateForActiveTab();
 
         isInitialized = true;
@@ -1678,17 +1729,19 @@ async function ensureDefaultPromptCatPrompts() {
             return false;
         }
 
-        // Fetch defaults from packaged JSON
-        const url = browser.runtime.getURL('defaultPromptcatPrompts.json');
+        // Fetch defaults from unified DEFAULT_DATA
+        const url = browser.runtime.getURL(DEFAULT_DATA);
         const resp = await fetch(url);
         if (!resp.ok) {
-            if (logToConsole) console.warn(`[PromptCat] Failed to fetch default prompts: HTTP ${resp.status}`);
+            if (logToConsole) console.warn(`[PromptCat] Failed to fetch default data: HTTP ${resp.status}`);
             return false;
         }
         const defaults = await resp.json();
-        const prompts = Array.isArray(defaults?.prompts) ? defaults.prompts : [];
-        const folders = Array.isArray(defaults?.folders) ? defaults.folders : [];
-        const globalTags = Array.isArray(defaults?.globalTags) ? defaults.globalTags : [];
+        // Prefer nested prompts library if present; fall back to top-level keys for backwards compatibility
+        const library = defaults?.promptsLibrary || defaults;
+        const prompts = Array.isArray(library?.prompts) ? library.prompts : [];
+        const folders = Array.isArray(library?.folders) ? library.folders : [];
+        const globalTags = Array.isArray(library?.globalTags) ? library.globalTags : [];
 
         if (prompts.length === 0 && folders.length === 0 && globalTags.length === 0) {
             if (logToConsole) console.log('[PromptCat] Defaults JSON is empty; nothing to import.');
@@ -1738,6 +1791,52 @@ async function ensureDefaultPromptCatPrompts() {
         return true;
     } catch (err) {
         console.error('[PromptCat] Error ensuring default prompts:', err);
+        return false;
+    }
+}
+
+// Ensure default Quick Preview data exists when empty
+async function ensureDefaultQuickPreviewPrompts() {
+    try {
+        // Read current Quick Preview data
+        const existing = await getStoredData(STORAGE_KEYS.QUICK_PREVIEW);
+
+        // Determine emptiness: undefined/null, not an object, missing engines, or engines empty
+        const isEmpty = (() => {
+            if (!existing) return true;
+            if (typeof existing !== 'object') return true;
+            if (!existing.engines || typeof existing.engines !== 'object') return true;
+            return Object.keys(existing.engines).length === 0;
+        })();
+
+        if (!isEmpty) {
+            if (logToConsole) console.log('[QuickPreview] Existing data detected; skipping defaults.');
+            return false;
+        }
+
+        // Load defaults from unified DEFAULT_DATA
+        const url = browser.runtime.getURL(DEFAULT_DATA);
+        const resp = await fetch(url);
+        if (!resp.ok) {
+            if (logToConsole) console.warn(`[QuickPreview] Failed to fetch default data: HTTP ${resp.status}`);
+            return false;
+        }
+        const defaults = await resp.json();
+
+        // Extract quickPreview block from DEFAULT_DATA
+        const qpSource = defaults && typeof defaults === 'object' ? defaults.quickPreview : null;
+        const qp = qpSource && typeof qpSource === 'object' ? qpSource : {};
+        if (!qp.engines || typeof qp.engines !== 'object') {
+            // Some schemas may provide an array; normalize to { engines: {} }
+            qp.engines = qp.engines && Array.isArray(qp.engines) ? Object.fromEntries(qp.engines.map((e) => [e.id || e, e])) : {};
+        }
+
+        // Persist
+        await setStoredData(STORAGE_KEYS.QUICK_PREVIEW, qp);
+        if (logToConsole) console.log('[QuickPreview] Imported default Quick Preview data.');
+        return true;
+    } catch (err) {
+        console.error('[QuickPreview] Error ensuring default Quick Preview data:', err);
         return false;
     }
 }
@@ -1794,7 +1893,7 @@ async function initialiseSearchEngines() {
 
         if (!searchEngines || isEmpty(searchEngines) || options.forceSearchEnginesReload) {
             // Load default search engines if force reload is set or if no search engines are stored in local storage
-            await loadDefaultSearchEngines(DEFAULT_SEARCH_ENGINES);
+            await loadDefaultSearchEngines(DEFAULT_DATA);
             flagSaveSearchEngines = true;
         }
 
@@ -1886,7 +1985,8 @@ async function loadDefaultSearchEngines(jsonFile) {
             throw new Error(message);
         }
         const json = await response.json();
-        searchEngines = json;
+        // Support unified DEFAULT_DATA (with a top-level searchEngines object) or legacy direct list
+        searchEngines = json && json.searchEngines ? json.searchEngines : json;
         if (notificationsEnabled) notify(notifySearchEnginesLoaded);
         if (logToConsole) console.log('Default search engines loaded.');
     } catch (error) {
@@ -2798,7 +2898,7 @@ async function processSearch(info, tab) {
             }
             return;
         }
-        
+
         // Handle site search with specific engine
         if (id.startsWith('site-search-')) {
             const hasCurrentSelection = Boolean(info.selectionText);
@@ -3142,8 +3242,8 @@ async function setTargetUrl(id, aiEngine = '', hasCurrentSelection = true) {
     if (id.startsWith('site-search-')) {
         // Extract engine name from id (e.g., 'site-search-google' -> 'google')
         const engineName = id.replace('site-search-', '');
-        const engine = SITE_SEARCH_ENGINES.find(e => e.name.toLowerCase() === engineName);
-        
+        const engine = SITE_SEARCH_ENGINES.find((e) => e.name.toLowerCase() === engineName);
+
         if (engine) {
             let quote = '';
             if (options.exactMatch) quote = '%22';

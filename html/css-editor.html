@@ -4,15 +4,33 @@
         <meta charset="utf-8" />
         <title>CSS Editor</title>
         <link rel="stylesheet" href="../styles/css-editor.css" />
+        <script type="importmap">
+            {
+                "imports": {
+                    "@codemirror/state": "/libs/codemirror/@codemirror/state/dist/index.js",
+                    "@codemirror/view": "/libs/codemirror/@codemirror/view/dist/index.js",
+                    "@codemirror/commands": "/libs/codemirror/@codemirror/commands/dist/index.js",
+                    "@codemirror/language": "/libs/codemirror/@codemirror/language/dist/index.js",
+                    "@codemirror/lang-css": "/libs/codemirror/@codemirror/lang-css/dist/index.js",
+                    "@lezer/common": "/libs/codemirror/@lezer/common/dist/index.js",
+                    "@lezer/highlight": "/libs/codemirror/@lezer/highlight/dist/index.js",
+                    "@lezer/css": "/libs/codemirror/@lezer/css/dist/index.js",
+                    "style-mod": "/libs/codemirror/style-mod/src/style-mod.js",
+                    "w3c-keyname": "/libs/codemirror/w3c-keyname/index.js",
+                    "crelt": "/libs/codemirror/crelt/index.js",
+                    "@marijn/find-cluster-break": "/libs/codemirror/@marijn/find-cluster-break/src/index.js"
+                }
+            }
+        </script>
     </head>
     <body>
         <h2 id="editor-title">CSS Editor</h2>
         <p>Enter custom CSS rules to apply for this search engine in the Quick Preview bubble:</p>
-        <textarea id="css-editor"></textarea>
+        <div id="editor"></div>
         <div class="button-container">
             <button class="cancel">Cancel</button>
             <button class="save">Save</button>
         </div>
-        <script src="../scripts/css-editor.js"></script>
+        <script type="module" src="../scripts/css-editor.js"></script>
     </body>
 </html>

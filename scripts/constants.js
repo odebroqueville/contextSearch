@@ -9,7 +9,7 @@ const USER_AGENT_FOR_GOOGLE =
 export const BACKUP_ALARM_NAME = 'serviceWorkerMaintenance';
 
 // File containing default list of search engines
-export const DEFAULT_SEARCH_ENGINES = 'defaultSearchEngines.json';
+export const DEFAULT_DATA = 'defaultData.json';
 
 // Persistent data keys
 export const STORAGE_KEYS = {

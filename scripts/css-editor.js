@@ -1,60 +1,73 @@
-// Get URL parameters
+// CodeMirror 6-based CSS editor (npm imports bundled at build time)
+import { EditorState } from '@codemirror/state';
+import { EditorView, keymap, highlightActiveLine } from '@codemirror/view';
+import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
+import { syntaxHighlighting, defaultHighlightStyle } from '@codemirror/language';
+import { css as cssLang } from '@codemirror/lang-css';
+
+// Params from URL
 const params = new URLSearchParams(window.location.search);
 const engineId = params.get('id');
 const engineName = params.get('name');
-const currentCSS = params.get('css') || '';
+const currentCSS = decodeURIComponent(params.get('css') || '');
 
-// Initialize the page on load
+let view = null;
+
 window.addEventListener('DOMContentLoaded', () => {
-    // Set the title
+    // Title
     const titleElement = document.getElementById('editor-title');
     if (titleElement && engineName) {
         titleElement.textContent = `CSS Editor: ${decodeURIComponent(engineName)}`;
     }
 
-    // Set the current CSS value
-    const textarea = document.getElementById('css-editor');
-    if (textarea) {
-        textarea.value = decodeURIComponent(currentCSS);
-    }
+    // Create CM6 editor
+    const parent = document.getElementById('editor');
+    const startState = EditorState.create({
+        doc: currentCSS,
+        extensions: [
+            cssLang(),
+            history(),
+            keymap.of([
+                ...defaultKeymap,
+                ...historyKeymap,
+                {
+                    key: 'Mod-s',
+                    preventDefault: true,
+                    run: () => {
+                        saveCSS();
+                        return true;
+                    },
+                },
+            ]),
+            syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+            highlightActiveLine(),
+            EditorView.lineWrapping,
+            EditorView.updateListener.of(() => {}),
+        ],
+    });
 
-    // Add event listeners to buttons
-    const cancelButton = document.querySelector('.cancel');
-    const saveButton = document.querySelector('.save');
+    view = new EditorView({ state: startState, parent });
 
-    if (cancelButton) {
-        cancelButton.addEventListener('click', cancelEdit);
-    }
-
-    if (saveButton) {
-        saveButton.addEventListener('click', saveCSS);
-    }
+    // Buttons
+    document.querySelector('.cancel')?.addEventListener('click', cancelEdit);
+    document.querySelector('.save')?.addEventListener('click', saveCSS);
 });
 
 function cancelEdit() {
-    console.log('[CSS Editor] Cancel button clicked');
     window.close();
 }
 
 function saveCSS() {
-    console.log('[CSS Editor] Save button clicked');
-    const css = document.getElementById('css-editor').value;
-    console.log('[CSS Editor] Saving CSS:', css);
-    console.log('[CSS Editor] Engine ID:', engineId);
-
+    const css = view ? view.state.doc.toString() : '';
     if (window.opener) {
         window.opener.postMessage(
             {
                 type: 'quickPreviewCSS',
                 id: engineId,
-                css: css,
+                css,
             },
             window.location.origin
         );
-        console.log('[CSS Editor] Message sent to opener');
-    } else {
-        console.error('[CSS Editor] No window.opener available');
     }
-
     window.close();
 }

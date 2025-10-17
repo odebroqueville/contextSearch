@@ -430,10 +430,53 @@ function createTabItem({ id, engine, customCSS }) {
     icon.alt = engine.name;
 
     const quickPreviewEngine = quickPreviewData.engines[id];
+    const fallbackSrc = `data:${engine.imageFormat || 'image/png'};base64,${engine.base64}`;
+    // Default to fallback until we resolve custom icon
+    icon.src = fallbackSrc;
+    icon.onerror = () => {
+        if (icon.src !== fallbackSrc) icon.src = fallbackSrc;
+    };
+
     if (quickPreviewEngine?.icon) {
-        icon.src = quickPreviewEngine.icon;
-    } else {
-        icon.src = `data:${engine.imageFormat || 'image/png'};base64,${engine.base64}`;
+        const custom = (quickPreviewEngine.icon || '').trim();
+        if (/^data:/i.test(custom)) {
+            icon.src = custom;
+        } else if (/^https?:\/\//i.test(custom) || /^\//.test(custom)) {
+            // Fetch via background to bypass CSP and convert to data URL, then persist
+            try {
+                const url = /^\//.test(custom) && typeof browser !== 'undefined' && browser.runtime?.getURL
+                    ? browser.runtime.getURL(custom.replace(/^\/+/, '/'))
+                    : custom;
+                browser.runtime
+                    .sendMessage({ action: 'fetchImageAsDataUrl', url })
+                    .then((resp) => {
+                        if (resp && resp.success && resp.dataUrl) {
+                            icon.src = resp.dataUrl;
+                            try {
+                                if (quickPreviewData && quickPreviewData.engines && quickPreviewData.engines[id]) {
+                                    quickPreviewData.engines[id].icon = resp.dataUrl;
+                                    // Persist silently
+                                    try {
+                                        browser.storage.local.set({ [STORAGE_KEYS.QUICK_PREVIEW]: quickPreviewData }).catch(() => {});
+                                    } catch (_) {
+                                        // ignore
+                                    }
+                                }
+                            } catch (_) {
+                                // ignore
+                            }
+                        }
+                    })
+                    .catch(() => {
+                        // keep fallback
+                    });
+            } catch (_) {
+                // keep fallback
+            }
+        } else {
+            // Unrecognized format, try to set and rely on onerror fallback
+            icon.src = custom;
+        }
     }
 
     item.appendChild(icon);
