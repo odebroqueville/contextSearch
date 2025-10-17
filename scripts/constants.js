@@ -9,7 +9,7 @@ const USER_AGENT_FOR_GOOGLE =
 export const BACKUP_ALARM_NAME = 'serviceWorkerMaintenance';
 
 // File containing default list of search engines
-export const DEFAULT_SEARCH_ENGINES = 'defaultSearchEngines.json';
+export const DEFAULT_DATA = 'defaultData.json';
 
 // Persistent data keys
 export const STORAGE_KEYS = {
@@ -228,7 +228,7 @@ export const DEFAULT_OPTIONS = {
     multiMode: 'multiNewWindow',
     multiPrivateMode: false,
     privateMode: false,
-    overwriteSearchEngines: false,
+    overwriteData: false,
 };
 
 // Configuration for option updates
@@ -261,8 +261,8 @@ export const UPDATE_CONFIG = {
         fields: ['tabMode', 'tabActive', 'lastTab', 'privateMode'],
         requiresMenuRebuild: false,
     },
-    overwriteSearchEngines: {
-        fields: ['overwriteSearchEngines'],
+    overwriteData: {
+        fields: ['overwriteData'],
         requiresMenuRebuild: false,
     },
     multiMode: {

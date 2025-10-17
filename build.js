@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const esbuild = require('esbuild');
 
 // Load environment variables from .env file
 function loadEnv() {
@@ -81,6 +82,27 @@ function copyFile(src, dest, browser) {
     }
 }
 
+// Raw copy directory without processing, preserving package structure
+function copyDirRaw(src, dest) {
+    if (!fs.existsSync(src)) return;
+    ensureDir(dest);
+    const entries = fs.readdirSync(src, { withFileTypes: true });
+    for (const entry of entries) {
+        const srcPath = path.join(src, entry.name);
+        const destPath = path.join(dest, entry.name);
+        if (entry.isDirectory()) {
+            copyDirRaw(srcPath, destPath);
+        } else if (entry.isFile()) {
+            try {
+                fs.copyFileSync(srcPath, destPath);
+            } catch (error) {
+                if (error.code !== 'ENOTSUP') throw error;
+                console.warn(`Skipping file ${srcPath} due to unsupported file type`);
+            }
+        }
+    }
+}
+
 // Function to process HTML files
 function processHtmlFile(src, dest, browser) {
     let content = fs.readFileSync(src, 'utf8');
@@ -88,6 +110,17 @@ function processHtmlFile(src, dest, browser) {
     if (browser === 'firefox') {
         // Remove browser-polyfill.min.js script tag for Firefox
         content = content.replace(/<script src="\/libs\/browser-polyfill\.min\.js"><\/script>\n?/g, '');
+    }
+    
+    // For the CSS editor page, remove inline import maps (MV3 CSP) and point to the bundled module
+    if (path.basename(src) === 'css-editor.html') {
+        // Remove any <script type="importmap"> ... </script> blocks
+        content = content.replace(/<script\s+type="importmap"[\s\S]*?<\/script>/g, '');
+        // Swap the module script to use the bundled file
+        content = content.replace(
+            /<script\s+type="module"\s+src="\.\.\/scripts\/css-editor\.js"><\/script>/,
+            '<script type="module" src="../scripts/css-editor.bundle.js"></script>'
+        );
     }
 
     fs.writeFileSync(dest, content);
@@ -256,6 +289,25 @@ function buildForBrowser(browser) {
         }
     }
 
+        // Bundle css-editor.js (and its npm deps) into a single ESM file to avoid import maps
+        try {
+            const entry = path.join(currentDir, 'scripts', 'css-editor.js');
+            const outFile = path.join(buildDir, 'scripts', 'css-editor.bundle.js');
+            esbuild.buildSync({
+                entryPoints: [entry],
+                outfile: outFile,
+                bundle: true,
+                format: 'esm',
+                platform: 'browser',
+                target: ['es2020'],
+                sourcemap: false,
+                logLevel: 'silent',
+            });
+            console.log('🧩 Bundled css-editor.js → scripts/css-editor.bundle.js');
+        } catch (e) {
+            console.warn('⚠️  Failed to bundle css-editor.js with esbuild:', e.message || e);
+        }
+
     // Copy the appropriate manifest
     const manifestSource = path.join(currentDir, `manifest.${browser}.json`);
     const manifestDest = path.join(buildDir, 'manifest.json');
@@ -275,6 +327,34 @@ function buildForBrowser(browser) {
         const polyfillSource = path.join(currentDir, 'node_modules', 'webextension-polyfill', 'dist', 'browser-polyfill.min.js');
         const polyfillDest = path.join(libsDir, 'browser-polyfill.min.js');
         copyFile(polyfillSource, polyfillDest);
+    }
+
+    // Copy CodeMirror 6, Lezer, and runtime deps into libs/codemirror
+    const cmLibsDir = path.join(libsDir, 'codemirror');
+    ensureDir(cmLibsDir);
+    const cmPackages = [
+        '@codemirror/state',
+        '@codemirror/view',
+        '@codemirror/commands',
+        '@codemirror/language',
+        '@codemirror/lang-css',
+        '@lezer/common',
+        '@lezer/highlight',
+        '@lezer/css',
+        'style-mod',
+        'w3c-keyname',
+        'crelt',
+        '@marijn/find-cluster-break'
+    ];
+    for (const pkg of cmPackages) {
+        const parts = pkg.split('/');
+        const srcPkgDir = path.join(currentDir, 'node_modules', ...parts);
+        const destPkgDir = path.join(cmLibsDir, ...parts);
+        if (!fs.existsSync(srcPkgDir)) {
+            console.warn(`⚠️  Skipping missing package: ${pkg}`);
+            continue;
+        }
+        copyDirRaw(srcPkgDir, destPkgDir);
     }
 
     console.log(`✅ Build completed for ${browser}. Output directory: ${buildDir}`);

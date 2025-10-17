@@ -87,21 +87,24 @@
                         <fieldset>
                             <legend><h3 data-i18n="header11">Grid of icons</h3></legend>
                             <div>
-                                <input type="checkbox" id="disableAltClick"><label for="disableAltClick" data-i18n="disableAltClick">Disable grid of icons (Alt + Click)</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="quickIconGrid" style="position: relative; z-index: 99;"><label for="quickIconGrid" style="position: relative; z-index: 99;" data-i18n="quickIconGrid">Immediately display the grid of icons after text has been selected</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="closeGridOnMouseOut"><label for="closeGridOnMouseOut" data-i18n="closeGridOnMouseOut">Close the grid of icons on mouse out</label>
-                            </div>
-                            <div>
                                 <label for="xOffset" data-i18n="xOffset">Horizontal offset of the grid of icons:</label>
                                 <input type="number" id="xOffset" min="0" max="200" value="12">
                             </div>
                             <div>
                                 <label for="yOffset" data-i18n="yOffset">Vertical offset of the grid of icons:</label>
                                 <input type="number" id="yOffset" min="0" max="200" value="12">
+                            </div>
+                            <div>
+                                <input type="checkbox" id="disableAltClick"><label for="disableAltClick" data-i18n="disableAltClick">Disable grid of icons (Alt + Click)</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="closeGridOnMouseOut"><label for="closeGridOnMouseOut" data-i18n="closeGridOnMouseOut">Close the grid of icons on mouse out</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="quickIconGrid" style="position: relative; z-index: 99;"><label for="quickIconGrid" style="position: relative; z-index: 99;" data-i18n="quickIconGrid">Immediately display the grid of icons after text has been selected</label>
+                            </div>
+                            <div>
+                                <span data-i18n="disableQuickPreviewByNote">Checking this option automatically disables the quick preview of search results.</span>
                             </div>
                         </fieldset>
 
@@ -202,7 +205,7 @@
                                     </span>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="overwriteSearchEngines"><label for="overwriteSearchEngines" data-i18n="overwriteSearchEngines">Overwrite the existing search engines with the imported search engines</label>
+                                    <input type="checkbox" id="overwriteData"><label for="overwriteData" data-i18n="overwriteData">Overwrite the existing data (options, search engines, prompts and quick preview data) with the imported data</label>
                                 </div>
                                 <div>
                                     <span class="cell"><label for="download" data-i18n="export">Export options, search engines and the prompts library to a JSON file</label></span>
@@ -239,7 +242,7 @@
 
             <div class="tab">
                 <input type="radio" name="css-tabs" id="tab-3" class="tab-switch">
-                <label for="tab-3" class="tab-label" data-i18n="titlePromptsLibrary">Prompts library</label>
+                <label for="tab-3" class="tab-label" data-i18n="promptLibraryLabel">Prompts library</label>
                 <div class="tab-content">
                     <div id="app">
                     <!-- SVG ICONS -->
@@ -262,15 +265,16 @@
 
                     <div id="sidebar">
                         <div class="sidebar-header">
-                        <input type="search" id="search" placeholder="Search prompts..." />
+                        <input type="search" id="search" placeholder="Search prompts..." data-i18n-placeholder="promptLibrarySearchPlaceholder" />
                         </div>
                         <div id="sidebar-content">
                         <div class="sidebar-heading prompts-heading">
-                            <span>Prompts</span>
+                            <span data-i18n="promptsHeading">Prompts</span>
                             <button type="button"
                             class="sidebar-action-btn"
                             id="new-prompt-btn"
                             title="New Prompt"
+                            data-i18n-title="newPromptTitle"
                             >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -291,11 +295,12 @@
                         <ul id="primary-nav-list" class="sidebar-nav-list"></ul>
 
                         <div class="sidebar-heading">
-                            <span>Folders</span>
+                            <span data-i18n="foldersHeading">Folders</span>
                             <button type="button"
                             class="sidebar-action-btn"
                             id="new-folder-toggle-btn"
                             title="New Folder"
+                            data-i18n-title="newFolderTitle"
                             >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -320,13 +325,14 @@
                                 id="new-folder-name"
                                 class="inline-form-input"
                                 placeholder="New folder name..."
+                                data-i18n-placeholder="newFolderNamePlaceholder"
                             />
                             <button type="button"
                                 id="add-folder-btn"
                                 class="io-button"
                                 style="margin-top: 10px; width: 100%"
                             >
-                                Add Folder
+                                <span data-i18n="addFolder">Add Folder</span>
                             </button>
                             </div>
                         </div>
@@ -336,11 +342,12 @@
                             class="sidebar-heading"
                             style="margin-top: 25px; margin-bottom: 20px"
                         >
-                            <span id="manage-tags-btn" style="cursor: pointer">Tags</span>
+                            <span id="manage-tags-btn" style="cursor: pointer" data-i18n="tagsHeading">Tags</span>
                             <button type="button"
                             class="sidebar-action-btn"
                             id="new-tag-toggle-btn"
                             title="New Tag"
+                            data-i18n-title="newTagTitle"
                             >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -365,13 +372,14 @@
                                 id="new-tag-name"
                                 class="inline-form-input"
                                 placeholder="New tag name..."
+                                data-i18n-placeholder="newTagNamePlaceholder"
                             />
                             <button type="button"
                                 id="add-tag-btn"
                                 class="io-button"
                                 style="margin-top: 10px; width: 100%"
                             >
-                                Add Tag
+                                <span data-i18n="addTag">Add Tag</span>
                             </button>
                             </div>
                         </div>
@@ -399,7 +407,7 @@
                                 d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82-.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06-.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
                             ></path>
                             </svg>
-                            Settings
+                            <span data-i18n="settings">Settings</span>
                         </button>
                         <input
                             type="file"
@@ -433,45 +441,46 @@
                             id="mobile-search-input"
                             class="inline-form-input"
                             placeholder="Search prompts..."
+                            data-i18n-placeholder="promptLibrarySearchPlaceholder"
                             />
                             <button type="button" id="close-search-btn">×</button>
                         </div>
                         <div class="prompt-list-controls">
                             <div class="controls-left">
                             <button type="button" id="select-mode-btn">
-                                <span class="select-text">Select</span
-                                ><span class="cancel-text">Cancel</span>
+                                <span class="select-text" data-i18n="select">Select</span
+                                ><span class="cancel-text" data-i18n="cancel">Cancel</span>
                             </button>
-                            <button type="button" id="select-all-btn">Select All</button>
+                            <button type="button" id="select-all-btn" data-i18n="selectAll">Select All</button>
                             </div>
                             <div class="controls-right">
                             <div id="bulk-action-bar">
                                 <button type="button" id="bulk-move-btn">
-                                <span class="button-text">Move</span
+                                <span class="button-text" data-i18n="move">Move</span
                                 ><span class="button-emoji">📁</span>
                                 </button>
                                 <button type="button" id="bulk-export-btn">
-                                <span class="button-text">Export</span
+                                <span class="button-text" data-i18n="export">Export</span
                                 ><span class="button-emoji">📤</span>
                                 </button>
                                 <button type="button" id="bulk-delete-btn">
-                                <span class="button-text">Delete</span
+                                <span class="button-text" data-i18n="delete">Delete</span
                                 ><span class="button-emoji">🗑️</span>
                                 </button>
                             </div>
                             <select id="sort-by">
-                                <option value="dateCreated_desc">Newest</option>
-                                <option value="title_asc">Title (A-Z)</option>
+                                <option value="dateCreated_desc" data-i18n="sortNewest">Newest</option>
+                                <option value="title_asc" data-i18n="sortTitleAsc">Title (A-Z)</option>
                             </select>
                             </div>
                         </div>
                         <ul id="prompt-list">
                             <div id="new-prompt-placeholder">
-                            <p>No prompts here yet. Let's create one!</p>
-                            <button type="button" id="new-prompt-placeholder-btn">Create New Prompt</button>
+                            <p data-i18n="noPromptsPlaceholder">No prompts here yet. Let's create one!</p>
+                            <button type="button" id="new-prompt-placeholder-btn" data-i18n="createNewPrompt">Create New Prompt</button>
                             </div>
                         </ul>
-                        <button type="button" id="back-to-top-btn" title="Back to Top">
+                        <button type="button" id="back-to-top-btn" title="Back to Top" data-i18n-title="backToTop">
                             <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
@@ -507,26 +516,26 @@
                             <line x1="16" y1="13" x2="8" y2="13"></line>
                             <line x1="16" y1="17" x2="8" y2="17"></line>
                             </svg>
-                            <p style="margin-top: 20px">
+                            <p style="margin-top: 20px" data-i18n="noPromptSelectedMessage">
                             Select a prompt to view, or create a new one.
                             </p>
                         </div>
                         <div id="prompt-details">
                             <div class="form-group">
                             <div class="prompt-title-header">
-                                <label for="prompt-title">Title</label>
+                                <label for="prompt-title" data-i18n="titleLabel">Title</label>
                                 <div class="lock-switch-container">
-                                <label for="prompt-lock-switch">Lock</label>
+                                <label for="prompt-lock-switch" data-i18n="lock">Lock</label>
                                 <label class="lock-switch">
                                     <input type="checkbox" id="prompt-lock-switch" />
                                     <span class="lock-slider"></span>
                                 </label>
                                 </div>
                             </div>
-                            <input type="text" id="prompt-title" placeholder="Prompt Title" />
+                            <input type="text" id="prompt-title" placeholder="Prompt Title" data-i18n-placeholder="promptTitlePlaceholder" />
                             </div>
                             <div class="form-group">
-                            <label for="prompt-folder-value">Folder</label>
+                            <label for="prompt-folder-value" data-i18n="folderLabel">Folder</label>
                             <div id="prompt-folder-container" class="custom-select-container">
                                 <div
                                 id="prompt-folder-value"
@@ -541,16 +550,18 @@
                             </div>
                             </div>
                             <div class="form-group grows">
-                            <label for="prompt-body">Prompt</label>
+                            <label for="prompt-body" data-i18n="promptLabel">Prompt</label>
                             <textarea
                                 id="prompt-body"
                                 placeholder="The content of your prompt..."
+                                data-i18n-placeholder="promptBodyPlaceholder"
                             ></textarea>
                             <div id="char-counter">0 characters</div>
                             <button type="button"
                                 id="copy-prompt-btn"
                                 class="editor-action-btn"
                                 title="Copy prompt body"
+                                data-i18n-title="copyPromptBody"
                             >
                                 <svg
                                 class="copy-icon-svg"
@@ -585,6 +596,7 @@
                                 id="expand-prompt-btn"
                                 class="editor-action-btn"
                                 title="Fullscreen Editor"
+                                data-i18n-title="fullscreenEditor"
                             >
                                 <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -602,16 +614,18 @@
                             </button>
                             </div>
                             <div class="form-group">
-                            <label for="prompt-notes">Notes</label>
+                            <label for="prompt-notes" data-i18n="notesLabel">Notes</label>
                             <textarea
                                 id="prompt-notes"
                                 rows="2"
                                 placeholder="Add extra details or context..."
+                                data-i18n-placeholder="notesPlaceholder"
                             ></textarea>
                             <button type="button"
                                 id="expand-notes-btn"
                                 class="editor-action-btn"
                                 title="Fullscreen Editor"
+                                data-i18n-title="fullscreenEditor"
                             >
                                 <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -629,15 +643,15 @@
                             </button>
                             </div>
                             <div class="form-group">
-                            <label for="tags-input">Tags</label>
+                            <label for="tags-input" data-i18n="tagsLabel">Tags</label>
                             <div class="tags-container" id="tags-container">
-                                <input type="text" id="tags-input" placeholder="Add tags..." />
+                                <input type="text" id="tags-input" placeholder="Add tags..." data-i18n-placeholder="addTagsPlaceholder" />
                             </div>
                             <div id="tag-suggestions"></div>
                             </div>
                             <div class="action-buttons">
-                            <button type="button" id="save-prompt" class="action-btn">Save</button>
-                            <button type="button" id="delete-prompt" class="action-btn">Delete</button>
+                            <button type="button" id="save-prompt" class="action-btn" data-i18n="save">Save</button>
+                            <button type="button" id="delete-prompt" class="action-btn" data-i18n="delete">Delete</button>
                             </div>
                         </div>
                         </div>
@@ -653,13 +667,13 @@
                         </div>
                         <textarea id="fullscreen-prompt-textarea"></textarea>
                         <div class="modal-actions">
-                            <button type="button" id="close-fullscreen-btn" class="io-button">Close</button>
+                            <button type="button" id="close-fullscreen-btn" class="io-button" data-i18n="close">Close</button>
                             <button
                             type="button" id="save-and-close-fullscreen-btn"
                             class="action-btn"
                             style="background-color: var(--primary-accent); color: white"
                             >
-                            Save & Close
+                            <span data-i18n="saveAndClose">Save & Close</span>
                             </button>
                         </div>
                         </div>
@@ -667,10 +681,10 @@
 
                     <div id="move-modal" class="modal-overlay">
                         <div class="modal-content">
-                        <h3 class="modal-title-js">Move Prompts</h3>
+                        <h3 class="modal-title-js" data-i18n="movePromptsTitle">Move Prompts</h3>
                         <p>
-                            Select a destination folder for the
-                            <span id="move-count"></span> selected prompts.
+                            <span data-i18n="movePromptsMessagePrefix">Select a destination folder for the</span>
+                            <span id="move-count"></span> <span data-i18n="selectedPromptsSuffix">selected prompts.</span>
                         </p>
                         <select id="move-folder-select" class="inline-form-input"></select>
                         <div
@@ -678,16 +692,17 @@
                             class="form-group"
                             style="display: none; margin-top: 15px"
                         >
-                            <label for="move-password-input">Folder Password</label>
+                            <label for="move-password-input" data-i18n="folderPassword">Folder Password</label>
                             <input
                             type="password"
                             id="move-password-input"
                             class="inline-form-input"
                             placeholder="Enter password for locked folder"
+                            data-i18n-placeholder="enterFolderPasswordPlaceholder"
                             />
                         </div>
                         <div class="modal-actions">
-                            <button type="button" id="cancel-move-btn" class="io-button modal-cancel-js">
+                            <button type="button" id="cancel-move-btn" class="io-button modal-cancel-js" data-i18n="cancel">
                             Cancel
                             </button>
                             <button
@@ -695,7 +710,7 @@
                             class="action-btn modal-confirm-js"
                             style="background-color: var(--primary-accent); color: white"
                             >
-                            Move
+                            <span data-i18n="move">Move</span>
                             </button>
                         </div>
                         </div>
@@ -703,23 +718,24 @@
 
                     <div id="delete-folder-modal" class="modal-overlay">
                         <div class="modal-content">
-                        <h3 class="modal-title-js">Delete Folder</h3>
-                        <p class="modal-message-js">
+                        <h3 class="modal-title-js" data-i18n="deleteFolderTitle">Delete Folder</h3>
+                        <p class="modal-message-js" data-i18n="deleteFolderMessage">
                             What would you like to do with the prompts inside this folder?
                         </p>
                         <div
                             class="modal-actions"
                             style="flex-direction: column; gap: 15px; align-items: stretch"
                         >
-                            <button type="button" id="confirm-delete-folder-move-prompts" class="action-btn">
+                            <button type="button" id="confirm-delete-folder-move-prompts" class="action-btn" data-i18n="deleteFolderMovePrompts">
                             Delete Folder & Move Prompts
                             </button>
-                            <button type="button" id="confirm-delete-folder-and-prompts" class="action-btn">
+                            <button type="button" id="confirm-delete-folder-and-prompts" class="action-btn" data-i18n="deleteFolderAndPrompts">
                             Delete Folder & All Prompts
                             </button>
                             <button type="button"
                             id="cancel-delete-folder-btn"
                             class="io-button modal-cancel-js"
+                            data-i18n="cancel"
                             >
                             Cancel
                             </button>
@@ -729,16 +745,16 @@
 
                     <div id="reset-data-modal" class="modal-overlay">
                         <div class="modal-content">
-                        <h3 class="modal-title-js">Reset</h3>
-                        <p class="modal-message-js">
+                        <h3 class="modal-title-js" data-i18n="reset">Reset</h3>
+                        <p class="modal-message-js" data-i18n="resetDataMessage">
                             Are you sure you want to reset all data? This will permanently
                             delete all prompts, folders, and tags. This action cannot be undone.
                         </p>
                         <div class="modal-actions">
-                            <button type="button" id="cancel-reset-btn" class="io-button modal-cancel-js">
+                            <button type="button" id="cancel-reset-btn" class="io-button modal-cancel-js" data-i18n="cancel">
                             Cancel
                             </button>
-                            <button type="button" id="confirm-reset-btn" class="action-btn modal-confirm-js">
+                            <button type="button" id="confirm-reset-btn" class="action-btn modal-confirm-js" data-i18n="confirmResetAll">
                             Yes, Reset Everything
                             </button>
                         </div>
@@ -747,7 +763,7 @@
 
                     <div id="settings-modal" class="modal-overlay">
                         <div class="modal-content">
-                        <h3 style="margin-bottom: 20px">Settings</h3>
+                        <h3 style="margin-bottom: 20px" data-i18n="settings">Settings</h3>
                         <div
                             class="modal-actions"
                             style="flex-direction: column; gap: 10px; align-items: stretch"
@@ -774,7 +790,7 @@
                                 <polyline points="17 8 12 3 7 8"></polyline>
                                 <line x1="12" y1="3" x2="12" y2="15"></line>
                                 </svg>
-                                Import
+                                <span data-i18n="importShort">Import</span>
                             </button>
                             <button
                                 type="button"
@@ -797,7 +813,7 @@
                                 <polyline points="7 10 12 15 17 10"></polyline>
                                 <line x1="12" y1="15" x2="12" y2="3"></line>
                                 </svg>
-                                Export
+                                <span data-i18n="exportShort">Export</span>
                             </button>
                             </div>
                             <button
@@ -826,7 +842,7 @@
                                 d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"
                                 ></path>
                             </svg>
-                            Reset
+                            <span data-i18n="reset">Reset</span>
                             </button>
                         </div>
                         <div
@@ -859,6 +875,7 @@
                             type="button"
                             id="close-settings-modal-btn"
                             class="io-button modal-cancel-js"
+                            data-i18n="close"
                             style="width: 100%"
                             >
                             Close
@@ -871,7 +888,7 @@
                         <div class="modal-content">
                         <h3 id="folder-settings-title"></h3>
                         <div class="form-group">
-                            <label for="rename-folder-input">Rename Folder</label>
+                            <label for="rename-folder-input" data-i18n="renameFolder">Rename Folder</label>
                             <input
                             type="text"
                             id="rename-folder-input"
@@ -879,9 +896,9 @@
                             />
                         </div>
                         <div class="modal-actions" style="justify-content: space-between">
-                            <button type="button" id="save-rename-btn" class="action-btn">Save</button>
-                            <button type="button" id="toggle-lock-folder-btn" class="action-btn">Lock</button>
-                            <button type="button" id="export-folder-btn" class="action-btn">Export</button>
+                            <button type="button" id="save-rename-btn" class="action-btn" data-i18n="save">Save</button>
+                            <button type="button" id="toggle-lock-folder-btn" class="action-btn" data-i18n="lock">Lock</button>
+                            <button type="button" id="export-folder-btn" class="action-btn" data-i18n="export">Export</button>
                         </div>
                         <div
                             style="border-top: 1px solid var(--border-color); margin: 20px 0"
@@ -895,7 +912,7 @@
                                 margin-bottom: 8px;
                                 display: block;
                             "
-                            >Danger Zone</label
+                            ><span data-i18n="dangerZone">Danger Zone</span></label
                             >
                             <button
                             type="button"
@@ -903,7 +920,7 @@
                             class="action-btn"
                             style="background-color: var(--red-accent); width: 100%"
                             >
-                            Delete Folder
+                            <span data-i18n="deleteFolder">Delete Folder</span>
                             </button>
                         </div>
                         <div class="modal-actions" style="margin-top: 20px">
@@ -911,6 +928,7 @@
                             type="button"
                             id="cancel-folder-settings-btn"
                             class="io-button"
+                            data-i18n="close"
                             style="width: 100%"
                             >
                             Close
@@ -921,7 +939,7 @@
 
                     <div id="manage-tags-modal" class="modal-overlay">
                         <div class="modal-content" style="max-width: 500px">
-                        <h3>Manage Tags</h3>
+                        <h3 data-i18n="manageTagsTitle">Manage Tags</h3>
                         <div
                             id="manage-tags-list"
                             style="max-height: 40vh; overflow-y: auto; margin: 20px 0"
@@ -933,6 +951,7 @@
                             type="button"
                             id="close-manage-tags-btn"
                             class="io-button"
+                            data-i18n="close"
                             style="width: 100%"
                             >
                             Close
@@ -943,18 +962,18 @@
 
                     <div id="exit-confirmation-modal" class="modal-overlay">
                         <div class="modal-content">
-                        <h3 class="modal-title-js">Leave Page?</h3>
-                        <p class="modal-message-js">
+                        <h3 class="modal-title-js" data-i18n="leavePageTitle">Leave Page?</h3>
+                        <p class="modal-message-js" data-i18n="leavePageMessage">
                             Are you sure you want to leave this page? Any unsaved changes may be
                             lost.
                         </p>
                         <div class="modal-actions">
-                            <button type="button" class="io-button modal-cancel-js">Stay</button>
+                            <button type="button" class="io-button modal-cancel-js" data-i18n="stay">Stay</button>
                             <button
                             type="button"
                             class="action-btn modal-confirm-btn modal-confirm-js danger"
                             >
-                            Leave
+                            <span data-i18n="leave">Leave</span>
                             </button>
                         </div>
                         </div>
@@ -990,7 +1009,7 @@
                             >
                             <input type="checkbox" id="generic-modal-remember-cb" />
                             <span class="custom-checkbox-span"></span>
-                            <span>Don't ask again for this session</span>
+                            <span data-i18n="dontAskAgainThisSession">Don't ask again for this session</span>
                             </label>
                         </div>
                         <div class="modal-actions">
@@ -998,6 +1017,7 @@
                             type="button"
                             id="generic-modal-cancel-btn"
                             class="io-button modal-cancel-js"
+                            data-i18n="cancel"
                             >
                             Cancel
                             </button>
@@ -1005,6 +1025,7 @@
                             type="button"
                             id="generic-modal-confirm-btn"
                             class="action-btn modal-confirm-btn modal-confirm-js"
+                            data-i18n="ok"
                             >
                             OK
                             </button>

@@ -341,8 +341,8 @@
     "prompt": {
         "message": "AI prompt"
     },
-    "overwriteSearchEngines": {
-        "message": "Overwrite the existing search engines with the imported search engines"
+    "overwriteData": {
+        "message": "Overwrite the existing data (options, search engines, prompts and quick preview data) with the imported data"
     },
     "removeFolderConfirmPrefix": {
         "message": "Are you sure that you want to remove the folder"
@@ -373,6 +373,10 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "Could not retrieve URL for bookmark removal"
+    },
+    "notifyCustomCssSaved": {
+        "message": "Custom CSS saved for \"$1\".",
+        "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
     },
     "notifyAIMinimalRequirements": {
         "message": "Please at least select an AI service provider and input an AI prompt name and an AI prompt"
@@ -456,6 +460,177 @@
     "promptLibrarySearchPlaceholder": {
         "message": "Search prompts..."
     },
+    "promptsHeading": {
+        "message": "Prompts"
+    },
+    "newPromptTitle": {
+        "message": "New Prompt"
+    },
+    "foldersHeading": {
+        "message": "Folders"
+    },
+    "newFolderTitle": {
+        "message": "New Folder"
+    },
+    "newFolderNamePlaceholder": {
+        "message": "New folder name..."
+    },
+    "tagsHeading": {
+        "message": "Tags"
+    },
+    "newTagTitle": {
+        "message": "New Tag"
+    },
+    "newTagNamePlaceholder": {
+        "message": "New tag name..."
+    },
+    "addTag": {
+        "message": "Add Tag"
+    },
+    "settings": {
+        "message": "Settings"
+    },
+    "select": {
+        "message": "Select"
+    },
+    "cancel": {
+        "message": "Cancel"
+    },
+    "delete": {
+        "message": "Delete"
+    },
+    "sortNewest": {
+        "message": "Newest"
+    },
+    "sortTitleAsc": {
+        "message": "Title (A-Z)"
+    },
+    "noPromptsPlaceholder": {
+        "message": "No prompts here yet. Let's create one!"
+    },
+    "createNewPrompt": {
+        "message": "Create New Prompt"
+    },
+    "backToTop": {
+        "message": "Back to Top"
+    },
+    "noPromptSelectedMessage": {
+        "message": "Select a prompt to view, or create a new one."
+    },
+    "titleLabel": {
+        "message": "Title"
+    },
+    "lock": {
+        "message": "Lock"
+    },
+    "promptTitlePlaceholder": {
+        "message": "Prompt Title"
+    },
+    "folderLabel": {
+        "message": "Folder"
+    },
+    "promptLabel": {
+        "message": "Prompt"
+    },
+    "promptBodyPlaceholder": {
+        "message": "The content of your prompt..."
+    },
+    "copyPromptBody": {
+        "message": "Copy prompt body"
+    },
+    "fullscreenEditor": {
+        "message": "Fullscreen Editor"
+    },
+    "notesLabel": {
+        "message": "Notes"
+    },
+    "notesPlaceholder": {
+        "message": "Add extra details or context..."
+    },
+    "tagsLabel": {
+        "message": "Tags"
+    },
+    "addTagsPlaceholder": {
+        "message": "Add tags..."
+    },
+    "save": {
+        "message": "Save"
+    },
+    "close": {
+        "message": "Close"
+    },
+    "saveAndClose": {
+        "message": "Save & Close"
+    },
+    "movePromptsTitle": {
+        "message": "Move Prompts"
+    },
+    "movePromptsMessagePrefix": {
+        "message": "Select a destination folder for the"
+    },
+    "selectedPromptsSuffix": {
+        "message": "selected prompts."
+    },
+    "folderPassword": {
+        "message": "Folder Password"
+    },
+    "enterFolderPasswordPlaceholder": {
+        "message": "Enter password for locked folder"
+    },
+    "deleteFolderTitle": {
+        "message": "Delete Folder"
+    },
+    "deleteFolderMessage": {
+        "message": "What would you like to do with the prompts inside this folder?"
+    },
+    "deleteFolderMovePrompts": {
+        "message": "Delete Folder & Move Prompts"
+    },
+    "deleteFolderAndPrompts": {
+        "message": "Delete Folder & All Prompts"
+    },
+    "resetDataMessage": {
+        "message": "Are you sure you want to reset all data? This will permanently delete all prompts, folders, and tags. This action cannot be undone."
+    },
+    "confirmResetAll": {
+        "message": "Yes, Reset Everything"
+    },
+    "renameFolder": {
+        "message": "Rename Folder"
+    },
+    "dangerZone": {
+        "message": "Danger Zone"
+    },
+    "deleteFolder": {
+        "message": "Delete Folder"
+    },
+    "manageTagsTitle": {
+        "message": "Manage Tags"
+    },
+    "leavePageTitle": {
+        "message": "Leave Page?"
+    },
+    "leavePageMessage": {
+        "message": "Are you sure you want to leave this page? Any unsaved changes may be lost."
+    },
+    "stay": {
+        "message": "Stay"
+    },
+    "leave": {
+        "message": "Leave"
+    },
+    "dontAskAgainThisSession": {
+        "message": "Don't ask again for this session"
+    },
+    "ok": {
+        "message": "OK"
+    },
+    "exportShort": {
+        "message": "Export"
+    },
+    "importShort": {
+        "message": "Import"
+    },
     "promptLockedEnterPassword": {
         "message": "This prompt is locked. Enter password to insert it:"
     },
@@ -488,6 +663,13 @@
     },
     "recheckEngines": {
         "message": "Re-check engines"
+    },
+    "editIconPrompt": {
+        "message": "Edit icon URL for \"$1\"\n\nEnter a URL to an image (preferably SVG).\nLeave empty to use the default search engine icon.",
+        "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
+    },
+    "disableQuickPreviewByNote": {
+        "message": "Checking this option automatically disables the quick preview of search results."
     },
     "__WET_LOCALE__": {
         "message": "en"

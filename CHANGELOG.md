@@ -1,5 +1,10 @@
-6.2.5
+6.3.0
 =========
+
+* 
+
+6.2.5
+---------
 
 * bug fix [#265](https://github.com/odebroqueville/contextSearch/issues/265): replace removal of extra space on double click by removal of extra space on search from the context menu or grid of icons
 
