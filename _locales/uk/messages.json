@@ -375,7 +375,7 @@
         "message": "Не вдалося отримати URL-адресу для видалення закладок"
     },
     "notifyCustomCssSaved": {
-        "message": "Custom CSS saved for \"$1\".",
+        "message": "Збережено власний CSS для \"$1\".",
         "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
     },
     "notifyAIMinimalRequirements": {
@@ -461,175 +461,175 @@
         "message": "Підказки для пошуку..."
     },
     "promptsHeading": {
-        "message": "Prompts"
+        "message": "Підказки"
     },
     "newPromptTitle": {
-        "message": "New Prompt"
+        "message": "Нове підказка"
     },
     "foldersHeading": {
-        "message": "Folders"
+        "message": "Папки"
     },
     "newFolderTitle": {
-        "message": "New Folder"
+        "message": "Нова папка"
     },
     "newFolderNamePlaceholder": {
-        "message": "New folder name..."
+        "message": "Нова назва папки..."
     },
     "tagsHeading": {
-        "message": "Tags"
+        "message": "Теги"
     },
     "newTagTitle": {
-        "message": "New Tag"
+        "message": "Новий тег"
     },
     "newTagNamePlaceholder": {
-        "message": "New tag name..."
+        "message": "Нова назва тегу..."
     },
     "addTag": {
-        "message": "Add Tag"
+        "message": "Додати тег"
     },
     "settings": {
-        "message": "Settings"
+        "message": "Налаштування"
     },
     "select": {
-        "message": "Select"
+        "message": "Вибрати"
     },
     "cancel": {
-        "message": "Cancel"
+        "message": "Скасувати"
     },
     "delete": {
-        "message": "Delete"
+        "message": "Видалити"
     },
     "sortNewest": {
-        "message": "Newest"
+        "message": "Новітній"
     },
     "sortTitleAsc": {
-        "message": "Title (A-Z)"
+        "message": "Назва (А-Я)"
     },
     "noPromptsPlaceholder": {
-        "message": "No prompts here yet. Let's create one!"
+        "message": "Тут ще немає підказок. Давайте створимо одну!"
     },
     "createNewPrompt": {
-        "message": "Create New Prompt"
+        "message": "Створити нове запит"
     },
     "backToTop": {
-        "message": "Back to Top"
+        "message": "Назад до початку"
     },
     "noPromptSelectedMessage": {
-        "message": "Select a prompt to view, or create a new one."
+        "message": "Виберіть підказку для перегляду або створіть нову."
     },
     "titleLabel": {
-        "message": "Title"
+        "message": "Назва"
     },
     "lock": {
-        "message": "Lock"
+        "message": "Замок"
     },
     "promptTitlePlaceholder": {
-        "message": "Prompt Title"
+        "message": "Назва запиту"
     },
     "folderLabel": {
-        "message": "Folder"
+        "message": "Папка"
     },
     "promptLabel": {
-        "message": "Prompt"
+        "message": "Підказка"
     },
     "promptBodyPlaceholder": {
-        "message": "The content of your prompt..."
+        "message": "Зміст вашого запиту..."
     },
     "copyPromptBody": {
-        "message": "Copy prompt body"
+        "message": "Копіювати текст запиту"
     },
     "fullscreenEditor": {
-        "message": "Fullscreen Editor"
+        "message": "Повноекранний редактор"
     },
     "notesLabel": {
-        "message": "Notes"
+        "message": "Примітки"
     },
     "notesPlaceholder": {
-        "message": "Add extra details or context..."
+        "message": "Додайте додаткові деталі або контекст..."
     },
     "tagsLabel": {
-        "message": "Tags"
+        "message": "Теги"
     },
     "addTagsPlaceholder": {
-        "message": "Add tags..."
+        "message": "Додати теги..."
     },
     "save": {
-        "message": "Save"
+        "message": "Зберегти"
     },
     "close": {
-        "message": "Close"
+        "message": "Закрити"
     },
     "saveAndClose": {
-        "message": "Save & Close"
+        "message": "Зберегти та закрити"
     },
     "movePromptsTitle": {
-        "message": "Move Prompts"
+        "message": "Підказки для переміщення"
     },
     "movePromptsMessagePrefix": {
-        "message": "Select a destination folder for the"
+        "message": "Виберіть папку призначення для"
     },
     "selectedPromptsSuffix": {
-        "message": "selected prompts."
+        "message": "вибрані підказки."
     },
     "folderPassword": {
-        "message": "Folder Password"
+        "message": "Пароль папки"
     },
     "enterFolderPasswordPlaceholder": {
-        "message": "Enter password for locked folder"
+        "message": "Введіть пароль для заблокованої папки"
     },
     "deleteFolderTitle": {
-        "message": "Delete Folder"
+        "message": "Видалити папку"
     },
     "deleteFolderMessage": {
-        "message": "What would you like to do with the prompts inside this folder?"
+        "message": "Що ви хочете зробити з підказками, що містяться в цій папці?"
     },
     "deleteFolderMovePrompts": {
-        "message": "Delete Folder & Move Prompts"
+        "message": "Видалити папку та перемістити підказки"
     },
     "deleteFolderAndPrompts": {
-        "message": "Delete Folder & All Prompts"
+        "message": "Видалити папку та всі запити"
     },
     "resetDataMessage": {
-        "message": "Are you sure you want to reset all data? This will permanently delete all prompts, folders, and tags. This action cannot be undone."
+        "message": "Ви впевнені, що хочете скинути всі дані? Це призведе до остаточного видалення всіх підказок, папок і тегів. Цю дію неможливо скасувати."
     },
     "confirmResetAll": {
-        "message": "Yes, Reset Everything"
+        "message": "Так, скинути все"
     },
     "renameFolder": {
-        "message": "Rename Folder"
+        "message": "Перейменувати папку"
     },
     "dangerZone": {
-        "message": "Danger Zone"
+        "message": "Небезпечна зона"
     },
     "deleteFolder": {
-        "message": "Delete Folder"
+        "message": "Видалити папку"
     },
     "manageTagsTitle": {
-        "message": "Manage Tags"
+        "message": "Керувати тегами"
     },
     "leavePageTitle": {
-        "message": "Leave Page?"
+        "message": "Залишити сторінку?"
     },
     "leavePageMessage": {
-        "message": "Are you sure you want to leave this page? Any unsaved changes may be lost."
+        "message": "Ви впевнені, що хочете залишити цю сторінку? Усі незбережені зміни можуть бути втрачені."
     },
     "stay": {
-        "message": "Stay"
+        "message": "Залишатися"
     },
     "leave": {
-        "message": "Leave"
+        "message": "Залишити"
     },
     "dontAskAgainThisSession": {
-        "message": "Don't ask again for this session"
+        "message": "Не запитуйте знову про цю сесію"
     },
     "ok": {
-        "message": "OK"
+        "message": "Добре"
     },
     "exportShort": {
-        "message": "Export"
+        "message": "Експорт"
     },
     "importShort": {
-        "message": "Import"
+        "message": "Імпорт"
     },
     "promptLockedEnterPassword": {
         "message": "Ця підказка заблокована. Введіть пароль, щоб вставити її:"
@@ -641,35 +641,35 @@
         "message": "Додати до бібліотеки підказок"
     },
     "titleQuickPreview": {
-        "message": "Quick preview"
+        "message": "Швидкий попередній перегляд"
     },
     "headerQuickPreview": {
-        "message": "Quick Preview Settings"
+        "message": "Налаштування швидкого попереднього перегляду"
     },
     "quickPreviewDescription": {
-        "message": "Configure which search engines appear in the quick preview bubble. Only HTTP GET-based search engines are supported."
+        "message": "Налаштуйте, які пошукові системи відображатимуться у спливаючому вікні швидкого перегляду. Підтримуються лише пошукові системи на основі HTTP GET."
     },
     "disableQuickPreview": {
-        "message": "Disable quick preview of search results"
+        "message": "Вимкнути швидкий попередній перегляд результатів пошуку"
     },
     "filterQuickPreviewByLanguage": {
-        "message": "Filter Quick Preview by selection language"
+        "message": "Фільтр Швидкий попередній перегляд за мовою вибору"
     },
     "filterQuickPreviewByLanguageNote": {
-        "message": "When enabled, only engines whose language matches the detected selection language are shown. If no engines match, all are shown as a fallback."
+        "message": "Якщо ця опція увімкнена, відображаються лише пошукові системи, мова яких відповідає виявленій мові вибору. Якщо відповідних пошукових систем немає, відображаються всі пошукові системи як запасний варіант."
     },
     "recheckDescription": {
-        "message": "Re-check engines will verify if each and every search engine is still available and responsive. A red warning icon will appear next to any engines that may not render correctly in the Quick preview bubble. This may take a while."
+        "message": "Повторна перевірка двигунів підтвердить, чи кожен пошуковий двигун все ще доступний і реагує на запити. Червона піктограма попередження з'явиться поруч із будь-якими двигунами, які можуть не відображатися правильно у вікні швидкого перегляду. Це може зайняти деякий час."
     },
     "recheckEngines": {
-        "message": "Re-check engines"
+        "message": "Перевірка двигунів"
     },
     "editIconPrompt": {
-        "message": "Edit icon URL for \"$1\"\n\nEnter a URL to an image (preferably SVG).\nLeave empty to use the default search engine icon.",
+        "message": "Редагувати URL-адресу піктограми для «$1»\n\nВведіть URL-адресу зображення (бажано SVG).\nЗалиште порожнім, щоб використовувати піктограму пошукової системи за замовчуванням.",
         "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
     },
     "disableQuickPreviewByNote": {
-        "message": "Checking this option automatically disables the quick preview of search results."
+        "message": "Встановлення цього прапорця автоматично вимикає швидкий попередній перегляд результатів пошуку."
     },
     "__WET_LOCALE__": {
         "message": "uk"
