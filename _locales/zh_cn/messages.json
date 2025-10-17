@@ -375,7 +375,7 @@
         "message": "无法检索删除书签的 URL"
     },
     "notifyCustomCssSaved": {
-        "message": "Custom CSS saved for \"$1\".",
+        "message": "为“$1”保存的自定义CSS。",
         "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
     },
     "notifyAIMinimalRequirements": {
@@ -461,175 +461,175 @@
         "message": "搜索提示..."
     },
     "promptsHeading": {
-        "message": "Prompts"
+        "message": "提示"
     },
     "newPromptTitle": {
-        "message": "New Prompt"
+        "message": "新提示"
     },
     "foldersHeading": {
-        "message": "Folders"
+        "message": "文件夹"
     },
     "newFolderTitle": {
-        "message": "New Folder"
+        "message": "新建文件夹"
     },
     "newFolderNamePlaceholder": {
-        "message": "New folder name..."
+        "message": "新文件夹名称..."
     },
     "tagsHeading": {
-        "message": "Tags"
+        "message": "标签"
     },
     "newTagTitle": {
-        "message": "New Tag"
+        "message": "新标签"
     },
     "newTagNamePlaceholder": {
-        "message": "New tag name..."
+        "message": "新标签名称..."
     },
     "addTag": {
-        "message": "Add Tag"
+        "message": "添加标签"
     },
     "settings": {
-        "message": "Settings"
+        "message": "设置"
     },
     "select": {
-        "message": "Select"
+        "message": "选择"
     },
     "cancel": {
-        "message": "Cancel"
+        "message": "取消"
     },
     "delete": {
-        "message": "Delete"
+        "message": "删除"
     },
     "sortNewest": {
-        "message": "Newest"
+        "message": "最新"
     },
     "sortTitleAsc": {
-        "message": "Title (A-Z)"
+        "message": "标题（按字母顺序排列）"
     },
     "noPromptsPlaceholder": {
-        "message": "No prompts here yet. Let's create one!"
+        "message": "这里还没有提示。让我们创建一个吧！"
     },
     "createNewPrompt": {
-        "message": "Create New Prompt"
+        "message": "创建新提示"
     },
     "backToTop": {
-        "message": "Back to Top"
+        "message": "返回顶部"
     },
     "noPromptSelectedMessage": {
-        "message": "Select a prompt to view, or create a new one."
+        "message": "选择一个提示查看，或创建一个新的。"
     },
     "titleLabel": {
-        "message": "Title"
+        "message": "标题"
     },
     "lock": {
-        "message": "Lock"
+        "message": "锁"
     },
     "promptTitlePlaceholder": {
-        "message": "Prompt Title"
+        "message": "提示标题"
     },
     "folderLabel": {
-        "message": "Folder"
+        "message": "文件夹"
     },
     "promptLabel": {
-        "message": "Prompt"
+        "message": "提示"
     },
     "promptBodyPlaceholder": {
-        "message": "The content of your prompt..."
+        "message": "您的提示内容..."
     },
     "copyPromptBody": {
-        "message": "Copy prompt body"
+        "message": "复制提示正文"
     },
     "fullscreenEditor": {
-        "message": "Fullscreen Editor"
+        "message": "全屏编辑器"
     },
     "notesLabel": {
-        "message": "Notes"
+        "message": "注释"
     },
     "notesPlaceholder": {
-        "message": "Add extra details or context..."
+        "message": "添加更多细节或背景信息..."
     },
     "tagsLabel": {
-        "message": "Tags"
+        "message": "标签"
     },
     "addTagsPlaceholder": {
-        "message": "Add tags..."
+        "message": "添加标签..."
     },
     "save": {
-        "message": "Save"
+        "message": "保存"
     },
     "close": {
-        "message": "Close"
+        "message": "关闭"
     },
     "saveAndClose": {
-        "message": "Save & Close"
+        "message": "保存并关闭"
     },
     "movePromptsTitle": {
-        "message": "Move Prompts"
+        "message": "移动提示"
     },
     "movePromptsMessagePrefix": {
-        "message": "Select a destination folder for the"
+        "message": "为以下内容选择目标文件夹："
     },
     "selectedPromptsSuffix": {
-        "message": "selected prompts."
+        "message": "选定提示词。"
     },
     "folderPassword": {
-        "message": "Folder Password"
+        "message": "文件夹密码"
     },
     "enterFolderPasswordPlaceholder": {
-        "message": "Enter password for locked folder"
+        "message": "输入锁定文件夹的密码"
     },
     "deleteFolderTitle": {
-        "message": "Delete Folder"
+        "message": "删除文件夹"
     },
     "deleteFolderMessage": {
-        "message": "What would you like to do with the prompts inside this folder?"
+        "message": "您想对这个文件夹里的提示内容做什么？"
     },
     "deleteFolderMovePrompts": {
-        "message": "Delete Folder & Move Prompts"
+        "message": "删除文件夹 & 移动提示"
     },
     "deleteFolderAndPrompts": {
-        "message": "Delete Folder & All Prompts"
+        "message": "删除文件夹及所有提示"
     },
     "resetDataMessage": {
-        "message": "Are you sure you want to reset all data? This will permanently delete all prompts, folders, and tags. This action cannot be undone."
+        "message": "您确定要重置所有数据吗？此操作将永久删除所有提示、文件夹和标签。此操作无法撤销。"
     },
     "confirmResetAll": {
-        "message": "Yes, Reset Everything"
+        "message": "是的，重置一切"
     },
     "renameFolder": {
-        "message": "Rename Folder"
+        "message": "重命名文件夹"
     },
     "dangerZone": {
-        "message": "Danger Zone"
+        "message": "危险地带"
     },
     "deleteFolder": {
-        "message": "Delete Folder"
+        "message": "删除文件夹"
     },
     "manageTagsTitle": {
-        "message": "Manage Tags"
+        "message": "管理标签"
     },
     "leavePageTitle": {
-        "message": "Leave Page?"
+        "message": "离开页面？"
     },
     "leavePageMessage": {
-        "message": "Are you sure you want to leave this page? Any unsaved changes may be lost."
+        "message": "您确定要离开此页面吗？任何未保存的更改都可能丢失。"
     },
     "stay": {
-        "message": "Stay"
+        "message": "留下来"
     },
     "leave": {
-        "message": "Leave"
+        "message": "离开"
     },
     "dontAskAgainThisSession": {
-        "message": "Don't ask again for this session"
+        "message": "本次会话中请勿再次询问"
     },
     "ok": {
-        "message": "OK"
+        "message": "好的"
     },
     "exportShort": {
-        "message": "Export"
+        "message": "导出"
     },
     "importShort": {
-        "message": "Import"
+        "message": "导入"
     },
     "promptLockedEnterPassword": {
         "message": "此提示已锁定。请输入密码以插入内容："
@@ -641,35 +641,35 @@
         "message": "添加到提示库"
     },
     "titleQuickPreview": {
-        "message": "Quick preview"
+        "message": "快速预览"
     },
     "headerQuickPreview": {
-        "message": "Quick Preview Settings"
+        "message": "快速预览设置"
     },
     "quickPreviewDescription": {
-        "message": "Configure which search engines appear in the quick preview bubble. Only HTTP GET-based search engines are supported."
+        "message": "配置在快速预览气泡中显示的搜索引擎。仅支持基于HTTP GET的搜索引擎。"
     },
     "disableQuickPreview": {
-        "message": "Disable quick preview of search results"
+        "message": "禁用搜索结果的快速预览"
     },
     "filterQuickPreviewByLanguage": {
-        "message": "Filter Quick Preview by selection language"
+        "message": "通过选择语言过滤快速预览"
     },
     "filterQuickPreviewByLanguageNote": {
-        "message": "When enabled, only engines whose language matches the detected selection language are shown. If no engines match, all are shown as a fallback."
+        "message": "启用后，仅显示语言与检测到的选定语言匹配的引擎。若无匹配引擎，则作为后备方案显示所有引擎。"
     },
     "recheckDescription": {
-        "message": "Re-check engines will verify if each and every search engine is still available and responsive. A red warning icon will appear next to any engines that may not render correctly in the Quick preview bubble. This may take a while."
+        "message": "重新检查引擎将验证每个搜索引擎是否仍可用且响应正常。若某引擎在快速预览气泡中可能无法正确显示，其旁将出现红色警告图标。此过程可能需要一段时间。"
     },
     "recheckEngines": {
-        "message": "Re-check engines"
+        "message": "重新检查引擎"
     },
     "editIconPrompt": {
-        "message": "Edit icon URL for \"$1\"\n\nEnter a URL to an image (preferably SVG).\nLeave empty to use the default search engine icon.",
+        "message": "编辑图标URL（用于\"$1\"）\n\n输入图片URL（建议使用SVG格式）。\n留空则使用默认搜索引擎图标。",
         "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
     },
     "disableQuickPreviewByNote": {
-        "message": "Checking this option automatically disables the quick preview of search results."
+        "message": "勾选此选项将自动禁用搜索结果的快速预览功能。"
     },
     "__WET_LOCALE__": {
         "message": "zh_cn"
