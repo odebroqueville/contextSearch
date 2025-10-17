@@ -375,7 +375,7 @@
         "message": "تعذر استرداد عنوان URL لإزالة الإشارة المرجعية"
     },
     "notifyCustomCssSaved": {
-        "message": "Custom CSS saved for \"$1\".",
+        "message": "تم حفظ CSS المخصص لـ \"$1\".",
         "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
     },
     "notifyAIMinimalRequirements": {
@@ -461,175 +461,175 @@
         "message": "مطالبات البحث..."
     },
     "promptsHeading": {
-        "message": "Prompts"
+        "message": "مطالبات"
     },
     "newPromptTitle": {
-        "message": "New Prompt"
+        "message": "موجه جديد"
     },
     "foldersHeading": {
-        "message": "Folders"
+        "message": "المجلدات"
     },
     "newFolderTitle": {
-        "message": "New Folder"
+        "message": "مجلد جديد"
     },
     "newFolderNamePlaceholder": {
-        "message": "New folder name..."
+        "message": "اسم المجلد الجديد..."
     },
     "tagsHeading": {
-        "message": "Tags"
+        "message": "العلامات"
     },
     "newTagTitle": {
-        "message": "New Tag"
+        "message": "علامة جديدة"
     },
     "newTagNamePlaceholder": {
-        "message": "New tag name..."
+        "message": "اسم العلامة الجديد..."
     },
     "addTag": {
-        "message": "Add Tag"
+        "message": "إضافة علامة"
     },
     "settings": {
-        "message": "Settings"
+        "message": "الإعدادات"
     },
     "select": {
-        "message": "Select"
+        "message": "اختر"
     },
     "cancel": {
-        "message": "Cancel"
+        "message": "إلغاء"
     },
     "delete": {
-        "message": "Delete"
+        "message": "حذف"
     },
     "sortNewest": {
-        "message": "Newest"
+        "message": "الأحدث"
     },
     "sortTitleAsc": {
-        "message": "Title (A-Z)"
+        "message": "العنوان (أ-ي)"
     },
     "noPromptsPlaceholder": {
-        "message": "No prompts here yet. Let's create one!"
+        "message": "لا توجد مطالبات هنا حتى الآن. لنقم بإنشاء واحدة!"
     },
     "createNewPrompt": {
-        "message": "Create New Prompt"
+        "message": "إنشاء موجه جديد"
     },
     "backToTop": {
-        "message": "Back to Top"
+        "message": "العودة إلى الأعلى"
     },
     "noPromptSelectedMessage": {
-        "message": "Select a prompt to view, or create a new one."
+        "message": "حدد موجهًا لعرضه أو أنشئ موجهًا جديدًا."
     },
     "titleLabel": {
-        "message": "Title"
+        "message": "العنوان"
     },
     "lock": {
-        "message": "Lock"
+        "message": "قفل"
     },
     "promptTitlePlaceholder": {
-        "message": "Prompt Title"
+        "message": "عنوان المطالبة"
     },
     "folderLabel": {
-        "message": "Folder"
+        "message": "مجلد"
     },
     "promptLabel": {
-        "message": "Prompt"
+        "message": "موجه"
     },
     "promptBodyPlaceholder": {
-        "message": "The content of your prompt..."
+        "message": "محتوى موجهك..."
     },
     "copyPromptBody": {
-        "message": "Copy prompt body"
+        "message": "نسخ نص المطالبة"
     },
     "fullscreenEditor": {
-        "message": "Fullscreen Editor"
+        "message": "محرر الشاشة الكاملة"
     },
     "notesLabel": {
-        "message": "Notes"
+        "message": "ملاحظات"
     },
     "notesPlaceholder": {
-        "message": "Add extra details or context..."
+        "message": "أضف تفاصيل أو سياق إضافي..."
     },
     "tagsLabel": {
-        "message": "Tags"
+        "message": "العلامات"
     },
     "addTagsPlaceholder": {
-        "message": "Add tags..."
+        "message": "أضف علامات..."
     },
     "save": {
-        "message": "Save"
+        "message": "حفظ"
     },
     "close": {
-        "message": "Close"
+        "message": "إغلاق"
     },
     "saveAndClose": {
-        "message": "Save & Close"
+        "message": "حفظ وإغلاق"
     },
     "movePromptsTitle": {
-        "message": "Move Prompts"
+        "message": "مطالبات النقل"
     },
     "movePromptsMessagePrefix": {
-        "message": "Select a destination folder for the"
+        "message": "حدد مجلد الوجهة لـ"
     },
     "selectedPromptsSuffix": {
-        "message": "selected prompts."
+        "message": "مطالبات محددة."
     },
     "folderPassword": {
-        "message": "Folder Password"
+        "message": "كلمة مرور المجلد"
     },
     "enterFolderPasswordPlaceholder": {
-        "message": "Enter password for locked folder"
+        "message": "أدخل كلمة المرور للمجلد المقفل"
     },
     "deleteFolderTitle": {
-        "message": "Delete Folder"
+        "message": "حذف المجلد"
     },
     "deleteFolderMessage": {
-        "message": "What would you like to do with the prompts inside this folder?"
+        "message": "ماذا تريد أن تفعل بالمطالبات الموجودة داخل هذا المجلد؟"
     },
     "deleteFolderMovePrompts": {
-        "message": "Delete Folder & Move Prompts"
+        "message": "حذف المجلد ونقل المطالبات"
     },
     "deleteFolderAndPrompts": {
-        "message": "Delete Folder & All Prompts"
+        "message": "حذف المجلد وجميع المطالبات"
     },
     "resetDataMessage": {
-        "message": "Are you sure you want to reset all data? This will permanently delete all prompts, folders, and tags. This action cannot be undone."
+        "message": "هل تريد إعادة تعيين جميع البيانات؟ سيؤدي ذلك إلى حذف جميع المطالبات والمجلدات والعلامات نهائيًا. لا يمكن التراجع عن هذا الإجراء."
     },
     "confirmResetAll": {
-        "message": "Yes, Reset Everything"
+        "message": "نعم، إعادة ضبط كل شيء"
     },
     "renameFolder": {
-        "message": "Rename Folder"
+        "message": "إعادة تسمية المجلد"
     },
     "dangerZone": {
-        "message": "Danger Zone"
+        "message": "منطقة الخطر"
     },
     "deleteFolder": {
-        "message": "Delete Folder"
+        "message": "حذف المجلد"
     },
     "manageTagsTitle": {
-        "message": "Manage Tags"
+        "message": "إدارة العلامات"
     },
     "leavePageTitle": {
-        "message": "Leave Page?"
+        "message": "مغادرة الصفحة؟"
     },
     "leavePageMessage": {
-        "message": "Are you sure you want to leave this page? Any unsaved changes may be lost."
+        "message": "هل تريد حقا الخروج من هذه الصفحة؟ قد تفقد أي تغييرات لم يتم حفظها."
     },
     "stay": {
-        "message": "Stay"
+        "message": "البقاء"
     },
     "leave": {
-        "message": "Leave"
+        "message": "إجازة"
     },
     "dontAskAgainThisSession": {
-        "message": "Don't ask again for this session"
+        "message": "لا تسأل مرة أخرى عن هذه الجلسة"
     },
     "ok": {
-        "message": "OK"
+        "message": "حسناً"
     },
     "exportShort": {
-        "message": "Export"
+        "message": "تصدير"
     },
     "importShort": {
-        "message": "Import"
+        "message": "استيراد"
     },
     "promptLockedEnterPassword": {
         "message": "هذا الموجه مقفل. أدخل كلمة المرور لإدخاله:"
@@ -641,35 +641,35 @@
         "message": "إضافة إلى مكتبة المطالبات"
     },
     "titleQuickPreview": {
-        "message": "Quick preview"
+        "message": "معاينة سريعة"
     },
     "headerQuickPreview": {
-        "message": "Quick Preview Settings"
+        "message": "إعدادات المعاينة السريعة"
     },
     "quickPreviewDescription": {
-        "message": "Configure which search engines appear in the quick preview bubble. Only HTTP GET-based search engines are supported."
+        "message": "تكوين محركات البحث التي تظهر في فقاعة المعاينة السريعة. لا يتم دعم سوى محركات البحث المستندة إلى HTTP GET."
     },
     "disableQuickPreview": {
-        "message": "Disable quick preview of search results"
+        "message": "تعطيل المعاينة السريعة لنتائج البحث"
     },
     "filterQuickPreviewByLanguage": {
-        "message": "Filter Quick Preview by selection language"
+        "message": "تصفية المعاينة السريعة حسب لغة الاختيار"
     },
     "filterQuickPreviewByLanguageNote": {
-        "message": "When enabled, only engines whose language matches the detected selection language are shown. If no engines match, all are shown as a fallback."
+        "message": "عند التمكين، يتم عرض المحركات التي تتطابق لغتها مع لغة الاختيار المكتشفة فقط. إذا لم تتطابق أي محركات، يتم عرضها جميعًا كخيار بديل."
     },
     "recheckDescription": {
-        "message": "Re-check engines will verify if each and every search engine is still available and responsive. A red warning icon will appear next to any engines that may not render correctly in the Quick preview bubble. This may take a while."
+        "message": "ستتحقق محركات إعادة الفحص من أن كل محرك بحث لا يزال متاحًا وسريع الاستجابة. سيظهر رمز تحذير أحمر بجوار أي محركات قد لا يتم عرضها بشكل صحيح في فقاعة المعاينة السريعة. قد يستغرق هذا بعض الوقت."
     },
     "recheckEngines": {
-        "message": "Re-check engines"
+        "message": "إعادة فحص المحركات"
     },
     "editIconPrompt": {
-        "message": "Edit icon URL for \"$1\"\n\nEnter a URL to an image (preferably SVG).\nLeave empty to use the default search engine icon.",
+        "message": "تحرير عنوان URL للرمز \"$1\"\n\nأدخل عنوان URL لصورة (يفضل أن تكون بصيغة SVG).\nاتركه فارغًا لاستخدام رمز محرك البحث الافتراضي.",
         "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
     },
     "disableQuickPreviewByNote": {
-        "message": "Checking this option automatically disables the quick preview of search results."
+        "message": "تؤدي تحديد هذه الخيار إلى تعطيل المعاينة السريعة لنتائج البحث تلقائيًا."
     },
     "__WET_LOCALE__": {
         "message": "ar"
