@@ -375,7 +375,7 @@
         "message": "URL-osoitetta ei voitu hakea kirjanmerkin poistamista varten"
     },
     "notifyCustomCssSaved": {
-        "message": "Custom CSS saved for \"$1\".",
+        "message": "Mukautettu CSS tallennettu nimellä \"$1\".",
         "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
     },
     "notifyAIMinimalRequirements": {
@@ -461,175 +461,175 @@
         "message": "Hakukomennot..."
     },
     "promptsHeading": {
-        "message": "Prompts"
+        "message": "Ohjeet"
     },
     "newPromptTitle": {
-        "message": "New Prompt"
+        "message": "Uusi kehote"
     },
     "foldersHeading": {
-        "message": "Folders"
+        "message": "Kansiot"
     },
     "newFolderTitle": {
-        "message": "New Folder"
+        "message": "Uusi kansio"
     },
     "newFolderNamePlaceholder": {
-        "message": "New folder name..."
+        "message": "Uuden kansion nimi..."
     },
     "tagsHeading": {
-        "message": "Tags"
+        "message": "Tunnisteet"
     },
     "newTagTitle": {
-        "message": "New Tag"
+        "message": "Uusi tunniste"
     },
     "newTagNamePlaceholder": {
-        "message": "New tag name..."
+        "message": "Uusi tunnisteen nimi..."
     },
     "addTag": {
-        "message": "Add Tag"
+        "message": "Lisää tunniste"
     },
     "settings": {
-        "message": "Settings"
+        "message": "Asetukset"
     },
     "select": {
-        "message": "Select"
+        "message": "Valitse"
     },
     "cancel": {
-        "message": "Cancel"
+        "message": "Peruuta"
     },
     "delete": {
-        "message": "Delete"
+        "message": "Poista"
     },
     "sortNewest": {
-        "message": "Newest"
+        "message": "Uusin"
     },
     "sortTitleAsc": {
-        "message": "Title (A-Z)"
+        "message": "Otsikko (A-Z)"
     },
     "noPromptsPlaceholder": {
-        "message": "No prompts here yet. Let's create one!"
+        "message": "Täällä ei ole vielä kehotteita. Luodaan yksi!"
     },
     "createNewPrompt": {
-        "message": "Create New Prompt"
+        "message": "Luo uusi kehote"
     },
     "backToTop": {
-        "message": "Back to Top"
+        "message": "Takaisin alkuun"
     },
     "noPromptSelectedMessage": {
-        "message": "Select a prompt to view, or create a new one."
+        "message": "Valitse tarkasteltava kehote tai luo uusi."
     },
     "titleLabel": {
-        "message": "Title"
+        "message": "Otsikko"
     },
     "lock": {
-        "message": "Lock"
+        "message": "Lukko"
     },
     "promptTitlePlaceholder": {
-        "message": "Prompt Title"
+        "message": "Kehotteen otsikko"
     },
     "folderLabel": {
-        "message": "Folder"
+        "message": "Kansio"
     },
     "promptLabel": {
-        "message": "Prompt"
+        "message": "Kehote"
     },
     "promptBodyPlaceholder": {
-        "message": "The content of your prompt..."
+        "message": "Kyselyn sisältö..."
     },
     "copyPromptBody": {
-        "message": "Copy prompt body"
+        "message": "Kopioi kehotteen teksti"
     },
     "fullscreenEditor": {
-        "message": "Fullscreen Editor"
+        "message": "Koko näytön editori"
     },
     "notesLabel": {
-        "message": "Notes"
+        "message": "Huomautukset"
     },
     "notesPlaceholder": {
-        "message": "Add extra details or context..."
+        "message": "Lisää lisätietoja tai kontekstia..."
     },
     "tagsLabel": {
-        "message": "Tags"
+        "message": "Tunnisteet"
     },
     "addTagsPlaceholder": {
-        "message": "Add tags..."
+        "message": "Lisää tunnisteita..."
     },
     "save": {
-        "message": "Save"
+        "message": "Tallenna"
     },
     "close": {
-        "message": "Close"
+        "message": "Sulje"
     },
     "saveAndClose": {
-        "message": "Save & Close"
+        "message": "Tallenna ja sulje"
     },
     "movePromptsTitle": {
-        "message": "Move Prompts"
+        "message": "Siirrä kehotteet"
     },
     "movePromptsMessagePrefix": {
-        "message": "Select a destination folder for the"
+        "message": "Valitse kohdekansio"
     },
     "selectedPromptsSuffix": {
-        "message": "selected prompts."
+        "message": "valitut kehotteet."
     },
     "folderPassword": {
-        "message": "Folder Password"
+        "message": "Kansion salasana"
     },
     "enterFolderPasswordPlaceholder": {
-        "message": "Enter password for locked folder"
+        "message": "Syötä salasana lukitulle kansiolle"
     },
     "deleteFolderTitle": {
-        "message": "Delete Folder"
+        "message": "Poista kansio"
     },
     "deleteFolderMessage": {
-        "message": "What would you like to do with the prompts inside this folder?"
+        "message": "Mitä haluat tehdä tämän kansion sisältämillä ohjeilla?"
     },
     "deleteFolderMovePrompts": {
-        "message": "Delete Folder & Move Prompts"
+        "message": "Poista kansio ja siirrä kehotteet"
     },
     "deleteFolderAndPrompts": {
-        "message": "Delete Folder & All Prompts"
+        "message": "Poista kansio ja kaikki kehotteet"
     },
     "resetDataMessage": {
-        "message": "Are you sure you want to reset all data? This will permanently delete all prompts, folders, and tags. This action cannot be undone."
+        "message": "Haluatko varmasti nollata kaikki tiedot? Tämä poistaa pysyvästi kaikki kehotteet, kansiot ja tunnisteet. Tätä toimintoa ei voi peruuttaa."
     },
     "confirmResetAll": {
-        "message": "Yes, Reset Everything"
+        "message": "Kyllä, nollaa kaikki"
     },
     "renameFolder": {
-        "message": "Rename Folder"
+        "message": "Nimeä kansio uudelleen"
     },
     "dangerZone": {
-        "message": "Danger Zone"
+        "message": "Vaaravyöhyke"
     },
     "deleteFolder": {
-        "message": "Delete Folder"
+        "message": "Poista kansio"
     },
     "manageTagsTitle": {
-        "message": "Manage Tags"
+        "message": "Hallitse tunnisteita"
     },
     "leavePageTitle": {
-        "message": "Leave Page?"
+        "message": "Poistu sivulta?"
     },
     "leavePageMessage": {
-        "message": "Are you sure you want to leave this page? Any unsaved changes may be lost."
+        "message": "Haluatko varmasti poistua tältä sivulta? Tallentamattomat muutokset voivat kadota."
     },
     "stay": {
-        "message": "Stay"
+        "message": "Pysy"
     },
     "leave": {
-        "message": "Leave"
+        "message": "Lähde"
     },
     "dontAskAgainThisSession": {
-        "message": "Don't ask again for this session"
+        "message": "Älä kysy tätä uudelleen tässä istunnossa"
     },
     "ok": {
         "message": "OK"
     },
     "exportShort": {
-        "message": "Export"
+        "message": "Vienti"
     },
     "importShort": {
-        "message": "Import"
+        "message": "Tuonti"
     },
     "promptLockedEnterPassword": {
         "message": "Tämä kehote on lukittu. Anna salasana lisätäksesi sen:"
@@ -641,35 +641,35 @@
         "message": "Lisää kehotuskirjastoon"
     },
     "titleQuickPreview": {
-        "message": "Quick preview"
+        "message": "Pikakatselu"
     },
     "headerQuickPreview": {
-        "message": "Quick Preview Settings"
+        "message": "Pikakatseluasetukset"
     },
     "quickPreviewDescription": {
-        "message": "Configure which search engines appear in the quick preview bubble. Only HTTP GET-based search engines are supported."
+        "message": "Määritä, mitkä hakukoneet näkyvät pikakatselupallossa. Vain HTTP GET -pohjaiset hakukoneet ovat tuettuja."
     },
     "disableQuickPreview": {
-        "message": "Disable quick preview of search results"
+        "message": "Poista hakutulosten pikakatselu käytöstä"
     },
     "filterQuickPreviewByLanguage": {
-        "message": "Filter Quick Preview by selection language"
+        "message": "Suodata pikakatselu valitsemalla kieli"
     },
     "filterQuickPreviewByLanguageNote": {
-        "message": "When enabled, only engines whose language matches the detected selection language are shown. If no engines match, all are shown as a fallback."
+        "message": "Kun tämä asetus on käytössä, näkyviin tulevat vain hakukoneet, joiden kieli vastaa valittua kieltä. Jos hakukoneita ei löydy, näkyviin tulevat kaikki hakukoneet."
     },
     "recheckDescription": {
-        "message": "Re-check engines will verify if each and every search engine is still available and responsive. A red warning icon will appear next to any engines that may not render correctly in the Quick preview bubble. This may take a while."
+        "message": "Uudelleentarkistus-moottorit tarkistavat, ovatko kaikki hakukoneet edelleen käytettävissä ja vastaavatko ne. Punainen varoituskuvake ilmestyy niiden moottoreiden viereen, jotka eivät näy oikein pikakatselupallossa. Tämä voi kestää jonkin aikaa."
     },
     "recheckEngines": {
-        "message": "Re-check engines"
+        "message": "Tarkista moottorit uudelleen"
     },
     "editIconPrompt": {
-        "message": "Edit icon URL for \"$1\"\n\nEnter a URL to an image (preferably SVG).\nLeave empty to use the default search engine icon.",
+        "message": "Muokkaa kuvakkeen URL-osoitetta \"$1\"\n\nSyötä kuvan URL-osoite (mieluiten SVG).\nJätä tyhjäksi, jos haluat käyttää oletushakukoneen kuvaketta.",
         "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
     },
     "disableQuickPreviewByNote": {
-        "message": "Checking this option automatically disables the quick preview of search results."
+        "message": "Tämän vaihtoehdon valitseminen poistaa hakutulosten pikakatselun käytöstä automaattisesti."
     },
     "__WET_LOCALE__": {
         "message": "fi"
