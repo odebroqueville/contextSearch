@@ -375,7 +375,7 @@
         "message": "Не удалось получить URL-адрес для удаления закладок"
     },
     "notifyCustomCssSaved": {
-        "message": "Custom CSS saved for \"$1\".",
+        "message": "Пользовательский CSS сохранен для «$1».",
         "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
     },
     "notifyAIMinimalRequirements": {
@@ -461,175 +461,175 @@
         "message": "Подсказки для поиска..."
     },
     "promptsHeading": {
-        "message": "Prompts"
+        "message": "Подсказки"
     },
     "newPromptTitle": {
-        "message": "New Prompt"
+        "message": "Новый запрос"
     },
     "foldersHeading": {
-        "message": "Folders"
+        "message": "Папки"
     },
     "newFolderTitle": {
-        "message": "New Folder"
+        "message": "Новая папка"
     },
     "newFolderNamePlaceholder": {
-        "message": "New folder name..."
+        "message": "Имя новой папки..."
     },
     "tagsHeading": {
-        "message": "Tags"
+        "message": "Теги"
     },
     "newTagTitle": {
-        "message": "New Tag"
+        "message": "Новый тег"
     },
     "newTagNamePlaceholder": {
-        "message": "New tag name..."
+        "message": "Новое имя тега..."
     },
     "addTag": {
-        "message": "Add Tag"
+        "message": "Добавить тег"
     },
     "settings": {
-        "message": "Settings"
+        "message": "Настройки"
     },
     "select": {
-        "message": "Select"
+        "message": "Выбрать"
     },
     "cancel": {
-        "message": "Cancel"
+        "message": "Отменить"
     },
     "delete": {
-        "message": "Delete"
+        "message": "Удалить"
     },
     "sortNewest": {
-        "message": "Newest"
+        "message": "Новейший"
     },
     "sortTitleAsc": {
-        "message": "Title (A-Z)"
+        "message": "Название (A-Z)"
     },
     "noPromptsPlaceholder": {
-        "message": "No prompts here yet. Let's create one!"
+        "message": "Здесь еще нет подсказок. Давайте создадим одну!"
     },
     "createNewPrompt": {
-        "message": "Create New Prompt"
+        "message": "Создать новое запрос"
     },
     "backToTop": {
-        "message": "Back to Top"
+        "message": "Вернуться к началу"
     },
     "noPromptSelectedMessage": {
-        "message": "Select a prompt to view, or create a new one."
+        "message": "Выберите подсказку для просмотра или создайте новую."
     },
     "titleLabel": {
-        "message": "Title"
+        "message": "Название"
     },
     "lock": {
-        "message": "Lock"
+        "message": "Замок"
     },
     "promptTitlePlaceholder": {
-        "message": "Prompt Title"
+        "message": "Название подсказки"
     },
     "folderLabel": {
-        "message": "Folder"
+        "message": "Папка"
     },
     "promptLabel": {
-        "message": "Prompt"
+        "message": "Подсказка"
     },
     "promptBodyPlaceholder": {
-        "message": "The content of your prompt..."
+        "message": "Содержание вашего запроса..."
     },
     "copyPromptBody": {
-        "message": "Copy prompt body"
+        "message": "Копировать текст запроса"
     },
     "fullscreenEditor": {
-        "message": "Fullscreen Editor"
+        "message": "Полноэкранный редактор"
     },
     "notesLabel": {
-        "message": "Notes"
+        "message": "Примечания"
     },
     "notesPlaceholder": {
-        "message": "Add extra details or context..."
+        "message": "Добавьте дополнительные детали или контекст..."
     },
     "tagsLabel": {
-        "message": "Tags"
+        "message": "Теги"
     },
     "addTagsPlaceholder": {
-        "message": "Add tags..."
+        "message": "Добавить теги..."
     },
     "save": {
-        "message": "Save"
+        "message": "Сохранить"
     },
     "close": {
-        "message": "Close"
+        "message": "Закрыть"
     },
     "saveAndClose": {
-        "message": "Save & Close"
+        "message": "Сохранить и закрыть"
     },
     "movePromptsTitle": {
-        "message": "Move Prompts"
+        "message": "Подсказки для перемещения"
     },
     "movePromptsMessagePrefix": {
-        "message": "Select a destination folder for the"
+        "message": "Выберите папку назначения для"
     },
     "selectedPromptsSuffix": {
-        "message": "selected prompts."
+        "message": "выбранные подсказки."
     },
     "folderPassword": {
-        "message": "Folder Password"
+        "message": "Пароль папки"
     },
     "enterFolderPasswordPlaceholder": {
-        "message": "Enter password for locked folder"
+        "message": "Введите пароль для заблокированной папки"
     },
     "deleteFolderTitle": {
-        "message": "Delete Folder"
+        "message": "Удалить папку"
     },
     "deleteFolderMessage": {
-        "message": "What would you like to do with the prompts inside this folder?"
+        "message": "Что вы хотите сделать с подсказками в этой папке?"
     },
     "deleteFolderMovePrompts": {
-        "message": "Delete Folder & Move Prompts"
+        "message": "Удалить папку и переместить подсказки"
     },
     "deleteFolderAndPrompts": {
-        "message": "Delete Folder & All Prompts"
+        "message": "Удалить папку и все подсказки"
     },
     "resetDataMessage": {
-        "message": "Are you sure you want to reset all data? This will permanently delete all prompts, folders, and tags. This action cannot be undone."
+        "message": "Вы уверены, что хотите сбросить все данные? Это приведет к окончательному удалению всех подсказок, папок и тегов. Это действие нельзя отменить."
     },
     "confirmResetAll": {
-        "message": "Yes, Reset Everything"
+        "message": "Да, сбросить все"
     },
     "renameFolder": {
-        "message": "Rename Folder"
+        "message": "Переименовать папку"
     },
     "dangerZone": {
-        "message": "Danger Zone"
+        "message": "Опасная зона"
     },
     "deleteFolder": {
-        "message": "Delete Folder"
+        "message": "Удалить папку"
     },
     "manageTagsTitle": {
-        "message": "Manage Tags"
+        "message": "Управление тегами"
     },
     "leavePageTitle": {
-        "message": "Leave Page?"
+        "message": "Покинуть страницу?"
     },
     "leavePageMessage": {
-        "message": "Are you sure you want to leave this page? Any unsaved changes may be lost."
+        "message": "Вы уверены, что хотите покинуть эту страницу? Все несохраненные изменения могут быть утеряны."
     },
     "stay": {
-        "message": "Stay"
+        "message": "Остаться"
     },
     "leave": {
-        "message": "Leave"
+        "message": "Уйти"
     },
     "dontAskAgainThisSession": {
-        "message": "Don't ask again for this session"
+        "message": "Не спрашивайте снова об этой сессии"
     },
     "ok": {
-        "message": "OK"
+        "message": "Хорошо"
     },
     "exportShort": {
-        "message": "Export"
+        "message": "Экспорт"
     },
     "importShort": {
-        "message": "Import"
+        "message": "Импорт"
     },
     "promptLockedEnterPassword": {
         "message": "Этот запрос заблокирован. Введите пароль, чтобы вставить его:"
@@ -641,35 +641,35 @@
         "message": "Добавить в библиотеку подсказок"
     },
     "titleQuickPreview": {
-        "message": "Quick preview"
+        "message": "Быстрый просмотр"
     },
     "headerQuickPreview": {
-        "message": "Quick Preview Settings"
+        "message": "Настройки быстрого предварительного просмотра"
     },
     "quickPreviewDescription": {
-        "message": "Configure which search engines appear in the quick preview bubble. Only HTTP GET-based search engines are supported."
+        "message": "Настройте, какие поисковые системы будут отображаться в всплывающем окне быстрого просмотра. Поддерживаются только поисковые системы на основе HTTP GET."
     },
     "disableQuickPreview": {
-        "message": "Disable quick preview of search results"
+        "message": "Отключить быстрый просмотр результатов поиска"
     },
     "filterQuickPreviewByLanguage": {
-        "message": "Filter Quick Preview by selection language"
+        "message": "Фильтр Быстрый просмотр по выбранному языку"
     },
     "filterQuickPreviewByLanguageNote": {
-        "message": "When enabled, only engines whose language matches the detected selection language are shown. If no engines match, all are shown as a fallback."
+        "message": "При включении отображаются только те поисковые системы, язык которых соответствует выбранному языку. Если подходящих поисковых систем нет, отображаются все системы в качестве запасного варианта."
     },
     "recheckDescription": {
-        "message": "Re-check engines will verify if each and every search engine is still available and responsive. A red warning icon will appear next to any engines that may not render correctly in the Quick preview bubble. This may take a while."
+        "message": "Повторная проверка поисковых систем позволит убедиться, что все поисковые системы по-прежнему доступны и реагируют на запросы. Рядом с поисковыми системами, которые могут отображаться некорректно в окне быстрого просмотра, появится красный значок предупреждения. Это может занять некоторое время."
     },
     "recheckEngines": {
-        "message": "Re-check engines"
+        "message": "Повторная проверка двигателей"
     },
     "editIconPrompt": {
-        "message": "Edit icon URL for \"$1\"\n\nEnter a URL to an image (preferably SVG).\nLeave empty to use the default search engine icon.",
+        "message": "Изменить URL-адрес значка для «$1»\n\nВведите URL-адрес изображения (желательно в формате SVG).\nОставьте поле пустым, чтобы использовать значок поисковой системы по умолчанию.",
         "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
     },
     "disableQuickPreviewByNote": {
-        "message": "Checking this option automatically disables the quick preview of search results."
+        "message": "Установка этого флажка автоматически отключает быстрый просмотр результатов поиска."
     },
     "__WET_LOCALE__": {
         "message": "ru"
