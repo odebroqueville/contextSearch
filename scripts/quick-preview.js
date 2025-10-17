@@ -26,8 +26,87 @@ const tabItems = new Map();
 let optionsCache = { disableQuickPreview: false };
 let selectionLangCache = '';
 
+// Iframe cache: stores preloaded iframes for faster switching between engines
+// Key format: "selectedText|engineId" -> { iframe: HTMLIFrameElement, url: string, loaded: boolean }
+const iframeCache = new Map();
+let currentPageUrl = window.location.href;
+let cacheInvalidationTimer = null;
+const DIAG = {
+    enabled: false,
+};
+
 // Track last known good base engine URLs to fall back if corruption detected during live edits
 const lastGoodEngineUrls = new Map();
+
+// Generate cache key for iframe cache
+function getCacheKey(selectedText, engineId) {
+    return `${selectedText}|${engineId}`;
+}
+
+// Clear all cached iframes
+function clearIframeCache() {
+    qpLog('[Quick Preview] Clearing iframe cache');
+    iframeCache.forEach((entry) => {
+        if (entry.iframe && entry.iframe.parentNode) {
+            entry.iframe.parentNode.removeChild(entry.iframe);
+        }
+    });
+    iframeCache.clear();
+}
+
+function clearContentContainer(preserveIframes = true) {
+    if (!contentContainer) return;
+    const nodes = Array.from(contentContainer.childNodes);
+    nodes.forEach((node) => {
+        const isIframe = node.nodeType === 1 && node.tagName === 'IFRAME';
+        if (preserveIframes && isIframe) {
+            node.classList.add('qp-preview-frame-hidden');
+        } else {
+            contentContainer.removeChild(node);
+        }
+    });
+}
+
+// Setup cache invalidation on URL change or visibility change
+function setupCacheInvalidation() {
+    // Monitor URL changes (for SPAs and navigation)
+    const urlCheckInterval = setInterval(() => {
+        const newUrl = window.location.href;
+        if (newUrl !== currentPageUrl) {
+            qpLog('[Quick Preview] Page URL changed, clearing cache');
+            currentPageUrl = newUrl;
+            clearIframeCache();
+            hideBubble();
+        }
+    }, 1000);
+
+    // Clear cache when tab becomes hidden (user switches tabs)
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            // Delay cache clear to avoid clearing if user quickly returns
+            if (cacheInvalidationTimer) {
+                clearTimeout(cacheInvalidationTimer);
+            }
+            cacheInvalidationTimer = setTimeout(() => {
+                qpLog('[Quick Preview] Tab hidden for too long, clearing cache');
+                clearIframeCache();
+                hideBubble();
+            }, 30000); // 30 seconds
+        } else {
+            // User returned to tab, cancel delayed clear
+            if (cacheInvalidationTimer) {
+                clearTimeout(cacheInvalidationTimer);
+                cacheInvalidationTimer = null;
+            }
+        }
+    });
+
+    // Clear cache on page unload
+    window.addEventListener('beforeunload', () => {
+        clearIframeCache();
+        clearInterval(urlCheckInterval);
+    });
+}
 
 // Simple debounce utility (avoid external imports)
 function debounce(fn, delay = 150) {
@@ -128,6 +207,9 @@ async function initQuickPreview() {
         // Listen for text selection
         document.addEventListener('mouseup', handleTextSelection);
         document.addEventListener('keyup', handleTextSelection);
+
+        // Setup cache invalidation
+        setupCacheInvalidation();
 
         qpLog('[Quick Preview] Event listeners registered');
     } catch (error) {
@@ -248,6 +330,7 @@ function showBubble(selectedText, rect) {
         createBubble();
     }
 
+    const previousSelectedText = currentSelectedText;
     currentSelectedText = selectedText;
 
     // Only recreate tabs if bubble is not visible (first time showing)
@@ -264,6 +347,9 @@ function showBubble(selectedText, rect) {
 
         activeEngineId = null;
 
+        // Preload iframes for all engines in the background
+        preloadIframes(selectedText, enabledEngines);
+
         // Automatically load the first tab's content
         if (enabledEngines.length > 0) {
             const firstEngineId = enabledEngines[0].id;
@@ -272,6 +358,18 @@ function showBubble(selectedText, rect) {
             setTimeout(() => {
                 setActiveEngine(firstEngineId, selectedText, false);
             }, 0);
+        }
+    } else {
+        // Bubble is already visible - check if selected text changed
+        if (previousSelectedText !== selectedText) {
+            qpLog('[Quick Preview] Selected text changed, clearing old cache and preloading new');
+            clearIframeCache();
+            preloadIframes(selectedText, enabledEngines);
+
+            // Reload the active engine with new text
+            if (activeEngineId) {
+                setActiveEngine(activeEngineId, selectedText, false);
+            }
         }
     }
 
@@ -440,6 +538,172 @@ function shouldIncludeByLanguage(engineLang, selectionLang) {
     return false;
 }
 
+// Preload iframes for all enabled engines with the selected text
+function preloadIframes(selectedText, enabledEngines) {
+    qpLog('[Quick Preview] Preloading iframes for', enabledEngines.length, 'engines');
+
+    enabledEngines.forEach(({ id, engine }) => {
+        const cacheKey = getCacheKey(selectedText, id);
+
+        // Skip if already cached
+        if (iframeCache.has(cacheKey)) {
+            qpLog('[Quick Preview] Already cached:', id);
+            return;
+        }
+
+        // Build search URL
+        const searchUrl = buildSearchUrl(id, engine, selectedText);
+        if (!searchUrl) {
+            qpError('[Quick Preview] Failed to build URL for engine:', id);
+            return;
+        }
+
+        // Create cache entry first
+        const cacheEntry = {
+            iframe: null,
+            url: searchUrl,
+            loaded: false,
+        };
+        iframeCache.set(cacheKey, cacheEntry);
+
+        // Create and preload iframe, passing the cache entry so it can update loaded status
+        const iframe = createPreloadedIframe(id, searchUrl, cacheEntry);
+        cacheEntry.iframe = iframe;
+
+        qpLog('[Quick Preview] Preloaded iframe for engine:', id);
+    });
+}
+
+// Build search URL for an engine
+function buildSearchUrl(engineId, engine, selectedText) {
+    let baseUrl = engine.url;
+    const normalizedBaseUrl = normalizeEngineBaseUrl(baseUrl);
+    if (!isLikelyValidEngineBaseUrl(normalizedBaseUrl)) {
+        if (lastGoodEngineUrls.has(engineId)) {
+            qpWarn('[Quick Preview] Invalid/unstable engine base URL detected. Falling back to last good value.', {
+                current: baseUrl,
+                normalized: normalizedBaseUrl,
+                fallback: lastGoodEngineUrls.get(engineId),
+            });
+            baseUrl = lastGoodEngineUrls.get(engineId);
+        } else {
+            qpError('[Quick Preview] Engine base URL invalid and no fallback available:', baseUrl);
+            return null;
+        }
+    } else {
+        baseUrl = normalizedBaseUrl;
+        lastGoodEngineUrls.set(engineId, baseUrl);
+    }
+
+    let searchUrl = baseUrl;
+    const encodedText = encodeURIComponent(selectedText);
+
+    // Handle different URL placeholder formats
+    if (searchUrl.includes('{searchTerms}')) {
+        searchUrl = searchUrl.replace(/{searchTerms}/g, encodedText);
+    } else if (searchUrl.includes('{selection}')) {
+        searchUrl = searchUrl.replace(/{selection}/g, encodedText);
+    } else if (searchUrl.includes('%s')) {
+        searchUrl = searchUrl.replace(/%s/g, encodedText);
+    } else if (selectedText) {
+        // If no placeholder found, append the search term to the end
+        searchUrl = searchUrl + encodedText;
+    }
+
+    // Add language/region hints for Google
+    if (engineId.startsWith('google')) {
+        try {
+            const urlObj = new URL(searchUrl);
+            const desiredLang = (quickPreviewData?.engines?.[engineId]?.lang || selectionLangCache || '').trim().toLowerCase();
+            const regionByLang = { en: 'US', fr: 'FR', es: 'ES', de: 'DE', it: 'IT', pt: 'PT', nl: 'NL', ja: 'JP', ko: 'KR', zh: 'CN', ru: 'RU' };
+            if (desiredLang) {
+                const primary = desiredLang.split('-')[0];
+                urlObj.searchParams.set('hl', desiredLang);
+                if (primary && primary.length === 2) urlObj.searchParams.set('lr', `lang_${primary}`);
+                const region = regionByLang[primary] || desiredLang.split('-')[1] || '';
+                if (region) {
+                    const r = region.toUpperCase();
+                    urlObj.searchParams.set('gl', r);
+                    urlObj.searchParams.set('cr', `country${r}`);
+                }
+            }
+            searchUrl = urlObj.toString();
+        } catch (_) {
+            // ignore
+        }
+    }
+
+    // Add region/language hints for DuckDuckGo
+    if (searchUrl.includes('duckduckgo.com')) {
+        try {
+            const urlObj = new URL(searchUrl);
+            const desiredLang = (quickPreviewData?.engines?.[engineId]?.lang || selectionLangCache || '').trim().toLowerCase();
+            if (desiredLang) {
+                urlObj.searchParams.set('kl', desiredLang);
+            } else {
+                urlObj.searchParams.set('kl', 'en-us');
+            }
+            urlObj.searchParams.set('kp', '-2');
+            urlObj.searchParams.set('ia', 'web');
+            searchUrl = urlObj.toString();
+        } catch (_) {
+            // ignore
+        }
+    }
+
+    // Add SafeSearch parameter for Bing if not already present
+    if (engineId === 'bing' && !searchUrl.includes('adlt=')) {
+        const urlObj = new URL(searchUrl);
+        urlObj.searchParams.set('adlt', 'strict');
+        searchUrl = urlObj.toString();
+    }
+
+    return searchUrl;
+}
+
+// Create a preloaded iframe (hidden, attached to body)
+function createPreloadedIframe(engineId, url, cacheEntry) {
+    const iframe = document.createElement('iframe');
+    iframe.className = 'qp-preview-frame qp-preview-frame-hidden';
+    try {
+        iframe.name = `csqp:${encodeURIComponent(engineId)}`;
+    } catch (_) {
+        iframe.name = `csqp:${engineId}`;
+    }
+    iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+    iframe.setAttribute('allow', 'clipboard-read; clipboard-write;');
+
+    if (contentContainer) {
+        contentContainer.appendChild(iframe);
+    } else {
+        document.body.appendChild(iframe);
+    }
+
+    // Set the src to start loading
+    try {
+        const u = new URL(url);
+        u.searchParams.set('csqp', '1');
+        u.searchParams.set('csqpid', engineId);
+        u.searchParams.set('_csr', String(Date.now() % 100000));
+        iframe.src = u.toString();
+    } catch (_) {
+        iframe.src = url;
+    }
+
+    // Mark as loaded when it loads
+    iframe.addEventListener('load', () => {
+        if (DIAG.enabled) {
+            qpLog('[Quick Preview][DIAG] preloaded iframe load', { engineId, src: iframe.src });
+        }
+        if (cacheEntry) {
+            cacheEntry.loaded = true;
+            qpLog('[Quick Preview] Preloaded iframe finished loading:', iframe.name);
+        }
+    });
+
+    return iframe;
+}
+
 // Position the bubble near the selection
 function positionBubble(rect) {
     if (!bubble) return;
@@ -497,101 +761,49 @@ function setActiveEngine(engineId, selectedText, focusTab) {
 
     activeEngineId = engineId;
 
-    // Build search URL with proper placeholder handling
-    let baseUrl = engine.url;
-    const normalizedBaseUrl = normalizeEngineBaseUrl(baseUrl);
-    if (!isLikelyValidEngineBaseUrl(normalizedBaseUrl)) {
-        if (lastGoodEngineUrls.has(engineId)) {
-            qpWarn('[Quick Preview] Invalid/unstable engine base URL detected. Falling back to last good value.', {
-                current: baseUrl,
-                normalized: normalizedBaseUrl,
-                fallback: lastGoodEngineUrls.get(engineId),
+    // Check if we have a cached iframe for this engine + selected text
+    const cacheKey = getCacheKey(selectedText, engineId);
+    const cachedEntry = iframeCache.get(cacheKey);
+
+    qpLog('[Quick Preview] Cache lookup for', engineId, ':', {
+        cacheKey,
+        hasCachedEntry: !!cachedEntry,
+        isLoaded: cachedEntry?.loaded,
+        totalCached: iframeCache.size,
+    });
+
+    if (cachedEntry && cachedEntry.iframe) {
+        qpLog('[Quick Preview] Using cached iframe for engine:', engineId, 'loaded:', cachedEntry.loaded);
+        if (DIAG.enabled) {
+            qpLog('[Quick Preview][DIAG] reuse cached iframe', {
+                engineId,
+                loaded: cachedEntry.loaded,
+                src: cachedEntry.iframe?.src,
+                name: cachedEntry.iframe?.name,
             });
-            baseUrl = lastGoodEngineUrls.get(engineId);
-        } else {
-            qpError('[Quick Preview] Engine base URL invalid and no fallback available:', baseUrl);
         }
-    } else {
-        baseUrl = normalizedBaseUrl;
-        lastGoodEngineUrls.set(engineId, baseUrl);
-    }
 
-    let searchUrl = baseUrl;
-    const encodedText = encodeURIComponent(selectedText);
+        // Show the cached iframe
+        displayCachedIframe(cachedEntry);
 
-    qpLog('[Quick Preview] DEBUG - Original engine.url:', engine.url);
-    qpLog('[Quick Preview] DEBUG - Selected text:', selectedText);
-    qpLog('[Quick Preview] DEBUG - Encoded text:', encodedText);
-
-    // Handle different URL placeholder formats
-    if (searchUrl.includes('{searchTerms}')) {
-        searchUrl = searchUrl.replace(/{searchTerms}/g, encodedText);
-    } else if (searchUrl.includes('{selection}')) {
-        searchUrl = searchUrl.replace(/{selection}/g, encodedText);
-    } else if (searchUrl.includes('%s')) {
-        searchUrl = searchUrl.replace(/%s/g, encodedText);
-    } else if (selectedText) {
-        // If no placeholder found, append the search term to the end
-        searchUrl = searchUrl + encodedText;
-    }
-
-    // Add language/region hints for Google; add SafeSearch for Bing
-    if (engineId.startsWith('google')) {
-        try {
-            const urlObj = new URL(searchUrl);
-            // 'hl' = UI language, 'lr' = language restrict (optional), 'gl' = region
-            // Use engine lang if set, else selectionLang, else leave default
-            const desiredLang = (quickPreviewData?.engines?.[engineId]?.lang || selectionLangCache || '').trim().toLowerCase();
-            // Map simple lang to region when possible (e.g., en -> US, fr -> FR) – conservative defaults
-            const regionByLang = { en: 'US', fr: 'FR', es: 'ES', de: 'DE', it: 'IT', pt: 'PT', nl: 'NL', ja: 'JP', ko: 'KR', zh: 'CN', ru: 'RU' };
-            if (desiredLang) {
-                const primary = desiredLang.split('-')[0];
-                urlObj.searchParams.set('hl', desiredLang);
-                // Only set lr:lang_XX for simple language cases
-                if (primary && primary.length === 2) urlObj.searchParams.set('lr', `lang_${primary}`);
-                // Region hint
-                const region = regionByLang[primary] || desiredLang.split('-')[1] || '';
-                if (region) {
-                    const r = region.toUpperCase();
-                    urlObj.searchParams.set('gl', r);
-                    // Also add country restrict to favor pages from this region when supported
-                    urlObj.searchParams.set('cr', `country${r}`);
-                }
-            }
-            searchUrl = urlObj.toString();
-        } catch (_) {
-            // ignore
+        if (focusTab) {
+            element.focus({ preventScroll: true });
         }
+        return;
     }
 
-    // Add region/language hints for DuckDuckGo
-    if (searchUrl.includes('duckduckgo.com')) {
-        try {
-            const urlObj = new URL(searchUrl);
-            const desiredLang = (quickPreviewData?.engines?.[engineId]?.lang || selectionLangCache || '').trim().toLowerCase();
-            if (desiredLang) {
-                urlObj.searchParams.set('kl', desiredLang);
-            } else {
-                urlObj.searchParams.set('kl', 'en-us');
-            }
-            // Set safe search to off to allow all results
-            urlObj.searchParams.set('kp', '-2');
-            // Force web search results
-            urlObj.searchParams.set('ia', 'web');
-            searchUrl = urlObj.toString();
-        } catch (_) {
-            // ignore
+    // No cached iframe - build URL and create new one
+    qpLog('[Quick Preview] No cached iframe, building new one for engine:', engineId);
+    const searchUrl = buildSearchUrl(engineId, engine, selectedText);
+
+    if (!searchUrl) {
+        qpError('[Quick Preview] Failed to build search URL');
+        showErrorInContent('Failed to build search URL', null);
+        if (focusTab) {
+            element.focus({ preventScroll: true });
         }
+        return;
     }
-
-    // Add SafeSearch parameter for Bing if not already present
-    if (engineId === 'bing' && !searchUrl.includes('adlt=')) {
-        const urlObj = new URL(searchUrl);
-        urlObj.searchParams.set('adlt', 'strict'); // Enable strict SafeSearch
-        searchUrl = urlObj.toString();
-    }
-
-    // Note: Removed Google-specific URL parameter adjustments (gbv/igu)
 
     qpLog('[Quick Preview] Loading search for engine ID:', engineId);
     qpLog('[Quick Preview] Engine name:', engine.name);
@@ -605,9 +817,98 @@ function setActiveEngine(engineId, selectedText, focusTab) {
     }
 }
 
+// Display a cached iframe in the content container
+function displayCachedIframe(cacheEntry) {
+    if (!cacheEntry || !cacheEntry.iframe) {
+        qpWarn('[Quick Preview] Attempted to display cached iframe without entry');
+        return;
+    }
+
+    const { iframe } = cacheEntry;
+    const isLoaded = Boolean(cacheEntry.loaded);
+
+    // Clear current content
+    clearContentContainer(true);
+
+    if (!isLoaded) {
+        // Show loading state while iframe finishes loading
+        const loadingDiv = document.createElement('div');
+        loadingDiv.className = 'qp-loading';
+        const spinner = document.createElement('div');
+        spinner.className = 'qp-spinner';
+        const loadingText = document.createElement('p');
+        loadingText.textContent = 'Loading...';
+        loadingDiv.appendChild(spinner);
+        loadingDiv.appendChild(loadingText);
+        contentContainer.appendChild(loadingDiv);
+
+        // Wait for iframe to load, then show it
+        const onLoadHandler = () => {
+            cacheEntry.loaded = true;
+            if (loadingDiv.parentNode === contentContainer) {
+                contentContainer.removeChild(loadingDiv);
+            }
+            iframe.removeEventListener('load', onLoadHandler);
+        };
+        iframe.addEventListener('load', onLoadHandler);
+
+        // If iframe loads before we can attach the handler, mark it loaded and show immediately
+        if (iframe.contentDocument || iframe.contentWindow?.document) {
+            try {
+                // Check if iframe is actually loaded
+                if (iframe.contentWindow?.document?.readyState === 'complete') {
+                    cacheEntry.loaded = true;
+                    onLoadHandler();
+                }
+            } catch (e) {
+                // Cross-origin, can't check - wait for load event
+            }
+        }
+    }
+
+    // Ensure iframe is visible in the container (either immediately or while waiting for load)
+    showIframeInContainer(iframe);
+}
+
+// Move iframe into the content container and make it visible
+function showIframeInContainer(iframe) {
+    // Remove preloaded class and reset positioning to make it visible in the container
+    iframe.classList.remove('qp-preview-frame-hidden');
+    // Avoid tweaking inline styles to minimize layout thrash and accidental reloads
+
+    // Add to content container
+    if (contentContainer && iframe.parentNode !== contentContainer) {
+        contentContainer.appendChild(iframe);
+    }
+}
+
 // Directly frame the engine URL into an iframe
 function frameEngineUrl(url, engineId) {
     qpLog('[Quick Preview] frameEngineUrl called:', { url, engineId });
+
+    // Safety guard: if a cached iframe already exists for this engine+text, reuse it
+    try {
+        const cacheKey = getCacheKey(currentSelectedText, engineId);
+        const cached = iframeCache.get(cacheKey);
+        if (cached && cached.iframe) {
+            qpWarn('[Quick Preview] frameEngineUrl invoked but cached iframe exists; reusing instead of creating new', {
+                engineId,
+                cacheKey,
+                loaded: cached.loaded,
+            });
+            if (DIAG.enabled) {
+                qpLog('[Quick Preview][DIAG] frameEngineUrl short-circuit reuse', {
+                    engineId,
+                    src: cached.iframe?.src,
+                    loaded: cached.loaded,
+                });
+            }
+            displayCachedIframe(cached);
+            return;
+        }
+    } catch (_) {
+        // non-fatal
+    }
 
     // Validate inputs
     if (!url) {
@@ -623,8 +924,10 @@ function frameEngineUrl(url, engineId) {
         return;
     }
 
-    // Loading UI
-    contentContainer.textContent = '';
+    // Loading UI (do not remove existing iframes; only add overlay)
+    // Keep any preloaded/cached iframes in place to avoid reflow or detachment
+    const existingOverlay = contentContainer.querySelector('.qp-loading');
+    if (existingOverlay) existingOverlay.remove();
     const loadingDiv = document.createElement('div');
     loadingDiv.className = 'qp-loading';
     const spinner = document.createElement('div');
@@ -691,6 +994,29 @@ function frameEngineUrl(url, engineId) {
         loadHandled = true;
         clearWatchdog();
         qpLog('[Quick Preview] Iframe loaded for', url);
+        if (DIAG.enabled) {
+            try {
+                qpLog('[Quick Preview][DIAG] frameEngineUrl load', {
+                    engineId,
+                    src: iframe.src,
+                    name: iframe.name,
+                });
+            } catch (_) {
+                // ignore
+            }
+        }
+
+        // Cache this iframe for future use
+        const cacheKey = getCacheKey(currentSelectedText, engineId);
+        if (!iframeCache.has(cacheKey)) {
+            qpLog('[Quick Preview] Caching newly created iframe for:', engineId);
+            iframeCache.set(cacheKey, {
+                iframe: iframe,
+                url: url,
+                loaded: true,
+            });
+        }
+
         // Remove only the loading overlay; keep iframe in place to avoid reloads
         try {
             if (loadingDiv && loadingDiv.parentNode === contentContainer) {
@@ -736,6 +1062,9 @@ function frameEngineUrl(url, engineId) {
     iframe.onerror = () => {
         loadHandled = true;
         clearWatchdog();
+        if (DIAG.enabled) {
+            qpWarn('[Quick Preview][DIAG] iframe error', { engineId, src: iframe.src });
+        }
         if (attempts < MAX_ATTEMPTS - 1) {
             attempts += 1;
             tryReload();
@@ -746,7 +1075,10 @@ function frameEngineUrl(url, engineId) {
 
     // Append iframe to DOM before setting src so some browsers can initiate load
     // Keep the loading overlay visible until onload/timeout
-    contentContainer.appendChild(iframe);
+    // Append only if not already present (avoid DOM churn that may cause reloads in some engines)
+    if (iframe.parentNode !== contentContainer) {
+        contentContainer.appendChild(iframe);
+    }
 
     const tryReload = () => {
         // Reset handlers state and watchdog for a retry
@@ -760,8 +1092,14 @@ function frameEngineUrl(url, engineId) {
             u.searchParams.set('_csr', String(Date.now() % 100000));
             // Do NOT modify hash: some engines (e.g., DeepL) encode query in hash path segments
             iframe.src = u.toString();
+            if (DIAG.enabled) {
+                qpLog('[Quick Preview][DIAG] tryReload set src', { engineId, src: iframe.src });
+            }
         } catch (_) {
             iframe.src = url;
+            if (DIAG.enabled) {
+                qpLog('[Quick Preview][DIAG] tryReload raw src', { engineId, src: iframe.src });
+            }
         }
         // Start a new watchdog for the retry
         watchdog = setTimeout(() => {
@@ -778,12 +1116,25 @@ function frameEngineUrl(url, engineId) {
 
     // Initial load
     tryReload();
+
+    // Cache newly created primary iframe for this engine+text to prevent future re-creations
+    try {
+        const cacheKey = getCacheKey(currentSelectedText, engineId);
+        if (!iframeCache.has(cacheKey)) {
+            if (DIAG.enabled) {
+                qpLog('[Quick Preview][DIAG] caching primary iframe from frameEngineUrl', { engineId, cacheKey });
+            }
+            iframeCache.set(cacheKey, { iframe, url, loaded: false });
+        }
+    } catch (_) {
+        // ignore
+    }
 }
 
 // Helper function to show error in content container
 function showErrorInContent(errorMessage, url) {
     // Show error with fallback option
-    contentContainer.textContent = ''; // Clear existing content
+    clearContentContainer(true); // Clear existing content while keeping cached iframes
 
     const errorDiv = document.createElement('div');
     errorDiv.className = 'qp-error';
@@ -847,7 +1198,7 @@ function showBlockedContentFallback(engineId, url) {
     // Replace iframe with fallback
     const container = contentContainer;
     if (container) {
-        container.innerHTML = '';
+        clearContentContainer(true);
         container.appendChild(fallbackDiv);
     }
 }
@@ -869,6 +1220,9 @@ function hideBubble() {
     } catch (e) {
         // ignore
     }
+
+    // Don't immediately clear cache - let the visibility change handler deal with it
+    // This allows quick re-opening of bubble without reloading
 }
 
 // Initialize when script loads

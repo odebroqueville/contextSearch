@@ -25,7 +25,8 @@ Firefox and Chrome cross-browser extension to search selected text in a web page
 -   Use custom prompts to question a selection of AI chatbots
 -   Carry out searches from the Omnibox, i.e. url address bar, or the Command window (Alt+K)
 -   Assign keyboard shortcuts to your search engines
--   Export/Import your list of search engines as a safe backup
+-   Export/Import your options, list of search engines, prompts and quick preview data
+-   Use Quick preview to quickly view search results for selected search engines
 
 ## Optional Permissions in Firefox
 
@@ -184,6 +185,44 @@ You can run these same commands from the command window (opened with Alt+K) with
 2. Each bookmark/history item gets a bookmark icon positioned in the top-right corner
 3. Clicking the icon toggles the bookmark status and updates the search engines list
 4. The icon appearance changes immediately to reflect the new status
+
+## Quick Preview
+
+### What is Quick Preview?
+
+Quick Preview is inspired by @DeLaRoka's [Lumetrium Definer](https://lumetrium.com/definer/) extension.
+
+It is a powerful feature that allows you to instantly preview search results from multiple search engines in a floating bubble interface, without leaving your current page or opening new tabs. When you select text on a webpage, a compact preview bubble appears showing search results from your chosen search engines and you can easily switch between them.
+
+### How to Use Quick Preview
+
+To use Quick Preview, simply select text on any webpage. If Quick Preview is enabled in the extension's Options page and you have configured search engines for quick preview, a bubble will appear near your selection displaying the search results. You can interact with the preview just like a normal webpage - click links, scroll through results, and explore the content. If you want to open a result in a full tab, you can click the "Open in Tab" button for that search engine, or simply close the bubble to continue browsing.
+
+> [!NOTE]
+> Quick Preview only works with search engines that use HTTP GET requests. Additionally, Quick Preview and the immediate opening of the Icons Grid are mutually exclusive features - enabling one will automatically disable the other to prevent conflicts.
+
+### Configuring Search Engines for Quick Preview
+
+To configure which search engines appear in Quick Preview, go to the extension's Options page and navigate to the "Quick preview" tab. Here you'll see a list of all your available search engines that use HTTP GET requests. Simply drag & drop the ones you want to include in your Quick Preview bubble from the left area to the right column. You can also specify a language code for each search engine, which helps the Quick Preview system determine which engines to show based on the detected language of your selected text.
+
+You can also add custom CSS rules you'd like to see applied to the search results in Quick Preview. If you'd like to adopt the same look and feel as the Lumetrium Definer, you can copy-paste the same CSS rules into the CSS editor and then click the Save button.
+
+### Using the CSS Editor
+
+The Quick Preview CSS Editor is a powerful customization tool that allows you to personalize the appearance and behavior of the Quick Preview bubble. To access the CSS editor, navigate to the Options page, select the "Quick preview" tab, and look for the "CSS" button that opens the CSS editor interface.
+
+### Language Filtering
+
+Quick Preview includes an intelligent language filtering feature. When you select text, the extension attempts to detect the language of your selection. If you've assigned language codes to your search engines (e.g., "en" for English, "fr" for French, "ja" for Japanese), the Quick Preview bubble will prioritize showing only search engines that match the detected language. This ensures you see the most relevant results for content in different languages.
+
+To enable language filtering, check the "Filter Quick Preview by selection language" option in the Quick Preview settings section of the Options page. When enabled, if you select English text, only search engines marked with "en" will appear. If no engines match the detected language, all configured engines will be shown as a fallback, ensuring you always have search options available.
+
+If you don't specify a language for a search engine, then it will always be displayed.
+
+### Re-checking Engines
+
+The "Re-check engines" button allows you to verify that your selected search engines are still accessible and will work correctly in the Quick Preview bubble. This feature tests each engine and displays a warning icon next to any that may have compatibility issues, such as sites that block iframe embedding due to security policies.
+
 
 ## The main structure of a JSON file containing the search engines
 
