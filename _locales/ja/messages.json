@@ -375,7 +375,7 @@
         "message": "ブックマーク削除用のURLを取得できませんでした"
     },
     "notifyCustomCssSaved": {
-        "message": "Custom CSS saved for \"$1\".",
+        "message": "カスタムCSSが「$1」用に保存されました。",
         "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
     },
     "notifyAIMinimalRequirements": {
@@ -461,175 +461,175 @@
         "message": "検索プロンプト..."
     },
     "promptsHeading": {
-        "message": "Prompts"
+        "message": "プロンプト"
     },
     "newPromptTitle": {
-        "message": "New Prompt"
+        "message": "新しいプロンプト"
     },
     "foldersHeading": {
-        "message": "Folders"
+        "message": "フォルダ"
     },
     "newFolderTitle": {
-        "message": "New Folder"
+        "message": "新しいフォルダ"
     },
     "newFolderNamePlaceholder": {
-        "message": "New folder name..."
+        "message": "新しいフォルダ名..."
     },
     "tagsHeading": {
-        "message": "Tags"
+        "message": "タグ"
     },
     "newTagTitle": {
-        "message": "New Tag"
+        "message": "新しいタグ"
     },
     "newTagNamePlaceholder": {
-        "message": "New tag name..."
+        "message": "新しいタグ名..."
     },
     "addTag": {
-        "message": "Add Tag"
+        "message": "タグを追加"
     },
     "settings": {
-        "message": "Settings"
+        "message": "設定"
     },
     "select": {
-        "message": "Select"
+        "message": "選択"
     },
     "cancel": {
-        "message": "Cancel"
+        "message": "キャンセル"
     },
     "delete": {
-        "message": "Delete"
+        "message": "削除"
     },
     "sortNewest": {
-        "message": "Newest"
+        "message": "最新"
     },
     "sortTitleAsc": {
-        "message": "Title (A-Z)"
+        "message": "タイトル（A-Z）"
     },
     "noPromptsPlaceholder": {
-        "message": "No prompts here yet. Let's create one!"
+        "message": "まだプロンプトはありません。作成しましょう！"
     },
     "createNewPrompt": {
-        "message": "Create New Prompt"
+        "message": "新しいプロンプトを作成"
     },
     "backToTop": {
-        "message": "Back to Top"
+        "message": "トップへ戻る"
     },
     "noPromptSelectedMessage": {
-        "message": "Select a prompt to view, or create a new one."
+        "message": "プロンプトを選択して表示するか、新しいプロンプトを作成してください。"
     },
     "titleLabel": {
-        "message": "Title"
+        "message": "タイトル"
     },
     "lock": {
-        "message": "Lock"
+        "message": "ロック"
     },
     "promptTitlePlaceholder": {
-        "message": "Prompt Title"
+        "message": "プロンプトタイトル"
     },
     "folderLabel": {
-        "message": "Folder"
+        "message": "フォルダ"
     },
     "promptLabel": {
-        "message": "Prompt"
+        "message": "プロンプト"
     },
     "promptBodyPlaceholder": {
-        "message": "The content of your prompt..."
+        "message": "プロンプトの内容..."
     },
     "copyPromptBody": {
-        "message": "Copy prompt body"
+        "message": "プロンプト本文をコピー"
     },
     "fullscreenEditor": {
-        "message": "Fullscreen Editor"
+        "message": "フルスクリーンエディター"
     },
     "notesLabel": {
-        "message": "Notes"
+        "message": "注記"
     },
     "notesPlaceholder": {
-        "message": "Add extra details or context..."
+        "message": "追加の詳細や背景情報を追加してください..."
     },
     "tagsLabel": {
-        "message": "Tags"
+        "message": "タグ"
     },
     "addTagsPlaceholder": {
-        "message": "Add tags..."
+        "message": "タグを追加..."
     },
     "save": {
-        "message": "Save"
+        "message": "保存"
     },
     "close": {
-        "message": "Close"
+        "message": "閉じる"
     },
     "saveAndClose": {
-        "message": "Save & Close"
+        "message": "保存して閉じる"
     },
     "movePromptsTitle": {
-        "message": "Move Prompts"
+        "message": "移動プロンプト"
     },
     "movePromptsMessagePrefix": {
-        "message": "Select a destination folder for the"
+        "message": "保存先フォルダを選択してください"
     },
     "selectedPromptsSuffix": {
-        "message": "selected prompts."
+        "message": "選択されたプロンプト。"
     },
     "folderPassword": {
-        "message": "Folder Password"
+        "message": "フォルダパスワード"
     },
     "enterFolderPasswordPlaceholder": {
-        "message": "Enter password for locked folder"
+        "message": "ロックされたフォルダのパスワードを入力してください"
     },
     "deleteFolderTitle": {
-        "message": "Delete Folder"
+        "message": "フォルダを削除"
     },
     "deleteFolderMessage": {
-        "message": "What would you like to do with the prompts inside this folder?"
+        "message": "このフォルダ内のプロンプトをどうしますか？"
     },
     "deleteFolderMovePrompts": {
-        "message": "Delete Folder & Move Prompts"
+        "message": "フォルダ削除とプロンプト移動"
     },
     "deleteFolderAndPrompts": {
-        "message": "Delete Folder & All Prompts"
+        "message": "フォルダとすべてのプロンプトを削除"
     },
     "resetDataMessage": {
-        "message": "Are you sure you want to reset all data? This will permanently delete all prompts, folders, and tags. This action cannot be undone."
+        "message": "すべてのデータをリセットしてもよろしいですか？これにより、すべてのプロンプト、フォルダ、タグが完全に削除されます。この操作は元に戻せません。"
     },
     "confirmResetAll": {
-        "message": "Yes, Reset Everything"
+        "message": "はい、すべてリセット"
     },
     "renameFolder": {
-        "message": "Rename Folder"
+        "message": "フォルダの名前を変更する"
     },
     "dangerZone": {
-        "message": "Danger Zone"
+        "message": "危険地帯"
     },
     "deleteFolder": {
-        "message": "Delete Folder"
+        "message": "フォルダを削除"
     },
     "manageTagsTitle": {
-        "message": "Manage Tags"
+        "message": "タグを管理する"
     },
     "leavePageTitle": {
-        "message": "Leave Page?"
+        "message": "ページを離れますか？"
     },
     "leavePageMessage": {
-        "message": "Are you sure you want to leave this page? Any unsaved changes may be lost."
+        "message": "このページを離れることを確認しますか？保存されていない変更は失われる可能性があります。"
     },
     "stay": {
-        "message": "Stay"
+        "message": "滞在"
     },
     "leave": {
-        "message": "Leave"
+        "message": "去る"
     },
     "dontAskAgainThisSession": {
-        "message": "Don't ask again for this session"
+        "message": "このセッションでは再度尋ねないでください"
     },
     "ok": {
-        "message": "OK"
+        "message": "了解"
     },
     "exportShort": {
-        "message": "Export"
+        "message": "輸出"
     },
     "importShort": {
-        "message": "Import"
+        "message": "インポート"
     },
     "promptLockedEnterPassword": {
         "message": "このプロンプトはロックされています。挿入するにはパスワードを入力してください："
@@ -641,35 +641,35 @@
         "message": "プロンプトライブラリに追加"
     },
     "titleQuickPreview": {
-        "message": "Quick preview"
+        "message": "クイックプレビュー"
     },
     "headerQuickPreview": {
-        "message": "Quick Preview Settings"
+        "message": "クイックプレビュー設定"
     },
     "quickPreviewDescription": {
-        "message": "Configure which search engines appear in the quick preview bubble. Only HTTP GET-based search engines are supported."
+        "message": "クイックプレビューバブルに表示される検索エンジンを設定します。HTTP GETベースの検索エンジンのみがサポートされています。"
     },
     "disableQuickPreview": {
-        "message": "Disable quick preview of search results"
+        "message": "検索結果のクイックプレビューを無効にする"
     },
     "filterQuickPreviewByLanguage": {
-        "message": "Filter Quick Preview by selection language"
+        "message": "選択言語によるフィルターのクイックプレビュー"
     },
     "filterQuickPreviewByLanguageNote": {
-        "message": "When enabled, only engines whose language matches the detected selection language are shown. If no engines match, all are shown as a fallback."
+        "message": "有効にすると、検出された選択言語と一致する言語のエンジンのみが表示されます。一致するエンジンがない場合、フォールバックとして全てのエンジンが表示されます。"
     },
     "recheckDescription": {
-        "message": "Re-check engines will verify if each and every search engine is still available and responsive. A red warning icon will appear next to any engines that may not render correctly in the Quick preview bubble. This may take a while."
+        "message": "再チェックエンジンは、すべての検索エンジンが利用可能で応答しているかを確認します。クイックプレビューバブルで正しく表示されない可能性があるエンジンには、赤い警告アイコンが表示されます。この処理には時間がかかる場合があります。"
     },
     "recheckEngines": {
-        "message": "Re-check engines"
+        "message": "エンジンを再点検する"
     },
     "editIconPrompt": {
-        "message": "Edit icon URL for \"$1\"\n\nEnter a URL to an image (preferably SVG).\nLeave empty to use the default search engine icon.",
+        "message": "「$1」のアイコンURLを編集\n\n画像のURLを入力してください（SVG推奨）。\n空欄のままにするとデフォルトの検索エンジンアイコンが使用されます。",
         "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
     },
     "disableQuickPreviewByNote": {
-        "message": "Checking this option automatically disables the quick preview of search results."
+        "message": "このオプションをチェックすると、検索結果のクイックプレビューが自動的に無効になります。"
     },
     "__WET_LOCALE__": {
         "message": "ja"
