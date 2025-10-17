@@ -1,7 +1,14 @@
 6.3.0
 =========
 
-* 
+* Added Quick Preview feature for fast access to search results of a selection of search engines
+* Uses CodeMirror 6 to enable syntax highlighting in the CSS editor
+* Uses preloading and caching for search results to appear quickly when switching
+* Added translations for Prompts Library and Quick Preview
+* Added re-recheck engines to identify search engine incompatibility with iframes
+* Added options to disable Quick Preview or filter engines by language
+* Refactored event listeners for better performance
+* Updated README and LICENSE files
 
 6.2.5
 ---------

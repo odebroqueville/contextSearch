@@ -388,12 +388,14 @@ Result: Variables are expanded first, then the bookmarklet runs with the substit
 ## Special thanks to the following contributors
 
 <ul>
+<li>@DeLaRoka, developer of Lumetrium Definer, for inspiring Quick Preview</li>
 <li>Carl Scheller for implementing the drag & drop feature to move search engines in the Options page</li>
 <li>Geoffrey De Belie for code contributions to the original project and for the Dutch translations</li>
 <li>Krzysztof Galazka for the Polish translations</li>
 <li>Sergio Tombesi for the Italian and Spanish translations</li>
 <li>Fushan Wen for the Chinese translations</li>
 <li>Sveinn í Felli for the Icelandic translations</li>
+<li>@perdolka for the Ukrainian translations</li>
 </ul>
 
 Other translations were completed using [DeepL](https://www.deepl.com/translator), Microsoft Translator and Google Translate in [Crowdin](https://crowdin.com).
@@ -405,6 +407,8 @@ I'm also grateful to the developers of the software mentioned below and to all t
 -   Webextension-polyfill v0.12.0 minified with many contributors, which can be found on GitHub here: https://github.com/mozilla/webextension-polyfill
 -   SortableJS v1.15.6 minified with many contributors, which can be found on GitHub here: https://github.com/SortableJS/Sortable/blob/1.15.6/Sortable.min.js
 -   Promptcat by sevenreasons which can also be found on GitHub here: https://github.com/sevenreasons/promptcat
+-   CodeMirror 6 by Marijn Haverbeke <marijn@haverbeke.berlin>, Adrian Heine <mail@adrianheine.de>, and others which can be found on GitHub here: https://github.com/codemirror/dev/
+
 
 ## Development Configuration
 
