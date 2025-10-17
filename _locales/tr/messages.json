@@ -374,6 +374,10 @@
     "notifyMissingBookmarkUrl": {
         "message": "Yer imi kaldırma için URL alınamadı"
     },
+    "notifyCustomCssSaved": {
+        "message": "\"$1\" için kaydedilen özel CSS.",
+        "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
+    },
     "notifyAIMinimalRequirements": {
         "message": "Lütfen en azından bir AI hizmet sağlayıcısı seçin ve bir AI komut adı ve bir AI komut girin."
     },
@@ -456,6 +460,177 @@
     "promptLibrarySearchPlaceholder": {
         "message": "Arama komutları..."
     },
+    "promptsHeading": {
+        "message": "Komutlar"
+    },
+    "newPromptTitle": {
+        "message": "Yeni İstem"
+    },
+    "foldersHeading": {
+        "message": "Klasörler"
+    },
+    "newFolderTitle": {
+        "message": "Yeni Klasör"
+    },
+    "newFolderNamePlaceholder": {
+        "message": "Yeni klasör adı..."
+    },
+    "tagsHeading": {
+        "message": "Etiketler"
+    },
+    "newTagTitle": {
+        "message": "Yeni Etiket"
+    },
+    "newTagNamePlaceholder": {
+        "message": "Yeni etiket adı..."
+    },
+    "addTag": {
+        "message": "Etiket Ekle"
+    },
+    "settings": {
+        "message": "Ayarlar"
+    },
+    "select": {
+        "message": "Seç"
+    },
+    "cancel": {
+        "message": "İptal"
+    },
+    "delete": {
+        "message": "Sil"
+    },
+    "sortNewest": {
+        "message": "En yeni"
+    },
+    "sortTitleAsc": {
+        "message": "Başlık (A-Z)"
+    },
+    "noPromptsPlaceholder": {
+        "message": "Henüz burada bir komut yok. Bir tane oluşturalım!"
+    },
+    "createNewPrompt": {
+        "message": "Yeni İstem Oluştur"
+    },
+    "backToTop": {
+        "message": "Başa Dön"
+    },
+    "noPromptSelectedMessage": {
+        "message": "Görüntülemek için bir istem seçin veya yeni bir istem oluşturun."
+    },
+    "titleLabel": {
+        "message": "Başlık"
+    },
+    "lock": {
+        "message": "Kilit"
+    },
+    "promptTitlePlaceholder": {
+        "message": "Hızlı Başlık"
+    },
+    "folderLabel": {
+        "message": "Klasör"
+    },
+    "promptLabel": {
+        "message": "Hızlı"
+    },
+    "promptBodyPlaceholder": {
+        "message": "Komutunuzun içeriği..."
+    },
+    "copyPromptBody": {
+        "message": "Komut istemini kopyala"
+    },
+    "fullscreenEditor": {
+        "message": "Tam Ekran Düzenleyici"
+    },
+    "notesLabel": {
+        "message": "Notlar"
+    },
+    "notesPlaceholder": {
+        "message": "Ekstra ayrıntılar veya bağlam ekleyin..."
+    },
+    "tagsLabel": {
+        "message": "Etiketler"
+    },
+    "addTagsPlaceholder": {
+        "message": "Etiketler ekle..."
+    },
+    "save": {
+        "message": "Kaydet"
+    },
+    "close": {
+        "message": "Kapat"
+    },
+    "saveAndClose": {
+        "message": "Kaydet ve Kapat"
+    },
+    "movePromptsTitle": {
+        "message": "Taşıma İstemleri"
+    },
+    "movePromptsMessagePrefix": {
+        "message": "Hedef klasörü seçin"
+    },
+    "selectedPromptsSuffix": {
+        "message": "seçilen komutlar."
+    },
+    "folderPassword": {
+        "message": "Klasör Şifresi"
+    },
+    "enterFolderPasswordPlaceholder": {
+        "message": "Kilitli klasör için şifre girin"
+    },
+    "deleteFolderTitle": {
+        "message": "Klasörü Sil"
+    },
+    "deleteFolderMessage": {
+        "message": "Bu klasörün içindeki komut istemleriyle ne yapmak istersiniz?"
+    },
+    "deleteFolderMovePrompts": {
+        "message": "Klasörü Sil ve Taşıma İstemleri"
+    },
+    "deleteFolderAndPrompts": {
+        "message": "Klasörü ve Tüm İstemleri Sil"
+    },
+    "resetDataMessage": {
+        "message": "Tüm verileri sıfırlamak istediğinizden emin misiniz? Bu işlem tüm uyarıları, klasörleri ve etiketleri kalıcı olarak silecektir. Bu işlem geri alınamaz."
+    },
+    "confirmResetAll": {
+        "message": "Evet, Her Şeyi Sıfırla"
+    },
+    "renameFolder": {
+        "message": "Klasörü Yeniden Adlandır"
+    },
+    "dangerZone": {
+        "message": "Tehlike Bölgesi"
+    },
+    "deleteFolder": {
+        "message": "Klasörü Sil"
+    },
+    "manageTagsTitle": {
+        "message": "Etiketler Yönet"
+    },
+    "leavePageTitle": {
+        "message": "Sayfadan çıkmak mı?"
+    },
+    "leavePageMessage": {
+        "message": "Bu sayfadan ayrılmak istediğinizden emin misiniz? Kaydedilmemiş değişiklikler kaybolabilir."
+    },
+    "stay": {
+        "message": "Kal"
+    },
+    "leave": {
+        "message": "Ayrılmak"
+    },
+    "dontAskAgainThisSession": {
+        "message": "Bu oturum için bir daha sormayın"
+    },
+    "ok": {
+        "message": "Tamam"
+    },
+    "exportShort": {
+        "message": "Dışa aktar"
+    },
+    "importShort": {
+        "message": "İthalat"
+    },
     "promptLockedEnterPassword": {
         "message": "Bu komut satırı kilitlidir. Eklemek için şifreyi girin:"
     },
@@ -464,6 +639,37 @@
     },
     "addToPromptLibrary": {
         "message": "Komut istemine ekle"
+    },
+    "titleQuickPreview": {
+        "message": "Hızlı önizleme"
+    },
+    "headerQuickPreview": {
+        "message": "Hızlı Önizleme Ayarları"
+    },
+    "quickPreviewDescription": {
+        "message": "Hızlı önizleme balonunda hangi arama motorlarının görüneceğini yapılandırın. Yalnızca HTTP GET tabanlı arama motorları desteklenir."
+    },
+    "disableQuickPreview": {
+        "message": "Arama sonuçlarının hızlı önizlemesini devre dışı bırak"
+    },
+    "filterQuickPreviewByLanguage": {
+        "message": "Seçim diline göre Hızlı Önizlemeyi filtrele"
+    },
+    "filterQuickPreviewByLanguageNote": {
+        "message": "Etkinleştirildiğinde, yalnızca algılanan seçim diline uyan dillere sahip motorlar gösterilir. Uygun motor bulunmadığında, tüm motorlar yedek olarak gösterilir."
+    },
+    "recheckDescription": {
+        "message": "Yeniden kontrol motorları, her bir arama motorunun hala kullanılabilir ve yanıt verebilir durumda olup olmadığını doğrular. Hızlı önizleme balonunda doğru şekilde görüntülenemeyen motorların yanında kırmızı bir uyarı simgesi görünür. Bu işlem biraz zaman alabilir."
+    },
+    "recheckEngines": {
+        "message": "Motorları yeniden kontrol edin"
+    },
+    "editIconPrompt": {
+        "message": "\"$1\" için simge URL'sini düzenle\n\nBir resmin URL'sini girin (tercihen SVG).\nVarsayılan arama motoru simgesini kullanmak için boş bırakın.",
+        "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
+    },
+    "disableQuickPreviewByNote": {
+        "message": "Bu seçeneği işaretlediğinizde, arama sonuçlarının hızlı önizlemesi otomatik olarak devre dışı bırakılır."
     },
     "__WET_LOCALE__": {
         "message": "tr"

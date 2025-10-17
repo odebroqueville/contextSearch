@@ -374,6 +374,10 @@
     "notifyMissingBookmarkUrl": {
         "message": "تعذر استرداد عنوان URL لإزالة الإشارة المرجعية"
     },
+    "notifyCustomCssSaved": {
+        "message": "تم حفظ CSS المخصص لـ \"$1\".",
+        "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
+    },
     "notifyAIMinimalRequirements": {
         "message": "يرجى على الأقل تحديد مزود خدمة الذكاء الاصطناعي وإدخال اسم موجه الذكاء الاصطناعي وموجه الذكاء الاصطناعي"
     },
@@ -456,6 +460,177 @@
     "promptLibrarySearchPlaceholder": {
         "message": "مطالبات البحث..."
     },
+    "promptsHeading": {
+        "message": "مطالبات"
+    },
+    "newPromptTitle": {
+        "message": "موجه جديد"
+    },
+    "foldersHeading": {
+        "message": "المجلدات"
+    },
+    "newFolderTitle": {
+        "message": "مجلد جديد"
+    },
+    "newFolderNamePlaceholder": {
+        "message": "اسم المجلد الجديد..."
+    },
+    "tagsHeading": {
+        "message": "العلامات"
+    },
+    "newTagTitle": {
+        "message": "علامة جديدة"
+    },
+    "newTagNamePlaceholder": {
+        "message": "اسم العلامة الجديد..."
+    },
+    "addTag": {
+        "message": "إضافة علامة"
+    },
+    "settings": {
+        "message": "الإعدادات"
+    },
+    "select": {
+        "message": "اختر"
+    },
+    "cancel": {
+        "message": "إلغاء"
+    },
+    "delete": {
+        "message": "حذف"
+    },
+    "sortNewest": {
+        "message": "الأحدث"
+    },
+    "sortTitleAsc": {
+        "message": "العنوان (أ-ي)"
+    },
+    "noPromptsPlaceholder": {
+        "message": "لا توجد مطالبات هنا حتى الآن. لنقم بإنشاء واحدة!"
+    },
+    "createNewPrompt": {
+        "message": "إنشاء موجه جديد"
+    },
+    "backToTop": {
+        "message": "العودة إلى الأعلى"
+    },
+    "noPromptSelectedMessage": {
+        "message": "حدد موجهًا لعرضه أو أنشئ موجهًا جديدًا."
+    },
+    "titleLabel": {
+        "message": "العنوان"
+    },
+    "lock": {
+        "message": "قفل"
+    },
+    "promptTitlePlaceholder": {
+        "message": "عنوان المطالبة"
+    },
+    "folderLabel": {
+        "message": "مجلد"
+    },
+    "promptLabel": {
+        "message": "موجه"
+    },
+    "promptBodyPlaceholder": {
+        "message": "محتوى موجهك..."
+    },
+    "copyPromptBody": {
+        "message": "نسخ نص المطالبة"
+    },
+    "fullscreenEditor": {
+        "message": "محرر الشاشة الكاملة"
+    },
+    "notesLabel": {
+        "message": "ملاحظات"
+    },
+    "notesPlaceholder": {
+        "message": "أضف تفاصيل أو سياق إضافي..."
+    },
+    "tagsLabel": {
+        "message": "العلامات"
+    },
+    "addTagsPlaceholder": {
+        "message": "أضف علامات..."
+    },
+    "save": {
+        "message": "حفظ"
+    },
+    "close": {
+        "message": "إغلاق"
+    },
+    "saveAndClose": {
+        "message": "حفظ وإغلاق"
+    },
+    "movePromptsTitle": {
+        "message": "مطالبات النقل"
+    },
+    "movePromptsMessagePrefix": {
+        "message": "حدد مجلد الوجهة لـ"
+    },
+    "selectedPromptsSuffix": {
+        "message": "مطالبات محددة."
+    },
+    "folderPassword": {
+        "message": "كلمة مرور المجلد"
+    },
+    "enterFolderPasswordPlaceholder": {
+        "message": "أدخل كلمة المرور للمجلد المقفل"
+    },
+    "deleteFolderTitle": {
+        "message": "حذف المجلد"
+    },
+    "deleteFolderMessage": {
+        "message": "ماذا تريد أن تفعل بالمطالبات الموجودة داخل هذا المجلد؟"
+    },
+    "deleteFolderMovePrompts": {
+        "message": "حذف المجلد ونقل المطالبات"
+    },
+    "deleteFolderAndPrompts": {
+        "message": "حذف المجلد وجميع المطالبات"
+    },
+    "resetDataMessage": {
+        "message": "هل تريد إعادة تعيين جميع البيانات؟ سيؤدي ذلك إلى حذف جميع المطالبات والمجلدات والعلامات نهائيًا. لا يمكن التراجع عن هذا الإجراء."
+    },
+    "confirmResetAll": {
+        "message": "نعم، إعادة ضبط كل شيء"
+    },
+    "renameFolder": {
+        "message": "إعادة تسمية المجلد"
+    },
+    "dangerZone": {
+        "message": "منطقة الخطر"
+    },
+    "deleteFolder": {
+        "message": "حذف المجلد"
+    },
+    "manageTagsTitle": {
+        "message": "إدارة العلامات"
+    },
+    "leavePageTitle": {
+        "message": "مغادرة الصفحة؟"
+    },
+    "leavePageMessage": {
+        "message": "هل تريد حقا الخروج من هذه الصفحة؟ قد تفقد أي تغييرات لم يتم حفظها."
+    },
+    "stay": {
+        "message": "البقاء"
+    },
+    "leave": {
+        "message": "إجازة"
+    },
+    "dontAskAgainThisSession": {
+        "message": "لا تسأل مرة أخرى عن هذه الجلسة"
+    },
+    "ok": {
+        "message": "حسناً"
+    },
+    "exportShort": {
+        "message": "تصدير"
+    },
+    "importShort": {
+        "message": "استيراد"
+    },
     "promptLockedEnterPassword": {
         "message": "هذا الموجه مقفل. أدخل كلمة المرور لإدخاله:"
     },
@@ -464,6 +639,37 @@
     },
     "addToPromptLibrary": {
         "message": "إضافة إلى مكتبة المطالبات"
+    },
+    "titleQuickPreview": {
+        "message": "معاينة سريعة"
+    },
+    "headerQuickPreview": {
+        "message": "إعدادات المعاينة السريعة"
+    },
+    "quickPreviewDescription": {
+        "message": "تكوين محركات البحث التي تظهر في فقاعة المعاينة السريعة. لا يتم دعم سوى محركات البحث المستندة إلى HTTP GET."
+    },
+    "disableQuickPreview": {
+        "message": "تعطيل المعاينة السريعة لنتائج البحث"
+    },
+    "filterQuickPreviewByLanguage": {
+        "message": "تصفية المعاينة السريعة حسب لغة الاختيار"
+    },
+    "filterQuickPreviewByLanguageNote": {
+        "message": "عند التمكين، يتم عرض المحركات التي تتطابق لغتها مع لغة الاختيار المكتشفة فقط. إذا لم تتطابق أي محركات، يتم عرضها جميعًا كخيار بديل."
+    },
+    "recheckDescription": {
+        "message": "ستتحقق محركات إعادة الفحص من أن كل محرك بحث لا يزال متاحًا وسريع الاستجابة. سيظهر رمز تحذير أحمر بجوار أي محركات قد لا يتم عرضها بشكل صحيح في فقاعة المعاينة السريعة. قد يستغرق هذا بعض الوقت."
+    },
+    "recheckEngines": {
+        "message": "إعادة فحص المحركات"
+    },
+    "editIconPrompt": {
+        "message": "تحرير عنوان URL للرمز \"$1\"\n\nأدخل عنوان URL لصورة (يفضل أن تكون بصيغة SVG).\nاتركه فارغًا لاستخدام رمز محرك البحث الافتراضي.",
+        "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
+    },
+    "disableQuickPreviewByNote": {
+        "message": "تؤدي تحديد هذه الخيار إلى تعطيل المعاينة السريعة لنتائج البحث تلقائيًا."
     },
     "__WET_LOCALE__": {
         "message": "ar"

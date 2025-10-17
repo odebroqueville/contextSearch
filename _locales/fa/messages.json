@@ -374,6 +374,10 @@
     "notifyMissingBookmarkUrl": {
         "message": "نمی توان URL را برای حذف نشانک بازیابی کرد"
     },
+    "notifyCustomCssSaved": {
+        "message": "CSS سفارشی برای \"$1\" ذخیره شده است.",
+        "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
+    },
     "notifyAIMinimalRequirements": {
         "message": "لطفا حداقل یک ارائه دهنده خدمات هوش مصنوعی را انتخاب کنید و یک نام اعلان هوش مصنوعی و یک اعلان هوش مصنوعی وارد کنید"
     },
@@ -456,6 +460,177 @@
     "promptLibrarySearchPlaceholder": {
         "message": "درخواست های جستجو..."
     },
+    "promptsHeading": {
+        "message": "اعلان‌ها"
+    },
+    "newPromptTitle": {
+        "message": "اعلان جدید"
+    },
+    "foldersHeading": {
+        "message": "پوشه"
+    },
+    "newFolderTitle": {
+        "message": "پوشه جدید"
+    },
+    "newFolderNamePlaceholder": {
+        "message": "نام پوشه جدید..."
+    },
+    "tagsHeading": {
+        "message": "Tags"
+    },
+    "newTagTitle": {
+        "message": "برچسب جدید"
+    },
+    "newTagNamePlaceholder": {
+        "message": "نام برچسب جدید..."
+    },
+    "addTag": {
+        "message": "افزودن برچسب"
+    },
+    "settings": {
+        "message": "تنظیمات"
+    },
+    "select": {
+        "message": "انتخاب"
+    },
+    "cancel": {
+        "message": "لغو"
+    },
+    "delete": {
+        "message": "حذف"
+    },
+    "sortNewest": {
+        "message": "جدیدترین"
+    },
+    "sortTitleAsc": {
+        "message": "عنوان (A-Z)"
+    },
+    "noPromptsPlaceholder": {
+        "message": "هنوز هیچ درخواستی در اینجا وجود ندارد. بیایید یکی ایجاد کنیم!"
+    },
+    "createNewPrompt": {
+        "message": "ایجاد Prompt جدید"
+    },
+    "backToTop": {
+        "message": "بازگشت به بالا"
+    },
+    "noPromptSelectedMessage": {
+        "message": "درخواستی را برای مشاهده انتخاب کنید یا یک درخواست جدید ایجاد کنید."
+    },
+    "titleLabel": {
+        "message": "عنوان"
+    },
+    "lock": {
+        "message": "قفل"
+    },
+    "promptTitlePlaceholder": {
+        "message": "عنوان اعلان"
+    },
+    "folderLabel": {
+        "message": "پوشه"
+    },
+    "promptLabel": {
+        "message": "اعلان"
+    },
+    "promptBodyPlaceholder": {
+        "message": "محتوای درخواست شما..."
+    },
+    "copyPromptBody": {
+        "message": "بدنه سریع را کپی کنید"
+    },
+    "fullscreenEditor": {
+        "message": "ویرایشگر تمام صفحه"
+    },
+    "notesLabel": {
+        "message": "یادداشت"
+    },
+    "notesPlaceholder": {
+        "message": "جزئیات یا زمینه اضافی اضافه کنید..."
+    },
+    "tagsLabel": {
+        "message": "Tags"
+    },
+    "addTagsPlaceholder": {
+        "message": "برچسب ها را اضافه کنید..."
+    },
+    "save": {
+        "message": "ذخیره"
+    },
+    "close": {
+        "message": "نزدیک"
+    },
+    "saveAndClose": {
+        "message": "ذخیره و بستن"
+    },
+    "movePromptsTitle": {
+        "message": "Prompt ها را جابجا کنید"
+    },
+    "movePromptsMessagePrefix": {
+        "message": "یک پوشه مقصد را برای پوشه"
+    },
+    "selectedPromptsSuffix": {
+        "message": "دستورات انتخاب شده کلیک کنید."
+    },
+    "folderPassword": {
+        "message": "رمز عبور پوشه"
+    },
+    "enterFolderPasswordPlaceholder": {
+        "message": "رمز عبور را برای پوشه قفل شده وارد کنید"
+    },
+    "deleteFolderTitle": {
+        "message": "حذف پوشه"
+    },
+    "deleteFolderMessage": {
+        "message": "دوست دارید با دستورات داخل این پوشه چه کنید؟"
+    },
+    "deleteFolderMovePrompts": {
+        "message": "حذف پوشه و انتقال اعلان‌ها"
+    },
+    "deleteFolderAndPrompts": {
+        "message": "حذف پوشه و همه دستورات"
+    },
+    "resetDataMessage": {
+        "message": "آیا مطمئن هستید که می خواهید همه داده ها را بازنشانی کنید؟ با این کار تمام درخواست ها، پوشه ها و برچسب ها برای همیشه حذف می شود. این عمل قابل واگرد نیست."
+    },
+    "confirmResetAll": {
+        "message": "بله، همه چیز را بازنشانی کنید"
+    },
+    "renameFolder": {
+        "message": "تغییر نام پوشه"
+    },
+    "dangerZone": {
+        "message": "منطقه خطر"
+    },
+    "deleteFolder": {
+        "message": "حذف پوشه"
+    },
+    "manageTagsTitle": {
+        "message": "مدیریت برچسب ها"
+    },
+    "leavePageTitle": {
+        "message": "صفحه را ترک کنید؟"
+    },
+    "leavePageMessage": {
+        "message": "آیا مطمئن هستید که می خواهید این صفحه را ترک کنید؟ هرگونه تغییر ذخیره نشده ممکن است از بین برود."
+    },
+    "stay": {
+        "message": "اقامت"
+    },
+    "leave": {
+        "message": "ترک"
+    },
+    "dontAskAgainThisSession": {
+        "message": "برای این جلسه دوباره درخواست نکنید"
+    },
+    "ok": {
+        "message": "باشه"
+    },
+    "exportShort": {
+        "message": "صادرات"
+    },
+    "importShort": {
+        "message": "واردات"
+    },
     "promptLockedEnterPassword": {
         "message": "این اعلان قفل شده است. رمز عبور را برای درج آن وارد کنید:"
     },
@@ -464,6 +639,37 @@
     },
     "addToPromptLibrary": {
         "message": "افزودن به کتابخانه اعلان"
+    },
+    "titleQuickPreview": {
+        "message": "پیش نمایش سریع"
+    },
+    "headerQuickPreview": {
+        "message": "تنظیمات پیش نمایش سریع"
+    },
+    "quickPreviewDescription": {
+        "message": "پیکربندی کنید که کدام موتورهای جستجو در حباب پیش نمایش سریع ظاهر شوند. فقط موتورهای جستجوی مبتنی بر HTTP GET پشتیبانی می شوند."
+    },
+    "disableQuickPreview": {
+        "message": "غیرفعال کردن پیش نمایش سریع نتایج جستجو"
+    },
+    "filterQuickPreviewByLanguage": {
+        "message": "پیش نمایش سریع را بر اساس زبان انتخاب فیلتر کنید"
+    },
+    "filterQuickPreviewByLanguageNote": {
+        "message": "هنگامی که فعال باشد، فقط موتورهایی نشان داده می شوند که زبان آنها با زبان انتخاب شناسایی شده مطابقت دارد. اگر هیچ موتوری مطابقت نداشته باشد، همه به عنوان یک جایگزین نشان داده می شوند."
+    },
+    "recheckDescription": {
+        "message": "موتورهای بررسی مجدد بررسی می کنند که آیا هر موتور جستجو هنوز در دسترس و پاسخگو است یا خیر. یک نماد هشدار قرمز در کنار موتورهایی که ممکن است در حباب پیش نمایش سریع به درستی رندر نشوند، ظاهر می شود. این ممکن است مدتی طول بکشد."
+    },
+    "recheckEngines": {
+        "message": "موتورها را دوباره بررسی کنید"
+    },
+    "editIconPrompt": {
+        "message": "ویرایش URL نماد برای \"$1\"\n\nیک URL برای یک تصویر (ترجیحا SVG) وارد کنید.\nبرای استفاده از نماد پیش فرض موتور جستجو، خالی بگذارید.",
+        "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
+    },
+    "disableQuickPreviewByNote": {
+        "message": "علامت زدن این گزینه به طور خودکار پیش نمایش سریع نتایج جستجو را غیرفعال می کند."
     },
     "__WET_LOCALE__": {
         "message": "fa"

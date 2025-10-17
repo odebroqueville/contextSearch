@@ -338,7 +338,7 @@
     "promptName": {
         "message": "AI hvetja nafn"
     },
-        "prompt": {
+    "prompt": {
         "message": "AI kvaðning"
     },
     "overwriteData": {
@@ -373,6 +373,10 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "Gat ekki sótt vefslóð til að fjarlægja bókamerki"
+    },
+    "notifyCustomCssSaved": {
+        "message": "Sérsniðið CSS vistað fyrir \"$1\".",
+        "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
     },
     "notifyAIMinimalRequirements": {
         "message": "Vinsamlegast veldu að minnsta kosti gervigreindarþjónustuaðila og sláðu inn gervigreindarhvetjandi nafn og gervigreindarkvaðningu"
@@ -456,6 +460,177 @@
     "promptLibrarySearchPlaceholder": {
         "message": "Leita að leiðbeiningum..."
     },
+    "promptsHeading": {
+        "message": "Hvetja"
+    },
+    "newPromptTitle": {
+        "message": "Ný hvetja"
+    },
+    "foldersHeading": {
+        "message": "Möppur"
+    },
+    "newFolderTitle": {
+        "message": "Ný mappa"
+    },
+    "newFolderNamePlaceholder": {
+        "message": "Nýtt nafn möppu..."
+    },
+    "tagsHeading": {
+        "message": "Tags"
+    },
+    "newTagTitle": {
+        "message": "Nýtt merki"
+    },
+    "newTagNamePlaceholder": {
+        "message": "Nýtt merki nafn..."
+    },
+    "addTag": {
+        "message": "Bæta við merki"
+    },
+    "settings": {
+        "message": "Stillingar"
+    },
+    "select": {
+        "message": "Velja"
+    },
+    "cancel": {
+        "message": "Afturkalla"
+    },
+    "delete": {
+        "message": "Eyða"
+    },
+    "sortNewest": {
+        "message": "Nýjustu"
+    },
+    "sortTitleAsc": {
+        "message": "Titill (A-Ö)"
+    },
+    "noPromptsPlaceholder": {
+        "message": "Engar leiðbeiningar hér ennþá. Við skulum búa til einn!"
+    },
+    "createNewPrompt": {
+        "message": "Búðu til nýja kvaðningu"
+    },
+    "backToTop": {
+        "message": "Efst á síðu"
+    },
+    "noPromptSelectedMessage": {
+        "message": "Veldu kvaðningu til að skoða eða búðu til nýja."
+    },
+    "titleLabel": {
+        "message": "Titill"
+    },
+    "lock": {
+        "message": "Lás"
+    },
+    "promptTitlePlaceholder": {
+        "message": "Hvetja titil"
+    },
+    "folderLabel": {
+        "message": "Mappa"
+    },
+    "promptLabel": {
+        "message": "Hvetja"
+    },
+    "promptBodyPlaceholder": {
+        "message": "Innihald kvaðningarinnar..."
+    },
+    "copyPromptBody": {
+        "message": "Afrita hvetjandi meginmál"
+    },
+    "fullscreenEditor": {
+        "message": "Ritstjóri á öllum skjánum"
+    },
+    "notesLabel": {
+        "message": "Athugasemdir"
+    },
+    "notesPlaceholder": {
+        "message": "Bættu við auka upplýsingum eða samhengi..."
+    },
+    "tagsLabel": {
+        "message": "Tags"
+    },
+    "addTagsPlaceholder": {
+        "message": "Bæta við merkjum..."
+    },
+    "save": {
+        "message": "Spara"
+    },
+    "close": {
+        "message": "Loka"
+    },
+    "saveAndClose": {
+        "message": "Vista & Loka"
+    },
+    "movePromptsTitle": {
+        "message": "Færa leiðbeiningar"
+    },
+    "movePromptsMessagePrefix": {
+        "message": "Veldu áfangamöppu fyrir"
+    },
+    "selectedPromptsSuffix": {
+        "message": "valdar leiðbeiningar."
+    },
+    "folderPassword": {
+        "message": "Lykilorð möppu"
+    },
+    "enterFolderPasswordPlaceholder": {
+        "message": "Sláðu inn lykilorð fyrir læsta möppu"
+    },
+    "deleteFolderTitle": {
+        "message": "Eyða möppu"
+    },
+    "deleteFolderMessage": {
+        "message": "Hvað viltu gera við leiðbeiningarnar í þessari möppu?"
+    },
+    "deleteFolderMovePrompts": {
+        "message": "Eyða möppu og færa kvaðningar"
+    },
+    "deleteFolderAndPrompts": {
+        "message": "Eyða möppu og öllum kvaðningum"
+    },
+    "resetDataMessage": {
+        "message": "Ertu viss um að þú viljir endurstilla öll gögn? Þetta mun eyða öllum leiðbeiningum, möppum og merkjum varanlega. Ekki er hægt að afturkalla þessa aðgerð."
+    },
+    "confirmResetAll": {
+        "message": "Já, endurstilltu allt"
+    },
+    "renameFolder": {
+        "message": "Endurnefna möppu"
+    },
+    "dangerZone": {
+        "message": "Hættusvæði"
+    },
+    "deleteFolder": {
+        "message": "Eyða möppu"
+    },
+    "manageTagsTitle": {
+        "message": "Stjórna merkjum"
+    },
+    "leavePageTitle": {
+        "message": "Yfirgefa síðu?"
+    },
+    "leavePageMessage": {
+        "message": "Ertu viss um að þú viljir yfirgefa þessa síðu? Allar breytingar sem ekki eru vistaðar geta glatast."
+    },
+    "stay": {
+        "message": "Dvöl"
+    },
+    "leave": {
+        "message": "Yfirgefa"
+    },
+    "dontAskAgainThisSession": {
+        "message": "Ekki biðja aftur um þennan fund"
+    },
+    "ok": {
+        "message": "ÓKEI"
+    },
+    "exportShort": {
+        "message": "Útflutningur"
+    },
+    "importShort": {
+        "message": "Innflutningur"
+    },
     "promptLockedEnterPassword": {
         "message": "Þessi kvaðning er læst. Sláðu inn lykilorð til að setja það inn:"
     },
@@ -464,6 +639,37 @@
     },
     "addToPromptLibrary": {
         "message": "Bæta við hvetjandi safn"
+    },
+    "titleQuickPreview": {
+        "message": "Fljótleg forskoðun"
+    },
+    "headerQuickPreview": {
+        "message": "Quick Preview Stillingar"
+    },
+    "quickPreviewDescription": {
+        "message": "Stilltu hvaða leitarvélar birtast í flýtiforskoðunarbólunni. Aðeins HTTP GET-undirstaða leitarvélar eru studdar."
+    },
+    "disableQuickPreview": {
+        "message": "Slökkva á flýtiforskoðun leitarniðurstaðna"
+    },
+    "filterQuickPreviewByLanguage": {
+        "message": "Sía flýtiforskoðun eftir valtungumáli"
+    },
+    "filterQuickPreviewByLanguageNote": {
+        "message": "Þegar það er virkt birtast aðeins vélar þar sem tungumálið passar við valið sem greindist. Ef engar vélar passa saman eru allar sýndar sem varabúnaður."
+    },
+    "recheckDescription": {
+        "message": "Endurskoðunarvélar munu sannreyna hvort hver og ein leitarvél sé enn tiltæk og móttækileg. Rautt viðvörunartákn mun birtast við hliðina á öllum vélum sem gætu ekki birt rétt í Quick forskoðunarbólunni. Þetta getur tekið smá tíma."
+    },
+    "recheckEngines": {
+        "message": "Athugaðu vélar aftur"
+    },
+    "editIconPrompt": {
+        "message": "Breyta slóð táknsins fyrir \"$1\"\n\nSláðu inn vefslóð á mynd (helst SVG).\nSkildu eftir autt til að nota sjálfgefið leitarvélartákn.",
+        "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
+    },
+    "disableQuickPreviewByNote": {
+        "message": "Ef þú hakar við þennan valkost slekkur sjálfkrafa á fljótlegri forskoðun leitarniðurstaðna."
     },
     "__WET_LOCALE__": {
         "message": "is"

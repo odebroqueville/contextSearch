@@ -374,6 +374,10 @@
     "notifyMissingBookmarkUrl": {
         "message": "無法檢索移除書籤的 URL"
     },
+    "notifyCustomCssSaved": {
+        "message": "自訂 CSS 已儲存至「$1」。",
+        "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
+    },
     "notifyAIMinimalRequirements": {
         "message": "請至少選擇一家 AI 服務供應商，並輸入 AI 提示名稱和 AI 提示"
     },
@@ -456,6 +460,177 @@
     "promptLibrarySearchPlaceholder": {
         "message": "搜尋提示..."
     },
+    "promptsHeading": {
+        "message": "提示"
+    },
+    "newPromptTitle": {
+        "message": "新提示"
+    },
+    "foldersHeading": {
+        "message": "資料夾"
+    },
+    "newFolderTitle": {
+        "message": "新資料夾"
+    },
+    "newFolderNamePlaceholder": {
+        "message": "新資料夾名稱..."
+    },
+    "tagsHeading": {
+        "message": "標籤"
+    },
+    "newTagTitle": {
+        "message": "新標籤"
+    },
+    "newTagNamePlaceholder": {
+        "message": "新標籤名稱..."
+    },
+    "addTag": {
+        "message": "新增標籤"
+    },
+    "settings": {
+        "message": "設定"
+    },
+    "select": {
+        "message": "選擇"
+    },
+    "cancel": {
+        "message": "取消"
+    },
+    "delete": {
+        "message": "刪除"
+    },
+    "sortNewest": {
+        "message": "最新"
+    },
+    "sortTitleAsc": {
+        "message": "標題（按字母順序排列）"
+    },
+    "noPromptsPlaceholder": {
+        "message": "這裡還沒有提示。讓我們來創建一個吧！"
+    },
+    "createNewPrompt": {
+        "message": "建立新提示"
+    },
+    "backToTop": {
+        "message": "返回頂部"
+    },
+    "noPromptSelectedMessage": {
+        "message": "選擇一個提示語進行檢視，或建立新的提示語。"
+    },
+    "titleLabel": {
+        "message": "標題"
+    },
+    "lock": {
+        "message": "鎖"
+    },
+    "promptTitlePlaceholder": {
+        "message": "提示標題"
+    },
+    "folderLabel": {
+        "message": "資料夾"
+    },
+    "promptLabel": {
+        "message": "提示"
+    },
+    "promptBodyPlaceholder": {
+        "message": "您的提示內容..."
+    },
+    "copyPromptBody": {
+        "message": "複製提示主體"
+    },
+    "fullscreenEditor": {
+        "message": "全螢幕編輯器"
+    },
+    "notesLabel": {
+        "message": "註記"
+    },
+    "notesPlaceholder": {
+        "message": "添加額外細節或背景資訊..."
+    },
+    "tagsLabel": {
+        "message": "標籤"
+    },
+    "addTagsPlaceholder": {
+        "message": "添加標籤..."
+    },
+    "save": {
+        "message": "儲存"
+    },
+    "close": {
+        "message": "關閉"
+    },
+    "saveAndClose": {
+        "message": "儲存並關閉"
+    },
+    "movePromptsTitle": {
+        "message": "移動提示"
+    },
+    "movePromptsMessagePrefix": {
+        "message": "為以下項目選擇目標資料夾："
+    },
+    "selectedPromptsSuffix": {
+        "message": "精選提示詞"
+    },
+    "folderPassword": {
+        "message": "資料夾密碼"
+    },
+    "enterFolderPasswordPlaceholder": {
+        "message": "輸入鎖定資料夾的密碼"
+    },
+    "deleteFolderTitle": {
+        "message": "刪除資料夾"
+    },
+    "deleteFolderMessage": {
+        "message": "您想對這個資料夾內的提示內容做什麼處理？"
+    },
+    "deleteFolderMovePrompts": {
+        "message": "刪除資料夾與移動提示"
+    },
+    "deleteFolderAndPrompts": {
+        "message": "刪除資料夾及所有提示"
+    },
+    "resetDataMessage": {
+        "message": "您確定要重置所有資料嗎？此操作將永久刪除所有提示、資料夾及標籤。此操作無法撤銷。"
+    },
+    "confirmResetAll": {
+        "message": "是的，重置一切"
+    },
+    "renameFolder": {
+        "message": "重新命名資料夾"
+    },
+    "dangerZone": {
+        "message": "危險地帶"
+    },
+    "deleteFolder": {
+        "message": "刪除資料夾"
+    },
+    "manageTagsTitle": {
+        "message": "管理標籤"
+    },
+    "leavePageTitle": {
+        "message": "離開頁面？"
+    },
+    "leavePageMessage": {
+        "message": "您確定要離開此頁面嗎？任何未儲存的變更可能會遺失。"
+    },
+    "stay": {
+        "message": "留下來"
+    },
+    "leave": {
+        "message": "離開"
+    },
+    "dontAskAgainThisSession": {
+        "message": "本次會話中請勿再次詢問"
+    },
+    "ok": {
+        "message": "好的"
+    },
+    "exportShort": {
+        "message": "輸出"
+    },
+    "importShort": {
+        "message": "匯入"
+    },
     "promptLockedEnterPassword": {
         "message": "此提示已鎖定。請輸入密碼以插入內容："
     },
@@ -464,6 +639,37 @@
     },
     "addToPromptLibrary": {
         "message": "新增至提示詞庫"
+    },
+    "titleQuickPreview": {
+        "message": "快速預覽"
+    },
+    "headerQuickPreview": {
+        "message": "快速預覽設定"
+    },
+    "quickPreviewDescription": {
+        "message": "設定哪些搜尋引擎會顯示於快速預覽氣泡中。僅支援基於 HTTP GET 的搜尋引擎。"
+    },
+    "disableQuickPreview": {
+        "message": "停用搜尋結果的快速預覽功能"
+    },
+    "filterQuickPreviewByLanguage": {
+        "message": "依選取語言篩選快速預覽"
+    },
+    "filterQuickPreviewByLanguageNote": {
+        "message": "啟用此功能後，僅會顯示語言與偵測到的選取語言相符的搜尋引擎。若無任何引擎符合條件，則會顯示所有引擎作為後備方案。"
+    },
+    "recheckDescription": {
+        "message": "重新檢查引擎將驗證每個搜尋引擎是否仍可正常運作且能即時回應。若任何引擎在快速預覽視窗中無法正確顯示，其旁將出現紅色警告圖示。此過程可能需要一段時間。"
+    },
+    "recheckEngines": {
+        "message": "重新檢查引擎"
+    },
+    "editIconPrompt": {
+        "message": "編輯「$1」圖示網址\n\n輸入圖片網址（建議使用SVG格式）。\n留空則使用預設搜尋引擎圖示。",
+        "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
+    },
+    "disableQuickPreviewByNote": {
+        "message": "勾選此選項將自動停用搜尋結果的快速預覽功能。"
     },
     "__WET_LOCALE__": {
         "message": "zh_tw"

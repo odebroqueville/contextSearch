@@ -374,6 +374,10 @@
     "notifyMissingBookmarkUrl": {
         "message": "Не вдалося отримати URL-адресу для видалення закладок"
     },
+    "notifyCustomCssSaved": {
+        "message": "Збережено власний CSS для \"$1\".",
+        "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
+    },
     "notifyAIMinimalRequirements": {
         "message": "Будь ласка, виберіть хоча б одного постачальника послуг ШІ та введіть назву підказки ШІ та підказку ШІ."
     },
@@ -456,6 +460,177 @@
     "promptLibrarySearchPlaceholder": {
         "message": "Підказки для пошуку..."
     },
+    "promptsHeading": {
+        "message": "Підказки"
+    },
+    "newPromptTitle": {
+        "message": "Нове підказка"
+    },
+    "foldersHeading": {
+        "message": "Папки"
+    },
+    "newFolderTitle": {
+        "message": "Нова папка"
+    },
+    "newFolderNamePlaceholder": {
+        "message": "Нова назва папки..."
+    },
+    "tagsHeading": {
+        "message": "Теги"
+    },
+    "newTagTitle": {
+        "message": "Новий тег"
+    },
+    "newTagNamePlaceholder": {
+        "message": "Нова назва тегу..."
+    },
+    "addTag": {
+        "message": "Додати тег"
+    },
+    "settings": {
+        "message": "Налаштування"
+    },
+    "select": {
+        "message": "Вибрати"
+    },
+    "cancel": {
+        "message": "Скасувати"
+    },
+    "delete": {
+        "message": "Видалити"
+    },
+    "sortNewest": {
+        "message": "Новітній"
+    },
+    "sortTitleAsc": {
+        "message": "Назва (А-Я)"
+    },
+    "noPromptsPlaceholder": {
+        "message": "Тут ще немає підказок. Давайте створимо одну!"
+    },
+    "createNewPrompt": {
+        "message": "Створити нове запит"
+    },
+    "backToTop": {
+        "message": "Назад до початку"
+    },
+    "noPromptSelectedMessage": {
+        "message": "Виберіть підказку для перегляду або створіть нову."
+    },
+    "titleLabel": {
+        "message": "Назва"
+    },
+    "lock": {
+        "message": "Замок"
+    },
+    "promptTitlePlaceholder": {
+        "message": "Назва запиту"
+    },
+    "folderLabel": {
+        "message": "Папка"
+    },
+    "promptLabel": {
+        "message": "Підказка"
+    },
+    "promptBodyPlaceholder": {
+        "message": "Зміст вашого запиту..."
+    },
+    "copyPromptBody": {
+        "message": "Копіювати текст запиту"
+    },
+    "fullscreenEditor": {
+        "message": "Повноекранний редактор"
+    },
+    "notesLabel": {
+        "message": "Примітки"
+    },
+    "notesPlaceholder": {
+        "message": "Додайте додаткові деталі або контекст..."
+    },
+    "tagsLabel": {
+        "message": "Теги"
+    },
+    "addTagsPlaceholder": {
+        "message": "Додати теги..."
+    },
+    "save": {
+        "message": "Зберегти"
+    },
+    "close": {
+        "message": "Закрити"
+    },
+    "saveAndClose": {
+        "message": "Зберегти та закрити"
+    },
+    "movePromptsTitle": {
+        "message": "Підказки для переміщення"
+    },
+    "movePromptsMessagePrefix": {
+        "message": "Виберіть папку призначення для"
+    },
+    "selectedPromptsSuffix": {
+        "message": "вибрані підказки."
+    },
+    "folderPassword": {
+        "message": "Пароль папки"
+    },
+    "enterFolderPasswordPlaceholder": {
+        "message": "Введіть пароль для заблокованої папки"
+    },
+    "deleteFolderTitle": {
+        "message": "Видалити папку"
+    },
+    "deleteFolderMessage": {
+        "message": "Що ви хочете зробити з підказками, що містяться в цій папці?"
+    },
+    "deleteFolderMovePrompts": {
+        "message": "Видалити папку та перемістити підказки"
+    },
+    "deleteFolderAndPrompts": {
+        "message": "Видалити папку та всі запити"
+    },
+    "resetDataMessage": {
+        "message": "Ви впевнені, що хочете скинути всі дані? Це призведе до остаточного видалення всіх підказок, папок і тегів. Цю дію неможливо скасувати."
+    },
+    "confirmResetAll": {
+        "message": "Так, скинути все"
+    },
+    "renameFolder": {
+        "message": "Перейменувати папку"
+    },
+    "dangerZone": {
+        "message": "Небезпечна зона"
+    },
+    "deleteFolder": {
+        "message": "Видалити папку"
+    },
+    "manageTagsTitle": {
+        "message": "Керувати тегами"
+    },
+    "leavePageTitle": {
+        "message": "Залишити сторінку?"
+    },
+    "leavePageMessage": {
+        "message": "Ви впевнені, що хочете залишити цю сторінку? Усі незбережені зміни можуть бути втрачені."
+    },
+    "stay": {
+        "message": "Залишатися"
+    },
+    "leave": {
+        "message": "Залишити"
+    },
+    "dontAskAgainThisSession": {
+        "message": "Не запитуйте знову про цю сесію"
+    },
+    "ok": {
+        "message": "Добре"
+    },
+    "exportShort": {
+        "message": "Експорт"
+    },
+    "importShort": {
+        "message": "Імпорт"
+    },
     "promptLockedEnterPassword": {
         "message": "Ця підказка заблокована. Введіть пароль, щоб вставити її:"
     },
@@ -464,6 +639,37 @@
     },
     "addToPromptLibrary": {
         "message": "Додати до бібліотеки підказок"
+    },
+    "titleQuickPreview": {
+        "message": "Швидкий попередній перегляд"
+    },
+    "headerQuickPreview": {
+        "message": "Налаштування швидкого попереднього перегляду"
+    },
+    "quickPreviewDescription": {
+        "message": "Налаштуйте, які пошукові системи відображатимуться у спливаючому вікні швидкого перегляду. Підтримуються лише пошукові системи на основі HTTP GET."
+    },
+    "disableQuickPreview": {
+        "message": "Вимкнути швидкий попередній перегляд результатів пошуку"
+    },
+    "filterQuickPreviewByLanguage": {
+        "message": "Фільтр Швидкий попередній перегляд за мовою вибору"
+    },
+    "filterQuickPreviewByLanguageNote": {
+        "message": "Якщо ця опція увімкнена, відображаються лише пошукові системи, мова яких відповідає виявленій мові вибору. Якщо відповідних пошукових систем немає, відображаються всі пошукові системи як запасний варіант."
+    },
+    "recheckDescription": {
+        "message": "Повторна перевірка двигунів підтвердить, чи кожен пошуковий двигун все ще доступний і реагує на запити. Червона піктограма попередження з'явиться поруч із будь-якими двигунами, які можуть не відображатися правильно у вікні швидкого перегляду. Це може зайняти деякий час."
+    },
+    "recheckEngines": {
+        "message": "Перевірка двигунів"
+    },
+    "editIconPrompt": {
+        "message": "Редагувати URL-адресу піктограми для «$1»\n\nВведіть URL-адресу зображення (бажано SVG).\nЗалиште порожнім, щоб використовувати піктограму пошукової системи за замовчуванням.",
+        "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
+    },
+    "disableQuickPreviewByNote": {
+        "message": "Встановлення цього прапорця автоматично вимикає швидкий попередній перегляд результатів пошуку."
     },
     "__WET_LOCALE__": {
         "message": "uk"

@@ -374,6 +374,10 @@
     "notifyMissingBookmarkUrl": {
         "message": "Kunne ikke hente URL for fjerning av bokmerker"
     },
+    "notifyCustomCssSaved": {
+        "message": "Tilpasset CSS lagret for \"$1\".",
+        "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
+    },
     "notifyAIMinimalRequirements": {
         "message": "Velg i det minste en AI-tjenesteleverandør og skriv inn et AI-ledetekstnavn og en AI-ledetekst"
     },
@@ -456,6 +460,177 @@
     "promptLibrarySearchPlaceholder": {
         "message": "Søk meldinger..."
     },
+    "promptsHeading": {
+        "message": "Ber"
+    },
+    "newPromptTitle": {
+        "message": "Ny forespørsel"
+    },
+    "foldersHeading": {
+        "message": "Mapper"
+    },
+    "newFolderTitle": {
+        "message": "Ny mappe"
+    },
+    "newFolderNamePlaceholder": {
+        "message": "Nytt mappenavn..."
+    },
+    "tagsHeading": {
+        "message": "Tags"
+    },
+    "newTagTitle": {
+        "message": "Ny tagg"
+    },
+    "newTagNamePlaceholder": {
+        "message": "Nytt merkenavn..."
+    },
+    "addTag": {
+        "message": "Legg til tagg"
+    },
+    "settings": {
+        "message": "Innstillinger"
+    },
+    "select": {
+        "message": "Velge"
+    },
+    "cancel": {
+        "message": "Annullere"
+    },
+    "delete": {
+        "message": "Slette"
+    },
+    "sortNewest": {
+        "message": "Nyeste"
+    },
+    "sortTitleAsc": {
+        "message": "Tittel (A-Z)"
+    },
+    "noPromptsPlaceholder": {
+        "message": "Ingen spørsmål her ennå. La oss lage en!"
+    },
+    "createNewPrompt": {
+        "message": "Opprett ny forespørsel"
+    },
+    "backToTop": {
+        "message": "Tilbake til toppen"
+    },
+    "noPromptSelectedMessage": {
+        "message": "Velg en forespørsel for å vise, eller opprett en ny."
+    },
+    "titleLabel": {
+        "message": "Tittel"
+    },
+    "lock": {
+        "message": "Lås"
+    },
+    "promptTitlePlaceholder": {
+        "message": "Tittel på forespørsel"
+    },
+    "folderLabel": {
+        "message": "Mappe"
+    },
+    "promptLabel": {
+        "message": "Omgående"
+    },
+    "promptBodyPlaceholder": {
+        "message": "Innholdet i forespørselen ..."
+    },
+    "copyPromptBody": {
+        "message": "Kopier ledeteksten"
+    },
+    "fullscreenEditor": {
+        "message": "Redigering i fullskjerm"
+    },
+    "notesLabel": {
+        "message": "Notater"
+    },
+    "notesPlaceholder": {
+        "message": "Legg til ekstra detaljer eller kontekst ..."
+    },
+    "tagsLabel": {
+        "message": "Tags"
+    },
+    "addTagsPlaceholder": {
+        "message": "Legg til tagger..."
+    },
+    "save": {
+        "message": "Lagre"
+    },
+    "close": {
+        "message": "Lukke"
+    },
+    "saveAndClose": {
+        "message": "Lagre og lukk"
+    },
+    "movePromptsTitle": {
+        "message": "Flytt ledetekster"
+    },
+    "movePromptsMessagePrefix": {
+        "message": "Velg en målmappe for"
+    },
+    "selectedPromptsSuffix": {
+        "message": "valgte ledetekster."
+    },
+    "folderPassword": {
+        "message": "Mappe Passord"
+    },
+    "enterFolderPasswordPlaceholder": {
+        "message": "Skriv inn passord for låst mappe"
+    },
+    "deleteFolderTitle": {
+        "message": "Slett mappe"
+    },
+    "deleteFolderMessage": {
+        "message": "Hva vil du gjøre med ledetekstene i denne mappen?"
+    },
+    "deleteFolderMovePrompts": {
+        "message": "Slett mappe og flytt meldinger"
+    },
+    "deleteFolderAndPrompts": {
+        "message": "Slett mappe og alle forespørsler"
+    },
+    "resetDataMessage": {
+        "message": "Er du sikker på at du vil tilbakestille alle data? Dette vil slette alle forespørsler, mapper og tagger permanent. Denne handlingen kan ikke angres."
+    },
+    "confirmResetAll": {
+        "message": "Ja, tilbakestill alt"
+    },
+    "renameFolder": {
+        "message": "Gi nytt navn til mappe"
+    },
+    "dangerZone": {
+        "message": "Faresone"
+    },
+    "deleteFolder": {
+        "message": "Slett mappe"
+    },
+    "manageTagsTitle": {
+        "message": "Administrer tagger"
+    },
+    "leavePageTitle": {
+        "message": "Forlate siden?"
+    },
+    "leavePageMessage": {
+        "message": "Er du sikker på at du vil forlate denne siden? Eventuelle endringer som ikke er lagret, kan gå tapt."
+    },
+    "stay": {
+        "message": "Opphold"
+    },
+    "leave": {
+        "message": "Permisjon"
+    },
+    "dontAskAgainThisSession": {
+        "message": "Ikke spør igjen for denne økten"
+    },
+    "ok": {
+        "message": "OK"
+    },
+    "exportShort": {
+        "message": "Eksport"
+    },
+    "importShort": {
+        "message": "Importere"
+    },
     "promptLockedEnterPassword": {
         "message": "Denne meldingen er låst. Skriv inn passord for å sette det inn:"
     },
@@ -464,6 +639,37 @@
     },
     "addToPromptLibrary": {
         "message": "Legg til i ledetekstbiblioteket"
+    },
+    "titleQuickPreview": {
+        "message": "Rask forhåndsvisning"
+    },
+    "headerQuickPreview": {
+        "message": "Innstillinger for rask forhåndsvisning"
+    },
+    "quickPreviewDescription": {
+        "message": "Konfigurer hvilke søkemotorer som skal vises i hurtigforhåndsvisningsboblen. Bare HTTP GET-baserte søkemotorer støttes."
+    },
+    "disableQuickPreview": {
+        "message": "Deaktiver rask forhåndsvisning av søkeresultater"
+    },
+    "filterQuickPreviewByLanguage": {
+        "message": "Filtrere hurtigforhåndsvisning etter valgt språk"
+    },
+    "filterQuickPreviewByLanguageNote": {
+        "message": "Når den er aktivert, vises bare motorer med språk som samsvarer med det oppdagede utvalgsspråket. Hvis ingen motorer samsvarer, vises alle som en reserve."
+    },
+    "recheckDescription": {
+        "message": "Kontroller motorer på nytt for å bekrefte om hver eneste søkemotor fortsatt er tilgjengelig og responsiv. Et rødt advarselsikon vises ved siden av motorer som kanskje ikke gjengis riktig i hurtigforhåndsvisningsboblen. Dette kan ta en stund."
+    },
+    "recheckEngines": {
+        "message": "Sjekk motorene på nytt"
+    },
+    "editIconPrompt": {
+        "message": "Rediger ikon-URL for \"$1\"\n\nSkriv inn en URL til et bilde (helst SVG).\nLa stå tomt for å bruke standard søkemotorikon.",
+        "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
+    },
+    "disableQuickPreviewByNote": {
+        "message": "Hvis du merker av for dette alternativet, deaktiveres automatisk rask forhåndsvisning av søkeresultater."
     },
     "__WET_LOCALE__": {
         "message": "no"

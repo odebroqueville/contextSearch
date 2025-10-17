@@ -374,6 +374,10 @@
     "notifyMissingBookmarkUrl": {
         "message": "Не удалось получить URL-адрес для удаления закладок"
     },
+    "notifyCustomCssSaved": {
+        "message": "Пользовательский CSS сохранен для «$1».",
+        "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
+    },
     "notifyAIMinimalRequirements": {
         "message": "Пожалуйста, выберите хотя бы одного поставщика услуг ИИ и введите название подсказки ИИ и текст подсказки ИИ."
     },
@@ -456,6 +460,177 @@
     "promptLibrarySearchPlaceholder": {
         "message": "Подсказки для поиска..."
     },
+    "promptsHeading": {
+        "message": "Подсказки"
+    },
+    "newPromptTitle": {
+        "message": "Новый запрос"
+    },
+    "foldersHeading": {
+        "message": "Папки"
+    },
+    "newFolderTitle": {
+        "message": "Новая папка"
+    },
+    "newFolderNamePlaceholder": {
+        "message": "Имя новой папки..."
+    },
+    "tagsHeading": {
+        "message": "Теги"
+    },
+    "newTagTitle": {
+        "message": "Новый тег"
+    },
+    "newTagNamePlaceholder": {
+        "message": "Новое имя тега..."
+    },
+    "addTag": {
+        "message": "Добавить тег"
+    },
+    "settings": {
+        "message": "Настройки"
+    },
+    "select": {
+        "message": "Выбрать"
+    },
+    "cancel": {
+        "message": "Отменить"
+    },
+    "delete": {
+        "message": "Удалить"
+    },
+    "sortNewest": {
+        "message": "Новейший"
+    },
+    "sortTitleAsc": {
+        "message": "Название (A-Z)"
+    },
+    "noPromptsPlaceholder": {
+        "message": "Здесь еще нет подсказок. Давайте создадим одну!"
+    },
+    "createNewPrompt": {
+        "message": "Создать новое запрос"
+    },
+    "backToTop": {
+        "message": "Вернуться к началу"
+    },
+    "noPromptSelectedMessage": {
+        "message": "Выберите подсказку для просмотра или создайте новую."
+    },
+    "titleLabel": {
+        "message": "Название"
+    },
+    "lock": {
+        "message": "Замок"
+    },
+    "promptTitlePlaceholder": {
+        "message": "Название подсказки"
+    },
+    "folderLabel": {
+        "message": "Папка"
+    },
+    "promptLabel": {
+        "message": "Подсказка"
+    },
+    "promptBodyPlaceholder": {
+        "message": "Содержание вашего запроса..."
+    },
+    "copyPromptBody": {
+        "message": "Копировать текст запроса"
+    },
+    "fullscreenEditor": {
+        "message": "Полноэкранный редактор"
+    },
+    "notesLabel": {
+        "message": "Примечания"
+    },
+    "notesPlaceholder": {
+        "message": "Добавьте дополнительные детали или контекст..."
+    },
+    "tagsLabel": {
+        "message": "Теги"
+    },
+    "addTagsPlaceholder": {
+        "message": "Добавить теги..."
+    },
+    "save": {
+        "message": "Сохранить"
+    },
+    "close": {
+        "message": "Закрыть"
+    },
+    "saveAndClose": {
+        "message": "Сохранить и закрыть"
+    },
+    "movePromptsTitle": {
+        "message": "Подсказки для перемещения"
+    },
+    "movePromptsMessagePrefix": {
+        "message": "Выберите папку назначения для"
+    },
+    "selectedPromptsSuffix": {
+        "message": "выбранные подсказки."
+    },
+    "folderPassword": {
+        "message": "Пароль папки"
+    },
+    "enterFolderPasswordPlaceholder": {
+        "message": "Введите пароль для заблокированной папки"
+    },
+    "deleteFolderTitle": {
+        "message": "Удалить папку"
+    },
+    "deleteFolderMessage": {
+        "message": "Что вы хотите сделать с подсказками в этой папке?"
+    },
+    "deleteFolderMovePrompts": {
+        "message": "Удалить папку и переместить подсказки"
+    },
+    "deleteFolderAndPrompts": {
+        "message": "Удалить папку и все подсказки"
+    },
+    "resetDataMessage": {
+        "message": "Вы уверены, что хотите сбросить все данные? Это приведет к окончательному удалению всех подсказок, папок и тегов. Это действие нельзя отменить."
+    },
+    "confirmResetAll": {
+        "message": "Да, сбросить все"
+    },
+    "renameFolder": {
+        "message": "Переименовать папку"
+    },
+    "dangerZone": {
+        "message": "Опасная зона"
+    },
+    "deleteFolder": {
+        "message": "Удалить папку"
+    },
+    "manageTagsTitle": {
+        "message": "Управление тегами"
+    },
+    "leavePageTitle": {
+        "message": "Покинуть страницу?"
+    },
+    "leavePageMessage": {
+        "message": "Вы уверены, что хотите покинуть эту страницу? Все несохраненные изменения могут быть утеряны."
+    },
+    "stay": {
+        "message": "Остаться"
+    },
+    "leave": {
+        "message": "Уйти"
+    },
+    "dontAskAgainThisSession": {
+        "message": "Не спрашивайте снова об этой сессии"
+    },
+    "ok": {
+        "message": "Хорошо"
+    },
+    "exportShort": {
+        "message": "Экспорт"
+    },
+    "importShort": {
+        "message": "Импорт"
+    },
     "promptLockedEnterPassword": {
         "message": "Этот запрос заблокирован. Введите пароль, чтобы вставить его:"
     },
@@ -464,6 +639,37 @@
     },
     "addToPromptLibrary": {
         "message": "Добавить в библиотеку подсказок"
+    },
+    "titleQuickPreview": {
+        "message": "Быстрый просмотр"
+    },
+    "headerQuickPreview": {
+        "message": "Настройки быстрого предварительного просмотра"
+    },
+    "quickPreviewDescription": {
+        "message": "Настройте, какие поисковые системы будут отображаться в всплывающем окне быстрого просмотра. Поддерживаются только поисковые системы на основе HTTP GET."
+    },
+    "disableQuickPreview": {
+        "message": "Отключить быстрый просмотр результатов поиска"
+    },
+    "filterQuickPreviewByLanguage": {
+        "message": "Фильтр Быстрый просмотр по выбранному языку"
+    },
+    "filterQuickPreviewByLanguageNote": {
+        "message": "При включении отображаются только те поисковые системы, язык которых соответствует выбранному языку. Если подходящих поисковых систем нет, отображаются все системы в качестве запасного варианта."
+    },
+    "recheckDescription": {
+        "message": "Повторная проверка поисковых систем позволит убедиться, что все поисковые системы по-прежнему доступны и реагируют на запросы. Рядом с поисковыми системами, которые могут отображаться некорректно в окне быстрого просмотра, появится красный значок предупреждения. Это может занять некоторое время."
+    },
+    "recheckEngines": {
+        "message": "Повторная проверка двигателей"
+    },
+    "editIconPrompt": {
+        "message": "Изменить URL-адрес значка для «$1»\n\nВведите URL-адрес изображения (желательно в формате SVG).\nОставьте поле пустым, чтобы использовать значок поисковой системы по умолчанию.",
+        "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
+    },
+    "disableQuickPreviewByNote": {
+        "message": "Установка этого флажка автоматически отключает быстрый просмотр результатов поиска."
     },
     "__WET_LOCALE__": {
         "message": "ru"

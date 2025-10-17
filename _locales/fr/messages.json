@@ -374,6 +374,10 @@
     "notifyMissingBookmarkUrl": {
         "message": "Impossible de récupérer l'URL pour la suppression des signets"
     },
+    "notifyCustomCssSaved": {
+        "message": "CSS personnalisé enregistré pour « $1 ».",
+        "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
+    },
     "notifyAIMinimalRequirements": {
         "message": "Veuillez au moins sélectionner un fournisseur de services d'IA et saisir un nom et une invite pour l'IA."
     },
@@ -456,6 +460,177 @@
     "promptLibrarySearchPlaceholder": {
         "message": "Rechercher des invites..."
     },
+    "promptsHeading": {
+        "message": "Invites"
+    },
+    "newPromptTitle": {
+        "message": "Nouvelle invite"
+    },
+    "foldersHeading": {
+        "message": "Dossiers"
+    },
+    "newFolderTitle": {
+        "message": "Nouveau dossier"
+    },
+    "newFolderNamePlaceholder": {
+        "message": "Nouveau nom du dossier..."
+    },
+    "tagsHeading": {
+        "message": "Balises"
+    },
+    "newTagTitle": {
+        "message": "Nouvelle balise"
+    },
+    "newTagNamePlaceholder": {
+        "message": "Nouveau nom de balise..."
+    },
+    "addTag": {
+        "message": "Ajouter une balise"
+    },
+    "settings": {
+        "message": "Paramètres"
+    },
+    "select": {
+        "message": "Sélectionner"
+    },
+    "cancel": {
+        "message": "Annuler"
+    },
+    "delete": {
+        "message": "Supprimer"
+    },
+    "sortNewest": {
+        "message": "Le plus récent"
+    },
+    "sortTitleAsc": {
+        "message": "Titre (A-Z)"
+    },
+    "noPromptsPlaceholder": {
+        "message": "Il n'y a pas encore d'invite ici. Créons-en une !"
+    },
+    "createNewPrompt": {
+        "message": "Créer une nouvelle invite"
+    },
+    "backToTop": {
+        "message": "Retour en haut de page"
+    },
+    "noPromptSelectedMessage": {
+        "message": "Sélectionnez une invite à afficher ou créez-en une nouvelle."
+    },
+    "titleLabel": {
+        "message": "Titre"
+    },
+    "lock": {
+        "message": "Verrou"
+    },
+    "promptTitlePlaceholder": {
+        "message": "Titre de la invite"
+    },
+    "folderLabel": {
+        "message": "Dossier"
+    },
+    "promptLabel": {
+        "message": "Invite"
+    },
+    "promptBodyPlaceholder": {
+        "message": "Le contenu de votre invite..."
+    },
+    "copyPromptBody": {
+        "message": "Copier le corps de l'invite"
+    },
+    "fullscreenEditor": {
+        "message": "Éditeur plein écran"
+    },
+    "notesLabel": {
+        "message": "Remarques"
+    },
+    "notesPlaceholder": {
+        "message": "Ajoutez des détails supplémentaires ou du contexte..."
+    },
+    "tagsLabel": {
+        "message": "Balises"
+    },
+    "addTagsPlaceholder": {
+        "message": "Ajouter des balises..."
+    },
+    "save": {
+        "message": "Enregistrer"
+    },
+    "close": {
+        "message": "Fermer"
+    },
+    "saveAndClose": {
+        "message": "Enregistrer et fermer"
+    },
+    "movePromptsTitle": {
+        "message": "Invites de déplacement"
+    },
+    "movePromptsMessagePrefix": {
+        "message": "Sélectionnez un dossier de destination pour le"
+    },
+    "selectedPromptsSuffix": {
+        "message": "invites sélectionnées."
+    },
+    "folderPassword": {
+        "message": "Mot de passe du dossier"
+    },
+    "enterFolderPasswordPlaceholder": {
+        "message": "Entrez le mot de passe pour le dossier verrouillé"
+    },
+    "deleteFolderTitle": {
+        "message": "Supprimer le dossier"
+    },
+    "deleteFolderMessage": {
+        "message": "Que souhaitez-vous faire avec les invites contenues dans ce dossier ?"
+    },
+    "deleteFolderMovePrompts": {
+        "message": "Supprimer le dossier et déplacer les invites"
+    },
+    "deleteFolderAndPrompts": {
+        "message": "Supprimer le dossier et toutes les invites"
+    },
+    "resetDataMessage": {
+        "message": "Êtes-vous sûr de vouloir réinitialiser toutes les données ? Cela supprimera définitivement toutes les invites, tous les dossiers et toutes les balises. Cette action ne peut pas être annulée."
+    },
+    "confirmResetAll": {
+        "message": "Oui, tout réinitialiser"
+    },
+    "renameFolder": {
+        "message": "Renommer le dossier"
+    },
+    "dangerZone": {
+        "message": "Zone dangereuse"
+    },
+    "deleteFolder": {
+        "message": "Supprimer le dossier"
+    },
+    "manageTagsTitle": {
+        "message": "Gérer les balises"
+    },
+    "leavePageTitle": {
+        "message": "Quitter la page ?"
+    },
+    "leavePageMessage": {
+        "message": "Voulez-vous vraiment quitter cette page ? Toutes les modifications non enregistrées risquent d'être perdues."
+    },
+    "stay": {
+        "message": "Séjour"
+    },
+    "leave": {
+        "message": "Départ"
+    },
+    "dontAskAgainThisSession": {
+        "message": "Ne demandez plus pour cette session"
+    },
+    "ok": {
+        "message": "OK"
+    },
+    "exportShort": {
+        "message": "Exportation"
+    },
+    "importShort": {
+        "message": "Importation"
+    },
     "promptLockedEnterPassword": {
         "message": "Cette invite est verrouillée. Saisissez le mot de passe pour l'insérer :"
     },
@@ -464,6 +639,37 @@
     },
     "addToPromptLibrary": {
         "message": "Ajouter à la bibliothèque d'invites"
+    },
+    "titleQuickPreview": {
+        "message": "Aperçu rapide"
+    },
+    "headerQuickPreview": {
+        "message": "Paramètres d'aperçu rapide"
+    },
+    "quickPreviewDescription": {
+        "message": "Configurez les moteurs de recherche qui apparaissent dans la bulle d'aperçu rapide. Seuls les moteurs de recherche basés sur HTTP GET sont pris en charge."
+    },
+    "disableQuickPreview": {
+        "message": "Désactiver l'aperçu rapide des résultats de recherche"
+    },
+    "filterQuickPreviewByLanguage": {
+        "message": "Filtrer l'aperçu rapide par langue sélectionnée"
+    },
+    "filterQuickPreviewByLanguageNote": {
+        "message": "Lorsque cette option est activée, seuls les moteurs dont la langue correspond à la langue sélectionnée sont affichés. Si aucun moteur ne correspond, tous sont affichés à titre de solution de repli."
+    },
+    "recheckDescription": {
+        "message": "La fonction « Vérifier à nouveau les moteurs » vérifie si tous les moteurs de recherche sont toujours disponibles et réactifs. Une icône d'avertissement rouge apparaîtra à côté des moteurs qui ne s'affichent pas correctement dans la bulle d'aperçu rapide. Cette opération peut prendre un certain temps."
+    },
+    "recheckEngines": {
+        "message": "Vérifier à nouveau les moteurs"
+    },
+    "editIconPrompt": {
+        "message": "Modifier l'URL de l'icône pour « $1 »\n\nEntrez l'URL d'une image (de préférence au format SVG).\nLaissez ce champ vide pour utiliser l'icône par défaut du moteur de recherche.",
+        "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
+    },
+    "disableQuickPreviewByNote": {
+        "message": "Cochez cette option pour désactiver automatiquement l'aperçu rapide des résultats de recherche."
     },
     "__WET_LOCALE__": {
         "message": "fr"

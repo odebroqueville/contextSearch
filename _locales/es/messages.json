@@ -374,6 +374,10 @@
     "notifyMissingBookmarkUrl": {
         "message": "No se ha podido recuperar la URL para eliminar el marcador"
     },
+    "notifyCustomCssSaved": {
+        "message": "CSS personalizado guardado para «$1».",
+        "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
+    },
     "notifyAIMinimalRequirements": {
         "message": "Por favor, seleccione al menos un proveedor de servicios de IA e introduzca un nombre de comando de IA y un comando de IA."
     },
@@ -456,6 +460,177 @@
     "promptLibrarySearchPlaceholder": {
         "message": "Sugerencias de búsqueda..."
     },
+    "promptsHeading": {
+        "message": "Indicaciones"
+    },
+    "newPromptTitle": {
+        "message": "Nuevo mensaje"
+    },
+    "foldersHeading": {
+        "message": "Carpetas"
+    },
+    "newFolderTitle": {
+        "message": "Nueva carpeta"
+    },
+    "newFolderNamePlaceholder": {
+        "message": "Nombre de la nueva carpeta..."
+    },
+    "tagsHeading": {
+        "message": "Etiquetas"
+    },
+    "newTagTitle": {
+        "message": "Nueva etiqueta"
+    },
+    "newTagNamePlaceholder": {
+        "message": "Nuevo nombre de etiqueta..."
+    },
+    "addTag": {
+        "message": "Añadir etiqueta"
+    },
+    "settings": {
+        "message": "Configuración"
+    },
+    "select": {
+        "message": "Seleccionar"
+    },
+    "cancel": {
+        "message": "Cancelar"
+    },
+    "delete": {
+        "message": "Eliminar"
+    },
+    "sortNewest": {
+        "message": "Más reciente"
+    },
+    "sortTitleAsc": {
+        "message": "Título (A-Z)"
+    },
+    "noPromptsPlaceholder": {
+        "message": "Aún no hay indicaciones aquí. ¡Creemos una!"
+    },
+    "createNewPrompt": {
+        "message": "Crear nueva solicitud"
+    },
+    "backToTop": {
+        "message": "Volver al inicio"
+    },
+    "noPromptSelectedMessage": {
+        "message": "Seleccione un mensaje para ver o cree uno nuevo."
+    },
+    "titleLabel": {
+        "message": "Título"
+    },
+    "lock": {
+        "message": "Bloquear"
+    },
+    "promptTitlePlaceholder": {
+        "message": "Título del mensaje"
+    },
+    "folderLabel": {
+        "message": "Carpeta"
+    },
+    "promptLabel": {
+        "message": "Solicitud"
+    },
+    "promptBodyPlaceholder": {
+        "message": "El contenido de tu mensaje..."
+    },
+    "copyPromptBody": {
+        "message": "Copiar el cuerpo del mensaje"
+    },
+    "fullscreenEditor": {
+        "message": "Editor a pantalla completa"
+    },
+    "notesLabel": {
+        "message": "Notas"
+    },
+    "notesPlaceholder": {
+        "message": "Añade detalles adicionales o contexto..."
+    },
+    "tagsLabel": {
+        "message": "Etiquetas"
+    },
+    "addTagsPlaceholder": {
+        "message": "Añadir etiquetas..."
+    },
+    "save": {
+        "message": "Guardar"
+    },
+    "close": {
+        "message": "Cerrar"
+    },
+    "saveAndClose": {
+        "message": "Guardar y cerrar"
+    },
+    "movePromptsTitle": {
+        "message": "Mensajes de movimiento"
+    },
+    "movePromptsMessagePrefix": {
+        "message": "Seleccione una carpeta de destino para el"
+    },
+    "selectedPromptsSuffix": {
+        "message": "indicaciones seleccionadas."
+    },
+    "folderPassword": {
+        "message": "Contraseña de carpeta"
+    },
+    "enterFolderPasswordPlaceholder": {
+        "message": "Introduzca la contraseña para la carpeta bloqueada."
+    },
+    "deleteFolderTitle": {
+        "message": "Eliminar carpeta"
+    },
+    "deleteFolderMessage": {
+        "message": "¿Qué te gustaría hacer con las indicaciones que hay dentro de esta carpeta?"
+    },
+    "deleteFolderMovePrompts": {
+        "message": "Eliminar carpeta y mover avisos"
+    },
+    "deleteFolderAndPrompts": {
+        "message": "Eliminar carpeta y todas las indicaciones"
+    },
+    "resetDataMessage": {
+        "message": "¿Está seguro de que desea restablecer todos los datos? Esto eliminará permanentemente todas las indicaciones, carpetas y etiquetas. Esta acción no se puede deshacer."
+    },
+    "confirmResetAll": {
+        "message": "Sí, restablecer todo."
+    },
+    "renameFolder": {
+        "message": "Cambiar nombre de carpeta"
+    },
+    "dangerZone": {
+        "message": "Zona de peligro"
+    },
+    "deleteFolder": {
+        "message": "Eliminar carpeta"
+    },
+    "manageTagsTitle": {
+        "message": "Gestionar etiquetas"
+    },
+    "leavePageTitle": {
+        "message": "¿Salir de la página?"
+    },
+    "leavePageMessage": {
+        "message": "¿Está seguro de que desea salir de esta página? Cualquier cambio no guardado se perderá."
+    },
+    "stay": {
+        "message": "Quédate"
+    },
+    "leave": {
+        "message": "Salir"
+    },
+    "dontAskAgainThisSession": {
+        "message": "No vuelvas a preguntar por esta sesión."
+    },
+    "ok": {
+        "message": "De acuerdo."
+    },
+    "exportShort": {
+        "message": "Exportar"
+    },
+    "importShort": {
+        "message": "Importar"
+    },
     "promptLockedEnterPassword": {
         "message": "Este mensaje está bloqueado. Introduzca la contraseña para insertarlo:"
     },
@@ -464,6 +639,37 @@
     },
     "addToPromptLibrary": {
         "message": "Añadir a la biblioteca de mensajes"
+    },
+    "titleQuickPreview": {
+        "message": "Vista previa rápida"
+    },
+    "headerQuickPreview": {
+        "message": "Configuración de vista previa rápida"
+    },
+    "quickPreviewDescription": {
+        "message": "Configure qué motores de búsqueda aparecen en la burbuja de vista previa rápida. Solo se admiten motores de búsqueda basados en HTTP GET."
+    },
+    "disableQuickPreview": {
+        "message": "Desactivar la vista previa rápida de los resultados de búsqueda"
+    },
+    "filterQuickPreviewByLanguage": {
+        "message": "Filtrar vista previa rápida por idioma seleccionado"
+    },
+    "filterQuickPreviewByLanguageNote": {
+        "message": "Cuando está habilitado, solo se muestran los motores cuyo idioma coincide con el idioma seleccionado. Si ningún motor coincide, se muestran todos como alternativa."
+    },
+    "recheckDescription": {
+        "message": "Los motores de reverificación comprobarán si todos y cada uno de los motores de búsqueda siguen estando disponibles y respondiendo. Aparecerá un icono de advertencia rojo junto a cualquier motor que no se muestre correctamente en la burbuja de vista previa rápida. Esto puede tardar un poco."
+    },
+    "recheckEngines": {
+        "message": "Vuelva a comprobar los motores."
+    },
+    "editIconPrompt": {
+        "message": "Editar URL del icono para «$1»\n\nIntroduzca una URL a una imagen (preferiblemente SVG).\nDéjelo vacío para utilizar el icono predeterminado del motor de búsqueda.",
+        "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
+    },
+    "disableQuickPreviewByNote": {
+        "message": "Al marcar esta opción, se desactiva automáticamente la vista previa rápida de los resultados de búsqueda."
     },
     "__WET_LOCALE__": {
         "message": "es"

@@ -374,6 +374,10 @@
     "notifyMissingBookmarkUrl": {
         "message": "URL zum Entfernen des Lesezeichens konnte nicht abgerufen werden"
     },
+    "notifyCustomCssSaved": {
+        "message": "Benutzerdefiniertes CSS für „$1“ gespeichert.",
+        "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
+    },
     "notifyAIMinimalRequirements": {
         "message": "Bitte wählen Sie mindestens einen KI-Dienstleister aus und geben Sie einen KI-Prompt-Namen und einen KI-Prompt ein."
     },
@@ -456,6 +460,177 @@
     "promptLibrarySearchPlaceholder": {
         "message": "Suchaufforderungen..."
     },
+    "promptsHeading": {
+        "message": "Eingabeaufforderungen"
+    },
+    "newPromptTitle": {
+        "message": "Neue Eingabeaufforderung"
+    },
+    "foldersHeading": {
+        "message": "Ordner"
+    },
+    "newFolderTitle": {
+        "message": "Neuer Ordner"
+    },
+    "newFolderNamePlaceholder": {
+        "message": "Neuer Ordnername..."
+    },
+    "tagsHeading": {
+        "message": "Tags"
+    },
+    "newTagTitle": {
+        "message": "Neues Tag"
+    },
+    "newTagNamePlaceholder": {
+        "message": "Neuer Tag-Name..."
+    },
+    "addTag": {
+        "message": "Tag hinzufügen"
+    },
+    "settings": {
+        "message": "Einstellungen"
+    },
+    "select": {
+        "message": "Auswählen"
+    },
+    "cancel": {
+        "message": "Abbrechen"
+    },
+    "delete": {
+        "message": "Löschen"
+    },
+    "sortNewest": {
+        "message": "Neueste"
+    },
+    "sortTitleAsc": {
+        "message": "Titel (A-Z)"
+    },
+    "noPromptsPlaceholder": {
+        "message": "Hier gibt es noch keine Eingabeaufforderungen. Erstellen wir eine!"
+    },
+    "createNewPrompt": {
+        "message": "Neue Eingabeaufforderung erstellen"
+    },
+    "backToTop": {
+        "message": "Zurück nach oben"
+    },
+    "noPromptSelectedMessage": {
+        "message": "Wählen Sie eine Eingabeaufforderung aus, um sie anzuzeigen, oder erstellen Sie eine neue."
+    },
+    "titleLabel": {
+        "message": "Titel"
+    },
+    "lock": {
+        "message": "Schloss"
+    },
+    "promptTitlePlaceholder": {
+        "message": "Eingabeaufforderungstitel"
+    },
+    "folderLabel": {
+        "message": "Ordner"
+    },
+    "promptLabel": {
+        "message": "Aufforderung"
+    },
+    "promptBodyPlaceholder": {
+        "message": "Der Inhalt Ihrer Eingabeaufforderung..."
+    },
+    "copyPromptBody": {
+        "message": "Kopieren Sie den Textkörper der Eingabeaufforderung."
+    },
+    "fullscreenEditor": {
+        "message": "Vollbild-Editor"
+    },
+    "notesLabel": {
+        "message": "Anmerkungen"
+    },
+    "notesPlaceholder": {
+        "message": "Fügen Sie zusätzliche Details oder Kontext hinzu..."
+    },
+    "tagsLabel": {
+        "message": "Tags"
+    },
+    "addTagsPlaceholder": {
+        "message": "Tags hinzufügen..."
+    },
+    "save": {
+        "message": "Speichern"
+    },
+    "close": {
+        "message": "Schließen"
+    },
+    "saveAndClose": {
+        "message": "Speichern & Schließen"
+    },
+    "movePromptsTitle": {
+        "message": "Verschieben von Eingabeaufforderungen"
+    },
+    "movePromptsMessagePrefix": {
+        "message": "Wählen Sie einen Zielordner für die"
+    },
+    "selectedPromptsSuffix": {
+        "message": "ausgewählte Eingabeaufforderungen."
+    },
+    "folderPassword": {
+        "message": "Ordner-Passwort"
+    },
+    "enterFolderPasswordPlaceholder": {
+        "message": "Passwort für gesperrten Ordner eingeben"
+    },
+    "deleteFolderTitle": {
+        "message": "Ordner löschen"
+    },
+    "deleteFolderMessage": {
+        "message": "Was möchten Sie mit den Eingabeaufforderungen in diesem Ordner machen?"
+    },
+    "deleteFolderMovePrompts": {
+        "message": "Ordner löschen & Verschieben"
+    },
+    "deleteFolderAndPrompts": {
+        "message": "Ordner löschen & alle Eingabeaufforderungen"
+    },
+    "resetDataMessage": {
+        "message": "Möchten Sie wirklich alle Daten zurücksetzen? Dadurch werden alle Eingabeaufforderungen, Ordner und Tags dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden."
+    },
+    "confirmResetAll": {
+        "message": "Ja, alles zurücksetzen"
+    },
+    "renameFolder": {
+        "message": "Ordner umbenennen"
+    },
+    "dangerZone": {
+        "message": "Gefahrenzone"
+    },
+    "deleteFolder": {
+        "message": "Ordner löschen"
+    },
+    "manageTagsTitle": {
+        "message": "Tags verwalten"
+    },
+    "leavePageTitle": {
+        "message": "Seite verlassen?"
+    },
+    "leavePageMessage": {
+        "message": "Möchten Sie diese Seite wirklich verlassen? Nicht gespeicherte Änderungen gehen möglicherweise verloren."
+    },
+    "stay": {
+        "message": "Bleiben"
+    },
+    "leave": {
+        "message": "Verlassen"
+    },
+    "dontAskAgainThisSession": {
+        "message": "Frag in dieser Sitzung nicht noch einmal danach."
+    },
+    "ok": {
+        "message": "OK"
+    },
+    "exportShort": {
+        "message": "Export"
+    },
+    "importShort": {
+        "message": "Import"
+    },
     "promptLockedEnterPassword": {
         "message": "Diese Eingabeaufforderung ist gesperrt. Geben Sie das Passwort ein, um sie einzufügen:"
     },
@@ -464,6 +639,37 @@
     },
     "addToPromptLibrary": {
         "message": "Zur Eingabeaufforderungsbibliothek hinzufügen"
+    },
+    "titleQuickPreview": {
+        "message": "Schnellvorschau"
+    },
+    "headerQuickPreview": {
+        "message": "Schnellvorschau-Einstellungen"
+    },
+    "quickPreviewDescription": {
+        "message": "Konfigurieren Sie, welche Suchmaschinen in der Schnellvorschau-Blase angezeigt werden. Es werden nur HTTP-GET-basierte Suchmaschinen unterstützt."
+    },
+    "disableQuickPreview": {
+        "message": "Schnellvorschau der Suchergebnisse deaktivieren"
+    },
+    "filterQuickPreviewByLanguage": {
+        "message": "Schnellvorschau nach Auswahlsprache filtern"
+    },
+    "filterQuickPreviewByLanguageNote": {
+        "message": "Wenn diese Option aktiviert ist, werden nur Suchmaschinen angezeigt, deren Sprache mit der erkannten Auswahlsprache übereinstimmt. Wenn keine Suchmaschinen übereinstimmen, werden alle als Fallback angezeigt."
+    },
+    "recheckDescription": {
+        "message": "Die Suchmaschinen werden erneut überprüft, um sicherzustellen, dass alle Suchmaschinen weiterhin verfügbar sind und reagieren. Neben Suchmaschinen, die möglicherweise nicht korrekt in der Schnellvorschau-Blase angezeigt werden, erscheint ein rotes Warnsymbol. Dies kann eine Weile dauern."
+    },
+    "recheckEngines": {
+        "message": "Motoren erneut überprüfen"
+    },
+    "editIconPrompt": {
+        "message": "URL für Symbol „$1“ bearbeiten\n\nGeben Sie eine URL zu einem Bild (vorzugsweise SVG) ein.\nLassen Sie das Feld leer, um das Standardsymbol der Suchmaschine zu verwenden.",
+        "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
+    },
+    "disableQuickPreviewByNote": {
+        "message": "Wenn Sie diese Option aktivieren, wird die Schnellvorschau der Suchergebnisse automatisch deaktiviert."
     },
     "__WET_LOCALE__": {
         "message": "de"

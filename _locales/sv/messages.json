@@ -374,6 +374,10 @@
     "notifyMissingBookmarkUrl": {
         "message": "Det gick inte att hämta URL för borttagning av bokmärke"
     },
+    "notifyCustomCssSaved": {
+        "message": "Anpassad CSS sparad för \"$1\".",
+        "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
+    },
     "notifyAIMinimalRequirements": {
         "message": "Välj åtminstone en AI-tjänsteleverantör och ange ett AI-promptnamn och en AI-prompt."
     },
@@ -456,6 +460,177 @@
     "promptLibrarySearchPlaceholder": {
         "message": "Sökförslag..."
     },
+    "promptsHeading": {
+        "message": "Uppmaningar"
+    },
+    "newPromptTitle": {
+        "message": "Ny uppmaning"
+    },
+    "foldersHeading": {
+        "message": "Mappar"
+    },
+    "newFolderTitle": {
+        "message": "Ny mapp"
+    },
+    "newFolderNamePlaceholder": {
+        "message": "Namn på ny mapp..."
+    },
+    "tagsHeading": {
+        "message": "Taggar"
+    },
+    "newTagTitle": {
+        "message": "Ny tagg"
+    },
+    "newTagNamePlaceholder": {
+        "message": "Nytt taggnamn..."
+    },
+    "addTag": {
+        "message": "Lägg till tagg"
+    },
+    "settings": {
+        "message": "Inställningar"
+    },
+    "select": {
+        "message": "Välj"
+    },
+    "cancel": {
+        "message": "Avbryt"
+    },
+    "delete": {
+        "message": "Radera"
+    },
+    "sortNewest": {
+        "message": "Senaste"
+    },
+    "sortTitleAsc": {
+        "message": "Titel (A-Z)"
+    },
+    "noPromptsPlaceholder": {
+        "message": "Inga frågor här ännu. Låt oss skapa en!"
+    },
+    "createNewPrompt": {
+        "message": "Skapa ny prompt"
+    },
+    "backToTop": {
+        "message": "Tillbaka till toppen"
+    },
+    "noPromptSelectedMessage": {
+        "message": "Välj en prompt att visa eller skapa en ny."
+    },
+    "titleLabel": {
+        "message": "Titel"
+    },
+    "lock": {
+        "message": "Lås"
+    },
+    "promptTitlePlaceholder": {
+        "message": "Prompttitel"
+    },
+    "folderLabel": {
+        "message": "Mapp"
+    },
+    "promptLabel": {
+        "message": "Uppmaning"
+    },
+    "promptBodyPlaceholder": {
+        "message": "Innehållet i din uppmaning..."
+    },
+    "copyPromptBody": {
+        "message": "Kopiera promptens huvuddel"
+    },
+    "fullscreenEditor": {
+        "message": "Helskärmsredigerare"
+    },
+    "notesLabel": {
+        "message": "Anmärkningar"
+    },
+    "notesPlaceholder": {
+        "message": "Lägg till ytterligare detaljer eller sammanhang..."
+    },
+    "tagsLabel": {
+        "message": "Taggar"
+    },
+    "addTagsPlaceholder": {
+        "message": "Lägg till taggar..."
+    },
+    "save": {
+        "message": "Spara"
+    },
+    "close": {
+        "message": "Stäng"
+    },
+    "saveAndClose": {
+        "message": "Spara och stäng"
+    },
+    "movePromptsTitle": {
+        "message": "Flytta uppmaningar"
+    },
+    "movePromptsMessagePrefix": {
+        "message": "Välj en målmapp för"
+    },
+    "selectedPromptsSuffix": {
+        "message": "valda uppmaningar."
+    },
+    "folderPassword": {
+        "message": "Mappens lösenord"
+    },
+    "enterFolderPasswordPlaceholder": {
+        "message": "Ange lösenord för låst mapp"
+    },
+    "deleteFolderTitle": {
+        "message": "Ta bort mapp"
+    },
+    "deleteFolderMessage": {
+        "message": "Vad vill du göra med uppmaningarna i den här mappen?"
+    },
+    "deleteFolderMovePrompts": {
+        "message": "Ta bort mapp och flytta meddelanden"
+    },
+    "deleteFolderAndPrompts": {
+        "message": "Ta bort mapp och alla uppmaningar"
+    },
+    "resetDataMessage": {
+        "message": "Är du säker på att du vill återställa alla data? Detta kommer att radera alla uppmaningar, mappar och taggar permanent. Denna åtgärd kan inte ångras."
+    },
+    "confirmResetAll": {
+        "message": "Ja, återställ allt"
+    },
+    "renameFolder": {
+        "message": "Byt namn på mapp"
+    },
+    "dangerZone": {
+        "message": "Farozonen"
+    },
+    "deleteFolder": {
+        "message": "Ta bort mapp"
+    },
+    "manageTagsTitle": {
+        "message": "Hantera taggar"
+    },
+    "leavePageTitle": {
+        "message": "Lämna sidan?"
+    },
+    "leavePageMessage": {
+        "message": "Är du säker på att du vill lämna denna sida? Eventuella osparade ändringar kan gå förlorade."
+    },
+    "stay": {
+        "message": "Boende"
+    },
+    "leave": {
+        "message": "Lämna"
+    },
+    "dontAskAgainThisSession": {
+        "message": "Fråga inte igen under denna session"
+    },
+    "ok": {
+        "message": "OK"
+    },
+    "exportShort": {
+        "message": "Export"
+    },
+    "importShort": {
+        "message": "Import"
+    },
     "promptLockedEnterPassword": {
         "message": "Denna prompt är låst. Ange lösenord för att infoga den:"
     },
@@ -464,6 +639,37 @@
     },
     "addToPromptLibrary": {
         "message": "Lägg till i promptbiblioteket"
+    },
+    "titleQuickPreview": {
+        "message": "Snabb förhandsgranskning"
+    },
+    "headerQuickPreview": {
+        "message": "Inställningar för snabb förhandsgranskning"
+    },
+    "quickPreviewDescription": {
+        "message": "Konfigurera vilka sökmotorer som ska visas i snabbförhandsgranskningsbubblan. Endast HTTP GET-baserade sökmotorer stöds."
+    },
+    "disableQuickPreview": {
+        "message": "Inaktivera snabb förhandsgranskning av sökresultat"
+    },
+    "filterQuickPreviewByLanguage": {
+        "message": "Filtrera snabbförhandsgranskning efter valspråk"
+    },
+    "filterQuickPreviewByLanguageNote": {
+        "message": "När denna funktion är aktiverad visas endast sökmotorer vars språk matchar det valda språket. Om inga sökmotorer matchar visas alla som en reservlösning."
+    },
+    "recheckDescription": {
+        "message": "Omkontrollera motorer kommer att verifiera om varje sökmotor fortfarande är tillgänglig och responsiv. En röd varningsikon kommer att visas bredvid alla motorer som kanske inte visas korrekt i snabbförhandsgranskningsbubblan. Detta kan ta en stund."
+    },
+    "recheckEngines": {
+        "message": "Kontrollera motorerna igen"
+    },
+    "editIconPrompt": {
+        "message": "Redigera ikon-URL för \"$1\"\n\nAnge en URL till en bild (helst SVG).\nLämna tomt för att använda standardikonen för sökmotorn.",
+        "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
+    },
+    "disableQuickPreviewByNote": {
+        "message": "Om du markerar det här alternativet inaktiveras automatiskt snabbförhandsvisningen av sökresultaten."
     },
     "__WET_LOCALE__": {
         "message": "sv"

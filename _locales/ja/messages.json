@@ -374,6 +374,10 @@
     "notifyMissingBookmarkUrl": {
         "message": "ブックマーク削除用のURLを取得できませんでした"
     },
+    "notifyCustomCssSaved": {
+        "message": "カスタムCSSが「$1」用に保存されました。",
+        "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
+    },
     "notifyAIMinimalRequirements": {
         "message": "少なくともAIサービスプロバイダーを選択し、AIプロンプト名とAIプロンプトを入力してください。"
     },
@@ -456,6 +460,177 @@
     "promptLibrarySearchPlaceholder": {
         "message": "検索プロンプト..."
     },
+    "promptsHeading": {
+        "message": "プロンプト"
+    },
+    "newPromptTitle": {
+        "message": "新しいプロンプト"
+    },
+    "foldersHeading": {
+        "message": "フォルダ"
+    },
+    "newFolderTitle": {
+        "message": "新しいフォルダ"
+    },
+    "newFolderNamePlaceholder": {
+        "message": "新しいフォルダ名..."
+    },
+    "tagsHeading": {
+        "message": "タグ"
+    },
+    "newTagTitle": {
+        "message": "新しいタグ"
+    },
+    "newTagNamePlaceholder": {
+        "message": "新しいタグ名..."
+    },
+    "addTag": {
+        "message": "タグを追加"
+    },
+    "settings": {
+        "message": "設定"
+    },
+    "select": {
+        "message": "選択"
+    },
+    "cancel": {
+        "message": "キャンセル"
+    },
+    "delete": {
+        "message": "削除"
+    },
+    "sortNewest": {
+        "message": "最新"
+    },
+    "sortTitleAsc": {
+        "message": "タイトル（A-Z）"
+    },
+    "noPromptsPlaceholder": {
+        "message": "まだプロンプトはありません。作成しましょう！"
+    },
+    "createNewPrompt": {
+        "message": "新しいプロンプトを作成"
+    },
+    "backToTop": {
+        "message": "トップへ戻る"
+    },
+    "noPromptSelectedMessage": {
+        "message": "プロンプトを選択して表示するか、新しいプロンプトを作成してください。"
+    },
+    "titleLabel": {
+        "message": "タイトル"
+    },
+    "lock": {
+        "message": "ロック"
+    },
+    "promptTitlePlaceholder": {
+        "message": "プロンプトタイトル"
+    },
+    "folderLabel": {
+        "message": "フォルダ"
+    },
+    "promptLabel": {
+        "message": "プロンプト"
+    },
+    "promptBodyPlaceholder": {
+        "message": "プロンプトの内容..."
+    },
+    "copyPromptBody": {
+        "message": "プロンプト本文をコピー"
+    },
+    "fullscreenEditor": {
+        "message": "フルスクリーンエディター"
+    },
+    "notesLabel": {
+        "message": "注記"
+    },
+    "notesPlaceholder": {
+        "message": "追加の詳細や背景情報を追加してください..."
+    },
+    "tagsLabel": {
+        "message": "タグ"
+    },
+    "addTagsPlaceholder": {
+        "message": "タグを追加..."
+    },
+    "save": {
+        "message": "保存"
+    },
+    "close": {
+        "message": "閉じる"
+    },
+    "saveAndClose": {
+        "message": "保存して閉じる"
+    },
+    "movePromptsTitle": {
+        "message": "移動プロンプト"
+    },
+    "movePromptsMessagePrefix": {
+        "message": "保存先フォルダを選択してください"
+    },
+    "selectedPromptsSuffix": {
+        "message": "選択されたプロンプト。"
+    },
+    "folderPassword": {
+        "message": "フォルダパスワード"
+    },
+    "enterFolderPasswordPlaceholder": {
+        "message": "ロックされたフォルダのパスワードを入力してください"
+    },
+    "deleteFolderTitle": {
+        "message": "フォルダを削除"
+    },
+    "deleteFolderMessage": {
+        "message": "このフォルダ内のプロンプトをどうしますか？"
+    },
+    "deleteFolderMovePrompts": {
+        "message": "フォルダ削除とプロンプト移動"
+    },
+    "deleteFolderAndPrompts": {
+        "message": "フォルダとすべてのプロンプトを削除"
+    },
+    "resetDataMessage": {
+        "message": "すべてのデータをリセットしてもよろしいですか？これにより、すべてのプロンプト、フォルダ、タグが完全に削除されます。この操作は元に戻せません。"
+    },
+    "confirmResetAll": {
+        "message": "はい、すべてリセット"
+    },
+    "renameFolder": {
+        "message": "フォルダの名前を変更する"
+    },
+    "dangerZone": {
+        "message": "危険地帯"
+    },
+    "deleteFolder": {
+        "message": "フォルダを削除"
+    },
+    "manageTagsTitle": {
+        "message": "タグを管理する"
+    },
+    "leavePageTitle": {
+        "message": "ページを離れますか？"
+    },
+    "leavePageMessage": {
+        "message": "このページを離れることを確認しますか？保存されていない変更は失われる可能性があります。"
+    },
+    "stay": {
+        "message": "滞在"
+    },
+    "leave": {
+        "message": "去る"
+    },
+    "dontAskAgainThisSession": {
+        "message": "このセッションでは再度尋ねないでください"
+    },
+    "ok": {
+        "message": "了解"
+    },
+    "exportShort": {
+        "message": "輸出"
+    },
+    "importShort": {
+        "message": "インポート"
+    },
     "promptLockedEnterPassword": {
         "message": "このプロンプトはロックされています。挿入するにはパスワードを入力してください："
     },
@@ -464,6 +639,37 @@
     },
     "addToPromptLibrary": {
         "message": "プロンプトライブラリに追加"
+    },
+    "titleQuickPreview": {
+        "message": "クイックプレビュー"
+    },
+    "headerQuickPreview": {
+        "message": "クイックプレビュー設定"
+    },
+    "quickPreviewDescription": {
+        "message": "クイックプレビューバブルに表示される検索エンジンを設定します。HTTP GETベースの検索エンジンのみがサポートされています。"
+    },
+    "disableQuickPreview": {
+        "message": "検索結果のクイックプレビューを無効にする"
+    },
+    "filterQuickPreviewByLanguage": {
+        "message": "選択言語によるフィルターのクイックプレビュー"
+    },
+    "filterQuickPreviewByLanguageNote": {
+        "message": "有効にすると、検出された選択言語と一致する言語のエンジンのみが表示されます。一致するエンジンがない場合、フォールバックとして全てのエンジンが表示されます。"
+    },
+    "recheckDescription": {
+        "message": "再チェックエンジンは、すべての検索エンジンが利用可能で応答しているかを確認します。クイックプレビューバブルで正しく表示されない可能性があるエンジンには、赤い警告アイコンが表示されます。この処理には時間がかかる場合があります。"
+    },
+    "recheckEngines": {
+        "message": "エンジンを再点検する"
+    },
+    "editIconPrompt": {
+        "message": "「$1」のアイコンURLを編集\n\n画像のURLを入力してください（SVG推奨）。\n空欄のままにするとデフォルトの検索エンジンアイコンが使用されます。",
+        "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
+    },
+    "disableQuickPreviewByNote": {
+        "message": "このオプションをチェックすると、検索結果のクイックプレビューが自動的に無効になります。"
     },
     "__WET_LOCALE__": {
         "message": "ja"

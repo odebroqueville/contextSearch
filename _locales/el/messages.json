@@ -374,6 +374,10 @@
     "notifyMissingBookmarkUrl": {
         "message": "Δεν ήταν δυνατή η ανάκτηση της διεύθυνσης URL για την αφαίρεση σελιδοδείκτη"
     },
+    "notifyCustomCssSaved": {
+        "message": "Προσαρμοσμένο CSS αποθηκευμένο για \"$1\".",
+        "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
+    },
     "notifyAIMinimalRequirements": {
         "message": "Επιλέξτε τουλάχιστον έναν πάροχο υπηρεσιών τεχνητής νοημοσύνης και εισαγάγετε ένα όνομα προτροπής τεχνητής νοημοσύνης και μια προτροπή τεχνητής νοημοσύνης"
     },
@@ -456,6 +460,177 @@
     "promptLibrarySearchPlaceholder": {
         "message": "Προτροπές αναζήτησης..."
     },
+    "promptsHeading": {
+        "message": "Προτροπές"
+    },
+    "newPromptTitle": {
+        "message": "Νέα προτροπή"
+    },
+    "foldersHeading": {
+        "message": "Φάκελοι"
+    },
+    "newFolderTitle": {
+        "message": "Νέος φάκελος"
+    },
+    "newFolderNamePlaceholder": {
+        "message": "Νέο όνομα φακέλου..."
+    },
+    "tagsHeading": {
+        "message": "Ετικέτες"
+    },
+    "newTagTitle": {
+        "message": "Νέα ετικέτα"
+    },
+    "newTagNamePlaceholder": {
+        "message": "Νέο όνομα ετικέτας..."
+    },
+    "addTag": {
+        "message": "Προσθήκη ετικέτας"
+    },
+    "settings": {
+        "message": "Ρυθμίσεις"
+    },
+    "select": {
+        "message": "Επιλέξτε"
+    },
+    "cancel": {
+        "message": "Ακύρωση"
+    },
+    "delete": {
+        "message": "Διαγραφή"
+    },
+    "sortNewest": {
+        "message": "Νεότερο"
+    },
+    "sortTitleAsc": {
+        "message": "Τίτλος (Α-Ω)"
+    },
+    "noPromptsPlaceholder": {
+        "message": "Δεν υπάρχουν ακόμη προτροπές εδώ. Ας δημιουργήσουμε μία!"
+    },
+    "createNewPrompt": {
+        "message": "Δημιουργία νέου προτροπής"
+    },
+    "backToTop": {
+        "message": "Επιστροφή στην κορυφή"
+    },
+    "noPromptSelectedMessage": {
+        "message": "Επιλέξτε μια προτροπή για προβολή ή δημιουργήστε μια νέα."
+    },
+    "titleLabel": {
+        "message": "Τίτλος"
+    },
+    "lock": {
+        "message": "Κλείδωμα"
+    },
+    "promptTitlePlaceholder": {
+        "message": "Τίτλος προτροπής"
+    },
+    "folderLabel": {
+        "message": "Φάκελος"
+    },
+    "promptLabel": {
+        "message": "Προτροπή"
+    },
+    "promptBodyPlaceholder": {
+        "message": "Το περιεχόμενο της ερώτησής σας..."
+    },
+    "copyPromptBody": {
+        "message": "Αντιγραφή σώματος προτροπής"
+    },
+    "fullscreenEditor": {
+        "message": "Επεξεργαστής πλήρους οθόνης"
+    },
+    "notesLabel": {
+        "message": "Σημειώσεις"
+    },
+    "notesPlaceholder": {
+        "message": "Προσθέστε επιπλέον λεπτομέρειες ή πλαίσιο..."
+    },
+    "tagsLabel": {
+        "message": "Ετικέτες"
+    },
+    "addTagsPlaceholder": {
+        "message": "Προσθήκη ετικετών..."
+    },
+    "save": {
+        "message": "Αποθήκευση"
+    },
+    "close": {
+        "message": "Κλείσιμο"
+    },
+    "saveAndClose": {
+        "message": "Αποθήκευση & Κλείσιμο"
+    },
+    "movePromptsTitle": {
+        "message": "Προτροπές μετακίνησης"
+    },
+    "movePromptsMessagePrefix": {
+        "message": "Επιλέξτε έναν φάκελο προορισμού για το"
+    },
+    "selectedPromptsSuffix": {
+        "message": "επιλεγμένες προτροπές."
+    },
+    "folderPassword": {
+        "message": "Κωδικός πρόσβασης φακέλου"
+    },
+    "enterFolderPasswordPlaceholder": {
+        "message": "Εισαγάγετε τον κωδικό πρόσβασης για τον κλειδωμένο φάκελο"
+    },
+    "deleteFolderTitle": {
+        "message": "Διαγραφή φακέλου"
+    },
+    "deleteFolderMessage": {
+        "message": "Τι θα θέλατε να κάνετε με τις οδηγίες που περιέχονται σε αυτόν τον φάκελο;"
+    },
+    "deleteFolderMovePrompts": {
+        "message": "Διαγραφή φακέλου & Μετακίνηση προτροπών"
+    },
+    "deleteFolderAndPrompts": {
+        "message": "Διαγραφή φακέλου και όλων των προτροπών"
+    },
+    "resetDataMessage": {
+        "message": "Είστε σίγουροι ότι θέλετε να επαναφέρετε όλα τα δεδομένα; Αυτό θα διαγράψει μόνιμα όλες τις προτροπές, τους φακέλους και τις ετικέτες. Αυτή η ενέργεια δεν μπορεί να αναιρεθεί."
+    },
+    "confirmResetAll": {
+        "message": "Ναι, επαναφορά όλων των ρυθμίσεων"
+    },
+    "renameFolder": {
+        "message": "Μετονομασία φακέλου"
+    },
+    "dangerZone": {
+        "message": "Επικίνδυνη Ζώνη"
+    },
+    "deleteFolder": {
+        "message": "Διαγραφή φακέλου"
+    },
+    "manageTagsTitle": {
+        "message": "Διαχείριση ετικετών"
+    },
+    "leavePageTitle": {
+        "message": "Να φύγετε από τη σελίδα;"
+    },
+    "leavePageMessage": {
+        "message": "Είστε σίγουροι ότι θέλετε να φύγετε από αυτή τη σελίδα; Τυχόν μη αποθηκευμένες αλλαγές ενδέχεται να χαθούν."
+    },
+    "stay": {
+        "message": "Μείνετε"
+    },
+    "leave": {
+        "message": "Αφήστε"
+    },
+    "dontAskAgainThisSession": {
+        "message": "Μην ρωτήσετε ξανά για αυτή τη συνεδρία"
+    },
+    "ok": {
+        "message": "Εντάξει"
+    },
+    "exportShort": {
+        "message": "Εξαγωγή"
+    },
+    "importShort": {
+        "message": "Εισαγωγή"
+    },
     "promptLockedEnterPassword": {
         "message": "Αυτή η προτροπή είναι κλειδωμένη. Εισάγετε τον κωδικό πρόσβασης για να την εισαγάγετε:"
     },
@@ -464,6 +639,37 @@
     },
     "addToPromptLibrary": {
         "message": "Προσθήκη στη βιβλιοθήκη προτροπών"
+    },
+    "titleQuickPreview": {
+        "message": "Γρήγορη προεπισκόπηση"
+    },
+    "headerQuickPreview": {
+        "message": "Ρυθμίσεις γρήγορης προεπισκόπησης"
+    },
+    "quickPreviewDescription": {
+        "message": "Ρυθμίστε ποιες μηχανές αναζήτησης εμφανίζονται στο παράθυρο γρήγορης προεπισκόπησης. Υποστηρίζονται μόνο μηχανές αναζήτησης που βασίζονται σε HTTP GET."
+    },
+    "disableQuickPreview": {
+        "message": "Απενεργοποίηση γρήγορης προεπισκόπησης των αποτελεσμάτων αναζήτησης"
+    },
+    "filterQuickPreviewByLanguage": {
+        "message": "Φιλτράρισμα γρήγορης προεπισκόπησης ανά γλώσσα επιλογής"
+    },
+    "filterQuickPreviewByLanguageNote": {
+        "message": "Όταν είναι ενεργοποιημένη, εμφανίζονται μόνο οι μηχανές αναζήτησης των οποίων η γλώσσα ταιριάζει με την επιλεγμένη γλώσσα. Εάν δεν υπάρχει καμία μηχανή αναζήτησης που να ταιριάζει, εμφανίζονται όλες ως εναλλακτική λύση."
+    },
+    "recheckDescription": {
+        "message": "Οι μηχανές επανέλεγχου θα επαληθεύσουν εάν κάθε μηχανή αναζήτησης είναι ακόμα διαθέσιμη και ανταποκρίνεται. Ένα κόκκινο εικονίδιο προειδοποίησης θα εμφανιστεί δίπλα σε κάθε μηχανή που ενδέχεται να μην εμφανίζεται σωστά στο παράθυρο γρήγορης προεπισκόπησης. Αυτό μπορεί να διαρκέσει λίγο."
+    },
+    "recheckEngines": {
+        "message": "Επαναέλεγχος κινητήρων"
+    },
+    "editIconPrompt": {
+        "message": "Επεξεργασία URL εικονιδίου για \"$1\"\n\nΕισαγάγετε μια διεύθυνση URL για μια εικόνα (κατά προτίμηση SVG).\nΑφήστε κενό για να χρησιμοποιήσετε το προεπιλεγμένο εικονίδιο της μηχανής αναζήτησης.",
+        "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
+    },
+    "disableQuickPreviewByNote": {
+        "message": "Επιλέγοντας αυτή την επιλογή, απενεργοποιείται αυτόματα η γρήγορη προεπισκόπηση των αποτελεσμάτων αναζήτησης."
     },
     "__WET_LOCALE__": {
         "message": "el"

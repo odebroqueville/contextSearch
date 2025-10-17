@@ -374,6 +374,10 @@
     "notifyMissingBookmarkUrl": {
         "message": "Tidak dapat mengambil URL untuk menghapus bookmark"
     },
+    "notifyCustomCssSaved": {
+        "message": "CSS kustom yang disimpan untuk \"$1\".",
+        "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
+    },
     "notifyAIMinimalRequirements": {
         "message": "Silakan pilih setidaknya satu penyedia layanan AI dan masukkan nama prompt AI serta prompt AI."
     },
@@ -456,6 +460,177 @@
     "promptLibrarySearchPlaceholder": {
         "message": "Pesan pencarian..."
     },
+    "promptsHeading": {
+        "message": "Perintah"
+    },
+    "newPromptTitle": {
+        "message": "Prompt Baru"
+    },
+    "foldersHeading": {
+        "message": "Folder"
+    },
+    "newFolderTitle": {
+        "message": "Folder Baru"
+    },
+    "newFolderNamePlaceholder": {
+        "message": "Nama folder baru..."
+    },
+    "tagsHeading": {
+        "message": "Tag"
+    },
+    "newTagTitle": {
+        "message": "Tag Baru"
+    },
+    "newTagNamePlaceholder": {
+        "message": "Nama tag baru..."
+    },
+    "addTag": {
+        "message": "Tambahkan Tag"
+    },
+    "settings": {
+        "message": "Pengaturan"
+    },
+    "select": {
+        "message": "Pilih"
+    },
+    "cancel": {
+        "message": "Batalkan"
+    },
+    "delete": {
+        "message": "Hapus"
+    },
+    "sortNewest": {
+        "message": "Terbaru"
+    },
+    "sortTitleAsc": {
+        "message": "Judul (A-Z)"
+    },
+    "noPromptsPlaceholder": {
+        "message": "Belum ada prompt di sini. Mari kita buat satu!"
+    },
+    "createNewPrompt": {
+        "message": "Buat Prompt Baru"
+    },
+    "backToTop": {
+        "message": "Kembali ke Atas"
+    },
+    "noPromptSelectedMessage": {
+        "message": "Pilih prompt yang ingin Anda lihat, atau buat yang baru."
+    },
+    "titleLabel": {
+        "message": "Judul"
+    },
+    "lock": {
+        "message": "Kunci"
+    },
+    "promptTitlePlaceholder": {
+        "message": "Judul Prompt"
+    },
+    "folderLabel": {
+        "message": "Folder"
+    },
+    "promptLabel": {
+        "message": "Perintah"
+    },
+    "promptBodyPlaceholder": {
+        "message": "Isi dari prompt Anda..."
+    },
+    "copyPromptBody": {
+        "message": "Salin teks prompt"
+    },
+    "fullscreenEditor": {
+        "message": "Editor Layar Penuh"
+    },
+    "notesLabel": {
+        "message": "Catatan"
+    },
+    "notesPlaceholder": {
+        "message": "Tambahkan detail tambahan atau konteks..."
+    },
+    "tagsLabel": {
+        "message": "Tag"
+    },
+    "addTagsPlaceholder": {
+        "message": "Tambahkan tag..."
+    },
+    "save": {
+        "message": "Simpan"
+    },
+    "close": {
+        "message": "Tutup"
+    },
+    "saveAndClose": {
+        "message": "Simpan & Tutup"
+    },
+    "movePromptsTitle": {
+        "message": "Pindahkan Prompt"
+    },
+    "movePromptsMessagePrefix": {
+        "message": "Pilih folder tujuan untuk"
+    },
+    "selectedPromptsSuffix": {
+        "message": "prompt yang dipilih."
+    },
+    "folderPassword": {
+        "message": "Kata Sandi Folder"
+    },
+    "enterFolderPasswordPlaceholder": {
+        "message": "Masukkan kata sandi untuk folder yang terkunci."
+    },
+    "deleteFolderTitle": {
+        "message": "Hapus Folder"
+    },
+    "deleteFolderMessage": {
+        "message": "Apa yang ingin Anda lakukan dengan prompt-prompt di dalam folder ini?"
+    },
+    "deleteFolderMovePrompts": {
+        "message": "Hapus Folder & Pindahkan Prompt"
+    },
+    "deleteFolderAndPrompts": {
+        "message": "Hapus Folder & Semua Pesan"
+    },
+    "resetDataMessage": {
+        "message": "Apakah Anda yakin ingin mereset semua data? Tindakan ini akan menghapus secara permanen semua prompt, folder, dan tag. Tindakan ini tidak dapat dibatalkan."
+    },
+    "confirmResetAll": {
+        "message": "Ya, Reset Semua"
+    },
+    "renameFolder": {
+        "message": "Ubah Nama Folder"
+    },
+    "dangerZone": {
+        "message": "Zona Bahaya"
+    },
+    "deleteFolder": {
+        "message": "Hapus Folder"
+    },
+    "manageTagsTitle": {
+        "message": "Kelola Tag"
+    },
+    "leavePageTitle": {
+        "message": "Keluar dari Halaman?"
+    },
+    "leavePageMessage": {
+        "message": "Apakah Anda yakin ingin meninggalkan halaman ini? Perubahan yang belum disimpan mungkin akan hilang."
+    },
+    "stay": {
+        "message": "Tetap"
+    },
+    "leave": {
+        "message": "Pergi"
+    },
+    "dontAskAgainThisSession": {
+        "message": "Jangan tanya lagi untuk sesi ini."
+    },
+    "ok": {
+        "message": "Baiklah"
+    },
+    "exportShort": {
+        "message": "Ekspor"
+    },
+    "importShort": {
+        "message": "Impor"
+    },
     "promptLockedEnterPassword": {
         "message": "Prompt ini terkunci. Masukkan kata sandi untuk memasukkannya:"
     },
@@ -464,6 +639,37 @@
     },
     "addToPromptLibrary": {
         "message": "Tambahkan ke perpustakaan prompt"
+    },
+    "titleQuickPreview": {
+        "message": "Pratinjau cepat"
+    },
+    "headerQuickPreview": {
+        "message": "Pengaturan Pratinjau Cepat"
+    },
+    "quickPreviewDescription": {
+        "message": "Konfigurasikan mesin pencari mana yang ditampilkan dalam gelembung pratinjau cepat. Hanya mesin pencari berbasis HTTP GET yang didukung."
+    },
+    "disableQuickPreview": {
+        "message": "Nonaktifkan pratinjau cepat hasil pencarian"
+    },
+    "filterQuickPreviewByLanguage": {
+        "message": "Filter Pratinjau Cepat berdasarkan pilihan bahasa"
+    },
+    "filterQuickPreviewByLanguageNote": {
+        "message": "Saat diaktifkan, hanya mesin pencari yang bahasanya sesuai dengan bahasa yang terdeteksi yang ditampilkan. Jika tidak ada mesin pencari yang sesuai, semua mesin pencari ditampilkan sebagai alternatif."
+    },
+    "recheckDescription": {
+        "message": "Pemeriksaan ulang mesin pencari akan memastikan bahwa setiap mesin pencari masih tersedia dan responsif. Ikon peringatan merah akan muncul di samping mesin pencari yang mungkin tidak ditampilkan dengan benar di kotak pratinjau cepat. Proses ini mungkin memakan waktu."
+    },
+    "recheckEngines": {
+        "message": "Periksa kembali mesin"
+    },
+    "editIconPrompt": {
+        "message": "Edit URL ikon untuk \"$1\"\n\nMasukkan URL ke gambar (disarankan SVG).\nBiarkan kosong untuk menggunakan ikon mesin pencari default.",
+        "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
+    },
+    "disableQuickPreviewByNote": {
+        "message": "Mencentang opsi ini secara otomatis menonaktifkan pratinjau cepat hasil pencarian."
     },
     "__WET_LOCALE__": {
         "message": "id"

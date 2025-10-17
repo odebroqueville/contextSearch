@@ -338,7 +338,7 @@
     "promptName": {
         "message": "Nazwa podpowiedzi AI"
     },
-        "prompt": {
+    "prompt": {
         "message": "Monit AI"
     },
     "overwriteData": {
@@ -373,6 +373,10 @@
     },
     "notifyMissingBookmarkUrl": {
         "message": "Nie można pobrać adresu URL do usunięcia zakładki"
+    },
+    "notifyCustomCssSaved": {
+        "message": "Niestandardowy arkusz CSS zapisany dla „$1”.",
+        "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
     },
     "notifyAIMinimalRequirements": {
         "message": "Proszę wybrać przynajmniej jednego dostawcę usług AI oraz wprowadzić nazwę polecenia AI i polecenie AI."
@@ -456,6 +460,177 @@
     "promptLibrarySearchPlaceholder": {
         "message": "Wskazówki dotyczące wyszukiwania..."
     },
+    "promptsHeading": {
+        "message": "Podpowiedzi"
+    },
+    "newPromptTitle": {
+        "message": "Nowe polecenie"
+    },
+    "foldersHeading": {
+        "message": "Foldery"
+    },
+    "newFolderTitle": {
+        "message": "Nowy folder"
+    },
+    "newFolderNamePlaceholder": {
+        "message": "Nowa nazwa folderu..."
+    },
+    "tagsHeading": {
+        "message": "Tagi"
+    },
+    "newTagTitle": {
+        "message": "Nowy tag"
+    },
+    "newTagNamePlaceholder": {
+        "message": "Nowa nazwa tagu..."
+    },
+    "addTag": {
+        "message": "Dodaj tag"
+    },
+    "settings": {
+        "message": "Ustawienia"
+    },
+    "select": {
+        "message": "Wybierz"
+    },
+    "cancel": {
+        "message": "Anuluj"
+    },
+    "delete": {
+        "message": "Usuń"
+    },
+    "sortNewest": {
+        "message": "Najnowsze"
+    },
+    "sortTitleAsc": {
+        "message": "Tytuł (A-Z)"
+    },
+    "noPromptsPlaceholder": {
+        "message": "Nie ma jeszcze żadnych podpowiedzi. Stwórzmy jedną!"
+    },
+    "createNewPrompt": {
+        "message": "Utwórz nowe monit"
+    },
+    "backToTop": {
+        "message": "Powrót do góry"
+    },
+    "noPromptSelectedMessage": {
+        "message": "Wybierz monit, który chcesz wyświetlić, lub utwórz nowy."
+    },
+    "titleLabel": {
+        "message": "Tytuł"
+    },
+    "lock": {
+        "message": "Zamek"
+    },
+    "promptTitlePlaceholder": {
+        "message": "Tytuł monitu"
+    },
+    "folderLabel": {
+        "message": "Folder"
+    },
+    "promptLabel": {
+        "message": "Monit"
+    },
+    "promptBodyPlaceholder": {
+        "message": "Treść Twojego polecenia..."
+    },
+    "copyPromptBody": {
+        "message": "Skopiuj treść monitu"
+    },
+    "fullscreenEditor": {
+        "message": "Edytor pełnoekranowy"
+    },
+    "notesLabel": {
+        "message": "Uwagi"
+    },
+    "notesPlaceholder": {
+        "message": "Dodaj dodatkowe szczegóły lub kontekst..."
+    },
+    "tagsLabel": {
+        "message": "Tagi"
+    },
+    "addTagsPlaceholder": {
+        "message": "Dodaj tagi..."
+    },
+    "save": {
+        "message": "Zapisz"
+    },
+    "close": {
+        "message": "Zamknij"
+    },
+    "saveAndClose": {
+        "message": "Zapisz i zamknij"
+    },
+    "movePromptsTitle": {
+        "message": "Komunikaty o przeniesieniu"
+    },
+    "movePromptsMessagePrefix": {
+        "message": "Wybierz folder docelowy dla pliku"
+    },
+    "selectedPromptsSuffix": {
+        "message": "wybrane podpowiedzi."
+    },
+    "folderPassword": {
+        "message": "Hasło folderu"
+    },
+    "enterFolderPasswordPlaceholder": {
+        "message": "Wprowadź hasło do zablokowanego folderu"
+    },
+    "deleteFolderTitle": {
+        "message": "Usuń folder"
+    },
+    "deleteFolderMessage": {
+        "message": "Co chcesz zrobić z plikami znajdującymi się w tym folderze?"
+    },
+    "deleteFolderMovePrompts": {
+        "message": "Usuń folder i przenieś monity"
+    },
+    "deleteFolderAndPrompts": {
+        "message": "Usuń folder i wszystkie monity"
+    },
+    "resetDataMessage": {
+        "message": "Czy na pewno chcesz zresetować wszystkie dane? Spowoduje to trwałe usunięcie wszystkich podpowiedzi, folderów i tagów. Tego działania nie można cofnąć."
+    },
+    "confirmResetAll": {
+        "message": "Tak, zresetuj wszystko"
+    },
+    "renameFolder": {
+        "message": "Zmień nazwę folderu"
+    },
+    "dangerZone": {
+        "message": "Strefa zagrożenia"
+    },
+    "deleteFolder": {
+        "message": "Usuń folder"
+    },
+    "manageTagsTitle": {
+        "message": "Zarządzaj tagami"
+    },
+    "leavePageTitle": {
+        "message": "Opuścić stronę?"
+    },
+    "leavePageMessage": {
+        "message": "Czy na pewno chcesz opuścić tę stronę? Wszelkie niezapisane zmiany mogą zostać utracone."
+    },
+    "stay": {
+        "message": "Zostań"
+    },
+    "leave": {
+        "message": "Wyjść"
+    },
+    "dontAskAgainThisSession": {
+        "message": "Nie pytaj ponownie o tę sesję"
+    },
+    "ok": {
+        "message": "OK"
+    },
+    "exportShort": {
+        "message": "Eksport"
+    },
+    "importShort": {
+        "message": "Import"
+    },
     "promptLockedEnterPassword": {
         "message": "To pole jest zablokowane. Wprowadź hasło, aby je wstawić:"
     },
@@ -464,6 +639,37 @@
     },
     "addToPromptLibrary": {
         "message": "Dodaj do biblioteki podpowiedzi"
+    },
+    "titleQuickPreview": {
+        "message": "Szybki podgląd"
+    },
+    "headerQuickPreview": {
+        "message": "Ustawienia szybkiego podglądu"
+    },
+    "quickPreviewDescription": {
+        "message": "Skonfiguruj, które wyszukiwarki mają być wyświetlane w dymku szybkiego podglądu. Obsługiwane są wyłącznie wyszukiwarki oparte na protokole HTTP GET."
+    },
+    "disableQuickPreview": {
+        "message": "Wyłącz szybki podgląd wyników wyszukiwania"
+    },
+    "filterQuickPreviewByLanguage": {
+        "message": "Filtruj szybki podgląd według wybranego języka"
+    },
+    "filterQuickPreviewByLanguageNote": {
+        "message": "Po włączeniu tej opcji wyświetlane są tylko wyszukiwarki, których język odpowiada wykrytemu językowi wyboru. Jeśli żadna wyszukiwarka nie pasuje, wyświetlane są wszystkie jako rozwiązanie awaryjne."
+    },
+    "recheckDescription": {
+        "message": "Ponowne sprawdzenie silników wyszukiwania pozwoli zweryfikować, czy wszystkie silniki wyszukiwania są nadal dostępne i reagują na polecenia. Obok silników, które mogą nie wyświetlać się poprawnie w dymku szybkiego podglądu, pojawi się czerwona ikona ostrzegawcza. Może to chwilę potrwać."
+    },
+    "recheckEngines": {
+        "message": "Ponowne sprawdzenie silników"
+    },
+    "editIconPrompt": {
+        "message": "Edytuj adres URL ikony dla „$1”\n\nWprowadź adres URL obrazu (najlepiej SVG).\nPozostaw puste, aby użyć domyślnej ikony wyszukiwarki.",
+        "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
+    },
+    "disableQuickPreviewByNote": {
+        "message": "Zaznaczenie tej opcji automatycznie wyłącza szybki podgląd wyników wyszukiwania."
     },
     "__WET_LOCALE__": {
         "message": "pl"

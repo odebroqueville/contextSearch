@@ -374,6 +374,10 @@
     "notifyMissingBookmarkUrl": {
         "message": "Անհնար է վերցրել URL-ն՝ էջանիշերի հեռացման համար"
     },
+    "notifyCustomCssSaved": {
+        "message": "Պատվերով CSS-ը պահպանվել է \"$1\"-ով:",
+        "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
+    },
     "notifyAIMinimalRequirements": {
         "message": "Խնդրում ենք գոնե ընտրել AI ծառայություն մատուցող եւ մուտքագրել AI հուշման անունը եւ AI հուշում"
     },
@@ -456,6 +460,177 @@
     "promptLibrarySearchPlaceholder": {
         "message": "Որոնման հուշումներ..."
     },
+    "promptsHeading": {
+        "message": "Հուշումներ"
+    },
+    "newPromptTitle": {
+        "message": "Նոր հուշում"
+    },
+    "foldersHeading": {
+        "message": "Թղթապանակներ"
+    },
+    "newFolderTitle": {
+        "message": "Նոր թղթապանակ"
+    },
+    "newFolderNamePlaceholder": {
+        "message": "Նոր պանակի անուն..."
+    },
+    "tagsHeading": {
+        "message": "Tags"
+    },
+    "newTagTitle": {
+        "message": "New Tag"
+    },
+    "newTagNamePlaceholder": {
+        "message": "Նոր թեգի անուն..."
+    },
+    "addTag": {
+        "message": "Add Tag"
+    },
+    "settings": {
+        "message": "Կարգավորումներ"
+    },
+    "select": {
+        "message": "Ընտրել"
+    },
+    "cancel": {
+        "message": "Չեղարկել"
+    },
+    "delete": {
+        "message": "Ջնջել"
+    },
+    "sortNewest": {
+        "message": "Նորագույն"
+    },
+    "sortTitleAsc": {
+        "message": "Title (A-Z)"
+    },
+    "noPromptsPlaceholder": {
+        "message": "Այստեղ դեռ հուշումներ չկան։ Եկեք ստեղծենք մեկը:"
+    },
+    "createNewPrompt": {
+        "message": "Ստեղծել նոր հուշում"
+    },
+    "backToTop": {
+        "message": "Վերադառնալ սկիզբ"
+    },
+    "noPromptSelectedMessage": {
+        "message": "Ընտրեք հուշում՝ դիտելու համար, կամ ստեղծեք նորը:"
+    },
+    "titleLabel": {
+        "message": "Վերնագիր"
+    },
+    "lock": {
+        "message": "Կողպեք"
+    },
+    "promptTitlePlaceholder": {
+        "message": "Prompt վերնագիր"
+    },
+    "folderLabel": {
+        "message": "Թղթապանակ"
+    },
+    "promptLabel": {
+        "message": "Հուշում"
+    },
+    "promptBodyPlaceholder": {
+        "message": "Ձեր հուշման բովանդակությունը..."
+    },
+    "copyPromptBody": {
+        "message": "Պատճենել հուշման մարմինը"
+    },
+    "fullscreenEditor": {
+        "message": "Լիաէկրանով Խմբագիր"
+    },
+    "notesLabel": {
+        "message": "Նշումներ"
+    },
+    "notesPlaceholder": {
+        "message": "Ավելացնել լրացուցիչ մանրամասներ կամ համատեքստ..."
+    },
+    "tagsLabel": {
+        "message": "Tags"
+    },
+    "addTagsPlaceholder": {
+        "message": "Ավելացնել թեգեր..."
+    },
+    "save": {
+        "message": "Պահպանել"
+    },
+    "close": {
+        "message": "Փակել"
+    },
+    "saveAndClose": {
+        "message": "Պահպանել եւ փակել"
+    },
+    "movePromptsTitle": {
+        "message": "Տեղափոխել հուշումներ"
+    },
+    "movePromptsMessagePrefix": {
+        "message": "Ընտրեք նպատակակետի պանակ"
+    },
+    "selectedPromptsSuffix": {
+        "message": "ընտրված հուշումները:"
+    },
+    "folderPassword": {
+        "message": "Թղթապանակի գաղտնաբառ"
+    },
+    "enterFolderPasswordPlaceholder": {
+        "message": "Մուտքագրեք գաղտնաբառը կողպված պանակի համար"
+    },
+    "deleteFolderTitle": {
+        "message": "Ջնջել պանակը"
+    },
+    "deleteFolderMessage": {
+        "message": "Ի՞նչ կցանկանայիք անել այս թղթապանակի ներսում գտնվող հուշումների հետ:"
+    },
+    "deleteFolderMovePrompts": {
+        "message": "Ջնջել պանակը եւ տեղափոխել հուշումները"
+    },
+    "deleteFolderAndPrompts": {
+        "message": "Ջնջել թղթապանակը եւ բոլոր հուշումները"
+    },
+    "resetDataMessage": {
+        "message": "Դուք համոզվա՞ծ եք, որ ցանկանում եք վերականգնել բոլոր տվյալները: Սա մշտապես ջնջելու է բոլոր հուշումները, թղթապանակները եւ թեգերը: Այս գործողությունը հնարավոր չէ չեղարկել:"
+    },
+    "confirmResetAll": {
+        "message": "Այո, վերականգնեք ամեն ինչ"
+    },
+    "renameFolder": {
+        "message": "Վերանվանել պանակը"
+    },
+    "dangerZone": {
+        "message": "Վտանգավոր գոտի"
+    },
+    "deleteFolder": {
+        "message": "Ջնջել պանակը"
+    },
+    "manageTagsTitle": {
+        "message": "Manage Tags"
+    },
+    "leavePageTitle": {
+        "message": "Թողնել էջը?"
+    },
+    "leavePageMessage": {
+        "message": "Դուք համոզվա՞ծ եք, որ ցանկանում եք դուրս գալ այս էջից: Չպահպանված փոփոխությունները կարող են կորչել:"
+    },
+    "stay": {
+        "message": "Մնալ"
+    },
+    "leave": {
+        "message": "Հեռանալ"
+    },
+    "dontAskAgainThisSession": {
+        "message": "Այլեւս չհարցնել այս նիստի համար"
+    },
+    "ok": {
+        "message": "Լավ"
+    },
+    "exportShort": {
+        "message": "Արտահանել"
+    },
+    "importShort": {
+        "message": "Ներմուծել"
+    },
     "promptLockedEnterPassword": {
         "message": "Այս հուշումը կողպված է: Մուտքագրեք գաղտնաբառը՝ այն տեղադրելու համար."
     },
@@ -464,6 +639,37 @@
     },
     "addToPromptLibrary": {
         "message": "Ավելացնել հուշման գրադարանին"
+    },
+    "titleQuickPreview": {
+        "message": "Արագ նախադիտում"
+    },
+    "headerQuickPreview": {
+        "message": "Արագ նախադիտման կարգավորումներ"
+    },
+    "quickPreviewDescription": {
+        "message": "Կարգավորել, թե որոնման համակարգերն են հայտնվում արագ նախադիտման պղպջակում: Աջակցվում են միայն HTTP GET-ի վրա հիմնված որոնողական համակարգերը:"
+    },
+    "disableQuickPreview": {
+        "message": "Կասեցնել որոնման արդյունքների արագ նախադիտումը"
+    },
+    "filterQuickPreviewByLanguage": {
+        "message": "Արագ նախադիտում ըստ ընտրության լեզվի"
+    },
+    "filterQuickPreviewByLanguageNote": {
+        "message": "Երբ միացված է, ցուցադրվում են միայն այն շարժիչները, որոնց լեզուն համապատասխանում է հայտնաբերված ընտրության լեզվին: Եթե ոչ մի շարժիչ չի համընկնում, բոլորը ցույց են տրվում որպես հետադարձ դեպք։"
+    },
+    "recheckDescription": {
+        "message": "Վերաստուգեք շարժիչները կստուգեն, թե արդյոք յուրաքանչյուր որոնողական համակարգ դեռեւս հասանելի է եւ արձագանքում։ Կարմիր նախազգուշացման պատկերակը կհայտնվի ցանկացած շարժիչի կողքին, որը կարող է ճիշտ չներկայացնել արագ նախադիտման պղպջակում: Դա կարող է որոշ ժամանակ տեւել։"
+    },
+    "recheckEngines": {
+        "message": "Վերաստուգեք շարժիչները"
+    },
+    "editIconPrompt": {
+        "message": "Խմբագրել պատկերակի URL-ը «$1»-ի համար\n\nՄուտքագրեք պատկերի URL (նախընտրելի է SVG):\nԹողնել դատարկ՝ լռելյայն որոնիչի պատկերակն օգտագործելու համար:",
+        "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
+    },
+    "disableQuickPreviewByNote": {
+        "message": "Այս տարբերակը նշելը ինքնաշխատ կերպով կասեցնում է որոնման արդյունքների արագ նախադիտումը:"
     },
     "__WET_LOCALE__": {
         "message": "hy"
