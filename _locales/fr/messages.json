@@ -375,7 +375,7 @@
         "message": "Impossible de récupérer l'URL pour la suppression des signets"
     },
     "notifyCustomCssSaved": {
-        "message": "CSS personnalisé enregistré pour « 1 $ ».",
+        "message": "CSS personnalisé enregistré pour « $1 ».",
         "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
     },
     "notifyAIMinimalRequirements": {
