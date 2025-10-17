@@ -374,6 +374,10 @@
     "notifyMissingBookmarkUrl": {
         "message": "無法檢索移除書籤的 URL"
     },
+    "notifyCustomCssSaved": {
+        "message": "Custom CSS saved for \"$1\".",
+        "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
+    },
     "notifyAIMinimalRequirements": {
         "message": "請至少選擇一家 AI 服務供應商，並輸入 AI 提示名稱和 AI 提示"
     },
@@ -456,6 +460,177 @@
     "promptLibrarySearchPlaceholder": {
         "message": "搜尋提示..."
     },
+    "promptsHeading": {
+        "message": "Prompts"
+    },
+    "newPromptTitle": {
+        "message": "New Prompt"
+    },
+    "foldersHeading": {
+        "message": "Folders"
+    },
+    "newFolderTitle": {
+        "message": "New Folder"
+    },
+    "newFolderNamePlaceholder": {
+        "message": "New folder name..."
+    },
+    "tagsHeading": {
+        "message": "Tags"
+    },
+    "newTagTitle": {
+        "message": "New Tag"
+    },
+    "newTagNamePlaceholder": {
+        "message": "New tag name..."
+    },
+    "addTag": {
+        "message": "Add Tag"
+    },
+    "settings": {
+        "message": "Settings"
+    },
+    "select": {
+        "message": "Select"
+    },
+    "cancel": {
+        "message": "Cancel"
+    },
+    "delete": {
+        "message": "Delete"
+    },
+    "sortNewest": {
+        "message": "Newest"
+    },
+    "sortTitleAsc": {
+        "message": "Title (A-Z)"
+    },
+    "noPromptsPlaceholder": {
+        "message": "No prompts here yet. Let's create one!"
+    },
+    "createNewPrompt": {
+        "message": "Create New Prompt"
+    },
+    "backToTop": {
+        "message": "Back to Top"
+    },
+    "noPromptSelectedMessage": {
+        "message": "Select a prompt to view, or create a new one."
+    },
+    "titleLabel": {
+        "message": "Title"
+    },
+    "lock": {
+        "message": "Lock"
+    },
+    "promptTitlePlaceholder": {
+        "message": "Prompt Title"
+    },
+    "folderLabel": {
+        "message": "Folder"
+    },
+    "promptLabel": {
+        "message": "Prompt"
+    },
+    "promptBodyPlaceholder": {
+        "message": "The content of your prompt..."
+    },
+    "copyPromptBody": {
+        "message": "Copy prompt body"
+    },
+    "fullscreenEditor": {
+        "message": "Fullscreen Editor"
+    },
+    "notesLabel": {
+        "message": "Notes"
+    },
+    "notesPlaceholder": {
+        "message": "Add extra details or context..."
+    },
+    "tagsLabel": {
+        "message": "Tags"
+    },
+    "addTagsPlaceholder": {
+        "message": "Add tags..."
+    },
+    "save": {
+        "message": "Save"
+    },
+    "close": {
+        "message": "Close"
+    },
+    "saveAndClose": {
+        "message": "Save & Close"
+    },
+    "movePromptsTitle": {
+        "message": "Move Prompts"
+    },
+    "movePromptsMessagePrefix": {
+        "message": "Select a destination folder for the"
+    },
+    "selectedPromptsSuffix": {
+        "message": "selected prompts."
+    },
+    "folderPassword": {
+        "message": "Folder Password"
+    },
+    "enterFolderPasswordPlaceholder": {
+        "message": "Enter password for locked folder"
+    },
+    "deleteFolderTitle": {
+        "message": "Delete Folder"
+    },
+    "deleteFolderMessage": {
+        "message": "What would you like to do with the prompts inside this folder?"
+    },
+    "deleteFolderMovePrompts": {
+        "message": "Delete Folder & Move Prompts"
+    },
+    "deleteFolderAndPrompts": {
+        "message": "Delete Folder & All Prompts"
+    },
+    "resetDataMessage": {
+        "message": "Are you sure you want to reset all data? This will permanently delete all prompts, folders, and tags. This action cannot be undone."
+    },
+    "confirmResetAll": {
+        "message": "Yes, Reset Everything"
+    },
+    "renameFolder": {
+        "message": "Rename Folder"
+    },
+    "dangerZone": {
+        "message": "Danger Zone"
+    },
+    "deleteFolder": {
+        "message": "Delete Folder"
+    },
+    "manageTagsTitle": {
+        "message": "Manage Tags"
+    },
+    "leavePageTitle": {
+        "message": "Leave Page?"
+    },
+    "leavePageMessage": {
+        "message": "Are you sure you want to leave this page? Any unsaved changes may be lost."
+    },
+    "stay": {
+        "message": "Stay"
+    },
+    "leave": {
+        "message": "Leave"
+    },
+    "dontAskAgainThisSession": {
+        "message": "Don't ask again for this session"
+    },
+    "ok": {
+        "message": "OK"
+    },
+    "exportShort": {
+        "message": "Export"
+    },
+    "importShort": {
+        "message": "Import"
+    },
     "promptLockedEnterPassword": {
         "message": "此提示已鎖定。請輸入密碼以插入內容："
     },
@@ -488,6 +663,10 @@
     },
     "recheckEngines": {
         "message": "Re-check engines"
+    },
+    "editIconPrompt": {
+        "message": "Edit icon URL for \"$1\"\n\nEnter a URL to an image (preferably SVG).\nLeave empty to use the default search engine icon.",
+        "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
     },
     "disableQuickPreviewByNote": {
         "message": "Checking this option automatically disables the quick preview of search results."
