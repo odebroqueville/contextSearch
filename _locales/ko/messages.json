@@ -375,7 +375,7 @@
         "message": "북마크 제거를 위한 URL을 검색할 수 없습니다."
     },
     "notifyCustomCssSaved": {
-        "message": "Custom CSS saved for \"$1\".",
+        "message": "사용자 정의 CSS가 \"$1\"에 저장되었습니다.",
         "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
     },
     "notifyAIMinimalRequirements": {
@@ -461,175 +461,175 @@
         "message": "검색 프롬프트..."
     },
     "promptsHeading": {
-        "message": "Prompts"
+        "message": "프롬프트"
     },
     "newPromptTitle": {
-        "message": "New Prompt"
+        "message": "새로운 프롬프트"
     },
     "foldersHeading": {
-        "message": "Folders"
+        "message": "폴더"
     },
     "newFolderTitle": {
-        "message": "New Folder"
+        "message": "새 폴더"
     },
     "newFolderNamePlaceholder": {
-        "message": "New folder name..."
+        "message": "새 폴더 이름..."
     },
     "tagsHeading": {
-        "message": "Tags"
+        "message": "태그"
     },
     "newTagTitle": {
-        "message": "New Tag"
+        "message": "새 태그"
     },
     "newTagNamePlaceholder": {
-        "message": "New tag name..."
+        "message": "새 태그 이름..."
     },
     "addTag": {
-        "message": "Add Tag"
+        "message": "태그 추가"
     },
     "settings": {
-        "message": "Settings"
+        "message": "설정"
     },
     "select": {
-        "message": "Select"
+        "message": "선택"
     },
     "cancel": {
-        "message": "Cancel"
+        "message": "취소"
     },
     "delete": {
-        "message": "Delete"
+        "message": "삭제"
     },
     "sortNewest": {
-        "message": "Newest"
+        "message": "최신"
     },
     "sortTitleAsc": {
-        "message": "Title (A-Z)"
+        "message": "제목 (A-Z)"
     },
     "noPromptsPlaceholder": {
-        "message": "No prompts here yet. Let's create one!"
+        "message": "아직 프롬프트가 없습니다. 하나 만들어 보세요!"
     },
     "createNewPrompt": {
-        "message": "Create New Prompt"
+        "message": "새 프롬프트 생성"
     },
     "backToTop": {
-        "message": "Back to Top"
+        "message": "맨 위로"
     },
     "noPromptSelectedMessage": {
-        "message": "Select a prompt to view, or create a new one."
+        "message": "프롬프트를 선택하여 보거나 새로 생성하세요."
     },
     "titleLabel": {
-        "message": "Title"
+        "message": "제목"
     },
     "lock": {
-        "message": "Lock"
+        "message": "잠금"
     },
     "promptTitlePlaceholder": {
-        "message": "Prompt Title"
+        "message": "프롬프트 제목"
     },
     "folderLabel": {
-        "message": "Folder"
+        "message": "폴더"
     },
     "promptLabel": {
-        "message": "Prompt"
+        "message": "프롬프트"
     },
     "promptBodyPlaceholder": {
-        "message": "The content of your prompt..."
+        "message": "귀하의 프롬프트 내용..."
     },
     "copyPromptBody": {
-        "message": "Copy prompt body"
+        "message": "프롬프트 본문 복사"
     },
     "fullscreenEditor": {
-        "message": "Fullscreen Editor"
+        "message": "전체 화면 편집기"
     },
     "notesLabel": {
-        "message": "Notes"
+        "message": "메모"
     },
     "notesPlaceholder": {
-        "message": "Add extra details or context..."
+        "message": "추가적인 세부 사항이나 맥락을 추가하세요..."
     },
     "tagsLabel": {
-        "message": "Tags"
+        "message": "태그"
     },
     "addTagsPlaceholder": {
-        "message": "Add tags..."
+        "message": "태그 추가..."
     },
     "save": {
-        "message": "Save"
+        "message": "저장"
     },
     "close": {
-        "message": "Close"
+        "message": "닫기"
     },
     "saveAndClose": {
-        "message": "Save & Close"
+        "message": "저장 및 닫기"
     },
     "movePromptsTitle": {
-        "message": "Move Prompts"
+        "message": "이동 프롬프트"
     },
     "movePromptsMessagePrefix": {
-        "message": "Select a destination folder for the"
+        "message": "대상 폴더를 선택하십시오."
     },
     "selectedPromptsSuffix": {
-        "message": "selected prompts."
+        "message": "선택된 프롬프트."
     },
     "folderPassword": {
-        "message": "Folder Password"
+        "message": "폴더 암호"
     },
     "enterFolderPasswordPlaceholder": {
-        "message": "Enter password for locked folder"
+        "message": "잠긴 폴더의 비밀번호를 입력하세요"
     },
     "deleteFolderTitle": {
-        "message": "Delete Folder"
+        "message": "폴더 삭제"
     },
     "deleteFolderMessage": {
-        "message": "What would you like to do with the prompts inside this folder?"
+        "message": "이 폴더 안에 있는 프롬프트로 무엇을 하시겠습니까?"
     },
     "deleteFolderMovePrompts": {
-        "message": "Delete Folder & Move Prompts"
+        "message": "폴더 삭제 및 이동 안내"
     },
     "deleteFolderAndPrompts": {
-        "message": "Delete Folder & All Prompts"
+        "message": "폴더 및 모든 프롬프트 삭제"
     },
     "resetDataMessage": {
-        "message": "Are you sure you want to reset all data? This will permanently delete all prompts, folders, and tags. This action cannot be undone."
+        "message": "모든 데이터를 재설정하시겠습니까? 이 작업은 모든 프롬프트, 폴더 및 태그를 영구적으로 삭제합니다. 이 작업은 되돌릴 수 없습니다."
     },
     "confirmResetAll": {
-        "message": "Yes, Reset Everything"
+        "message": "예, 모든 것을 초기화하세요"
     },
     "renameFolder": {
-        "message": "Rename Folder"
+        "message": "폴더 이름 변경"
     },
     "dangerZone": {
-        "message": "Danger Zone"
+        "message": "위험 구역"
     },
     "deleteFolder": {
-        "message": "Delete Folder"
+        "message": "폴더 삭제"
     },
     "manageTagsTitle": {
-        "message": "Manage Tags"
+        "message": "태그 관리"
     },
     "leavePageTitle": {
-        "message": "Leave Page?"
+        "message": "이 페이지를 떠나시겠습니까?"
     },
     "leavePageMessage": {
-        "message": "Are you sure you want to leave this page? Any unsaved changes may be lost."
+        "message": "이 페이지를 정말로 떠나시겠습니까? 저장하지 않은 변경 사항이 손실될 수 있습니다."
     },
     "stay": {
-        "message": "Stay"
+        "message": "머물다"
     },
     "leave": {
-        "message": "Leave"
+        "message": "떠나다"
     },
     "dontAskAgainThisSession": {
-        "message": "Don't ask again for this session"
+        "message": "이번 세션 동안 다시 묻지 마세요"
     },
     "ok": {
-        "message": "OK"
+        "message": "좋아요"
     },
     "exportShort": {
-        "message": "Export"
+        "message": "수출"
     },
     "importShort": {
-        "message": "Import"
+        "message": "수입"
     },
     "promptLockedEnterPassword": {
         "message": "이 프롬프트는 잠겨 있습니다. 삽입하려면 비밀번호를 입력하세요:"
@@ -641,35 +641,35 @@
         "message": "프롬프트 라이브러리에 추가"
     },
     "titleQuickPreview": {
-        "message": "Quick preview"
+        "message": "빠른 미리보기"
     },
     "headerQuickPreview": {
-        "message": "Quick Preview Settings"
+        "message": "빠른 미리보기 설정"
     },
     "quickPreviewDescription": {
-        "message": "Configure which search engines appear in the quick preview bubble. Only HTTP GET-based search engines are supported."
+        "message": "빠른 미리보기 풍선에 표시될 검색 엔진을 구성합니다. HTTP GET 기반 검색 엔진만 지원됩니다."
     },
     "disableQuickPreview": {
-        "message": "Disable quick preview of search results"
+        "message": "검색 결과의 빠른 미리 보기 비활성화"
     },
     "filterQuickPreviewByLanguage": {
-        "message": "Filter Quick Preview by selection language"
+        "message": "선택한 언어로 필터 빠른 미리보기"
     },
     "filterQuickPreviewByLanguageNote": {
-        "message": "When enabled, only engines whose language matches the detected selection language are shown. If no engines match, all are shown as a fallback."
+        "message": "이 기능이 활성화되면, 탐지된 선택 언어와 일치하는 언어의 엔진만 표시됩니다. 일치하는 엔진이 없을 경우, 모든 엔진이 대체 수단으로 표시됩니다."
     },
     "recheckDescription": {
-        "message": "Re-check engines will verify if each and every search engine is still available and responsive. A red warning icon will appear next to any engines that may not render correctly in the Quick preview bubble. This may take a while."
+        "message": "재확인 엔진은 모든 검색 엔진이 여전히 사용 가능하고 응답하는지 확인합니다. 빠른 미리보기 창에서 제대로 표시되지 않을 수 있는 엔진 옆에는 빨간색 경고 아이콘이 나타납니다. 이 작업에는 시간이 다소 소요될 수 있습니다."
     },
     "recheckEngines": {
-        "message": "Re-check engines"
+        "message": "엔진 재점검"
     },
     "editIconPrompt": {
-        "message": "Edit icon URL for \"$1\"\n\nEnter a URL to an image (preferably SVG).\nLeave empty to use the default search engine icon.",
+        "message": "\"$1\" 아이콘 URL 편집\n\n이미지 URL 입력 (SVG 권장).\n기본 검색 엔진 아이콘을 사용하려면 비워 둡니다.",
         "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
     },
     "disableQuickPreviewByNote": {
-        "message": "Checking this option automatically disables the quick preview of search results."
+        "message": "이 옵션을 선택하면 검색 결과의 빠른 미리 보기가 자동으로 비활성화됩니다."
     },
     "__WET_LOCALE__": {
         "message": "ko"
