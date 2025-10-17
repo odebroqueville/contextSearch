@@ -375,7 +375,7 @@
         "message": "Tidak dapat mengambil URL untuk menghapus bookmark"
     },
     "notifyCustomCssSaved": {
-        "message": "Custom CSS saved for \"$1\".",
+        "message": "CSS kustom yang disimpan untuk \"$1\".",
         "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
     },
     "notifyAIMinimalRequirements": {
@@ -461,175 +461,175 @@
         "message": "Pesan pencarian..."
     },
     "promptsHeading": {
-        "message": "Prompts"
+        "message": "Perintah"
     },
     "newPromptTitle": {
-        "message": "New Prompt"
+        "message": "Prompt Baru"
     },
     "foldersHeading": {
-        "message": "Folders"
+        "message": "Folder"
     },
     "newFolderTitle": {
-        "message": "New Folder"
+        "message": "Folder Baru"
     },
     "newFolderNamePlaceholder": {
-        "message": "New folder name..."
+        "message": "Nama folder baru..."
     },
     "tagsHeading": {
-        "message": "Tags"
+        "message": "Tag"
     },
     "newTagTitle": {
-        "message": "New Tag"
+        "message": "Tag Baru"
     },
     "newTagNamePlaceholder": {
-        "message": "New tag name..."
+        "message": "Nama tag baru..."
     },
     "addTag": {
-        "message": "Add Tag"
+        "message": "Tambahkan Tag"
     },
     "settings": {
-        "message": "Settings"
+        "message": "Pengaturan"
     },
     "select": {
-        "message": "Select"
+        "message": "Pilih"
     },
     "cancel": {
-        "message": "Cancel"
+        "message": "Batalkan"
     },
     "delete": {
-        "message": "Delete"
+        "message": "Hapus"
     },
     "sortNewest": {
-        "message": "Newest"
+        "message": "Terbaru"
     },
     "sortTitleAsc": {
-        "message": "Title (A-Z)"
+        "message": "Judul (A-Z)"
     },
     "noPromptsPlaceholder": {
-        "message": "No prompts here yet. Let's create one!"
+        "message": "Belum ada prompt di sini. Mari kita buat satu!"
     },
     "createNewPrompt": {
-        "message": "Create New Prompt"
+        "message": "Buat Prompt Baru"
     },
     "backToTop": {
-        "message": "Back to Top"
+        "message": "Kembali ke Atas"
     },
     "noPromptSelectedMessage": {
-        "message": "Select a prompt to view, or create a new one."
+        "message": "Pilih prompt yang ingin Anda lihat, atau buat yang baru."
     },
     "titleLabel": {
-        "message": "Title"
+        "message": "Judul"
     },
     "lock": {
-        "message": "Lock"
+        "message": "Kunci"
     },
     "promptTitlePlaceholder": {
-        "message": "Prompt Title"
+        "message": "Judul Prompt"
     },
     "folderLabel": {
         "message": "Folder"
     },
     "promptLabel": {
-        "message": "Prompt"
+        "message": "Perintah"
     },
     "promptBodyPlaceholder": {
-        "message": "The content of your prompt..."
+        "message": "Isi dari prompt Anda..."
     },
     "copyPromptBody": {
-        "message": "Copy prompt body"
+        "message": "Salin teks prompt"
     },
     "fullscreenEditor": {
-        "message": "Fullscreen Editor"
+        "message": "Editor Layar Penuh"
     },
     "notesLabel": {
-        "message": "Notes"
+        "message": "Catatan"
     },
     "notesPlaceholder": {
-        "message": "Add extra details or context..."
+        "message": "Tambahkan detail tambahan atau konteks..."
     },
     "tagsLabel": {
-        "message": "Tags"
+        "message": "Tag"
     },
     "addTagsPlaceholder": {
-        "message": "Add tags..."
+        "message": "Tambahkan tag..."
     },
     "save": {
-        "message": "Save"
+        "message": "Simpan"
     },
     "close": {
-        "message": "Close"
+        "message": "Tutup"
     },
     "saveAndClose": {
-        "message": "Save & Close"
+        "message": "Simpan & Tutup"
     },
     "movePromptsTitle": {
-        "message": "Move Prompts"
+        "message": "Pindahkan Prompt"
     },
     "movePromptsMessagePrefix": {
-        "message": "Select a destination folder for the"
+        "message": "Pilih folder tujuan untuk"
     },
     "selectedPromptsSuffix": {
-        "message": "selected prompts."
+        "message": "prompt yang dipilih."
     },
     "folderPassword": {
-        "message": "Folder Password"
+        "message": "Kata Sandi Folder"
     },
     "enterFolderPasswordPlaceholder": {
-        "message": "Enter password for locked folder"
+        "message": "Masukkan kata sandi untuk folder yang terkunci."
     },
     "deleteFolderTitle": {
-        "message": "Delete Folder"
+        "message": "Hapus Folder"
     },
     "deleteFolderMessage": {
-        "message": "What would you like to do with the prompts inside this folder?"
+        "message": "Apa yang ingin Anda lakukan dengan prompt-prompt di dalam folder ini?"
     },
     "deleteFolderMovePrompts": {
-        "message": "Delete Folder & Move Prompts"
+        "message": "Hapus Folder & Pindahkan Prompt"
     },
     "deleteFolderAndPrompts": {
-        "message": "Delete Folder & All Prompts"
+        "message": "Hapus Folder & Semua Pesan"
     },
     "resetDataMessage": {
-        "message": "Are you sure you want to reset all data? This will permanently delete all prompts, folders, and tags. This action cannot be undone."
+        "message": "Apakah Anda yakin ingin mereset semua data? Tindakan ini akan menghapus secara permanen semua prompt, folder, dan tag. Tindakan ini tidak dapat dibatalkan."
     },
     "confirmResetAll": {
-        "message": "Yes, Reset Everything"
+        "message": "Ya, Reset Semua"
     },
     "renameFolder": {
-        "message": "Rename Folder"
+        "message": "Ubah Nama Folder"
     },
     "dangerZone": {
-        "message": "Danger Zone"
+        "message": "Zona Bahaya"
     },
     "deleteFolder": {
-        "message": "Delete Folder"
+        "message": "Hapus Folder"
     },
     "manageTagsTitle": {
-        "message": "Manage Tags"
+        "message": "Kelola Tag"
     },
     "leavePageTitle": {
-        "message": "Leave Page?"
+        "message": "Keluar dari Halaman?"
     },
     "leavePageMessage": {
-        "message": "Are you sure you want to leave this page? Any unsaved changes may be lost."
+        "message": "Apakah Anda yakin ingin meninggalkan halaman ini? Perubahan yang belum disimpan mungkin akan hilang."
     },
     "stay": {
-        "message": "Stay"
+        "message": "Tetap"
     },
     "leave": {
-        "message": "Leave"
+        "message": "Pergi"
     },
     "dontAskAgainThisSession": {
-        "message": "Don't ask again for this session"
+        "message": "Jangan tanya lagi untuk sesi ini."
     },
     "ok": {
-        "message": "OK"
+        "message": "Baiklah"
     },
     "exportShort": {
-        "message": "Export"
+        "message": "Ekspor"
     },
     "importShort": {
-        "message": "Import"
+        "message": "Impor"
     },
     "promptLockedEnterPassword": {
         "message": "Prompt ini terkunci. Masukkan kata sandi untuk memasukkannya:"
@@ -641,35 +641,35 @@
         "message": "Tambahkan ke perpustakaan prompt"
     },
     "titleQuickPreview": {
-        "message": "Quick preview"
+        "message": "Pratinjau cepat"
     },
     "headerQuickPreview": {
-        "message": "Quick Preview Settings"
+        "message": "Pengaturan Pratinjau Cepat"
     },
     "quickPreviewDescription": {
-        "message": "Configure which search engines appear in the quick preview bubble. Only HTTP GET-based search engines are supported."
+        "message": "Konfigurasikan mesin pencari mana yang ditampilkan dalam gelembung pratinjau cepat. Hanya mesin pencari berbasis HTTP GET yang didukung."
     },
     "disableQuickPreview": {
-        "message": "Disable quick preview of search results"
+        "message": "Nonaktifkan pratinjau cepat hasil pencarian"
     },
     "filterQuickPreviewByLanguage": {
-        "message": "Filter Quick Preview by selection language"
+        "message": "Filter Pratinjau Cepat berdasarkan pilihan bahasa"
     },
     "filterQuickPreviewByLanguageNote": {
-        "message": "When enabled, only engines whose language matches the detected selection language are shown. If no engines match, all are shown as a fallback."
+        "message": "Saat diaktifkan, hanya mesin pencari yang bahasanya sesuai dengan bahasa yang terdeteksi yang ditampilkan. Jika tidak ada mesin pencari yang sesuai, semua mesin pencari ditampilkan sebagai alternatif."
     },
     "recheckDescription": {
-        "message": "Re-check engines will verify if each and every search engine is still available and responsive. A red warning icon will appear next to any engines that may not render correctly in the Quick preview bubble. This may take a while."
+        "message": "Pemeriksaan ulang mesin pencari akan memastikan bahwa setiap mesin pencari masih tersedia dan responsif. Ikon peringatan merah akan muncul di samping mesin pencari yang mungkin tidak ditampilkan dengan benar di kotak pratinjau cepat. Proses ini mungkin memakan waktu."
     },
     "recheckEngines": {
-        "message": "Re-check engines"
+        "message": "Periksa kembali mesin"
     },
     "editIconPrompt": {
-        "message": "Edit icon URL for \"$1\"\n\nEnter a URL to an image (preferably SVG).\nLeave empty to use the default search engine icon.",
+        "message": "Edit URL ikon untuk \"$1\"\n\nMasukkan URL ke gambar (disarankan SVG).\nBiarkan kosong untuk menggunakan ikon mesin pencari default.",
         "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
     },
     "disableQuickPreviewByNote": {
-        "message": "Checking this option automatically disables the quick preview of search results."
+        "message": "Mencentang opsi ini secara otomatis menonaktifkan pratinjau cepat hasil pencarian."
     },
     "__WET_LOCALE__": {
         "message": "id"
