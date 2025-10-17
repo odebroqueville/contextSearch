@@ -375,7 +375,7 @@
         "message": "Kon URL voor bladwijzerverwijdering niet ophalen"
     },
     "notifyCustomCssSaved": {
-        "message": "Custom CSS saved for \"$1\".",
+        "message": "Aangepaste CSS opgeslagen voor \"$1\".",
         "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
     },
     "notifyAIMinimalRequirements": {
@@ -464,172 +464,172 @@
         "message": "Prompts"
     },
     "newPromptTitle": {
-        "message": "New Prompt"
+        "message": "Nieuwe prompt"
     },
     "foldersHeading": {
-        "message": "Folders"
+        "message": "Mappen"
     },
     "newFolderTitle": {
-        "message": "New Folder"
+        "message": "Nieuwe map"
     },
     "newFolderNamePlaceholder": {
-        "message": "New folder name..."
+        "message": "Nieuwe mapnaam..."
     },
     "tagsHeading": {
         "message": "Tags"
     },
     "newTagTitle": {
-        "message": "New Tag"
+        "message": "Nieuwe tag"
     },
     "newTagNamePlaceholder": {
-        "message": "New tag name..."
+        "message": "Nieuwe tagnaam..."
     },
     "addTag": {
-        "message": "Add Tag"
+        "message": "Tag toevoegen"
     },
     "settings": {
-        "message": "Settings"
+        "message": "Instellingen"
     },
     "select": {
-        "message": "Select"
+        "message": "Selecteer"
     },
     "cancel": {
-        "message": "Cancel"
+        "message": "Annuleren"
     },
     "delete": {
-        "message": "Delete"
+        "message": "Verwijderen"
     },
     "sortNewest": {
-        "message": "Newest"
+        "message": "Nieuwste"
     },
     "sortTitleAsc": {
-        "message": "Title (A-Z)"
+        "message": "Titel (A-Z)"
     },
     "noPromptsPlaceholder": {
-        "message": "No prompts here yet. Let's create one!"
+        "message": "Hier zijn nog geen prompts. Laten we er een maken!"
     },
     "createNewPrompt": {
-        "message": "Create New Prompt"
+        "message": "Nieuwe prompt maken"
     },
     "backToTop": {
-        "message": "Back to Top"
+        "message": "Terug naar boven"
     },
     "noPromptSelectedMessage": {
-        "message": "Select a prompt to view, or create a new one."
+        "message": "Selecteer een prompt om te bekijken of maak een nieuwe aan."
     },
     "titleLabel": {
-        "message": "Title"
+        "message": "Titel"
     },
     "lock": {
-        "message": "Lock"
+        "message": "Vergrendelen"
     },
     "promptTitlePlaceholder": {
-        "message": "Prompt Title"
+        "message": "Prompttitel"
     },
     "folderLabel": {
-        "message": "Folder"
+        "message": "Map"
     },
     "promptLabel": {
         "message": "Prompt"
     },
     "promptBodyPlaceholder": {
-        "message": "The content of your prompt..."
+        "message": "De inhoud van uw prompt..."
     },
     "copyPromptBody": {
-        "message": "Copy prompt body"
+        "message": "Kopieer prompttekst"
     },
     "fullscreenEditor": {
-        "message": "Fullscreen Editor"
+        "message": "Volledig scherm-editor"
     },
     "notesLabel": {
-        "message": "Notes"
+        "message": "Opmerkingen"
     },
     "notesPlaceholder": {
-        "message": "Add extra details or context..."
+        "message": "Voeg extra details of context toe..."
     },
     "tagsLabel": {
         "message": "Tags"
     },
     "addTagsPlaceholder": {
-        "message": "Add tags..."
+        "message": "Tags toevoegen..."
     },
     "save": {
-        "message": "Save"
+        "message": "Opslaan"
     },
     "close": {
-        "message": "Close"
+        "message": "Sluiten"
     },
     "saveAndClose": {
-        "message": "Save & Close"
+        "message": "Opslaan en sluiten"
     },
     "movePromptsTitle": {
-        "message": "Move Prompts"
+        "message": "Verplaatsingsprompts"
     },
     "movePromptsMessagePrefix": {
-        "message": "Select a destination folder for the"
+        "message": "Selecteer een bestemmingsmap voor de"
     },
     "selectedPromptsSuffix": {
-        "message": "selected prompts."
+        "message": "geselecteerde prompts."
     },
     "folderPassword": {
-        "message": "Folder Password"
+        "message": "Wachtwoord map"
     },
     "enterFolderPasswordPlaceholder": {
-        "message": "Enter password for locked folder"
+        "message": "Voer het wachtwoord in voor de vergrendelde map"
     },
     "deleteFolderTitle": {
-        "message": "Delete Folder"
+        "message": "Map verwijderen"
     },
     "deleteFolderMessage": {
-        "message": "What would you like to do with the prompts inside this folder?"
+        "message": "Wat wilt u doen met de prompts in deze map?"
     },
     "deleteFolderMovePrompts": {
-        "message": "Delete Folder & Move Prompts"
+        "message": "Map verwijderen en verplaatsen"
     },
     "deleteFolderAndPrompts": {
-        "message": "Delete Folder & All Prompts"
+        "message": "Map en alle prompts verwijderen"
     },
     "resetDataMessage": {
-        "message": "Are you sure you want to reset all data? This will permanently delete all prompts, folders, and tags. This action cannot be undone."
+        "message": "Weet u zeker dat u alle gegevens wilt resetten? Hierdoor worden alle prompts, mappen en tags definitief verwijderd. Deze actie kan niet ongedaan worden gemaakt."
     },
     "confirmResetAll": {
-        "message": "Yes, Reset Everything"
+        "message": "Ja, alles resetten"
     },
     "renameFolder": {
-        "message": "Rename Folder"
+        "message": "Map hernoemen"
     },
     "dangerZone": {
-        "message": "Danger Zone"
+        "message": "Gevarenzone"
     },
     "deleteFolder": {
-        "message": "Delete Folder"
+        "message": "Map verwijderen"
     },
     "manageTagsTitle": {
-        "message": "Manage Tags"
+        "message": "Tags beheren"
     },
     "leavePageTitle": {
-        "message": "Leave Page?"
+        "message": "Pagina verlaten?"
     },
     "leavePageMessage": {
-        "message": "Are you sure you want to leave this page? Any unsaved changes may be lost."
+        "message": "Weet u zeker dat u deze pagina wilt verlaten? Eventuele niet-opgeslagen wijzigingen kunnen verloren gaan."
     },
     "stay": {
-        "message": "Stay"
+        "message": "Verblijf"
     },
     "leave": {
-        "message": "Leave"
+        "message": "Vertrek"
     },
     "dontAskAgainThisSession": {
-        "message": "Don't ask again for this session"
+        "message": "Vraag dit tijdens deze sessie niet nogmaals."
     },
     "ok": {
-        "message": "OK"
+        "message": "Oké"
     },
     "exportShort": {
-        "message": "Export"
+        "message": "Exporteren"
     },
     "importShort": {
-        "message": "Import"
+        "message": "Importeren"
     },
     "promptLockedEnterPassword": {
         "message": "Deze prompt is vergrendeld. Voer het wachtwoord in om het in te voegen:"
@@ -641,35 +641,35 @@
         "message": "Toevoegen aan promptbibliotheek"
     },
     "titleQuickPreview": {
-        "message": "Quick preview"
+        "message": "Snel voorbeeld"
     },
     "headerQuickPreview": {
-        "message": "Quick Preview Settings"
+        "message": "Instellingen voor snel voorbeeld"
     },
     "quickPreviewDescription": {
-        "message": "Configure which search engines appear in the quick preview bubble. Only HTTP GET-based search engines are supported."
+        "message": "Configureer welke zoekmachines worden weergegeven in het snelvoorbeeldvenster. Alleen op HTTP GET gebaseerde zoekmachines worden ondersteund."
     },
     "disableQuickPreview": {
-        "message": "Disable quick preview of search results"
+        "message": "Snel voorvertoning van zoekresultaten uitschakelen"
     },
     "filterQuickPreviewByLanguage": {
-        "message": "Filter Quick Preview by selection language"
+        "message": "Filter Snelvoorbeeld op basis van geselecteerde taal"
     },
     "filterQuickPreviewByLanguageNote": {
-        "message": "When enabled, only engines whose language matches the detected selection language are shown. If no engines match, all are shown as a fallback."
+        "message": "Wanneer deze optie is ingeschakeld, worden alleen zoekmachines weergegeven waarvan de taal overeenkomt met de gedetecteerde selectietaal. Als er geen zoekmachines overeenkomen, worden ze allemaal weergegeven als alternatief."
     },
     "recheckDescription": {
-        "message": "Re-check engines will verify if each and every search engine is still available and responsive. A red warning icon will appear next to any engines that may not render correctly in the Quick preview bubble. This may take a while."
+        "message": "Re-check engines controleert of alle zoekmachines nog steeds beschikbaar zijn en reageren. Er verschijnt een rood waarschuwingspictogram naast zoekmachines die mogelijk niet correct worden weergegeven in het snelvoorbeeldvenster. Dit kan even duren."
     },
     "recheckEngines": {
-        "message": "Re-check engines"
+        "message": "Controleer de motoren opnieuw"
     },
     "editIconPrompt": {
-        "message": "Edit icon URL for \"$1\"\n\nEnter a URL to an image (preferably SVG).\nLeave empty to use the default search engine icon.",
+        "message": "Bewerk pictogram-URL voor \"$1\"\n\nVoer een URL naar een afbeelding in (bij voorkeur SVG).\nLaat leeg om het standaardpictogram van de zoekmachine te gebruiken.",
         "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
     },
     "disableQuickPreviewByNote": {
-        "message": "Checking this option automatically disables the quick preview of search results."
+        "message": "Als u deze optie aanvinkt, wordt het snelle voorbeeld van zoekresultaten automatisch uitgeschakeld."
     },
     "__WET_LOCALE__": {
         "message": "nl"
