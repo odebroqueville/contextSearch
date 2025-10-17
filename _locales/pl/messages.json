@@ -375,7 +375,7 @@
         "message": "Nie można pobrać adresu URL do usunięcia zakładki"
     },
     "notifyCustomCssSaved": {
-        "message": "Custom CSS saved for \"$1\".",
+        "message": "Niestandardowy arkusz CSS zapisany dla „$1”.",
         "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
     },
     "notifyAIMinimalRequirements": {
@@ -461,172 +461,172 @@
         "message": "Wskazówki dotyczące wyszukiwania..."
     },
     "promptsHeading": {
-        "message": "Prompts"
+        "message": "Podpowiedzi"
     },
     "newPromptTitle": {
-        "message": "New Prompt"
+        "message": "Nowe polecenie"
     },
     "foldersHeading": {
-        "message": "Folders"
+        "message": "Foldery"
     },
     "newFolderTitle": {
-        "message": "New Folder"
+        "message": "Nowy folder"
     },
     "newFolderNamePlaceholder": {
-        "message": "New folder name..."
+        "message": "Nowa nazwa folderu..."
     },
     "tagsHeading": {
-        "message": "Tags"
+        "message": "Tagi"
     },
     "newTagTitle": {
-        "message": "New Tag"
+        "message": "Nowy tag"
     },
     "newTagNamePlaceholder": {
-        "message": "New tag name..."
+        "message": "Nowa nazwa tagu..."
     },
     "addTag": {
-        "message": "Add Tag"
+        "message": "Dodaj tag"
     },
     "settings": {
-        "message": "Settings"
+        "message": "Ustawienia"
     },
     "select": {
-        "message": "Select"
+        "message": "Wybierz"
     },
     "cancel": {
-        "message": "Cancel"
+        "message": "Anuluj"
     },
     "delete": {
-        "message": "Delete"
+        "message": "Usuń"
     },
     "sortNewest": {
-        "message": "Newest"
+        "message": "Najnowsze"
     },
     "sortTitleAsc": {
-        "message": "Title (A-Z)"
+        "message": "Tytuł (A-Z)"
     },
     "noPromptsPlaceholder": {
-        "message": "No prompts here yet. Let's create one!"
+        "message": "Nie ma jeszcze żadnych podpowiedzi. Stwórzmy jedną!"
     },
     "createNewPrompt": {
-        "message": "Create New Prompt"
+        "message": "Utwórz nowe monit"
     },
     "backToTop": {
-        "message": "Back to Top"
+        "message": "Powrót do góry"
     },
     "noPromptSelectedMessage": {
-        "message": "Select a prompt to view, or create a new one."
+        "message": "Wybierz monit, który chcesz wyświetlić, lub utwórz nowy."
     },
     "titleLabel": {
-        "message": "Title"
+        "message": "Tytuł"
     },
     "lock": {
-        "message": "Lock"
+        "message": "Zamek"
     },
     "promptTitlePlaceholder": {
-        "message": "Prompt Title"
+        "message": "Tytuł monitu"
     },
     "folderLabel": {
         "message": "Folder"
     },
     "promptLabel": {
-        "message": "Prompt"
+        "message": "Monit"
     },
     "promptBodyPlaceholder": {
-        "message": "The content of your prompt..."
+        "message": "Treść Twojego polecenia..."
     },
     "copyPromptBody": {
-        "message": "Copy prompt body"
+        "message": "Skopiuj treść monitu"
     },
     "fullscreenEditor": {
-        "message": "Fullscreen Editor"
+        "message": "Edytor pełnoekranowy"
     },
     "notesLabel": {
-        "message": "Notes"
+        "message": "Uwagi"
     },
     "notesPlaceholder": {
-        "message": "Add extra details or context..."
+        "message": "Dodaj dodatkowe szczegóły lub kontekst..."
     },
     "tagsLabel": {
-        "message": "Tags"
+        "message": "Tagi"
     },
     "addTagsPlaceholder": {
-        "message": "Add tags..."
+        "message": "Dodaj tagi..."
     },
     "save": {
-        "message": "Save"
+        "message": "Zapisz"
     },
     "close": {
-        "message": "Close"
+        "message": "Zamknij"
     },
     "saveAndClose": {
-        "message": "Save & Close"
+        "message": "Zapisz i zamknij"
     },
     "movePromptsTitle": {
-        "message": "Move Prompts"
+        "message": "Komunikaty o przeniesieniu"
     },
     "movePromptsMessagePrefix": {
-        "message": "Select a destination folder for the"
+        "message": "Wybierz folder docelowy dla pliku"
     },
     "selectedPromptsSuffix": {
-        "message": "selected prompts."
+        "message": "wybrane podpowiedzi."
     },
     "folderPassword": {
-        "message": "Folder Password"
+        "message": "Hasło folderu"
     },
     "enterFolderPasswordPlaceholder": {
-        "message": "Enter password for locked folder"
+        "message": "Wprowadź hasło do zablokowanego folderu"
     },
     "deleteFolderTitle": {
-        "message": "Delete Folder"
+        "message": "Usuń folder"
     },
     "deleteFolderMessage": {
-        "message": "What would you like to do with the prompts inside this folder?"
+        "message": "Co chcesz zrobić z plikami znajdującymi się w tym folderze?"
     },
     "deleteFolderMovePrompts": {
-        "message": "Delete Folder & Move Prompts"
+        "message": "Usuń folder i przenieś monity"
     },
     "deleteFolderAndPrompts": {
-        "message": "Delete Folder & All Prompts"
+        "message": "Usuń folder i wszystkie monity"
     },
     "resetDataMessage": {
-        "message": "Are you sure you want to reset all data? This will permanently delete all prompts, folders, and tags. This action cannot be undone."
+        "message": "Czy na pewno chcesz zresetować wszystkie dane? Spowoduje to trwałe usunięcie wszystkich podpowiedzi, folderów i tagów. Tego działania nie można cofnąć."
     },
     "confirmResetAll": {
-        "message": "Yes, Reset Everything"
+        "message": "Tak, zresetuj wszystko"
     },
     "renameFolder": {
-        "message": "Rename Folder"
+        "message": "Zmień nazwę folderu"
     },
     "dangerZone": {
-        "message": "Danger Zone"
+        "message": "Strefa zagrożenia"
     },
     "deleteFolder": {
-        "message": "Delete Folder"
+        "message": "Usuń folder"
     },
     "manageTagsTitle": {
-        "message": "Manage Tags"
+        "message": "Zarządzaj tagami"
     },
     "leavePageTitle": {
-        "message": "Leave Page?"
+        "message": "Opuścić stronę?"
     },
     "leavePageMessage": {
-        "message": "Are you sure you want to leave this page? Any unsaved changes may be lost."
+        "message": "Czy na pewno chcesz opuścić tę stronę? Wszelkie niezapisane zmiany mogą zostać utracone."
     },
     "stay": {
-        "message": "Stay"
+        "message": "Zostań"
     },
     "leave": {
-        "message": "Leave"
+        "message": "Wyjść"
     },
     "dontAskAgainThisSession": {
-        "message": "Don't ask again for this session"
+        "message": "Nie pytaj ponownie o tę sesję"
     },
     "ok": {
         "message": "OK"
     },
     "exportShort": {
-        "message": "Export"
+        "message": "Eksport"
     },
     "importShort": {
         "message": "Import"
@@ -641,35 +641,35 @@
         "message": "Dodaj do biblioteki podpowiedzi"
     },
     "titleQuickPreview": {
-        "message": "Quick preview"
+        "message": "Szybki podgląd"
     },
     "headerQuickPreview": {
-        "message": "Quick Preview Settings"
+        "message": "Ustawienia szybkiego podglądu"
     },
     "quickPreviewDescription": {
-        "message": "Configure which search engines appear in the quick preview bubble. Only HTTP GET-based search engines are supported."
+        "message": "Skonfiguruj, które wyszukiwarki mają być wyświetlane w dymku szybkiego podglądu. Obsługiwane są wyłącznie wyszukiwarki oparte na protokole HTTP GET."
     },
     "disableQuickPreview": {
-        "message": "Disable quick preview of search results"
+        "message": "Wyłącz szybki podgląd wyników wyszukiwania"
     },
     "filterQuickPreviewByLanguage": {
-        "message": "Filter Quick Preview by selection language"
+        "message": "Filtruj szybki podgląd według wybranego języka"
     },
     "filterQuickPreviewByLanguageNote": {
-        "message": "When enabled, only engines whose language matches the detected selection language are shown. If no engines match, all are shown as a fallback."
+        "message": "Po włączeniu tej opcji wyświetlane są tylko wyszukiwarki, których język odpowiada wykrytemu językowi wyboru. Jeśli żadna wyszukiwarka nie pasuje, wyświetlane są wszystkie jako rozwiązanie awaryjne."
     },
     "recheckDescription": {
-        "message": "Re-check engines will verify if each and every search engine is still available and responsive. A red warning icon will appear next to any engines that may not render correctly in the Quick preview bubble. This may take a while."
+        "message": "Ponowne sprawdzenie silników wyszukiwania pozwoli zweryfikować, czy wszystkie silniki wyszukiwania są nadal dostępne i reagują na polecenia. Obok silników, które mogą nie wyświetlać się poprawnie w dymku szybkiego podglądu, pojawi się czerwona ikona ostrzegawcza. Może to chwilę potrwać."
     },
     "recheckEngines": {
-        "message": "Re-check engines"
+        "message": "Ponowne sprawdzenie silników"
     },
     "editIconPrompt": {
-        "message": "Edit icon URL for \"$1\"\n\nEnter a URL to an image (preferably SVG).\nLeave empty to use the default search engine icon.",
+        "message": "Edytuj adres URL ikony dla „$1”\n\nWprowadź adres URL obrazu (najlepiej SVG).\nPozostaw puste, aby użyć domyślnej ikony wyszukiwarki.",
         "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
     },
     "disableQuickPreviewByNote": {
-        "message": "Checking this option automatically disables the quick preview of search results."
+        "message": "Zaznaczenie tej opcji automatycznie wyłącza szybki podgląd wyników wyszukiwania."
     },
     "__WET_LOCALE__": {
         "message": "pl"
