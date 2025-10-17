@@ -375,7 +375,7 @@
         "message": "Gat ekki sótt vefslóð til að fjarlægja bókamerki"
     },
     "notifyCustomCssSaved": {
-        "message": "Custom CSS saved for \"$1\".",
+        "message": "Sérsniðið CSS vistað fyrir \"$1\".",
         "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
     },
     "notifyAIMinimalRequirements": {
@@ -461,175 +461,175 @@
         "message": "Leita að leiðbeiningum..."
     },
     "promptsHeading": {
-        "message": "Prompts"
+        "message": "Hvetja"
     },
     "newPromptTitle": {
-        "message": "New Prompt"
+        "message": "Ný hvetja"
     },
     "foldersHeading": {
-        "message": "Folders"
+        "message": "Möppur"
     },
     "newFolderTitle": {
-        "message": "New Folder"
+        "message": "Ný mappa"
     },
     "newFolderNamePlaceholder": {
-        "message": "New folder name..."
+        "message": "Nýtt nafn möppu..."
     },
     "tagsHeading": {
         "message": "Tags"
     },
     "newTagTitle": {
-        "message": "New Tag"
+        "message": "Nýtt merki"
     },
     "newTagNamePlaceholder": {
-        "message": "New tag name..."
+        "message": "Nýtt merki nafn..."
     },
     "addTag": {
-        "message": "Add Tag"
+        "message": "Bæta við merki"
     },
     "settings": {
-        "message": "Settings"
+        "message": "Stillingar"
     },
     "select": {
-        "message": "Select"
+        "message": "Velja"
     },
     "cancel": {
-        "message": "Cancel"
+        "message": "Afturkalla"
     },
     "delete": {
-        "message": "Delete"
+        "message": "Eyða"
     },
     "sortNewest": {
-        "message": "Newest"
+        "message": "Nýjustu"
     },
     "sortTitleAsc": {
-        "message": "Title (A-Z)"
+        "message": "Titill (A-Ö)"
     },
     "noPromptsPlaceholder": {
-        "message": "No prompts here yet. Let's create one!"
+        "message": "Engar leiðbeiningar hér ennþá. Við skulum búa til einn!"
     },
     "createNewPrompt": {
-        "message": "Create New Prompt"
+        "message": "Búðu til nýja kvaðningu"
     },
     "backToTop": {
-        "message": "Back to Top"
+        "message": "Efst á síðu"
     },
     "noPromptSelectedMessage": {
-        "message": "Select a prompt to view, or create a new one."
+        "message": "Veldu kvaðningu til að skoða eða búðu til nýja."
     },
     "titleLabel": {
-        "message": "Title"
+        "message": "Titill"
     },
     "lock": {
-        "message": "Lock"
+        "message": "Lás"
     },
     "promptTitlePlaceholder": {
-        "message": "Prompt Title"
+        "message": "Hvetja titil"
     },
     "folderLabel": {
-        "message": "Folder"
+        "message": "Mappa"
     },
     "promptLabel": {
-        "message": "Prompt"
+        "message": "Hvetja"
     },
     "promptBodyPlaceholder": {
-        "message": "The content of your prompt..."
+        "message": "Innihald kvaðningarinnar..."
     },
     "copyPromptBody": {
-        "message": "Copy prompt body"
+        "message": "Afrita hvetjandi meginmál"
     },
     "fullscreenEditor": {
-        "message": "Fullscreen Editor"
+        "message": "Ritstjóri á öllum skjánum"
     },
     "notesLabel": {
-        "message": "Notes"
+        "message": "Athugasemdir"
     },
     "notesPlaceholder": {
-        "message": "Add extra details or context..."
+        "message": "Bættu við auka upplýsingum eða samhengi..."
     },
     "tagsLabel": {
         "message": "Tags"
     },
     "addTagsPlaceholder": {
-        "message": "Add tags..."
+        "message": "Bæta við merkjum..."
     },
     "save": {
-        "message": "Save"
+        "message": "Spara"
     },
     "close": {
-        "message": "Close"
+        "message": "Loka"
     },
     "saveAndClose": {
-        "message": "Save & Close"
+        "message": "Vista & Loka"
     },
     "movePromptsTitle": {
-        "message": "Move Prompts"
+        "message": "Færa leiðbeiningar"
     },
     "movePromptsMessagePrefix": {
-        "message": "Select a destination folder for the"
+        "message": "Veldu áfangamöppu fyrir"
     },
     "selectedPromptsSuffix": {
-        "message": "selected prompts."
+        "message": "valdar leiðbeiningar."
     },
     "folderPassword": {
-        "message": "Folder Password"
+        "message": "Lykilorð möppu"
     },
     "enterFolderPasswordPlaceholder": {
-        "message": "Enter password for locked folder"
+        "message": "Sláðu inn lykilorð fyrir læsta möppu"
     },
     "deleteFolderTitle": {
-        "message": "Delete Folder"
+        "message": "Eyða möppu"
     },
     "deleteFolderMessage": {
-        "message": "What would you like to do with the prompts inside this folder?"
+        "message": "Hvað viltu gera við leiðbeiningarnar í þessari möppu?"
     },
     "deleteFolderMovePrompts": {
-        "message": "Delete Folder & Move Prompts"
+        "message": "Eyða möppu og færa kvaðningar"
     },
     "deleteFolderAndPrompts": {
-        "message": "Delete Folder & All Prompts"
+        "message": "Eyða möppu og öllum kvaðningum"
     },
     "resetDataMessage": {
-        "message": "Are you sure you want to reset all data? This will permanently delete all prompts, folders, and tags. This action cannot be undone."
+        "message": "Ertu viss um að þú viljir endurstilla öll gögn? Þetta mun eyða öllum leiðbeiningum, möppum og merkjum varanlega. Ekki er hægt að afturkalla þessa aðgerð."
     },
     "confirmResetAll": {
-        "message": "Yes, Reset Everything"
+        "message": "Já, endurstilltu allt"
     },
     "renameFolder": {
-        "message": "Rename Folder"
+        "message": "Endurnefna möppu"
     },
     "dangerZone": {
-        "message": "Danger Zone"
+        "message": "Hættusvæði"
     },
     "deleteFolder": {
-        "message": "Delete Folder"
+        "message": "Eyða möppu"
     },
     "manageTagsTitle": {
-        "message": "Manage Tags"
+        "message": "Stjórna merkjum"
     },
     "leavePageTitle": {
-        "message": "Leave Page?"
+        "message": "Yfirgefa síðu?"
     },
     "leavePageMessage": {
-        "message": "Are you sure you want to leave this page? Any unsaved changes may be lost."
+        "message": "Ertu viss um að þú viljir yfirgefa þessa síðu? Allar breytingar sem ekki eru vistaðar geta glatast."
     },
     "stay": {
-        "message": "Stay"
+        "message": "Dvöl"
     },
     "leave": {
-        "message": "Leave"
+        "message": "Yfirgefa"
     },
     "dontAskAgainThisSession": {
-        "message": "Don't ask again for this session"
+        "message": "Ekki biðja aftur um þennan fund"
     },
     "ok": {
-        "message": "OK"
+        "message": "ÓKEI"
     },
     "exportShort": {
-        "message": "Export"
+        "message": "Útflutningur"
     },
     "importShort": {
-        "message": "Import"
+        "message": "Innflutningur"
     },
     "promptLockedEnterPassword": {
         "message": "Þessi kvaðning er læst. Sláðu inn lykilorð til að setja það inn:"
@@ -641,35 +641,35 @@
         "message": "Bæta við hvetjandi safn"
     },
     "titleQuickPreview": {
-        "message": "Quick preview"
+        "message": "Fljótleg forskoðun"
     },
     "headerQuickPreview": {
-        "message": "Quick Preview Settings"
+        "message": "Quick Preview Stillingar"
     },
     "quickPreviewDescription": {
-        "message": "Configure which search engines appear in the quick preview bubble. Only HTTP GET-based search engines are supported."
+        "message": "Stilltu hvaða leitarvélar birtast í flýtiforskoðunarbólunni. Aðeins HTTP GET-undirstaða leitarvélar eru studdar."
     },
     "disableQuickPreview": {
-        "message": "Disable quick preview of search results"
+        "message": "Slökkva á flýtiforskoðun leitarniðurstaðna"
     },
     "filterQuickPreviewByLanguage": {
-        "message": "Filter Quick Preview by selection language"
+        "message": "Sía flýtiforskoðun eftir valtungumáli"
     },
     "filterQuickPreviewByLanguageNote": {
-        "message": "When enabled, only engines whose language matches the detected selection language are shown. If no engines match, all are shown as a fallback."
+        "message": "Þegar það er virkt birtast aðeins vélar þar sem tungumálið passar við valið sem greindist. Ef engar vélar passa saman eru allar sýndar sem varabúnaður."
     },
     "recheckDescription": {
-        "message": "Re-check engines will verify if each and every search engine is still available and responsive. A red warning icon will appear next to any engines that may not render correctly in the Quick preview bubble. This may take a while."
+        "message": "Endurskoðunarvélar munu sannreyna hvort hver og ein leitarvél sé enn tiltæk og móttækileg. Rautt viðvörunartákn mun birtast við hliðina á öllum vélum sem gætu ekki birt rétt í Quick forskoðunarbólunni. Þetta getur tekið smá tíma."
     },
     "recheckEngines": {
-        "message": "Re-check engines"
+        "message": "Athugaðu vélar aftur"
     },
     "editIconPrompt": {
-        "message": "Edit icon URL for \"$1\"\n\nEnter a URL to an image (preferably SVG).\nLeave empty to use the default search engine icon.",
+        "message": "Breyta slóð táknsins fyrir \"$1\"\n\nSláðu inn vefslóð á mynd (helst SVG).\nSkildu eftir autt til að nota sjálfgefið leitarvélartákn.",
         "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
     },
     "disableQuickPreviewByNote": {
-        "message": "Checking this option automatically disables the quick preview of search results."
+        "message": "Ef þú hakar við þennan valkost slekkur sjálfkrafa á fljótlegri forskoðun leitarniðurstaðna."
     },
     "__WET_LOCALE__": {
         "message": "is"
