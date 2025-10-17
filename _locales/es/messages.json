@@ -375,7 +375,7 @@
         "message": "No se ha podido recuperar la URL para eliminar el marcador"
     },
     "notifyCustomCssSaved": {
-        "message": "Custom CSS saved for \"$1\".",
+        "message": "CSS personalizado guardado para «$1».",
         "description": "Shown after saving custom CSS for a specific search engine; $1 is the engine name"
     },
     "notifyAIMinimalRequirements": {
@@ -461,175 +461,175 @@
         "message": "Sugerencias de búsqueda..."
     },
     "promptsHeading": {
-        "message": "Prompts"
+        "message": "Indicaciones"
     },
     "newPromptTitle": {
-        "message": "New Prompt"
+        "message": "Nuevo mensaje"
     },
     "foldersHeading": {
-        "message": "Folders"
+        "message": "Carpetas"
     },
     "newFolderTitle": {
-        "message": "New Folder"
+        "message": "Nueva carpeta"
     },
     "newFolderNamePlaceholder": {
-        "message": "New folder name..."
+        "message": "Nombre de la nueva carpeta..."
     },
     "tagsHeading": {
-        "message": "Tags"
+        "message": "Etiquetas"
     },
     "newTagTitle": {
-        "message": "New Tag"
+        "message": "Nueva etiqueta"
     },
     "newTagNamePlaceholder": {
-        "message": "New tag name..."
+        "message": "Nuevo nombre de etiqueta..."
     },
     "addTag": {
-        "message": "Add Tag"
+        "message": "Añadir etiqueta"
     },
     "settings": {
-        "message": "Settings"
+        "message": "Configuración"
     },
     "select": {
-        "message": "Select"
+        "message": "Seleccionar"
     },
     "cancel": {
-        "message": "Cancel"
+        "message": "Cancelar"
     },
     "delete": {
-        "message": "Delete"
+        "message": "Eliminar"
     },
     "sortNewest": {
-        "message": "Newest"
+        "message": "Más reciente"
     },
     "sortTitleAsc": {
-        "message": "Title (A-Z)"
+        "message": "Título (A-Z)"
     },
     "noPromptsPlaceholder": {
-        "message": "No prompts here yet. Let's create one!"
+        "message": "Aún no hay indicaciones aquí. ¡Creemos una!"
     },
     "createNewPrompt": {
-        "message": "Create New Prompt"
+        "message": "Crear nueva solicitud"
     },
     "backToTop": {
-        "message": "Back to Top"
+        "message": "Volver al inicio"
     },
     "noPromptSelectedMessage": {
-        "message": "Select a prompt to view, or create a new one."
+        "message": "Seleccione un mensaje para ver o cree uno nuevo."
     },
     "titleLabel": {
-        "message": "Title"
+        "message": "Título"
     },
     "lock": {
-        "message": "Lock"
+        "message": "Bloquear"
     },
     "promptTitlePlaceholder": {
-        "message": "Prompt Title"
+        "message": "Título del mensaje"
     },
     "folderLabel": {
-        "message": "Folder"
+        "message": "Carpeta"
     },
     "promptLabel": {
-        "message": "Prompt"
+        "message": "Solicitud"
     },
     "promptBodyPlaceholder": {
-        "message": "The content of your prompt..."
+        "message": "El contenido de tu mensaje..."
     },
     "copyPromptBody": {
-        "message": "Copy prompt body"
+        "message": "Copiar el cuerpo del mensaje"
     },
     "fullscreenEditor": {
-        "message": "Fullscreen Editor"
+        "message": "Editor a pantalla completa"
     },
     "notesLabel": {
-        "message": "Notes"
+        "message": "Notas"
     },
     "notesPlaceholder": {
-        "message": "Add extra details or context..."
+        "message": "Añade detalles adicionales o contexto..."
     },
     "tagsLabel": {
-        "message": "Tags"
+        "message": "Etiquetas"
     },
     "addTagsPlaceholder": {
-        "message": "Add tags..."
+        "message": "Añadir etiquetas..."
     },
     "save": {
-        "message": "Save"
+        "message": "Guardar"
     },
     "close": {
-        "message": "Close"
+        "message": "Cerrar"
     },
     "saveAndClose": {
-        "message": "Save & Close"
+        "message": "Guardar y cerrar"
     },
     "movePromptsTitle": {
-        "message": "Move Prompts"
+        "message": "Mensajes de movimiento"
     },
     "movePromptsMessagePrefix": {
-        "message": "Select a destination folder for the"
+        "message": "Seleccione una carpeta de destino para el"
     },
     "selectedPromptsSuffix": {
-        "message": "selected prompts."
+        "message": "indicaciones seleccionadas."
     },
     "folderPassword": {
-        "message": "Folder Password"
+        "message": "Contraseña de carpeta"
     },
     "enterFolderPasswordPlaceholder": {
-        "message": "Enter password for locked folder"
+        "message": "Introduzca la contraseña para la carpeta bloqueada."
     },
     "deleteFolderTitle": {
-        "message": "Delete Folder"
+        "message": "Eliminar carpeta"
     },
     "deleteFolderMessage": {
-        "message": "What would you like to do with the prompts inside this folder?"
+        "message": "¿Qué te gustaría hacer con las indicaciones que hay dentro de esta carpeta?"
     },
     "deleteFolderMovePrompts": {
-        "message": "Delete Folder & Move Prompts"
+        "message": "Eliminar carpeta y mover avisos"
     },
     "deleteFolderAndPrompts": {
-        "message": "Delete Folder & All Prompts"
+        "message": "Eliminar carpeta y todas las indicaciones"
     },
     "resetDataMessage": {
-        "message": "Are you sure you want to reset all data? This will permanently delete all prompts, folders, and tags. This action cannot be undone."
+        "message": "¿Está seguro de que desea restablecer todos los datos? Esto eliminará permanentemente todas las indicaciones, carpetas y etiquetas. Esta acción no se puede deshacer."
     },
     "confirmResetAll": {
-        "message": "Yes, Reset Everything"
+        "message": "Sí, restablecer todo."
     },
     "renameFolder": {
-        "message": "Rename Folder"
+        "message": "Cambiar nombre de carpeta"
     },
     "dangerZone": {
-        "message": "Danger Zone"
+        "message": "Zona de peligro"
     },
     "deleteFolder": {
-        "message": "Delete Folder"
+        "message": "Eliminar carpeta"
     },
     "manageTagsTitle": {
-        "message": "Manage Tags"
+        "message": "Gestionar etiquetas"
     },
     "leavePageTitle": {
-        "message": "Leave Page?"
+        "message": "¿Salir de la página?"
     },
     "leavePageMessage": {
-        "message": "Are you sure you want to leave this page? Any unsaved changes may be lost."
+        "message": "¿Está seguro de que desea salir de esta página? Cualquier cambio no guardado se perderá."
     },
     "stay": {
-        "message": "Stay"
+        "message": "Quédate"
     },
     "leave": {
-        "message": "Leave"
+        "message": "Salir"
     },
     "dontAskAgainThisSession": {
-        "message": "Don't ask again for this session"
+        "message": "No vuelvas a preguntar por esta sesión."
     },
     "ok": {
-        "message": "OK"
+        "message": "De acuerdo."
     },
     "exportShort": {
-        "message": "Export"
+        "message": "Exportar"
     },
     "importShort": {
-        "message": "Import"
+        "message": "Importar"
     },
     "promptLockedEnterPassword": {
         "message": "Este mensaje está bloqueado. Introduzca la contraseña para insertarlo:"
@@ -641,35 +641,35 @@
         "message": "Añadir a la biblioteca de mensajes"
     },
     "titleQuickPreview": {
-        "message": "Quick preview"
+        "message": "Vista previa rápida"
     },
     "headerQuickPreview": {
-        "message": "Quick Preview Settings"
+        "message": "Configuración de vista previa rápida"
     },
     "quickPreviewDescription": {
-        "message": "Configure which search engines appear in the quick preview bubble. Only HTTP GET-based search engines are supported."
+        "message": "Configure qué motores de búsqueda aparecen en la burbuja de vista previa rápida. Solo se admiten motores de búsqueda basados en HTTP GET."
     },
     "disableQuickPreview": {
-        "message": "Disable quick preview of search results"
+        "message": "Desactivar la vista previa rápida de los resultados de búsqueda"
     },
     "filterQuickPreviewByLanguage": {
-        "message": "Filter Quick Preview by selection language"
+        "message": "Filtrar vista previa rápida por idioma seleccionado"
     },
     "filterQuickPreviewByLanguageNote": {
-        "message": "When enabled, only engines whose language matches the detected selection language are shown. If no engines match, all are shown as a fallback."
+        "message": "Cuando está habilitado, solo se muestran los motores cuyo idioma coincide con el idioma seleccionado. Si ningún motor coincide, se muestran todos como alternativa."
     },
     "recheckDescription": {
-        "message": "Re-check engines will verify if each and every search engine is still available and responsive. A red warning icon will appear next to any engines that may not render correctly in the Quick preview bubble. This may take a while."
+        "message": "Los motores de reverificación comprobarán si todos y cada uno de los motores de búsqueda siguen estando disponibles y respondiendo. Aparecerá un icono de advertencia rojo junto a cualquier motor que no se muestre correctamente en la burbuja de vista previa rápida. Esto puede tardar un poco."
     },
     "recheckEngines": {
-        "message": "Re-check engines"
+        "message": "Vuelva a comprobar los motores."
     },
     "editIconPrompt": {
-        "message": "Edit icon URL for \"$1\"\n\nEnter a URL to an image (preferably SVG).\nLeave empty to use the default search engine icon.",
+        "message": "Editar URL del icono para «$1»\n\nIntroduzca una URL a una imagen (preferiblemente SVG).\nDéjelo vacío para utilizar el icono predeterminado del motor de búsqueda.",
         "description": "Prompt shown when editing the icon URL for a search engine; $1 is the engine name"
     },
     "disableQuickPreviewByNote": {
-        "message": "Checking this option automatically disables the quick preview of search results."
+        "message": "Al marcar esta opción, se desactiva automáticamente la vista previa rápida de los resultados de búsqueda."
     },
     "__WET_LOCALE__": {
         "message": "es"
