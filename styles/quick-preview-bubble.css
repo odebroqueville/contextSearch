@@ -45,6 +45,16 @@
     overflow-y: auto;
 }
 
+/* Hide scrollbars in the vertical tab list while keeping it scrollable */
+.qp-tab-titles {
+    -ms-overflow-style: none; /* IE and old Edge */
+    scrollbar-width: none; /* Firefox */
+}
+.qp-tab-titles::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
 .qp-tab-item {
     width: 100%;
     height: 40px;
@@ -98,9 +108,10 @@
 }
 
 .qp-tab-content {
-    width: 350px;
+    width: 330px;
+    max-width: 330px; /* Hard cap to ensure content never exceeds 330px */
     height: 100%;
-    flex: 1 0 350px;
+    flex: 1 0 330px;
     color: #cccccc;
     background: #444444;
     position: relative; /* Changed from flex to relative for iframe positioning */
@@ -147,7 +158,17 @@
     background: #444444;
     overflow-x: hidden; /* Force hide horizontal overflow */
     overflow-y: auto; /* Allow vertical scroll */
-    max-width: 350px; /* Hard constraint to prevent any overflow beyond container */
+    max-width: 330px; /* Hard constraint aligned with tab content width */
+}
+
+/* Hide scrollbars of the iframe while allowing wheel/trackpad scrolling */
+.qp-preview-frame {
+    -ms-overflow-style: none; /* IE and old Edge */
+    scrollbar-width: none; /* Firefox */
+}
+.qp-preview-frame::-webkit-scrollbar {
+    width: 0;
+    height: 0;
 }
 
 /* Generic smaller viewport hint for narrow frames to encourage compact layouts */
@@ -181,6 +202,8 @@
     left: 0;
     width: 100%;
     height: 100%;
+    /* Ensure loading overlay never intercepts input; iframe should remain interactive */
+    pointer-events: none;
 }
 
 .qp-spinner {

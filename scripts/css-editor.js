@@ -5,25 +5,55 @@ import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
 import { syntaxHighlighting, defaultHighlightStyle } from '@codemirror/language';
 import { css as cssLang } from '@codemirror/lang-css';
 
-// Params from URL
+// Params from URL (do NOT double-decode; URLSearchParams already decodes)
 const params = new URLSearchParams(window.location.search);
-const engineId = params.get('id');
-const engineName = params.get('name');
-const currentCSS = decodeURIComponent(params.get('css') || '');
+const engineId = params.get('id') || '';
+const engineName = params.get('name') || '';
+const urlCSS = params.get('css');
+
+// Resolve initial CSS safely; if absent or invalid, we'll fallback to storage
+let initialCSS = '';
+try {
+    initialCSS = (urlCSS == null || urlCSS === 'undefined') ? '' : String(urlCSS);
+} catch (_) {
+    initialCSS = '';
+}
 
 let view = null;
 
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
     // Title
     const titleElement = document.getElementById('editor-title');
     if (titleElement && engineName) {
-        titleElement.textContent = `CSS Editor: ${decodeURIComponent(engineName)}`;
+        titleElement.textContent = `CSS Editor: ${engineName}`;
+    }
+
+    // Determine starting CSS: prefer URL param; if missing/invalid, pull from storage
+    let startCSS = initialCSS;
+    if (!startCSS && engineId) {
+        try {
+            const storage = (typeof browser !== 'undefined' && browser.storage && browser.storage.local)
+                ? browser.storage.local
+                : (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local)
+                    ? chrome.storage.local
+                    : null;
+            if (storage && typeof storage.get === 'function') {
+                const result = await storage.get('quickPreview');
+                const qp = result && result.quickPreview ? result.quickPreview : {};
+                const cssFromStorage = qp.engines && qp.engines[engineId] && qp.engines[engineId].customCSS;
+                if (typeof cssFromStorage === 'string') {
+                    startCSS = cssFromStorage;
+                }
+            }
+        } catch (_) {
+            // ignore and use empty/default
+        }
     }
 
     // Create CM6 editor
     const parent = document.getElementById('editor');
     const startState = EditorState.create({
-        doc: currentCSS,
+        doc: startCSS || '',
         extensions: [
             cssLang(),
             history(),

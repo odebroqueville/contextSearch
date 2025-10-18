@@ -870,6 +870,12 @@ function displayCachedIframe(cacheEntry) {
     const { iframe } = cacheEntry;
     const isLoaded = Boolean(cacheEntry.loaded);
 
+    // Clear any lingering loading overlays before switching iframes
+    try {
+        const overlays = contentContainer.querySelectorAll('.qp-loading');
+        overlays.forEach((el) => el.remove());
+    } catch (_) { /* ignore */ }
+
     // Clear current content
     clearContentContainer(true);
 
@@ -981,12 +987,31 @@ function frameEngineUrl(url, engineId) {
     loadingDiv.appendChild(loadingText);
     contentContainer.appendChild(loadingDiv);
 
-    // Ask SW to apply a per-tab mobile UA for subframes (better 300px-fit layouts)
+    // Decide whether to use a compact/mobile UA for this engine.
+    // DeepL (and a few SPA apps) rely on desktop wheel behavior; forcing a mobile UA can break mouse-wheel scrolling.
+    const shouldUseMobileUA = (() => {
+        try {
+            const h = new URL(url).hostname.toLowerCase();
+            // Known exceptions where desktop UA yields better UX in a tiny iframe
+            const exceptions = [
+                'deepl.com', // breaks wheel scrolling under mobile UA
+            ];
+            if (exceptions.some((ex) => h === ex || h.endsWith(`.${ex}`))) return false;
+        } catch (_) {
+            // If URL parsing fails, fall back to enabling mobile UA
+        }
+        return true;
+    })();
+
     try {
-        // Thread an Accept-Language aligned with the engine/selection language for region-specific behavior
         const desiredLang = (quickPreviewData?.engines?.[engineId]?.lang || selectionLangCache || '').trim();
         const acceptLanguage = desiredLang ? `${desiredLang},en;q=0.8` : 'en-US,en;q=0.9';
-        browser.runtime.sendMessage({ action: 'enableQuickPreviewMobileUA', acceptLanguage });
+        if (shouldUseMobileUA) {
+            browser.runtime.sendMessage({ action: 'enableQuickPreviewMobileUA', acceptLanguage });
+        } else {
+            // Ensure any previously enabled mobile UA is turned off for this tab before loading the frame
+            browser.runtime.sendMessage({ action: 'disableQuickPreviewMobileUA' });
+        }
     } catch (e) {
         // Non-fatal: UA tweak failed or unsupported
     }
@@ -1003,6 +1028,8 @@ function frameEngineUrl(url, engineId) {
     }
     iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
     iframe.setAttribute('allow', 'clipboard-read; clipboard-write;');
+    // Hint that vertical panning is intended; helps some engines with nested gesture handling
+    try { iframe.style.touchAction = 'pan-y'; } catch (_) { /* ignore */ }
     // No sandbox to allow full site rendering; DNR will strip frame-blocking headers
 
     let attempts = 0;
