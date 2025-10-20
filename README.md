@@ -211,6 +211,9 @@ You can also add custom CSS rules you'd like to see applied to the search result
 
 The Quick Preview CSS Editor is a powerful customization tool that allows you to personalize the appearance and behavior of the Quick Preview bubble. To access the CSS editor, navigate to the Options page, select the "Quick preview" tab, and look for the "CSS" button that opens the CSS editor interface.
 
+> [!NOTE]
+> It can be quite tricky to get some search results to look good in an iframe. Google, for example, uses a complex system of CSS rules that make it difficult to adjust the layout.
+
 ### Language Filtering
 
 Quick Preview includes an intelligent language filtering feature. When you select text, the extension attempts to detect the language of your selection. If you've assigned language codes to your search engines (e.g., "en" for English, "fr" for French, "ja" for Japanese), the Quick Preview bubble will prioritize showing only search engines that match the detected language. This ensures you see the most relevant results for content in different languages.

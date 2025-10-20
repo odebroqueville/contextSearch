@@ -3,7 +3,7 @@
     "closeGridOnMouseOut": true,
     "disableAI": false,
     "disableAltClick": false,
-    "disableDoubleClick": true,
+    "disableDoubleClick": false,
     "disableQuickPreview": false,
     "displayFavicons": false,
     "exactMatch": false,
@@ -16,7 +16,7 @@
     "offsetX": 12,
     "offsetY": 12,
     "optionsMenuLocation": "bottom",
-    "overwriteSearchEngines": false,
+    "overwriteData": false,
     "privateMode": false,
     "quickIconGrid": false,
     "resetPreferences": false,
@@ -1241,7 +1241,7 @@
     "engines": {
       "adobe": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1261,7 +1261,7 @@
       },
       "ask": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1271,7 +1271,7 @@
       },
       "baidu": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1291,7 +1291,7 @@
       },
       "boursorama": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1302,7 +1302,7 @@
       "britannica": {
         "_preflightDone": true,
         "blocked": false,
-        "customCSS": "#header, .bg-navy-dark, div.container.mb-50, footer {\n    display: none !important;\n}\n\nbody {\n    color: #93a8c6 !important;\n}\n\ndiv.search-results ul.list-unstyled.results li {\n    margin-bottom: 10px !important;\n}\n\ndiv.search-results ul.list-unstyled.results li a {\n    font-weight: bold !important;\n}",
+        "customCSS": "#header > div.d-none.hamburger-menu-subscription-link, #global-nav-react, div.bg-navy-dark, #header > div.global-nav-top-bar > div > div.col-35.col-sm-auto.text-right.order-3.mr-lg-15.align-items-center.d-flex.justify-content-end, div.container.mb-50, footer {\n    display: none !important;\n}\n\n#header {\n  margin-bottom: 7px !important;\n}\n\nbody {\n    color: #93a8c6 !important;\n}\n\ndiv.search-results ul.list-unstyled.results li {\n    margin-bottom: 10px !important;\n}\n\ndiv.search-results ul.list-unstyled.results li a {\n    font-weight: bold !important;\n}",
         "enabled": true,
         "icon": "",
         "id": "britannica",
@@ -1322,7 +1322,7 @@
       "ddg": {
         "_preflightDone": true,
         "blocked": false,
-        "customCSS": ".react-layout__section--aside, .serp__right, #sidebar { display: none !important; }\n.site-wrapper { min-width: 0 !important; max-width: 100% !important; }",
+        "customCSS": ".react-layout__section--aside, .serp__right, #sidebar, span[data-testid=\"feedback-prompt\"] { \n  display: none !important; \n}\n\n.site-wrapper { \n  min-width: 0 !important; \n  max-width: 100% !important; \n}\n",
         "enabled": true,
         "icon": "",
         "id": "ddg",
@@ -1341,7 +1341,7 @@
       },
       "dictionary.com": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1351,7 +1351,7 @@
       },
       "ebay": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1361,7 +1361,7 @@
       },
       "ecosia": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1391,7 +1391,7 @@
       },
       "exa": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1401,7 +1401,7 @@
       },
       "facebook": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1411,7 +1411,7 @@
       },
       "gmaps": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1422,16 +1422,16 @@
       "google": {
         "_preflightDone": true,
         "blocked": false,
-        "customCSS": "",
-        "enabled": true,
+        "customCSS": ".vOY7J {\n  height: auto !important;\n}\n\n.XDyW0e, .nDcEnd {\n  padding: 0 2px !important;\n}\n\ndiv.mWcf0e {\n  display: none !important;\n}\n",
+        "enabled": false,
         "icon": "",
         "id": "google",
-        "index": 1,
+        "index": null,
         "lang": ""
       },
       "google-dictionary": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1441,7 +1441,7 @@
       },
       "google-news": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1451,7 +1451,7 @@
       },
       "gscholar": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1461,7 +1461,7 @@
       },
       "gtranslate": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1471,7 +1471,7 @@
       },
       "icons8": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1481,7 +1481,7 @@
       },
       "imdb": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1491,7 +1491,7 @@
       },
       "instagram-viewer": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1501,7 +1501,7 @@
       },
       "istock": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1541,7 +1541,7 @@
       },
       "linkedin": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1601,7 +1601,7 @@
       },
       "pinterest": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1611,7 +1611,7 @@
       },
       "pixabay": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1621,7 +1621,7 @@
       },
       "quora": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1631,7 +1631,7 @@
       },
       "qwant": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1641,7 +1641,7 @@
       },
       "reddit": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1651,7 +1651,7 @@
       },
       "reverso-en--->-fr": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1661,7 +1661,7 @@
       },
       "se": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1671,7 +1671,7 @@
       },
       "searxng": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1681,7 +1681,7 @@
       },
       "spotify": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1691,12 +1691,12 @@
       },
       "startpage": {
         "_preflightDone": true,
-        "blocked": true,
-        "customCSS": "",
-        "enabled": false,
+        "blocked": false,
+        "customCSS": "header, footer, .layout-web__header, .layout-web__footer, .layout-web__sidebar, .feedback-widget, .feedback-widget-sidecar, .layout-web__inline-nav-container, .pagination, .w-gl__label, .ay-gl-tp, .sp-gl, #filters-container, .feedback-serp-container, .feedback-serp-container + div {\n display: none !important;\n}\n\nbody, .layout-web__body, .w-gl, .w-gl__description {\n  background: var(--v-ground-base) !important;\n  color: var(--v-text-base) !important;\n}\n\np {\n  padding: 5px;\n}\n\n.dictionary, .sx-infobox, .sx-infobox tr > * {\n  background: var(--v-secondary-base) !important;\n  color: var(--v-text-base) !important;\n}\n\n.sx-kp-tab, .sx-kp-subheading {\n  color: var(--v-text-base) !important;\n}\n\n.result-link, a, a * {\n  color: var(--v-anchor-base) !important;\n}\n\n.layout-web__body {\n padding-top: 0 !important;\n}\n\n.sx-kp-collapse-btn {\n   background: var(--v-primary-base) !important;\n   color: var(--v-contrast-base) !important;\n}\n\nbody {\n    --sx-accent: #A7B1FC;\n    --sx-background: var(--v-secondary-base);\n    --sx-border: var(--v-secondary-darken1);\n    --sx-tabLinkHover: #A7B1FC;\n    --sx-foreground: var(--v-text-base);\n    --sx-foregroundAlt: var(--v-text-base);\n    --sx-foregroundEmphasis: var(--v-ptext-base);\n    --sx-popupBackground: var(--v-secondary-base);\n    --sx-popupForeground: var(--v-text-base);\n}\n\n.lexical-type {\n  color: #61a447 !important;\n}\n\n.definition-container {\n  color: #cfcfcf !important;\n}\n\n.css-91rsav, .css-1qv3x9c {\n  color: #7c9afd !important;\n}\n\n.synonym {\n  border-radius: 15px;\n  padding: 1px 6px 4px 6px !important;\n}\n\n.description {\n  color: #44b9c3 !important;\n}",
+        "enabled": true,
         "icon": "",
         "id": "startpage",
-        "index": null,
+        "index": 1,
         "lang": ""
       },
       "swisscows": {
@@ -1711,7 +1711,7 @@
       },
       "temu": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1731,7 +1731,7 @@
       },
       "tiktok": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1741,7 +1741,7 @@
       },
       "tradingview-chart": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1751,7 +1751,7 @@
       },
       "twitter": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1771,7 +1771,7 @@
       },
       "unsplash": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1791,7 +1791,7 @@
       },
       "vocabulary.com": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1831,7 +1831,7 @@
       },
       "wiktionary": {
         "_preflightDone": true,
-        "blocked": false,
+        "blocked": true,
         "customCSS": "header {\n    display: none;\n}\n\nmain {\n    margin-top: 25px;\n}\n\nbody {\n    color: #bdcbdd !important;\n}\n\nbutton {\n    display: none !important;\n}",
         "enabled": false,
         "icon": "",
@@ -1841,7 +1841,7 @@
       },
       "wolframalpha": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1851,7 +1851,7 @@
       },
       "world-history-encyclopedi": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1861,7 +1861,7 @@
       },
       "yahoo": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1871,7 +1871,7 @@
       },
       "yahoo!finance-symbol-look": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",
@@ -1901,7 +1901,7 @@
       },
       "youtube": {
         "_preflightDone": true,
-        "blocked": true,
+        "blocked": false,
         "customCSS": "",
         "enabled": false,
         "icon": "",

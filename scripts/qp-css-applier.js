@@ -686,6 +686,8 @@ html, body { -ms-overflow-style: none !important; scrollbar-width: none !importa
 html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0 !important; height: 0 !important; display: none !important; }
 /* Also hide on nested scroll containers to avoid secondary bars */
 *::-webkit-scrollbar { width: 0 !important; height: 0 !important; }
+/* Firefox: ensure nested scroll containers also hide scrollbars */
+*, *::before, *::after { scrollbar-width: none !important; }
 `.trim();
 
         // Host-level overrides for stubborn layouts
@@ -774,63 +776,6 @@ html[style*='overflow: hidden'], body[style*='overflow: hidden'] {
 `;
             }
             // Google Search: clamp layout to narrow single-column and prevent horizontal overflow
-            if (/google\.[a-z.]+$/i.test(location.hostname || '')) {
-                hostSpecificCSS += `
-/* Google Search narrow frame adjustments */
-html, body { min-width: 0 !important; max-width: 100% !important; width: auto !important; overflow-x: hidden !important; overflow-x: clip !important; margin-left: 0 !important; margin-right: 0 !important; padding: 0 10px !important; }
-/* Hide right rail / sidebars that force width */
-#rhs, [role='complementary'], .commercial-unit-desktop-right, #tadsb, #tad-desktop { display: none !important; max-width: 0 !important; width: 0 !important; }
-/* Override the grid system to collapse to single column */
-.YNk70c, .NbTBrb, .GyAeWb, .tXI1nd, #rcnt { 
-    display: block !important; 
-    grid-template-columns: 1fr !important;
-    max-width: 100% !important; 
-    width: auto !important; 
-    overflow-x: hidden !important; 
-}
-/* Force center column to full width instead of grid positioning */
-.ufC5Cb, .s6JM6d { 
-    grid-column: 1 !important; 
-    grid-column-start: 1 !important;
-    grid-column-end: 2 !important;
-    min-width: 0 !important; 
-    max-width: 100% !important; 
-    width: 100% !important;
-    margin: 0 !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-}
-/* Clamp main containers to frame width */
-#cnt, #rcnt, #center_col, #search, #rso, main, #res { max-width: 100% !important; width: auto !important; overflow-x: hidden !important; }
-/* Prevent grids/cards from widening the layout */
-#search *, #rso *, #res *, #center_col * { max-width: 100% !important; min-width: 0 !important; }
-/* Common result blocks */
-.g, .tF2Cxc, .IsZvec, .yuRUbf, .VwiC3b, .hlcw0c, .MjjYud, .kvH3mc { max-width: 100% !important; width: auto !important; overflow-x: hidden !important; }
-/* Tighten header and appbar to avoid internal horizontal scroll */
-#topabar, #appbar, #searchform, .sfbg, .minidiv, .appbar { overflow-x: hidden !important; max-width: 100% !important; }
-/* Images and tables fit frame */
-img, video, canvas, svg { max-width: 100% !important; height: auto !important; }
-table { width: 100% !important; table-layout: auto !important; display: block !important; overflow-x: auto !important; }
-/* Wrap long text to avoid overflow */
-#search a, #search p, #search span, #search div { word-break: break-word !important; overflow-wrap: anywhere !important; }
-
-/* Additional rules for knowledge panels and special content */
-.kp-wholepage, .ss6qqb, .zLsiYe, .mnr-c { max-width: 100% !important; width: auto !important; overflow-x: hidden !important; }
-.e8Ck0d, .VNzqVe, .e6hL7d { max-width: 100% !important; width: auto !important; overflow-x: hidden !important; }
-/* Grid layouts in knowledge panels */
-.e6hL7d { grid-template-columns: 1fr !important; }
-.W0urI, .QejDDf { grid-column: span 1 !important; max-width: 100% !important; }
-/* Featured snippets and special cards */
-.xfX4Ac, .YpyODe, .JI5uCe, .pESs7c { max-width: 100% !important; width: auto !important; overflow-x: hidden !important; }
-/* News carousel and image results */
-.KFFQ0c, .WnHMEc, .zP82e { max-width: 100% !important; overflow-x: hidden !important; }
-.O5OgBe, .lSfe4c { max-width: 100% !important; width: auto !important; }
-/* Navigation and pagination */
-.AaVjTc, .LLNLxf { max-width: 100% !important; overflow-x: auto !important; }
-/* Specific overrides for container classes */
-.ZPOWwb, .EYIWQc { max-width: 100% !important; width: auto !important; margin: 0 !important; }
-`;
-            }
         } catch (_) {
             /* ignore */
         }

@@ -35,6 +35,10 @@ const DIAG = {
     enabled: false,
 };
 
+// Hover-out close timer and global key handler guard
+let bubbleCloseHoverTimer = null;
+let escapeHandlerAttached = false;
+
 // Track last known good base engine URLs to fall back if corruption detected during live edits
 const lastGoodEngineUrls = new Map();
 
@@ -207,6 +211,17 @@ async function initQuickPreview() {
         // Listen for text selection
         document.addEventListener('mouseup', handleTextSelection);
         document.addEventListener('keyup', handleTextSelection);
+
+        // Listen for Escape key to close the bubble (attach once)
+        if (!escapeHandlerAttached) {
+            const handleEscapeKey = (e) => {
+                if (e.key === 'Escape' && bubble && bubble.classList.contains('qp-bubble-visible')) {
+                    hideBubble();
+                }
+            };
+            document.addEventListener('keydown', handleEscapeKey, true);
+            escapeHandlerAttached = true;
+        }
 
         // Setup cache invalidation
         setupCacheInvalidation();
@@ -407,6 +422,24 @@ function createBubble() {
     contentContainer = content;
 
     document.body.appendChild(bubble);
+
+    // Close when hovering out of the bubble; add a short delay to avoid flicker
+    const clearHoverTimer = () => {
+        if (bubbleCloseHoverTimer) {
+            clearTimeout(bubbleCloseHoverTimer);
+            bubbleCloseHoverTimer = null;
+        }
+    };
+    bubble.addEventListener('pointerenter', clearHoverTimer);
+    bubble.addEventListener('pointerleave', () => {
+        clearHoverTimer();
+        bubbleCloseHoverTimer = setTimeout(() => {
+            // Only hide if still visible and pointer hasn't re-entered
+            if (bubble && bubble.classList.contains('qp-bubble-visible')) {
+                hideBubble();
+            }
+        }, 150);
+    });
 }
 
 // Create a single tab item
@@ -897,6 +930,10 @@ function displayCachedIframe(cacheEntry) {
             if (loadingDiv.parentNode === contentContainer) {
                 contentContainer.removeChild(loadingDiv);
             }
+            // Reveal the iframe only after it has loaded
+            try {
+                iframe.classList.remove('qp-preview-frame-hidden');
+            } catch (_) { /* ignore */ }
             iframe.removeEventListener('load', onLoadHandler);
         };
         iframe.addEventListener('load', onLoadHandler);
@@ -913,9 +950,15 @@ function displayCachedIframe(cacheEntry) {
                 // Cross-origin, can't check - wait for load event
             }
         }
+
+        // Ensure iframe is in the container but keep it hidden until load completes
+        if (contentContainer && iframe.parentNode !== contentContainer) {
+            contentContainer.appendChild(iframe);
+        }
+        return; // Do not unhide yet
     }
 
-    // Ensure iframe is visible in the container (either immediately or while waiting for load)
+    // Already loaded: ensure iframe is visible in the container now
     showIframeInContainer(iframe);
 }
 
@@ -1018,7 +1061,8 @@ function frameEngineUrl(url, engineId) {
 
     // Build iframe
     const iframe = document.createElement('iframe');
-    iframe.className = 'qp-preview-frame';
+    // Start hidden; reveal only after load completes
+    iframe.className = 'qp-preview-frame qp-preview-frame-hidden';
     // Marker persists across redirects; used by CSS applier to scope injection and engine-specific CSS
     // Encode engineId to avoid regex character exclusions (apostrophes, etc.) and allow robust decoding in CSS applier
     try {
@@ -1095,6 +1139,11 @@ function frameEngineUrl(url, engineId) {
         } catch (e) {
             // Non-fatal: loading overlay may already be gone
         }
+
+        // Reveal the iframe now that it has loaded
+        try {
+            iframe.classList.remove('qp-preview-frame-hidden');
+        } catch (_) { /* ignore */ }
 
         // Best-effort detection of blank/blocked content
         setTimeout(() => {
@@ -1283,6 +1332,11 @@ function showBlockedContentFallback(engineId, url) {
 function hideBubble() {
     if (bubble) {
         bubble.classList.remove('qp-bubble-visible');
+    }
+    // Clear any pending hover timers
+    if (bubbleCloseHoverTimer) {
+        clearTimeout(bubbleCloseHoverTimer);
+        bubbleCloseHoverTimer = null;
     }
     // Best-effort: disable the temporary mobile UA rule for this tab
     try {

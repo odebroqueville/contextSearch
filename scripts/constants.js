@@ -209,7 +209,7 @@ export const DEFAULT_OPTIONS = {
     disableDoubleClick: false,
     disableAI: false,
     disableQuickPreview: false,
-    filterQuickPreviewByLanguage: false,
+    filterQuickPreviewByLanguage: true,
     tabMode: 'openNewTab',
     optionsMenuLocation: 'bottom',
     tabActive: false,

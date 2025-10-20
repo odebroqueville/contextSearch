@@ -22,6 +22,14 @@ function getHostTuning(url) {
     if (is(/(^|\.)boursorama\.com$/i)) {
         return { attempts: 1, timeoutMs: 3500, hardLimitMs: 8000 };
     }
+    // LinkedIn often frame-busts or stalls in iframes; keep attempts minimal
+    if (is(/(^|\.)linkedin\.com$/i)) {
+        return { attempts: 1, timeoutMs: 3000, hardLimitMs: 7000 };
+    }
+    // Merriam-Webster can be slow/iframe-hostile; avoid long retries
+    if (is(/(^|\.)merriam-webster\.com$/i)) {
+        return { attempts: 1, timeoutMs: 3500, hardLimitMs: 9000 };
+    }
     // Defaults (more responsive than before)
     return { attempts: 2, timeoutMs: 5000, hardLimitMs: 12000 };
 }
@@ -52,20 +60,55 @@ function createIframe() {
 
 async function probeOnce(url) {
     return new Promise((resolve) => {
-        if (!probeIframe) probeIframe = createIframe();
+        // Always start with a fresh iframe to avoid sticky state across probes
+        try {
+            if (probeIframe) {
+                try { probeIframe.onload = null; probeIframe.onerror = null; } catch (_) { /* ignore */ }
+                try { probeIframe.remove(); } catch (_) { /* ignore */ }
+            }
+        } catch (_) { /* ignore */ }
+        probeIframe = createIframe();
+
+        // Track all timers so they cannot fire after we've settled.
+        const pendingTimers = new Set();
+        const trackTimeout = (fn, ms) => {
+            const id = setTimeout(() => {
+                // Do nothing if we've already settled.
+                if (settled) return;
+                try {
+                    fn();
+                } catch (_) {
+                    /* ignore */
+                }
+            }, ms);
+            pendingTimers.add(id);
+            return id;
+        };
+        const clearAllTimers = () => {
+            for (const id of pendingTimers) clearTimeout(id);
+            pendingTimers.clear();
+        };
 
         let settled = false;
         const settle = (blocked) => {
             if (settled) return;
             settled = true;
             try {
-                // Keep the iframe so the user can see the final page state; clear src to reduce CPU
+                // Detach handlers first to avoid races from about:blank load.
                 if (probeIframe) {
                     try {
-                        probeIframe.src = 'about:blank';
-                    } catch (ignore) {
-                        // ignore cleanup errors
+                        probeIframe.onload = null;
+                        probeIframe.onerror = null;
+                    } catch (_) {
+                        /* ignore */
                     }
+                }
+                // Clear any delayed callbacks from this probeOnce.
+                clearAllTimers();
+                // Fully remove the iframe to ensure no sticky content or pending navigations remain
+                if (probeIframe) {
+                    try { probeIframe.remove(); } catch (_) { /* ignore */ }
+                    probeIframe = null;
                 }
             } catch (e) {
                 /* ignore cleanup errors */
@@ -76,15 +119,6 @@ async function probeOnce(url) {
         const tuning = getHostTuning(url);
         const MAX_ATTEMPTS = Math.max(1, tuning.attempts);
         let attempts = 0;
-        let timer = null;
-        let hardWatch = null;
-
-        const clearTimer = () => {
-            if (timer) {
-                clearTimeout(timer);
-                timer = null;
-            }
-        };
 
         const hasContent = (doc) => {
             try {
@@ -99,20 +133,26 @@ async function probeOnce(url) {
         };
 
         const onLoadCheck = () => {
+            if (settled) return;
             try {
                 const doc = probeIframe.contentDocument || probeIframe.contentWindow?.document;
                 if (hasContent(doc)) {
                     settle(false);
                     return;
                 }
-                setTimeout(() => {
+                // Re-check shortly; if still empty, retry or mark blocked
+                trackTimeout(() => {
+                    if (settled) return;
                     try {
                         const doc2 = probeIframe.contentDocument || probeIframe.contentWindow?.document;
-                        if (hasContent(doc2)) settle(false);
-                        else if (attempts < MAX_ATTEMPTS - 1) {
+                        if (hasContent(doc2)) {
+                            settle(false);
+                        } else if (attempts < MAX_ATTEMPTS - 1) {
                             attempts += 1;
                             doLoad();
-                        } else settle(true);
+                        } else {
+                            settle(true);
+                        }
                     } catch (_) {
                         // Cross-origin access exception generally means it loaded; treat as unblocked
                         settle(false);
@@ -124,7 +164,7 @@ async function probeOnce(url) {
         };
 
         const doLoad = () => {
-            clearTimer();
+            if (settled) return;
             try {
                 const u = new URL(url);
                 u.searchParams.set('_qpprobe', String(Date.now() % 100000));
@@ -132,28 +172,33 @@ async function probeOnce(url) {
             } catch (_) {
                 probeIframe.src = url;
             }
-            timer = setTimeout(() => {
+            // Attempt timeout
+            trackTimeout(() => {
+                if (settled) return;
                 if (attempts < MAX_ATTEMPTS - 1) {
                     attempts += 1;
                     doLoad();
-                } else settle(true);
+                } else {
+                    settle(true);
+                }
             }, tuning.timeoutMs);
-            // Ensure a hard cap per probe regardless of events
-            if (!hardWatch) {
-                hardWatch = setTimeout(() => settle(true), tuning.hardLimitMs);
-            }
+            // Hard cap per probe regardless of events
+            trackTimeout(() => settle(true), tuning.hardLimitMs);
         };
 
+        // Fresh handlers for this probe; they will be detached in settle().
         probeIframe.onload = () => {
-            clearTimer();
-            setTimeout(onLoadCheck, 700);
+            // Delay a bit to allow dynamic DOM to render
+            trackTimeout(onLoadCheck, 700);
         };
         probeIframe.onerror = () => {
-            clearTimer();
+            if (settled) return;
             if (attempts < MAX_ATTEMPTS - 1) {
                 attempts += 1;
                 doLoad();
-            } else settle(true);
+            } else {
+                settle(true);
+            }
         };
 
         doLoad();
