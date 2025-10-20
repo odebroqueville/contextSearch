@@ -1,6 +1,7 @@
 6.3.0
 =========
 
+* Ctrl+Alt+C opens a context menu with icons in Chrome
 * Added Quick Preview feature for fast access to search results of a selection of search engines
 * Uses CodeMirror 6 to enable syntax highlighting in the CSS editor
 * Uses preloading and caching for search results to appear quickly when switching
