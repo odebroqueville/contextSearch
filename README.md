@@ -196,10 +196,10 @@ It is a powerful feature that allows you to instantly preview search results fro
 
 ### How to Use Quick Preview
 
-To use Quick Preview, simply select text on any webpage. If Quick Preview is enabled in the extension's Options page and you have configured search engines for quick preview, a bubble will appear near your selection displaying the search results. You can interact with the preview just like a normal webpage - click links, scroll through results, and explore the content. If you want to open a result in a full tab, you can click the "Open in Tab" button for that search engine, or simply close the bubble to continue browsing.
+To use Quick Preview, simply select text on any webpage. If Quick Preview is enabled in the extension's Options page and you have configured search engines for quick preview, a bubble will appear near your selection displaying the search results. You can interact with the preview just like a normal webpage - click links, scroll through results, and explore the content. If you want to open a result in a full tab, you can click the "Open in Tab" button for that search engine, or simply close the bubble to continue browsing. The Escape key will close the bubble and Ctrl+Alt+B will open it again.
 
 > [!NOTE]
-> Quick Preview only works with search engines that use HTTP GET requests. Additionally, Quick Preview and the immediate opening of the Icons Grid are mutually exclusive features - enabling one will automatically disable the other to prevent conflicts.
+> For now Quick Preview only works with search engines that use HTTP GET requests. Additionally, Quick Preview and the immediate opening of the Icons Grid are mutually exclusive features - enabling one will automatically disable the other to prevent conflicts.
 
 ### Configuring Search Engines for Quick Preview
 
