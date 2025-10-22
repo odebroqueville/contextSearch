@@ -25,6 +25,11 @@ const tabItems = new Map();
 // Options cache (to read disableQuickPreview)
 let optionsCache = { disableQuickPreview: false };
 let selectionLangCache = '';
+let lastShownSelectedText = '';
+// Suppress automatic reopen after Escape (global, not tied to specific selection)
+let suppressAutoOpen = false;
+// Remember last selection rect to position bubble on manual reopen
+let lastSelectionRect = null;
 
 // Iframe cache: stores preloaded iframes for faster switching between engines
 // Key format: "selectedText|engineId" -> { iframe: HTMLIFrameElement, url: string, loaded: boolean }
@@ -35,8 +40,7 @@ const DIAG = {
     enabled: false,
 };
 
-// Hover-out close timer and global key handler guard
-let bubbleCloseHoverTimer = null;
+// Global key handler guard (Escape to close)
 let escapeHandlerAttached = false;
 
 // Track last known good base engine URLs to fall back if corruption detected during live edits
@@ -214,12 +218,60 @@ async function initQuickPreview() {
 
         // Listen for Escape key to close the bubble (attach once)
         if (!escapeHandlerAttached) {
-            const handleEscapeKey = (e) => {
+            const handleGlobalKeys = (e) => {
+                qpLog(`[Quick Preview] handleGlobalKeys called on ${e.type} event`);
+                qpLog('[Quick Preview] Global key event:', { key: e.key, code: e.code, ctrlKey: e.ctrlKey, altKey: e.altKey });
+                // Close on Escape
                 if (e.key === 'Escape' && bubble && bubble.classList.contains('qp-bubble-visible')) {
+                    // Suppress automatic reopen until selection is cleared
+                    suppressAutoOpen = true;
                     hideBubble();
+                    return;
+                }
+
+                // Re-open on Ctrl+Alt+B, relying purely on the last shown position/content
+                // Ignores current selection text; uses stored lastSelectionRect
+                if (e.ctrlKey && e.altKey && e.code === 'KeyB') {
+                    try {
+                        qpLog('[Quick Preview] Manual reopen hotkey detected (Ctrl+Alt+B)');
+                        if (optionsCache && optionsCache.disableQuickPreview) return;
+                        if (bubble && bubble.classList.contains('qp-bubble-visible')) return;
+
+                        // Lift suppression on manual reopen
+                        suppressAutoOpen = false;
+
+                        // Determine rect: prefer lastSelectionRect; otherwise synthesize a viewport-centered rect
+                        let rect = lastSelectionRect;
+                        if (!rect || !Number.isFinite(rect.top) || !Number.isFinite(rect.left)) {
+                            const top = Math.max(12, Math.floor(window.innerHeight * 0.3));
+                            const left = Math.max(12, Math.floor(window.innerWidth / 2));
+                            rect = { top, bottom: top, left, right: left, width: 0, height: 0 };
+                        }
+
+                        // Get current selection text, or use last shown
+                        let selectedText = '';
+                        try {
+                            const sel = window.getSelection && window.getSelection();
+                            selectedText = sel ? sel.toString().trim() : '';
+                        } catch (_) {
+                            selectedText = '';
+                        }
+                        const textToUse = selectedText || lastShownSelectedText || '';
+                        if (!textToUse) return;
+
+                        // Use showBubble to properly set up tabs and content
+                        showBubble(textToUse, rect);
+
+                        e.preventDefault();
+                        e.stopPropagation();
+                    } catch (_) {
+                        // Non-fatal: ignore errors in hotkey handling
+                    }
                 }
             };
-            document.addEventListener('keydown', handleEscapeKey, true);
+            // Register on keydown and keyup to improve reliability across sites
+            document.addEventListener('keydown', handleGlobalKeys, true);
+            document.addEventListener('keyup', handleGlobalKeys, true);
             escapeHandlerAttached = true;
         }
 
@@ -270,6 +322,8 @@ function handleStorageChange(changes, area) {
 
 // Handle text selection
 function handleTextSelection(event) {
+    qpLog('[Quick Preview] handleTextSelection called');
+    qpLog('[Quick Preview] Event:', event ? { type: event.type, key: event.key } : 'none');
     // Respect user preference to disable Quick Preview
     if (optionsCache && optionsCache.disableQuickPreview) {
         hideBubble();
@@ -280,14 +334,40 @@ function handleTextSelection(event) {
         qpLog('[Quick Preview] Event inside bubble, ignoring');
         return;
     }
+    // Ignore Escape keyup as it's handled by handleGlobalKeys
+    if (event && event.type === 'keyup' && event.key === 'Escape') {
+        qpLog('[Quick Preview] Escape keyup detected (ignoring)');
+        return;
+    }
+    // Ignore modifier keyups as they don't change selection
+    if (event && event.type === 'keyup' && (event.key === 'Control' || event.key === 'Alt' || event.key === 'Shift' || event.key === 'Meta')) {
+        return;
+    }
+    // Ignore Ctrl+Alt+B keyup as it's handled by handleGlobalKeys
+    if (event && event.type === 'keyup' && event.code === 'KeyB' && event.ctrlKey && event.altKey) {
+        qpLog('[Quick Preview] Manual reopen hotkey detected (Ctrl+Alt+B) (ignoring)');
+        return;
+    }
 
     const selection = window.getSelection();
     const selectedText = selection.toString().trim();
+    // If auto-open is suppressed after Escape, do not auto re-open until selection is cleared
+    if (suppressAutoOpen) {
+        if (selectedText.length === 0) {
+            // Clear suppression when selection is cleared
+            suppressAutoOpen = false;
+        } else {
+            qpLog('[Quick Preview] Auto-open suppressed after Escape');
+            return;
+        }
+    }
 
     qpLog('[Quick Preview] Text selection:', { length: selectedText.length, text: selectedText.substring(0, 50) });
 
     if (selectedText.length === 0) {
         hideBubble();
+        // Clear suppression when no selection remains
+        suppressAutoOpen = false;
         return;
     }
 
@@ -390,9 +470,27 @@ function showBubble(selectedText, rect) {
 
     // Position the bubble
     positionBubble(rect);
+    // Remember last selection rect for manual reopen (viewport coordinates)
+    try {
+        lastSelectionRect = rect
+            ? {
+                  top: rect.top,
+                  left: rect.left,
+                  width: rect.width,
+                  height: rect.height,
+                  right: rect.right,
+                  bottom: rect.bottom,
+              }
+            : null;
+    } catch (_) {
+        lastSelectionRect = rect || null;
+    }
 
     // Show the bubble
     bubble.classList.add('qp-bubble-visible');
+    lastShownSelectedText = selectedText;
+    // Showing the bubble is a positive signal; ensure suppression is lifted
+    suppressAutoOpen = false;
     qpLog('[Quick Preview] Bubble should now be visible');
 }
 
@@ -422,24 +520,6 @@ function createBubble() {
     contentContainer = content;
 
     document.body.appendChild(bubble);
-
-    // Close when hovering out of the bubble; add a short delay to avoid flicker
-    const clearHoverTimer = () => {
-        if (bubbleCloseHoverTimer) {
-            clearTimeout(bubbleCloseHoverTimer);
-            bubbleCloseHoverTimer = null;
-        }
-    };
-    bubble.addEventListener('pointerenter', clearHoverTimer);
-    bubble.addEventListener('pointerleave', () => {
-        clearHoverTimer();
-        bubbleCloseHoverTimer = setTimeout(() => {
-            // Only hide if still visible and pointer hasn't re-entered
-            if (bubble && bubble.classList.contains('qp-bubble-visible')) {
-                hideBubble();
-            }
-        }, 150);
-    });
 }
 
 // Create a single tab item
@@ -477,9 +557,10 @@ function createTabItem({ id, engine, customCSS }) {
         } else if (/^https?:\/\//i.test(custom) || /^\//.test(custom)) {
             // Fetch via background to bypass CSP and convert to data URL, then persist
             try {
-                const url = /^\//.test(custom) && typeof browser !== 'undefined' && browser.runtime?.getURL
-                    ? browser.runtime.getURL(custom.replace(/^\/+/, '/'))
-                    : custom;
+                const url =
+                    /^\//.test(custom) && typeof browser !== 'undefined' && browser.runtime?.getURL
+                        ? browser.runtime.getURL(custom.replace(/^\/+/, '/'))
+                        : custom;
                 browser.runtime
                     .sendMessage({ action: 'fetchImageAsDataUrl', url })
                     .then((resp) => {
@@ -907,7 +988,9 @@ function displayCachedIframe(cacheEntry) {
     try {
         const overlays = contentContainer.querySelectorAll('.qp-loading');
         overlays.forEach((el) => el.remove());
-    } catch (_) { /* ignore */ }
+    } catch (_) {
+        /* ignore */
+    }
 
     // Clear current content
     clearContentContainer(true);
@@ -933,7 +1016,9 @@ function displayCachedIframe(cacheEntry) {
             // Reveal the iframe only after it has loaded
             try {
                 iframe.classList.remove('qp-preview-frame-hidden');
-            } catch (_) { /* ignore */ }
+            } catch (_) {
+                /* ignore */
+            }
             iframe.removeEventListener('load', onLoadHandler);
         };
         iframe.addEventListener('load', onLoadHandler);
@@ -1073,7 +1158,11 @@ function frameEngineUrl(url, engineId) {
     iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
     iframe.setAttribute('allow', 'clipboard-read; clipboard-write;');
     // Hint that vertical panning is intended; helps some engines with nested gesture handling
-    try { iframe.style.touchAction = 'pan-y'; } catch (_) { /* ignore */ }
+    try {
+        iframe.style.touchAction = 'pan-y';
+    } catch (_) {
+        /* ignore */
+    }
     // No sandbox to allow full site rendering; DNR will strip frame-blocking headers
 
     let attempts = 0;
@@ -1143,7 +1232,9 @@ function frameEngineUrl(url, engineId) {
         // Reveal the iframe now that it has loaded
         try {
             iframe.classList.remove('qp-preview-frame-hidden');
-        } catch (_) { /* ignore */ }
+        } catch (_) {
+            /* ignore */
+        }
 
         // Best-effort detection of blank/blocked content
         setTimeout(() => {
@@ -1332,11 +1423,6 @@ function showBlockedContentFallback(engineId, url) {
 function hideBubble() {
     if (bubble) {
         bubble.classList.remove('qp-bubble-visible');
-    }
-    // Clear any pending hover timers
-    if (bubbleCloseHoverTimer) {
-        clearTimeout(bubbleCloseHoverTimer);
-        bubbleCloseHoverTimer = null;
     }
     // Best-effort: disable the temporary mobile UA rule for this tab
     try {

@@ -1265,6 +1265,19 @@ async function openCustomContextMenu() {
         text.textContent = label;
         text.style.flex = '1 1 auto';
         row.appendChild(text);
+
+        // Optional right-side indicator (e.g., chevron for folders)
+        if (optionsRow?.indicator) {
+            const indicator = document.createElement('div');
+            indicator.textContent = optionsRow.indicator;
+            Object.assign(indicator.style, {
+                marginLeft: '10px',
+                color: '#666',
+                opacity: '0.8',
+                flex: '0 0 auto',
+            });
+            row.appendChild(indicator);
+        }
         content.appendChild(row);
         lastWasDivider = false;
         return row;
@@ -1435,7 +1448,7 @@ async function openCustomContextMenu() {
                 appendRow(child.name, cIcon, () => {
                     menuState.stack.push(childId);
                     renderFolder(childId);
-                });
+                }, { indicator: '▸' });
             } else if (child.show) {
                 appendRow(child.name, cIcon, async () => {
                     closeCustomContextMenu();
