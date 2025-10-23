@@ -82,10 +82,10 @@ function debounce(func, delay) {
 }
 
 /// Global variables
+/* global DEBUG_VALUE */
 
 // Debug
-// const logToConsole = DEBUG_VALUE;  // ORIGINAL - DEBUG_VALUE is undefined without build
-const logToConsole = true; // TEMPORARY FIX - Enable logging for debugging
+const logToConsole = DEBUG_VALUE; // ORIGINAL - DEBUG_VALUE is undefined without build
 
 // ExtPay
 const extpay = ExtPay('context-search');
