@@ -1,5 +1,10 @@
-6.3.0
+6.3.1
 =========
+
+* Bug fix [#273](https://github.com/odebroqueville/contextSearch/issues/273)
+
+6.3.0
+---------
 
 * Ctrl+Alt+C opens a context menu with icons in Chrome
 * Added Quick Preview feature for fast access to search results of a selection of search engines

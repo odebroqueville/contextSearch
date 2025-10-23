@@ -1,7 +1,7 @@
 {
     "name": "contextsearch",
     "title": "Context Search",
-    "version": "6.3.0",
+    "version": "6.3.1",
     "description": "Firefox add-on to search selected text in a web page using your favorite search engines.",
     "browserslist": [
         "Firefox >= 139"
@@ -27,7 +27,7 @@
         "search engine"
     ],
     "author": "Olivier de Broqueville <olivier.debroqueville@gmail.com>",
-    "license": "EULA",
+    "license": "PolyForm Strict License 1.0.0",
     "bugs": {
         "url": "https://github.com/odebroqueville/contextSearch/issues"
     },

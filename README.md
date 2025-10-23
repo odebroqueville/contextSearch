@@ -391,7 +391,7 @@ Result: Variables are expanded first, then the bookmarklet runs with the substit
 ## Special thanks to the following contributors
 
 <ul>
-<li>@DeLaRoka, developer of Lumetrium Definer, for inspiring Quick Preview</li>
+<li>@DeLaRoka, developer of Lumetrium Definer, for inspiring Quick Preview and letting me use his CSS variables so that both projects can share the same CSS rules</li>
 <li>Carl Scheller for implementing the drag & drop feature to move search engines in the Options page</li>
 <li>Geoffrey De Belie for code contributions to the original project and for the Dutch translations</li>
 <li>Krzysztof Galazka for the Polish translations</li>
