@@ -650,7 +650,7 @@
         "message": "クイックプレビューバブルに表示される検索エンジンを設定します。HTTP GETベースの検索エンジンのみがサポートされています。"
     },
     "enableQuickPreview": {
-        "message": "Enable quick preview of search results"
+        "message": "検索結果のクイックプレビューを有効にする"
     },
     "filterQuickPreviewByLanguage": {
         "message": "選択言語によるフィルターのクイックプレビュー"
