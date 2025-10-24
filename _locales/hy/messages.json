@@ -649,8 +649,8 @@
     "quickPreviewDescription": {
         "message": "Կարգավորել, թե որոնման համակարգերն են հայտնվում արագ նախադիտման պղպջակում: Աջակցվում են միայն HTTP GET-ի վրա հիմնված որոնողական համակարգերը:"
     },
-    "disableQuickPreview": {
-        "message": "Կասեցնել որոնման արդյունքների արագ նախադիտումը"
+    "enableQuickPreview": {
+        "message": "Enable quick preview of search results"
     },
     "filterQuickPreviewByLanguage": {
         "message": "Արագ նախադիտում ըստ ընտրության լեզվի"
