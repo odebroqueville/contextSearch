@@ -649,8 +649,8 @@
     "quickPreviewDescription": {
         "message": "Hızlı önizleme balonunda hangi arama motorlarının görüneceğini yapılandırın. Yalnızca HTTP GET tabanlı arama motorları desteklenir."
     },
-    "disableQuickPreview": {
-        "message": "Arama sonuçlarının hızlı önizlemesini devre dışı bırak"
+    "enableQuickPreview": {
+        "message": "Enable quick preview of search results"
     },
     "filterQuickPreviewByLanguage": {
         "message": "Seçim diline göre Hızlı Önizlemeyi filtrele"
