@@ -649,8 +649,8 @@
     "quickPreviewDescription": {
         "message": "設定哪些搜尋引擎會顯示於快速預覽氣泡中。僅支援基於 HTTP GET 的搜尋引擎。"
     },
-    "disableQuickPreview": {
-        "message": "停用搜尋結果的快速預覽功能"
+    "enableQuickPreview": {
+        "message": "啟用搜尋結果的快速預覽"
     },
     "filterQuickPreviewByLanguage": {
         "message": "依選取語言篩選快速預覽"

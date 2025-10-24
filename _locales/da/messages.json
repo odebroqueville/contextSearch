@@ -649,8 +649,8 @@
     "quickPreviewDescription": {
         "message": "Konfigurer, hvilke søgemaskiner der skal vises i hurtigforhåndsvisningsboblen. Kun HTTP GET-baserede søgemaskiner understøttes."
     },
-    "disableQuickPreview": {
-        "message": "Deaktiver hurtig forhåndsvisning af søgeresultater"
+    "enableQuickPreview": {
+        "message": "Aktivere hurtig forhåndsvisning af søgeresultater"
     },
     "filterQuickPreviewByLanguage": {
         "message": "Filter hurtig forhåndsvisning efter valgt sprog"

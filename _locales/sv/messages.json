@@ -649,8 +649,8 @@
     "quickPreviewDescription": {
         "message": "Konfigurera vilka sökmotorer som ska visas i snabbförhandsgranskningsbubblan. Endast HTTP GET-baserade sökmotorer stöds."
     },
-    "disableQuickPreview": {
-        "message": "Inaktivera snabb förhandsgranskning av sökresultat"
+    "enableQuickPreview": {
+        "message": "Aktivera snabb förhandsgranskning av sökresultat"
     },
     "filterQuickPreviewByLanguage": {
         "message": "Filtrera snabbförhandsgranskning efter valspråk"

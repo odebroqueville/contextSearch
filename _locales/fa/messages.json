@@ -649,8 +649,8 @@
     "quickPreviewDescription": {
         "message": "پیکربندی کنید که کدام موتورهای جستجو در حباب پیش نمایش سریع ظاهر شوند. فقط موتورهای جستجوی مبتنی بر HTTP GET پشتیبانی می شوند."
     },
-    "disableQuickPreview": {
-        "message": "غیرفعال کردن پیش نمایش سریع نتایج جستجو"
+    "enableQuickPreview": {
+        "message": "فعال کردن پیش نمایش سریع نتایج جستجو"
     },
     "filterQuickPreviewByLanguage": {
         "message": "پیش نمایش سریع را بر اساس زبان انتخاب فیلتر کنید"

@@ -649,8 +649,8 @@
     "quickPreviewDescription": {
         "message": "Konfigurieren Sie, welche Suchmaschinen in der Schnellvorschau-Blase angezeigt werden. Es werden nur HTTP-GET-basierte Suchmaschinen unterstützt."
     },
-    "disableQuickPreview": {
-        "message": "Schnellvorschau der Suchergebnisse deaktivieren"
+    "enableQuickPreview": {
+        "message": "Aktivieren einer schnellen Vorschau der Suchergebnisse"
     },
     "filterQuickPreviewByLanguage": {
         "message": "Schnellvorschau nach Auswahlsprache filtern"
