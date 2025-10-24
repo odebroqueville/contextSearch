@@ -650,7 +650,7 @@
         "message": "Configureer welke zoekmachines worden weergegeven in het snelvoorbeeldvenster. Alleen op HTTP GET gebaseerde zoekmachines worden ondersteund."
     },
     "enableQuickPreview": {
-        "message": "Enable quick preview of search results"
+        "message": "Snelle preview van zoekresultaten inschakelen"
     },
     "filterQuickPreviewByLanguage": {
         "message": "Filter Snelvoorbeeld op basis van geselecteerde taal"
