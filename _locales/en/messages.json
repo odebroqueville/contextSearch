@@ -649,8 +649,8 @@
     "quickPreviewDescription": {
         "message": "Configure which search engines appear in the quick preview bubble. Only HTTP GET-based search engines are supported."
     },
-    "disableQuickPreview": {
-        "message": "Disable quick preview of search results"
+    "enableQuickPreview": {
+        "message": "Enable quick preview of search results"
     },
     "filterQuickPreviewByLanguage": {
         "message": "Filter Quick Preview by selection language"

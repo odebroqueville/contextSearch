@@ -208,7 +208,7 @@ export const DEFAULT_OPTIONS = {
     exactMatch: false,
     disableDoubleClick: false,
     disableAI: false,
-    disableQuickPreview: false,
+    enableQuickPreview: false,
     filterQuickPreviewByLanguage: true,
     tabMode: 'openNewTab',
     optionsMenuLocation: 'bottom',
@@ -234,7 +234,7 @@ export const DEFAULT_OPTIONS = {
 // Configuration for option updates
 export const UPDATE_CONFIG = {
     searchOptions: {
-        fields: ['exactMatch', 'disableDoubleClick', 'disableAI', 'disableQuickPreview', 'filterQuickPreviewByLanguage'],
+        fields: ['exactMatch', 'disableDoubleClick', 'disableAI', 'enableQuickPreview', 'filterQuickPreviewByLanguage'],
         requiresMenuRebuild: true,
     },
     displayFavicons: {

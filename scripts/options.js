@@ -22,7 +22,7 @@ const container = document.getElementById('container');
 const exactMatch = document.getElementById('exactMatch');
 const disableDoubleClick = document.getElementById('disableDoubleClick');
 const disableAI = document.getElementById('disableAI');
-const disableQuickPreview = document.getElementById('disableQuickPreview');
+const enableQuickPreview = document.getElementById('enableQuickPreview');
 const filterQuickPreviewByLanguage = document.getElementById('filterQuickPreviewByLanguage');
 const openNewTab = document.getElementById('openNewTab');
 const sameTab = document.getElementById('sameTab');
@@ -186,7 +186,7 @@ browser.storage.onChanged.addListener((changes, area) => {
 exactMatch.addEventListener('click', updateSearchOptions);
 disableDoubleClick.addEventListener('click', updateSearchOptions);
 disableAI.addEventListener('click', updateSearchOptions);
-if (disableQuickPreview) disableQuickPreview.addEventListener('click', updateSearchOptions);
+if (enableQuickPreview) enableQuickPreview.addEventListener('click', updateSearchOptions);
 if (filterQuickPreviewByLanguage) filterQuickPreviewByLanguage.addEventListener('click', updateSearchOptions);
 displayFavicons.addEventListener('click', updateDisplayFavicons);
 quickIconGrid.addEventListener('click', updateQuickIconGrid);
@@ -1837,11 +1837,11 @@ async function setOptions(options) {
         disableAI.checked = false;
     }
 
-    // Disable Quick Preview option
-    if (typeof options.disableQuickPreview === 'boolean') {
-        disableQuickPreview.checked = options.disableQuickPreview;
+    // Enable Quick Preview option
+    if (typeof options.enableQuickPreview === 'boolean') {
+        enableQuickPreview.checked = options.enableQuickPreview;
     } else {
-        disableQuickPreview.checked = false;
+        enableQuickPreview.checked = false;
     }
 
     // Quick Preview language filter option
@@ -2303,11 +2303,11 @@ async function updateSearchOptions() {
     const em = exactMatch.checked;
     const dd = disableDoubleClick.checked;
     const da = disableAI.checked;
-    const dqp = !!(disableQuickPreview && disableQuickPreview.checked);
+    const eqp = !!(enableQuickPreview && enableQuickPreview.checked);
     const fl = !!(filterQuickPreviewByLanguage && filterQuickPreviewByLanguage.checked);
 
-    // If Quick Preview is being enabled (unchecked disableQuickPreview), disable immediate grid
-    if (disableQuickPreview && !disableQuickPreview.checked && quickIconGrid.checked) {
+    // If Quick Preview is being enabled, disable immediate grid
+    if (enableQuickPreview && enableQuickPreview.checked && quickIconGrid.checked) {
         quickIconGrid.checked = false;
         await sendOptionUpdate('quickIconGrid', { quickIconGrid: false });
     }
@@ -2316,7 +2316,7 @@ async function updateSearchOptions() {
         exactMatch: em,
         disableDoubleClick: dd,
         disableAI: da,
-        disableQuickPreview: dqp,
+        enableQuickPreview: eqp,
         filterQuickPreviewByLanguage: fl,
     });
 }
@@ -2386,13 +2386,13 @@ async function updateDisplayFavicons() {
 
 async function updateQuickIconGrid() {
     // If immediate grid is being enabled, disable Quick Preview
-    if (quickIconGrid.checked && disableQuickPreview && !disableQuickPreview.checked) {
-        disableQuickPreview.checked = true;
+    if (quickIconGrid.checked && enableQuickPreview && enableQuickPreview.checked) {
+        enableQuickPreview.checked = false;
         await sendOptionUpdate('searchOptions', {
             exactMatch: exactMatch.checked,
             disableDoubleClick: disableDoubleClick.checked,
             disableAI: disableAI.checked,
-            disableQuickPreview: true,
+            enableQuickPreview: false,
             filterQuickPreviewByLanguage: !!(filterQuickPreviewByLanguage && filterQuickPreviewByLanguage.checked),
         });
     }

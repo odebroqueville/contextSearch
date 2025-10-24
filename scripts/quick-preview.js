@@ -23,7 +23,7 @@ let activeEngineId = null;
 const tabItems = new Map();
 // No longer used: background fetch logic removed
 // Options cache (to read disableQuickPreview)
-let optionsCache = { disableQuickPreview: false };
+let optionsCache = { enableQuickPreview: false };
 let selectionLangCache = '';
 let lastShownSelectedText = '';
 // Suppress automatic reopen after Escape (global, not tied to specific selection)
@@ -193,7 +193,7 @@ async function initQuickPreview() {
 
         quickPreviewData = result[STORAGE_KEYS.QUICK_PREVIEW] || { engines: {} };
         allSearchEngines = result[STORAGE_KEYS.SEARCH_ENGINES] || {};
-        optionsCache = result[STORAGE_KEYS.OPTIONS] || { disableQuickPreview: false };
+        optionsCache = result[STORAGE_KEYS.OPTIONS] || { enableQuickPreview: false };
         selectionLangCache = (result[STORAGE_KEYS.SELECTION_LANG] || '').toLowerCase();
 
         qpLog('[Quick Preview] Loaded data:', {
@@ -234,7 +234,7 @@ async function initQuickPreview() {
                 if (e.ctrlKey && e.altKey && e.code === 'KeyB') {
                     try {
                         qpLog('[Quick Preview] Manual reopen hotkey detected (Ctrl+Alt+B)');
-                        if (optionsCache && optionsCache.disableQuickPreview) return;
+                        if (optionsCache && !optionsCache.enableQuickPreview) return;
                         if (bubble && bubble.classList.contains('qp-bubble-visible')) return;
 
                         // Lift suppression on manual reopen
@@ -300,8 +300,8 @@ function handleStorageChange(changes, area) {
     }
 
     if (changes[STORAGE_KEYS.OPTIONS]) {
-        optionsCache = changes[STORAGE_KEYS.OPTIONS].newValue || { disableQuickPreview: false };
-        if (optionsCache.disableQuickPreview) {
+        optionsCache = changes[STORAGE_KEYS.OPTIONS].newValue || { enableQuickPreview: false };
+        if (!optionsCache.enableQuickPreview) {
             // If disabled while visible, hide now
             hideBubble();
         }
@@ -325,7 +325,7 @@ function handleTextSelection(event) {
     qpLog('[Quick Preview] handleTextSelection called');
     qpLog('[Quick Preview] Event:', event ? { type: event.type, key: event.key } : 'none');
     // Respect user preference to disable Quick Preview
-    if (optionsCache && optionsCache.disableQuickPreview) {
+    if (optionsCache && !optionsCache.enableQuickPreview) {
         hideBubble();
         return;
     }
@@ -384,7 +384,7 @@ function showBubble(selectedText, rect) {
     qpLog('[Quick Preview] showBubble called');
 
     // Respect user preference to disable Quick Preview
-    if (optionsCache && optionsCache.disableQuickPreview) {
+    if (optionsCache && !optionsCache.enableQuickPreview) {
         hideBubble();
         return;
     }
