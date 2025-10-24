@@ -650,7 +650,7 @@
         "message": "配置在快速预览气泡中显示的搜索引擎。仅支持基于HTTP GET的搜索引擎。"
     },
     "enableQuickPreview": {
-        "message": "Enable quick preview of search results"
+        "message": "启用搜索结果的快速预览"
     },
     "filterQuickPreviewByLanguage": {
         "message": "通过选择语言过滤快速预览"
