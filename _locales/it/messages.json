@@ -649,8 +649,8 @@
     "quickPreviewDescription": {
         "message": "Configura quali motori di ricerca visualizzare nella finestra di anteprima rapida. Sono supportati solo i motori di ricerca basati su HTTP GET."
     },
-    "disableQuickPreview": {
-        "message": "Disattiva l'anteprima rapida dei risultati di ricerca"
+    "enableQuickPreview": {
+        "message": "Enable quick preview of search results"
     },
     "filterQuickPreviewByLanguage": {
         "message": "Filtra l'anteprima rapida in base alla lingua selezionata"
