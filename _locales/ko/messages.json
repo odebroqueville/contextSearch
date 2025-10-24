@@ -649,8 +649,8 @@
     "quickPreviewDescription": {
         "message": "빠른 미리보기 풍선에 표시될 검색 엔진을 구성합니다. HTTP GET 기반 검색 엔진만 지원됩니다."
     },
-    "disableQuickPreview": {
-        "message": "검색 결과의 빠른 미리 보기 비활성화"
+    "enableQuickPreview": {
+        "message": "Enable quick preview of search results"
     },
     "filterQuickPreviewByLanguage": {
         "message": "선택한 언어로 필터 빠른 미리보기"
