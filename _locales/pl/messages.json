@@ -649,8 +649,8 @@
     "quickPreviewDescription": {
         "message": "Skonfiguruj, które wyszukiwarki mają być wyświetlane w dymku szybkiego podglądu. Obsługiwane są wyłącznie wyszukiwarki oparte na protokole HTTP GET."
     },
-    "disableQuickPreview": {
-        "message": "Wyłącz szybki podgląd wyników wyszukiwania"
+    "enableQuickPreview": {
+        "message": "Enable quick preview of search results"
     },
     "filterQuickPreviewByLanguage": {
         "message": "Filtruj szybki podgląd według wybranego języka"
