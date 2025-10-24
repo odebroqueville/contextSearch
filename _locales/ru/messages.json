@@ -649,8 +649,8 @@
     "quickPreviewDescription": {
         "message": "Настройте, какие поисковые системы будут отображаться в всплывающем окне быстрого просмотра. Поддерживаются только поисковые системы на основе HTTP GET."
     },
-    "disableQuickPreview": {
-        "message": "Отключить быстрый просмотр результатов поиска"
+    "enableQuickPreview": {
+        "message": "Enable quick preview of search results"
     },
     "filterQuickPreviewByLanguage": {
         "message": "Фильтр Быстрый просмотр по выбранному языку"
