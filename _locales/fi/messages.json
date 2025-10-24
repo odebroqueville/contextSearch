@@ -649,8 +649,8 @@
     "quickPreviewDescription": {
         "message": "Määritä, mitkä hakukoneet näkyvät pikakatselupallossa. Vain HTTP GET -pohjaiset hakukoneet ovat tuettuja."
     },
-    "disableQuickPreview": {
-        "message": "Poista hakutulosten pikakatselu käytöstä"
+    "enableQuickPreview": {
+        "message": "Enable quick preview of search results"
     },
     "filterQuickPreviewByLanguage": {
         "message": "Suodata pikakatselu valitsemalla kieli"
