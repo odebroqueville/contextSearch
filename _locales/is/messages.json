@@ -650,7 +650,7 @@
         "message": "Stilltu hvaða leitarvélar birtast í flýtiforskoðunarbólunni. Aðeins HTTP GET-undirstaða leitarvélar eru studdar."
     },
     "enableQuickPreview": {
-        "message": "Enable quick preview of search results"
+        "message": "Virkja fljótlega forskoðun leitarniðurstaðna"
     },
     "filterQuickPreviewByLanguage": {
         "message": "Sía flýtiforskoðun eftir valtungumáli"
