@@ -649,8 +649,8 @@
     "quickPreviewDescription": {
         "message": "Konfigurasikan mesin pencari mana yang ditampilkan dalam gelembung pratinjau cepat. Hanya mesin pencari berbasis HTTP GET yang didukung."
     },
-    "disableQuickPreview": {
-        "message": "Nonaktifkan pratinjau cepat hasil pencarian"
+    "enableQuickPreview": {
+        "message": "Enable quick preview of search results"
     },
     "filterQuickPreviewByLanguage": {
         "message": "Filter Pratinjau Cepat berdasarkan pilihan bahasa"
