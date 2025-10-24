@@ -650,7 +650,7 @@
         "message": "Configure qué motores de búsqueda aparecen en la burbuja de vista previa rápida. Solo se admiten motores de búsqueda basados en HTTP GET."
     },
     "enableQuickPreview": {
-        "message": "Enable quick preview of search results"
+        "message": "Habilitar la vista previa rápida de los resultados de búsqueda"
     },
     "filterQuickPreviewByLanguage": {
         "message": "Filtrar vista previa rápida por idioma seleccionado"
