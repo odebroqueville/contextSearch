@@ -650,7 +650,7 @@
         "message": "Konfigurer hvilke søkemotorer som skal vises i hurtigforhåndsvisningsboblen. Bare HTTP GET-baserte søkemotorer støttes."
     },
     "enableQuickPreview": {
-        "message": "Enable quick preview of search results"
+        "message": "Aktivere rask forhåndsvisning av søkeresultater"
     },
     "filterQuickPreviewByLanguage": {
         "message": "Filtrere hurtigforhåndsvisning etter valgt språk"
