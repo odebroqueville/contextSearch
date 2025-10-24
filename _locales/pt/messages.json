@@ -649,8 +649,8 @@
     "quickPreviewDescription": {
         "message": "Configure quais motores de busca aparecem na bolha de pré-visualização rápida. Apenas motores de busca baseados em HTTP GET são suportados."
     },
-    "disableQuickPreview": {
-        "message": "Desativar pré-visualização rápida dos resultados da pesquisa"
+    "enableQuickPreview": {
+        "message": "Enable quick preview of search results"
     },
     "filterQuickPreviewByLanguage": {
         "message": "Filtrar pré-visualização rápida por idioma selecionado"
