@@ -649,8 +649,8 @@
     "quickPreviewDescription": {
         "message": "Ρυθμίστε ποιες μηχανές αναζήτησης εμφανίζονται στο παράθυρο γρήγορης προεπισκόπησης. Υποστηρίζονται μόνο μηχανές αναζήτησης που βασίζονται σε HTTP GET."
     },
-    "disableQuickPreview": {
-        "message": "Απενεργοποίηση γρήγορης προεπισκόπησης των αποτελεσμάτων αναζήτησης"
+    "enableQuickPreview": {
+        "message": "Enable quick preview of search results"
     },
     "filterQuickPreviewByLanguage": {
         "message": "Φιλτράρισμα γρήγορης προεπισκόπησης ανά γλώσσα επιλογής"
