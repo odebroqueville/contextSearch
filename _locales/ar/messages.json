@@ -650,7 +650,7 @@
         "message": "تكوين محركات البحث التي تظهر في فقاعة المعاينة السريعة. لا يتم دعم سوى محركات البحث المستندة إلى HTTP GET."
     },
     "enableQuickPreview": {
-        "message": "Enable quick preview of search results"
+        "message": "تمكين المعاينة السريعة لنتائج البحث"
     },
     "filterQuickPreviewByLanguage": {
         "message": "تصفية المعاينة السريعة حسب لغة الاختيار"
