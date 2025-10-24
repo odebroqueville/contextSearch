@@ -650,7 +650,7 @@
         "message": "Configurez les moteurs de recherche qui apparaissent dans la bulle d'aperçu rapide. Seuls les moteurs de recherche basés sur HTTP GET sont pris en charge."
     },
     "enableQuickPreview": {
-        "message": "Enable quick preview of search results"
+        "message": "Activer l’aperçu rapide des résultats de recherche"
     },
     "filterQuickPreviewByLanguage": {
         "message": "Filtrer l'aperçu rapide par langue sélectionnée"
